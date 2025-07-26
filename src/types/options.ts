@@ -1,0 +1,63 @@
+export interface OptionData {
+  StockName: string;
+  OptionName: string;
+  FinancialReport?: string;
+  'X-Day'?: number;
+  Premium: number;
+  PoW_Simulation_Mean_Earnings?: number;
+  '100k_Invested_Loss_Mean'?: number;
+  ProbFinal_Weighted: number;
+  ProbWorthless_Bayesian_IsoCal: number;
+  ProbOfWorthless: number;
+  ProbCalibrated: number;
+  EstimatedProbAboveStrike: number;
+  Lower_Bound_at_Accuracy: number;
+  LossAtBadDecline: number;
+  LossAtWorstDecline: number;
+  PoW_Stats_MedianLossPct: number;
+  PoW_Stats_WorstLossPct: number;
+  PoW_Stats_MedianLoss: number;
+  PoW_Stats_WorstLoss: number;
+  PoW_Stats_MedianProbOfWorthless: number;
+  PoW_Stats_MinProbOfWorthless: number;
+  PoW_Stats_MaxProbOfWorthless: number;
+  LossAt100DayWorstDecline: number;
+  LossAt_2008_100DayWorstDecline: number;
+  Mean_Accuracy: number;
+  Lower_Bound_HistMedianIV_at_Accuracy: number;
+  Lower_Bound: number;
+  Lower_Bound_HistMedianIV: number;
+  Bid_Ask_Mid_Price: number;
+  Option_Price_Min: number;
+  NumberOfContractsBasedOnLimit: number;
+  Bid: number;
+  ProfitLossPctLeastBad: number;
+  Loss_Least_Bad: number;
+  IV_AllMedianIV_Maximum100DaysToExp_Ratio: number;
+  StockPrice: number;
+  DaysToExpiry: number;
+  AskBidSpread: number;
+  Underlying_Value: number;
+  StrikePrice: number;
+  StockPrice_After_2008_100DayWorstDecline: number;
+  LossAt50DayWorstDecline: number;
+  LossAt_2008_50DayWorstDecline: number;
+  ProfitLossPctBad: number;
+  ProfitLossPctWorst: number;
+  ProfitLossPct100DayWorst: number;
+  ImpliedVolatility: number;
+  TodayStockMedianIV_Maximum100DaysToExp: number;
+  AllMedianIV_Maximum100DaysToExp: number;
+  ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy: number;
+  StrikeBelowLowerAtAcc?: string;
+}
+
+export interface OptionsFilter {
+  stockName?: string;
+  minPremium?: number;
+  maxPremium?: number;
+  minDaysToExpiry?: number;
+  maxDaysToExpiry?: number;
+  minProbOfWorthless?: number;
+  maxProbOfWorthless?: number;
+}
