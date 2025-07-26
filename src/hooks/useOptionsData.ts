@@ -16,22 +16,27 @@ export const useOptionsData = () => {
       skipEmptyLines: true,
       transformHeader: (header) => header.trim(),
       transform: (value, field) => {
-        // Handle numeric fields
-        if (typeof field === 'string' && (
-          field.includes('Premium') || 
-          field.includes('Prob') || 
-          field.includes('Loss') || 
-          field.includes('Price') || 
-          field.includes('Days') || 
-          field.includes('Strike') || 
-          field.includes('IV') || 
-          field.includes('Accuracy') ||
-          field.includes('Pct') ||
-          field.includes('Spread') ||
-          field.includes('Value') ||
-          field.includes('Bid') ||
-          field.includes('Number')
-        )) {
+        // Handle numeric fields - comprehensive list based on your CSV structure
+        const numericFields = [
+          'X-Day', 'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
+          'ProbFinal_Weighted', 'ProbWorthless_Bayesian_IsoCal', 'ProbOfWorthless', 
+          'ProbCalibrated', 'EstimatedProbAboveStrike', 'Lower_Bound_at_Accuracy',
+          'LossAtBadDecline', 'LossAtWorstDecline', 'PoW_Stats_MedianLossPct',
+          'PoW_Stats_WorstLossPct', 'PoW_Stats_MedianLoss', 'PoW_Stats_WorstLoss',
+          'PoW_Stats_MedianProbOfWorthless', 'PoW_Stats_MinProbOfWorthless',
+          'PoW_Stats_MaxProbOfWorthless', 'LossAt100DayWorstDecline',
+          'LossAt_2008_100DayWorstDecline', 'Mean_Accuracy', 'Lower_Bound_HistMedianIV_at_Accuracy',
+          'Lower_Bound', 'Lower_Bound_HistMedianIV', 'Bid_Ask_Mid_Price', 'Option_Price_Min',
+          'NumberOfContractsBasedOnLimit', 'Bid', 'ProfitLossPctLeastBad', 'Loss_Least_Bad',
+          'IV_AllMedianIV_Maximum100DaysToExp_Ratio', 'StockPrice', 'DaysToExpiry',
+          'AskBidSpread', 'Underlying_Value', 'StrikePrice', 'StockPrice_After_2008_100DayWorstDecline',
+          'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'ProfitLossPctBad',
+          'ProfitLossPctWorst', 'ProfitLossPct100DayWorst', 'ImpliedVolatility',
+          'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp',
+          'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy'
+        ];
+        
+        if (typeof field === 'string' && numericFields.includes(field)) {
           const num = parseFloat(value);
           return isNaN(num) ? null : num;
         }
