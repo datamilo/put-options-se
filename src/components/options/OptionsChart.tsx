@@ -21,14 +21,14 @@ interface OptionsChartProps {
 }
 
 export const OptionsChart = ({ data }: OptionsChartProps) => {
-  const [selectedProbField, setSelectedProbField] = useState<string>('ProbOfWorthless');
+  const [selectedProbField, setSelectedProbField] = useState<string>('1_2_3_ProbOfWorthless_Weighted');
   
   const probabilityFields = [
-    { value: 'ProbFinal_Weighted', label: 'Prob Final Weighted' },
-    { value: 'ProbWorthless_Bayesian_IsoCal', label: 'Prob Worthless Bayesian IsoCal' },
-    { value: 'ProbOfWorthless', label: 'Prob of Worthless' },
-    { value: 'ProbCalibrated', label: 'Prob Calibrated' },
-    { value: 'EstimatedProbAboveStrike', label: 'Estimated Prob Above Strike' },
+    { value: '1_2_3_ProbOfWorthless_Weighted', label: '1_2_3_ProbOfWorthless_Weighted' },
+    { value: 'ProbWorthless_Bayesian_IsoCal', label: 'ProbWorthless_Bayesian_IsoCal' },
+    { value: '1_ProbOfWorthless_Original', label: '1_ProbOfWorthless_Original' },
+    { value: '2_ProbOfWorthless_Calibrated', label: '2_ProbOfWorthless_Calibrated' },
+    { value: '3_ProbOfWorthless_Historical_IV', label: '3_ProbOfWorthless_Historical_IV' },
   ];
 
   const scatterData = data.map(option => ({
