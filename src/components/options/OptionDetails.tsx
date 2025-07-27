@@ -30,7 +30,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
     return { level: "Low Risk", color: "bg-secondary" };
   };
 
-  const risk = getRiskLevel(option.ProbOfWorthless);
+  const risk = getRiskLevel(option['1_2_3_ProbOfWorthless_Weighted']);
 
   return (
     <div className="space-y-6">
@@ -71,12 +71,12 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <CardContent className="space-y-3">
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Probability of Worthless</span>
-              <span className="font-medium">{formatValue(option.ProbOfWorthless, 'ProbOfWorthless')}</span>
+              <span className="font-medium">{formatValue(option['1_2_3_ProbOfWorthless_Weighted'], '1_2_3_ProbOfWorthless_Weighted')}</span>
             </div>
             <Separator />
             <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">Prob Above Strike</span>
-              <span className="font-medium">{formatValue(option.EstimatedProbAboveStrike, 'EstimatedProbAboveStrike')}</span>
+              <span className="font-medium">{formatValue(option['3_ProbOfWorthless_Historical_IV'], '3_ProbOfWorthless_Historical_IV')}</span>
             </div>
             <Separator />
             <div className="flex justify-between">

@@ -232,7 +232,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
               >
                 {visibleColumns.map(column => (
                   <TableCell key={column} className="min-w-[120px]">
-                    {column === 'ProbOfWorthless' ? (
+                    {column === '1_2_3_ProbOfWorthless_Weighted' ? (
                       <Badge className={getRiskBadgeColor(option[column as keyof OptionData] as number)}>
                         {formatValue(option[column as keyof OptionData], column)}
                       </Badge>

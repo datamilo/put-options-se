@@ -6,11 +6,11 @@ export interface OptionData {
   Premium: number;
   PoW_Simulation_Mean_Earnings?: number;
   '100k_Invested_Loss_Mean'?: number;
-  ProbFinal_Weighted: number;
+  '1_2_3_ProbOfWorthless_Weighted': number;
   ProbWorthless_Bayesian_IsoCal: number;
-  ProbOfWorthless: number;
-  ProbCalibrated: number;
-  EstimatedProbAboveStrike: number;
+  '1_ProbOfWorthless_Original': number;
+  '2_ProbOfWorthless_Calibrated': number;
+  '3_ProbOfWorthless_Historical_IV': number;
   Lower_Bound_at_Accuracy: number;
   LossAtBadDecline: number;
   LossAtWorstDecline: number;
