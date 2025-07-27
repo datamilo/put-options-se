@@ -32,7 +32,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
     { value: '3_ProbOfWorthless_Historical_IV', label: '3_ProbOfWorthless_Historical_IV' },
   ];
 
-  const colors = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', '#8884d8', '#82ca9d'];
+  const colors = ['#2563eb', '#dc2626', '#16a34a', '#ca8a04', '#9333ea'];
   
   const scatterData = data.map(option => {
     const dataPoint: any = {

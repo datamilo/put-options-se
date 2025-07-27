@@ -31,8 +31,19 @@ const Index = () => {
     }
   };
 
-  const uniqueStocks = [...new Set(data.map(option => option.StockName))].sort();
-  const uniqueExpiryDates = [...new Set(data.map(option => option.ExpiryDate))].sort();
+  // Get filtered options to ensure filter dropdowns only show available combinations
+  const getFilteredStocks = () => {
+    if (!selectedExpiryDate) return [...new Set(data.map(option => option.StockName))].sort();
+    return [...new Set(data.filter(option => option.ExpiryDate === selectedExpiryDate).map(option => option.StockName))].sort();
+  };
+
+  const getFilteredExpiryDates = () => {
+    if (selectedStocks.length === 0) return [...new Set(data.map(option => option.ExpiryDate))].sort();
+    return [...new Set(data.filter(option => selectedStocks.includes(option.StockName)).map(option => option.ExpiryDate))].sort();
+  };
+
+  const filteredStocks = getFilteredStocks();
+  const filteredExpiryDates = getFilteredExpiryDates();
   
   const filteredData = data.filter(option => {
     const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
@@ -121,35 +132,58 @@ const Index = () => {
                 {data.length} Options Available
               </h2>
               <p className="text-muted-foreground">
-                From {uniqueStocks.length} different stocks
+                From {filteredStocks.length} different stocks
               </p>
             </div>
             
             <div className="flex items-center gap-4">
               <div className="space-y-2">
                 <Label>Filter by Stock</Label>
-                <div className="border rounded-md p-3 max-h-40 overflow-y-auto min-w-[200px]">
-                  <div className="space-y-2">
-                    {uniqueStocks.map(stock => (
-                      <div key={stock} className="flex items-center space-x-2">
+                <details className="relative">
+                  <summary className="cursor-pointer px-3 py-2 border rounded-md min-w-[200px] bg-background hover:bg-accent">
+                    {selectedStocks.length === 0 ? 'All Stocks' : 
+                     selectedStocks.length === 1 ? selectedStocks[0] : 
+                     `${selectedStocks.length} stocks selected`}
+                  </summary>
+                  <div className="absolute top-full left-0 mt-1 border rounded-md p-3 max-h-40 overflow-y-auto min-w-[200px] bg-background shadow-lg z-50">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2 border-b pb-2">
                         <Checkbox
-                          id={`stock-${stock}`}
-                          checked={selectedStocks.includes(stock)}
+                          id="select-all-stocks"
+                          checked={selectedStocks.length === filteredStocks.length && filteredStocks.length > 0}
                           onCheckedChange={(checked) => {
                             if (checked) {
-                              setSelectedStocks(prev => [...prev, stock]);
+                              setSelectedStocks(filteredStocks);
                             } else {
-                              setSelectedStocks(prev => prev.filter(s => s !== stock));
+                              setSelectedStocks([]);
                             }
                           }}
                         />
-                        <label htmlFor={`stock-${stock}`} className="text-sm cursor-pointer">
-                          {stock}
+                        <label htmlFor="select-all-stocks" className="text-sm cursor-pointer font-medium">
+                          Select All
                         </label>
                       </div>
-                    ))}
+                      {filteredStocks.map(stock => (
+                        <div key={stock} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`stock-${stock}`}
+                            checked={selectedStocks.includes(stock)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedStocks(prev => [...prev, stock]);
+                              } else {
+                                setSelectedStocks(prev => prev.filter(s => s !== stock));
+                              }
+                            }}
+                          />
+                          <label htmlFor={`stock-${stock}`} className="text-sm cursor-pointer">
+                            {stock}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                </details>
               </div>
 
               <div className="space-y-1">
@@ -158,10 +192,10 @@ const Index = () => {
                   id="expiry-filter"
                   value={selectedExpiryDate}
                   onChange={(e) => setSelectedExpiryDate(e.target.value)}
-                  className="px-3 py-2 border rounded-md"
+                  className="px-3 py-2 border rounded-md bg-background"
                 >
                   <option value="">All Expiry Dates</option>
-                  {uniqueExpiryDates.map(date => (
+                  {filteredExpiryDates.map(date => (
                     <option key={date} value={date}>{date}</option>
                   ))}
                 </select>
