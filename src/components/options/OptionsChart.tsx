@@ -13,24 +13,38 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 
 interface OptionsChartProps {
   data: OptionData[];
 }
 
 export const OptionsChart = ({ data }: OptionsChartProps) => {
+  const [selectedProbField, setSelectedProbField] = useState<string>('ProbOfWorthless');
+  
+  const probabilityFields = [
+    { value: 'ProbFinal_Weighted', label: 'Prob Final Weighted' },
+    { value: 'ProbWorthless_Bayesian_IsoCal', label: 'Prob Worthless Bayesian IsoCal' },
+    { value: 'ProbOfWorthless', label: 'Prob of Worthless' },
+    { value: 'ProbCalibrated', label: 'Prob Calibrated' },
+    { value: 'EstimatedProbAboveStrike', label: 'Estimated Prob Above Strike' },
+  ];
+
   const scatterData = data.map(option => ({
     name: option.OptionName,
     x: option.Premium,
-    y: option.ProbOfWorthless,
+    y: option[selectedProbField as keyof OptionData] as number,
     z: option.DaysToExpiry,
     stockName: option.StockName,
   }));
 
+  const selectedFieldValue = selectedProbField as keyof OptionData;
   const riskDistribution = data.reduce((acc, option) => {
+    const probValue = option[selectedFieldValue] as number;
     const riskLevel = 
-      option.ProbOfWorthless < 0.3 ? 'High Risk' :
-      option.ProbOfWorthless < 0.6 ? 'Medium Risk' : 'Low Risk';
+      probValue < 0.3 ? 'High Risk' :
+      probValue < 0.6 ? 'Medium Risk' : 'Low Risk';
     
     acc[riskLevel] = (acc[riskLevel] || 0) + 1;
     return acc;
@@ -50,8 +64,20 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
       
       <TabsContent value="scatter">
         <Card>
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
             <CardTitle>Premium vs Probability of Worthless</CardTitle>
+            <Select value={selectedProbField} onValueChange={setSelectedProbField}>
+              <SelectTrigger className="w-64">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {probabilityFields.map((field) => (
+                  <SelectItem key={field.value} value={field.value}>
+                    {field.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
