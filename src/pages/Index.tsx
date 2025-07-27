@@ -186,7 +186,7 @@ const Index = () => {
                 </details>
               </div>
 
-              <div className="space-y-1">
+              <div className="space-y-2">
                 <Label htmlFor="expiry-filter">Filter by Expiry Date</Label>
                 <select
                   id="expiry-filter"
