@@ -13,7 +13,8 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
 
 interface OptionsChartProps {
@@ -21,7 +22,7 @@ interface OptionsChartProps {
 }
 
 export const OptionsChart = ({ data }: OptionsChartProps) => {
-  const [selectedProbField, setSelectedProbField] = useState<string>('1_2_3_ProbOfWorthless_Weighted');
+  const [selectedProbFields, setSelectedProbFields] = useState<string[]>(['1_2_3_ProbOfWorthless_Weighted']);
   
   const probabilityFields = [
     { value: '1_2_3_ProbOfWorthless_Weighted', label: '1_2_3_ProbOfWorthless_Weighted' },
@@ -31,15 +32,26 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
     { value: '3_ProbOfWorthless_Historical_IV', label: '3_ProbOfWorthless_Historical_IV' },
   ];
 
-  const scatterData = data.map(option => ({
-    name: option.OptionName,
-    x: option.Premium,
-    y: option[selectedProbField as keyof OptionData] as number,
-    z: option.DaysToExpiry,
-    stockName: option.StockName,
-  }));
+  const colors = ['hsl(var(--primary))', 'hsl(var(--secondary))', 'hsl(var(--accent))', '#8884d8', '#82ca9d'];
+  
+  const scatterData = data.map(option => {
+    const dataPoint: any = {
+      name: option.OptionName,
+      x: option.Premium,
+      z: option.DaysToExpiry,
+      stockName: option.StockName,
+    };
+    
+    // Add selected probability fields as separate y values
+    selectedProbFields.forEach(field => {
+      dataPoint[field] = option[field as keyof OptionData] as number;
+    });
+    
+    return dataPoint;
+  });
 
-  const selectedFieldValue = selectedProbField as keyof OptionData;
+  // Use first selected field for risk distribution
+  const selectedFieldValue = selectedProbFields[0] as keyof OptionData;
   const riskDistribution = data.reduce((acc, option) => {
     const probValue = option[selectedFieldValue] as number;
     const riskLevel = 
@@ -55,6 +67,14 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
     count,
   }));
 
+  const toggleProbField = (field: string) => {
+    setSelectedProbFields(prev => 
+      prev.includes(field) 
+        ? prev.filter(f => f !== field)
+        : [...prev, field]
+    );
+  };
+
   return (
     <Tabs defaultValue="scatter" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
@@ -64,20 +84,25 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
       
       <TabsContent value="scatter">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+          <CardHeader className="space-y-4">
             <CardTitle>Premium vs Probability of Worthless</CardTitle>
-            <Select value={selectedProbField} onValueChange={setSelectedProbField}>
-              <SelectTrigger className="w-64">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
+            <div className="space-y-2">
+              <Label>Select Probability Fields:</Label>
+              <div className="grid grid-cols-2 gap-2">
                 {probabilityFields.map((field) => (
-                  <SelectItem key={field.value} value={field.value}>
-                    {field.label}
-                  </SelectItem>
+                  <div key={field.value} className="flex items-center space-x-2">
+                    <Checkbox
+                      id={field.value}
+                      checked={selectedProbFields.includes(field.value)}
+                      onCheckedChange={() => toggleProbField(field.value)}
+                    />
+                    <label htmlFor={field.value} className="text-sm cursor-pointer">
+                      {field.label}
+                    </label>
+                  </div>
                 ))}
-              </SelectContent>
-            </Select>
+              </div>
+            </div>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
@@ -94,13 +119,14 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                 />
                 <YAxis 
                   type="number" 
-                  dataKey="y" 
                   name="Prob of Worthless"
                   tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                 />
                 <Tooltip 
                   formatter={(value, name) => {
-                    if (name === 'y') return [`${(Number(value) * 100).toFixed(2)}%`, 'Risk Level'];
+                    if (selectedProbFields.includes(name as string)) {
+                      return [`${(Number(value) * 100).toFixed(2)}%`, name];
+                    }
                     if (name === 'x') return [Number(value).toLocaleString(), 'Premium'];
                     return [value, name];
                   }}
@@ -111,7 +137,15 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                     return label;
                   }}
                 />
-                <Scatter name="Options" dataKey="y" fill="hsl(var(--primary))" />
+                <Legend />
+                {selectedProbFields.map((field, index) => (
+                  <Scatter 
+                    key={field}
+                    name={field} 
+                    dataKey={field} 
+                    fill={colors[index % colors.length]} 
+                  />
+                ))}
               </ScatterChart>
             </ResponsiveContainer>
           </CardContent>

@@ -1,6 +1,7 @@
 export interface OptionData {
   StockName: string;
   OptionName: string;
+  ExpiryDate: string;
   FinancialReport?: string;
   'X-Day'?: number;
   Premium: number;

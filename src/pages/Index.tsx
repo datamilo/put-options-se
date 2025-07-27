@@ -9,13 +9,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Upload, BarChart3, Table, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
   const { data, isLoading, error, loadCSVFile, loadMockData } = useOptionsData();
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
-  const [selectedStock, setSelectedStock] = useState<string>("");
+  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
+  const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>("");
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -30,10 +32,13 @@ const Index = () => {
   };
 
   const uniqueStocks = [...new Set(data.map(option => option.StockName))].sort();
+  const uniqueExpiryDates = [...new Set(data.map(option => option.ExpiryDate))].sort();
   
-  const filteredData = selectedStock 
-    ? data.filter(option => option.StockName === selectedStock)
-    : data;
+  const filteredData = data.filter(option => {
+    const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
+    const matchesExpiry = !selectedExpiryDate || option.ExpiryDate === selectedExpiryDate;
+    return matchesStock && matchesExpiry;
+  });
 
   const handleLoadMockData = () => {
     loadMockData();
@@ -121,17 +126,43 @@ const Index = () => {
             </div>
             
             <div className="flex items-center gap-4">
+              <div className="space-y-2">
+                <Label>Filter by Stock</Label>
+                <div className="border rounded-md p-3 max-h-40 overflow-y-auto min-w-[200px]">
+                  <div className="space-y-2">
+                    {uniqueStocks.map(stock => (
+                      <div key={stock} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`stock-${stock}`}
+                          checked={selectedStocks.includes(stock)}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setSelectedStocks(prev => [...prev, stock]);
+                            } else {
+                              setSelectedStocks(prev => prev.filter(s => s !== stock));
+                            }
+                          }}
+                        />
+                        <label htmlFor={`stock-${stock}`} className="text-sm cursor-pointer">
+                          {stock}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               <div className="space-y-1">
-                <Label htmlFor="stock-filter">Filter by Stock</Label>
+                <Label htmlFor="expiry-filter">Filter by Expiry Date</Label>
                 <select
-                  id="stock-filter"
-                  value={selectedStock}
-                  onChange={(e) => setSelectedStock(e.target.value)}
+                  id="expiry-filter"
+                  value={selectedExpiryDate}
+                  onChange={(e) => setSelectedExpiryDate(e.target.value)}
                   className="px-3 py-2 border rounded-md"
                 >
-                  <option value="">All Stocks</option>
-                  {uniqueStocks.map(stock => (
-                    <option key={stock} value={stock}>{stock}</option>
+                  <option value="">All Expiry Dates</option>
+                  {uniqueExpiryDates.map(date => (
+                    <option key={date} value={date}>{date}</option>
                   ))}
                 </select>
               </div>
