@@ -72,11 +72,6 @@ export const useOptionsData = () => {
     }
   }, []);
 
-  // Auto-load test.csv on mount
-  useEffect(() => {
-    loadCSVFromGitHub('test.csv');
-  }, [loadCSVFromGitHub]);
-
   const loadCSVFile = useCallback((file: File) => {
     setIsLoading(true);
     setError(null);
@@ -234,6 +229,18 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
+  // Auto-load test.csv on mount, fallback to mock data if private repo
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        await loadCSVFromGitHub('test.csv');
+      } catch {
+        console.warn('GitHub CSV failed (likely private repo), loading mock data');
+        loadMockData();
+      }
+    };
+    loadData();
+  }, [loadCSVFromGitHub, loadMockData]);
 
   return {
     data,
