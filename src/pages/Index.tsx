@@ -19,7 +19,7 @@ const Index = () => {
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
-  const [searchTerm, setSearchTerm] = useState("");
+  
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
   const getFilteredStocks = () => {
@@ -263,8 +263,6 @@ const Index = () => {
               <OptionsTable 
                 data={filteredData} 
                 onRowClick={setSelectedOption}
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
               />
             </TabsContent>
             

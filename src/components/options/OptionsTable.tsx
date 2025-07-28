@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { OptionData } from "@/types/options";
 import {
   Table,
@@ -18,16 +18,25 @@ import { Checkbox } from "@/components/ui/checkbox";
 interface OptionsTableProps {
   data: OptionData[];
   onRowClick?: (option: OptionData) => void;
-  searchTerm?: string;
-  onSearchChange?: (term: string) => void;
 }
 
-export const OptionsTable = ({ data, onRowClick, searchTerm = "", onSearchChange }: OptionsTableProps) => {
+interface ColumnFilter {
+  field: string;
+  type: 'text' | 'number';
+  textValue?: string;
+  minValue?: number;
+  maxValue?: number;
+}
+
+export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
+  const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
+  const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const filterRef = useRef<HTMLDivElement>(null);
 
   // Define column groups for better organization
   const columnGroups = {
@@ -52,6 +61,20 @@ export const OptionsTable = ({ data, onRowClick, searchTerm = "", onSearchChange
       setVisibleColumns(columnGroups.basic);
     }
   }, [allColumns.length, visibleColumns.length]);
+
+  // Handle click outside to close filter dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setActiveFilter(null);
+      }
+    };
+
+    if (activeFilter) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [activeFilter]);
 
   const formatColumnName = (field: string) => {
     return field
@@ -90,10 +113,65 @@ export const OptionsTable = ({ data, onRowClick, searchTerm = "", onSearchChange
     }
   });
 
-  const filteredData = sortedData.filter(option =>
-    option.StockName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    option.OptionName?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Determine if a field is numeric based on the data
+  const getFieldType = (field: string): 'text' | 'number' => {
+    if (data.length === 0) return 'text';
+    const sampleValue = data[0][field as keyof OptionData];
+    return typeof sampleValue === 'number' ? 'number' : 'text';
+  };
+
+  // Apply column filters
+  const filteredData = sortedData.filter(option => {
+    return columnFilters.every(filter => {
+      const value = option[filter.field as keyof OptionData];
+      
+      if (filter.type === 'text') {
+        if (!filter.textValue) return true;
+        return String(value).toLowerCase().includes(filter.textValue.toLowerCase());
+      } else {
+        if (typeof value !== 'number') return true;
+        if (filter.minValue !== undefined && value < filter.minValue) return false;
+        if (filter.maxValue !== undefined && value > filter.maxValue) return false;
+        return true;
+      }
+    });
+  });
+
+  const updateColumnFilter = (field: string, filterUpdate: Partial<ColumnFilter>) => {
+    setColumnFilters(prev => {
+      const existingIndex = prev.findIndex(f => f.field === field);
+      const fieldType = getFieldType(field);
+      
+      if (existingIndex >= 0) {
+        // Update existing filter
+        const updated = [...prev];
+        updated[existingIndex] = { ...updated[existingIndex], ...filterUpdate };
+        
+        // Remove filter if it's empty
+        if (fieldType === 'text' && !updated[existingIndex].textValue) {
+          return updated.filter((_, i) => i !== existingIndex);
+        } else if (fieldType === 'number' && 
+                   updated[existingIndex].minValue === undefined && 
+                   updated[existingIndex].maxValue === undefined) {
+          return updated.filter((_, i) => i !== existingIndex);
+        }
+        
+        return updated;
+      } else {
+        // Add new filter only if it has values
+        if (fieldType === 'text' && !filterUpdate.textValue) return prev;
+        if (fieldType === 'number' && 
+            filterUpdate.minValue === undefined && 
+            filterUpdate.maxValue === undefined) return prev;
+        
+        return [...prev, { field, type: fieldType, ...filterUpdate }];
+      }
+    });
+  };
+
+  const getColumnFilter = (field: string): ColumnFilter | undefined => {
+    return columnFilters.find(f => f.field === field);
+  };
 
   const formatValue = (value: any, field: string) => {
     if (value === null || value === undefined || value === 'NaN' || value === '') return '-';
@@ -167,12 +245,9 @@ export const OptionsTable = ({ data, onRowClick, searchTerm = "", onSearchChange
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center space-x-2">
           <Filter className="h-4 w-4" />
-          <Input
-            placeholder="Search stocks or options..."
-            value={searchTerm}
-            onChange={(e) => onSearchChange?.(e.target.value)}
-            className="max-w-sm"
-          />
+          <span className="text-sm text-muted-foreground">
+            Click on column headers to filter
+          </span>
         </div>
         
         <Button
@@ -239,18 +314,87 @@ export const OptionsTable = ({ data, onRowClick, searchTerm = "", onSearchChange
         <Table>
           <TableHeader>
             <TableRow>
-              {visibleColumns.map(column => (
-                <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleSort(column as keyof OptionData)}
-                    className="h-8 p-0 font-medium"
-                    title={formatColumnName(column)}
-                  >
-                    {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
-                  </Button>
-                </TableHead>
-              ))}
+              {visibleColumns.map(column => {
+                const fieldType = getFieldType(column);
+                const filter = getColumnFilter(column);
+                const hasFilter = !!filter;
+                
+                return (
+                  <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
+                    <div className="space-y-2">
+                      <Button
+                        variant="ghost"
+                        onClick={() => handleSort(column as keyof OptionData)}
+                        className="h-8 p-0 font-medium"
+                        title={formatColumnName(column)}
+                      >
+                        {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
+                      </Button>
+                      
+                      <div className="relative">
+                        <Button
+                          variant={hasFilter ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setActiveFilter(activeFilter === column ? null : column)}
+                          className="h-6 w-full text-xs"
+                        >
+                          <Filter className="h-3 w-3 mr-1" />
+                          {hasFilter ? 'Filtered' : 'Filter'}
+                        </Button>
+                        
+                        {activeFilter === column && (
+                          <div 
+                            ref={filterRef}
+                            className="absolute top-8 left-0 z-50 bg-background border rounded-md shadow-md p-2 min-w-48"
+                          >
+                            {fieldType === 'text' ? (
+                              <Input
+                                placeholder="Search..."
+                                value={filter?.textValue || ''}
+                                onChange={(e) => updateColumnFilter(column, { textValue: e.target.value })}
+                                className="h-8"
+                                autoFocus
+                              />
+                            ) : (
+                              <div className="space-y-2">
+                                <Input
+                                  type="number"
+                                  placeholder="Min value"
+                                  value={filter?.minValue || ''}
+                                  onChange={(e) => updateColumnFilter(column, { 
+                                    minValue: e.target.value ? parseFloat(e.target.value) : undefined 
+                                  })}
+                                  className="h-8"
+                                />
+                                <Input
+                                  type="number"
+                                  placeholder="Max value"
+                                  value={filter?.maxValue || ''}
+                                  onChange={(e) => updateColumnFilter(column, { 
+                                    maxValue: e.target.value ? parseFloat(e.target.value) : undefined 
+                                  })}
+                                  className="h-8"
+                                />
+                              </div>
+                            )}
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => {
+                                updateColumnFilter(column, fieldType === 'text' ? { textValue: '' } : { minValue: undefined, maxValue: undefined });
+                                setActiveFilter(null);
+                              }}
+                              className="mt-2 h-6 w-full text-xs"
+                            >
+                              Clear
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </TableHead>
+                );
+              })}
             </TableRow>
           </TableHeader>
           <TableBody>
