@@ -10,29 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, BarChart3, Table, FileSpreadsheet } from "lucide-react";
+import { BarChart3, Table, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
-  const { data, isLoading, error, loadCSVFile, loadCSVFromGitHub, loadMockData } = useOptionsData();
+  const { data, isLoading, error, loadMockData } = useOptionsData();
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
-  const [githubFilename, setGithubFilename] = useState<string>("");
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      if (file.type !== 'text/csv' && !file.name.endsWith('.csv')) {
-        toast.error("Please select a CSV file");
-        return;
-      }
-      loadCSVFile(file);
-      toast.success("Loading CSV file...");
-    }
-  };
-
-  // Get filtered options to ensure filter dropdowns only show available combinations
   const getFilteredStocks = () => {
     if (selectedExpiryDates.length === 0) return [...new Set(data.map(option => option.StockName))].sort();
     return [...new Set(data.filter(option => selectedExpiryDates.includes(option.ExpiryDate)).map(option => option.StockName))].sort();
@@ -55,15 +40,6 @@ const Index = () => {
   const handleLoadMockData = () => {
     loadMockData();
     toast.success("Mock data loaded");
-  };
-
-  const handleGithubLoad = () => {
-    if (!githubFilename.trim()) {
-      toast.error("Please enter a filename");
-      return;
-    }
-    loadCSVFromGitHub(githubFilename.trim());
-    toast.success("Loading CSV from GitHub...");
   };
 
   if (selectedOption) {
@@ -237,17 +213,6 @@ const Index = () => {
                   </div>
                 </details>
               </div>
-              
-              <Button
-                variant="outline"
-                onClick={() => {
-                  const input = document.getElementById('csv-upload') as HTMLInputElement;
-                  input?.click();
-                }}
-              >
-                <Upload className="h-4 w-4 mr-2" />
-                Upload New Data
-              </Button>
             </div>
           </div>
 
@@ -276,14 +241,6 @@ const Index = () => {
           </Tabs>
         </div>
       )}
-
-      <input
-        id="csv-upload"
-        type="file"
-        accept=".csv"
-        onChange={handleFileUpload}
-        className="hidden"
-      />
     </div>
   );
 };
