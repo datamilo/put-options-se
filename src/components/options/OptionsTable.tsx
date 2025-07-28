@@ -228,7 +228,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
           <TableHeader>
             <TableRow>
               {visibleColumns.map(column => (
-                <TableHead key={column} className={column === 'StockName' ? "w-21 max-w-21" : "min-w-[120px]"}>
+                <TableHead key={column} className={column === 'StockName' ? "w-24 max-w-24" : "min-w-[120px]"}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort(column as keyof OptionData)}
@@ -249,7 +249,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
                 onClick={() => onRowClick?.(option)}
               >
                 {visibleColumns.map(column => (
-                  <TableCell key={column} className={column === 'StockName' ? "w-21 max-w-21 truncate" : "min-w-[120px]"}>
+                  <TableCell key={column} className={column === 'StockName' ? "w-24 max-w-24 truncate" : "min-w-[120px]"}>
                     {column === '1_2_3_ProbOfWorthless_Weighted' ? (
                       <Badge className={getRiskBadgeColor(option[column as keyof OptionData] as number)}>
                         {formatValue(option[column as keyof OptionData], column)}
