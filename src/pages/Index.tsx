@@ -62,9 +62,8 @@ const Index = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">Options Data Visualizer</h1>
+        <h1 className="text-4xl font-bold">Put Options Data</h1>
         <p className="text-xl text-muted-foreground">
-          Analyze Swedish stock market options data
         </p>
       </div>
 
