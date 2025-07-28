@@ -261,13 +261,13 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
                 {visibleColumns.map(column => (
                   <TableCell 
                     key={column} 
-                    className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' ? 'cursor-pointer hover:bg-accent/50' : ''}`}
+                    className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
                     onClick={column === 'OptionName' ? () => onRowClick?.(option) : undefined}
                   >
-                    {column === '1_2_3_ProbOfWorthless_Weighted' ? (
-                      <Badge className={getRiskBadgeColor(option[column as keyof OptionData] as number)}>
+                    {column === 'OptionName' ? (
+                      <span className="font-medium text-primary hover:text-primary/80 transition-colors">
                         {formatValue(option[column as keyof OptionData], column)}
-                      </Badge>
+                      </span>
                     ) : (
                       formatValue(option[column as keyof OptionData], column)
                     )}
