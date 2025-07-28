@@ -143,8 +143,19 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
     } else {
       // Add columns from this group
       setVisibleColumns(prev => {
-        const newCols = [...new Set([...prev, ...columnGroups[groupName]])];
-        return newCols;
+        if (groupName === 'reportOrXDay') {
+          // Insert reportOrXDay columns at positions 2 and 3 (third and fourth from left)
+          const newCols = [...prev];
+          const columnsToAdd = columnGroups[groupName].filter(col => !newCols.includes(col));
+          
+          // Insert at position 2 (after StockName and OptionName)
+          newCols.splice(2, 0, ...columnsToAdd);
+          return newCols;
+        } else {
+          // For other groups, append at the end
+          const newCols = [...new Set([...prev, ...columnGroups[groupName]])];
+          return newCols;
+        }
       });
       setActiveGroups(prev => new Set([...prev, groupName]));
     }
