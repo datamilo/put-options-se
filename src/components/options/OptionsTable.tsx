@@ -18,12 +18,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 interface OptionsTableProps {
   data: OptionData[];
   onRowClick?: (option: OptionData) => void;
+  searchTerm?: string;
+  onSearchChange?: (term: string) => void;
 }
 
-export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
+export const OptionsTable = ({ data, onRowClick, searchTerm = "", onSearchChange }: OptionsTableProps) => {
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [searchTerm, setSearchTerm] = useState("");
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
@@ -169,7 +170,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
           <Input
             placeholder="Search stocks or options..."
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e) => onSearchChange?.(e.target.value)}
             className="max-w-sm"
           />
         </div>

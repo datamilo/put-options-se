@@ -18,6 +18,7 @@ const Index = () => {
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const getFilteredStocks = () => {
     if (selectedExpiryDates.length === 0) return [...new Set(data.map(option => option.StockName))].sort();
     return [...new Set(data.filter(option => selectedExpiryDates.includes(option.ExpiryDate)).map(option => option.StockName))].sort();
@@ -231,6 +232,8 @@ const Index = () => {
               <OptionsTable 
                 data={filteredData} 
                 onRowClick={setSelectedOption}
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
               />
             </TabsContent>
             
