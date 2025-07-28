@@ -10,7 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { BarChart3, Table, FileSpreadsheet } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { BarChart3, Table, FileSpreadsheet, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
@@ -19,14 +20,26 @@ const Index = () => {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [stockSearch, setStockSearch] = useState("");
+  const [expirySearch, setExpirySearch] = useState("");
   const getFilteredStocks = () => {
-    if (selectedExpiryDates.length === 0) return [...new Set(data.map(option => option.StockName))].sort();
-    return [...new Set(data.filter(option => selectedExpiryDates.includes(option.ExpiryDate)).map(option => option.StockName))].sort();
+    const stocks = selectedExpiryDates.length === 0 
+      ? [...new Set(data.map(option => option.StockName))]
+      : [...new Set(data.filter(option => selectedExpiryDates.includes(option.ExpiryDate)).map(option => option.StockName))];
+    
+    return stocks
+      .filter(stock => stock.toLowerCase().includes(stockSearch.toLowerCase()))
+      .sort();
   };
 
   const getFilteredExpiryDates = () => {
-    if (selectedStocks.length === 0) return [...new Set(data.map(option => option.ExpiryDate))].sort();
-    return [...new Set(data.filter(option => selectedStocks.includes(option.StockName)).map(option => option.ExpiryDate))].sort();
+    const dates = selectedStocks.length === 0 
+      ? [...new Set(data.map(option => option.ExpiryDate))]
+      : [...new Set(data.filter(option => selectedStocks.includes(option.StockName)).map(option => option.ExpiryDate))];
+    
+    return dates
+      .filter(date => date.toLowerCase().includes(expirySearch.toLowerCase()))
+      .sort();
   };
 
   const filteredStocks = getFilteredStocks();
@@ -118,14 +131,23 @@ const Index = () => {
             <div className="flex items-start gap-4">
               <div className="space-y-2">
                 <Label>Filter by Stock</Label>
-                <details className="relative">
-                  <summary className="cursor-pointer px-3 py-2 border rounded-md min-w-[200px] bg-background hover:bg-accent">
-                    {selectedStocks.length === 0 ? 'All Stocks' : 
-                     selectedStocks.length === 1 ? selectedStocks[0] : 
-                     `${selectedStocks.length} stocks selected`}
-                  </summary>
-                  <div className="absolute top-full left-0 mt-1 border rounded-md p-3 max-h-40 overflow-y-auto min-w-[200px] bg-background shadow-lg z-50">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="min-w-[200px] justify-between">
+                      {selectedStocks.length === 0 ? 'All Stocks' : 
+                       selectedStocks.length === 1 ? selectedStocks[0] : 
+                       `${selectedStocks.length} stocks selected`}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto">
                     <div className="space-y-2">
+                      <Input
+                        placeholder="Search stocks..."
+                        value={stockSearch}
+                        onChange={(e) => setStockSearch(e.target.value)}
+                        className="h-8"
+                      />
                       <div className="flex items-center space-x-2 border-b pb-2">
                         <Checkbox
                           id="select-all-stocks"
@@ -161,20 +183,29 @@ const Index = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
-                </details>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
 
               <div className="space-y-2">
                 <Label>Filter by Expiry Date</Label>
-                <details className="relative">
-                  <summary className="cursor-pointer px-3 py-2 border rounded-md min-w-[200px] bg-background hover:bg-accent">
-                    {selectedExpiryDates.length === 0 ? 'All Expiry Dates' : 
-                     selectedExpiryDates.length === 1 ? selectedExpiryDates[0] : 
-                     `${selectedExpiryDates.length} dates selected`}
-                  </summary>
-                  <div className="absolute top-full left-0 mt-1 border rounded-md p-3 max-h-40 overflow-y-auto min-w-[200px] bg-background shadow-lg z-50">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="min-w-[200px] justify-between">
+                      {selectedExpiryDates.length === 0 ? 'All Expiry Dates' : 
+                       selectedExpiryDates.length === 1 ? selectedExpiryDates[0] : 
+                       `${selectedExpiryDates.length} dates selected`}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto">
                     <div className="space-y-2">
+                      <Input
+                        placeholder="Search dates..."
+                        value={expirySearch}
+                        onChange={(e) => setExpirySearch(e.target.value)}
+                        className="h-8"
+                      />
                       <div className="flex items-center space-x-2 border-b pb-2">
                         <Checkbox
                           id="select-all-expiry"
@@ -210,8 +241,8 @@ const Index = () => {
                         </div>
                       ))}
                     </div>
-                  </div>
-                </details>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </div>
