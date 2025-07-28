@@ -116,13 +116,13 @@ const Index = () => {
 
             {isLoading && (
               <div className="text-center text-sm text-muted-foreground">
-                Loading test.csv from GitHub...
+                Loading...
               </div>
             )}
 
             {!isLoading && !error && (
               <div className="text-center text-sm text-muted-foreground">
-                Attempting to load test.csv...
+                Loading...
               </div>
             )}
           </CardContent>

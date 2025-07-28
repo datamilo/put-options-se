@@ -233,7 +233,7 @@ export const useOptionsData = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        await loadCSVFromGitHub('test.csv');
+        await loadCSVFromGitHub('data.csv');
       } catch {
         console.warn('GitHub CSV failed (likely private repo), loading mock data');
         loadMockData();
