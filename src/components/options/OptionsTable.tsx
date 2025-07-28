@@ -256,11 +256,14 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
             {filteredData.map((option, index) => (
               <TableRow
                 key={`${option.StockName}-${option.OptionName}-${index}`}
-                className="cursor-pointer hover:bg-muted/50"
-                onClick={() => onRowClick?.(option)}
+                className="hover:bg-muted/50"
               >
                 {visibleColumns.map(column => (
-                  <TableCell key={column} className={column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"}>
+                  <TableCell 
+                    key={column} 
+                    className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' ? 'cursor-pointer hover:bg-accent/50' : ''}`}
+                    onClick={column === 'OptionName' ? () => onRowClick?.(option) : undefined}
+                  >
                     {column === '1_2_3_ProbOfWorthless_Weighted' ? (
                       <Badge className={getRiskBadgeColor(option[column as keyof OptionData] as number)}>
                         {formatValue(option[column as keyof OptionData], column)}
