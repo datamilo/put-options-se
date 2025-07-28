@@ -31,6 +31,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
   // Define column groups for better organization
   const columnGroups = {
     basic: ['StockName', 'OptionName', 'FinancialReport', 'X-Day', 'Premium','ProbWorthless_Bayesian_IsoCal', '1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV'],
+    'reportOrXDay': ['FinancialReport', 'X-Day'],
     risk: ['1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV','ProbWorthless_Bayesian_IsoCal'],
     loss: ['LossAtBadDecline', 'LossAtWorstDecline', 'LossAt100DayWorstDecline', 'LossAt_2008_100DayWorstDecline', 'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline'],
     statistics: ['PoW_Stats_MedianLossPct', 'PoW_Stats_WorstLossPct', 'PoW_Stats_MedianLoss', 'PoW_Stats_WorstLoss', 'PoW_Stats_MedianProbOfWorthless', 'PoW_Stats_MinProbOfWorthless', 'PoW_Stats_MaxProbOfWorthless'],
@@ -182,7 +183,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
                 size="sm"
                 onClick={() => toggleColumnGroup(groupName as keyof typeof columnGroups)}
               >
-                {groupName.charAt(0).toUpperCase() + groupName.slice(1)}
+                {groupName === 'reportOrXDay' ? 'Report or X Day' : groupName.charAt(0).toUpperCase() + groupName.slice(1)}
               </Button>
             ))}
             <Button
