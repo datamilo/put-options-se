@@ -97,75 +97,32 @@ const Index = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileSpreadsheet className="h-5 w-5" />
-              Load Options Data
+              Loading Options Data
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="github-filename">Load from GitHub</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="github-filename"
-                    placeholder="Enter CSV filename (e.g., options.csv)"
-                    value={githubFilename}
-                    onChange={(e) => setGithubFilename(e.target.value)}
-                    disabled={isLoading}
-                  />
-                  <Button onClick={handleGithubLoad} disabled={isLoading || !githubFilename.trim()}>
-                    Load
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Loads from: datamilo/put-options-se/main/Data/
-                </p>
-              </div>
-
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or</span>
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="csv-upload">Upload CSV File</Label>
-                <Input
-                  id="csv-upload"
-                  type="file"
-                  accept=".csv"
-                  onChange={handleFileUpload}
-                  disabled={isLoading}
-                />
-              </div>
-              
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">Or</span>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <Button onClick={handleLoadMockData} variant="outline" disabled={isLoading}>
-                  Load Sample Data
-                </Button>
-              </div>
-            </div>
-
             {error && (
               <div className="text-sm text-destructive bg-destructive/10 p-3 rounded">
                 {error}
+                <div className="mt-2 space-y-2">
+                  <div className="text-center">
+                    <Button onClick={handleLoadMockData} variant="outline" disabled={isLoading}>
+                      Load Sample Data Instead
+                    </Button>
+                  </div>
+                </div>
               </div>
             )}
 
             {isLoading && (
               <div className="text-center text-sm text-muted-foreground">
-                Loading data...
+                Loading test.csv from GitHub...
+              </div>
+            )}
+
+            {!isLoading && !error && (
+              <div className="text-center text-sm text-muted-foreground">
+                Attempting to load test.csv...
               </div>
             )}
           </CardContent>
