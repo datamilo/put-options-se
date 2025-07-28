@@ -18,6 +18,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 interface OptionsTableProps {
   data: OptionData[];
   onRowClick?: (option: OptionData) => void;
+  columnFilters: ColumnFilter[];
+  onColumnFiltersChange: (filters: ColumnFilter[]) => void;
 }
 
 interface ColumnFilter {
@@ -28,13 +30,12 @@ interface ColumnFilter {
   maxValue?: number;
 }
 
-export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
+export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersChange }: OptionsTableProps) => {
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
-  const [columnFilters, setColumnFilters] = useState<ColumnFilter[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
 
@@ -138,35 +139,41 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
   });
 
   const updateColumnFilter = (field: string, filterUpdate: Partial<ColumnFilter>) => {
-    setColumnFilters(prev => {
-      const existingIndex = prev.findIndex(f => f.field === field);
-      const fieldType = getFieldType(field);
+    const prevFilters = columnFilters;
+    const existingIndex = prevFilters.findIndex(f => f.field === field);
+    const fieldType = getFieldType(field);
+    
+    let newFilters: ColumnFilter[];
+    
+    if (existingIndex >= 0) {
+      // Update existing filter
+      const updated = [...prevFilters];
+      updated[existingIndex] = { ...updated[existingIndex], ...filterUpdate };
       
-      if (existingIndex >= 0) {
-        // Update existing filter
-        const updated = [...prev];
-        updated[existingIndex] = { ...updated[existingIndex], ...filterUpdate };
-        
-        // Remove filter if it's empty
-        if (fieldType === 'text' && !updated[existingIndex].textValue) {
-          return updated.filter((_, i) => i !== existingIndex);
-        } else if (fieldType === 'number' && 
-                   updated[existingIndex].minValue === undefined && 
-                   updated[existingIndex].maxValue === undefined) {
-          return updated.filter((_, i) => i !== existingIndex);
-        }
-        
-        return updated;
+      // Remove filter if it's empty
+      if (fieldType === 'text' && !updated[existingIndex].textValue) {
+        newFilters = updated.filter((_, i) => i !== existingIndex);
+      } else if (fieldType === 'number' && 
+                 updated[existingIndex].minValue === undefined && 
+                 updated[existingIndex].maxValue === undefined) {
+        newFilters = updated.filter((_, i) => i !== existingIndex);
       } else {
-        // Add new filter only if it has values
-        if (fieldType === 'text' && !filterUpdate.textValue) return prev;
-        if (fieldType === 'number' && 
-            filterUpdate.minValue === undefined && 
-            filterUpdate.maxValue === undefined) return prev;
-        
-        return [...prev, { field, type: fieldType, ...filterUpdate }];
+        newFilters = updated;
       }
-    });
+    } else {
+      // Add new filter only if it has values
+      if (fieldType === 'text' && !filterUpdate.textValue) {
+        newFilters = prevFilters;
+      } else if (fieldType === 'number' && 
+          filterUpdate.minValue === undefined && 
+          filterUpdate.maxValue === undefined) {
+        newFilters = prevFilters;
+      } else {
+        newFilters = [...prevFilters, { field, type: fieldType, ...filterUpdate }];
+      }
+    }
+    
+    onColumnFiltersChange(newFilters);
   };
 
   const getColumnFilter = (field: string): ColumnFilter | undefined => {

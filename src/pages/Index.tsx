@@ -22,6 +22,7 @@ const Index = () => {
   
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
+  const [columnFilters, setColumnFilters] = useState<{field: string; type: 'text' | 'number'; textValue?: string; minValue?: number; maxValue?: number;}[]>([]);
   const getFilteredStocks = () => {
     const stocks = selectedExpiryDates.length === 0 
       ? [...new Set(data.map(option => option.StockName))]
@@ -263,6 +264,8 @@ const Index = () => {
               <OptionsTable 
                 data={filteredData} 
                 onRowClick={setSelectedOption}
+                columnFilters={columnFilters}
+                onColumnFiltersChange={setColumnFilters}
               />
             </TabsContent>
             
