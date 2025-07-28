@@ -20,6 +20,9 @@ interface OptionsTableProps {
   onRowClick?: (option: OptionData) => void;
   columnFilters: ColumnFilter[];
   onColumnFiltersChange: (filters: ColumnFilter[]) => void;
+  sortField: keyof OptionData | null;
+  sortDirection: 'asc' | 'desc';
+  onSortChange: (field: keyof OptionData | null, direction: 'asc' | 'desc') => void;
 }
 
 interface ColumnFilter {
@@ -30,9 +33,7 @@ interface ColumnFilter {
   maxValue?: number;
 }
 
-export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersChange }: OptionsTableProps) => {
-  const [sortField, setSortField] = useState<keyof OptionData | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersChange, sortField, sortDirection, onSortChange }: OptionsTableProps) => {
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
@@ -87,10 +88,9 @@ export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersC
 
   const handleSort = (field: keyof OptionData) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      onSortChange(field, sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
-      setSortField(field);
-      setSortDirection('asc');
+      onSortChange(field, 'asc');
     }
   };
 

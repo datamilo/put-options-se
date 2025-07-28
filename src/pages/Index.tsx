@@ -23,6 +23,8 @@ const Index = () => {
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
   const [columnFilters, setColumnFilters] = useState<{field: string; type: 'text' | 'number'; textValue?: string; minValue?: number; maxValue?: number;}[]>([]);
+  const [sortField, setSortField] = useState<keyof OptionData | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const getFilteredStocks = () => {
     const stocks = selectedExpiryDates.length === 0 
       ? [...new Set(data.map(option => option.StockName))]
@@ -266,6 +268,12 @@ const Index = () => {
                 onRowClick={setSelectedOption}
                 columnFilters={columnFilters}
                 onColumnFiltersChange={setColumnFilters}
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={(field, direction) => {
+                  setSortField(field);
+                  setSortDirection(direction);
+                }}
               />
             </TabsContent>
             
