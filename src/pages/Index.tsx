@@ -14,10 +14,11 @@ import { Upload, BarChart3, Table, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
-  const { data, isLoading, error, loadCSVFile, loadMockData } = useOptionsData();
+  const { data, isLoading, error, loadCSVFile, loadCSVFromGitHub, loadMockData } = useOptionsData();
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
+  const [githubFilename, setGithubFilename] = useState<string>("");
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -56,6 +57,15 @@ const Index = () => {
     toast.success("Mock data loaded");
   };
 
+  const handleGithubLoad = () => {
+    if (!githubFilename.trim()) {
+      toast.error("Please enter a filename");
+      return;
+    }
+    loadCSVFromGitHub(githubFilename.trim());
+    toast.success("Loading CSV from GitHub...");
+  };
+
   if (selectedOption) {
     return (
       <div className="container mx-auto p-6 space-y-6">
@@ -91,24 +101,60 @@ const Index = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="csv-upload">Upload CSV File</Label>
-              <Input
-                id="csv-upload"
-                type="file"
-                accept=".csv"
-                onChange={handleFileUpload}
-                disabled={isLoading}
-              />
-            </div>
-            
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">
-                Or try with sample data
-              </p>
-              <Button onClick={handleLoadMockData} variant="outline">
-                Load Mock Data
-              </Button>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="github-filename">Load from GitHub</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="github-filename"
+                    placeholder="Enter CSV filename (e.g., options.csv)"
+                    value={githubFilename}
+                    onChange={(e) => setGithubFilename(e.target.value)}
+                    disabled={isLoading}
+                  />
+                  <Button onClick={handleGithubLoad} disabled={isLoading || !githubFilename.trim()}>
+                    Load
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Loads from: datamilo/put-options-se/main/Data/
+                </p>
+              </div>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="csv-upload">Upload CSV File</Label>
+                <Input
+                  id="csv-upload"
+                  type="file"
+                  accept=".csv"
+                  onChange={handleFileUpload}
+                  disabled={isLoading}
+                />
+              </div>
+              
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-background px-2 text-muted-foreground">Or</span>
+                </div>
+              </div>
+
+              <div className="text-center">
+                <Button onClick={handleLoadMockData} variant="outline" disabled={isLoading}>
+                  Load Sample Data
+                </Button>
+              </div>
             </div>
 
             {error && (

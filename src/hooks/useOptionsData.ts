@@ -164,11 +164,77 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
+  const loadCSVFromGitHub = useCallback(async (filename: string) => {
+    setIsLoading(true);
+    setError(null);
+
+    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/Data/${filename}`;
+
+    try {
+      const response = await fetch(githubUrl);
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch CSV from GitHub: ${response.status} ${response.statusText}`);
+      }
+
+      const csvText = await response.text();
+
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: (header) => header.trim(),
+        transform: (value, field) => {
+          // Handle numeric fields - comprehensive list based on your CSV structure
+          const numericFields = [
+            'X-Day', 'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
+            '1_2_3_ProbOfWorthless_Weighted', 'ProbWorthless_Bayesian_IsoCal', '1_ProbOfWorthless_Original', 
+            '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV', 'Lower_Bound_at_Accuracy',
+            'LossAtBadDecline', 'LossAtWorstDecline', 'PoW_Stats_MedianLossPct',
+            'PoW_Stats_WorstLossPct', 'PoW_Stats_MedianLoss', 'PoW_Stats_WorstLoss',
+            'PoW_Stats_MedianProbOfWorthless', 'PoW_Stats_MinProbOfWorthless',
+            'PoW_Stats_MaxProbOfWorthless', 'LossAt100DayWorstDecline',
+            'LossAt_2008_100DayWorstDecline', 'Mean_Accuracy', 'Lower_Bound_HistMedianIV_at_Accuracy',
+            'Lower_Bound', 'Lower_Bound_HistMedianIV', 'Bid_Ask_Mid_Price', 'Option_Price_Min',
+            'NumberOfContractsBasedOnLimit', 'Bid', 'ProfitLossPctLeastBad', 'Loss_Least_Bad',
+            'IV_AllMedianIV_Maximum100DaysToExp_Ratio', 'StockPrice', 'DaysToExpiry',
+            'AskBidSpread', 'Underlying_Value', 'StrikePrice', 'StockPrice_After_2008_100DayWorstDecline',
+            'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'ProfitLossPctBad',
+            'ProfitLossPctWorst', 'ProfitLossPct100DayWorst', 'ImpliedVolatility',
+            'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp',
+            'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy'
+          ];
+          
+          if (typeof field === 'string' && numericFields.includes(field)) {
+            const num = parseFloat(value);
+            return isNaN(num) ? null : num;
+          }
+          return value;
+        },
+        complete: (results) => {
+          if (results.errors.length > 0) {
+            setError(`CSV parsing errors: ${results.errors.map(e => e.message).join(', ')}`);
+          } else {
+            setData(results.data as OptionData[]);
+          }
+          setIsLoading(false);
+        },
+        error: (error) => {
+          setError(`Failed to parse CSV: ${error.message}`);
+          setIsLoading(false);
+        }
+      });
+    } catch (error) {
+      setError(`Failed to load CSV from GitHub: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     data,
     isLoading,
     error,
     loadCSVFile,
+    loadCSVFromGitHub,
     loadMockData,
     setData
   };
