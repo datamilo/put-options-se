@@ -26,6 +26,7 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
+  const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
 
   // Define column groups for better organization
   const columnGroups = {
@@ -125,11 +126,27 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
     );
   };
 
-  const showColumnGroup = (groupName: keyof typeof columnGroups) => {
-    setVisibleColumns(prev => {
-      const newCols = [...new Set([...prev, ...columnGroups[groupName]])];
-      return newCols;
-    });
+  const toggleColumnGroup = (groupName: keyof typeof columnGroups) => {
+    const isActive = activeGroups.has(groupName);
+    
+    if (isActive) {
+      // Remove columns from this group
+      setVisibleColumns(prev => 
+        prev.filter(col => !columnGroups[groupName].includes(col))
+      );
+      setActiveGroups(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(groupName);
+        return newSet;
+      });
+    } else {
+      // Add columns from this group
+      setVisibleColumns(prev => {
+        const newCols = [...new Set([...prev, ...columnGroups[groupName]])];
+        return newCols;
+      });
+      setActiveGroups(prev => new Set([...prev, groupName]));
+    }
   };
 
   return (
@@ -161,11 +178,11 @@ export const OptionsTable = ({ data, onRowClick }: OptionsTableProps) => {
             {Object.entries(columnGroups).map(([groupName, columns]) => (
               <Button
                 key={groupName}
-                variant="outline"
+                variant={activeGroups.has(groupName) ? "default" : "outline"}
                 size="sm"
-                onClick={() => showColumnGroup(groupName as keyof typeof columnGroups)}
+                onClick={() => toggleColumnGroup(groupName as keyof typeof columnGroups)}
               >
-                Show {groupName.charAt(0).toUpperCase() + groupName.slice(1)}
+                {groupName.charAt(0).toUpperCase() + groupName.slice(1)}
               </Button>
             ))}
             <Button
