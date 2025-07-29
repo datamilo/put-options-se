@@ -15,7 +15,7 @@ import { BarChart3, Table, FileSpreadsheet, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
 const Index = () => {
-  const { data, isLoading, error, loadMockData } = useOptionsData();
+  const { data, isLoading, error, lastUpdated, loadMockData } = useOptionsData();
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
@@ -80,8 +80,12 @@ const Index = () => {
     <div className="container mx-auto p-6 space-y-6">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-bold">Put Options Data</h1>
-        <p className="text-xl text-muted-foreground">
-        </p>
+        {lastUpdated && (
+          <div className="text-sm text-muted-foreground space-y-1">
+            <p>Options data last updated: {new Date(lastUpdated.optionsData.lastUpdated).toLocaleString()}</p>
+            <p>Stock data last updated: {new Date(lastUpdated.stockData.lastUpdated).toLocaleString()}</p>
+          </div>
+        )}
       </div>
 
       {data.length === 0 ? (

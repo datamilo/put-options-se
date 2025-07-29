@@ -2,10 +2,36 @@ import { useState, useCallback, useEffect } from 'react';
 import Papa from 'papaparse';
 import { OptionData } from '@/types/options';
 
+interface LastUpdatedData {
+  optionsData: {
+    lastUpdated: string;
+    description: string;
+  };
+  stockData: {
+    lastUpdated: string;
+    description: string;
+  };
+}
+
 export const useOptionsData = () => {
   const [data, setData] = useState<OptionData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
+
+  const loadLastUpdated = useCallback(async () => {
+    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json`;
+    
+    try {
+      const response = await fetch(githubUrl);
+      if (response.ok) {
+        const lastUpdatedData = await response.json();
+        setLastUpdated(lastUpdatedData);
+      }
+    } catch (error) {
+      console.warn('Failed to load last_updated.json:', error);
+    }
+  }, []);
 
   const loadCSVFromGitHub = useCallback(async (filename: string) => {
     setIsLoading(true);
@@ -229,23 +255,25 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
-  // Auto-load test.csv on mount, fallback to mock data if private repo
+  // Auto-load data.csv and last_updated.json on mount, fallback to mock data if private repo
   useEffect(() => {
     const loadData = async () => {
       try {
         await loadCSVFromGitHub('data.csv');
+        await loadLastUpdated();
       } catch {
         console.warn('GitHub CSV failed (likely private repo), loading mock data');
         loadMockData();
       }
     };
     loadData();
-  }, [loadCSVFromGitHub, loadMockData]);
+  }, [loadCSVFromGitHub, loadMockData, loadLastUpdated]);
 
   return {
     data,
     isLoading,
     error,
+    lastUpdated,
     loadCSVFile,
     loadCSVFromGitHub,
     loadMockData,
