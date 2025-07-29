@@ -358,8 +358,9 @@ export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersC
                               <Input
                                 placeholder="Search..."
                                 value={filter?.textValue || ''}
-                                onChange={(e) => updateColumnFilter(column, { textValue: e.target.value })}
+                                onChange={(e) => updateColumnFilter(column, { textValue: e.target.value.slice(0, 100) })}
                                 className="h-8"
+                                maxLength={100}
                                 autoFocus
                               />
                             ) : (
@@ -368,18 +369,26 @@ export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersC
                                   type="number"
                                   placeholder="Min value"
                                   value={filter?.minValue || ''}
-                                  onChange={(e) => updateColumnFilter(column, { 
-                                    minValue: e.target.value ? parseFloat(e.target.value) : undefined 
-                                  })}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    const numValue = value ? parseFloat(value) : undefined;
+                                    if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
+                                      updateColumnFilter(column, { minValue: numValue });
+                                    }
+                                  }}
                                   className="h-8"
                                 />
                                 <Input
                                   type="number"
                                   placeholder="Max value"
                                   value={filter?.maxValue || ''}
-                                  onChange={(e) => updateColumnFilter(column, { 
-                                    maxValue: e.target.value ? parseFloat(e.target.value) : undefined 
-                                  })}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    const numValue = value ? parseFloat(value) : undefined;
+                                    if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
+                                      updateColumnFilter(column, { maxValue: numValue });
+                                    }
+                                  }}
                                   className="h-8"
                                 />
                               </div>

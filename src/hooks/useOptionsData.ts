@@ -27,9 +27,11 @@ export const useOptionsData = () => {
       if (response.ok) {
         const lastUpdatedData = await response.json();
         setLastUpdated(lastUpdatedData);
+      } else {
+        console.warn('Failed to load metadata: Network error');
       }
     } catch (error) {
-      console.warn('Failed to load last_updated.json:', error);
+      console.warn('Failed to load metadata: Connection error');
     }
   }, []);
 
@@ -93,7 +95,7 @@ export const useOptionsData = () => {
         }
       });
     } catch (error) {
-      setError(`Failed to load CSV from GitHub: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setError('Failed to load data from GitHub. Please try again.');
       setIsLoading(false);
     }
   }, []);

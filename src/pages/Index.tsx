@@ -152,8 +152,9 @@ const Index = () => {
                       <Input
                         placeholder="Search stocks..."
                         value={stockSearch}
-                        onChange={(e) => setStockSearch(e.target.value)}
+                        onChange={(e) => setStockSearch(e.target.value.slice(0, 50))}
                         className="h-8"
+                        maxLength={50}
                       />
                       <div className="flex items-center space-x-2 border-b pb-2">
                         <Checkbox
@@ -210,8 +211,9 @@ const Index = () => {
                       <Input
                         placeholder="Search dates..."
                         value={expirySearch}
-                        onChange={(e) => setExpirySearch(e.target.value)}
+                        onChange={(e) => setExpirySearch(e.target.value.slice(0, 50))}
                         className="h-8"
+                        maxLength={50}
                       />
                       <div className="flex items-center space-x-2 border-b pb-2">
                         <Checkbox
