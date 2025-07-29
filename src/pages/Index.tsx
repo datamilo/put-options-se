@@ -125,7 +125,7 @@ const Index = () => {
         </Card>
       ) : (
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="space-y-1">
               <h2 className="text-2xl font-semibold">
                 {data.length} Options Available
@@ -135,7 +135,7 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="flex items-start gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
               <div className="space-y-2">
                 <Label>Filter by Stock</Label>
                 <DropdownMenu>
