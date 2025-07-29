@@ -13,6 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { BarChart3, Table, FileSpreadsheet, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Index = () => {
   const { data, isLoading, error, lastUpdated, loadMockData } = useOptionsData();
@@ -78,14 +79,17 @@ const Index = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">Put Options Data</h1>
-        {lastUpdated && (
-          <div className="text-sm text-muted-foreground space-y-1">
-            <p>Options data last updated: {new Date(lastUpdated.optionsData.lastUpdated).toLocaleString()}</p>
-            <p>Stock data last updated: {new Date(lastUpdated.stockData.lastUpdated).toLocaleString()}</p>
-          </div>
-        )}
+      <div className="flex justify-between items-start">
+        <div className="text-center flex-1 space-y-4">
+          <h1 className="text-4xl font-bold">Put Options Data</h1>
+          {lastUpdated && (
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p>Options data last updated: {new Date(lastUpdated.optionsData.lastUpdated).toLocaleString()}</p>
+              <p>Stock data last updated: {new Date(lastUpdated.stockData.lastUpdated).toLocaleString()}</p>
+            </div>
+          )}
+        </div>
+        <ThemeToggle />
       </div>
 
       {data.length === 0 ? (
