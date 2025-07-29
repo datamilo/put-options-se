@@ -22,7 +22,7 @@ interface OptionsChartProps {
 }
 
 export const OptionsChart = ({ data }: OptionsChartProps) => {
-  const [selectedProbFields, setSelectedProbFields] = useState<string[]>(['1_2_3_ProbOfWorthless_Weighted']);
+  const [selectedProbFields, setSelectedProbFields] = useState<string[]>(['ProbWorthless_Bayesian_IsoCal']);
   
   const probabilityFields = [
     { value: '1_2_3_ProbOfWorthless_Weighted', label: '1_2_3_ProbOfWorthless_Weighted' },
@@ -88,7 +88,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
             <CardTitle>Premium vs Probability of Worthless</CardTitle>
             <div className="space-y-2">
               <Label>Select Probability Fields:</Label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {probabilityFields.map((field) => (
                   <div key={field.value} className="flex items-center space-x-2">
                     <Checkbox
