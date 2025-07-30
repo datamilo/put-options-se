@@ -20,18 +20,28 @@ export const useOptionsData = () => {
   const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
 
   const loadLastUpdated = useCallback(async () => {
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json`;
+    // Add cache busting parameter to prevent cached responses
+    const timestamp = new Date().getTime();
+    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${timestamp}`;
+    
+    console.log('Loading timestamps from:', githubUrl);
     
     try {
-      const response = await fetch(githubUrl);
+      const response = await fetch(githubUrl, {
+        cache: 'no-cache',
+        headers: {
+          'Cache-Control': 'no-cache'
+        }
+      });
       if (response.ok) {
         const lastUpdatedData = await response.json();
+        console.log('Loaded timestamps:', lastUpdatedData);
         setLastUpdated(lastUpdatedData);
       } else {
-        console.warn('Failed to load metadata: Network error');
+        console.warn('Failed to load metadata: Network error', response.status);
       }
     } catch (error) {
-      console.warn('Failed to load metadata: Connection error');
+      console.warn('Failed to load metadata: Connection error', error);
     }
   }, []);
 
@@ -262,11 +272,13 @@ export const useOptionsData = () => {
     const loadData = async () => {
       try {
         await loadCSVFromGitHub('data.csv');
-        await loadLastUpdated();
       } catch {
         console.warn('GitHub CSV failed (likely private repo), loading mock data');
         loadMockData();
       }
+      
+      // Always try to load timestamps regardless of CSV success/failure
+      await loadLastUpdated();
     };
     loadData();
   }, [loadCSVFromGitHub, loadMockData, loadLastUpdated]);
