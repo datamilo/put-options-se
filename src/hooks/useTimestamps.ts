@@ -1,4 +1,3 @@
-console.log('📁 useTimestamps.ts file loaded');
 import { useState, useEffect } from 'react';
 
 interface TimestampData {
@@ -13,6 +12,7 @@ interface TimestampData {
 }
 
 export const useTimestamps = () => {
+  console.log('📁 useTimestamps hook called');
   const [timestamps, setTimestamps] = useState<TimestampData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 

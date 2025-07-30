@@ -1,4 +1,3 @@
-console.log('🌍 Index.tsx file loaded at top level');
 import { useState, useEffect } from "react";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
