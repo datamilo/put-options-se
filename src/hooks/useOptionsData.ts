@@ -293,7 +293,7 @@ export const useOptionsData = () => {
       await loadLastUpdated();
     };
     loadData();
-  }, [loadCSVFromGitHub, loadMockData, loadLastUpdated]);
+  }, []); // Empty dependency array - only run once on mount
 
   return {
     data,
