@@ -269,10 +269,16 @@ export const useOptionsData = () => {
     const loadData = async () => {
       try {
         await loadCSVFromGitHub('data.csv');
-        await loadLastUpdated();
       } catch {
         console.warn('GitHub CSV failed (likely private repo), loading mock data');
         loadMockData();
+      }
+      
+      // Always try to load timestamps regardless of CSV success/failure
+      try {
+        await loadLastUpdated();
+      } catch {
+        console.warn('Failed to load timestamp metadata');
       }
     };
     loadData();
