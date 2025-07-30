@@ -1,3 +1,4 @@
+console.log('📁 useTimestamps.ts file loaded');
 import { useState, useEffect } from 'react';
 
 interface TimestampData {

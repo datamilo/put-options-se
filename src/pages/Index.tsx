@@ -1,3 +1,4 @@
+console.log('🌍 Index.tsx file loaded at top level');
 import { useState, useEffect } from "react";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
@@ -17,8 +18,13 @@ import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Index = () => {
+  console.log('🏠 Index component function called');
+  
   const { data, isLoading, error, loadMockData } = useOptionsData();
+  console.log('✅ useOptionsData hook completed');
+  
   const { timestamps, isLoading: timestampsLoading } = useTimestamps();
+  console.log('✅ useTimestamps hook completed');
   
   console.log('🔍 Timestamps from hook:', timestamps);
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
