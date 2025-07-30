@@ -4,7 +4,7 @@ import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { useOptionsData } from "@/hooks/useOptionsData";
-import { useTimestamps } from "@/hooks/useTimestamps";
+import { TimestampDisplay } from "@/components/TimestampDisplay";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,15 +17,9 @@ import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Index = () => {
-  console.log('🏠 Index component function called');
+  console.log('🏠 Index component rendering');
   
   const { data, isLoading, error, loadMockData } = useOptionsData();
-  console.log('✅ useOptionsData hook completed');
-  
-  const { timestamps, isLoading: timestampsLoading } = useTimestamps();
-  console.log('✅ useTimestamps hook completed');
-  
-  console.log('🔍 Timestamps from hook:', timestamps);
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
@@ -92,17 +86,7 @@ const Index = () => {
       <div className="flex justify-between items-start">
         <div className="text-center flex-1 space-y-4">
           <h1 className="text-4xl font-bold">Put Options Data</h1>
-          {timestamps && !timestampsLoading && (
-            <div className="text-sm text-muted-foreground space-y-1">
-              <p>Options data last updated: {new Date(timestamps.optionsData.lastUpdated).toLocaleString()}</p>
-              <p>Stock data last updated: {new Date(timestamps.stockData.lastUpdated).toLocaleString()}</p>
-            </div>
-          )}
-          {(!timestamps || timestampsLoading) && (
-            <div className="text-sm text-muted-foreground">
-              <p>Loading timestamp information...</p>
-            </div>
-          )}
+          <TimestampDisplay />
         </div>
         <ThemeToggle />
       </div>
