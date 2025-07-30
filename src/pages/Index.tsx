@@ -16,7 +16,9 @@ import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Index = () => {
+  console.log('🏠 Index component rendered');
   const { data, isLoading, error, lastUpdated, loadMockData } = useOptionsData();
+  console.log('🔍 Index component - received from hook:', { data: data.length, isLoading, error, lastUpdated });
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
