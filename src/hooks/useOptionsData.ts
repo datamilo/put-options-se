@@ -14,10 +14,14 @@ interface LastUpdatedData {
 }
 
 export const useOptionsData = () => {
+  console.log('🚀 useOptionsData hook started');
+  
   const [data, setData] = useState<OptionData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
+
+  console.log('📊 Current lastUpdated state:', lastUpdated);
 
   const loadLastUpdated = useCallback(async () => {
     // Add cache busting parameter to prevent cached responses
@@ -281,16 +285,23 @@ export const useOptionsData = () => {
 
   // Auto-load data.csv and last_updated.json on mount, fallback to mock data if private repo
   useEffect(() => {
+    console.log('🔥 useEffect started - loading data');
+    
     const loadData = async () => {
+      console.log('⚡ loadData function started');
       try {
+        console.log('📥 Attempting to load CSV from GitHub...');
         await loadCSVFromGitHub('data.csv');
+        console.log('✅ CSV loaded successfully');
       } catch {
-        console.warn('GitHub CSV failed (likely private repo), loading mock data');
+        console.warn('❌ GitHub CSV failed (likely private repo), loading mock data');
         loadMockData();
       }
       
       // Always try to load timestamps regardless of CSV success/failure
+      console.log('🕒 About to load timestamps...');
       await loadLastUpdated();
+      console.log('🕒 Finished loading timestamps');
     };
     loadData();
   }, []); // Empty dependency array - only run once on mount
