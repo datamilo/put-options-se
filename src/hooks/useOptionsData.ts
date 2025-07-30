@@ -269,10 +269,16 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
-  // Auto-load data.csv and last_updated.json on mount, fallback to mock data if private repo
+  // Load timestamps immediately on mount
+  useEffect(() => {
+    console.log('Loading timestamps...');
+    loadLastUpdated();
+  }, [loadLastUpdated]);
+
+  // Auto-load data.csv on mount, fallback to mock data if private repo
   useEffect(() => {
     const loadData = async () => {
-      console.log('useOptionsData: Starting data load...');
+      console.log('useOptionsData: Starting CSV data load...');
       
       try {
         await loadCSVFromGitHub('data.csv');
@@ -281,13 +287,9 @@ export const useOptionsData = () => {
         console.warn('GitHub CSV failed (likely private repo), loading mock data', error);
         loadMockData();
       }
-      
-      // Always try to load timestamps regardless of CSV success/failure
-      console.log('Loading timestamp metadata...');
-      await loadLastUpdated();
     };
     loadData();
-  }, [loadCSVFromGitHub, loadMockData, loadLastUpdated]);
+  }, [loadCSVFromGitHub, loadMockData]);
 
   return {
     data,
