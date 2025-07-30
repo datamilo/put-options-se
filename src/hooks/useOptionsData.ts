@@ -2,64 +2,12 @@ import { useState, useCallback, useEffect } from 'react';
 import Papa from 'papaparse';
 import { OptionData } from '@/types/options';
 
-interface LastUpdatedData {
-  optionsData: {
-    lastUpdated: string;
-    description: string;
-  };
-  stockData: {
-    lastUpdated: string;
-    description: string;
-  };
-}
 
 export const useOptionsData = () => {
-  console.log('🚀 useOptionsData hook started');
-  
   const [data, setData] = useState<OptionData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
 
-  console.log('📊 Current lastUpdated state:', lastUpdated);
-
-  // Simplified timestamp loading function
-  const loadLastUpdated = useCallback(async () => {
-    console.log('🔄 Starting simplified loadLastUpdated...');
-    
-    try {
-      const timestamp = new Date().getTime();
-      const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${timestamp}`;
-      
-      console.log('📡 Fetching from:', githubUrl);
-      
-      const response = await fetch(githubUrl, {
-        cache: 'no-cache',
-        headers: {
-          'Cache-Control': 'no-cache'
-        }
-      });
-      
-      console.log('📨 Response status:', response.status);
-      
-      if (response.ok) {
-        const text = await response.text();
-        console.log('📄 Response text:', text);
-        
-        const data = JSON.parse(text);
-        console.log('✅ Parsed data:', data);
-        
-        setLastUpdated(data);
-        console.log('✅ State updated');
-      } else {
-        console.error('❌ Response not ok:', response.status);
-        setLastUpdated(null);
-      }
-    } catch (error) {
-      console.error('❌ Error loading timestamps:', error);
-      setLastUpdated(null);
-    }
-  }, []);
 
   const loadCSVFromGitHub = useCallback(async (filename: string) => {
     console.log('📥 Loading CSV:', filename);
@@ -234,15 +182,8 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
-  // Immediate timestamp loading on mount
+  // Data loading only
   useEffect(() => {
-    console.log('🔥 useEffect started - loading timestamps immediately');
-    loadLastUpdated();
-  }, [loadLastUpdated]);
-
-  // Data loading
-  useEffect(() => {
-    console.log('📚 useEffect for data loading started');
     const loadData = async () => {
       try {
         await loadCSVFromGitHub('data.csv');
@@ -258,7 +199,6 @@ export const useOptionsData = () => {
     data,
     isLoading,
     error,
-    lastUpdated,
     loadCSVFile,
     loadCSVFromGitHub,
     loadMockData,

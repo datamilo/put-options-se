@@ -4,6 +4,7 @@ import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { useOptionsData } from "@/hooks/useOptionsData";
+import { useTimestamps } from "@/hooks/useTimestamps";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -16,9 +17,10 @@ import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Index = () => {
-  console.log('🏠 Index component rendered');
-  const { data, isLoading, error, lastUpdated, loadMockData } = useOptionsData();
-  console.log('🔍 Index component - received from hook:', { data: data.length, isLoading, error, lastUpdated });
+  const { data, isLoading, error, loadMockData } = useOptionsData();
+  const { timestamps, isLoading: timestampsLoading } = useTimestamps();
+  
+  console.log('🔍 Timestamps from hook:', timestamps);
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
@@ -28,11 +30,6 @@ const Index = () => {
   const [columnFilters, setColumnFilters] = useState<{field: string; type: 'text' | 'number'; textValue?: string; minValue?: number; maxValue?: number;}[]>([]);
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  
-  // Debug logging for lastUpdated state
-  useEffect(() => {
-    console.log('lastUpdated state in Index:', lastUpdated);
-  }, [lastUpdated]);
   
   const getFilteredStocks = () => {
     const stocks = selectedExpiryDates.length === 0 
@@ -90,13 +87,13 @@ const Index = () => {
       <div className="flex justify-between items-start">
         <div className="text-center flex-1 space-y-4">
           <h1 className="text-4xl font-bold">Put Options Data</h1>
-          {lastUpdated && (
+          {timestamps && !timestampsLoading && (
             <div className="text-sm text-muted-foreground space-y-1">
-              <p>Options data last updated: {new Date(lastUpdated.optionsData.lastUpdated).toLocaleString()}</p>
-              <p>Stock data last updated: {new Date(lastUpdated.stockData.lastUpdated).toLocaleString()}</p>
+              <p>Options data last updated: {new Date(timestamps.optionsData.lastUpdated).toLocaleString()}</p>
+              <p>Stock data last updated: {new Date(timestamps.stockData.lastUpdated).toLocaleString()}</p>
             </div>
           )}
-          {!lastUpdated && (
+          {(!timestamps || timestampsLoading) && (
             <div className="text-sm text-muted-foreground">
               <p>Loading timestamp information...</p>
             </div>
