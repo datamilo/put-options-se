@@ -20,10 +20,17 @@ export const useOptionsData = () => {
   const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
 
   const loadLastUpdated = useCallback(async () => {
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json`;
+    const cacheBuster = Date.now();
+    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${cacheBuster}`;
     
     try {
-      const response = await fetch(githubUrl);
+      const response = await fetch(githubUrl, {
+        cache: 'no-cache',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      });
       if (response.ok) {
         const lastUpdatedData = await response.json();
         setLastUpdated(lastUpdatedData);
