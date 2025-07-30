@@ -19,6 +19,8 @@ export const useOptionsData = () => {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
 
+  console.log('useOptionsData: Hook initialized, lastUpdated state:', lastUpdated);
+
   const loadLastUpdated = useCallback(async () => {
     const cacheBuster = Date.now();
     const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${cacheBuster}`;
