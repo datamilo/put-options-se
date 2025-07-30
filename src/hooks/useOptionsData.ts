@@ -24,24 +24,36 @@ export const useOptionsData = () => {
     const timestamp = new Date().getTime();
     const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${timestamp}`;
     
-    console.log('Loading timestamps from:', githubUrl);
+    console.log('🔄 Starting loadLastUpdated...');
+    console.log('📡 Loading timestamps from:', githubUrl);
     
     try {
       const response = await fetch(githubUrl, {
         cache: 'no-cache',
         headers: {
-          'Cache-Control': 'no-cache'
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
         }
       });
+      
+      console.log('📨 Response status:', response.status);
+      console.log('📨 Response ok:', response.ok);
+      
       if (response.ok) {
-        const lastUpdatedData = await response.json();
-        console.log('Loaded timestamps:', lastUpdatedData);
+        const text = await response.text();
+        console.log('📄 Raw response text:', text);
+        
+        const lastUpdatedData = JSON.parse(text);
+        console.log('✅ Parsed timestamps:', lastUpdatedData);
         setLastUpdated(lastUpdatedData);
+        console.log('✅ Set lastUpdated state successfully');
       } else {
-        console.warn('Failed to load metadata: Network error', response.status);
+        console.error('❌ Failed to load metadata: Network error', response.status, response.statusText);
+        setLastUpdated(null);
       }
     } catch (error) {
-      console.warn('Failed to load metadata: Connection error', error);
+      console.error('❌ Failed to load metadata: Connection error', error);
+      setLastUpdated(null);
     }
   }, []);
 

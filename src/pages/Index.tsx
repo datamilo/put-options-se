@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
@@ -26,6 +26,12 @@ const Index = () => {
   const [columnFilters, setColumnFilters] = useState<{field: string; type: 'text' | 'number'; textValue?: string; minValue?: number; maxValue?: number;}[]>([]);
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  
+  // Debug logging for lastUpdated state
+  useEffect(() => {
+    console.log('lastUpdated state in Index:', lastUpdated);
+  }, [lastUpdated]);
+  
   const getFilteredStocks = () => {
     const stocks = selectedExpiryDates.length === 0 
       ? [...new Set(data.map(option => option.StockName))]
@@ -86,6 +92,11 @@ const Index = () => {
             <div className="text-sm text-muted-foreground space-y-1">
               <p>Options data last updated: {new Date(lastUpdated.optionsData.lastUpdated).toLocaleString()}</p>
               <p>Stock data last updated: {new Date(lastUpdated.stockData.lastUpdated).toLocaleString()}</p>
+            </div>
+          )}
+          {!lastUpdated && (
+            <div className="text-sm text-muted-foreground">
+              <p>Loading timestamp information...</p>
             </div>
           )}
         </div>
