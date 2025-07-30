@@ -23,45 +23,46 @@ export const useOptionsData = () => {
 
   console.log('📊 Current lastUpdated state:', lastUpdated);
 
+  // Simplified timestamp loading function
   const loadLastUpdated = useCallback(async () => {
-    // Add cache busting parameter to prevent cached responses
-    const timestamp = new Date().getTime();
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${timestamp}`;
-    
-    console.log('🔄 Starting loadLastUpdated...');
-    console.log('📡 Loading timestamps from:', githubUrl);
+    console.log('🔄 Starting simplified loadLastUpdated...');
     
     try {
+      const timestamp = new Date().getTime();
+      const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${timestamp}`;
+      
+      console.log('📡 Fetching from:', githubUrl);
+      
       const response = await fetch(githubUrl, {
         cache: 'no-cache',
         headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
+          'Cache-Control': 'no-cache'
         }
       });
       
       console.log('📨 Response status:', response.status);
-      console.log('📨 Response ok:', response.ok);
       
       if (response.ok) {
         const text = await response.text();
-        console.log('📄 Raw response text:', text);
+        console.log('📄 Response text:', text);
         
-        const lastUpdatedData = JSON.parse(text);
-        console.log('✅ Parsed timestamps:', lastUpdatedData);
-        setLastUpdated(lastUpdatedData);
-        console.log('✅ Set lastUpdated state successfully');
+        const data = JSON.parse(text);
+        console.log('✅ Parsed data:', data);
+        
+        setLastUpdated(data);
+        console.log('✅ State updated');
       } else {
-        console.error('❌ Failed to load metadata: Network error', response.status, response.statusText);
+        console.error('❌ Response not ok:', response.status);
         setLastUpdated(null);
       }
     } catch (error) {
-      console.error('❌ Failed to load metadata: Connection error', error);
+      console.error('❌ Error loading timestamps:', error);
       setLastUpdated(null);
     }
   }, []);
 
   const loadCSVFromGitHub = useCallback(async (filename: string) => {
+    console.log('📥 Loading CSV:', filename);
     setIsLoading(true);
     setError(null);
 
@@ -81,7 +82,6 @@ export const useOptionsData = () => {
         skipEmptyLines: true,
         transformHeader: (header) => header.trim(),
         transform: (value, field) => {
-          // Handle numeric fields - comprehensive list based on your CSV structure
           const numericFields = [
             'X-Day', 'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
             '1_2_3_ProbOfWorthless_Weighted', 'ProbWorthless_Bayesian_IsoCal', '1_ProbOfWorthless_Original', 
@@ -135,7 +135,6 @@ export const useOptionsData = () => {
       skipEmptyLines: true,
       transformHeader: (header) => header.trim(),
       transform: (value, field) => {
-        // Handle numeric fields - comprehensive list based on your CSV structure
         const numericFields = [
           'X-Day', 'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
           '1_2_3_ProbOfWorthless_Weighted', 'ProbWorthless_Bayesian_IsoCal', '1_ProbOfWorthless_Original', 
@@ -178,6 +177,7 @@ export const useOptionsData = () => {
 
   // Mock data for development/testing
   const loadMockData = useCallback(() => {
+    console.log('📦 Loading mock data...');
     const mockData: OptionData[] = [
       {
         StockName: "AAK AB",
@@ -228,83 +228,31 @@ export const useOptionsData = () => {
         AllMedianIV_Maximum100DaysToExp: 0.216361,
         ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy: 0.2,
         StrikeBelowLowerAtAcc: "Y"
-      },
-      {
-        StockName: "VOLVO B",
-        OptionName: "VOLV5T350",
-        Premium: 180,
-        ExpiryDate: "2024-11-30",
-        '1_2_3_ProbOfWorthless_Weighted': 0.756123,
-        ProbWorthless_Bayesian_IsoCal: 0.698547,
-        '1_ProbOfWorthless_Original': 0.712456,
-        '2_ProbOfWorthless_Calibrated': 0.72,
-        '3_ProbOfWorthless_Historical_IV': 0.28,
-        Lower_Bound_at_Accuracy: 0.68,
-        LossAtBadDecline: -15200,
-        LossAtWorstDecline: -18500,
-        PoW_Stats_MedianLossPct: 0.12,
-        PoW_Stats_WorstLossPct: 0.19,
-        PoW_Stats_MedianLoss: -12000,
-        PoW_Stats_WorstLoss: -22000,
-        PoW_Stats_MedianProbOfWorthless: 0.71,
-        PoW_Stats_MinProbOfWorthless: 0.65,
-        PoW_Stats_MaxProbOfWorthless: 0.85,
-        LossAt100DayWorstDecline: -16000,
-        LossAt_2008_100DayWorstDecline: -32000,
-        Mean_Accuracy: 0.82,
-        Lower_Bound_HistMedianIV_at_Accuracy: 0.25,
-        Lower_Bound: 165,
-        Lower_Bound_HistMedianIV: 0.24,
-        Bid_Ask_Mid_Price: 178,
-        Option_Price_Min: 175,
-        NumberOfContractsBasedOnLimit: 550,
-        Bid: 176,
-        ProfitLossPctLeastBad: 0.025,
-        Loss_Least_Bad: -3500,
-        IV_AllMedianIV_Maximum100DaysToExp_Ratio: 1.08,
-        StockPrice: 245,
-        DaysToExpiry: 30,
-        AskBidSpread: 8,
-        Underlying_Value: 245,
-        StrikePrice: 250,
-        StockPrice_After_2008_100DayWorstDecline: 185,
-        LossAt50DayWorstDecline: -15200,
-        LossAt_2008_50DayWorstDecline: -35000,
-        ProfitLossPctBad: 0.025,
-        ProfitLossPctWorst: 0.015,
-        ProfitLossPct100DayWorst: 0.018,
-        ImpliedVolatility: 0.265789,
-        TodayStockMedianIV_Maximum100DaysToExp: 0.24568,
-        AllMedianIV_Maximum100DaysToExp: 0.238945,
-        ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy: 0.18,
       }
     ];
     
     setData(mockData);
   }, []);
 
-  // Auto-load data.csv and last_updated.json on mount, fallback to mock data if private repo
+  // Immediate timestamp loading on mount
   useEffect(() => {
-    console.log('🔥 useEffect started - loading data');
-    
+    console.log('🔥 useEffect started - loading timestamps immediately');
+    loadLastUpdated();
+  }, [loadLastUpdated]);
+
+  // Data loading
+  useEffect(() => {
+    console.log('📚 useEffect for data loading started');
     const loadData = async () => {
-      console.log('⚡ loadData function started');
       try {
-        console.log('📥 Attempting to load CSV from GitHub...');
         await loadCSVFromGitHub('data.csv');
-        console.log('✅ CSV loaded successfully');
       } catch {
-        console.warn('❌ GitHub CSV failed (likely private repo), loading mock data');
+        console.warn('❌ GitHub CSV failed, loading mock data');
         loadMockData();
       }
-      
-      // Always try to load timestamps regardless of CSV success/failure
-      console.log('🕒 About to load timestamps...');
-      await loadLastUpdated();
-      console.log('🕒 Finished loading timestamps');
     };
     loadData();
-  }, []); // Empty dependency array - only run once on mount
+  }, [loadCSVFromGitHub, loadMockData]);
 
   return {
     data,
