@@ -19,31 +19,19 @@ export const useOptionsData = () => {
   const [error, setError] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<LastUpdatedData | null>(null);
 
-  console.log('useOptionsData: Hook initialized, lastUpdated state:', lastUpdated);
-
   const loadLastUpdated = useCallback(async () => {
-    const cacheBuster = Date.now();
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${cacheBuster}`;
+    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json`;
     
     try {
-      console.log('Fetching timestamps from:', githubUrl);
-      const response = await fetch(githubUrl, {
-        cache: 'no-cache',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      });
-      console.log('Timestamp fetch response status:', response.status);
+      const response = await fetch(githubUrl);
       if (response.ok) {
         const lastUpdatedData = await response.json();
-        console.log('Loaded timestamp data:', lastUpdatedData);
         setLastUpdated(lastUpdatedData);
       } else {
-        console.warn('Failed to load metadata: Network error', response.status);
+        console.warn('Failed to load metadata: Network error');
       }
     } catch (error) {
-      console.warn('Failed to load metadata: Connection error', error);
+      console.warn('Failed to load metadata: Connection error');
     }
   }, []);
 
@@ -269,27 +257,19 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
-  // Load timestamps immediately on mount
-  useEffect(() => {
-    console.log('Loading timestamps...');
-    loadLastUpdated();
-  }, [loadLastUpdated]);
-
-  // Auto-load data.csv on mount, fallback to mock data if private repo
+  // Auto-load data.csv and last_updated.json on mount, fallback to mock data if private repo
   useEffect(() => {
     const loadData = async () => {
-      console.log('useOptionsData: Starting CSV data load...');
-      
       try {
         await loadCSVFromGitHub('data.csv');
-        console.log('CSV data loaded successfully');
-      } catch (error) {
-        console.warn('GitHub CSV failed (likely private repo), loading mock data', error);
+        await loadLastUpdated();
+      } catch {
+        console.warn('GitHub CSV failed (likely private repo), loading mock data');
         loadMockData();
       }
     };
     loadData();
-  }, [loadCSVFromGitHub, loadMockData]);
+  }, [loadCSVFromGitHub, loadMockData, loadLastUpdated]);
 
   return {
     data,
