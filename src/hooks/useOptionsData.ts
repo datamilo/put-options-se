@@ -24,6 +24,7 @@ export const useOptionsData = () => {
     const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${cacheBuster}`;
     
     try {
+      console.log('Fetching timestamps from:', githubUrl);
       const response = await fetch(githubUrl, {
         cache: 'no-cache',
         headers: {
@@ -31,14 +32,16 @@ export const useOptionsData = () => {
           'Pragma': 'no-cache'
         }
       });
+      console.log('Timestamp fetch response status:', response.status);
       if (response.ok) {
         const lastUpdatedData = await response.json();
+        console.log('Loaded timestamp data:', lastUpdatedData);
         setLastUpdated(lastUpdatedData);
       } else {
-        console.warn('Failed to load metadata: Network error');
+        console.warn('Failed to load metadata: Network error', response.status);
       }
     } catch (error) {
-      console.warn('Failed to load metadata: Connection error');
+      console.warn('Failed to load metadata: Connection error', error);
     }
   }, []);
 
