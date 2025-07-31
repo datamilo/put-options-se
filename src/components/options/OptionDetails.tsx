@@ -91,32 +91,59 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Pricing & Volatility</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Implied Volatility</span>
-              <span className="font-medium">{formatValue(option.ImpliedVolatility, 'ImpliedVolatility')}</span>
-            </div>
-            <Separator />
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Bid-Ask Spread</span>
-              <span className="font-medium">{formatValue(option.AskBidSpread, 'AskBidSpread')}</span>
-            </div>
-            <Separator />
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Bid Price</span>
-              <span className="font-medium">{formatValue(option.Bid, 'Bid')}</span>
-            </div>
-            <Separator />
-            <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Mid Price</span>
-              <span className="font-medium">{formatValue(option.Bid_Ask_Mid_Price, 'Bid_Ask_Mid_Price')}</span>
-            </div>
-          </CardContent>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Pricing</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Stock Price</span>
+            <span className="font-medium">{formatValue(option.StockPrice, 'StockPrice')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Number of Contracts Based on Limit</span>
+            <span className="font-medium">{formatValue(option.NumberOfContractsBasedOnLimit, 'NumberOfContractsBasedOnLimit')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Bid Price</span>
+            <span className="font-medium">{formatValue(option.Bid, 'Bid')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Bid-Ask Mid Price</span>
+            <span className="font-medium">{formatValue(option.Bid_Ask_Mid_Price, 'Bid_Ask_Mid_Price')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Option Price Min</span>
+            <span className="font-medium">{formatValue(option.Option_Price_Min, 'Option_Price_Min')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Underlying Value</span>
+            <span className="font-medium">{formatValue(option.Underlying_Value, 'Underlying_Value')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Ask-Bid Spread</span>
+            <span className="font-medium">{formatValue(option.AskBidSpread, 'AskBidSpread')}</span>
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Volatility</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Implied Volatility</span>
+            <span className="font-medium">{formatValue(option.ImpliedVolatility, 'ImpliedVolatility')}</span>
+          </div>
+        </CardContent>
+      </Card>
       </div>
 
       <Card>
