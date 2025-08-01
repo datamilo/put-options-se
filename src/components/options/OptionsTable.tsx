@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown, Filter, Eye, EyeOff } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { formatNumber } from "@/lib/utils";
 
 interface OptionsTableProps {
   data: OptionData[];
@@ -181,22 +182,7 @@ export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersC
   };
 
   const formatValue = (value: any, field: string) => {
-    if (value === null || value === undefined || value === 'NaN' || value === '') return '-';
-    
-    if (typeof value === 'number') {
-      if (field.includes('Pct') || field.includes('Prob') || field === 'ImpliedVolatility' || field.includes('Accuracy')) {
-        return `${(value * 100).toFixed(2)}%`;
-      }
-      if (field.includes('Loss') || field === 'Premium' || field.includes('Price') || field.includes('Bid') || field.includes('Value')) {
-        return value.toLocaleString('sv-SE');
-      }
-      if (field === 'DaysToExpiry' || field === 'X-Day' || field.includes('Number')) {
-        return Math.round(value).toString();
-      }
-      return value.toFixed(2);
-    }
-    
-    return String(value);
+    return formatNumber(value, field);
   };
 
   const getRiskBadgeColor = (probOfWorthless: number) => {

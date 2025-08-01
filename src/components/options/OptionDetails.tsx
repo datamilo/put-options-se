@@ -2,6 +2,7 @@ import { OptionData } from "@/types/options";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { formatNumber } from "@/lib/utils";
 
 interface OptionDetailsProps {
   option: OptionData;
@@ -9,19 +10,7 @@ interface OptionDetailsProps {
 
 export const OptionDetails = ({ option }: OptionDetailsProps) => {
   const formatValue = (value: any, field: string) => {
-    if (value === null || value === undefined || value === 'NaN') return '-';
-    
-    if (typeof value === 'number') {
-      if (field.includes('Pct') || field.includes('Prob') || field === 'ImpliedVolatility') {
-        return `${(value * 100).toFixed(2)}%`;
-      }
-      if (field.includes('Loss') || field === 'Premium' || field.includes('Price')) {
-        return value.toLocaleString('sv-SE');
-      }
-      return value.toFixed(2);
-    }
-    
-    return String(value);
+    return formatNumber(value, field);
   };
 
   const getRiskLevel = (probOfWorthless: number) => {
