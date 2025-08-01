@@ -70,23 +70,83 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Probability of Worthless</span>
-              <span className="font-medium">{formatValue(option['1_2_3_ProbOfWorthless_Weighted'], '1_2_3_ProbOfWorthless_Weighted')}</span>
+              <span className="text-sm text-muted-foreground">100k Invested Loss Mean</span>
+              <span className="font-medium">{formatValue(option['100k_Invested_Loss_Mean'], '100k_Invested_Loss_Mean')}</span>
             </div>
             <Separator />
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Prob Above Strike</span>
-              <span className="font-medium">{formatValue(option['3_ProbOfWorthless_Historical_IV'], '3_ProbOfWorthless_Historical_IV')}</span>
+              <span className="text-sm text-muted-foreground">Loss Least Bad</span>
+              <span className="font-medium">{formatValue(option.Loss_Least_Bad, 'Loss_Least_Bad')}</span>
             </div>
             <Separator />
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Loss at Bad Decline</span>
-              <span className="font-medium">{formatValue(option.LossAtBadDecline, 'LossAtBadDecline')}</span>
+              <span className="text-sm text-muted-foreground">Loss At 2008 100Day Worst Decline</span>
+              <span className="font-medium">{formatValue(option.LossAt_2008_100DayWorstDecline, 'LossAt_2008_100DayWorstDecline')}</span>
             </div>
             <Separator />
             <div className="flex justify-between">
-              <span className="text-sm text-muted-foreground">Loss at Worst Decline</span>
-              <span className="font-medium">{formatValue(option.LossAtWorstDecline, 'LossAtWorstDecline')}</span>
+              <span className="text-sm text-muted-foreground">Loss At 2008 50Day Worst Decline</span>
+              <span className="font-medium">{formatValue(option.LossAt_2008_50DayWorstDecline, 'LossAt_2008_50DayWorstDecline')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Loss At 100Day Worst Decline</span>
+              <span className="font-medium">{formatValue(option.LossAt100DayWorstDecline, 'LossAt100DayWorstDecline')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Loss At 50Day Worst Decline</span>
+              <span className="font-medium">{formatValue(option.LossAt50DayWorstDecline, 'LossAt50DayWorstDecline')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Lower Bound</span>
+              <span className="font-medium">{formatValue(option.Lower_Bound, 'Lower_Bound')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Lower Bound at Accuracy</span>
+              <span className="font-medium">{formatValue(option.Lower_Bound_at_Accuracy, 'Lower_Bound_at_Accuracy')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Lower Bound Hist Median IV</span>
+              <span className="font-medium">{formatValue(option.Lower_Bound_HistMedianIV, 'Lower_Bound_HistMedianIV')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Lower Bound Hist Median IV at Accuracy</span>
+              <span className="font-medium">{formatValue(option.Lower_Bound_HistMedianIV_at_Accuracy, 'Lower_Bound_HistMedianIV_at_Accuracy')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">PoW Simulation Mean Earnings</span>
+              <span className="font-medium">{formatValue(option.PoW_Simulation_Mean_Earnings, 'PoW_Simulation_Mean_Earnings')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">PoW Stats Median Loss</span>
+              <span className="font-medium">{formatValue(option.PoW_Stats_MedianLoss, 'PoW_Stats_MedianLoss')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">PoW Stats Median Loss Pct</span>
+              <span className="font-medium">{formatValue(option.PoW_Stats_MedianLossPct, 'PoW_Stats_MedianLossPct')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">PoW Stats Worst Loss</span>
+              <span className="font-medium">{formatValue(option.PoW_Stats_WorstLoss, 'PoW_Stats_WorstLoss')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">PoW Stats Worst Loss Pct</span>
+              <span className="font-medium">{formatValue(option.PoW_Stats_WorstLossPct, 'PoW_Stats_WorstLossPct')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Stock Price After 2008 100Day Worst Decline</span>
+              <span className="font-medium">{formatValue(option.StockPrice_After_2008_100DayWorstDecline, 'StockPrice_After_2008_100DayWorstDecline')}</span>
             </div>
           </CardContent>
         </Card>
