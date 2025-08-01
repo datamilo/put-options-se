@@ -23,6 +23,26 @@ const Index = () => {
   const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
+
+  // Auto-select the expiry date with most options when data changes
+  useEffect(() => {
+    if (data.length > 0 && selectedExpiryDates.length === 0) {
+      // Group by expiry date and count occurrences
+      const expiryDateCounts = data.reduce((acc, option) => {
+        acc[option.ExpiryDate] = (acc[option.ExpiryDate] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      // Find the expiry date with the most options
+      const mostPopularExpiryDate = Object.entries(expiryDateCounts)
+        .reduce((max, [date, count]) => count > max.count ? { date, count } : max, { date: '', count: 0 })
+        .date;
+
+      if (mostPopularExpiryDate) {
+        setSelectedExpiryDates([mostPopularExpiryDate]);
+      }
+    }
+  }, [data, selectedExpiryDates.length]);
   
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
