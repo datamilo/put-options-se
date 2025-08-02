@@ -59,6 +59,11 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
+              <span className="text-sm text-muted-foreground">Figures Assume Underlying Value</span>
+              <span className="font-medium">{formatValue(option.Underlying_Value, 'Underlying_Value')}</span>
+            </div>
+            <Separator />
+            <div className="flex justify-between">
               <span className="text-sm text-muted-foreground">100k Invested Loss Mean</span>
               <span className="font-medium">{formatValue(option['100k_Invested_Loss_Mean'], '100k_Invested_Loss_Mean')}</span>
             </div>
