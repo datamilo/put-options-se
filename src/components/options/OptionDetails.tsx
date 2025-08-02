@@ -209,6 +209,11 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           </div>
           <Separator />
           <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Ask Price</span>
+            <span className="font-medium">{formatValue(option.Ask, 'Ask')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
             <span className="text-sm text-muted-foreground">Ask-Bid Spread</span>
             <span className="font-medium">{formatValue(option.AskBidSpread, 'AskBidSpread')}</span>
           </div>
@@ -314,27 +319,6 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Advanced Statistics</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Median Loss %</p>
-              <p className="font-medium">{formatValue(option.PoW_Stats_MedianLossPct, 'PoW_Stats_MedianLossPct')}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Worst Loss %</p>
-              <p className="font-medium">{formatValue(option.PoW_Stats_WorstLossPct, 'PoW_Stats_WorstLossPct')}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Mean Accuracy</p>
-              <p className="font-medium">{formatValue(option.Mean_Accuracy, 'Mean_Accuracy')}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 };
