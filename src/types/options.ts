@@ -51,6 +51,21 @@ export interface OptionData {
   AllMedianIV_Maximum100DaysToExp: number;
   ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy: number;
   StrikeBelowLowerAtAcc?: string;
+  Ask?: number;
+  WorstHistoricalDecline?: number;
+  BadHistoricalDecline?: number;
+  ImpliedVolatilityUntilExpiry?: number;
+  StockPrice_After_100DayWorstDecline?: number;
+  StockPrice_After_50DayWorstDecline?: number;
+  StockPrice_After_2008_50DayWorstDecline?: number;
+  '100DayMaxPrice'?: number;
+  '100DayMaxPriceDate'?: string;
+  '50DayMaxPrice'?: number;
+  '50DayMaxPriceDate'?: string;
+  Historical100DaysWorstDecline?: number;
+  Historical50DaysWorstDecline?: number;
+  '2008_100DaysWorstDecline'?: number;
+  '2008_50DaysWorstDecline'?: number;
 }
 
 export interface OptionsFilter {

@@ -9,7 +9,7 @@ export function formatNumber(value: any, field: string = '') {
   if (value === null || value === undefined || value === 'NaN' || value === '') return '-';
   
   if (typeof value === 'number') {
-    if (field.includes('Pct') || field.includes('Prob') || field === 'ImpliedVolatility' || field === 'Mean_Accuracy' || field === 'AllMedianIV_Maximum100DaysToExp' || field === 'TodayStockMedianIV_Maximum100DaysToExp') {
+    if (field.includes('Pct') || field.includes('Prob') || field === 'ImpliedVolatility' || field === 'Mean_Accuracy' || field === 'AllMedianIV_Maximum100DaysToExp' || field === 'TodayStockMedianIV_Maximum100DaysToExp' || field === 'WorstHistoricalDecline' || field === 'BadHistoricalDecline' || field === 'ImpliedVolatilityUntilExpiry' || field === 'Historical100DaysWorstDecline' || field === 'Historical50DaysWorstDecline' || field === '2008_100DaysWorstDecline' || field === '2008_50DaysWorstDecline') {
       return `${(value * 100).toLocaleString('sv-SE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
     }
     if (field === 'Premium' || field === 'Underlying_Value') {

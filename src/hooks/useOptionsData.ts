@@ -46,7 +46,11 @@ export const useOptionsData = () => {
             'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'ProfitLossPctBad',
             'ProfitLossPctWorst', 'ProfitLossPct100DayWorst', 'ImpliedVolatility',
             'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp',
-            'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy'
+            'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy', 'Ask', 'WorstHistoricalDecline',
+            'BadHistoricalDecline', 'ImpliedVolatilityUntilExpiry', 'StockPrice_After_100DayWorstDecline',
+            'StockPrice_After_50DayWorstDecline', 'StockPrice_After_2008_50DayWorstDecline',
+            '100DayMaxPrice', '50DayMaxPrice', 'Historical100DaysWorstDecline',
+            'Historical50DaysWorstDecline', '2008_100DaysWorstDecline', '2008_50DaysWorstDecline'
           ];
           
           if (typeof field === 'string' && numericFields.includes(field)) {
@@ -99,7 +103,11 @@ export const useOptionsData = () => {
           'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'ProfitLossPctBad',
           'ProfitLossPctWorst', 'ProfitLossPct100DayWorst', 'ImpliedVolatility',
           'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp',
-          'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy'
+          'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy', 'Ask', 'WorstHistoricalDecline',
+          'BadHistoricalDecline', 'ImpliedVolatilityUntilExpiry', 'StockPrice_After_100DayWorstDecline',
+          'StockPrice_After_50DayWorstDecline', 'StockPrice_After_2008_50DayWorstDecline',
+          '100DayMaxPrice', '50DayMaxPrice', 'Historical100DaysWorstDecline',
+          'Historical50DaysWorstDecline', '2008_100DaysWorstDecline', '2008_50DaysWorstDecline'
         ];
         
         if (typeof field === 'string' && numericFields.includes(field)) {
