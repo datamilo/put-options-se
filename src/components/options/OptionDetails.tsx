@@ -55,7 +55,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Risk Metrics</CardTitle>
+            <CardTitle>Risk Metrics (Assuming 100k Underlying Value)</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex justify-between">
