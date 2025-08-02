@@ -188,8 +188,18 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Implied Volatility</span>
+            <span className="text-sm text-muted-foreground">Implied Volatility (Current Option)</span>
             <span className="font-medium">{formatValue(option.ImpliedVolatility, 'ImpliedVolatility')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Implied Volatility (Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry )</span>
+            <span className="font-medium">{formatValue(option.AllMedianIV_Maximum100DaysToExp, 'AllMedianIV_Maximum100DaysToExp')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Implied Volatility (Median All Stock Options, ≤ 100 Days to Expiry )</span>
+            <span className="font-medium">{formatValue(option.TodayStockMedianIV_Maximum100DaysToExp, 'TodayStockMedianIV_Maximum100DaysToExp')}</span>
           </div>
         </CardContent>
       </Card>
