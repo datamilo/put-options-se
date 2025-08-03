@@ -194,6 +194,11 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           </div>
           <Separator />
           <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Ask Price</span>
+            <span className="font-medium">{formatValue(option.Ask, 'Ask')}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
             <span className="text-sm text-muted-foreground">Bid-Ask Mid Price</span>
             <span className="font-medium">{formatValue(option.Bid_Ask_Mid_Price, 'Bid_Ask_Mid_Price')}</span>
           </div>
@@ -206,11 +211,6 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <div className="flex justify-between">
             <span className="text-sm text-muted-foreground">Underlying Value</span>
             <span className="font-medium">{formatValue(option.Underlying_Value, 'Underlying_Value')}</span>
-          </div>
-          <Separator />
-          <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Ask Price</span>
-            <span className="font-medium">{formatValue(option.Ask, 'Ask')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
