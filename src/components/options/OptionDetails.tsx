@@ -32,12 +32,12 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
 
   const DesktopTooltip = ({ content, children }: { content: string; children: React.ReactNode }) => (
     <div className="hidden md:block">
-      <Tooltip>
+      <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
           {children}
         </TooltipTrigger>
-        <TooltipContent side="top" className="max-w-xs">
-          <p className="text-xs">{content}</p>
+        <TooltipContent>
+          <p>{content}</p>
         </TooltipContent>
       </Tooltip>
     </div>
