@@ -2,6 +2,7 @@ import { OptionData } from "@/types/options";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { formatNumber } from "@/lib/utils";
 
 interface OptionDetailsProps {
@@ -22,6 +23,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
   const risk = getRiskLevel(option['1_2_3_ProbOfWorthless_Weighted']);
 
   return (
+    <TooltipProvider>
     <div className="space-y-6">
       <Card>
         <CardHeader>
@@ -227,17 +229,38 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Implied Volatility (Current Option)</span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-sm text-muted-foreground cursor-help">Implied Volatility</span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Current Option</p>
+              </TooltipContent>
+            </Tooltip>
             <span className="font-medium">{formatValue(option.ImpliedVolatility, 'ImpliedVolatility')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Implied Volatility (Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry )</span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-sm text-muted-foreground cursor-help">Implied Volatility</span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry</p>
+              </TooltipContent>
+            </Tooltip>
             <span className="font-medium">{formatValue(option.AllMedianIV_Maximum100DaysToExp, 'AllMedianIV_Maximum100DaysToExp')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Implied Volatility (Median All Stock Options, ≤ 100 Days to Expiry )</span>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span className="text-sm text-muted-foreground cursor-help">Implied Volatility</span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Median All Stock Options, ≤ 100 Days to Expiry</p>
+              </TooltipContent>
+            </Tooltip>
             <span className="font-medium">{formatValue(option.TodayStockMedianIV_Maximum100DaysToExp, 'TodayStockMedianIV_Maximum100DaysToExp')}</span>
           </div>
           <Separator />
@@ -320,5 +343,6 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
       </Card>
 
     </div>
+    </TooltipProvider>
   );
 };
