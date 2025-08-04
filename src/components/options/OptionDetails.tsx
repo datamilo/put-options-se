@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 
 interface OptionDetailsProps {
@@ -229,38 +230,47 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="text-sm text-muted-foreground cursor-help">Implied Volatility</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Current Option</p>
-              </TooltipContent>
-            </Tooltip>
+            <div className="flex items-center gap-1">
+              <span className="text-sm text-muted-foreground">Implied Volatility (Current)</span>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Current Option</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <span className="font-medium">{formatValue(option.ImpliedVolatility, 'ImpliedVolatility')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="text-sm text-muted-foreground cursor-help">Implied Volatility</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry</p>
-              </TooltipContent>
-            </Tooltip>
+            <div className="flex items-center gap-1">
+              <span className="text-sm text-muted-foreground">Implied Volatility (Market Median)</span>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <span className="font-medium">{formatValue(option.AllMedianIV_Maximum100DaysToExp, 'AllMedianIV_Maximum100DaysToExp')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="text-sm text-muted-foreground cursor-help">Implied Volatility</span>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Median All Stock Options, ≤ 100 Days to Expiry</p>
-              </TooltipContent>
-            </Tooltip>
+            <div className="flex items-center gap-1">
+              <span className="text-sm text-muted-foreground">Implied Volatility (Stock Median)</span>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Median All Stock Options, ≤ 100 Days to Expiry</p>
+                </TooltipContent>
+              </Tooltip>
+            </div>
             <span className="font-medium">{formatValue(option.TodayStockMedianIV_Maximum100DaysToExp, 'TodayStockMedianIV_Maximum100DaysToExp')}</span>
           </div>
           <Separator />
