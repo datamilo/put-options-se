@@ -3,8 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Info } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
+import { useState } from "react";
 
 interface OptionDetailsProps {
   option: OptionData;
@@ -14,6 +16,32 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
   const formatValue = (value: any, field: string) => {
     return formatNumber(value, field);
   };
+
+  const InfoTooltip = ({ content }: { content: string }) => (
+    <div className="md:hidden">
+      <Dialog>
+        <DialogTrigger asChild>
+          <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+        </DialogTrigger>
+        <DialogContent className="max-w-sm">
+          <p className="text-sm">{content}</p>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+
+  const DesktopTooltip = ({ content, children }: { content: string; children: React.ReactNode }) => (
+    <div className="hidden md:block">
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {children}
+        </TooltipTrigger>
+        <TooltipContent side="top" className="max-w-xs">
+          <p className="text-xs">{content}</p>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  );
 
   const getRiskLevel = (probOfWorthless: number) => {
     if (probOfWorthless < 0.3) return { level: "High Risk", color: "bg-destructive" };
@@ -232,14 +260,10 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm text-muted-foreground">Implied Volatility (Current)</span>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Current Option</p>
-                </TooltipContent>
-              </Tooltip>
+              <DesktopTooltip content="Current Option">
+                <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+              </DesktopTooltip>
+              <InfoTooltip content="Current Option" />
             </div>
             <span className="font-medium">{formatValue(option.ImpliedVolatility, 'ImpliedVolatility')}</span>
           </div>
@@ -247,14 +271,10 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm text-muted-foreground">Implied Volatility (Market Median)</span>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry</p>
-                </TooltipContent>
-              </Tooltip>
+              <DesktopTooltip content="Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry">
+                <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+              </DesktopTooltip>
+              <InfoTooltip content="Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry" />
             </div>
             <span className="font-medium">{formatValue(option.AllMedianIV_Maximum100DaysToExp, 'AllMedianIV_Maximum100DaysToExp')}</span>
           </div>
@@ -262,14 +282,10 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <div className="flex justify-between">
             <div className="flex items-center gap-1">
               <span className="text-sm text-muted-foreground">Implied Volatility (Stock Median)</span>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Median All Stock Options, ≤ 100 Days to Expiry</p>
-                </TooltipContent>
-              </Tooltip>
+              <DesktopTooltip content="Median All Stock Options, ≤ 100 Days to Expiry">
+                <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+              </DesktopTooltip>
+              <InfoTooltip content="Median All Stock Options, ≤ 100 Days to Expiry" />
             </div>
             <span className="font-medium">{formatValue(option.TodayStockMedianIV_Maximum100DaysToExp, 'TodayStockMedianIV_Maximum100DaysToExp')}</span>
           </div>
