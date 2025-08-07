@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 
 export const TimestampDisplay = () => {
   const [timestamps, setTimestamps] = useState<any>(null);
@@ -46,8 +47,8 @@ export const TimestampDisplay = () => {
 
   return (
     <div className="text-sm text-muted-foreground space-y-1">
-      <p>Options data last updated: {new Date(timestamps.optionsData.lastUpdated).toLocaleString()}</p>
-      <p>Stock data last updated: {new Date(timestamps.stockData.lastUpdated).toLocaleString()}</p>
+      <p>Options data last updated: {format(new Date(timestamps.optionsData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
+      <p>Stock data last updated: {format(new Date(timestamps.stockData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
     </div>
   );
 };
