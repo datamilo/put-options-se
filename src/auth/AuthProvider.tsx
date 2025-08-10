@@ -48,8 +48,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string) => {
-    // Important: include the current origin + pathname to support both lovable.app and github.io base paths
-    const redirectTo = `${window.location.origin}${window.location.pathname}`;
+    // Include current origin + pathname + hash callback to support lovable.app and github.io base paths
+    const redirectTo = `${window.location.origin}${window.location.pathname}#/auth/callback`;
     const { error } = await supabase.auth.signUp({
       email,
       password,

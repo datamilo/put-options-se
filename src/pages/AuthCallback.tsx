@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const AuthCallback = () => {
@@ -11,11 +11,18 @@ const AuthCallback = () => {
     const timer = setTimeout(async () => {
       const { data: { session } } = await supabase.auth.getSession();
       navigate(session ? "/" : "/auth", { replace: true });
-    }, 200);
+    }, 800);
     return () => clearTimeout(timer);
   }, [navigate]);
 
-  return <div className="p-6">Finishing sign in…</div>;
+  return (
+    <div className="p-6">
+      <p>Finishing sign in…</p>
+      <p className="mt-2">
+        If you are not redirected, <Link to="/auth" className="underline">go to login</Link>.
+      </p>
+    </div>
+  );
 };
 
 export default AuthCallback;

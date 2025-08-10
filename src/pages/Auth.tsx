@@ -33,7 +33,13 @@ const Auth = () => {
     setError(null);
     setInfo(null);
     const { error } = await signIn(email, password);
-    if (error) setError(error.message ?? "Failed to sign in");
+    if (error) {
+      console.error("Supabase sign-in error:", error);
+      const message = error.message === "Failed to fetch"
+        ? "Network/CORS error. Please check your connection and try again."
+        : error.message ?? "Failed to sign in";
+      setError(message);
+    }
   };
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -41,8 +47,15 @@ const Auth = () => {
     setError(null);
     setInfo(null);
     const { error } = await signUp(email, password);
-    if (error) setError(error.message ?? "Failed to sign up");
-    else setInfo("Check your email to confirm your account, then return here.");
+    if (error) {
+      console.error("Supabase sign-up error:", error);
+      const message = error.message === "Failed to fetch"
+        ? "Network/CORS error. Please check your connection and try again."
+        : error.message ?? "Failed to sign up";
+      setError(message);
+    } else {
+      setInfo("Check your email to confirm your account, then return here.");
+    }
   };
 
   return (
