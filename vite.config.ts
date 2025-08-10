@@ -18,5 +18,5 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: '/' // Since this will be the base directory
+  base: mode === 'production' ? '/put-options-se/' : '/'
 }));
