@@ -38,14 +38,13 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <AppHeader />
           <HashRouter>
+            <AppHeader />
             <Routes>
               <Route path="/auth" element={<Auth />} />
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
+              <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
             </Routes>
           </HashRouter>
         </TooltipProvider>
