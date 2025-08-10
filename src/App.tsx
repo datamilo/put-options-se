@@ -2,27 +2,54 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-
+import Auth from "./pages/Auth";
+import AuthCallback from "./pages/AuthCallback";
+import { AuthProvider, useAuth } from "@/auth/AuthProvider";
+import ProtectedRoute from "@/auth/ProtectedRoute";
+import { Button } from "@/components/ui/button";
 const queryClient = new QueryClient();
+
+const AppHeader = () => {
+  const { session, signOut } = useAuth();
+  return (
+    <header className="w-full flex items-center justify-between px-4 py-2">
+      <Link to="/" className="font-semibold">Put Options SE</Link>
+      <div>
+        {session ? (
+          <Button variant="outline" onClick={signOut}>Sign out</Button>
+        ) : (
+          <Button asChild>
+            <Link to="/auth">Sign in</Link>
+          </Button>
+        )}
+      </div>
+    </header>
+  );
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider attribute="class" defaultTheme="light" storageKey="vite-ui-theme">
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <HashRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </HashRouter>
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <AppHeader />
+          <HashRouter>
+            <Routes>
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/auth/callback" element={<AuthCallback />} />
+              <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </HashRouter>
+        </TooltipProvider>
+      </AuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
