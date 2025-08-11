@@ -83,6 +83,24 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         </CardContent>
       </Card>
 
+      <Card>
+        <CardHeader>
+          <CardTitle>Events Before Expiry Day</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p className="text-sm text-muted-foreground">Financial Report</p>
+              <p className="font-medium">{formatValue(option.FinancialReport, 'FinancialReport')}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">X-Day</p>
+              <p className="font-medium">{formatValue(option['X-Day'], 'X-Day')}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="flex flex-col gap-6">
         <Card>
@@ -350,23 +368,6 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
       </Card>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Events Before Expiry Day</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-muted-foreground">Financial Report</p>
-              <p className="font-medium">{formatValue(option.FinancialReport, 'FinancialReport')}</p>
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">X-Day</p>
-              <p className="font-medium">{formatValue(option['X-Day'], 'X-Day')}</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
     </div>
     </TooltipProvider>
