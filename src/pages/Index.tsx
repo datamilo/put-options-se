@@ -206,7 +206,7 @@ const Index = () => {
                     <Button variant="outline" className="min-w-[200px] justify-between">
                       {strikeBelowPeriod === null 
                         ? "Select Period" 
-                        : `✓ Below ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
+                        : `✓ ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -219,7 +219,7 @@ const Index = () => {
                         key={option.days}
                         onClick={() => setStrikeBelowPeriod(option.days)}
                       >
-                        Below {option.label}
+                        {option.label}
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
