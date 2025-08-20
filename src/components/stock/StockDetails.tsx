@@ -2,7 +2,7 @@ import { StockData, StockSummary } from "@/types/stock";
 import { StockChart } from "./StockChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, BarChart3, Activity, Volume2, Target } from "lucide-react";
+import { TrendingUp, TrendingDown, BarChart3, Activity, Package, ArrowUpDown } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 
 interface StockDetailsProps {
@@ -48,16 +48,16 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
             
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
-                <Volume2 className="h-4 w-4" />
+                <Package className="h-4 w-4" />
                 Volume
               </p>
-              <p className="text-xl font-semibold">{formatNumber(stockSummary.volume, 'volume')}</p>
+              <p className="text-xl font-semibold">{formatNumber(stockSummary.medianVolume, 'volume')}</p>
             </div>
             
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
-                <Target className="h-4 w-4" />
-                52W Range
+                <ArrowUpDown className="h-4 w-4" />
+                1 Year Range
               </p>
               <p className="text-lg font-medium">
                 {stockSummary.lowPrice52Week.toFixed(2)} - {stockSummary.highPrice52Week.toFixed(2)}
@@ -95,11 +95,11 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">52-Week High</span>
+              <span className="text-muted-foreground">1-Year High</span>
               <span className="font-medium">{stockSummary.highPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">52-Week Low</span>
+              <span className="text-muted-foreground">1-Year Low</span>
               <span className="font-medium">{stockSummary.lowPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
@@ -124,11 +124,11 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
               <span className="font-medium">{stockSummary.volatility.toFixed(1)}%</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Current Volume</span>
-              <span className="font-medium">{formatNumber(stockSummary.volume, 'volume')}</span>
+              <span className="text-muted-foreground">Median Volume</span>
+              <span className="font-medium">{formatNumber(stockSummary.medianVolume, 'volume')}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Price Range (52W)</span>
+              <span className="text-muted-foreground">Price Range (1Y)</span>
               <span className="font-medium">
                 {(stockSummary.highPrice52Week - stockSummary.lowPrice52Week).toFixed(2)}
               </span>

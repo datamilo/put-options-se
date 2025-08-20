@@ -12,6 +12,7 @@ export interface StockSummary {
   priceChange: number;
   priceChangePercent: number;
   volume: number;
+  medianVolume: number;
   highPrice52Week: number;
   lowPrice52Week: number;
   volatility: number;

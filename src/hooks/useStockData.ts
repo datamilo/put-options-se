@@ -81,12 +81,19 @@ export const useStockData = () => {
     const variance = returns.reduce((sum, r) => sum + Math.pow(r - avgReturn, 2), 0) / returns.length;
     const volatility = Math.sqrt(variance) * Math.sqrt(252) * 100; // Annualized volatility
 
+    // Calculate median volume
+    const volumes = recentData.map(d => d.volume).sort((a, b) => a - b);
+    const medianVolume = volumes.length % 2 === 0 
+      ? (volumes[volumes.length / 2 - 1] + volumes[volumes.length / 2]) / 2
+      : volumes[Math.floor(volumes.length / 2)];
+
     return {
       name: stockName,
       currentPrice: latestData.close,
       priceChange,
       priceChangePercent,
       volume: latestData.volume,
+      medianVolume,
       highPrice52Week,
       lowPrice52Week,
       volatility

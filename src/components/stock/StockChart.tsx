@@ -37,6 +37,58 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
 
   const filteredData = getFilteredData();
   
+  // Calculate dynamic Y-axis domain for better price visualization
+  const getPriceDomain = () => {
+    if (chartType === 'volume') return ['auto', 'auto'];
+    
+    const prices = filteredData.map(d => d.close);
+    if (prices.length === 0) return ['auto', 'auto'];
+    
+    const minPrice = Math.min(...prices);
+    const maxPrice = Math.max(...prices);
+    const padding = (maxPrice - minPrice) * 0.1; // 10% padding
+    
+    return [Math.max(0, minPrice - padding), maxPrice + padding];
+  };
+
+  // Enhanced date formatting logic
+  const getXAxisTicks = () => {
+    if (filteredData.length === 0) return [];
+    
+    const sortedData = [...filteredData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const latestDate = new Date(sortedData[sortedData.length - 1].date);
+    const dayOfMonth = latestDate.getDate();
+    
+    let tickData = [];
+    
+    if (timeRange === '1M') {
+      // Show every 5 days for 1 month
+      tickData = sortedData.filter((_, index) => index % 5 === 0);
+    } else if (timeRange === '3M') {
+      // Show every 2 weeks for 3 months
+      tickData = sortedData.filter((_, index) => index % 14 === 0);
+    } else if (timeRange === '6M') {
+      // Show monthly, same day as latest
+      tickData = sortedData.filter(d => {
+        const date = new Date(d.date);
+        return date.getDate() === dayOfMonth || Math.abs(date.getDate() - dayOfMonth) <= 2;
+      });
+    } else if (timeRange === '1Y') {
+      // Show monthly, same day as latest
+      tickData = sortedData.filter(d => {
+        const date = new Date(d.date);
+        return date.getDate() === dayOfMonth || Math.abs(date.getDate() - dayOfMonth) <= 2;
+      });
+    } else {
+      // ALL - show every 6 months approximately
+      const totalPoints = sortedData.length;
+      const interval = Math.max(1, Math.floor(totalPoints / 8));
+      tickData = sortedData.filter((_, index) => index % interval === 0);
+    }
+    
+    return tickData.map(d => d.date);
+  };
+  
   const formatTooltipValue = (value: number, name: string) => {
     if (name === 'close') {
       return [`${value.toFixed(2)}`, 'Price'];
@@ -49,6 +101,12 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
 
   const formatXAxisLabel = (tickItem: string) => {
     const date = new Date(tickItem);
+    if (timeRange === '1Y' || timeRange === 'ALL') {
+      return date.toLocaleDateString('en-US', { 
+        month: 'short', 
+        year: '2-digit'
+      });
+    }
     return date.toLocaleDateString('en-US', { 
       month: 'short', 
       day: 'numeric' 
@@ -115,11 +173,13 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                   dataKey="date" 
                   tickFormatter={formatXAxisLabel}
                   className="text-muted-foreground"
+                  ticks={getXAxisTicks()}
                 />
                 <YAxis 
                   yAxisId="price"
                   orientation="left"
                   className="text-muted-foreground"
+                  domain={getPriceDomain()}
                 />
                 <YAxis 
                   yAxisId="volume"
@@ -160,8 +220,12 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                   dataKey="date" 
                   tickFormatter={formatXAxisLabel}
                   className="text-muted-foreground"
+                  ticks={getXAxisTicks()}
                 />
-                <YAxis className="text-muted-foreground" />
+                <YAxis 
+                  className="text-muted-foreground" 
+                  domain={chartType === 'price' ? getPriceDomain() : ['auto', 'auto']}
+                />
                 <Tooltip 
                   formatter={formatTooltipValue}
                   labelFormatter={(label) => new Date(label).toLocaleDateString()}
