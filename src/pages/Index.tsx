@@ -210,7 +210,7 @@ const Index = () => {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="space-y-1">
               <h2 className="text-2xl font-semibold">
-                {data.length} Options Available
+                {filteredData.length} Options Available
               </h2>
               <p className="text-muted-foreground">
                 From {filteredStocks.length} different stocks
