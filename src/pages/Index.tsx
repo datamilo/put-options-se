@@ -200,7 +200,7 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row sm:items-start gap-4">
               <div className="space-y-2">
-                <Label>Strike Below Historical Low</Label>
+                <Label>Strike Price Below</Label>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
