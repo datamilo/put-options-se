@@ -103,9 +103,15 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
               <span className="font-medium">{stockSummary.lowPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Distance from High</span>
+              <span className="text-muted-foreground">Distance from 1-Year High</span>
               <span className="font-medium">
                 {(((stockSummary.currentPrice - stockSummary.highPrice52Week) / stockSummary.highPrice52Week) * 100).toFixed(1)}%
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Distance from 1-Year Low</span>
+              <span className="font-medium">
+                {(((stockSummary.currentPrice - stockSummary.lowPrice52Week) / stockSummary.lowPrice52Week) * 100).toFixed(1)}%
               </span>
             </div>
           </CardContent>
