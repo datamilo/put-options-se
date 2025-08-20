@@ -214,7 +214,6 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                 <Legend />
                 <Line
                   yAxisId="price"
-                  type="monotone"
                   dataKey="close"
                   stroke="hsl(var(--primary))"
                   strokeWidth={2}
@@ -254,7 +253,6 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                 />
                 <Legend />
                 <Line
-                  type="monotone"
                   dataKey={chartType === 'price' ? 'close' : 'volume'}
                   stroke="hsl(var(--primary))"
                   strokeWidth={2}

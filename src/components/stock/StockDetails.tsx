@@ -2,7 +2,7 @@ import { StockData, StockSummary } from "@/types/stock";
 import { StockChart } from "./StockChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, BarChart3, Activity, Package, ArrowUpDown } from "lucide-react";
+import { TrendingUp, TrendingDown, BarChart3, Activity, BarChart2, ArrowUpDown } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 
 interface StockDetailsProps {
@@ -48,8 +48,8 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
             
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
-                <Package className="h-4 w-4" />
-                Volume
+                <BarChart2 className="h-4 w-4" />
+                Median Daily Volume
               </p>
               <p className="text-xl font-semibold">{formatNumber(stockSummary.medianVolume, 'volume')}</p>
             </div>
