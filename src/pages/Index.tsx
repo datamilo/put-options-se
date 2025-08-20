@@ -37,22 +37,41 @@ const Index = () => {
     { label: "1 Year Low", days: 365 },
   ];
 
-  // Auto-select the expiry date with most options when data changes
+  // Auto-select the expiry date closest to third Friday of next month
   useEffect(() => {
     if (data.length > 0 && selectedExpiryDates.length === 0) {
-      // Group by expiry date and count occurrences
-      const expiryDateCounts = data.reduce((acc, option) => {
-        acc[option.ExpiryDate] = (acc[option.ExpiryDate] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>);
+      // Calculate third Friday of next month
+      const today = new Date();
+      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+      
+      // Find first Friday of next month
+      const firstFriday = new Date(nextMonth);
+      const dayOfWeek = firstFriday.getDay();
+      const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+      firstFriday.setDate(firstFriday.getDate() + daysUntilFriday);
+      
+      // Third Friday is 14 days after first Friday
+      const thirdFriday = new Date(firstFriday);
+      thirdFriday.setDate(thirdFriday.getDate() + 14);
+      
+      // Get all unique expiry dates
+      const expiryDates = [...new Set(data.map(option => option.ExpiryDate))];
+      
+      // Find the expiry date closest to third Friday
+      let closestDate = expiryDates[0];
+      let smallestDiff = Infinity;
+      
+      expiryDates.forEach(dateStr => {
+        const expiryDate = new Date(dateStr);
+        const diff = Math.abs(expiryDate.getTime() - thirdFriday.getTime());
+        if (diff < smallestDiff) {
+          smallestDiff = diff;
+          closestDate = dateStr;
+        }
+      });
 
-      // Find the expiry date with the most options
-      const mostPopularExpiryDate = Object.entries(expiryDateCounts)
-        .reduce((max, [date, count]) => count > max.count ? { date, count } : max, { date: '', count: 0 })
-        .date;
-
-      if (mostPopularExpiryDate) {
-        setSelectedExpiryDates([mostPopularExpiryDate]);
+      if (closestDate) {
+        setSelectedExpiryDates([closestDate]);
       }
     }
   }, [data, selectedExpiryDates.length]);
