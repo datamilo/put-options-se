@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
@@ -82,7 +82,40 @@ const Index = () => {
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   
-  const getFilteredStocks = () => {
+  // Cache low prices for performance
+  const lowPricesCache = useMemo(() => {
+    if (strikeBelowPeriod === null) return new Map();
+    
+    const cache = new Map<string, number | null>();
+    const uniqueStocks = [...new Set(data.map(option => option.StockName))];
+    
+    uniqueStocks.forEach(stockName => {
+      cache.set(stockName, getLowPriceForPeriod(stockName, strikeBelowPeriod));
+    });
+    
+    return cache;
+  }, [data, strikeBelowPeriod, getLowPriceForPeriod]);
+
+  // Memoized filtered data with optimized filtering
+  const filteredData = useMemo(() => {
+    return data.filter(option => {
+      const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
+      const matchesExpiry = selectedExpiryDates.length === 0 || selectedExpiryDates.includes(option.ExpiryDate);
+      
+      // Use cached low price for performance
+      if (strikeBelowPeriod !== null) {
+        const lowPrice = lowPricesCache.get(option.StockName);
+        if (lowPrice === null || lowPrice === undefined || option.StrikePrice >= lowPrice) {
+          return false;
+        }
+      }
+      
+      return matchesStock && matchesExpiry;
+    });
+  }, [data, selectedStocks, selectedExpiryDates, strikeBelowPeriod, lowPricesCache]);
+
+  // Memoized filtered stocks
+  const filteredStocks = useMemo(() => {
     let filteredOptions = data;
     
     // Apply expiry date filter
@@ -90,11 +123,11 @@ const Index = () => {
       filteredOptions = filteredOptions.filter(option => selectedExpiryDates.includes(option.ExpiryDate));
     }
     
-    // Apply strike below period filter
+    // Apply strike below period filter using cache
     if (strikeBelowPeriod !== null) {
       filteredOptions = filteredOptions.filter(option => {
-        const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
-        return lowPrice !== null && option.StrikePrice < lowPrice;
+        const lowPrice = lowPricesCache.get(option.StockName);
+        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice < lowPrice;
       });
     }
     
@@ -103,9 +136,10 @@ const Index = () => {
     return stocks
       .filter(stock => stock.toLowerCase().includes(stockSearch.toLowerCase()))
       .sort();
-  };
+  }, [data, selectedExpiryDates, strikeBelowPeriod, lowPricesCache, stockSearch]);
 
-  const getFilteredExpiryDates = () => {
+  // Memoized filtered expiry dates
+  const filteredExpiryDates = useMemo(() => {
     let filteredOptions = data;
     
     // Apply stock filter
@@ -113,11 +147,11 @@ const Index = () => {
       filteredOptions = filteredOptions.filter(option => selectedStocks.includes(option.StockName));
     }
     
-    // Apply strike below period filter
+    // Apply strike below period filter using cache
     if (strikeBelowPeriod !== null) {
       filteredOptions = filteredOptions.filter(option => {
-        const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
-        return lowPrice !== null && option.StrikePrice < lowPrice;
+        const lowPrice = lowPricesCache.get(option.StockName);
+        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice < lowPrice;
       });
     }
     
@@ -126,25 +160,7 @@ const Index = () => {
     return dates
       .filter(date => date.toLowerCase().includes(expirySearch.toLowerCase()))
       .sort();
-  };
-
-  const filteredStocks = getFilteredStocks();
-  const filteredExpiryDates = getFilteredExpiryDates();
-  
-  const filteredData = data.filter(option => {
-    const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
-    const matchesExpiry = selectedExpiryDates.length === 0 || selectedExpiryDates.includes(option.ExpiryDate);
-    
-    // Filter to only show options with strike price below selected period low if enabled
-    if (strikeBelowPeriod !== null) {
-      const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
-      if (lowPrice === null || option.StrikePrice >= lowPrice) {
-        return false;
-      }
-    }
-    
-    return matchesStock && matchesExpiry;
-  });
+  }, [data, selectedStocks, strikeBelowPeriod, lowPricesCache, expirySearch]);
 
   const handleLoadMockData = () => {
     loadMockData();
