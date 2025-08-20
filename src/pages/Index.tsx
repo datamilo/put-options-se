@@ -55,9 +55,22 @@ const Index = () => {
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   
   const getFilteredStocks = () => {
-    const stocks = selectedExpiryDates.length === 0 
-      ? [...new Set(data.map(option => option.StockName))]
-      : [...new Set(data.filter(option => selectedExpiryDates.includes(option.ExpiryDate)).map(option => option.StockName))];
+    let filteredOptions = data;
+    
+    // Apply expiry date filter
+    if (selectedExpiryDates.length > 0) {
+      filteredOptions = filteredOptions.filter(option => selectedExpiryDates.includes(option.ExpiryDate));
+    }
+    
+    // Apply below year low filter
+    if (filterBelowYearLow) {
+      filteredOptions = filteredOptions.filter(option => {
+        const stockSummary = getStockSummary(option.StockName);
+        return stockSummary && option.StrikePrice < stockSummary.lowPrice52Week;
+      });
+    }
+    
+    const stocks = [...new Set(filteredOptions.map(option => option.StockName))];
     
     return stocks
       .filter(stock => stock.toLowerCase().includes(stockSearch.toLowerCase()))
@@ -65,9 +78,22 @@ const Index = () => {
   };
 
   const getFilteredExpiryDates = () => {
-    const dates = selectedStocks.length === 0 
-      ? [...new Set(data.map(option => option.ExpiryDate))]
-      : [...new Set(data.filter(option => selectedStocks.includes(option.StockName)).map(option => option.ExpiryDate))];
+    let filteredOptions = data;
+    
+    // Apply stock filter
+    if (selectedStocks.length > 0) {
+      filteredOptions = filteredOptions.filter(option => selectedStocks.includes(option.StockName));
+    }
+    
+    // Apply below year low filter
+    if (filterBelowYearLow) {
+      filteredOptions = filteredOptions.filter(option => {
+        const stockSummary = getStockSummary(option.StockName);
+        return stockSummary && option.StrikePrice < stockSummary.lowPrice52Week;
+      });
+    }
+    
+    const dates = [...new Set(filteredOptions.map(option => option.ExpiryDate))];
     
     return dates
       .filter(date => date.toLowerCase().includes(expirySearch.toLowerCase()))
@@ -171,7 +197,7 @@ const Index = () => {
                   onClick={() => setFilterBelowYearLow(!filterBelowYearLow)}
                   className="min-w-[200px] text-sm"
                 >
-                  {filterBelowYearLow ? "✓ " : ""}Only Below 1-Year Low
+                  {filterBelowYearLow ? "✓ " : ""}Strike Below 1 Year Low
                 </Button>
               </div>
               
