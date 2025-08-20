@@ -200,13 +200,13 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row sm:items-start gap-4">
               <div className="space-y-2">
-                <Label>Quick Filters</Label>
+                <Label>Strike Below Historical Low</Label>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
                       {strikeBelowPeriod === null 
-                        ? 'Strike Below Period' 
-                        : `✓ ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
+                        ? "Select Period" 
+                        : `✓ Below ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -219,7 +219,7 @@ const Index = () => {
                         key={option.days}
                         onClick={() => setStrikeBelowPeriod(option.days)}
                       >
-                        {option.label}
+                        Below {option.label}
                       </DropdownMenuItem>
                     ))}
                   </DropdownMenuContent>
