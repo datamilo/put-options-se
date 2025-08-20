@@ -81,10 +81,10 @@ const Index = () => {
     const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
     const matchesExpiry = selectedExpiryDates.length === 0 || selectedExpiryDates.includes(option.ExpiryDate);
     
-    // Filter out options with strike price below 1-year low if enabled
+    // Filter to only show options with strike price below 1-year low if enabled
     if (filterBelowYearLow) {
       const stockSummary = getStockSummary(option.StockName);
-      if (stockSummary && option.StrikePrice < stockSummary.lowPrice52Week) {
+      if (!stockSummary || option.StrikePrice >= stockSummary.lowPrice52Week) {
         return false;
       }
     }
@@ -171,7 +171,7 @@ const Index = () => {
                   onClick={() => setFilterBelowYearLow(!filterBelowYearLow)}
                   className="min-w-[200px] text-sm"
                 >
-                  {filterBelowYearLow ? "✓ " : ""}Exclude Below 1-Year Low
+                  {filterBelowYearLow ? "✓ " : ""}Only Below 1-Year Low
                 </Button>
               </div>
               
