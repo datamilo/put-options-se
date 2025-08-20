@@ -16,8 +16,8 @@ export const useStockData = () => {
       setIsLoading(true);
       setError(null);
       
-      // Load from local file
-      const response = await fetch('/data/stock_data.csv');
+      // Load from local file - use relative path for GitHub Pages deployment
+      const response = await fetch('./data/stock_data.csv');
       const csvText = await response.text();
       
       Papa.parse(csvText, {
