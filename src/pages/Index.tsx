@@ -13,7 +13,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { BarChart3, Table, FileSpreadsheet, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -23,10 +23,19 @@ const Index = () => {
   
   const navigate = useNavigate();
   const { data, isLoading, error, loadMockData } = useOptionsData();
-  const { getStockSummary } = useStockData();
+  const { getStockSummary, getLowPriceForPeriod } = useStockData();
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
-  const [filterBelowYearLow, setFilterBelowYearLow] = useState(false);
+  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(null);
+
+  const timePeriodOptions = [
+    { label: "1 Week Low", days: 7 },
+    { label: "1 Month Low", days: 30 },
+    { label: "3 Months Low", days: 90 },
+    { label: "6 Months Low", days: 180 },
+    { label: "9 Months Low", days: 270 },
+    { label: "1 Year Low", days: 365 },
+  ];
 
   // Auto-select the expiry date with most options when data changes
   useEffect(() => {
@@ -62,11 +71,11 @@ const Index = () => {
       filteredOptions = filteredOptions.filter(option => selectedExpiryDates.includes(option.ExpiryDate));
     }
     
-    // Apply below year low filter
-    if (filterBelowYearLow) {
+    // Apply strike below period filter
+    if (strikeBelowPeriod !== null) {
       filteredOptions = filteredOptions.filter(option => {
-        const stockSummary = getStockSummary(option.StockName);
-        return stockSummary && option.StrikePrice < stockSummary.lowPrice52Week;
+        const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
+        return lowPrice !== null && option.StrikePrice < lowPrice;
       });
     }
     
@@ -85,11 +94,11 @@ const Index = () => {
       filteredOptions = filteredOptions.filter(option => selectedStocks.includes(option.StockName));
     }
     
-    // Apply below year low filter
-    if (filterBelowYearLow) {
+    // Apply strike below period filter
+    if (strikeBelowPeriod !== null) {
       filteredOptions = filteredOptions.filter(option => {
-        const stockSummary = getStockSummary(option.StockName);
-        return stockSummary && option.StrikePrice < stockSummary.lowPrice52Week;
+        const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
+        return lowPrice !== null && option.StrikePrice < lowPrice;
       });
     }
     
@@ -107,10 +116,10 @@ const Index = () => {
     const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
     const matchesExpiry = selectedExpiryDates.length === 0 || selectedExpiryDates.includes(option.ExpiryDate);
     
-    // Filter to only show options with strike price below 1-year low if enabled
-    if (filterBelowYearLow) {
-      const stockSummary = getStockSummary(option.StockName);
-      if (!stockSummary || option.StrikePrice >= stockSummary.lowPrice52Week) {
+    // Filter to only show options with strike price below selected period low if enabled
+    if (strikeBelowPeriod !== null) {
+      const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
+      if (lowPrice === null || option.StrikePrice >= lowPrice) {
         return false;
       }
     }
@@ -192,13 +201,29 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row sm:items-start gap-4">
               <div className="space-y-2">
                 <Label>Quick Filters</Label>
-                <Button
-                  variant={filterBelowYearLow ? "default" : "outline"}
-                  onClick={() => setFilterBelowYearLow(!filterBelowYearLow)}
-                  className="min-w-[200px] text-sm"
-                >
-                  {filterBelowYearLow ? "✓ " : ""}Strike Below 1 Year Low
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="min-w-[200px] justify-between">
+                      {strikeBelowPeriod === null 
+                        ? 'Strike Below Period' 
+                        : `✓ ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[200px]">
+                    <DropdownMenuItem onClick={() => setStrikeBelowPeriod(null)}>
+                      Clear Filter
+                    </DropdownMenuItem>
+                    {timePeriodOptions.map(option => (
+                      <DropdownMenuItem 
+                        key={option.days}
+                        onClick={() => setStrikeBelowPeriod(option.days)}
+                      >
+                        {option.label}
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               
               <div className="space-y-2">

@@ -53,6 +53,20 @@ export const useStockData = () => {
       .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   };
 
+  const getLowPriceForPeriod = (stockName: string, periodDays: number): number | null => {
+    const stockData = getStockData(stockName);
+    if (stockData.length === 0) return null;
+
+    const periodAgo = new Date();
+    periodAgo.setDate(periodAgo.getDate() - periodDays);
+    
+    const recentData = stockData.filter(d => new Date(d.date) >= periodAgo);
+    if (recentData.length === 0) return null;
+    
+    const prices = recentData.map(d => d.close);
+    return Math.min(...prices);
+  };
+
   const getStockSummary = (stockName: string): StockSummary | null => {
     const stockData = getStockData(stockName);
     if (stockData.length === 0) return null;
@@ -106,6 +120,7 @@ export const useStockData = () => {
     error,
     getStockData,
     getStockSummary,
+    getLowPriceForPeriod,
     loadStockData
   };
 };
