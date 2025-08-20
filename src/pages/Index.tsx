@@ -5,6 +5,7 @@ import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { useOptionsData } from "@/hooks/useOptionsData";
+import { useStockData } from "@/hooks/useStockData";
 import { TimestampDisplay } from "@/components/TimestampDisplay";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,8 +23,10 @@ const Index = () => {
   
   const navigate = useNavigate();
   const { data, isLoading, error, loadMockData } = useOptionsData();
+  const { getStockSummary } = useStockData();
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
+  const [filterBelowYearLow, setFilterBelowYearLow] = useState(false);
 
   // Auto-select the expiry date with most options when data changes
   useEffect(() => {
@@ -77,6 +80,15 @@ const Index = () => {
   const filteredData = data.filter(option => {
     const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
     const matchesExpiry = selectedExpiryDates.length === 0 || selectedExpiryDates.includes(option.ExpiryDate);
+    
+    // Filter out options with strike price below 1-year low if enabled
+    if (filterBelowYearLow) {
+      const stockSummary = getStockSummary(option.StockName);
+      if (stockSummary && option.StrikePrice < stockSummary.lowPrice52Week) {
+        return false;
+      }
+    }
+    
     return matchesStock && matchesExpiry;
   });
 
@@ -152,6 +164,17 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+              <div className="space-y-2">
+                <Label>Quick Filters</Label>
+                <Button
+                  variant={filterBelowYearLow ? "default" : "outline"}
+                  onClick={() => setFilterBelowYearLow(!filterBelowYearLow)}
+                  className="min-w-[200px] text-sm"
+                >
+                  {filterBelowYearLow ? "✓ " : ""}Exclude Below 1-Year Low
+                </Button>
+              </div>
+              
               <div className="space-y-2">
                 <Label>Filter by Stock</Label>
                 <DropdownMenu>
