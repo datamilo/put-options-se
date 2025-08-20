@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
@@ -19,8 +20,8 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 const Index = () => {
   console.log('🏠 Index component rendering');
   
+  const navigate = useNavigate();
   const { data, isLoading, error, loadMockData } = useOptionsData();
-  const [selectedOption, setSelectedOption] = useState<OptionData | null>(null);
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
 
@@ -84,22 +85,10 @@ const Index = () => {
     toast.success("Mock data loaded");
   };
 
-  if (selectedOption) {
-    return (
-      <div className="container mx-auto p-6 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold">Option Details</h1>
-          <Button 
-            variant="outline" 
-            onClick={() => setSelectedOption(null)}
-          >
-            Back to Overview
-          </Button>
-        </div>
-        <OptionDetails option={selectedOption} />
-      </div>
-    );
-  }
+  const handleOptionClick = (option: OptionData) => {
+    const optionId = encodeURIComponent(option.OptionName);
+    navigate(`/option/${optionId}`);
+  };
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -294,7 +283,7 @@ const Index = () => {
             <TabsContent value="table">
               <OptionsTable 
                 data={filteredData} 
-                onRowClick={setSelectedOption}
+                onRowClick={handleOptionClick}
                 columnFilters={columnFilters}
                 onColumnFiltersChange={setColumnFilters}
                 sortField={sortField}
