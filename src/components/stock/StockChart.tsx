@@ -99,6 +99,20 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
     return [value, name];
   };
 
+  const formatYAxisLabel = (value: number) => {
+    return value.toFixed(2);
+  };
+
+  const formatVolumeYAxisLabel = (value: number) => {
+    if (value >= 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    }
+    if (value >= 1000) {
+      return `${(value / 1000).toFixed(0)}K`;
+    }
+    return value.toString();
+  };
+
   const formatXAxisLabel = (tickItem: string) => {
     const date = new Date(tickItem);
     if (timeRange === '1Y' || timeRange === 'ALL') {
@@ -180,11 +194,13 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                   orientation="left"
                   className="text-muted-foreground"
                   domain={getPriceDomain()}
+                  tickFormatter={formatYAxisLabel}
                 />
                 <YAxis 
                   yAxisId="volume"
                   orientation="right"
                   className="text-muted-foreground"
+                  tickFormatter={formatVolumeYAxisLabel}
                 />
                 <Tooltip 
                   formatter={formatTooltipValue}
@@ -225,6 +241,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                 <YAxis 
                   className="text-muted-foreground" 
                   domain={chartType === 'price' ? getPriceDomain() : ['auto', 'auto']}
+                  tickFormatter={chartType === 'price' ? formatYAxisLabel : formatVolumeYAxisLabel}
                 />
                 <Tooltip 
                   formatter={formatTooltipValue}
