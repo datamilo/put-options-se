@@ -204,7 +204,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                 />
                 <Tooltip 
                   formatter={formatTooltipValue}
-                  labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                  labelFormatter={(label) => new Date(label).toISOString().split('T')[0]}
                   contentStyle={{
                     backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
@@ -244,7 +244,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                 />
                 <Tooltip 
                   formatter={formatTooltipValue}
-                  labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                  labelFormatter={(label) => new Date(label).toISOString().split('T')[0]}
                   contentStyle={{
                     backgroundColor: 'hsl(var(--card))',
                     border: '1px solid hsl(var(--border))',
