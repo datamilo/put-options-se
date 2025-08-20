@@ -19,6 +19,7 @@ import { formatNumber } from "@/lib/utils";
 interface OptionsTableProps {
   data: OptionData[];
   onRowClick?: (option: OptionData) => void;
+  onStockClick?: (stockName: string) => void;
   columnFilters: ColumnFilter[];
   onColumnFiltersChange: (filters: ColumnFilter[]) => void;
   sortField: keyof OptionData | null;
@@ -34,7 +35,7 @@ interface ColumnFilter {
   maxValue?: number;
 }
 
-export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersChange, sortField, sortDirection, onSortChange }: OptionsTableProps) => {
+export const OptionsTable = ({ data, onRowClick, onStockClick, columnFilters, onColumnFiltersChange, sortField, sortDirection, onSortChange }: OptionsTableProps) => {
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
@@ -405,21 +406,25 @@ export const OptionsTable = ({ data, onRowClick, columnFilters, onColumnFiltersC
                 key={`${option.StockName}-${option.OptionName}-${index}`}
                 className="hover:bg-muted/50"
               >
-                {visibleColumns.map(column => (
-                  <TableCell 
-                    key={column} 
-                    className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
-                    onClick={column === 'OptionName' ? () => onRowClick?.(option) : undefined}
-                  >
-                    {column === 'OptionName' ? (
-                      <span className="font-medium text-primary hover:text-primary/80 transition-colors">
-                        {formatValue(option[column as keyof OptionData], column)}
-                      </span>
-                    ) : (
-                      formatValue(option[column as keyof OptionData], column)
-                    )}
-                  </TableCell>
-                ))}
+                 {visibleColumns.map(column => (
+                   <TableCell 
+                     key={column} 
+                     className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
+                     onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
+                   >
+                     {column === 'OptionName' ? (
+                       <span className="font-medium text-primary hover:text-primary/80 transition-colors">
+                         {formatValue(option[column as keyof OptionData], column)}
+                       </span>
+                     ) : column === 'StockName' ? (
+                       <span className="font-medium text-secondary-foreground hover:text-primary transition-colors">
+                         {formatValue(option[column as keyof OptionData], column)}
+                       </span>
+                     ) : (
+                       formatValue(option[column as keyof OptionData], column)
+                     )}
+                   </TableCell>
+                 ))}
               </TableRow>
             ))}
           </TableBody>

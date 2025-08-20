@@ -6,6 +6,7 @@ import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import OptionDetailsPage from "./pages/OptionDetailsPage";
+import StockDetailsPage from "./pages/StockDetailsPage";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/auth/callback" element={<AuthCallback />} />
               <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
               <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
+              <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
               <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
             </Routes>
           </HashRouter>

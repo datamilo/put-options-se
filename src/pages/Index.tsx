@@ -90,6 +90,10 @@ const Index = () => {
     navigate(`/option/${optionId}`);
   };
 
+  const handleStockClick = (stockName: string) => {
+    navigate(`/stock/${encodeURIComponent(stockName)}`);
+  };
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-start">
@@ -284,6 +288,7 @@ const Index = () => {
               <OptionsTable 
                 data={filteredData} 
                 onRowClick={handleOptionClick}
+                onStockClick={handleStockClick}
                 columnFilters={columnFilters}
                 onColumnFiltersChange={setColumnFilters}
                 sortField={sortField}
