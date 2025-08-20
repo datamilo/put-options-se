@@ -40,9 +40,9 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Current Price</p>
-              <p className="text-2xl font-bold">${stockSummary.currentPrice.toFixed(2)}</p>
+              <p className="text-2xl font-bold">{stockSummary.currentPrice.toFixed(2)}</p>
               <p className={`text-sm ${isPositiveChange ? 'text-green-600' : 'text-red-600'}`}>
-                {isPositiveChange ? '+' : ''}${stockSummary.priceChange.toFixed(2)}
+                {isPositiveChange ? '+' : ''}{stockSummary.priceChange.toFixed(2)}
               </p>
             </div>
             
@@ -60,7 +60,7 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
                 52W Range
               </p>
               <p className="text-lg font-medium">
-                ${stockSummary.lowPrice52Week.toFixed(2)} - ${stockSummary.highPrice52Week.toFixed(2)}
+                {stockSummary.lowPrice52Week.toFixed(2)} - {stockSummary.highPrice52Week.toFixed(2)}
               </p>
             </div>
             
@@ -96,11 +96,11 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">52-Week High</span>
-              <span className="font-medium">${stockSummary.highPrice52Week.toFixed(2)}</span>
+              <span className="font-medium">{stockSummary.highPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">52-Week Low</span>
-              <span className="font-medium">${stockSummary.lowPrice52Week.toFixed(2)}</span>
+              <span className="font-medium">{stockSummary.lowPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Distance from High</span>
@@ -130,7 +130,7 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
             <div className="flex justify-between">
               <span className="text-muted-foreground">Price Range (52W)</span>
               <span className="font-medium">
-                ${(stockSummary.highPrice52Week - stockSummary.lowPrice52Week).toFixed(2)}
+                {(stockSummary.highPrice52Week - stockSummary.lowPrice52Week).toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">

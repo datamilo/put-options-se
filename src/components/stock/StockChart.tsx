@@ -39,7 +39,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
   
   const formatTooltipValue = (value: number, name: string) => {
     if (name === 'close') {
-      return [`$${value.toFixed(2)}`, 'Price'];
+      return [`${value.toFixed(2)}`, 'Price'];
     }
     if (name === 'volume') {
       return [value.toLocaleString(), 'Volume'];
