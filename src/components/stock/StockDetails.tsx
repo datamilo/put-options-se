@@ -2,7 +2,7 @@ import { StockData, StockSummary } from "@/types/stock";
 import { StockChart } from "./StockChart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, TrendingDown, DollarSign, Activity, Volume2, Target } from "lucide-react";
+import { TrendingUp, TrendingDown, BarChart3, Activity, Volume2, Target } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 
 interface StockDetailsProps {
@@ -20,7 +20,7 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
         <CardHeader>
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <DollarSign className="h-6 w-6" />
+              <BarChart3 className="h-6 w-6" />
               <div>
                 <h2 className="text-2xl font-bold">{stockSummary.name}</h2>
                 <p className="text-muted-foreground">Stock Analysis</p>
