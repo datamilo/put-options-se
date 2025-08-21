@@ -26,6 +26,10 @@ export const useStockData = () => {
         skipEmptyLines: true,
         transform: (value, field) => {
           if (field === 'close' || field === 'volume' || field === 'pct_change_close') {
+            // Handle empty values in numeric fields
+            if (value === '' || value === null || value === undefined) {
+              return field === 'volume' ? 0 : null;
+            }
             return parseFloat(value);
           }
           return value;
