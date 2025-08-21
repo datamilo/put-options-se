@@ -14,7 +14,7 @@ export const useOptionsData = () => {
     setIsLoading(true);
     setError(null);
 
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}`;
+    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}?${Date.now()}`;
 
     try {
       const response = await fetch(githubUrl);
