@@ -16,8 +16,8 @@ export const useStockData = () => {
       setIsLoading(true);
       setError(null);
       
-      // Load the correct CSV file from the data directory
-      const response = await fetch(`/data/stock_data.csv?${Date.now()}`);
+      // Load the correct CSV file from GitHub repository
+      const response = await fetch(`https://raw.githubusercontent.com/datamilo/put-options-se/main/data/stock_data.csv?${Date.now()}`);
       const csvText = await response.text();
       
       Papa.parse(csvText, {
