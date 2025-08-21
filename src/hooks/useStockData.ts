@@ -16,18 +16,8 @@ export const useStockData = () => {
       setIsLoading(true);
       setError(null);
       
-      // Load from local file - use relative path for GitHub Pages deployment with cache busting
-      // Try multiple possible paths to ensure we get the latest data
-      let response;
-      try {
-        response = await fetch(`./data/stock_data.csv?${Date.now()}`);
-        if (!response.ok) {
-          throw new Error('Primary path failed');
-        }
-      } catch {
-        // Fallback to alternative path
-        response = await fetch(`/data/stock_data.csv?${Date.now()}`);
-      }
+      // Load the correct CSV file from the data directory
+      const response = await fetch(`/data/stock_data.csv?${Date.now()}`);
       const csvText = await response.text();
       
       Papa.parse(csvText, {
