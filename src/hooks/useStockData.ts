@@ -17,7 +17,17 @@ export const useStockData = () => {
       setError(null);
       
       // Load from local file - use relative path for GitHub Pages deployment with cache busting
-      const response = await fetch(`./data/stock_data.csv?${Date.now()}`);
+      // Try multiple possible paths to ensure we get the latest data
+      let response;
+      try {
+        response = await fetch(`./data/stock_data.csv?${Date.now()}`);
+        if (!response.ok) {
+          throw new Error('Primary path failed');
+        }
+      } catch {
+        // Fallback to alternative path
+        response = await fetch(`/data/stock_data.csv?${Date.now()}`);
+      }
       const csvText = await response.text();
       
       Papa.parse(csvText, {
@@ -37,6 +47,12 @@ export const useStockData = () => {
         complete: (results) => {
           console.log('Raw CSV data loaded:', results.data.slice(0, 5)); // First 5 rows
           console.log('Total rows loaded:', results.data.length);
+          
+          // Debug: Check for AAK AB data specifically
+          const aakData = results.data.filter((row: any) => row.name === 'AAK AB');
+          console.log('AAK AB data found:', aakData.length, 'rows');
+          console.log('Latest AAK AB entries:', aakData.slice(-5));
+          
           setAllStockData(results.data as StockData[]);
           setIsLoading(false);
         },
