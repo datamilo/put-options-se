@@ -31,6 +31,8 @@ export const useStockData = () => {
           return value;
         },
         complete: (results) => {
+          console.log('Raw CSV data loaded:', results.data.slice(0, 5)); // First 5 rows
+          console.log('Total rows loaded:', results.data.length);
           setAllStockData(results.data as StockData[]);
           setIsLoading(false);
         },
@@ -70,6 +72,9 @@ export const useStockData = () => {
   const getStockSummary = (stockName: string): StockSummary | null => {
     const stockData = getStockData(stockName);
     if (stockData.length === 0) return null;
+
+    console.log(`Stock data for ${stockName}:`, stockData.slice(-5)); // Last 5 data points
+    console.log(`Latest data for ${stockName}:`, stockData[stockData.length - 1]);
 
     const latestData = stockData[stockData.length - 1];
     const previousData = stockData[stockData.length - 2];
