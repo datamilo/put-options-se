@@ -11,7 +11,7 @@ const StockDetailsPage = () => {
   const { getStockData, getStockSummary, isLoading, error } = useStockData();
 
   const handleBackClick = () => {
-    navigate(`/?${searchParams.toString()}`);
+    navigate(-1);
   };
 
   if (!stockName) {

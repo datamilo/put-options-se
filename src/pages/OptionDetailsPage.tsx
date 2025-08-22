@@ -11,7 +11,7 @@ const OptionDetailsPage = () => {
   const { data } = useOptionsData();
 
   const handleBackClick = () => {
-    navigate(`/?${searchParams.toString()}`);
+    navigate(-1);
   };
 
   // Find the option by ID (using OptionName as the unique identifier)

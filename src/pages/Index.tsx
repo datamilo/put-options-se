@@ -210,11 +210,11 @@ const Index = () => {
 
   const handleOptionClick = (option: OptionData) => {
     const optionId = encodeURIComponent(option.OptionName);
-    navigate(`/option/${optionId}`);
+    navigate(`/option/${optionId}?${searchParams.toString()}`);
   };
 
   const handleStockClick = (stockName: string) => {
-    navigate(`/stock/${encodeURIComponent(stockName)}`);
+    navigate(`/stock/${encodeURIComponent(stockName)}?${searchParams.toString()}`);
   };
 
   return (
