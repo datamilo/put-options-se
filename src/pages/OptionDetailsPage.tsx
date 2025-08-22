@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useOptionsData } from "@/hooks/useOptionsData";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,12 @@ import { ArrowLeft } from "lucide-react";
 const OptionDetailsPage = () => {
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { data } = useOptionsData();
+
+  const handleBackClick = () => {
+    navigate(`/?${searchParams.toString()}`);
+  };
 
   // Find the option by ID (using OptionName as the unique identifier)
   const option = data.find(opt => encodeURIComponent(opt.OptionName) === optionId);
@@ -18,7 +23,7 @@ const OptionDetailsPage = () => {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline" 
-            onClick={() => navigate("/")}
+            onClick={handleBackClick}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -39,7 +44,7 @@ const OptionDetailsPage = () => {
         <h1 className="text-3xl font-bold">Option Details</h1>
         <Button 
           variant="outline" 
-          onClick={() => navigate("/")}
+          onClick={handleBackClick}
           className="flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />

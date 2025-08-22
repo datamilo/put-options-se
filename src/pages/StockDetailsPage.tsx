@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useStockData } from "@/hooks/useStockData";
 import { StockDetails } from "@/components/stock/StockDetails";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,12 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 const StockDetailsPage = () => {
   const { stockName } = useParams<{ stockName: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { getStockData, getStockSummary, isLoading, error } = useStockData();
+
+  const handleBackClick = () => {
+    navigate(`/?${searchParams.toString()}`);
+  };
 
   if (!stockName) {
     return (
@@ -15,7 +20,7 @@ const StockDetailsPage = () => {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline" 
-            onClick={() => navigate("/")}
+            onClick={handleBackClick}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -40,7 +45,7 @@ const StockDetailsPage = () => {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline" 
-            onClick={() => navigate("/")}
+            onClick={handleBackClick}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -63,7 +68,7 @@ const StockDetailsPage = () => {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline" 
-            onClick={() => navigate("/")}
+            onClick={handleBackClick}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -84,7 +89,7 @@ const StockDetailsPage = () => {
         <div className="flex items-center gap-4">
           <Button 
             variant="outline" 
-            onClick={() => navigate("/")}
+            onClick={handleBackClick}
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -107,7 +112,7 @@ const StockDetailsPage = () => {
         <h1 className="text-3xl font-bold">Stock Analysis</h1>
         <Button 
           variant="outline" 
-          onClick={() => navigate("/")}
+          onClick={handleBackClick}
           className="flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
