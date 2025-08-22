@@ -95,18 +95,18 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {timePeriodOptions.map((period) => {
               const range = getPriceRangeForPeriod(stockSummary.name, period.days);
               return (
-                <div key={period.days} className="space-y-2 p-3 border rounded-lg">
-                  <p className="text-sm text-muted-foreground font-medium">{period.label} Range</p>
+                <div key={period.days} className="space-y-1">
+                  <p className="text-xs text-muted-foreground font-medium">{period.label}</p>
                   {range ? (
-                    <p className="text-lg font-semibold">
+                    <p className="text-sm font-semibold">
                       {range.low.toFixed(2)} - {range.high.toFixed(2)}
                     </p>
                   ) : (
-                    <p className="text-sm text-muted-foreground">No data</p>
+                    <p className="text-xs text-muted-foreground">No data</p>
                   )}
                 </div>
               );
