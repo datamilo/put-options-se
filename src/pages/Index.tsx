@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
@@ -22,11 +22,23 @@ const Index = () => {
   console.log('🏠 Index component rendering');
   
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data, isLoading, error, loadMockData } = useOptionsData();
   const { getStockSummary, getLowPriceForPeriod } = useStockData();
-  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
-  const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
-  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(null);
+  
+  // Initialize filter state from URL parameters
+  const [selectedStocks, setSelectedStocks] = useState<string[]>(() => {
+    const stocks = searchParams.get('stocks');
+    return stocks ? stocks.split(',').filter(Boolean) : [];
+  });
+  const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>(() => {
+    const dates = searchParams.get('expiryDates');
+    return dates ? dates.split(',').filter(Boolean) : [];
+  });
+  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(() => {
+    const period = searchParams.get('strikeBelowPeriod');
+    return period ? parseInt(period, 10) : null;
+  });
 
   const timePeriodOptions = [
     { label: "1 Week Low", days: 7 },
@@ -37,9 +49,26 @@ const Index = () => {
     { label: "1 Year Low", days: 365 },
   ];
 
-  // Auto-select the expiry date closest to third Friday of next month
+  // Update URL parameters when filters change
   useEffect(() => {
-    if (data.length > 0 && selectedExpiryDates.length === 0) {
+    const params = new URLSearchParams();
+    
+    if (selectedStocks.length > 0) {
+      params.set('stocks', selectedStocks.join(','));
+    }
+    if (selectedExpiryDates.length > 0) {
+      params.set('expiryDates', selectedExpiryDates.join(','));
+    }
+    if (strikeBelowPeriod !== null) {
+      params.set('strikeBelowPeriod', strikeBelowPeriod.toString());
+    }
+    
+    setSearchParams(params, { replace: true });
+  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, setSearchParams]);
+
+  // Auto-select the expiry date closest to third Friday of next month (only if no filters from URL)
+  useEffect(() => {
+    if (data.length > 0 && selectedExpiryDates.length === 0 && !searchParams.has('expiryDates')) {
       // Calculate third Friday of next month
       const today = new Date();
       const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
@@ -74,7 +103,7 @@ const Index = () => {
         setSelectedExpiryDates([closestDate]);
       }
     }
-  }, [data, selectedExpiryDates.length]);
+  }, [data, selectedExpiryDates.length, searchParams]);
   
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
