@@ -39,6 +39,14 @@ const Index = () => {
     const period = searchParams.get('strikeBelowPeriod');
     return period ? parseInt(period, 10) : null;
   });
+  const [sortField, setSortField] = useState<keyof OptionData | null>(() => {
+    const field = searchParams.get('sortField');
+    return field as keyof OptionData || null;
+  });
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(() => {
+    const direction = searchParams.get('sortDirection');
+    return (direction === 'desc' ? 'desc' : 'asc');
+  });
 
   const timePeriodOptions = [
     { label: "1 Week Low", days: 7 },
@@ -49,7 +57,7 @@ const Index = () => {
     { label: "1 Year Low", days: 365 },
   ];
 
-  // Update URL parameters when filters change
+  // Update URL parameters when filters and sorting change
   useEffect(() => {
     const params = new URLSearchParams();
     
@@ -62,9 +70,15 @@ const Index = () => {
     if (strikeBelowPeriod !== null) {
       params.set('strikeBelowPeriod', strikeBelowPeriod.toString());
     }
+    if (sortField !== null) {
+      params.set('sortField', sortField);
+    }
+    if (sortDirection !== 'asc') {
+      params.set('sortDirection', sortDirection);
+    }
     
     setSearchParams(params, { replace: true });
-  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, setSearchParams]);
+  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, sortField, sortDirection, setSearchParams]);
 
   // Auto-select the expiry date closest to third Friday of next month (only if no filters from URL)
   useEffect(() => {
@@ -108,8 +122,6 @@ const Index = () => {
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
   const [columnFilters, setColumnFilters] = useState<{field: string; type: 'text' | 'number'; textValue?: string; minValue?: number; maxValue?: number;}[]>([]);
-  const [sortField, setSortField] = useState<keyof OptionData | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   
   // Cache low prices for performance
   const lowPricesCache = useMemo(() => {
