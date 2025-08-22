@@ -1,5 +1,6 @@
 import { StockData, StockSummary } from "@/types/stock";
 import { StockChart } from "./StockChart";
+import { useStockData } from "@/hooks/useStockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, BarChart3, Activity, BarChart2, ArrowUpDown } from "lucide-react";
@@ -12,6 +13,16 @@ interface StockDetailsProps {
 
 export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => {
   const isPositiveChange = stockSummary.priceChange >= 0;
+  const { getPriceRangeForPeriod } = useStockData();
+
+  const timePeriodOptions = [
+    { label: "1 Week", days: 7 },
+    { label: "1 Month", days: 30 },
+    { label: "3 Months", days: 90 },
+    { label: "6 Months", days: 180 },
+    { label: "9 Months", days: 270 },
+    { label: "1 Year", days: 365 },
+  ];
 
   return (
     <div className="space-y-6">
@@ -71,6 +82,35 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
               </p>
               <p className="text-xl font-semibold">{stockSummary.volatility.toFixed(1)}%</p>
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Price Ranges for Different Periods */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ArrowUpDown className="h-5 w-5" />
+            Price Ranges
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {timePeriodOptions.map((period) => {
+              const range = getPriceRangeForPeriod(stockSummary.name, period.days);
+              return (
+                <div key={period.days} className="space-y-2 p-3 border rounded-lg">
+                  <p className="text-sm text-muted-foreground font-medium">{period.label} Range</p>
+                  {range ? (
+                    <p className="text-lg font-semibold">
+                      {range.low.toFixed(2)} - {range.high.toFixed(2)}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">No data</p>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
