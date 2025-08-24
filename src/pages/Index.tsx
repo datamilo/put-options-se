@@ -146,7 +146,7 @@ const Index = () => {
       // Use cached low price for performance
       if (strikeBelowPeriod !== null) {
         const lowPrice = lowPricesCache.get(option.StockName);
-        if (lowPrice === null || lowPrice === undefined || option.StrikePrice >= lowPrice) {
+        if (lowPrice === null || lowPrice === undefined || option.StrikePrice > lowPrice) {
           return false;
         }
       }
@@ -168,7 +168,7 @@ const Index = () => {
     if (strikeBelowPeriod !== null) {
       filteredOptions = filteredOptions.filter(option => {
         const lowPrice = lowPricesCache.get(option.StockName);
-        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice < lowPrice;
+        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice <= lowPrice;
       });
     }
     
@@ -192,7 +192,7 @@ const Index = () => {
     if (strikeBelowPeriod !== null) {
       filteredOptions = filteredOptions.filter(option => {
         const lowPrice = lowPricesCache.get(option.StockName);
-        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice < lowPrice;
+        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice <= lowPrice;
       });
     }
     
