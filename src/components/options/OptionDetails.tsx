@@ -44,12 +44,13 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
   );
 
   const getRiskLevel = (probOfWorthless: number) => {
-    if (probOfWorthless < 0.3) return { level: "High Risk", color: "bg-destructive" };
-    if (probOfWorthless < 0.6) return { level: "Medium Risk", color: "bg-accent" };
+    if (probOfWorthless <= 0.6) return { level: "High Risk", color: "bg-destructive" };
+    if (probOfWorthless < 0.8) return { level: "Medium Risk", color: "bg-accent" };
     return { level: "Low Risk", color: "bg-secondary" };
   };
 
-  const risk = getRiskLevel(option['1_2_3_ProbOfWorthless_Weighted']);
+  const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
+  const risk = getRiskLevel(probValue);
 
   return (
     <TooltipProvider>

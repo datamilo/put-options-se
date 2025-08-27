@@ -50,13 +50,12 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
     return dataPoint;
   });
 
-  // Use first selected field for risk distribution
-  const selectedFieldValue = selectedProbFields[0] as keyof OptionData;
+  // Use Bayesian field first, then weighted field as fallback
   const riskDistribution = data.reduce((acc, option) => {
-    const probValue = option[selectedFieldValue] as number;
+    const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
     const riskLevel = 
-      probValue < 0.3 ? 'High Risk' :
-      probValue < 0.6 ? 'Medium Risk' : 'Low Risk';
+      probValue <= 0.6 ? 'High Risk' :
+      probValue < 0.8 ? 'Medium Risk' : 'Low Risk';
     
     acc[riskLevel] = (acc[riskLevel] || 0) + 1;
     return acc;
