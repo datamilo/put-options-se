@@ -92,11 +92,11 @@ const Index = () => {
                 <p className="font-medium">Risk Level Classification:</p>
                 <div className="space-y-1">
                   <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
-                  <p><strong>Medium Risk:</strong> 60-80% probability of being worthless</p>
+                  <p><strong>Medium Risk:</strong> {">"}60% and {"<"}80% probability of being worthless</p>
                   <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback.
+                  Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback. No overlapping values between categories.
                 </p>
               </div>
             </TooltipContent>
@@ -115,11 +115,11 @@ const Index = () => {
               <h3 className="font-medium">Risk Level Classification</h3>
               <div className="space-y-2 text-sm">
                 <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
-                <p><strong>Medium Risk:</strong> 60-80% probability of being worthless</p>
+                <p><strong>Medium Risk:</strong> {">"}60% and {"<"}80% probability of being worthless</p>
                 <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
               </div>
               <p className="text-xs text-muted-foreground">
-                Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback.
+                Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback. No overlapping values between categories.
               </p>
             </div>
           </DialogContent>
