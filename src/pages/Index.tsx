@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { BarChart3, Table, FileSpreadsheet, ChevronDown } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
@@ -39,6 +40,10 @@ const Index = () => {
     const period = searchParams.get('strikeBelowPeriod');
     return period ? parseInt(period, 10) : null;
   });
+  const [selectedRiskLevels, setSelectedRiskLevels] = useState<string[]>(() => {
+    const riskLevels = searchParams.get('riskLevels');
+    return riskLevels ? riskLevels.split(',').filter(Boolean) : [];
+  });
   const [sortField, setSortField] = useState<keyof OptionData | null>(() => {
     const field = searchParams.get('sortField');
     return field as keyof OptionData || null;
@@ -57,6 +62,20 @@ const Index = () => {
     { label: "1 Year Low", days: 365 },
   ];
 
+  const riskLevelOptions = [
+    { value: "High Risk", label: "High Risk" },
+    { value: "Medium Risk", label: "Medium Risk" },
+    { value: "Low Risk", label: "Low Risk" },
+  ];
+
+  // Helper function to get risk level for an option
+  const getRiskLevel = (option: OptionData) => {
+    const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
+    if (probValue <= 0.6) return 'High Risk';
+    if (probValue < 0.8) return 'Medium Risk';
+    return 'Low Risk';
+  };
+
   // Update URL parameters when filters and sorting change
   useEffect(() => {
     const params = new URLSearchParams();
@@ -70,6 +89,9 @@ const Index = () => {
     if (strikeBelowPeriod !== null) {
       params.set('strikeBelowPeriod', strikeBelowPeriod.toString());
     }
+    if (selectedRiskLevels.length > 0) {
+      params.set('riskLevels', selectedRiskLevels.join(','));
+    }
     if (sortField !== null) {
       params.set('sortField', sortField);
     }
@@ -78,7 +100,7 @@ const Index = () => {
     }
     
     setSearchParams(params, { replace: true });
-  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, sortField, sortDirection, setSearchParams]);
+  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, selectedRiskLevels, sortField, sortDirection, setSearchParams]);
 
   // Auto-select the expiry date closest to third Friday of next month (only if no filters from URL)
   useEffect(() => {
@@ -151,9 +173,12 @@ const Index = () => {
         }
       }
       
-      return matchesStock && matchesExpiry;
+      // Risk level filter
+      const matchesRiskLevel = selectedRiskLevels.length === 0 || selectedRiskLevels.includes(getRiskLevel(option));
+      
+      return matchesStock && matchesExpiry && matchesRiskLevel;
     });
-  }, [data, selectedStocks, selectedExpiryDates, strikeBelowPeriod, lowPricesCache]);
+  }, [data, selectedStocks, selectedExpiryDates, strikeBelowPeriod, selectedRiskLevels, lowPricesCache, getRiskLevel]);
 
   // Memoized filtered stocks
   const filteredStocks = useMemo(() => {
@@ -286,7 +311,7 @@ const Index = () => {
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px]">
+                  <DropdownMenuContent className="w-[200px] bg-background z-50">
                     <DropdownMenuItem onClick={() => setStrikeBelowPeriod(null)}>
                       Clear Filter
                     </DropdownMenuItem>
@@ -298,6 +323,80 @@ const Index = () => {
                         {option.label}
                       </DropdownMenuItem>
                     ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center gap-1">
+                  <Label>Risk Level</Label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-sm bg-background border z-50">
+                        <div className="space-y-2 text-sm">
+                          <p className="font-medium">Risk Level Classification:</p>
+                          <div className="space-y-1">
+                            <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
+                            <p><strong>Medium Risk:</strong> 60-80% probability of being worthless</p>
+                            <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-2">
+                            Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback.
+                          </p>
+                        </div>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="min-w-[200px] justify-between">
+                      {selectedRiskLevels.length === 0 ? 'All Risk Levels' : 
+                       selectedRiskLevels.length === 1 ? selectedRiskLevels[0] : 
+                       `${selectedRiskLevels.length} levels selected`}
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-[200px] p-3 bg-background z-50">
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2 border-b pb-2">
+                        <Checkbox
+                          id="select-all-risk"
+                          checked={selectedRiskLevels.length === riskLevelOptions.length}
+                          onCheckedChange={(checked) => {
+                            if (checked) {
+                              setSelectedRiskLevels(riskLevelOptions.map(r => r.value));
+                            } else {
+                              setSelectedRiskLevels([]);
+                            }
+                          }}
+                        />
+                        <label htmlFor="select-all-risk" className="text-sm cursor-pointer font-medium">
+                          Select All
+                        </label>
+                      </div>
+                      {riskLevelOptions.map(risk => (
+                        <div key={risk.value} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`risk-${risk.value}`}
+                            checked={selectedRiskLevels.includes(risk.value)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedRiskLevels(prev => [...prev, risk.value]);
+                              } else {
+                                setSelectedRiskLevels(prev => prev.filter(r => r !== risk.value));
+                              }
+                            }}
+                          />
+                          <label htmlFor={`risk-${risk.value}`} className="text-sm cursor-pointer">
+                            {risk.label}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </div>
@@ -313,7 +412,7 @@ const Index = () => {
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto">
+                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto bg-background z-50">
                     <div className="space-y-2">
                       <Input
                         placeholder="Search stocks..."
@@ -372,7 +471,7 @@ const Index = () => {
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto">
+                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto bg-background z-50">
                     <div className="space-y-2">
                       <Input
                         placeholder="Search dates..."
