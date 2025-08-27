@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -75,6 +76,57 @@ const Index = () => {
     if (probValue < 0.8) return 'Medium Risk';
     return 'Low Risk';
   };
+
+  // Risk info component that works on both desktop and mobile
+  const RiskInfoButton = () => (
+    <>
+      {/* Desktop tooltip */}
+      <div className="hidden md:block">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent className="max-w-sm bg-background border z-50">
+              <div className="space-y-2 text-sm">
+                <p className="font-medium">Risk Level Classification:</p>
+                <div className="space-y-1">
+                  <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
+                  <p><strong>Medium Risk:</strong> 60-80% probability of being worthless</p>
+                  <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback.
+                </p>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
+      
+      {/* Mobile dialog */}
+      <div className="md:hidden">
+        <Dialog>
+          <DialogTrigger asChild>
+            <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
+          </DialogTrigger>
+          <DialogContent className="max-w-sm">
+            <div className="space-y-3">
+              <h3 className="font-medium">Risk Level Classification</h3>
+              <div className="space-y-2 text-sm">
+                <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
+                <p><strong>Medium Risk:</strong> 60-80% probability of being worthless</p>
+                <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback.
+              </p>
+            </div>
+          </DialogContent>
+        </Dialog>
+      </div>
+    </>
+  );
 
   // Update URL parameters when filters and sorting change
   useEffect(() => {
@@ -330,26 +382,7 @@ const Index = () => {
               <div className="space-y-2">
                 <div className="flex items-center gap-1">
                   <Label>Risk Level</Label>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-                      </TooltipTrigger>
-                      <TooltipContent className="max-w-sm bg-background border z-50">
-                        <div className="space-y-2 text-sm">
-                          <p className="font-medium">Risk Level Classification:</p>
-                          <div className="space-y-1">
-                            <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
-                            <p><strong>Medium Risk:</strong> 60-80% probability of being worthless</p>
-                            <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
-                          </div>
-                          <p className="text-xs text-muted-foreground mt-2">
-                            Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback.
-                          </p>
-                        </div>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <RiskInfoButton />
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
