@@ -183,7 +183,23 @@ export const useOptionsData = () => {
         TodayStockMedianIV_Maximum100DaysToExp: 0.22951,
         AllMedianIV_Maximum100DaysToExp: 0.216361,
         ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy: 0.2,
-        StrikeBelowLowerAtAcc: "Y"
+        StrikeBelowLowerAtAcc: "Y",
+        Ask: 255,
+        'X-Day': 0,
+        PoW_Simulation_Mean_Earnings: 12000,
+        '100k_Invested_Loss_Mean': -15000,
+        WorstHistoricalDecline: -0.45,
+        BadHistoricalDecline: -0.35,
+        ImpliedVolatilityUntilExpiry: 0.298,
+        StockPrice_After_100DayWorstDecline: 210,
+        StockPrice_After_50DayWorstDecline: 215,
+        StockPrice_After_2008_50DayWorstDecline: 180,
+        '100DayMaxPrice': 320,
+        '50DayMaxPrice': 310,
+        Historical100DaysWorstDecline: -0.42,
+        Historical50DaysWorstDecline: -0.38,
+        '2008_100DaysWorstDecline': -0.55,
+        '2008_50DaysWorstDecline': -0.52
       }
     ];
     
