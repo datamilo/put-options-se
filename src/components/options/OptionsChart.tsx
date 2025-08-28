@@ -122,18 +122,31 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                   tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                 />
                 <Tooltip 
-                  formatter={(value, name) => {
-                    if (selectedProbFields.includes(name as string)) {
-                      return [`${(Number(value) * 100).toFixed(2)}%`, name];
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length > 0) {
+                      const data = payload[0].payload;
+                      return (
+                        <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+                          <div className="font-semibold text-foreground mb-2">
+                            {data.stockName} - {data.name}
+                          </div>
+                          <div className="space-y-1">
+                            <div className="text-sm">
+                              <span className="font-medium">Premium:</span> {Number(data.x).toLocaleString()}
+                            </div>
+                            {selectedProbFields.map((field) => (
+                              <div key={field} className="text-sm">
+                                <span className="font-medium">{field}:</span> {(Number(data[field]) * 100).toFixed(2)}%
+                              </div>
+                            ))}
+                            <div className="text-sm">
+                              <span className="font-medium">Days to Expiry:</span> {data.z}
+                            </div>
+                          </div>
+                        </div>
+                      );
                     }
-                    if (name === 'x') return [Number(value).toLocaleString(), 'Premium'];
-                    return [value, name];
-                  }}
-                  labelFormatter={(label, payload) => {
-                    if (payload && payload[0]) {
-                      return `${payload[0].payload.stockName} - ${payload[0].payload.name}`;
-                    }
-                    return label;
+                    return null;
                   }}
                 />
                 <Legend />
