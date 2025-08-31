@@ -353,7 +353,9 @@ const Index = () => {
             
             <div className="flex flex-col sm:flex-row sm:items-start gap-4">
               <div className="space-y-2">
-                <Label>Strike Price Below</Label>
+                <div className="flex items-center gap-1 min-h-5">
+                  <Label>Strike Price Below</Label>
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
@@ -380,7 +382,7 @@ const Index = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 min-h-5">
                   <Label>Risk Level</Label>
                   <RiskInfoButton />
                 </div>
@@ -435,7 +437,9 @@ const Index = () => {
               </div>
               
               <div className="space-y-2">
-                <Label>Filter by Stock</Label>
+                <div className="flex items-center gap-1 min-h-5">
+                  <Label>Filter by Stock</Label>
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
@@ -494,7 +498,9 @@ const Index = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Filter by Expiry Date</Label>
+                <div className="flex items-center gap-1 min-h-5">
+                  <Label>Filter by Expiry Date</Label>
+                </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
