@@ -380,7 +380,7 @@ const Index = () => {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 h-5">
                   <Label>Risk Level</Label>
                   <RiskInfoButton />
                 </div>
