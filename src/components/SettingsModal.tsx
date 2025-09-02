@@ -28,9 +28,9 @@ export const SettingsModal = () => {
     if (tempValue >= 1000 && tempValue <= 1000000) {
       setUnderlyingValue(tempValue);
       setIsOpen(false);
-      toast.success(`Underlying value updated to $${tempValue.toLocaleString()}`);
+      toast.success(`Underlying value updated to ${tempValue.toLocaleString()}`);
     } else {
-      toast.error('Please enter a value between $1,000 and $1,000,000');
+      toast.error('Please enter a value between 1,000 and 1,000,000');
     }
   };
 
@@ -40,7 +40,7 @@ export const SettingsModal = () => {
   };
 
   const formatCurrency = (value: number) => {
-    return `$${value.toLocaleString()}`;
+    return value.toLocaleString();
   };
 
   return (
@@ -69,7 +69,7 @@ export const SettingsModal = () => {
                 Underlying Stock Value for Premium Calculation
               </Label>
               <p className="text-sm text-muted-foreground">
-                This value is used to calculate the number of contracts and Premium. Default is $100,000.
+                This value is used to calculate the number of contracts and Premium. Default is 100,000.
               </p>
             </div>
             
@@ -85,8 +85,8 @@ export const SettingsModal = () => {
                   className="w-full"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>$1,000</span>
-                  <span>$1,000,000</span>
+                  <span>1,000</span>
+                  <span>1,000,000</span>
                 </div>
               </div>
               
@@ -97,7 +97,7 @@ export const SettingsModal = () => {
                   type="text"
                   value={formatCurrency(tempValue)}
                   onChange={handleInputChange}
-                  placeholder="$100,000"
+                  placeholder="100,000"
                 />
               </div>
             </div>
