@@ -95,16 +95,16 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <CardTitle className="flex items-center gap-2">
             Pricing
             {isRecalculated && (
-              <Badge variant="secondary" className="text-xs">
-                Recalculated for ${underlyingValue.toLocaleString()}
-              </Badge>
+               <Badge variant="secondary" className="text-xs">
+                 Recalculated for {underlyingValue.toLocaleString()}
+               </Badge>
             )}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Underlying Value (Investment)</span>
-            <span className="font-medium">${underlyingValue.toLocaleString()}</span>
+             <span className="text-sm text-muted-foreground">Underlying Value (Investment)</span>
+             <span className="font-medium">{underlyingValue.toLocaleString()}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
