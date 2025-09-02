@@ -6,7 +6,9 @@ import { OptionsChart } from "@/components/options/OptionsChart";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { useOptionsData } from "@/hooks/useOptionsData";
 import { useStockData } from "@/hooks/useStockData";
+import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { TimestampDisplay } from "@/components/TimestampDisplay";
+import { SettingsModal } from "@/components/SettingsModal";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -25,8 +27,11 @@ const Index = () => {
   
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data, isLoading, error, loadMockData } = useOptionsData();
+  const { data: rawData, isLoading, error, loadMockData } = useOptionsData();
   const { getStockSummary, getLowPriceForPeriod } = useStockData();
+  
+  // Use recalculated options data
+  const data = useRecalculatedOptions(rawData);
   
   // Initialize filter state from URL parameters
   const [selectedStocks, setSelectedStocks] = useState<string[]>(() => {
@@ -301,7 +306,10 @@ const Index = () => {
           <h1 className="text-4xl font-bold">Put Options Data</h1>
           <TimestampDisplay />
         </div>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <SettingsModal />
+          <ThemeToggle />
+        </div>
       </div>
 
       {data.length === 0 ? (

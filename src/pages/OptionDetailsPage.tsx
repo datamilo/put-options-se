@@ -1,5 +1,6 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useOptionsData } from "@/hooks/useOptionsData";
+import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -8,7 +9,10 @@ const OptionDetailsPage = () => {
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { data } = useOptionsData();
+  const { data: rawData } = useOptionsData();
+  
+  // Use recalculated options data
+  const data = useRecalculatedOptions(rawData);
 
   const handleBackClick = () => {
     navigate(-1);

@@ -1,4 +1,6 @@
 import { OptionData } from "@/types/options";
+import { RecalculatedOptionData } from "@/hooks/useRecalculatedOptions";
+import { useSettings } from "@/contexts/SettingsContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -9,13 +11,17 @@ import { formatNumber } from "@/lib/utils";
 import { useState } from "react";
 
 interface OptionDetailsProps {
-  option: OptionData;
+  option: OptionData | RecalculatedOptionData;
 }
 
 export const OptionDetails = ({ option }: OptionDetailsProps) => {
+  const { underlyingValue } = useSettings();
+  
   const formatValue = (value: any, field: string) => {
     return formatNumber(value, field);
   };
+  
+  const isRecalculated = 'originalPremium' in option;
 
   const InfoTooltip = ({ content }: { content: string }) => (
     <div className="md:hidden">
@@ -86,12 +92,24 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Pricing</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            Pricing
+            {isRecalculated && (
+              <Badge variant="secondary" className="text-xs">
+                Recalculated for ${underlyingValue.toLocaleString()}
+              </Badge>
+            )}
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Stock Price</span>
-            <span className="font-medium">{formatValue(option.StockPrice, 'StockPrice')}</span>
+            <span className="text-sm text-muted-foreground">Underlying Value (Investment)</span>
+            <span className="font-medium">${underlyingValue.toLocaleString()}</span>
+          </div>
+          <Separator />
+          <div className="flex justify-between">
+            <span className="text-sm text-muted-foreground">Strike Price</span>
+            <span className="font-medium">{formatValue(option.StrikePrice, 'StrikePrice')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
@@ -118,12 +136,30 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
             <span className="text-sm text-muted-foreground">Option Price Min</span>
             <span className="font-medium">{formatValue(option.Option_Price_Min, 'Option_Price_Min')}</span>
           </div>
-          <Separator />
-          <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Underlying Value</span>
-            <span className="font-medium">{formatValue(option.Underlying_Value, 'Underlying_Value')}</span>
-          </div>
-          <Separator />
+          {isRecalculated && (
+            <>
+              <Separator />
+              <div className="bg-muted/50 p-3 rounded-lg space-y-2">
+                <p className="text-xs text-muted-foreground font-medium">Original vs Recalculated Values</p>
+                <div className="flex justify-between text-sm">
+                  <span>Original Premium:</span>
+                  <span>{formatValue((option as RecalculatedOptionData).originalPremium, 'Premium')}</span>
+                </div>
+                <div className="flex justify-between text-sm font-medium">
+                  <span>Current Premium:</span>
+                  <span>{formatValue(option.Premium, 'Premium')}</span>
+                </div>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Additional Pricing Information</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
           <div className="flex justify-between">
             <span className="text-sm text-muted-foreground">Ask-Bid Spread</span>
             <span className="font-medium">{formatValue(option.AskBidSpread, 'AskBidSpread')}</span>
