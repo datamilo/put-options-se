@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Info } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
 import { useState } from "react";
+import { ProbabilityHistoryChart } from "./ProbabilityHistoryChart";
 
 interface OptionDetailsProps {
   option: OptionData | RecalculatedOptionData;
@@ -154,6 +155,8 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           )}
         </CardContent>
       </Card>
+
+      <ProbabilityHistoryChart optionName={option.OptionName} />
 
       <Card>
         <CardHeader>
