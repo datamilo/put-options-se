@@ -23,33 +23,32 @@ const PROBABILITY_LINES = [
   {
     key: '1_2_3_ProbOfWorthless_Weighted',
     name: 'Weighted Average',
-    color: 'hsl(var(--primary))'
+    color: '#2563eb'
   },
   {
     key: 'ProbWorthless_Bayesian_IsoCal',
     name: 'Bayesian IsoCal',
-    color: 'hsl(var(--secondary))'
+    color: '#dc2626'
   },
   {
     key: '1_ProbOfWorthless_Original',
     name: 'Original',
-    color: 'hsl(var(--accent))'
+    color: '#16a34a'
   },
   {
     key: '2_ProbOfWorthless_Calibrated',
     name: 'Calibrated',
-    color: 'hsl(var(--destructive))'
+    color: '#ca8a04'
   },
   {
     key: '3_ProbOfWorthless_Historical_IV',
     name: 'Historical IV',
-    color: 'hsl(var(--muted-foreground))'
+    color: '#9333ea'
   }
 ];
 
 export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartProps) => {
   const { optionData, isLoading, error } = useProbabilityHistory(optionName);
-  const [timeRange, setTimeRange] = useState<'1M' | '3M' | '6M' | '1Y' | 'ALL'>('6M');
   const [visibleLines, setVisibleLines] = useState<Set<string>>(
     new Set(PROBABILITY_LINES.map(line => line.key))
   );
@@ -99,17 +98,26 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
     );
   }
 
-  const getFilteredData = () => {
-    if (timeRange === 'ALL') return optionData;
+  // Calculate dynamic Y-axis domain based on data
+  const getYAxisDomain = () => {
+    const visibleData = optionData.flatMap(item => 
+      PROBABILITY_LINES
+        .filter(line => visibleLines.has(line.key))
+        .map(line => item[line.key as keyof typeof item])
+        .filter(value => value !== null && value !== undefined) as number[]
+    );
     
-    const now = new Date();
-    const monthsBack = timeRange === '1M' ? 1 : timeRange === '3M' ? 3 : timeRange === '6M' ? 6 : 12;
-    const cutoffDate = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
+    if (visibleData.length === 0) return [0, 1];
     
-    return optionData.filter(d => new Date(d.Update_date) >= cutoffDate);
+    const min = Math.min(...visibleData);
+    const max = Math.max(...visibleData);
+    const padding = (max - min) * 0.1;
+    
+    const yMin = Math.max(0, min - padding);
+    const yMax = Math.min(1, max + padding);
+    
+    return [yMin, yMax];
   };
-
-  const filteredData = getFilteredData();
 
   const formatTooltipValue = (value: number | null, name: string) => {
     if (value === null || value === undefined) return ['N/A', name];
@@ -122,15 +130,10 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
 
   const formatXAxisLabel = (tickItem: string) => {
     const date = new Date(tickItem);
-    if (timeRange === '1Y' || timeRange === 'ALL') {
-      return date.toLocaleDateString('en-US', { 
-        month: 'short', 
-        year: '2-digit'
-      });
-    }
     return date.toLocaleDateString('en-US', { 
       month: 'short', 
-      day: 'numeric' 
+      day: 'numeric',
+      year: '2-digit'
     });
   };
 
@@ -152,20 +155,6 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
           Probability of Worthless History
         </CardTitle>
         
-        <div className="flex flex-wrap gap-2">
-          <div className="flex gap-1">
-            {(['1M', '3M', '6M', '1Y', 'ALL'] as const).map(range => (
-              <Button
-                key={range}
-                variant={timeRange === range ? "default" : "outline"}
-                size="sm"
-                onClick={() => setTimeRange(range)}
-              >
-                {range}
-              </Button>
-            ))}
-          </div>
-        </div>
 
         <div className="space-y-2">
           <p className="text-sm text-muted-foreground">Select probability types to display:</p>
@@ -196,7 +185,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
       <CardContent>
         <div className="h-96">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={filteredData}>
+            <LineChart data={optionData}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
               <XAxis 
                 dataKey="Update_date" 
@@ -205,7 +194,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
               />
               <YAxis 
                 className="text-muted-foreground" 
-                domain={[0, 1]}
+                domain={getYAxisDomain()}
                 tickFormatter={formatYAxisLabel}
               />
               <Tooltip 
