@@ -158,17 +158,6 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
 
       <ProbabilityHistoryChart optionName={option.OptionName} />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Additional Pricing Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex justify-between">
-            <span className="text-sm text-muted-foreground">Ask-Bid Spread</span>
-            <span className="font-medium">{formatValue(option.AskBidSpread, 'AskBidSpread')}</span>
-          </div>
-        </CardContent>
-      </Card>
 
       <Card>
         <CardHeader>

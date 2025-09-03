@@ -6,7 +6,6 @@ import {
   YAxis, 
   CartesianGrid, 
   Tooltip, 
-  Legend, 
   ResponsiveContainer
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -205,7 +204,6 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
                   borderRadius: 'var(--radius)'
                 }}
               />
-              <Legend />
               {PROBABILITY_LINES.map(line => (
                 visibleLines.has(line.key) && (
                   <Line
