@@ -130,11 +130,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
 
   const formatXAxisLabel = (tickItem: string) => {
     const date = new Date(tickItem);
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
-      day: 'numeric',
-      year: '2-digit'
-    });
+    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
   };
 
   const toggleLineVisibility = (lineKey: string) => {
@@ -191,6 +187,9 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
                 dataKey="Update_date" 
                 tickFormatter={formatXAxisLabel}
                 className="text-muted-foreground"
+                angle={-45}
+                textAnchor="end"
+                height={60}
               />
               <YAxis 
                 className="text-muted-foreground" 

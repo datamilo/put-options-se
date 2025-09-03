@@ -18,19 +18,22 @@ export const SettingsModal = () => {
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value.replace(/[^0-9]/g, ''), 10);
-    if (!isNaN(value) && value >= 1000 && value <= 1000000) {
-      setTempValue(value);
+    const cleanValue = e.target.value.replace(/[^0-9]/g, '');
+    const value = parseInt(cleanValue, 10);
+    if (!isNaN(value)) {
+      // Clamp value between 10,000 and 1,000,000
+      const clampedValue = Math.max(10000, Math.min(1000000, value));
+      setTempValue(clampedValue);
     }
   };
 
   const handleSave = () => {
-    if (tempValue >= 1000 && tempValue <= 1000000) {
+    if (tempValue >= 10000 && tempValue <= 1000000) {
       setUnderlyingValue(tempValue);
       setIsOpen(false);
       toast.success(`Underlying value updated to ${tempValue.toLocaleString()}`);
     } else {
-      toast.error('Please enter a value between 1,000 and 1,000,000');
+      toast.error('Please enter a value between 10,000 and 1,000,000');
     }
   };
 
@@ -80,12 +83,12 @@ export const SettingsModal = () => {
                   value={[tempValue]}
                   onValueChange={handleSliderChange}
                   max={1000000}
-                  min={1000}
+                  min={10000}
                   step={1000}
                   className="w-full"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>1,000</span>
+                  <span>10,000</span>
                   <span>1,000,000</span>
                 </div>
               </div>
