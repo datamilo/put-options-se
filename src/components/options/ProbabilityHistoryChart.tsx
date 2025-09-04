@@ -178,7 +178,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
       </CardHeader>
       
       <CardContent>
-        <div className="h-96">
+        <div className="h-[480px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={optionData}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
@@ -188,7 +188,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
                 className="text-muted-foreground"
                 angle={-45}
                 textAnchor="end"
-                height={60}
+                height={80}
               />
               <YAxis 
                 className="text-muted-foreground" 
@@ -197,7 +197,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
               />
               <Tooltip 
                 formatter={formatTooltipValue}
-                labelFormatter={(label) => new Date(label).toLocaleDateString()}
+                labelFormatter={(label) => new Date(label).toISOString().split('T')[0]}
                 contentStyle={{
                   backgroundColor: 'hsl(var(--card))',
                   border: '1px solid hsl(var(--border))',

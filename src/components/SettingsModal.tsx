@@ -9,8 +9,9 @@ import { Settings } from 'lucide-react';
 import { toast } from 'sonner';
 
 export const SettingsModal = () => {
-  const { underlyingValue, setUnderlyingValue } = useSettings();
+  const { underlyingValue, setUnderlyingValue, transactionCost, setTransactionCost } = useSettings();
   const [tempValue, setTempValue] = useState(underlyingValue);
+  const [tempTransactionCost, setTempTransactionCost] = useState(transactionCost);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSliderChange = (value: number[]) => {
@@ -27,11 +28,20 @@ export const SettingsModal = () => {
     }
   };
 
+  const handleTransactionCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const cleanValue = e.target.value.replace(/[^0-9]/g, '');
+    const value = parseInt(cleanValue, 10);
+    if (!isNaN(value) && value >= 0) {
+      setTempTransactionCost(value);
+    }
+  };
+
   const handleSave = () => {
     if (tempValue >= 10000 && tempValue <= 1000000) {
       setUnderlyingValue(tempValue);
+      setTransactionCost(tempTransactionCost);
       setIsOpen(false);
-      toast.success(`Underlying value updated to ${tempValue.toLocaleString()}`);
+      toast.success(`Settings updated: Underlying value ${tempValue.toLocaleString()}, Transaction cost ${tempTransactionCost}`);
     } else {
       toast.error('Please enter a value between 10,000 and 1,000,000');
     }
@@ -39,6 +49,7 @@ export const SettingsModal = () => {
 
   const handleCancel = () => {
     setTempValue(underlyingValue);
+    setTempTransactionCost(transactionCost);
     setIsOpen(false);
   };
 
@@ -54,6 +65,7 @@ export const SettingsModal = () => {
           size="sm"
           onClick={() => {
             setTempValue(underlyingValue);
+            setTempTransactionCost(transactionCost);
             setIsOpen(true);
           }}
         >
@@ -103,6 +115,28 @@ export const SettingsModal = () => {
                   placeholder="100,000"
                 />
               </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="transaction-cost">
+                Transaction Cost
+              </Label>
+              <p className="text-sm text-muted-foreground">
+                The transaction cost that will be subtracted from the premium calculation. Default is 150.
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="transaction-cost-input">Transaction Cost:</Label>
+              <Input
+                id="transaction-cost-input"
+                type="text"
+                value={tempTransactionCost.toString()}
+                onChange={handleTransactionCostChange}
+                placeholder="150"
+              />
             </div>
           </div>
           

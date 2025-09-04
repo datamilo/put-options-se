@@ -10,7 +10,7 @@ export interface RecalculatedOptionData extends OptionData {
 }
 
 export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptionData[] => {
-  const { underlyingValue } = useSettings();
+  const { underlyingValue, transactionCost } = useSettings();
 
   return useMemo(() => {
     return options.map(option => {
@@ -18,9 +18,8 @@ export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptio
       const numberOfContractsBasedOnLimit = Math.round((underlyingValue / option.StrikePrice) / 100);
       const bidAskMidPrice = (option.Bid + (option.Ask || option.Bid)) / 2;
       
-      // Assuming courtage is 0 for now (can be made configurable later)
-      const courtage = 0;
-      const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - courtage);
+      // Use configurable transaction cost
+      const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
 
       return {
         ...option,
@@ -34,5 +33,5 @@ export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptio
         Bid_Ask_Mid_Price: bidAskMidPrice,
       };
     });
-  }, [options, underlyingValue]);
+  }, [options, underlyingValue, transactionCost]);
 };
