@@ -70,7 +70,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Premium</p>
               <p className="text-lg font-semibold">{formatValue(option.Premium, 'Premium')}</p>
@@ -86,6 +86,10 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
             <div>
               <p className="text-sm text-muted-foreground">Stock Price</p>
               <p className="text-lg font-semibold">{formatValue(option.StockPrice, 'StockPrice')}</p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Strike vs Stock %</p>
+              <p className="text-lg font-semibold">{formatValue(((option.StrikePrice - option.StockPrice) / option.StockPrice), 'Pct')}</p>
             </div>
           </div>
         </CardContent>
