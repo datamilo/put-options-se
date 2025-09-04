@@ -12,19 +12,30 @@ export const SettingsModal = () => {
   const { underlyingValue, setUnderlyingValue, transactionCost, setTransactionCost } = useSettings();
   const [tempValue, setTempValue] = useState(underlyingValue);
   const [tempTransactionCost, setTempTransactionCost] = useState(transactionCost);
+  const [inputValue, setInputValue] = useState(underlyingValue.toString());
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSliderChange = (value: number[]) => {
-    setTempValue(value[0]);
+    const newValue = value[0];
+    setTempValue(newValue);
+    setInputValue(newValue.toString());
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const cleanValue = e.target.value.replace(/[^0-9]/g, '');
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    const cleanValue = inputValue.replace(/[^0-9]/g, '');
     const value = parseInt(cleanValue, 10);
     if (!isNaN(value)) {
       // Clamp value between 10,000 and 1,000,000
       const clampedValue = Math.max(10000, Math.min(1000000, value));
       setTempValue(clampedValue);
+      setInputValue(clampedValue.toString());
+    } else {
+      // Reset to current tempValue if invalid input
+      setInputValue(tempValue.toString());
     }
   };
 
@@ -50,6 +61,7 @@ export const SettingsModal = () => {
   const handleCancel = () => {
     setTempValue(underlyingValue);
     setTempTransactionCost(transactionCost);
+    setInputValue(underlyingValue.toString());
     setIsOpen(false);
   };
 
@@ -66,6 +78,7 @@ export const SettingsModal = () => {
           onClick={() => {
             setTempValue(underlyingValue);
             setTempTransactionCost(transactionCost);
+            setInputValue(underlyingValue.toString());
             setIsOpen(true);
           }}
         >
@@ -110,8 +123,9 @@ export const SettingsModal = () => {
                 <Input
                   id="underlying-input"
                   type="text"
-                  value={formatCurrency(tempValue)}
+                  value={inputValue}
                   onChange={handleInputChange}
+                  onBlur={handleInputBlur}
                   placeholder="100,000"
                 />
               </div>
