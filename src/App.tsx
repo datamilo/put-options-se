@@ -12,6 +12,7 @@ import StockDetailsPage from "./pages/StockDetailsPage";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
+
 import { AuthProvider, useAuth } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";

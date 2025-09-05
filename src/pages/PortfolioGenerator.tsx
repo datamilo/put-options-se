@@ -191,6 +191,10 @@ const PortfolioGenerator = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <div className="bg-red-100 p-4 text-red-800 rounded">
+        DEBUG: PortfolioGenerator component is rendering! Data length: {data?.length || 0}
+      </div>
+      
       <div className="flex items-center gap-4">
         <Button variant="ghost" onClick={() => navigate("/")} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />

@@ -309,7 +309,10 @@ const Index = () => {
           </div>
           <div className="mt-4">
             <Button 
-              onClick={() => navigate('/portfolio-generator')}
+              onClick={() => {
+                console.log('🔄 Navigating to portfolio generator...');
+                navigate('/portfolio-generator');
+              }}
               variant="outline"
               size="sm"
               className="bg-white text-black border-gray-300 hover:bg-gray-50"
