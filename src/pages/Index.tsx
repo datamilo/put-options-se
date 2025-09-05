@@ -305,6 +305,13 @@ const Index = () => {
         <div className="text-center flex-1 space-y-4">
           <h1 className="text-4xl font-bold">Put Options Data</h1>
           <TimestampDisplay />
+          <Button 
+            onClick={() => navigate('/portfolio-generator')}
+            className="mt-4"
+            size="lg"
+          >
+            Generate Portfolio Automatically
+          </Button>
         </div>
         <div className="flex items-center gap-2">
           <SettingsModal />

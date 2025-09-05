@@ -6,6 +6,7 @@ import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import Index from "./pages/Index";
+import PortfolioGenerator from "./pages/PortfolioGenerator";
 import OptionDetailsPage from "./pages/OptionDetailsPage";
 import StockDetailsPage from "./pages/StockDetailsPage";
 import NotFound from "./pages/NotFound";
@@ -48,6 +49,7 @@ const App = () => (
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+                <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
                 <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
                 <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
                 <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
