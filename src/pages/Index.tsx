@@ -302,16 +302,21 @@ const Index = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-start">
-        <div className="text-center flex-1 space-y-4">
-          <h1 className="text-4xl font-bold">Put Options Data</h1>
-          <TimestampDisplay />
-          <Button 
-            onClick={() => navigate('/portfolio-generator')}
-            className="mt-4"
-            size="lg"
-          >
-            Generate Portfolio Automatically
-          </Button>
+        <div className="space-y-2">
+          <h1 className="text-4xl font-bold text-center">Put Options Data</h1>
+          <div className="text-center">
+            <TimestampDisplay />
+          </div>
+          <div className="flex justify-start">
+            <Button 
+              onClick={() => navigate('/portfolio-generator')}
+              variant="outline"
+              size="sm"
+              className="bg-white text-black border-gray-300 hover:bg-gray-50"
+            >
+              Generate Portfolio Automatically
+            </Button>
+          </div>
         </div>
         <div className="flex items-center gap-2">
           <SettingsModal />

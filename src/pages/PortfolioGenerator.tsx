@@ -4,6 +4,7 @@ import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { useOptionsData } from "@/hooks/useOptionsData";
 import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
+import { useStockData } from "@/hooks/useStockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ const PortfolioGenerator = () => {
   const navigate = useNavigate();
   const { data: rawData, isLoading } = useOptionsData();
   const data = useRecalculatedOptions(rawData);
+  const { getLowPriceForPeriod } = useStockData();
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
@@ -40,8 +42,10 @@ const PortfolioGenerator = () => {
 
     // Apply filters
     if (strikeBelowPeriod !== null) {
-      // Note: In real implementation, you'd need access to stock price history
-      // For now, we'll skip this filter or implement a simplified version
+      filteredOptions = filteredOptions.filter(option => {
+        const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
+        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice <= lowPrice;
+      });
     }
 
     if (minProbabilityOfWorthless !== null) {
