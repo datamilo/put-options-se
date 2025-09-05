@@ -14,10 +14,13 @@ import { ArrowLeft, Target, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 
 const PortfolioGenerator = () => {
+  console.log('🎯 PortfolioGenerator component rendering');
   const navigate = useNavigate();
   const { data: rawData, isLoading } = useOptionsData();
   const data = useRecalculatedOptions(rawData);
   const { getLowPriceForPeriod } = useStockData();
+
+  console.log('📊 Portfolio data:', { rawDataLength: rawData?.length, dataLength: data?.length, isLoading });
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
@@ -167,12 +170,24 @@ const PortfolioGenerator = () => {
   const uniqueExpiryDates = [...new Set(data.map(option => option.ExpiryDate))].sort();
 
   if (isLoading) {
+    console.log('⏳ PortfolioGenerator is loading...');
     return (
       <div className="container mx-auto p-6">
         <div className="text-center">Loading options data...</div>
       </div>
     );
   }
+
+  if (!data || data.length === 0) {
+    console.log('❌ No data available in PortfolioGenerator');
+    return (
+      <div className="container mx-auto p-6">
+        <div className="text-center">No options data available</div>
+      </div>
+    );
+  }
+
+  console.log('✅ PortfolioGenerator rendering with data');
 
   return (
     <div className="container mx-auto p-6 space-y-6">

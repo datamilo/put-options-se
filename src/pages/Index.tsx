@@ -302,12 +302,12 @@ const Index = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex justify-between items-start">
-        <div className="space-y-2">
-          <h1 className="text-4xl font-bold text-center">Put Options Data</h1>
-          <div className="text-center">
+        <div className="flex-1">
+          <div className="text-center space-y-4">
+            <h1 className="text-4xl font-bold">Put Options Data</h1>
             <TimestampDisplay />
           </div>
-          <div className="flex justify-start">
+          <div className="mt-4">
             <Button 
               onClick={() => navigate('/portfolio-generator')}
               variant="outline"
