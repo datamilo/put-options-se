@@ -29,27 +29,39 @@ const PortfolioGenerator = () => {
 
   // More sophisticated portfolio generation
   const generatePortfolio = () => {
+    console.log("generatePortfolio started");
+    console.log("data length:", data?.length);
+    console.log("totalPremiumTarget:", totalPremiumTarget);
+    
     try {
       if (totalPremiumTarget < 500) {
+        console.log("Premium target too low");
         toast.error("Total premium target must be at least 500");
         return;
       }
 
+      console.log("Starting filtering...");
       let filteredOptions = [...data];
+      console.log("Initial options count:", filteredOptions.length);
 
       // Apply probability filter
       if (minProbabilityOfWorthless !== null) {
+        console.log("Applying probability filter:", minProbabilityOfWorthless);
         filteredOptions = filteredOptions.filter(option => {
           const prob = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'] ?? 0;
           return prob >= minProbabilityOfWorthless / 100;
         });
+        console.log("After probability filter:", filteredOptions.length);
       }
 
       // Apply expiry filter
       if (expiryDateFilter) {
+        console.log("Applying expiry filter:", expiryDateFilter);
         filteredOptions = filteredOptions.filter(option => option.ExpiryDate === expiryDateFilter);
+        console.log("After expiry filter:", filteredOptions.length);
       }
 
+      console.log("Starting selection...");
       // Simple selection - take best premium options
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
@@ -59,6 +71,8 @@ const PortfolioGenerator = () => {
         .filter(option => option.Premium > 0)
         .sort((a, b) => b.Premium - a.Premium);
 
+      console.log("Sorted options count:", sortedOptions.length);
+
       for (const option of sortedOptions.slice(0, 100)) { // Check first 100 options only
         if (totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
@@ -66,6 +80,9 @@ const PortfolioGenerator = () => {
           if (selectedOptions.length >= 10) break; // Max 10 options
         }
       }
+
+      console.log("Selected options:", selectedOptions.length);
+      console.log("Total premium:", totalPremium);
 
       setGeneratedPortfolio(selectedOptions);
       setPortfolioGenerated(true);
@@ -77,6 +94,8 @@ const PortfolioGenerator = () => {
         setGenerationMessage(`Generated ${totalPremium.toLocaleString('sv-SE')} SEK successfully`);
         toast.success("Portfolio generated successfully");
       }
+      
+      console.log("generatePortfolio completed successfully");
     } catch (error) {
       console.error("Generation error:", error);
       toast.error("Error generating portfolio");
