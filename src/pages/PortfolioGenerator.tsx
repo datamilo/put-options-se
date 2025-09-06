@@ -19,37 +19,103 @@ const PortfolioGenerator = () => {
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
+  const [strikePriceBelow, setStrikePriceBelow] = useState<number | null>(null);
+  const [minProbabilityWorthless, setMinProbabilityWorthless] = useState<number | null>(null);
+  const [expiryDate, setExpiryDate] = useState<string>("");
+  const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(100000);
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
+  const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(0);
+  const [portfolioMessage, setPortfolioMessage] = useState<string>("");
 
-  // Remove all filtering - just get any options with positive premium
   const generatePortfolio = () => {
-    alert("Starting generation..."); // Visual confirmation it's running
-    console.log("=== STARTING ===");
-    
     try {
       const selectedOptions: OptionData[] = [];
+      const usedStocks = new Set<string>();
       let totalPremium = 0;
 
-      // Check first 50 options
-      for (let i = 0; i < Math.min(50, data.length); i++) {
-        const option = data[i];
+      // Filter options based on criteria
+      let filteredOptions = data.filter(option => {
+        // Basic checks
+        if (option.Premium <= 0) return false;
+
+        // Strike price filter
+        if (strikePriceBelow && option.StrikePrice >= strikePriceBelow) return false;
+
+        // Expiry date filter
+        if (expiryDate) {
+          const optionExpiry = new Date(option.ExpiryDate);
+          const targetExpiry = new Date(expiryDate);
+          if (optionExpiry > targetExpiry) return false;
+        }
+
+        // Probability filter (use ProbWorthless_Bayesian_IsoCal or fallback to 1_2_3_ProbOfWorthless_Weighted)
+        if (minProbabilityWorthless) {
+          const probability = option.ProbWorthless_Bayesian_IsoCal || option['1_2_3_ProbOfWorthless_Weighted'];
+          if (!probability || probability < minProbabilityWorthless) return false;
+        }
+
+        return true;
+      });
+
+      // Sort by probability (highest first) and premium (highest first) for optimal selection
+      filteredOptions.sort((a, b) => {
+        const probA = a.ProbWorthless_Bayesian_IsoCal || a['1_2_3_ProbOfWorthless_Weighted'] || 0;
+        const probB = b.ProbWorthless_Bayesian_IsoCal || b['1_2_3_ProbOfWorthless_Weighted'] || 0;
         
-        // Just check for positive premium, no other filters
-        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
+        if (probB !== probA) return probB - probA; // Higher probability first
+        return b.Premium - a.Premium; // Higher premium first if probability equal
+      });
+
+      // Select maximum one option per stock
+      for (const option of filteredOptions) {
+        if (usedStocks.has(option.StockName)) continue;
+        
+        if (totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
+          usedStocks.add(option.StockName);
           totalPremium += option.Premium;
-          console.log(`Added: ${option.OptionName}, Premium: ${option.Premium}`);
-          if (selectedOptions.length >= 5) break;
         }
       }
 
-      alert(`Found ${selectedOptions.length} options`); // Visual confirmation
+      // If we haven't reached target, try to get as close as possible by replacing options
+      if (totalPremium < totalPremiumTarget) {
+        // Sort remaining options by how close they get us to target
+        const remainingOptions = filteredOptions.filter(option => 
+          !usedStocks.has(option.StockName) && 
+          option.Premium <= (totalPremiumTarget - totalPremium)
+        );
+
+        for (const option of remainingOptions) {
+          if (totalPremium + option.Premium <= totalPremiumTarget) {
+            selectedOptions.push(option);
+            usedStocks.add(option.StockName);
+            totalPremium += option.Premium;
+          }
+        }
+      }
+
+      // Calculate total underlying value
+      const calculatedUnderlyingValue = selectedOptions.reduce((sum, option) => {
+        return sum + (option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100);
+      }, 0);
+
+      // Generate status message
+      let message = "";
+      if (totalPremium < totalPremiumTarget) {
+        const deficit = totalPremiumTarget - totalPremium;
+        message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). Available options could not reach the full target amount.`;
+      } else {
+        message = `Portfolio successfully generated with ${totalPremium} SEK premium, meeting your target.`;
+      }
+
       setGeneratedPortfolio(selectedOptions);
+      setTotalUnderlyingValue(calculatedUnderlyingValue);
+      setPortfolioMessage(message);
       setPortfolioGenerated(true);
     } catch (error) {
-      alert(`Error: ${error}`);
       console.error("Error:", error);
+      setPortfolioMessage(`Error generating portfolio: ${error}`);
     }
   };
 
@@ -80,25 +146,69 @@ const PortfolioGenerator = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="totalPremium">Total Premium to Receive (SEK) *</Label>
-            <Input
-              id="totalPremium"
-              type="number"
-              min="500"
-              value={totalPremiumTarget}
-              onChange={(e) => setTotalPremiumTarget(parseInt(e.target.value) || 500)}
-              placeholder="Minimum 500"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="totalPremium">Total Premium to Receive (SEK) *</Label>
+              <Input
+                id="totalPremium"
+                type="number"
+                min="500"
+                value={totalPremiumTarget}
+                onChange={(e) => setTotalPremiumTarget(parseInt(e.target.value) || 500)}
+                placeholder="Minimum 500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="underlyingValue">Underlying Stock Value (SEK) *</Label>
+              <Input
+                id="underlyingValue"
+                type="number"
+                min="1000"
+                value={underlyingStockValue}
+                onChange={(e) => setUnderlyingStockValue(parseInt(e.target.value) || 100000)}
+                placeholder="Default 100,000"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="strikePriceBelow">Strike Price Below (SEK)</Label>
+              <Input
+                id="strikePriceBelow"
+                type="number"
+                value={strikePriceBelow || ""}
+                onChange={(e) => setStrikePriceBelow(e.target.value ? parseInt(e.target.value) : null)}
+                placeholder="Optional"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="minProbability">Minimum Probability of Worthless (%)</Label>
+              <Input
+                id="minProbability"
+                type="number"
+                min="40"
+                max="100"
+                value={minProbabilityWorthless || ""}
+                onChange={(e) => setMinProbabilityWorthless(e.target.value ? parseInt(e.target.value) : null)}
+                placeholder="40-100% (Optional)"
+              />
+            </div>
+
+            <div className="space-y-2 md:col-span-2">
+              <Label htmlFor="expiryDate">Expiry Date Before</Label>
+              <Input
+                id="expiryDate"
+                type="date"
+                value={expiryDate}
+                onChange={(e) => setExpiryDate(e.target.value)}
+              />
+            </div>
           </div>
           
-          <Button onClick={generatePortfolio} className="w-full md:w-auto">
-            Generate Simple Portfolio
+          <Button onClick={generatePortfolio} className="w-full md:w-auto" size="lg">
+            Generate Portfolio Automatically
           </Button>
-          
-          <div className="text-center">
-            <p>Testing simple portfolio generation...</p>
-          </div>
         </CardContent>
       </Card>
 
@@ -106,6 +216,11 @@ const PortfolioGenerator = () => {
         <Card>
           <CardHeader>
             <CardTitle>Generated Portfolio ({generatedPortfolio.length} options)</CardTitle>
+            <div className="text-sm text-muted-foreground space-y-1">
+              <p>{portfolioMessage}</p>
+              <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
+              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK</p>
+            </div>
           </CardHeader>
           <CardContent>
             <OptionsTable
@@ -122,23 +237,6 @@ const PortfolioGenerator = () => {
         </Card>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Test - First 10 Options</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <OptionsTable
-            data={data.slice(0, 10)}
-            onRowClick={handleOptionClick}
-            onStockClick={handleStockClick}
-            sortField={null}
-            sortDirection="asc"
-            onSortChange={() => {}}
-            columnFilters={[]}
-            onColumnFiltersChange={() => {}}
-          />
-        </CardContent>
-      </Card>
     </div>
   );
 };
