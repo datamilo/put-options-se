@@ -89,12 +89,21 @@ const PortfolioGenerator = () => {
         return true;
       });
 
-      // Sort by probability (highest first) and premium (highest first) for optimal selection
+      // Sort by probability and premium for optimal selection
       filteredOptions.sort((a, b) => {
         const probA = a.ProbWorthless_Bayesian_IsoCal || a['1_2_3_ProbOfWorthless_Weighted'] || 0;
         const probB = b.ProbWorthless_Bayesian_IsoCal || b['1_2_3_ProbOfWorthless_Weighted'] || 0;
         
-        if (probB !== probA) return probB - probA; // Higher probability first
+        if (minProbabilityWorthless) {
+          // When minimum probability is set, prioritize options closest to the minimum threshold
+          const diffA = Math.abs(probA - minProbabilityWorthless);
+          const diffB = Math.abs(probB - minProbabilityWorthless);
+          if (diffA !== diffB) return diffA - diffB; // Closest to threshold first
+        } else {
+          // When no minimum is set, prioritize highest probability
+          if (probB !== probA) return probB - probA; // Higher probability first
+        }
+        
         return b.Premium - a.Premium; // Higher premium first if probability equal
       });
 
