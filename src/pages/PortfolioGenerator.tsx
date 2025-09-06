@@ -9,7 +9,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowLeft, Target } from "lucide-react";
+import { toast } from "sonner";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
@@ -19,27 +21,65 @@ const PortfolioGenerator = () => {
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
+  const [minProbabilityOfWorthless, setMinProbabilityOfWorthless] = useState<number | null>(null);
+  const [expiryDateFilter, setExpiryDateFilter] = useState<string>("");
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
+  const [generationMessage, setGenerationMessage] = useState<string>("");
 
-  // Simple portfolio generation - just take first 5 options that meet premium target
+  // More sophisticated portfolio generation
   const generatePortfolio = () => {
     try {
+      if (totalPremiumTarget < 500) {
+        toast.error("Total premium target must be at least 500");
+        return;
+      }
+
+      let filteredOptions = [...data];
+
+      // Apply probability filter
+      if (minProbabilityOfWorthless !== null) {
+        filteredOptions = filteredOptions.filter(option => {
+          const prob = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'] ?? 0;
+          return prob >= minProbabilityOfWorthless / 100;
+        });
+      }
+
+      // Apply expiry filter
+      if (expiryDateFilter) {
+        filteredOptions = filteredOptions.filter(option => option.ExpiryDate === expiryDateFilter);
+      }
+
+      // Simple selection - take best premium options
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
 
-      for (const option of data.slice(0, 50)) { // Only check first 50 options
-        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
+      // Sort by premium descending, then take options until target
+      const sortedOptions = filteredOptions
+        .filter(option => option.Premium > 0)
+        .sort((a, b) => b.Premium - a.Premium);
+
+      for (const option of sortedOptions.slice(0, 100)) { // Check first 100 options only
+        if (totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
           totalPremium += option.Premium;
-          if (selectedOptions.length >= 5) break; // Max 5 options
+          if (selectedOptions.length >= 10) break; // Max 10 options
         }
       }
 
       setGeneratedPortfolio(selectedOptions);
       setPortfolioGenerated(true);
+      
+      if (totalPremium < totalPremiumTarget) {
+        setGenerationMessage(`Generated ${totalPremium.toLocaleString('sv-SE')} SEK (${(totalPremiumTarget - totalPremium).toLocaleString('sv-SE')} SEK short)`);
+        toast.warning("Could not reach target premium");
+      } else {
+        setGenerationMessage(`Generated ${totalPremium.toLocaleString('sv-SE')} SEK successfully`);
+        toast.success("Portfolio generated successfully");
+      }
     } catch (error) {
       console.error("Generation error:", error);
+      toast.error("Error generating portfolio");
     }
   };
 
@@ -51,6 +91,14 @@ const PortfolioGenerator = () => {
   const handleStockClick = (stockName: string) => {
     navigate(`/stock/${encodeURIComponent(stockName)}`);
   };
+
+  const uniqueExpiryDates = useMemo(() => {
+    try {
+      return [...new Set(data.map(option => option.ExpiryDate))].sort();
+    } catch (err) {
+      return [];
+    }
+  }, [data]);
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -70,25 +118,53 @@ const PortfolioGenerator = () => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="totalPremium">Total Premium to Receive (SEK) *</Label>
-            <Input
-              id="totalPremium"
-              type="number"
-              min="500"
-              value={totalPremiumTarget}
-              onChange={(e) => setTotalPremiumTarget(parseInt(e.target.value) || 500)}
-              placeholder="Minimum 500"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="totalPremium">Total Premium to Receive (SEK) *</Label>
+              <Input
+                id="totalPremium"
+                type="number"
+                min="500"
+                value={totalPremiumTarget}
+                onChange={(e) => setTotalPremiumTarget(parseInt(e.target.value) || 500)}
+                placeholder="Minimum 500"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="minProbability">Min Probability of Worthless (%)</Label>
+              <Input
+                id="minProbability"
+                type="number"
+                min="40"
+                max="100"
+                value={minProbabilityOfWorthless || ""}
+                onChange={(e) => setMinProbabilityOfWorthless(e.target.value ? parseInt(e.target.value) : null)}
+                placeholder="40-100% (optional)"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="expiryDate">Expiry Date</Label>
+              <Select value={expiryDateFilter} onValueChange={setExpiryDateFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select expiry date (optional)" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="">All dates</SelectItem>
+                  {uniqueExpiryDates.map(date => (
+                    <SelectItem key={date} value={date}>
+                      {date}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           
           <Button onClick={generatePortfolio} className="w-full md:w-auto">
-            Generate Simple Portfolio
+            Generate Portfolio
           </Button>
-          
-          <div className="text-center">
-            <p>Testing simple portfolio generation...</p>
-          </div>
         </CardContent>
       </Card>
 
@@ -96,6 +172,9 @@ const PortfolioGenerator = () => {
         <Card>
           <CardHeader>
             <CardTitle>Generated Portfolio ({generatedPortfolio.length} options)</CardTitle>
+            {generationMessage && (
+              <p className="text-sm text-muted-foreground">{generationMessage}</p>
+            )}
           </CardHeader>
           <CardContent>
             <OptionsTable
