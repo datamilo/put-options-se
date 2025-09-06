@@ -80,11 +80,9 @@ const PortfolioGenerator = () => {
         // Expiry date filter
         if (selectedExpiryDate && option.ExpiryDate !== selectedExpiryDate) return false;
 
-        // Probability filter (use ProbWorthless_Bayesian_IsoCal or fallback to 1_2_3_ProbOfWorthless_Weighted)
-        if (minProbabilityWorthless) {
-          const probability = option.ProbWorthless_Bayesian_IsoCal || option['1_2_3_ProbOfWorthless_Weighted'];
-          if (!probability || probability < minProbabilityWorthless) return false;
-        }
+        // Probability filter - find options as close as possible to minimum threshold
+        // Don't filter out options here, let the sorting handle the priority selection
+        return true;
 
         return true;
       });
@@ -95,10 +93,22 @@ const PortfolioGenerator = () => {
         const probB = b.ProbWorthless_Bayesian_IsoCal || b['1_2_3_ProbOfWorthless_Weighted'] || 0;
         
         if (minProbabilityWorthless) {
-          // When minimum probability is set, prioritize options closest to the minimum threshold
-          const diffA = Math.abs(probA - minProbabilityWorthless);
-          const diffB = Math.abs(probB - minProbabilityWorthless);
-          if (diffA !== diffB) return diffA - diffB; // Closest to threshold first
+          // Filter out options below minimum threshold first
+          const meetsMinA = probA >= minProbabilityWorthless;
+          const meetsMinB = probB >= minProbabilityWorthless;
+          
+          if (meetsMinA && !meetsMinB) return -1; // A meets minimum, B doesn't
+          if (!meetsMinA && meetsMinB) return 1;  // B meets minimum, A doesn't
+          
+          if (meetsMinA && meetsMinB) {
+            // Both meet minimum, prioritize closest to minimum threshold
+            const diffA = Math.abs(probA - minProbabilityWorthless);
+            const diffB = Math.abs(probB - minProbabilityWorthless);
+            if (diffA !== diffB) return diffA - diffB;
+          } else {
+            // Neither meets minimum, get highest probability available
+            if (probB !== probA) return probB - probA;
+          }
         } else {
           // When no minimum is set, prioritize highest probability
           if (probB !== probA) return probB - probA; // Higher probability first
