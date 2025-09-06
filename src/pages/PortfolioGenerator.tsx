@@ -20,10 +20,12 @@ const PortfolioGenerator = () => {
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
+  const [totalPremiumInput, setTotalPremiumInput] = useState<string>("500");
   const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(null);
   const [minProbabilityWorthless, setMinProbabilityWorthless] = useState<number | null>(null);
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>("");
   const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(100000);
+  const [underlyingValueInput, setUnderlyingValueInput] = useState<string>("100000");
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
   const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(0);
@@ -44,16 +46,18 @@ const PortfolioGenerator = () => {
   }, [data]);
 
   // Input validation functions
-  const handleTotalPremiumChange = (value: string) => {
+  const validateTotalPremium = (value: string) => {
     const num = parseInt(value) || 500;
     const clampedValue = Math.max(500, Math.min(1000000, num));
     setTotalPremiumTarget(clampedValue);
+    setTotalPremiumInput(clampedValue.toString());
   };
 
-  const handleUnderlyingValueChange = (value: string) => {
+  const validateUnderlyingValue = (value: string) => {
     const num = parseInt(value) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     setUnderlyingStockValue(clampedValue);
+    setUnderlyingValueInput(clampedValue.toString());
   };
 
   const generatePortfolio = () => {
@@ -179,8 +183,9 @@ const PortfolioGenerator = () => {
               <Input
                 id="totalPremium"
                 type="number"
-                value={totalPremiumTarget}
-                onChange={(e) => handleTotalPremiumChange(e.target.value)}
+                value={totalPremiumInput}
+                onChange={(e) => setTotalPremiumInput(e.target.value)}
+                onBlur={(e) => validateTotalPremium(e.target.value)}
                 placeholder="500 - 1,000,000"
               />
               <p className="text-xs text-muted-foreground">Range: 500 - 1,000,000 SEK</p>
@@ -191,8 +196,9 @@ const PortfolioGenerator = () => {
               <Input
                 id="underlyingValue"
                 type="number"
-                value={underlyingStockValue}
-                onChange={(e) => handleUnderlyingValueChange(e.target.value)}
+                value={underlyingValueInput}
+                onChange={(e) => setUnderlyingValueInput(e.target.value)}
+                onBlur={(e) => validateUnderlyingValue(e.target.value)}
                 placeholder="10,000 - 1,000,000"
               />
               <p className="text-xs text-muted-foreground">Range: 10,000 - 1,000,000 SEK</p>
