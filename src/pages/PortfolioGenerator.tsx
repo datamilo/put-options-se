@@ -17,7 +17,7 @@ const PortfolioGenerator = () => {
   console.log('🎯 PortfolioGenerator component rendering');
   const navigate = useNavigate();
   const { data: rawData, isLoading } = useOptionsData();
-  const data = useRecalculatedOptions(rawData);
+  const data = useRecalculatedOptions(rawData || []);
   const { getLowPriceForPeriod } = useStockData();
 
   console.log('📊 Portfolio data:', { rawDataLength: rawData?.length, dataLength: data?.length, isLoading });
@@ -173,7 +173,14 @@ const PortfolioGenerator = () => {
     console.log('⏳ PortfolioGenerator is loading...');
     return (
       <div className="container mx-auto p-6">
-        <div className="text-center">Loading options data...</div>
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" onClick={() => navigate("/")} className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Options
+          </Button>
+          <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
+        </div>
+        <div className="text-center mt-8">Loading options data...</div>
       </div>
     );
   }
@@ -182,7 +189,14 @@ const PortfolioGenerator = () => {
     console.log('❌ No data available in PortfolioGenerator');
     return (
       <div className="container mx-auto p-6">
-        <div className="text-center">No options data available</div>
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" onClick={() => navigate("/")} className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Options
+          </Button>
+          <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
+        </div>
+        <div className="text-center mt-8">No options data available</div>
       </div>
     );
   }
