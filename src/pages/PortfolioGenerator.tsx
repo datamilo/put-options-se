@@ -66,6 +66,9 @@ const PortfolioGenerator = () => {
       const usedStocks = new Set<string>();
       let totalPremium = 0;
 
+      console.log("Portfolio generation started with minProbabilityWorthless:", minProbabilityWorthless);
+      console.log("Total data options:", data.length);
+
       // Filter options based on criteria
       let filteredOptions = data.filter(option => {
         // Basic checks
@@ -83,11 +86,14 @@ const PortfolioGenerator = () => {
         // Probability filter - must meet minimum threshold if specified
         if (minProbabilityWorthless) {
           const prob = option.ProbWorthless_Bayesian_IsoCal || option['1_2_3_ProbOfWorthless_Weighted'] || 0;
+          console.log(`Option ${option.OptionName}: prob=${prob}, threshold=${minProbabilityWorthless}, passes=${prob >= minProbabilityWorthless}`);
           if (prob < minProbabilityWorthless) return false;
         }
 
         return true;
       });
+
+      console.log("Filtered options count:", filteredOptions.length);
 
       // Sort by probability and premium for optimal selection
       filteredOptions.sort((a, b) => {
