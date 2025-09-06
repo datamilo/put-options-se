@@ -19,6 +19,29 @@ const PortfolioGenerator = () => {
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
+  const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
+  const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
+
+  // Simple portfolio generation - just take first 5 options that meet premium target
+  const generatePortfolio = () => {
+    try {
+      const selectedOptions: OptionData[] = [];
+      let totalPremium = 0;
+
+      for (const option of data.slice(0, 50)) { // Only check first 50 options
+        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
+          selectedOptions.push(option);
+          totalPremium += option.Premium;
+          if (selectedOptions.length >= 5) break; // Max 5 options
+        }
+      }
+
+      setGeneratedPortfolio(selectedOptions);
+      setPortfolioGenerated(true);
+    } catch (error) {
+      console.error("Generation error:", error);
+    }
+  };
 
   const handleOptionClick = (option: OptionData) => {
     const optionId = encodeURIComponent(option.OptionName);
@@ -59,11 +82,35 @@ const PortfolioGenerator = () => {
             />
           </div>
           
+          <Button onClick={generatePortfolio} className="w-full md:w-auto">
+            Generate Simple Portfolio
+          </Button>
+          
           <div className="text-center">
-            <p>Testing OptionsTable component with first 10 options...</p>
+            <p>Testing simple portfolio generation...</p>
           </div>
         </CardContent>
       </Card>
+
+      {portfolioGenerated && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Generated Portfolio ({generatedPortfolio.length} options)</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <OptionsTable
+              data={generatedPortfolio}
+              onRowClick={handleOptionClick}
+              onStockClick={handleStockClick}
+              sortField={null}
+              sortDirection="asc"
+              onSortChange={() => {}}
+              columnFilters={[]}
+              onColumnFiltersChange={() => {}}
+            />
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>
