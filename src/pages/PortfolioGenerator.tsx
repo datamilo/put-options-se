@@ -80,9 +80,11 @@ const PortfolioGenerator = () => {
         // Expiry date filter
         if (selectedExpiryDate && option.ExpiryDate !== selectedExpiryDate) return false;
 
-        // Probability filter - find options as close as possible to minimum threshold
-        // Don't filter out options here, let the sorting handle the priority selection
-        return true;
+        // Probability filter - must meet minimum threshold if specified
+        if (minProbabilityWorthless) {
+          const prob = option.ProbWorthless_Bayesian_IsoCal || option['1_2_3_ProbOfWorthless_Weighted'] || 0;
+          if (prob < minProbabilityWorthless) return false;
+        }
 
         return true;
       });
