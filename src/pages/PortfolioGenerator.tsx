@@ -18,19 +18,52 @@ const PortfolioGenerator = () => {
   const data = useRecalculatedOptions(rawData || []);
   const { getLowPriceForPeriod } = useStockData();
 
-  // Form state
-  const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
-  const [totalPremiumInput, setTotalPremiumInput] = useState<string>("500");
-  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(null);
-  const [minProbabilityWorthless, setMinProbabilityWorthless] = useState<number | null>(null);
-  const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>("");
-  const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(100000);
-  const [underlyingValueInput, setUnderlyingValueInput] = useState<string>("100000");
-  const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>("ProbWorthless_Bayesian_IsoCal");
-  const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
-  const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
-  const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(0);
-  const [portfolioMessage, setPortfolioMessage] = useState<string>("");
+  // Form state with localStorage persistence
+  const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_totalPremiumTarget');
+    return saved ? parseInt(saved) : 500;
+  });
+  const [totalPremiumInput, setTotalPremiumInput] = useState<string>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_totalPremiumTarget');
+    return saved ? saved : "500";
+  });
+  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_strikeBelowPeriod');
+    return saved ? parseInt(saved) : null;
+  });
+  const [minProbabilityWorthless, setMinProbabilityWorthless] = useState<number | null>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_minProbabilityWorthless');
+    return saved ? parseInt(saved) : null;
+  });
+  const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>(() => {
+    return localStorage.getItem('portfolioGenerator_selectedExpiryDate') || "";
+  });
+  const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
+    return saved ? parseInt(saved) : 100000;
+  });
+  const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
+    return saved ? saved : "100000";
+  });
+  const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>(() => {
+    return localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal";
+  });
+  const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_generatedPortfolio');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_portfolioGenerated');
+    return saved === 'true';
+  });
+  const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_totalUnderlyingValue');
+    return saved ? parseInt(saved) : 0;
+  });
+  const [portfolioMessage, setPortfolioMessage] = useState<string>(() => {
+    return localStorage.getItem('portfolioGenerator_portfolioMessage') || "";
+  });
 
   // Get dropdown options from data
   const timePeriodOptions = [
@@ -54,12 +87,13 @@ const PortfolioGenerator = () => {
     return [...new Set(data.map(option => option.ExpiryDate))].sort();
   }, [data]);
 
-  // Input validation functions
+  // Input validation functions with localStorage persistence
   const validateTotalPremium = (value: string) => {
     const num = parseInt(value) || 500;
     const clampedValue = Math.max(500, Math.min(1000000, num));
     setTotalPremiumTarget(clampedValue);
     setTotalPremiumInput(clampedValue.toString());
+    localStorage.setItem('portfolioGenerator_totalPremiumTarget', clampedValue.toString());
   };
 
   const validateUnderlyingValue = (value: string) => {
@@ -67,6 +101,7 @@ const PortfolioGenerator = () => {
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     setUnderlyingStockValue(clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
+    localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
   };
 
   // Helper function to get probability value with fallback
@@ -173,6 +208,12 @@ const PortfolioGenerator = () => {
       setTotalUnderlyingValue(calculatedUnderlyingValue);
       setPortfolioMessage(message);
       setPortfolioGenerated(true);
+      
+      // Save to localStorage
+      localStorage.setItem('portfolioGenerator_generatedPortfolio', JSON.stringify(selectedOptions));
+      localStorage.setItem('portfolioGenerator_totalUnderlyingValue', calculatedUnderlyingValue.toString());
+      localStorage.setItem('portfolioGenerator_portfolioMessage', message);
+      localStorage.setItem('portfolioGenerator_portfolioGenerated', 'true');
     } catch (error) {
       console.error("Error:", error);
       setPortfolioMessage(`Error generating portfolio: ${error}`);
@@ -235,7 +276,7 @@ const PortfolioGenerator = () => {
 
             <div className="space-y-2">
               <Label>Strike Price Below</Label>
-              <DropdownMenu>
+                <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
                     {strikeBelowPeriod === null 
@@ -245,13 +286,19 @@ const PortfolioGenerator = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full bg-background z-50">
-                  <DropdownMenuItem onClick={() => setStrikeBelowPeriod(null)}>
+                  <DropdownMenuItem onClick={() => {
+                    setStrikeBelowPeriod(null);
+                    localStorage.setItem('portfolioGenerator_strikeBelowPeriod', '');
+                  }}>
                     No Filter
                   </DropdownMenuItem>
                   {timePeriodOptions.map(option => (
                     <DropdownMenuItem 
                       key={option.days}
-                      onClick={() => setStrikeBelowPeriod(option.days)}
+                      onClick={() => {
+                        setStrikeBelowPeriod(option.days);
+                        localStorage.setItem('portfolioGenerator_strikeBelowPeriod', option.days.toString());
+                      }}
                     >
                       {option.label}
                     </DropdownMenuItem>
@@ -268,7 +315,11 @@ const PortfolioGenerator = () => {
                 min="40"
                 max="100"
                 value={minProbabilityWorthless || ""}
-                onChange={(e) => setMinProbabilityWorthless(e.target.value ? parseInt(e.target.value) : null)}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value) : null;
+                  setMinProbabilityWorthless(value);
+                  localStorage.setItem('portfolioGenerator_minProbabilityWorthless', value ? value.toString() : '');
+                }}
                 placeholder="40-100% (Optional)"
               />
             </div>
@@ -286,7 +337,10 @@ const PortfolioGenerator = () => {
                   {probabilityFieldOptions.map(option => (
                     <DropdownMenuItem 
                       key={option.value}
-                      onClick={() => setSelectedProbabilityField(option.value)}
+                      onClick={() => {
+                        setSelectedProbabilityField(option.value);
+                        localStorage.setItem('portfolioGenerator_selectedProbabilityField', option.value);
+                      }}
                     >
                       {option.label}
                     </DropdownMenuItem>
@@ -305,13 +359,19 @@ const PortfolioGenerator = () => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full bg-background z-50 max-h-[200px] overflow-y-auto">
-                  <DropdownMenuItem onClick={() => setSelectedExpiryDate("")}>
+                  <DropdownMenuItem onClick={() => {
+                    setSelectedExpiryDate("");
+                    localStorage.setItem('portfolioGenerator_selectedExpiryDate', '');
+                  }}>
                     All Expiry Dates
                   </DropdownMenuItem>
                   {availableExpiryDates.map(date => (
                     <DropdownMenuItem 
                       key={date}
-                      onClick={() => setSelectedExpiryDate(date)}
+                      onClick={() => {
+                        setSelectedExpiryDate(date);
+                        localStorage.setItem('portfolioGenerator_selectedExpiryDate', date);
+                      }}
                     >
                       {date}
                     </DropdownMenuItem>
