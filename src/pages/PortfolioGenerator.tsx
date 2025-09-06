@@ -16,11 +16,14 @@ import { toast } from "sonner";
 const PortfolioGenerator = () => {
   console.log('🎯 PortfolioGenerator component rendering');
   const navigate = useNavigate();
-  const { data: rawData, isLoading } = useOptionsData();
+  
+  const { data: rawData, isLoading, error } = useOptionsData();
+  console.log('📊 Raw options data:', { rawDataLength: rawData?.length, isLoading, error });
+  
   const data = useRecalculatedOptions(rawData || []);
+  console.log('📊 Recalculated options data:', { dataLength: data?.length });
+  
   const { getLowPriceForPeriod } = useStockData();
-
-  console.log('📊 Portfolio data:', { rawDataLength: rawData?.length, dataLength: data?.length, isLoading });
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
@@ -167,7 +170,26 @@ const PortfolioGenerator = () => {
     { label: "1 Year Low", days: 365 },
   ];
 
-  const uniqueExpiryDates = [...new Set(data.map(option => option.ExpiryDate))].sort();
+  const uniqueExpiryDates = useMemo(() => {
+    if (!data || data.length === 0) return [];
+    return [...new Set(data.map(option => option.ExpiryDate))].sort();
+  }, [data]);
+
+  if (error) {
+    console.log('❌ Error in PortfolioGenerator:', error);
+    return (
+      <div className="container mx-auto p-6">
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" onClick={() => navigate("/")} className="flex items-center gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Options
+          </Button>
+          <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
+        </div>
+        <div className="text-center mt-8 text-red-500">Error loading data: {error}</div>
+      </div>
+    );
+  }
 
   if (isLoading) {
     console.log('⏳ PortfolioGenerator is loading...');
