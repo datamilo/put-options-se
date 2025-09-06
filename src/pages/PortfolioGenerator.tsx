@@ -32,11 +32,15 @@ const PortfolioGenerator = () => {
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
 
-      // Filter options with reasonable probability (>10% chance of being worthless)
-      const filteredOptions = data.slice(0, 50).filter(option => {
-        return option.Premium > 0 && 
-               option['1_2_3_ProbOfWorthless_Weighted'] > 10 && 
-               option['1_2_3_ProbOfWorthless_Weighted'] < 90;
+      // Filter options with reasonable probability - make it less restrictive
+      const firstOptions = data.slice(0, 50);
+      console.log("First 3 options:", firstOptions.slice(0, 3));
+      
+      const filteredOptions = firstOptions.filter(option => {
+        const hasPositivePremium = option.Premium > 0;
+        const probWorthless = option['1_2_3_ProbOfWorthless_Weighted'];
+        console.log(`Option ${option.OptionName}: Premium=${option.Premium}, ProbWorthless=${probWorthless}`);
+        return hasPositivePremium && probWorthless > 5 && probWorthless < 95; // Much more lenient
       });
       
       console.log("Filtered options length:", filteredOptions.length);
