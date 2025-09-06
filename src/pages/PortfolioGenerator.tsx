@@ -22,20 +22,35 @@ const PortfolioGenerator = () => {
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
 
-  // Simple portfolio generation - just take first 5 options that meet premium target
+  // Step 1: Add basic filtering by probability - test if this breaks the site
   const generatePortfolio = () => {
+    console.log("Starting portfolio generation...");
+    console.log("Data length:", data.length);
+    console.log("Target premium:", totalPremiumTarget);
+    
     try {
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
 
-      for (const option of data.slice(0, 50)) { // Only check first 50 options
-        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
+      // Filter options with reasonable probability (>10% chance of being worthless)
+      const filteredOptions = data.slice(0, 50).filter(option => {
+        return option.Premium > 0 && 
+               option['1_2_3_ProbOfWorthless_Weighted'] > 10 && 
+               option['1_2_3_ProbOfWorthless_Weighted'] < 90;
+      });
+      
+      console.log("Filtered options length:", filteredOptions.length);
+
+      for (const option of filteredOptions) {
+        if (totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
           totalPremium += option.Premium;
+          console.log(`Added option: ${option.OptionName}, Premium: ${option.Premium}`);
           if (selectedOptions.length >= 5) break; // Max 5 options
         }
       }
 
+      console.log("Selected options:", selectedOptions.length);
       setGeneratedPortfolio(selectedOptions);
       setPortfolioGenerated(true);
     } catch (error) {
