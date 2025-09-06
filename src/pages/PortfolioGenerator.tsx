@@ -22,39 +22,31 @@ const PortfolioGenerator = () => {
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
 
-  // Step 1: Add basic filtering by probability - test if this breaks the site
+  // Back to simple working version to test step by step
   const generatePortfolio = () => {
     console.log("Starting portfolio generation...");
     console.log("Data length:", data.length);
     console.log("Target premium:", totalPremiumTarget);
     
+    if (data.length > 0) {
+      console.log("First option:", data[0]);
+    }
+    
     try {
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
 
-      // Filter options with reasonable probability - make it less restrictive
-      const firstOptions = data.slice(0, 50);
-      console.log("First 3 options:", firstOptions.slice(0, 3));
-      
-      const filteredOptions = firstOptions.filter(option => {
-        const hasPositivePremium = option.Premium > 0;
-        const probWorthless = option['1_2_3_ProbOfWorthless_Weighted'];
-        console.log(`Option ${option.OptionName}: Premium=${option.Premium}, ProbWorthless=${probWorthless}`);
-        return hasPositivePremium && probWorthless > 5 && probWorthless < 95; // Much more lenient
-      });
-      
-      console.log("Filtered options length:", filteredOptions.length);
-
-      for (const option of filteredOptions) {
-        if (totalPremium + option.Premium <= totalPremiumTarget) {
+      for (const option of data.slice(0, 50)) { // Only check first 50 options
+        console.log(`Checking option: ${option.OptionName}, Premium: ${option.Premium}`);
+        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
           totalPremium += option.Premium;
-          console.log(`Added option: ${option.OptionName}, Premium: ${option.Premium}`);
+          console.log(`Added option: ${option.OptionName}, Total premium now: ${totalPremium}`);
           if (selectedOptions.length >= 5) break; // Max 5 options
         }
       }
 
-      console.log("Selected options:", selectedOptions.length);
+      console.log("Final selected options:", selectedOptions.length);
       setGeneratedPortfolio(selectedOptions);
       setPortfolioGenerated(true);
     } catch (error) {
