@@ -22,23 +22,38 @@ const PortfolioGenerator = () => {
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
 
-  // Back to simple working version to test step by step
+  // Step 2: Add back probability filtering with very lenient bounds
   const generatePortfolio = () => {
     console.log("Starting portfolio generation...");
     console.log("Data length:", data.length);
     console.log("Target premium:", totalPremiumTarget);
     
     if (data.length > 0) {
-      console.log("First option:", data[0]);
+      console.log("First option sample:", {
+        name: data[0].OptionName,
+        premium: data[0].Premium,
+        probWorthless: data[0]['1_2_3_ProbOfWorthless_Weighted']
+      });
     }
     
     try {
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
 
-      for (const option of data.slice(0, 50)) { // Only check first 50 options
-        console.log(`Checking option: ${option.OptionName}, Premium: ${option.Premium}`);
-        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
+      // First check what data we're working with
+      const firstFifty = data.slice(0, 50);
+      console.log("Checking probability values in first 10 options:");
+      firstFifty.slice(0, 10).forEach((option, index) => {
+        console.log(`Option ${index}: ${option.OptionName}, Premium: ${option.Premium}, Prob: ${option['1_2_3_ProbOfWorthless_Weighted']}`);
+      });
+
+      for (const option of firstFifty) {
+        const probWorthless = option['1_2_3_ProbOfWorthless_Weighted'];
+        const hasGoodProbability = probWorthless >= 1 && probWorthless <= 99; // Very lenient bounds
+        
+        console.log(`Checking option: ${option.OptionName}, Premium: ${option.Premium}, Prob: ${probWorthless}, PassesFilter: ${hasGoodProbability}`);
+        
+        if (option.Premium > 0 && hasGoodProbability && totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
           totalPremium += option.Premium;
           console.log(`Added option: ${option.OptionName}, Total premium now: ${totalPremium}`);
