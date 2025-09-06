@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Target } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { ArrowLeft, Target, ChevronDown } from "lucide-react";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
@@ -19,14 +20,41 @@ const PortfolioGenerator = () => {
 
   // Form state
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
-  const [strikePriceBelow, setStrikePriceBelow] = useState<number | null>(null);
+  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(null);
   const [minProbabilityWorthless, setMinProbabilityWorthless] = useState<number | null>(null);
-  const [expiryDate, setExpiryDate] = useState<string>("");
+  const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>("");
   const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(100000);
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
   const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(0);
   const [portfolioMessage, setPortfolioMessage] = useState<string>("");
+
+  // Get dropdown options from data
+  const timePeriodOptions = [
+    { label: "1 Week Low", days: 7 },
+    { label: "1 Month Low", days: 30 },
+    { label: "3 Months Low", days: 90 },
+    { label: "6 Months Low", days: 180 },
+    { label: "9 Months Low", days: 270 },
+    { label: "1 Year Low", days: 365 },
+  ];
+
+  const availableExpiryDates = useMemo(() => {
+    return [...new Set(data.map(option => option.ExpiryDate))].sort();
+  }, [data]);
+
+  // Input validation functions
+  const handleTotalPremiumChange = (value: string) => {
+    const num = parseInt(value) || 500;
+    const clampedValue = Math.max(500, Math.min(1000000, num));
+    setTotalPremiumTarget(clampedValue);
+  };
+
+  const handleUnderlyingValueChange = (value: string) => {
+    const num = parseInt(value) || 10000;
+    const clampedValue = Math.max(10000, Math.min(1000000, num));
+    setUnderlyingStockValue(clampedValue);
+  };
 
   const generatePortfolio = () => {
     try {
@@ -39,15 +67,14 @@ const PortfolioGenerator = () => {
         // Basic checks
         if (option.Premium <= 0) return false;
 
-        // Strike price filter
-        if (strikePriceBelow && option.StrikePrice >= strikePriceBelow) return false;
+        // Strike price below period filter
+        if (strikeBelowPeriod) {
+          const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
+          if (!lowPrice || option.StrikePrice > lowPrice) return false;
+        }
 
         // Expiry date filter
-        if (expiryDate) {
-          const optionExpiry = new Date(option.ExpiryDate);
-          const targetExpiry = new Date(expiryDate);
-          if (optionExpiry > targetExpiry) return false;
-        }
+        if (selectedExpiryDate && option.ExpiryDate !== selectedExpiryDate) return false;
 
         // Probability filter (use ProbWorthless_Bayesian_IsoCal or fallback to 1_2_3_ProbOfWorthless_Weighted)
         if (minProbabilityWorthless) {
@@ -152,11 +179,11 @@ const PortfolioGenerator = () => {
               <Input
                 id="totalPremium"
                 type="number"
-                min="500"
                 value={totalPremiumTarget}
-                onChange={(e) => setTotalPremiumTarget(parseInt(e.target.value) || 500)}
-                placeholder="Minimum 500"
+                onChange={(e) => handleTotalPremiumChange(e.target.value)}
+                placeholder="500 - 1,000,000"
               />
+              <p className="text-xs text-muted-foreground">Range: 500 - 1,000,000 SEK</p>
             </div>
 
             <div className="space-y-2">
@@ -164,22 +191,38 @@ const PortfolioGenerator = () => {
               <Input
                 id="underlyingValue"
                 type="number"
-                min="1000"
                 value={underlyingStockValue}
-                onChange={(e) => setUnderlyingStockValue(parseInt(e.target.value) || 100000)}
-                placeholder="Default 100,000"
+                onChange={(e) => handleUnderlyingValueChange(e.target.value)}
+                placeholder="10,000 - 1,000,000"
               />
+              <p className="text-xs text-muted-foreground">Range: 10,000 - 1,000,000 SEK</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="strikePriceBelow">Strike Price Below (SEK)</Label>
-              <Input
-                id="strikePriceBelow"
-                type="number"
-                value={strikePriceBelow || ""}
-                onChange={(e) => setStrikePriceBelow(e.target.value ? parseInt(e.target.value) : null)}
-                placeholder="Optional"
-              />
+              <Label>Strike Price Below</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {strikeBelowPeriod === null 
+                      ? "Select Period (Optional)" 
+                      : timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full bg-background z-50">
+                  <DropdownMenuItem onClick={() => setStrikeBelowPeriod(null)}>
+                    No Filter
+                  </DropdownMenuItem>
+                  {timePeriodOptions.map(option => (
+                    <DropdownMenuItem 
+                      key={option.days}
+                      onClick={() => setStrikeBelowPeriod(option.days)}
+                    >
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             <div className="space-y-2">
@@ -196,13 +239,28 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="expiryDate">Expiry Date Before</Label>
-              <Input
-                id="expiryDate"
-                type="date"
-                value={expiryDate}
-                onChange={(e) => setExpiryDate(e.target.value)}
-              />
+              <Label>Expiry Date</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {selectedExpiryDate || "Select Expiry Date (Optional)"}
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full bg-background z-50 max-h-[200px] overflow-y-auto">
+                  <DropdownMenuItem onClick={() => setSelectedExpiryDate("")}>
+                    All Expiry Dates
+                  </DropdownMenuItem>
+                  {availableExpiryDates.map(date => (
+                    <DropdownMenuItem 
+                      key={date}
+                      onClick={() => setSelectedExpiryDate(date)}
+                    >
+                      {date}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
           
