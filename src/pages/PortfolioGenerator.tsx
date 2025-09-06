@@ -26,6 +26,7 @@ const PortfolioGenerator = () => {
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>("");
   const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(100000);
   const [underlyingValueInput, setUnderlyingValueInput] = useState<string>("100000");
+  const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>("ProbWorthless_Bayesian_IsoCal");
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
   const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(0);
@@ -39,6 +40,14 @@ const PortfolioGenerator = () => {
     { label: "6 Months Low", days: 180 },
     { label: "9 Months Low", days: 270 },
     { label: "1 Year Low", days: 365 },
+  ];
+
+  const probabilityFieldOptions = [
+    { value: "ProbWorthless_Bayesian_IsoCal", label: "Bayesian Calibrated" },
+    { value: "1_2_3_ProbOfWorthless_Weighted", label: "Weighted Average" },
+    { value: "1_ProbOfWorthless_Original", label: "Original" },
+    { value: "2_ProbOfWorthless_Calibrated", label: "Calibrated" },
+    { value: "3_ProbOfWorthless_Historical_IV", label: "Historical IV" },
   ];
 
   const availableExpiryDates = useMemo(() => {
@@ -58,6 +67,13 @@ const PortfolioGenerator = () => {
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     setUnderlyingStockValue(clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
+  };
+
+  // Helper function to get probability value with fallback
+  const getProbabilityValue = (option: OptionData): number => {
+    const primaryValue = option[selectedProbabilityField as keyof OptionData] as number;
+    const fallbackValue = option['1_2_3_ProbOfWorthless_Weighted'];
+    return primaryValue || fallbackValue || 0;
   };
 
   const generatePortfolio = () => {
@@ -82,7 +98,7 @@ const PortfolioGenerator = () => {
 
         // Probability filter - must meet minimum threshold if specified
         if (minProbabilityWorthless) {
-          const prob = option.ProbWorthless_Bayesian_IsoCal || option['1_2_3_ProbOfWorthless_Weighted'] || 0;
+          const prob = getProbabilityValue(option);
           // Convert user input from percentage (70) to decimal (0.70) for comparison
           const minProbDecimal = minProbabilityWorthless / 100;
           if (prob < minProbDecimal) return false;
@@ -93,8 +109,8 @@ const PortfolioGenerator = () => {
 
       // Sort by probability and premium for optimal selection
       filteredOptions.sort((a, b) => {
-        const probA = a.ProbWorthless_Bayesian_IsoCal || a['1_2_3_ProbOfWorthless_Weighted'] || 0;
-        const probB = b.ProbWorthless_Bayesian_IsoCal || b['1_2_3_ProbOfWorthless_Weighted'] || 0;
+        const probA = getProbabilityValue(a);
+        const probB = getProbabilityValue(b);
         
         if (minProbabilityWorthless) {
           // Convert user input from percentage to decimal for comparison
@@ -255,6 +271,28 @@ const PortfolioGenerator = () => {
                 onChange={(e) => setMinProbabilityWorthless(e.target.value ? parseInt(e.target.value) : null)}
                 placeholder="40-100% (Optional)"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Probability Field to Use</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {probabilityFieldOptions.find(opt => opt.value === selectedProbabilityField)?.label || "Select Field"}
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full bg-background z-50">
+                  {probabilityFieldOptions.map(option => (
+                    <DropdownMenuItem 
+                      key={option.value}
+                      onClick={() => setSelectedProbabilityField(option.value)}
+                    >
+                      {option.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
 
             <div className="space-y-2 md:col-span-2">
