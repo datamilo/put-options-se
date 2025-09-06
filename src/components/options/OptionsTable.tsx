@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { OptionData } from "@/types/options";
 import {
   Table,
@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/table";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpDown, Filter, Eye, EyeOff } from "lucide-react";
+import { ArrowUpDown, Eye, EyeOff } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { formatNumber } from "@/lib/utils";
 
@@ -20,27 +19,15 @@ interface OptionsTableProps {
   data: OptionData[];
   onRowClick?: (option: OptionData) => void;
   onStockClick?: (stockName: string) => void;
-  columnFilters: ColumnFilter[];
-  onColumnFiltersChange: (filters: ColumnFilter[]) => void;
   sortField: keyof OptionData | null;
   sortDirection: 'asc' | 'desc';
   onSortChange: (field: keyof OptionData | null, direction: 'asc' | 'desc') => void;
 }
 
-interface ColumnFilter {
-  field: string;
-  type: 'text' | 'number';
-  textValue?: string;
-  minValue?: number;
-  maxValue?: number;
-}
-
-export const OptionsTable = ({ data, onRowClick, onStockClick, columnFilters, onColumnFiltersChange, sortField, sortDirection, onSortChange }: OptionsTableProps) => {
+export const OptionsTable = ({ data, onRowClick, onStockClick, sortField, sortDirection, onSortChange }: OptionsTableProps) => {
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
   const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
-  const [activeFilter, setActiveFilter] = useState<string | null>(null);
-  const filterRef = useRef<HTMLDivElement>(null);
 
   // Define column groups for better organization
   const columnGroups = {
@@ -65,20 +52,6 @@ export const OptionsTable = ({ data, onRowClick, onStockClick, columnFilters, on
       setVisibleColumns(columnGroups.basic);
     }
   }, [allColumns.length, visibleColumns.length]);
-
-  // Handle click outside to close filter dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
-        setActiveFilter(null);
-      }
-    };
-
-    if (activeFilter) {
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
-    }
-  }, [activeFilter]);
 
   const formatColumnName = (field: string) => {
     return field
@@ -115,72 +88,6 @@ export const OptionsTable = ({ data, onRowClick, onStockClick, columnFilters, on
       return bStr.localeCompare(aStr);
     }
   });
-
-  // Determine if a field is numeric based on the data
-  const getFieldType = (field: string): 'text' | 'number' => {
-    if (data.length === 0) return 'text';
-    const sampleValue = data[0][field as keyof OptionData];
-    return typeof sampleValue === 'number' ? 'number' : 'text';
-  };
-
-  // Apply column filters
-  const filteredData = sortedData.filter(option => {
-    return columnFilters.every(filter => {
-      const value = option[filter.field as keyof OptionData];
-      
-      if (filter.type === 'text') {
-        if (!filter.textValue) return true;
-        return String(value).toLowerCase().includes(filter.textValue.toLowerCase());
-      } else {
-        if (typeof value !== 'number') return true;
-        if (filter.minValue !== undefined && value < filter.minValue) return false;
-        if (filter.maxValue !== undefined && value > filter.maxValue) return false;
-        return true;
-      }
-    });
-  });
-
-  const updateColumnFilter = (field: string, filterUpdate: Partial<ColumnFilter>) => {
-    const prevFilters = columnFilters;
-    const existingIndex = prevFilters.findIndex(f => f.field === field);
-    const fieldType = getFieldType(field);
-    
-    let newFilters: ColumnFilter[];
-    
-    if (existingIndex >= 0) {
-      // Update existing filter
-      const updated = [...prevFilters];
-      updated[existingIndex] = { ...updated[existingIndex], ...filterUpdate };
-      
-      // Remove filter if it's empty
-      if (fieldType === 'text' && !updated[existingIndex].textValue) {
-        newFilters = updated.filter((_, i) => i !== existingIndex);
-      } else if (fieldType === 'number' && 
-                 updated[existingIndex].minValue === undefined && 
-                 updated[existingIndex].maxValue === undefined) {
-        newFilters = updated.filter((_, i) => i !== existingIndex);
-      } else {
-        newFilters = updated;
-      }
-    } else {
-      // Add new filter only if it has values
-      if (fieldType === 'text' && !filterUpdate.textValue) {
-        newFilters = prevFilters;
-      } else if (fieldType === 'number' && 
-          filterUpdate.minValue === undefined && 
-          filterUpdate.maxValue === undefined) {
-        newFilters = prevFilters;
-      } else {
-        newFilters = [...prevFilters, { field, type: fieldType, ...filterUpdate }];
-      }
-    }
-    
-    onColumnFiltersChange(newFilters);
-  };
-
-  const getColumnFilter = (field: string): ColumnFilter | undefined => {
-    return columnFilters.find(f => f.field === field);
-  };
 
   const formatValue = (value: any, field: string) => {
     return formatNumber(value, field);
@@ -236,14 +143,7 @@ export const OptionsTable = ({ data, onRowClick, onStockClick, columnFilters, on
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center space-x-2">
-          <Filter className="h-4 w-4" />
-          <span className="text-sm text-muted-foreground">
-            Click on column headers to filter
-          </span>
-        </div>
-        
+      <div className="flex items-center justify-end gap-4">
         <Button
           variant="outline"
           onClick={() => setShowColumnManager(!showColumnManager)}
@@ -308,100 +208,22 @@ export const OptionsTable = ({ data, onRowClick, onStockClick, columnFilters, on
         <Table>
           <TableHeader>
             <TableRow>
-              {visibleColumns.map(column => {
-                const fieldType = getFieldType(column);
-                const filter = getColumnFilter(column);
-                const hasFilter = !!filter;
-                
-                return (
-                  <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
-                    <div className="space-y-2">
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSort(column as keyof OptionData)}
-                        className="h-8 p-0 font-medium"
-                        title={formatColumnName(column)}
-                      >
-                        {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
-                      </Button>
-                      
-                      <div className="relative">
-                        <Button
-                          variant={hasFilter ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setActiveFilter(activeFilter === column ? null : column)}
-                          className="h-6 w-full text-xs"
-                        >
-                          <Filter className="h-3 w-3 mr-1" />
-                          {hasFilter ? 'Filtered' : 'Filter'}
-                        </Button>
-                        
-                        {activeFilter === column && (
-                          <div 
-                            ref={filterRef}
-                            className="absolute top-8 left-0 z-50 bg-background border rounded-md shadow-md p-2 min-w-48"
-                          >
-                            {fieldType === 'text' ? (
-                              <Input
-                                placeholder="Search..."
-                                value={filter?.textValue || ''}
-                                onChange={(e) => updateColumnFilter(column, { textValue: e.target.value.slice(0, 100) })}
-                                className="h-8"
-                                maxLength={100}
-                                autoFocus
-                              />
-                            ) : (
-                              <div className="space-y-2">
-                                <Input
-                                  type="number"
-                                  placeholder="Min value"
-                                  value={filter?.minValue || ''}
-                                  onChange={(e) => {
-                                    const value = e.target.value;
-                                    const numValue = value ? parseFloat(value) : undefined;
-                                    if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
-                                      updateColumnFilter(column, { minValue: numValue });
-                                    }
-                                  }}
-                                  className="h-8"
-                                />
-                                <Input
-                                  type="number"
-                                  placeholder="Max value"
-                                  value={filter?.maxValue || ''}
-                                  onChange={(e) => {
-                                    const value = e.target.value;
-                                    const numValue = value ? parseFloat(value) : undefined;
-                                    if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
-                                      updateColumnFilter(column, { maxValue: numValue });
-                                    }
-                                  }}
-                                  className="h-8"
-                                />
-                              </div>
-                            )}
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => {
-                                updateColumnFilter(column, fieldType === 'text' ? { textValue: '' } : { minValue: undefined, maxValue: undefined });
-                                setActiveFilter(null);
-                              }}
-                              className="mt-2 h-6 w-full text-xs"
-                            >
-                              Clear
-                            </Button>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </TableHead>
-                );
-              })}
+              {visibleColumns.map(column => (
+                <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
+                  <Button
+                    variant="ghost"
+                    onClick={() => handleSort(column as keyof OptionData)}
+                    className="h-8 p-0 font-medium"
+                    title={formatColumnName(column)}
+                  >
+                    {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
+                  </Button>
+                </TableHead>
+              ))}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.map((option, index) => (
+            {sortedData.map((option, index) => (
               <TableRow
                 key={`${option.StockName}-${option.OptionName}-${index}`}
                 className="hover:bg-muted/50"
