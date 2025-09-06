@@ -93,22 +93,10 @@ const PortfolioGenerator = () => {
         const probB = b.ProbWorthless_Bayesian_IsoCal || b['1_2_3_ProbOfWorthless_Weighted'] || 0;
         
         if (minProbabilityWorthless) {
-          // Filter out options below minimum threshold first
-          const meetsMinA = probA >= minProbabilityWorthless;
-          const meetsMinB = probB >= minProbabilityWorthless;
-          
-          if (meetsMinA && !meetsMinB) return -1; // A meets minimum, B doesn't
-          if (!meetsMinA && meetsMinB) return 1;  // B meets minimum, A doesn't
-          
-          if (meetsMinA && meetsMinB) {
-            // Both meet minimum, prioritize closest to minimum threshold
-            const diffA = Math.abs(probA - minProbabilityWorthless);
-            const diffB = Math.abs(probB - minProbabilityWorthless);
-            if (diffA !== diffB) return diffA - diffB;
-          } else {
-            // Neither meets minimum, get highest probability available
-            if (probB !== probA) return probB - probA;
-          }
+          // When minimum probability is set, prioritize options closest to the target value
+          const diffA = Math.abs(probA - minProbabilityWorthless);
+          const diffB = Math.abs(probB - minProbabilityWorthless);
+          if (diffA !== diffB) return diffA - diffB; // Closest to target first
         } else {
           // When no minimum is set, prioritize highest probability
           if (probB !== probA) return probB - probA; // Higher probability first
