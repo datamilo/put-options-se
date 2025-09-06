@@ -22,61 +22,34 @@ const PortfolioGenerator = () => {
   const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>([]);
   const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(false);
 
-  // Debug: Let's see what the actual probability values are
+  // Remove all filtering - just get any options with positive premium
   const generatePortfolio = () => {
-    console.log("=== STARTING PORTFOLIO GENERATION ===");
-    console.log("Data length:", data.length);
-    console.log("Target premium:", totalPremiumTarget);
-    
-    if (data.length > 0) {
-      console.log("=== FIRST OPTION DETAILS ===");
-      console.log("All keys:", Object.keys(data[0]));
-      console.log("Option name:", data[0].OptionName);
-      console.log("Premium:", data[0].Premium);
-      console.log("Probability field value:", data[0]['1_2_3_ProbOfWorthless_Weighted']);
-      console.log("Type of probability:", typeof data[0]['1_2_3_ProbOfWorthless_Weighted']);
-    }
+    alert("Starting generation..."); // Visual confirmation it's running
+    console.log("=== STARTING ===");
     
     try {
       const selectedOptions: OptionData[] = [];
       let totalPremium = 0;
 
-      const firstTen = data.slice(0, 10);
-      console.log("=== EXAMINING FIRST 10 OPTIONS ===");
-      
-      firstTen.forEach((option, index) => {
-        const prob = option['1_2_3_ProbOfWorthless_Weighted'];
-        console.log(`${index}: ${option.OptionName}`);
-        console.log(`  Premium: ${option.Premium} (type: ${typeof option.Premium})`);
-        console.log(`  Probability: ${prob} (type: ${typeof prob})`);
-        console.log(`  Is prob number?: ${typeof prob === 'number'}`);
-        console.log(`  Is prob >= 1?: ${prob >= 1}`);
-        console.log(`  Is prob <= 99?: ${prob <= 99}`);
-      });
-
-      console.log("=== SELECTION PROCESS ===");
-      for (const option of data.slice(0, 50)) {
-        const probWorthless = option['1_2_3_ProbOfWorthless_Weighted'];
-        const hasGoodProbability = probWorthless >= 1 && probWorthless <= 99;
+      // Check first 50 options
+      for (let i = 0; i < Math.min(50, data.length); i++) {
+        const option = data[i];
         
-        if (option.Premium > 0) {
-          console.log(`${option.OptionName}: Premium OK, Prob=${probWorthless}, PassesFilter=${hasGoodProbability}`);
-        }
-        
-        if (option.Premium > 0 && hasGoodProbability && totalPremium + option.Premium <= totalPremiumTarget) {
+        // Just check for positive premium, no other filters
+        if (option.Premium > 0 && totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
           totalPremium += option.Premium;
-          console.log(`*** ADDED: ${option.OptionName}, Total premium now: ${totalPremium} ***`);
+          console.log(`Added: ${option.OptionName}, Premium: ${option.Premium}`);
           if (selectedOptions.length >= 5) break;
         }
       }
 
-      console.log("=== FINAL RESULT ===");
-      console.log("Selected options count:", selectedOptions.length);
+      alert(`Found ${selectedOptions.length} options`); // Visual confirmation
       setGeneratedPortfolio(selectedOptions);
       setPortfolioGenerated(true);
     } catch (error) {
-      console.error("Generation error:", error);
+      alert(`Error: ${error}`);
+      console.error("Error:", error);
     }
   };
 
