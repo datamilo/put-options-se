@@ -169,30 +169,16 @@ const PortfolioGenerator = () => {
 
   const uniqueExpiryDates = [...new Set(data.map(option => option.ExpiryDate))].sort();
 
-  if (isLoading) {
-    console.log('⏳ PortfolioGenerator is loading...');
-    return (
-      <div className="container mx-auto p-6">
-        <div className="text-center">Loading options data...</div>
-      </div>
-    );
-  }
-
-  if (!data || data.length === 0) {
-    console.log('❌ No data available in PortfolioGenerator');
-    return (
-      <div className="container mx-auto p-6">
-        <div className="text-center">No options data available</div>
-      </div>
-    );
-  }
-
-  console.log('✅ PortfolioGenerator rendering with data');
+  // Always show the component with debug info
+  console.log('✅ PortfolioGenerator rendering, isLoading:', isLoading, 'data length:', data?.length);
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="bg-red-100 p-4 text-red-800 rounded">
-        DEBUG: PortfolioGenerator component is rendering! Data length: {data?.length || 0}
+        DEBUG: PortfolioGenerator is working! 
+        IsLoading: {isLoading ? 'YES' : 'NO'} | 
+        Data length: {data?.length || 0} | 
+        Raw data length: {rawData?.length || 0}
       </div>
       
       <div className="flex items-center gap-4">
