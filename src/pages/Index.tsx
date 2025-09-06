@@ -600,12 +600,15 @@ const Index = () => {
                 data={filteredData} 
                 onRowClick={handleOptionClick}
                 onStockClick={handleStockClick}
+                columnFilters={columnFilters}
+                onColumnFiltersChange={setColumnFilters}
                 sortField={sortField}
                 sortDirection={sortDirection}
                 onSortChange={(field, direction) => {
                   setSortField(field);
                   setSortDirection(direction);
                 }}
+                enableFiltering={true}
               />
             </TabsContent>
             

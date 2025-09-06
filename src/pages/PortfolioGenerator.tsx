@@ -345,6 +345,7 @@ const PortfolioGenerator = () => {
               sortField={null}
               sortDirection="asc"
               onSortChange={() => {}}
+              enableFiltering={false}
             />
           </CardContent>
         </Card>
