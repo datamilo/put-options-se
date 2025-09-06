@@ -24,7 +24,7 @@ const PortfolioGenerator = () => {
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(500);
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center gap-4">
         <Button variant="ghost" onClick={() => navigate("/")} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
@@ -32,17 +32,36 @@ const PortfolioGenerator = () => {
         </Button>
         <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
       </div>
-      
-      <div className="mt-8 text-center">
-        <p>Step 1: Basic component with navigation - ✅ Working</p>
-        <p>Step 2: useOptionsData hook - ✅ Working</p>
-        <p>Step 3: useRecalculatedOptions hook - ✅ Working</p>
-        <p>Step 4: All imports and useState - ✅ Working</p>
-        <p>Raw data: {rawData?.length || 0} options</p>
-        <p>Recalculated data: {data?.length || 0} options</p>
-        <p>Target premium: {totalPremiumTarget}</p>
-        <p>Next: Add form UI...</p>
-      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Target className="h-5 w-5" />
+            Portfolio Configuration
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="totalPremium">Total Premium to Receive (SEK) *</Label>
+              <Input
+                id="totalPremium"
+                type="number"
+                min="500"
+                value={totalPremiumTarget}
+                onChange={(e) => setTotalPremiumTarget(parseInt(e.target.value) || 500)}
+                placeholder="Minimum 500"
+              />
+            </div>
+          </div>
+          
+          <div className="text-center">
+            <p>✅ Form UI working! Step 5 complete.</p>
+            <p>Raw data: {rawData?.length || 0} options</p>
+            <p>Recalculated data: {data?.length || 0} options</p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
