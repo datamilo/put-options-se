@@ -66,9 +66,6 @@ const PortfolioGenerator = () => {
       const usedStocks = new Set<string>();
       let totalPremium = 0;
 
-      console.log("Portfolio generation started with minProbabilityWorthless:", minProbabilityWorthless);
-      console.log("Total data options:", data.length);
-
       // Filter options based on criteria
       let filteredOptions = data.filter(option => {
         // Basic checks
@@ -86,14 +83,13 @@ const PortfolioGenerator = () => {
         // Probability filter - must meet minimum threshold if specified
         if (minProbabilityWorthless) {
           const prob = option.ProbWorthless_Bayesian_IsoCal || option['1_2_3_ProbOfWorthless_Weighted'] || 0;
-          console.log(`Option ${option.OptionName}: prob=${prob}, threshold=${minProbabilityWorthless}, passes=${prob >= minProbabilityWorthless}`);
-          if (prob < minProbabilityWorthless) return false;
+          // Convert user input from percentage (70) to decimal (0.70) for comparison
+          const minProbDecimal = minProbabilityWorthless / 100;
+          if (prob < minProbDecimal) return false;
         }
 
         return true;
       });
-
-      console.log("Filtered options count:", filteredOptions.length);
 
       // Sort by probability and premium for optimal selection
       filteredOptions.sort((a, b) => {
@@ -101,9 +97,11 @@ const PortfolioGenerator = () => {
         const probB = b.ProbWorthless_Bayesian_IsoCal || b['1_2_3_ProbOfWorthless_Weighted'] || 0;
         
         if (minProbabilityWorthless) {
+          // Convert user input from percentage to decimal for comparison
+          const minProbDecimal = minProbabilityWorthless / 100;
           // When minimum probability is set, prioritize options closest to the target value
-          const diffA = Math.abs(probA - minProbabilityWorthless);
-          const diffB = Math.abs(probB - minProbabilityWorthless);
+          const diffA = Math.abs(probA - minProbDecimal);
+          const diffB = Math.abs(probB - minProbDecimal);
           if (diffA !== diffB) return diffA - diffB; // Closest to target first
         } else {
           // When no minimum is set, prioritize highest probability
