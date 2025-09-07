@@ -46,9 +46,10 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
 
   // Save to localStorage when values change
   const setUnderlyingValue = (value: number) => {
-    console.log('SettingsContext: Setting underlying value to', value);
+    console.log('SettingsContext: Setting underlying value to', value, 'Previous value was:', underlyingValue);
     setUnderlyingValueState(value);
     localStorage.setItem('underlyingValue', value.toString());
+    console.log('SettingsContext: Updated localStorage with:', value);
   };
 
   const setTransactionCost = (value: number) => {

@@ -13,6 +13,7 @@ export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptio
   const { underlyingValue, transactionCost } = useSettings();
 
   return useMemo(() => {
+    console.log('useRecalculatedOptions: Recalculating with underlyingValue:', underlyingValue, 'transactionCost:', transactionCost, 'options count:', options.length);
     return options.map(option => {
       // Recalculate based on the new underlying value
       const numberOfContractsBasedOnLimit = Math.round((underlyingValue / option.StrikePrice) / 100);
