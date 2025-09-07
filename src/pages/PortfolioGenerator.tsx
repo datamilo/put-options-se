@@ -130,9 +130,9 @@ const PortfolioGenerator = () => {
       const usedStocks = new Set<string>();
       let totalPremium = 0;
 
-      // Filter options based on criteria
+      // Filter options based on criteria - use the recalculated data that includes updated premiums
       let filteredOptions = data.filter(option => {
-        // Basic checks
+        // Basic checks - use the recalculated Premium which is updated based on underlying value
         if (option.Premium <= 0) return false;
 
         // Strike price below period filter
@@ -179,10 +179,11 @@ const PortfolioGenerator = () => {
       for (const option of filteredOptions) {
         if (usedStocks.has(option.StockName)) continue;
         
+        // Use the recalculated Premium which reflects the current underlying value
         if (totalPremium + option.Premium <= totalPremiumTarget) {
           selectedOptions.push(option);
           usedStocks.add(option.StockName);
-          totalPremium += option.Premium;
+          totalPremium += option.Premium; // This is the recalculated premium
         }
       }
 
@@ -198,12 +199,12 @@ const PortfolioGenerator = () => {
           if (totalPremium + option.Premium <= totalPremiumTarget) {
             selectedOptions.push(option);
             usedStocks.add(option.StockName);
-            totalPremium += option.Premium;
+            totalPremium += option.Premium; // Using recalculated premium
           }
         }
       }
 
-      // Calculate total underlying value
+      // Calculate total underlying value using the recalculated NumberOfContractsBasedOnLimit
       const calculatedUnderlyingValue = selectedOptions.reduce((sum, option) => {
         return sum + (option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100);
       }, 0);
@@ -434,7 +435,7 @@ const PortfolioGenerator = () => {
             <div className="text-sm text-muted-foreground space-y-1">
               <p>{portfolioMessage}</p>
               <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
-              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK</p>
+              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Recalculated based on {underlyingValue.toLocaleString()} SEK underlying value)</p>
             </div>
           </CardHeader>
           <CardContent>
