@@ -271,17 +271,20 @@ const PortfolioGenerator = () => {
       }
     };
   }, [setUnderlyingValue, originalSettings.underlyingValue]);
-
-  // Update global settings when component mounts with saved portfolio generator value
+  
+  // Load saved portfolio generator value on mount (only once)
   useEffect(() => {
     const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
     if (saved) {
       const parsedValue = parseInt(saved);
       if (!isNaN(parsedValue) && parsedValue !== underlyingValue) {
+        console.log('🔄 Loading saved portfolio generator value:', parsedValue);
         setUnderlyingValue(parsedValue);
       }
     }
-  }, []);
+  }, []); // Empty dependency array - runs only once on mount
+
+  // Note: Initial value loading is handled in the useState initialization above
 
   // Handle navigation to main page
   const handleBackToMain = () => {
