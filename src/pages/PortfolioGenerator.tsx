@@ -108,6 +108,15 @@ const PortfolioGenerator = () => {
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
   };
 
+  const handleUnderlyingValueChange = (value: string) => {
+    setUnderlyingValueInput(value);
+    // Update global settings immediately for real-time recalculation
+    const num = parseInt(value) || 10000;
+    const clampedValue = Math.max(10000, Math.min(1000000, num));
+    setUnderlyingValue(clampedValue);
+    localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
+  };
+
   // Helper function to get probability value with fallback
   const getProbabilityValue = (option: OptionData): number => {
     const primaryValue = option[selectedProbabilityField as keyof OptionData] as number;
@@ -298,7 +307,7 @@ const PortfolioGenerator = () => {
                 id="underlyingValue"
                 type="number"
                 value={underlyingValueInput}
-                onChange={(e) => setUnderlyingValueInput(e.target.value)}
+                onChange={(e) => handleUnderlyingValueChange(e.target.value)}
                 onBlur={(e) => validateUnderlyingValue(e.target.value)}
                 placeholder="10,000 - 1,000,000"
               />
