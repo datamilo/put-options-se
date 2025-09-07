@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ArrowLeft, Target, ChevronDown } from "lucide-react";
+import { ArrowLeft, Settings, ChevronDown } from "lucide-react";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
@@ -64,6 +64,19 @@ const PortfolioGenerator = () => {
   const [portfolioMessage, setPortfolioMessage] = useState<string>(() => {
     return localStorage.getItem('portfolioGenerator_portfolioMessage') || "";
   });
+
+  // Portfolio table sorting state
+  const [sortField, setSortField] = useState<keyof OptionData | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  const handleSortChange = (field: keyof OptionData) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
 
   // Get dropdown options from data
   const timePeriodOptions = [
@@ -267,14 +280,14 @@ const PortfolioGenerator = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Target className="h-5 w-5" />
+            <Settings className="h-5 w-5" />
             Portfolio Configuration
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="totalPremium">Total Premium to Receive (SEK) *</Label>
+              <Label htmlFor="totalPremium">Total Portfolio Premium</Label>
               <Input
                 id="totalPremium"
                 type="number"
@@ -287,7 +300,7 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="underlyingValue">Underlying Stock Value (SEK) *</Label>
+              <Label htmlFor="underlyingValue">Underlying Stock Value</Label>
                 <Input
                 id="underlyingValue"
                 type="number"
@@ -427,9 +440,9 @@ const PortfolioGenerator = () => {
               data={generatedPortfolio}
               onRowClick={handleOptionClick}
               onStockClick={handleStockClick}
-              sortField={null}
-              sortDirection="asc"
-              onSortChange={() => {}}
+              sortField={sortField}
+              sortDirection={sortDirection}
+              onSortChange={handleSortChange}
               enableFiltering={false}
             />
           </CardContent>
