@@ -100,24 +100,19 @@ const PortfolioGenerator = () => {
     localStorage.setItem('portfolioGenerator_totalPremiumTarget', clampedValue.toString());
   };
 
-  const validateUnderlyingValue = (value: string) => {
-    const num = parseInt(value) || 10000;
-    const clampedValue = Math.max(10000, Math.min(1000000, num));
-    setUnderlyingValue(clampedValue); // Update global settings
-    setUnderlyingValueInput(clampedValue.toString());
-    localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
-  };
 
   const handleUnderlyingValueChange = (value: string) => {
     setUnderlyingValueInput(value);
-    // Update global settings immediately for real-time recalculation
-    const num = parseInt(value) || 10000;
+    // Only update global settings on blur, not on every keystroke
+  };
+
+  const handleUnderlyingValueBlur = () => {
+    const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     console.log('Portfolio Generator: Setting underlying value to', clampedValue);
-    setUnderlyingValue(clampedValue);
+    setUnderlyingValue(clampedValue); // This updates the global context properly
+    setUnderlyingValueInput(clampedValue.toString());
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
-    // Force update localStorage for global settings persistence
-    localStorage.setItem('underlyingValue', clampedValue.toString());
     console.log('Portfolio Generator: LocalStorage updated with', clampedValue);
   };
 
@@ -307,12 +302,12 @@ const PortfolioGenerator = () => {
 
             <div className="space-y-2">
               <Label htmlFor="underlyingValue">Underlying Stock Value (SEK) *</Label>
-              <Input
+                <Input
                 id="underlyingValue"
                 type="number"
                 value={underlyingValueInput}
                 onChange={(e) => handleUnderlyingValueChange(e.target.value)}
-                onBlur={(e) => validateUnderlyingValue(e.target.value)}
+                onBlur={handleUnderlyingValueBlur}
                 placeholder="10,000 - 1,000,000"
               />
               <p className="text-xs text-muted-foreground">Range: 10,000 - 1,000,000 SEK</p>
