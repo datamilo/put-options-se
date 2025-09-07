@@ -1,10 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { useOptionsData } from "@/hooks/useOptionsData";
 import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { useStockData } from "@/hooks/useStockData";
+import { useSettings } from "@/contexts/SettingsContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,6 +18,13 @@ const PortfolioGenerator = () => {
   const { data: rawData, isLoading, error } = useOptionsData();
   const data = useRecalculatedOptions(rawData || []);
   const { getLowPriceForPeriod } = useStockData();
+  const { underlyingValue, setUnderlyingValue } = useSettings();
+
+  // Store original global settings to restore when leaving
+  const [originalSettings] = useState(() => ({
+    underlyingValue: parseInt(localStorage.getItem('underlyingValue') || '100000'),
+    transactionCost: parseInt(localStorage.getItem('transactionCost') || '150')
+  }));
 
   // Form state with localStorage persistence
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(() => {
@@ -38,13 +46,9 @@ const PortfolioGenerator = () => {
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>(() => {
     return localStorage.getItem('portfolioGenerator_selectedExpiryDate') || "";
   });
-  const [underlyingStockValue, setUnderlyingStockValue] = useState<number>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
-    return saved ? parseInt(saved) : 100000;
-  });
   const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(() => {
     const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
-    return saved ? saved : "100000";
+    return saved ? saved : underlyingValue.toString();
   });
   const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>(() => {
     return localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal";
@@ -99,7 +103,7 @@ const PortfolioGenerator = () => {
   const validateUnderlyingValue = (value: string) => {
     const num = parseInt(value) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
-    setUnderlyingStockValue(clampedValue);
+    setUnderlyingValue(clampedValue); // Update global settings
     setUnderlyingValueInput(clampedValue.toString());
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
   };
@@ -229,10 +233,37 @@ const PortfolioGenerator = () => {
     navigate(`/stock/${encodeURIComponent(stockName)}`);
   };
 
+  // Reset global settings when navigating back to main page
+  useEffect(() => {
+    return () => {
+      // This cleanup function runs when component unmounts
+      if (window.location.pathname === '/') {
+        setUnderlyingValue(originalSettings.underlyingValue);
+      }
+    };
+  }, [setUnderlyingValue, originalSettings.underlyingValue]);
+
+  // Update global settings when component mounts with saved portfolio generator value
+  useEffect(() => {
+    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
+    if (saved) {
+      const parsedValue = parseInt(saved);
+      if (!isNaN(parsedValue) && parsedValue !== underlyingValue) {
+        setUnderlyingValue(parsedValue);
+      }
+    }
+  }, []);
+
+  // Handle navigation to main page
+  const handleBackToMain = () => {
+    setUnderlyingValue(originalSettings.underlyingValue);
+    navigate("/");
+  };
+
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center gap-4">
-        <Button variant="ghost" onClick={() => navigate("/")} className="flex items-center gap-2">
+        <Button variant="ghost" onClick={handleBackToMain} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
           Back to Options
         </Button>
