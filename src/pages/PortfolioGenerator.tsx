@@ -115,6 +115,8 @@ const PortfolioGenerator = () => {
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     setUnderlyingValue(clampedValue);
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
+    // Force update localStorage for global settings persistence
+    localStorage.setItem('underlyingValue', clampedValue.toString());
   };
 
   // Helper function to get probability value with fallback
