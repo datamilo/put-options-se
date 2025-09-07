@@ -24,11 +24,7 @@ const PortfolioGenerator = () => {
   const { underlyingValue, setUnderlyingValue } = useSettings();
   console.log('🎛️ Current global underlyingValue:', underlyingValue);
 
-  // Store original global settings to restore when leaving
-  const [originalSettings] = useState(() => ({
-    underlyingValue: parseInt(localStorage.getItem('underlyingValue') || '100000'),
-    transactionCost: parseInt(localStorage.getItem('transactionCost') || '150')
-  }));
+  // Removed originalSettings to avoid conflicts
 
   // Form state with localStorage persistence
   const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(() => {
@@ -262,33 +258,10 @@ const PortfolioGenerator = () => {
     navigate(`/stock/${encodeURIComponent(stockName)}`);
   };
 
-  // Reset global settings when navigating back to main page
-  useEffect(() => {
-    return () => {
-      // This cleanup function runs when component unmounts
-      if (window.location.pathname === '/') {
-        setUnderlyingValue(originalSettings.underlyingValue);
-      }
-    };
-  }, [setUnderlyingValue, originalSettings.underlyingValue]);
-  
-  // Load saved portfolio generator value on mount (only once)
-  useEffect(() => {
-    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
-    if (saved) {
-      const parsedValue = parseInt(saved);
-      if (!isNaN(parsedValue) && parsedValue !== underlyingValue) {
-        console.log('🔄 Loading saved portfolio generator value:', parsedValue);
-        setUnderlyingValue(parsedValue);
-      }
-    }
-  }, []); // Empty dependency array - runs only once on mount
-
-  // Note: Initial value loading is handled in the useState initialization above
+  // Simplified: No automatic value syncing to avoid conflicts
 
   // Handle navigation to main page
   const handleBackToMain = () => {
-    setUnderlyingValue(originalSettings.underlyingValue);
     navigate("/");
   };
 
