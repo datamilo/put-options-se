@@ -14,15 +14,11 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuIte
 import { ArrowLeft, Target, ChevronDown } from "lucide-react";
 
 const PortfolioGenerator = () => {
-  console.log('🎯 PortfolioGenerator component mounted');
-  console.log('🎯 PortfolioGenerator component mounted');
   const navigate = useNavigate();
   const { data: rawData, isLoading, error } = useOptionsData();
   const data = useRecalculatedOptions(rawData || []);
-  console.log('📊 Recalculated data length:', data.length, 'Raw data length:', rawData?.length || 0);
   const { getLowPriceForPeriod } = useStockData();
   const { underlyingValue, setUnderlyingValue } = useSettings();
-  console.log('🎛️ Current global underlyingValue:', underlyingValue);
 
   // Removed originalSettings to avoid conflicts
 
@@ -102,7 +98,6 @@ const PortfolioGenerator = () => {
 
 
   const handleUnderlyingValueChange = (value: string) => {
-    console.log('🔤 Input changed to:', value);
     setUnderlyingValueInput(value);
     // Only update global settings on blur, not on every keystroke
   };
@@ -110,13 +105,9 @@ const PortfolioGenerator = () => {
   const handleUnderlyingValueBlur = () => {
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
-    console.log('Portfolio Generator: Setting underlying value to', clampedValue);
-    console.log('Portfolio Generator: Current underlying value before update:', underlyingValue);
-    setUnderlyingValue(clampedValue); // This updates the global context and saves to 'underlyingValue' key
+    setUnderlyingValue(clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
-    // Also save to portfolio generator specific key for form persistence
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
-    console.log('Portfolio Generator: LocalStorage updated with', clampedValue);
     
     // Clear any existing generated portfolio so user needs to regenerate with new value
     if (portfolioGenerated) {
@@ -127,7 +118,6 @@ const PortfolioGenerator = () => {
       localStorage.removeItem('portfolioGenerator_portfolioGenerated');
       localStorage.removeItem('portfolioGenerator_portfolioMessage');
       localStorage.removeItem('portfolioGenerator_totalUnderlyingValue');
-      console.log('Portfolio Generator: Cleared previous portfolio due to underlying value change');
     }
   };
 
@@ -139,7 +129,6 @@ const PortfolioGenerator = () => {
   };
 
   const generatePortfolio = () => {
-    console.log('🚀 Generate Portfolio clicked! Current underlyingValue:', underlyingValue);
     try {
       const selectedOptions: OptionData[] = [];
       const usedStocks = new Set<string>();
@@ -267,12 +256,6 @@ const PortfolioGenerator = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div style={{position: 'fixed', top: 0, left: 0, background: 'red', color: 'white', padding: '5px', zIndex: 9999}}>
-        PORTFOLIO GENERATOR LOADED - underlyingValue: {underlyingValue}
-      </div>
-      <div style={{position: 'fixed', top: 0, left: 0, background: 'red', color: 'white', padding: '5px', zIndex: 9999}}>
-        PORTFOLIO GENERATOR LOADED - underlyingValue: {underlyingValue}
-      </div>
       <div className="flex items-center gap-4">
         <Button variant="ghost" onClick={handleBackToMain} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
