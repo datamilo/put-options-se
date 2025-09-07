@@ -110,8 +110,9 @@ const PortfolioGenerator = () => {
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     console.log('Portfolio Generator: Setting underlying value to', clampedValue);
-    setUnderlyingValue(clampedValue); // This updates the global context properly
+    setUnderlyingValue(clampedValue); // This updates the global context and saves to 'underlyingValue' key
     setUnderlyingValueInput(clampedValue.toString());
+    // Also save to portfolio generator specific key for form persistence
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
     console.log('Portfolio Generator: LocalStorage updated with', clampedValue);
   };
