@@ -311,7 +311,9 @@ const Index = () => {
             <Button 
               onClick={() => {
                 console.log('🔄 Navigating to portfolio generator...');
+                console.log('🔄 Current location:', window.location.href);
                 navigate('/portfolio-generator');
+                console.log('🔄 Navigation triggered');
               }}
               variant="outline"
               size="sm"

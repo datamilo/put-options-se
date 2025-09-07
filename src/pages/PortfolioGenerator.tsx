@@ -14,11 +14,15 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuIte
 import { ArrowLeft, Target, ChevronDown } from "lucide-react";
 
 const PortfolioGenerator = () => {
+  console.log('🎯 PortfolioGenerator component mounted');
+  console.log('🎯 PortfolioGenerator component mounted');
   const navigate = useNavigate();
   const { data: rawData, isLoading, error } = useOptionsData();
   const data = useRecalculatedOptions(rawData || []);
+  console.log('📊 Recalculated data length:', data.length, 'Raw data length:', rawData?.length || 0);
   const { getLowPriceForPeriod } = useStockData();
   const { underlyingValue, setUnderlyingValue } = useSettings();
+  console.log('🎛️ Current global underlyingValue:', underlyingValue);
 
   // Store original global settings to restore when leaving
   const [originalSettings] = useState(() => ({
@@ -102,6 +106,7 @@ const PortfolioGenerator = () => {
 
 
   const handleUnderlyingValueChange = (value: string) => {
+    console.log('🔤 Input changed to:', value);
     setUnderlyingValueInput(value);
     // Only update global settings on blur, not on every keystroke
   };
@@ -138,6 +143,7 @@ const PortfolioGenerator = () => {
   };
 
   const generatePortfolio = () => {
+    console.log('🚀 Generate Portfolio clicked! Current underlyingValue:', underlyingValue);
     try {
       const selectedOptions: OptionData[] = [];
       const usedStocks = new Set<string>();
@@ -285,6 +291,12 @@ const PortfolioGenerator = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      <div style={{position: 'fixed', top: 0, left: 0, background: 'red', color: 'white', padding: '5px', zIndex: 9999}}>
+        PORTFOLIO GENERATOR LOADED - underlyingValue: {underlyingValue}
+      </div>
+      <div style={{position: 'fixed', top: 0, left: 0, background: 'red', color: 'white', padding: '5px', zIndex: 9999}}>
+        PORTFOLIO GENERATOR LOADED - underlyingValue: {underlyingValue}
+      </div>
       <div className="flex items-center gap-4">
         <Button variant="ghost" onClick={handleBackToMain} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
