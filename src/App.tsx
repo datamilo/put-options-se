@@ -49,11 +49,11 @@ const App = () => (
               <Routes>
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
-                <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-                <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
-                <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
-                <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
-                <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
+                <Route path="/" element={<Index />} />
+                <Route path="/portfolio-generator" element={<PortfolioGenerator />} />
+                <Route path="/option/:optionId" element={<OptionDetailsPage />} />
+                <Route path="/stock/:stockName" element={<StockDetailsPage />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </HashRouter>
           </TooltipProvider>
