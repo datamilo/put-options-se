@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HashRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 import Index from "./pages/Index";
@@ -39,6 +39,7 @@ const AppHeader = () => {
 const App = () => {
   console.log("App component rendering");
   const basename = import.meta.env.PROD ? "/put-options-se" : "";
+  console.log("App basename:", basename, "PROD:", import.meta.env.PROD);
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" storageKey="vite-ui-theme">
@@ -47,7 +48,7 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <HashRouter basename={basename}>
+              <Router basename={basename}>
                 <AppHeader />
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
@@ -58,7 +59,7 @@ const App = () => {
                   <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
                   <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
                 </Routes>
-              </HashRouter>
+              </Router>
             </TooltipProvider>
           </SettingsProvider>
         </AuthProvider>
