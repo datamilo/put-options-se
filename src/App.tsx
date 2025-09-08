@@ -46,7 +46,7 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <HashRouter>
+              <HashRouter basename="/put-options-se">
                 <AppHeader />
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
