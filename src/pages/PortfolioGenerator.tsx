@@ -432,7 +432,7 @@ const PortfolioGenerator = () => {
             <div className="text-sm text-muted-foreground space-y-1">
               <p>{portfolioMessage}</p>
               <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
-              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Recalculated based on {underlyingValue.toLocaleString()} SEK underlying value)</p>
+              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value)</p>
             </div>
           </CardHeader>
           <CardContent>
