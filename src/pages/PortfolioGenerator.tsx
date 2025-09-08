@@ -230,9 +230,9 @@ const PortfolioGenerator = () => {
       let message = "";
       if (totalPremium < totalPremiumTarget) {
         const deficit = totalPremiumTarget - totalPremium;
-        message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). Available options could not reach the full target amount.`;
+        message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). `;
       } else {
-        message = `Portfolio successfully generated with ${totalPremium} SEK premium, meeting your target.`;
+        message = `Portfolio successfully generated with ${totalPremium} SEK premium.`;
       }
 
       setGeneratedPortfolio(selectedOptions);

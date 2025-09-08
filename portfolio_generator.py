@@ -202,9 +202,9 @@ class PortfolioGenerator:
         # Generate status message
         if total_premium < total_premium_target:
             deficit = total_premium_target - total_premium
-            message = f"Portfolio generated with {total_premium:,} SEK premium ({deficit:,} SEK below target). Available options could not reach the full target amount."
+            message = f"Portfolio generated with {total_premium:,} SEK premium ({deficit:,} SEK below target)."
         else:
-            message = f"Portfolio successfully generated with {total_premium:,} SEK premium, meeting your target."
+            message = f"Portfolio successfully generated with {total_premium:,} SEK premium."
         
         portfolio_info = {
             'total_premium': total_premium,
