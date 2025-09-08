@@ -38,6 +38,7 @@ const AppHeader = () => {
 
 const App = () => {
   console.log("App component rendering");
+  const basename = import.meta.env.PROD ? "/put-options-se" : "";
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" storageKey="vite-ui-theme">
@@ -46,7 +47,7 @@ const App = () => {
             <TooltipProvider>
               <Toaster />
               <Sonner />
-              <HashRouter basename="/put-options-se">
+              <HashRouter basename={basename}>
                 <AppHeader />
                 <Routes>
                   <Route path="/auth" element={<Auth />} />
