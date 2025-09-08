@@ -300,7 +300,7 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="underlyingValue">Underlying Stock Value</Label>
+              <Label htmlFor="underlyingValue">Underlying Stock Value Per Option</Label>
                 <Input
                 id="underlyingValue"
                 type="number"
