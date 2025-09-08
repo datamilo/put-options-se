@@ -36,11 +36,30 @@ const Index = () => {
   // Initialize filter state from URL parameters
   const [selectedStocks, setSelectedStocks] = useState<string[]>(() => {
     const stocks = searchParams.get('stocks');
-    return stocks ? stocks.split(',').filter(Boolean) : [];
+    if (!stocks) return [];
+    
+    // Use URL encoding to handle stock names with commas
+    try {
+      const decodedStocks = decodeURIComponent(stocks);
+      const result = JSON.parse(decodedStocks);
+      return Array.isArray(result) ? result : [];
+    } catch {
+      // Fallback to comma split for backward compatibility
+      return stocks.split(',').filter(Boolean);
+    }
   });
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>(() => {
     const dates = searchParams.get('expiryDates');
-    return dates ? dates.split(',').filter(Boolean) : [];
+    if (!dates) return [];
+    
+    try {
+      const decodedDates = decodeURIComponent(dates);
+      const result = JSON.parse(decodedDates);
+      return Array.isArray(result) ? result : [];
+    } catch {
+      // Fallback to comma split for backward compatibility
+      return dates.split(',').filter(Boolean);
+    }
   });
   const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(() => {
     const period = searchParams.get('strikeBelowPeriod');
@@ -48,7 +67,16 @@ const Index = () => {
   });
   const [selectedRiskLevels, setSelectedRiskLevels] = useState<string[]>(() => {
     const riskLevels = searchParams.get('riskLevels');
-    return riskLevels ? riskLevels.split(',').filter(Boolean) : [];
+    if (!riskLevels) return [];
+    
+    try {
+      const decodedRiskLevels = decodeURIComponent(riskLevels);
+      const result = JSON.parse(decodedRiskLevels);
+      return Array.isArray(result) ? result : [];
+    } catch {
+      // Fallback to comma split for backward compatibility
+      return riskLevels.split(',').filter(Boolean);
+    }
   });
   const [sortField, setSortField] = useState<keyof OptionData | null>(() => {
     const field = searchParams.get('sortField');
@@ -138,16 +166,17 @@ const Index = () => {
     const params = new URLSearchParams();
     
     if (selectedStocks.length > 0) {
-      params.set('stocks', selectedStocks.join(','));
+      // Use JSON encoding to handle stock names with commas
+      params.set('stocks', encodeURIComponent(JSON.stringify(selectedStocks)));
     }
     if (selectedExpiryDates.length > 0) {
-      params.set('expiryDates', selectedExpiryDates.join(','));
+      params.set('expiryDates', encodeURIComponent(JSON.stringify(selectedExpiryDates)));
     }
     if (strikeBelowPeriod !== null) {
       params.set('strikeBelowPeriod', strikeBelowPeriod.toString());
     }
     if (selectedRiskLevels.length > 0) {
-      params.set('riskLevels', selectedRiskLevels.join(','));
+      params.set('riskLevels', encodeURIComponent(JSON.stringify(selectedRiskLevels)));
     }
     if (sortField !== null) {
       params.set('sortField', sortField);
