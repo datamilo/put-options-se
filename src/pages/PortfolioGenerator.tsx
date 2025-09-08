@@ -18,7 +18,7 @@ const PortfolioGenerator = () => {
   const { data: rawData, isLoading, error } = useOptionsData();
   const data = useRecalculatedOptions(rawData || []);
   const { getLowPriceForPeriod } = useStockData();
-  const { underlyingValue, setUnderlyingValue } = useSettings();
+  const { underlyingValue, setUnderlyingValue, transactionCost } = useSettings();
 
   // Removed originalSettings to avoid conflicts
 
@@ -432,7 +432,7 @@ const PortfolioGenerator = () => {
             <div className="text-sm text-muted-foreground space-y-1">
               <p>{portfolioMessage}</p>
               <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
-              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value)</p>
+              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
             </div>
           </CardHeader>
           <CardContent>
