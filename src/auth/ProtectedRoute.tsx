@@ -6,6 +6,8 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const { session, loading } = useAuth();
   const location = useLocation();
 
+  console.log('ProtectedRoute - session:', !!session, 'loading:', loading, 'location:', location.pathname);
+
   if (loading) {
     return <div className="p-6">Loading...</div>;
   }

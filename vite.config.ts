@@ -27,6 +27,6 @@ export default defineConfig(async ({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    base: '/put-options-se/',
+    base: mode === 'production' ? '/put-options-se/' : '/',
   };
 });
