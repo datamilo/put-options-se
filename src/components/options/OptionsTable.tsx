@@ -55,7 +55,7 @@ export const OptionsTable = ({
 
   // Define column groups for better organization
   const columnGroups = {
-    basic: ['StockName', 'OptionName', 'recalculatedNumberOfContracts', 'Premium','ProbWorthless_Bayesian_IsoCal', '1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV'],
+    basic: ['StockName', 'OptionName', 'Premium', 'recalculatedNumberOfContracts', 'ProbWorthless_Bayesian_IsoCal', '1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV'],
     'reportOrXDay': ['FinancialReport', 'X-Day'],
     risk: ['1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV','ProbWorthless_Bayesian_IsoCal'],
     loss: ['LossAtBadDecline', 'LossAtWorstDecline', 'LossAt100DayWorstDecline', 'LossAt_2008_100DayWorstDecline', 'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline'],
