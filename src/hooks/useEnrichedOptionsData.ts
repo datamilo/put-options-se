@@ -26,14 +26,15 @@ export const useEnrichedOptionsData = () => {
         return option;
       }
 
-      // Calculate potential loss at lower bound
+      // Calculate potential loss at lower bound (negative value since it's a loss)
       let potentialLossAtLowerBound = 0;
       if (matchingIVData.LowerBoundClosestToStrike && underlyingValue) {
         // Calculate loss per share if stock drops to lower bound
         const lossPerShare = Math.max(0, option.StrikePrice - matchingIVData.LowerBoundClosestToStrike);
         // Calculate total loss based on number of contracts (100 shares per contract)
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
-        potentialLossAtLowerBound = lossPerShare * numberOfContracts * 100;
+        // Make it negative since it's a loss
+        potentialLossAtLowerBound = -(lossPerShare * numberOfContracts * 100);
       }
 
       return {
