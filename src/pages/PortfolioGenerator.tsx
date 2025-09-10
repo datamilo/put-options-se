@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
-import { useOptionsData } from "@/hooks/useOptionsData";
+import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { useStockData } from "@/hooks/useStockData";
 import { useSettings } from "@/contexts/SettingsContext";
@@ -15,7 +15,7 @@ import { ArrowLeft, Settings, ChevronDown } from "lucide-react";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
-  const { data: rawData, isLoading, error } = useOptionsData();
+  const { data: rawData, isLoading, error } = useEnrichedOptionsData();
   const data = useRecalculatedOptions(rawData || []);
   const { getLowPriceForPeriod } = useStockData();
   const { underlyingValue, setUnderlyingValue, transactionCost } = useSettings();

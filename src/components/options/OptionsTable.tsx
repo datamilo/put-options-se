@@ -58,12 +58,13 @@ export const OptionsTable = ({
     basic: ['StockName', 'OptionName', 'Premium', 'recalculatedNumberOfContracts', 'ProbWorthless_Bayesian_IsoCal', '1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV'],
     'reportOrXDay': ['FinancialReport', 'X-Day'],
     risk: ['1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV','ProbWorthless_Bayesian_IsoCal'],
-    loss: ['LossAtBadDecline', 'LossAtWorstDecline', 'LossAt100DayWorstDecline', 'LossAt_2008_100DayWorstDecline', 'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline'],
+    loss: ['LossAtBadDecline', 'LossAtWorstDecline', 'LossAt100DayWorstDecline', 'LossAt_2008_100DayWorstDecline', 'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'PotentialLossAtLowerBound'],
     statistics: ['PoW_Stats_MedianLossPct', 'PoW_Stats_WorstLossPct', 'PoW_Stats_MedianLoss', 'PoW_Stats_WorstLoss', 'PoW_Stats_MedianProbOfWorthless', 'PoW_Stats_MinProbOfWorthless', 'PoW_Stats_MaxProbOfWorthless'],
     profitloss: ['ProfitLossPctLeastBad', 'ProfitLossPctBad', 'ProfitLossPctWorst', 'ProfitLossPct100DayWorst', 'Loss_Least_Bad'],
     pricing: ['StockPrice', 'NumberOfContractsBasedOnLimit', 'Bid', 'Bid_Ask_Mid_Price', 'Option_Price_Min', 'Underlying_Value', 'AskBidSpread'],
-    volatility: ['ImpliedVolatility', 'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp', 'IV_AllMedianIV_Maximum100DaysToExp_Ratio'],
-    bounds: ['Lower_Bound', 'Lower_Bound_at_Accuracy', 'Lower_Bound_HistMedianIV', 'Lower_Bound_HistMedianIV_at_Accuracy'],
+    volatility: ['ImpliedVolatility', 'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp', 'IV_AllMedianIV_Maximum100DaysToExp_Ratio', 'IV_ClosestToStrike', 'IV_UntilExpiryClosestToStrike'],
+    bounds: ['Lower_Bound', 'Lower_Bound_at_Accuracy', 'Lower_Bound_HistMedianIV', 'Lower_Bound_HistMedianIV_at_Accuracy', 'LowerBoundClosestToStrike'],
+    'iv_analysis': ['LowerBoundDistanceFromCurrentPrice', 'LowerBoundDistanceFromStrike', 'ImpliedDownPct', 'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike', 'ProbAssignment', 'SafetyCategory', 'CushionMinusIVPct'],
     other: ['FinancialReport', 'X-Day', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean', 'Mean_Accuracy',  'StockPrice_After_2008_100DayWorstDecline', 'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy', 'StrikeBelowLowerAtAcc']
   };
 
@@ -95,6 +96,27 @@ export const OptionsTable = ({
     // Special case for recalculatedNumberOfContracts
     if (field === 'recalculatedNumberOfContracts') {
       return 'Number Of Contracts';
+    }
+    
+    // Special formatting for IV fields
+    const fieldMappings: { [key: string]: string } = {
+      'IV_ClosestToStrike': 'IV Closest To Strike',
+      'IV_UntilExpiryClosestToStrike': 'IV Until Expiry Closest To Strike',
+      'LowerBoundClosestToStrike': 'Lower Bound Closest To Strike',
+      'LowerBoundDistanceFromCurrentPrice': 'Lower Bound Distance From Current Price',
+      'LowerBoundDistanceFromStrike': 'Lower Bound Distance From Strike',
+      'ImpliedDownPct': 'Implied Down %',
+      'ToStrikePct': 'To Strike %',
+      'SafetyMultiple': 'Safety Multiple',
+      'SigmasToStrike': 'Sigmas To Strike',
+      'ProbAssignment': 'Prob Assignment',
+      'SafetyCategory': 'Safety Category',
+      'CushionMinusIVPct': 'Cushion Minus IV %',
+      'PotentialLossAtLowerBound': 'Potential Loss At Lower Bound'
+    };
+    
+    if (fieldMappings[field]) {
+      return fieldMappings[field];
     }
     
     return field

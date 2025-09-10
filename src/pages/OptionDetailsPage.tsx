@@ -1,5 +1,5 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { useOptionsData } from "@/hooks/useOptionsData";
+import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ const OptionDetailsPage = () => {
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { data: rawData } = useOptionsData();
+  const { data: rawData } = useEnrichedOptionsData();
   
   // Use recalculated options data
   const data = useRecalculatedOptions(rawData);

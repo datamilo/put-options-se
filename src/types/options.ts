@@ -66,6 +66,21 @@ export interface OptionData {
   Historical50DaysWorstDecline?: number;
   '2008_100DaysWorstDecline'?: number;
   '2008_50DaysWorstDecline'?: number;
+  // IV Data fields
+  IV_ClosestToStrike?: number;
+  IV_UntilExpiryClosestToStrike?: number;
+  LowerBoundClosestToStrike?: number;
+  LowerBoundDistanceFromCurrentPrice?: number;
+  LowerBoundDistanceFromStrike?: number;
+  ImpliedDownPct?: number;
+  ToStrikePct?: number;
+  SafetyMultiple?: number;
+  SigmasToStrike?: number;
+  ProbAssignment?: number;
+  SafetyCategory?: string;
+  CushionMinusIVPct?: number;
+  // Calculated field
+  PotentialLossAtLowerBound?: number;
 }
 
 export interface OptionsFilter {

@@ -4,7 +4,7 @@ import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
 import { OptionDetails } from "@/components/options/OptionDetails";
-import { useOptionsData } from "@/hooks/useOptionsData";
+import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useStockData } from "@/hooks/useStockData";
 import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { TimestampDisplay } from "@/components/TimestampDisplay";
@@ -27,7 +27,7 @@ const Index = () => {
   
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: rawData, isLoading, error, loadMockData } = useOptionsData();
+  const { data: rawData, isLoading, error, loadMockData } = useEnrichedOptionsData();
   const { getStockSummary, getLowPriceForPeriod } = useStockData();
   
   // Use recalculated options data
