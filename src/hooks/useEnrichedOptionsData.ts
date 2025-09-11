@@ -7,7 +7,7 @@ import { useSettings } from '@/contexts/SettingsContext';
 export const useEnrichedOptionsData = () => {
   const { data: optionsData, isLoading: isOptionsLoading, error: optionsError, ...optionsMethods } = useOptionsData();
   const { data: ivData, isLoading: isIVLoading, error: ivError } = useIVData();
-  const { underlyingValue } = useSettings();
+  const { underlyingValue, transactionCost } = useSettings();
 
   const enrichedData = useMemo(() => {
     if (!optionsData.length) {
@@ -27,7 +27,7 @@ export const useEnrichedOptionsData = () => {
 
       // If no matching IV data, we'll set all IV fields to null/undefined
 
-      // Calculate potential loss at lower bound using Python logic
+      // Calculate potential loss at lower bound using exact Python logic
       let potentialLossAtLowerBound = 0;
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
@@ -35,7 +35,7 @@ export const useEnrichedOptionsData = () => {
         // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = Number Of Contracts * Lower Bound Closest To Strike * 100
         const underlyingValueLowerBound = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
         
-        // Step 2: Underlying Stock Value = Number Of Contracts * Strike Price * 100
+        // Step 2: Underlying Stock Value = Number Of Contracts * Strike Price * 100  
         const underlyingStockValue = numberOfContracts * option.StrikePrice * 100;
         
         // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Stock Value
@@ -47,6 +47,11 @@ export const useEnrichedOptionsData = () => {
         // Step 5: If result >= Premium, cap it at the Premium
         if (potentialLossAtLowerBound >= option.Premium) {
           potentialLossAtLowerBound = option.Premium;
+        }
+        
+        // Step 6: If negative, subtract transaction cost (value * 0.000075 + transaction_cost)
+        if (potentialLossAtLowerBound < 0) {
+          potentialLossAtLowerBound = potentialLossAtLowerBound - (Math.abs(potentialLossAtLowerBound) * 0.000075 + transactionCost);
         }
       }
 
@@ -69,7 +74,7 @@ export const useEnrichedOptionsData = () => {
         PotentialLossAtLowerBound: potentialLossAtLowerBound
       };
     });
-  }, [optionsData, ivData, underlyingValue]);
+  }, [optionsData, ivData, underlyingValue, transactionCost]);
 
   return {
     data: enrichedData,

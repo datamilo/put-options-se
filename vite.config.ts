@@ -13,6 +13,7 @@ export default defineConfig(async ({ mode }) => {
     }
   }
 
+  const isProduction = mode === 'production';
   const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.CI === 'true';
   
   return {
@@ -29,7 +30,7 @@ export default defineConfig(async ({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    base: isGitHubPages ? '/put-options-se/' : '/',
+    base: (isProduction && isGitHubPages) ? '/put-options-se/' : '/',
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
