@@ -20,23 +20,46 @@ export interface IVData {
   CushionMinusIVPct: number;
 }
 
-export const useIVData = () => {
-  const [data, setData] = useState<IVData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+// Create a singleton instance to prevent multiple loading attempts
+let ivDataSingleton: {
+  data: IVData[];
+  isLoading: boolean;
+  error: string | null;
+  loaded: boolean;
+} = {
+  data: [],
+  isLoading: false,
+  error: null,
+  loaded: false
+};
 
-  console.log('🔍 useIVData hook called, current data length:', data.length);
+export const useIVData = () => {
+  const [data, setData] = useState<IVData[]>(ivDataSingleton.data);
+  const [isLoading, setIsLoading] = useState(ivDataSingleton.isLoading);
+  const [error, setError] = useState<string | null>(ivDataSingleton.error);
+
+  console.log('🔍 useIVData hook called, singleton loaded:', ivDataSingleton.loaded, 'data length:', ivDataSingleton.data.length);
 
   const loadIVDataFromGitHub = useCallback(async () => {
+    // If already loaded successfully, don't reload
+    if (ivDataSingleton.loaded && ivDataSingleton.data.length > 0) {
+      console.log('🚀 IV data already loaded in singleton, using cached data:', ivDataSingleton.data.length);
+      setData(ivDataSingleton.data);
+      setIsLoading(false);
+      setError(ivDataSingleton.error);
+      return;
+    }
+
     console.log('📥 Loading IV data...');
     setIsLoading(true);
+    ivDataSingleton.isLoading = true;
     setError(null);
+    ivDataSingleton.error = null;
 
-    // Try multiple fallback URLs for better reliability
+    // Only try the reliable URLs that we know work
     const urls = [
       `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/IV_PotentialDecline.csv?${Date.now()}`,
-      `https://datamilo.github.io/put-options-se/data/IV_PotentialDecline.csv?${Date.now()}`,
-      `${window.location.origin}${import.meta.env.BASE_URL}data/IV_PotentialDecline.csv?${Date.now()}`
+      `https://datamilo.github.io/put-options-se/data/IV_PotentialDecline.csv?${Date.now()}`
     ];
 
     let lastError: Error | null = null;
@@ -58,52 +81,64 @@ export const useIVData = () => {
 
         console.log('✅ Successfully loaded IV CSV from:', url);
 
-      Papa.parse(csvText, {
-        header: true,
-        skipEmptyLines: true,
-        delimiter: '|',
-        transformHeader: (header) => header.trim(),
-        transform: (value, field) => {
-          const fieldName = String(field || '');
-          const numericFields = [
-            'IV_ClosestToStrike', 'IV_UntilExpiryClosestToStrike', 'LowerBoundClosestToStrike',
-            'LowerBoundDistanceFromCurrentPrice', 'LowerBoundDistanceFromStrike', 'ImpliedDownPct',
-            'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike', 'ProbAssignment', 'CushionMinusIVPct'
-          ];
-          
-          if (numericFields.includes(fieldName) && value !== '') {
-            const num = parseFloat(String(value));
-            return isNaN(num) ? 0 : num;
-          }
-          return String(value || '').trim();
-        },
-        complete: (results) => {
-          if (results.errors.length > 0) {
-            console.warn('IV CSV parsing warnings:', results.errors);
-            // Only fail if there are critical errors, not warnings
-            const criticalErrors = results.errors.filter(e => e.type === 'Delimiter' || e.type === 'Quotes');
-            if (criticalErrors.length > 0) {
-              setError(`IV CSV parsing errors: ${criticalErrors.map(e => e.message).join(', ')}`);
-              setIsLoading(false);
-              return;
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          delimiter: '|',
+          transformHeader: (header) => header.trim(),
+          transform: (value, field) => {
+            const fieldName = String(field || '');
+            const numericFields = [
+              'IV_ClosestToStrike', 'IV_UntilExpiryClosestToStrike', 'LowerBoundClosestToStrike',
+              'LowerBoundDistanceFromCurrentPrice', 'LowerBoundDistanceFromStrike', 'ImpliedDownPct',
+              'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike', 'ProbAssignment', 'CushionMinusIVPct'
+            ];
+            
+            if (numericFields.includes(fieldName) && value !== '') {
+              const num = parseFloat(String(value));
+              return isNaN(num) ? 0 : num;
             }
+            return String(value || '').trim();
+          },
+          complete: (results) => {
+            if (results.errors.length > 0) {
+              console.warn('IV CSV parsing warnings:', results.errors);
+              const criticalErrors = results.errors.filter(e => e.type === 'Delimiter' || e.type === 'Quotes');
+              if (criticalErrors.length > 0) {
+                setError(`IV CSV parsing errors: ${criticalErrors.map(e => e.message).join(', ')}`);
+                setIsLoading(false);
+                ivDataSingleton.isLoading = false;
+                return;
+              }
+            }
+            
+            if (results.data && results.data.length > 0) {
+              console.log(`✅ Parsed ${results.data.length} IV rows from CSV - STORING IN SINGLETON`);
+              const parsedData = results.data as IVData[];
+              
+              // Store in singleton to prevent re-loading
+              ivDataSingleton.data = parsedData;
+              ivDataSingleton.loaded = true;
+              ivDataSingleton.isLoading = false;
+              ivDataSingleton.error = null;
+              
+              // Update component state
+              setData(parsedData);
+              setIsLoading(false);
+              setError(null);
+              return; // Successfully loaded, exit the retry loop
+            } else {
+              throw new Error('No IV data found in CSV');
+            }
+          },
+          error: (error) => {
+            throw new Error(`Failed to parse IV CSV: ${error.message}`);
           }
-          
-          if (results.data && results.data.length > 0) {
-            console.log(`✅ Parsed ${results.data.length} IV rows from CSV`);
-            console.log('🔄 Setting IV data, current length:', data.length, 'new length:', results.data.length);
-            setData(results.data as IVData[]);
-            setIsLoading(false);
-            return; // Successfully loaded, exit the retry loop
-          } else {
-            throw new Error('No IV data found in CSV');
-          }
-        },
-        error: (error) => {
-          throw new Error(`Failed to parse IV CSV: ${error.message}`);
-        }
-      });
-      
+        });
+        
+        // If we get here, parsing was successful, so we can break
+        break;
+        
       } catch (error) {
         console.warn(`❌ Failed to load IV data from ${url}:`, error);
         lastError = error as Error;
@@ -111,21 +146,30 @@ export const useIVData = () => {
       }
     }
     
-    // If all URLs failed, set error but DO NOT clear existing data
-    console.warn('❌ All IV CSV loading attempts failed, current data length:', data.length);
-    setError(`Failed to load IV data from any source. Last error: ${lastError?.message}`);
-    // DO NOT clear data if we already have some
-    if (data.length === 0) {
-      console.log('🗑️ Setting empty data array because no existing data');
-      setData([]);
-    } else {
-      console.log('🛡️ Preserving existing data, length:', data.length);
+    // Only set error if no successful load happened
+    if (!ivDataSingleton.loaded || ivDataSingleton.data.length === 0) {
+      console.warn('❌ All IV CSV loading attempts failed, current singleton data length:', ivDataSingleton.data.length);
+      const errorMsg = `Failed to load IV data from any source. Last error: ${lastError?.message}`;
+      setError(errorMsg);
+      ivDataSingleton.error = errorMsg;
     }
+    
     setIsLoading(false);
-  }, [data.length]); // Use data.length to prevent re-runs when data exists
+    ivDataSingleton.isLoading = false;
+  }, []);
 
   useEffect(() => {
-    console.log('🚀 useIVData useEffect triggered, data length:', data.length);
+    console.log('🚀 useIVData useEffect triggered, singleton loaded:', ivDataSingleton.loaded, 'data length:', ivDataSingleton.data.length);
+    
+    // Use singleton data if available
+    if (ivDataSingleton.loaded && ivDataSingleton.data.length > 0) {
+      console.log('📋 Using cached IV data from singleton:', ivDataSingleton.data.length);
+      setData(ivDataSingleton.data);
+      setIsLoading(ivDataSingleton.isLoading);
+      setError(ivDataSingleton.error);
+      return;
+    }
+
     let mounted = true;
     
     const loadData = async () => {
@@ -134,20 +178,11 @@ export const useIVData = () => {
         return;
       }
       
-      // Only load if we don't already have data
-      if (data.length > 0) {
-        console.log('📋 IV data already loaded, skipping reload. Length:', data.length);
-        return;
-      }
-      
       console.log('📥 Starting IV data load...');
       try {
         await loadIVDataFromGitHub();
       } catch (error) {
         console.warn('❌ useEffect: All IV CSV loading attempts failed:', error);
-        if (mounted && data.length === 0) {
-          setData([]);
-        }
       }
     };
     
@@ -156,13 +191,17 @@ export const useIVData = () => {
     return () => {
       mounted = false;
     };
-  }, []); // Remove loadIVDataFromGitHub from dependencies to prevent re-runs
+  }, []); // No dependencies to prevent re-runs
 
   return {
     data,
     isLoading,
     error,
     loadIVDataFromGitHub,
-    setData
+    setData: (newData: IVData[]) => {
+      setData(newData);
+      ivDataSingleton.data = newData;
+      ivDataSingleton.loaded = newData.length > 0;
+    }
   };
 };
