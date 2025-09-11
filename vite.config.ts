@@ -29,7 +29,7 @@ export default defineConfig(async ({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    base: isGitHubPages ? '/put-options-se/' : './',
+    base: isGitHubPages ? '/put-options-se/' : '/',
     build: {
       outDir: 'dist',
       assetsDir: 'assets',

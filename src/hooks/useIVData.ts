@@ -108,12 +108,15 @@ export const useIVData = () => {
       }
     }
     
-    // If all URLs failed, set error and empty data
+    // If all URLs failed, set error but DO NOT clear existing data
     console.warn('❌ All IV CSV loading attempts failed');
     setError(`Failed to load IV data from any source. Last error: ${lastError?.message}`);
-    setData([]);
+    // DO NOT clear data if we already have some
+    if (data.length === 0) {
+      setData([]);
+    }
     setIsLoading(false);
-  }, []);
+  }, [data.length]); // Use data.length to prevent re-runs when data exists
 
   useEffect(() => {
     let mounted = true;
