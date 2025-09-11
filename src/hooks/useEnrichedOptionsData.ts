@@ -10,11 +10,14 @@ export const useEnrichedOptionsData = () => {
   const { underlyingValue } = useSettings();
 
   const enrichedData = useMemo(() => {
-    if (!optionsData.length || !ivData.length) {
+    if (!optionsData.length) {
       return optionsData;
     }
 
-    console.log('🔄 Enriching options data with IV data...');
+    console.log('🔄 Enriching options data with IV data...', {
+      optionsDataLength: optionsData.length,
+      ivDataLength: ivData.length
+    });
     
     return optionsData.map(option => {
       // Find matching IV data by OptionName only (left join)
