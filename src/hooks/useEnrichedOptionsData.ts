@@ -26,15 +26,24 @@ export const useEnrichedOptionsData = () => {
         return option;
       }
 
-      // Calculate potential loss at lower bound (negative value since it's a loss)
+      // Calculate potential loss at lower bound using Python logic
       let potentialLossAtLowerBound = 0;
       if (matchingIVData.LowerBoundClosestToStrike && underlyingValue) {
-        // Calculate loss per share if stock drops to lower bound
-        const lossPerShare = Math.max(0, option.StrikePrice - matchingIVData.LowerBoundClosestToStrike);
-        // Calculate total loss based on number of contracts (100 shares per contract)
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
-        // Make it negative since it's a loss
-        potentialLossAtLowerBound = -(lossPerShare * numberOfContracts * 100);
+        
+        // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = Number Of Contracts * Lower Bound Closest To Strike * 100
+        const underlyingValueLowerBound = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
+        
+        // Step 2: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Värde_Underliggande
+        const lossLowerBound = underlyingValueLowerBound - underlyingValue;
+        
+        // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        potentialLossAtLowerBound = option.Premium + lossLowerBound;
+        
+        // Step 4: If result >= Premium, cap it at the Premium
+        if (potentialLossAtLowerBound >= option.Premium) {
+          potentialLossAtLowerBound = option.Premium;
+        }
       }
 
       return {
