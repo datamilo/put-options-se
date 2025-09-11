@@ -52,7 +52,7 @@ const App = () => {
               <ErrorBoundary>
                 <Toaster />
                 <Sonner />
-                <HashRouter>
+                <HashRouter basename={import.meta.env.PROD && window.location.hostname === 'datamilo.github.io' ? '/put-options-se' : ''}>
                   <AppHeader />
                   <Routes>
                     <Route path="/auth" element={<Auth />} />

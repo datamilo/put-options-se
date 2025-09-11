@@ -121,6 +121,12 @@ export const useIVData = () => {
     const loadData = async () => {
       if (!mounted) return;
       
+      // Only load if we don't already have data
+      if (data.length > 0) {
+        console.log('📋 IV data already loaded, skipping reload');
+        return;
+      }
+      
       try {
         await loadIVDataFromGitHub();
       } catch (error) {
@@ -136,7 +142,7 @@ export const useIVData = () => {
     return () => {
       mounted = false;
     };
-  }, [loadIVDataFromGitHub]);
+  }, []); // Remove loadIVDataFromGitHub from dependencies to prevent re-runs
 
   return {
     data,
