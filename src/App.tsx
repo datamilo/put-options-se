@@ -37,7 +37,11 @@ const AppHeader = () => {
 };
 
 const App = () => {
-  console.log("App component rendering");
+  console.log("App component rendering", {
+    location: window.location.href,
+    pathname: window.location.pathname,
+    hash: window.location.hash
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" storageKey="vite-ui-theme">
@@ -55,7 +59,7 @@ const App = () => {
                   <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
                   <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
                   <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
-                  <Route path="*" element={<ProtectedRoute><NotFound /></ProtectedRoute>} />
+                  <Route path="*" element={<NotFound />} />
                 </Routes>
               </HashRouter>
             </TooltipProvider>

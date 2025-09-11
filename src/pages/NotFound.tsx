@@ -1,15 +1,19 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import { useAuth } from "@/auth/AuthProvider";
 
 const NotFound = () => {
   const location = useLocation();
+  const { session, loading } = useAuth();
 
   useEffect(() => {
     console.error(
       "404 Error: User attempted to access non-existent route:",
-      location.pathname
+      location.pathname,
+      "Session:", !!session,
+      "Loading:", loading
     );
-  }, [location.pathname]);
+  }, [location.pathname, session, loading]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
