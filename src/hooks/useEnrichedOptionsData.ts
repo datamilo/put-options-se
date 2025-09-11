@@ -17,18 +17,17 @@ export const useEnrichedOptionsData = () => {
     console.log('🔄 Enriching options data with IV data...');
     
     return optionsData.map(option => {
-      // Find matching IV data by OptionName and closest date
+      // Find matching IV data by OptionName and Update_date (left join)
       const matchingIVData = ivData.find(iv => 
-        iv.OptionName === option.OptionName
+        iv.OptionName === option.OptionName && 
+        iv.Update_date === option.ExpiryDate // Assuming ExpiryDate maps to Update_date
       );
 
-      if (!matchingIVData) {
-        return option;
-      }
+      // If no matching IV data, we'll set all IV fields to null/undefined
 
       // Calculate potential loss at lower bound using Python logic
       let potentialLossAtLowerBound = 0;
-      if (matchingIVData.LowerBoundClosestToStrike) {
+      if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         
         // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = Number Of Contracts * Lower Bound Closest To Strike * 100
@@ -51,19 +50,19 @@ export const useEnrichedOptionsData = () => {
 
       return {
         ...option,
-        // Add IV data fields
-        IV_ClosestToStrike: matchingIVData.IV_ClosestToStrike,
-        IV_UntilExpiryClosestToStrike: matchingIVData.IV_UntilExpiryClosestToStrike,
-        LowerBoundClosestToStrike: matchingIVData.LowerBoundClosestToStrike,
-        LowerBoundDistanceFromCurrentPrice: matchingIVData.LowerBoundDistanceFromCurrentPrice,
-        LowerBoundDistanceFromStrike: matchingIVData.LowerBoundDistanceFromStrike,
-        ImpliedDownPct: matchingIVData.ImpliedDownPct,
-        ToStrikePct: matchingIVData.ToStrikePct,
-        SafetyMultiple: matchingIVData.SafetyMultiple,
-        SigmasToStrike: matchingIVData.SigmasToStrike,
-        ProbAssignment: matchingIVData.ProbAssignment,
-        SafetyCategory: matchingIVData.SafetyCategory,
-        CushionMinusIVPct: matchingIVData.CushionMinusIVPct,
+        // Add IV data fields (using null coalescing for left join behavior)
+        IV_ClosestToStrike: matchingIVData?.IV_ClosestToStrike ?? undefined,
+        IV_UntilExpiryClosestToStrike: matchingIVData?.IV_UntilExpiryClosestToStrike ?? undefined,
+        LowerBoundClosestToStrike: matchingIVData?.LowerBoundClosestToStrike ?? undefined,
+        LowerBoundDistanceFromCurrentPrice: matchingIVData?.LowerBoundDistanceFromCurrentPrice ?? undefined,
+        LowerBoundDistanceFromStrike: matchingIVData?.LowerBoundDistanceFromStrike ?? undefined,
+        ImpliedDownPct: matchingIVData?.ImpliedDownPct ?? undefined,
+        ToStrikePct: matchingIVData?.ToStrikePct ?? undefined,
+        SafetyMultiple: matchingIVData?.SafetyMultiple ?? undefined,
+        SigmasToStrike: matchingIVData?.SigmasToStrike ?? undefined,
+        ProbAssignment: matchingIVData?.ProbAssignment ?? undefined,
+        SafetyCategory: matchingIVData?.SafetyCategory ?? undefined,
+        CushionMinusIVPct: matchingIVData?.CushionMinusIVPct ?? undefined,
         // Add calculated field
         PotentialLossAtLowerBound: potentialLossAtLowerBound
       };
