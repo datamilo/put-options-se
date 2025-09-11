@@ -37,16 +37,14 @@ export const useEnrichedOptionsData = () => {
         // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
         const underlyingValueLowerBoundClosestToStrike = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
         
-        // Step 2: Calculate "Underlying Value (Investment)" = numberOfContracts * StrikePrice * 100
-        const underlyingValueInvestment = numberOfContracts * option.StrikePrice * 100;
+        // Step 2: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
+        // "Underlying Value (Investment)" is the global underlyingValue setting
+        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValue;
         
-        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
-        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValueInvestment;
-        
-        // Step 4: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
         
-        // Step 5: If negative, apply transaction cost calculation
+        // Step 4: If negative, apply transaction cost calculation
         if (potentialLossAtLowerBound < 0) {
           potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
         }
