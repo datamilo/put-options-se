@@ -16,6 +16,7 @@ import AuthCallback from "./pages/AuthCallback";
 import { AuthProvider, useAuth } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
+import ErrorBoundary from "@/components/ErrorBoundary";
 const queryClient = new QueryClient();
 
 const AppHeader = () => {
@@ -48,20 +49,22 @@ const App = () => {
         <AuthProvider>
           <SettingsProvider>
             <TooltipProvider>
-              <Toaster />
-              <Sonner />
-              <HashRouter>
-                <AppHeader />
-                <Routes>
-                  <Route path="/auth" element={<Auth />} />
-                  <Route path="/auth/callback" element={<AuthCallback />} />
-                  <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
-                  <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
-                  <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
-                  <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </HashRouter>
+              <ErrorBoundary>
+                <Toaster />
+                <Sonner />
+                <HashRouter>
+                  <AppHeader />
+                  <Routes>
+                    <Route path="/auth" element={<Auth />} />
+                    <Route path="/auth/callback" element={<AuthCallback />} />
+                    <Route path="/" element={<ProtectedRoute><Index /></ProtectedRoute>} />
+                    <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
+                    <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
+                    <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </HashRouter>
+              </ErrorBoundary>
             </TooltipProvider>
           </SettingsProvider>
         </AuthProvider>
