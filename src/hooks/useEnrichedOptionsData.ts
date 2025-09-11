@@ -34,6 +34,13 @@ export const useEnrichedOptionsData = () => {
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         
+        console.log('🔍 Calculating Potential Loss for:', option.OptionName, {
+          numberOfContracts,
+          lowerBoundClosestToStrike: matchingIVData.LowerBoundClosestToStrike,
+          underlyingValue,
+          premium: option.Premium
+        });
+        
         // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
         const underlyingValueLowerBoundClosestToStrike = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
         
@@ -44,9 +51,16 @@ export const useEnrichedOptionsData = () => {
         // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
         
+        console.log('📊 Calculation steps:', {
+          step1_underlyingValueLowerBound: underlyingValueLowerBoundClosestToStrike,
+          step2_lossLowerBound: lossLowerBoundClosestToStrike, 
+          step3_potentialLossBeforeTC: potentialLossAtLowerBound
+        });
+        
         // Step 4: If negative, apply transaction cost calculation
         if (potentialLossAtLowerBound < 0) {
           potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
+          console.log('💰 After transaction cost:', potentialLossAtLowerBound);
         }
       }
 
