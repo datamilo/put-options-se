@@ -13,6 +13,8 @@ export default defineConfig(async ({ mode }) => {
     }
   }
 
+  const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.CI === 'true';
+  
   return {
     server: {
       host: "::",
@@ -27,6 +29,23 @@ export default defineConfig(async ({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    base: mode === 'production' && process.env.GITHUB_PAGES ? '/put-options-se/' : '/',
+    base: mode === 'production' && isGitHubPages ? '/put-options-se/' : '/',
+    build: {
+      outDir: 'dist',
+      assetsDir: 'assets',
+      sourcemap: mode !== 'production',
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            vendor: ['react', 'react-dom'],
+            router: ['react-router-dom'],
+            charts: ['recharts'],
+            csv: ['papaparse']
+          }
+        }
+      }
+    },
+    publicDir: 'public',
+    assetsInclude: ['**/*.csv']
   };
 });

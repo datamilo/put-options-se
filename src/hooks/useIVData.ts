@@ -30,16 +30,31 @@ export const useIVData = () => {
     setIsLoading(true);
     setError(null);
 
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/IV_PotentialDecline.csv?${Date.now()}`;
+    // Try multiple fallback URLs for better reliability
+    const urls = [
+      `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/IV_PotentialDecline.csv?${Date.now()}`,
+      `https://raw.githubusercontent.com/datamilo/put-options-se/main/public/data/IV_PotentialDecline.csv?${Date.now()}`,
+      `${window.location.origin}${import.meta.env.BASE_URL}data/IV_PotentialDecline.csv?${Date.now()}`
+    ];
 
-    try {
-      const response = await fetch(githubUrl);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch IV data from GitHub: ${response.status} ${response.statusText}`);
-      }
+    let lastError: Error | null = null;
 
-      const csvText = await response.text();
+    for (const url of urls) {
+      try {
+        console.log('🔗 Trying IV URL:', url);
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
+        }
+
+        const csvText = await response.text();
+        
+        if (!csvText || csvText.trim().length === 0) {
+          throw new Error('Empty CSV file received');
+        }
+
+        console.log('✅ Successfully loaded IV CSV from:', url);
 
       Papa.parse(csvText, {
         header: true,
@@ -61,26 +76,66 @@ export const useIVData = () => {
           return String(value || '').trim();
         },
         complete: (results) => {
-          console.log('✅ IV data loaded successfully:', results.data.length, 'rows');
-          setData(results.data as IVData[]);
-          setIsLoading(false);
+          if (results.errors.length > 0) {
+            console.warn('IV CSV parsing warnings:', results.errors);
+            // Only fail if there are critical errors, not warnings
+            const criticalErrors = results.errors.filter(e => e.type === 'Delimiter' || e.type === 'Quotes');
+            if (criticalErrors.length > 0) {
+              setError(`IV CSV parsing errors: ${criticalErrors.map(e => e.message).join(', ')}`);
+              setIsLoading(false);
+              return;
+            }
+          }
+          
+          if (results.data && results.data.length > 0) {
+            console.log(`✅ Parsed ${results.data.length} IV rows from CSV`);
+            setData(results.data as IVData[]);
+            setIsLoading(false);
+            return; // Successfully loaded, exit the retry loop
+          } else {
+            throw new Error('No IV data found in CSV');
+          }
         },
         error: (error) => {
-          console.error('❌ Error parsing IV CSV:', error);
-          setError(`Failed to parse IV CSV: ${error.message}`);
-          setIsLoading(false);
+          throw new Error(`Failed to parse IV CSV: ${error.message}`);
         }
       });
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
-      console.error('❌ Error loading IV data:', errorMessage);
-      setError(errorMessage);
-      setIsLoading(false);
+      
+      } catch (error) {
+        console.warn(`❌ Failed to load IV data from ${url}:`, error);
+        lastError = error as Error;
+        continue;
+      }
     }
+    
+    // If all URLs failed, set error and empty data
+    console.warn('❌ All IV CSV loading attempts failed');
+    setError(`Failed to load IV data from any source. Last error: ${lastError?.message}`);
+    setData([]);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    loadIVDataFromGitHub();
+    let mounted = true;
+    
+    const loadData = async () => {
+      if (!mounted) return;
+      
+      try {
+        await loadIVDataFromGitHub();
+      } catch (error) {
+        console.warn('❌ All IV CSV loading attempts failed:', error);
+        if (mounted) {
+          setData([]);
+        }
+      }
+    };
+    
+    loadData();
+    
+    return () => {
+      mounted = false;
+    };
   }, [loadIVDataFromGitHub]);
 
   return {

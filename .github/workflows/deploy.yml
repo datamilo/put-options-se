@@ -30,7 +30,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Pre-build setup
+        run: node scripts/prebuild.js
+
+      - name: Build for GitHub Pages
+        env:
+          GITHUB_PAGES: true
+          NODE_ENV: production
         run: npm run build
 
       - name: Upload artifact

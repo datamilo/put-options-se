@@ -14,16 +14,31 @@ export const useOptionsData = () => {
     setIsLoading(true);
     setError(null);
 
-    const githubUrl = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}?${Date.now()}`;
+    // Try multiple fallback URLs for better reliability
+    const urls = [
+      `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}?${Date.now()}`,
+      `https://raw.githubusercontent.com/datamilo/put-options-se/main/public/data/${filename}?${Date.now()}`,
+      `${window.location.origin}${import.meta.env.BASE_URL}data/${filename}?${Date.now()}`
+    ];
 
-    try {
-      const response = await fetch(githubUrl);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch CSV from GitHub: ${response.status} ${response.statusText}`);
-      }
+    let lastError: Error | null = null;
 
-      const csvText = await response.text();
+    for (const url of urls) {
+      try {
+        console.log('🔗 Trying URL:', url);
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch CSV: ${response.status} ${response.statusText}`);
+        }
+
+        const csvText = await response.text();
+        
+        if (!csvText || csvText.trim().length === 0) {
+          throw new Error('Empty CSV file received');
+        }
+
+        console.log('✅ Successfully loaded CSV from:', url);
 
       Papa.parse(csvText, {
         header: true,
@@ -61,21 +76,42 @@ export const useOptionsData = () => {
         },
         complete: (results) => {
           if (results.errors.length > 0) {
-            setError(`CSV parsing errors: ${results.errors.map(e => e.message).join(', ')}`);
-          } else {
-            setData(results.data as OptionData[]);
+            console.warn('CSV parsing warnings:', results.errors);
+            // Only fail if there are critical errors, not warnings
+            const criticalErrors = results.errors.filter(e => e.type === 'Delimiter' || e.type === 'Quotes');
+            if (criticalErrors.length > 0) {
+              setError(`CSV parsing errors: ${criticalErrors.map(e => e.message).join(', ')}`);
+              setIsLoading(false);
+              return;
+            }
           }
-          setIsLoading(false);
+          
+          if (results.data && results.data.length > 0) {
+            console.log(`✅ Parsed ${results.data.length} rows from CSV`);
+            setData(results.data as OptionData[]);
+            setIsLoading(false);
+            return; // Successfully loaded, exit the retry loop
+          } else {
+            throw new Error('No data found in CSV');
+          }
         },
         error: (error) => {
-          setError(`Failed to parse CSV: ${error.message}`);
-          setIsLoading(false);
+          throw new Error(`Failed to parse CSV: ${error.message}`);
         }
       });
-    } catch (error) {
-      setError('Failed to load data from GitHub. Please try again.');
-      setIsLoading(false);
+      
+      } catch (error) {
+        console.warn(`❌ Failed to load from ${url}:`, error);
+        lastError = error as Error;
+        continue;
+      }
     }
+    
+    // If all URLs failed, set error and try mock data
+    console.warn('❌ All CSV loading attempts failed, using mock data');
+    setError(`Failed to load data from any source. Last error: ${lastError?.message}`);
+    loadMockData();
+    setIsLoading(false);
   }, []);
 
   const loadCSVFile = useCallback((file: File) => {
@@ -206,17 +242,28 @@ export const useOptionsData = () => {
     setData(mockData);
   }, []);
 
-  // Data loading only
+  // Data loading with retry mechanism
   useEffect(() => {
+    let mounted = true;
+    
     const loadData = async () => {
+      if (!mounted) return;
+      
       try {
         await loadCSVFromGitHub('data.csv');
-      } catch {
-        console.warn('❌ GitHub CSV failed, loading mock data');
-        loadMockData();
+      } catch (error) {
+        console.warn('❌ All CSV loading attempts failed:', error);
+        if (mounted) {
+          loadMockData();
+        }
       }
     };
+    
     loadData();
+    
+    return () => {
+      mounted = false;
+    };
   }, [loadCSVFromGitHub, loadMockData]);
 
   return {
