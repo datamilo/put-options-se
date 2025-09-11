@@ -27,31 +27,26 @@ export const useEnrichedOptionsData = () => {
 
       // If no matching IV data, we'll set all IV fields to null/undefined
 
-      // Calculate potential loss at lower bound using exact Python logic
+      // Calculate potential loss at lower bound - should be negative or zero
       let potentialLossAtLowerBound = 0;
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         
-        // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = Number Of Contracts * Lower Bound Closest To Strike * 100
-        const underlyingValueLowerBound = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
-        
-        // Step 2: Underlying Stock Value = Number Of Contracts * Strike Price * 100  
-        const underlyingStockValue = numberOfContracts * option.StrikePrice * 100;
-        
-        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Stock Value
-        const lossLowerBound = underlyingValueLowerBound - underlyingStockValue;
-        
-        // Step 4: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
-        potentialLossAtLowerBound = option.Premium + lossLowerBound;
-        
-        // Step 5: If result >= Premium, cap it at the Premium
-        if (potentialLossAtLowerBound >= option.Premium) {
-          potentialLossAtLowerBound = option.Premium;
-        }
-        
-        // Step 6: If negative, subtract transaction cost (value * 0.000075 + transaction_cost)
-        if (potentialLossAtLowerBound < 0) {
-          potentialLossAtLowerBound = potentialLossAtLowerBound - (Math.abs(potentialLossAtLowerBound) * 0.000075 + transactionCost);
+        // If Lower Bound Closest To Strike is above strike price, no loss occurs
+        if (matchingIVData.LowerBoundClosestToStrike >= option.StrikePrice) {
+          potentialLossAtLowerBound = 0;
+        } else {
+          // Calculate loss when stock declines to Lower Bound Closest To Strike
+          const underlyingValueAtLowerBound = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
+          const underlyingStockValue = numberOfContracts * option.StrikePrice * 100;
+          
+          // Loss is negative when lower bound is below strike price
+          potentialLossAtLowerBound = underlyingValueAtLowerBound - underlyingStockValue;
+          
+          // Subtract transaction cost for negative values
+          if (potentialLossAtLowerBound < 0) {
+            potentialLossAtLowerBound = potentialLossAtLowerBound - (Math.abs(potentialLossAtLowerBound) * 0.000075 + transactionCost);
+          }
         }
       }
 
