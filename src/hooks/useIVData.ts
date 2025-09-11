@@ -25,6 +25,8 @@ export const useIVData = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  console.log('🔍 useIVData hook called, current data length:', data.length);
+
   const loadIVDataFromGitHub = useCallback(async () => {
     console.log('📥 Loading IV data...');
     setIsLoading(true);
@@ -89,6 +91,7 @@ export const useIVData = () => {
           
           if (results.data && results.data.length > 0) {
             console.log(`✅ Parsed ${results.data.length} IV rows from CSV`);
+            console.log('🔄 Setting IV data, current length:', data.length, 'new length:', results.data.length);
             setData(results.data as IVData[]);
             setIsLoading(false);
             return; // Successfully loaded, exit the retry loop
@@ -109,32 +112,40 @@ export const useIVData = () => {
     }
     
     // If all URLs failed, set error but DO NOT clear existing data
-    console.warn('❌ All IV CSV loading attempts failed');
+    console.warn('❌ All IV CSV loading attempts failed, current data length:', data.length);
     setError(`Failed to load IV data from any source. Last error: ${lastError?.message}`);
     // DO NOT clear data if we already have some
     if (data.length === 0) {
+      console.log('🗑️ Setting empty data array because no existing data');
       setData([]);
+    } else {
+      console.log('🛡️ Preserving existing data, length:', data.length);
     }
     setIsLoading(false);
   }, [data.length]); // Use data.length to prevent re-runs when data exists
 
   useEffect(() => {
+    console.log('🚀 useIVData useEffect triggered, data length:', data.length);
     let mounted = true;
     
     const loadData = async () => {
-      if (!mounted) return;
-      
-      // Only load if we don't already have data
-      if (data.length > 0) {
-        console.log('📋 IV data already loaded, skipping reload');
+      if (!mounted) {
+        console.log('⚠️ Component unmounted, aborting load');
         return;
       }
       
+      // Only load if we don't already have data
+      if (data.length > 0) {
+        console.log('📋 IV data already loaded, skipping reload. Length:', data.length);
+        return;
+      }
+      
+      console.log('📥 Starting IV data load...');
       try {
         await loadIVDataFromGitHub();
       } catch (error) {
-        console.warn('❌ All IV CSV loading attempts failed:', error);
-        if (mounted) {
+        console.warn('❌ useEffect: All IV CSV loading attempts failed:', error);
+        if (mounted && data.length === 0) {
           setData([]);
         }
       }
