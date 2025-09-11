@@ -64,6 +64,10 @@ const PortfolioGenerator = () => {
   const [portfolioMessage, setPortfolioMessage] = useState<string>(() => {
     return localStorage.getItem('portfolioGenerator_portfolioMessage') || "";
   });
+  const [totalPotentialLoss, setTotalPotentialLoss] = useState<number>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_totalPotentialLoss');
+    return saved ? parseFloat(saved) : 0;
+  });
 
   // Portfolio table sorting state
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
@@ -127,10 +131,12 @@ const PortfolioGenerator = () => {
       setGeneratedPortfolio([]);
       setPortfolioGenerated(false);
       setPortfolioMessage("");
+      setTotalPotentialLoss(0);
       localStorage.removeItem('portfolioGenerator_generatedPortfolio');
       localStorage.removeItem('portfolioGenerator_portfolioGenerated');
       localStorage.removeItem('portfolioGenerator_portfolioMessage');
       localStorage.removeItem('portfolioGenerator_totalUnderlyingValue');
+      localStorage.removeItem('portfolioGenerator_totalPotentialLoss');
     }
   };
 
@@ -172,7 +178,7 @@ const PortfolioGenerator = () => {
         return true;
       });
 
-      // Sort by probability and premium for optimal selection
+      // Sort by probability, potential loss, and premium for optimal selection
       filteredOptions.sort((a, b) => {
         const probA = getProbabilityValue(a);
         const probB = getProbabilityValue(b);
@@ -189,7 +195,12 @@ const PortfolioGenerator = () => {
           if (probB !== probA) return probB - probA; // Higher probability first
         }
         
-        return b.Premium - a.Premium; // Higher premium first if probability equal
+        // Secondary sort: prefer options with less potential loss (closer to zero)
+        const lossA = (a as any).PotentialLossAtLowerBound || 0;
+        const lossB = (b as any).PotentialLossAtLowerBound || 0;
+        if (lossA !== lossB) return lossB - lossA; // Less negative loss first (closer to zero)
+        
+        return b.Premium - a.Premium; // Higher premium first if probability and loss equal
       });
 
       // Select maximum one option per stock
@@ -226,6 +237,12 @@ const PortfolioGenerator = () => {
         return sum + (option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100);
       }, 0);
 
+      // Calculate total potential loss at lower bound
+      const totalPotentialLoss = selectedOptions.reduce((sum, option) => {
+        const loss = (option as any).PotentialLossAtLowerBound || 0;
+        return sum + loss;
+      }, 0);
+
       // Generate status message
       let message = "";
       if (totalPremium < totalPremiumTarget) {
@@ -240,10 +257,14 @@ const PortfolioGenerator = () => {
       setPortfolioMessage(message);
       setPortfolioGenerated(true);
       
+      // Store total potential loss for display
+      setTotalPotentialLoss(totalPotentialLoss);
+      
       // Save to localStorage
       localStorage.setItem('portfolioGenerator_generatedPortfolio', JSON.stringify(selectedOptions));
       localStorage.setItem('portfolioGenerator_totalUnderlyingValue', calculatedUnderlyingValue.toString());
       localStorage.setItem('portfolioGenerator_portfolioMessage', message);
+      localStorage.setItem('portfolioGenerator_totalPotentialLoss', totalPotentialLoss.toString());
       localStorage.setItem('portfolioGenerator_portfolioGenerated', 'true');
     } catch (error) {
       console.error("Error:", error);
@@ -433,6 +454,7 @@ const PortfolioGenerator = () => {
               <p>{portfolioMessage}</p>
               <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
               <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
+              <p>Total Calculated Risk of Loss: {Math.round(totalPotentialLoss).toLocaleString()} SEK</p>
             </div>
           </CardHeader>
           <CardContent>
