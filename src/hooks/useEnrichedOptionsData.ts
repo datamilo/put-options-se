@@ -28,19 +28,22 @@ export const useEnrichedOptionsData = () => {
 
       // Calculate potential loss at lower bound using Python logic
       let potentialLossAtLowerBound = 0;
-      if (matchingIVData.LowerBoundClosestToStrike && underlyingValue) {
+      if (matchingIVData.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         
         // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = Number Of Contracts * Lower Bound Closest To Strike * 100
         const underlyingValueLowerBound = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
         
-        // Step 2: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Värde_Underliggande
-        const lossLowerBound = underlyingValueLowerBound - underlyingValue;
+        // Step 2: Underlying Stock Value = Number Of Contracts * Strike Price * 100
+        const underlyingStockValue = numberOfContracts * option.StrikePrice * 100;
         
-        // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Stock Value
+        const lossLowerBound = underlyingValueLowerBound - underlyingStockValue;
+        
+        // Step 4: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBound;
         
-        // Step 4: If result >= Premium, cap it at the Premium
+        // Step 5: If result >= Premium, cap it at the Premium
         if (potentialLossAtLowerBound >= option.Premium) {
           potentialLossAtLowerBound = option.Premium;
         }
