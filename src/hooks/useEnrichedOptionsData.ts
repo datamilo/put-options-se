@@ -17,10 +17,9 @@ export const useEnrichedOptionsData = () => {
     console.log('🔄 Enriching options data with IV data...');
     
     return optionsData.map(option => {
-      // Find matching IV data by OptionName and Update_date (left join)
+      // Find matching IV data by OptionName only (left join)
       const matchingIVData = ivData.find(iv => 
-        iv.OptionName === option.OptionName && 
-        iv.Update_date === option.ExpiryDate // Assuming ExpiryDate maps to Update_date
+        iv.OptionName === option.OptionName
       );
 
       // If no matching IV data, we'll set all IV fields to null/undefined
