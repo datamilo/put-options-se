@@ -33,7 +33,7 @@ export const useIVData = () => {
     // Try multiple fallback URLs for better reliability
     const urls = [
       `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/IV_PotentialDecline.csv?${Date.now()}`,
-      `https://raw.githubusercontent.com/datamilo/put-options-se/main/public/data/IV_PotentialDecline.csv?${Date.now()}`,
+      `https://datamilo.github.io/put-options-se/data/IV_PotentialDecline.csv?${Date.now()}`,
       `${window.location.origin}${import.meta.env.BASE_URL}data/IV_PotentialDecline.csv?${Date.now()}`
     ];
 
