@@ -29,8 +29,7 @@ export const useEnrichedOptionsData = () => {
         console.log('⚠️ No IV data found for option:', option.OptionName);
       }
 
-      // Calculate potential loss at lower bound - should be negative or zero
-      // Following the exact Python calculation logic
+      // Calculate potential loss at lower bound - following exact Python logic
       let potentialLossAtLowerBound = 0;
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
@@ -38,13 +37,16 @@ export const useEnrichedOptionsData = () => {
         // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
         const underlyingValueLowerBoundClosestToStrike = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
         
-        // Step 2: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
-        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValue;
+        // Step 2: Calculate "Underlying Value (Investment)" = numberOfContracts * StrikePrice * 100
+        const underlyingValueInvestment = numberOfContracts * option.StrikePrice * 100;
         
-        // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
+        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValueInvestment;
+        
+        // Step 4: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
         
-        // Step 4: If negative, subtract transaction cost
+        // Step 5: If negative, apply transaction cost calculation
         if (potentialLossAtLowerBound < 0) {
           potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
         }
