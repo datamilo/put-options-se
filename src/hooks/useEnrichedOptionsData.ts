@@ -30,25 +30,23 @@ export const useEnrichedOptionsData = () => {
       }
 
       // Calculate potential loss at lower bound - should be negative or zero
+      // Following the exact Python calculation logic
       let potentialLossAtLowerBound = 0;
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         
-        // If Lower Bound Closest To Strike is above strike price, no loss occurs
-        if (matchingIVData.LowerBoundClosestToStrike >= option.StrikePrice) {
-          potentialLossAtLowerBound = 0;
-        } else {
-          // Calculate loss when stock declines to Lower Bound Closest To Strike
-          const underlyingValueAtLowerBound = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
-          const underlyingStockValue = numberOfContracts * option.StrikePrice * 100;
-          
-          // Loss is negative when lower bound is below strike price
-          potentialLossAtLowerBound = underlyingValueAtLowerBound - underlyingStockValue;
-          
-          // Subtract transaction cost for negative values
-          if (potentialLossAtLowerBound < 0) {
-            potentialLossAtLowerBound = potentialLossAtLowerBound - (Math.abs(potentialLossAtLowerBound) * 0.000075 + transactionCost);
-          }
+        // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
+        const underlyingValueLowerBoundClosestToStrike = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
+        
+        // Step 2: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
+        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValue;
+        
+        // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
+        
+        // Step 4: If negative, subtract transaction cost
+        if (potentialLossAtLowerBound < 0) {
+          potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
         }
       }
 
