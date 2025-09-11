@@ -25,7 +25,9 @@ export const useEnrichedOptionsData = () => {
         iv.OptionName === option.OptionName
       );
 
-      // If no matching IV data, we'll set all IV fields to null/undefined
+      if (!matchingIVData) {
+        console.log('⚠️ No IV data found for option:', option.OptionName);
+      }
 
       // Calculate potential loss at lower bound - should be negative or zero
       let potentialLossAtLowerBound = 0;
