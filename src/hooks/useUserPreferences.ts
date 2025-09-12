@@ -76,6 +76,8 @@ export const useUserPreferences = () => {
           user_id: user.id,
           preference_type: 'column_preferences',
           preference_data: preferences as any
+        }, {
+          onConflict: 'user_id,preference_type'
         });
 
       if (error) {
@@ -105,6 +107,8 @@ export const useUserPreferences = () => {
           user_id: user.id,
           preference_type: 'calculation_settings',
           preference_data: settings as any
+        }, {
+          onConflict: 'user_id,preference_type'
         });
 
       if (error) {
