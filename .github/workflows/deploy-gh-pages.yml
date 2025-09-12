@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages using gh-pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pre-build setup
+        run: node scripts/prebuild.js
+
+      - name: Build for GitHub Pages
+        env:
+          GITHUB_PAGES: 'true'
+          CI: 'true'
+        run: npm run build
+
+      - name: Deploy to gh-pages branch
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "action@github.com"
+          npm install -g gh-pages
+          gh-pages -d dist -m "Deploy to GitHub Pages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
