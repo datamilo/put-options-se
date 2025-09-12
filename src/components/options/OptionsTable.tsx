@@ -368,25 +368,35 @@ export const OptionsTable = ({
                 key={`${option.StockName}-${option.OptionName}-${index}`}
                 className="hover:bg-muted/50"
               >
-                 {visibleColumns.map(column => (
-                   <TableCell 
-                     key={column} 
-                     className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
-                     onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
-                   >
-                     {column === 'OptionName' ? (
-                       <span className="font-medium text-primary hover:text-primary/80 transition-colors">
-                         {formatValue(option[column as keyof OptionData], column)}
-                       </span>
-                     ) : column === 'StockName' ? (
-                       <span className="font-medium text-secondary-foreground hover:text-primary transition-colors">
-                         {formatValue(option[column as keyof OptionData], column)}
-                       </span>
-                     ) : (
-                       formatValue(option[column as keyof OptionData], column)
-                     )}
-                   </TableCell>
-                 ))}
+                  {visibleColumns.map(column => {
+                    // Determine the color for OptionName based on FinancialReport and X-Day
+                    const getOptionNameColor = () => {
+                      if (column !== 'OptionName') return '';
+                      if (option.FinancialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
+                      if (option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
+                      return 'text-primary';
+                    };
+
+                    return (
+                      <TableCell 
+                        key={column} 
+                        className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
+                        onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
+                      >
+                        {column === 'OptionName' ? (
+                          <span className={`font-medium ${getOptionNameColor()} hover:opacity-80 transition-all`}>
+                            {formatValue(option[column as keyof OptionData], column)}
+                          </span>
+                        ) : column === 'StockName' ? (
+                          <span className="font-medium text-secondary-foreground hover:text-primary transition-colors">
+                            {formatValue(option[column as keyof OptionData], column)}
+                          </span>
+                        ) : (
+                          formatValue(option[column as keyof OptionData], column)
+                        )}
+                      </TableCell>
+                    );
+                  })}
               </TableRow>
             ))}
           </TableBody>
