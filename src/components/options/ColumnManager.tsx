@@ -1,0 +1,248 @@
+import React, { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Badge } from '@/components/ui/badge';
+import { Settings, GripVertical, Save } from 'lucide-react';
+import { ColumnPreference, useUserPreferences } from '@/hooks/useUserPreferences';
+import { OptionData } from '@/types/options';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import {
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
+interface ColumnManagerProps {
+  visibleColumns: (keyof OptionData)[];
+  onVisibilityChange: (column: keyof OptionData, visible: boolean) => void;
+  onColumnOrderChange: (newOrder: (keyof OptionData)[]) => void;
+}
+
+const SortableColumnItem: React.FC<{
+  column: ColumnPreference;
+  onVisibilityChange: (visible: boolean) => void;
+}> = ({ column, onVisibilityChange }) => {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: column.key });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  };
+
+  const formatColumnName = (key: string): string => {
+    return key
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, str => str.toUpperCase())
+      .replace(/_/g, ' ');
+  };
+
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="flex items-center space-x-3 p-3 bg-card rounded-lg border hover:bg-accent transition-colors"
+    >
+      <div
+        {...attributes}
+        {...listeners}
+        className="cursor-grab active:cursor-grabbing p-1 hover:bg-muted rounded"
+      >
+        <GripVertical className="h-4 w-4 text-muted-foreground" />
+      </div>
+      
+      <Checkbox
+        checked={column.visible}
+        onCheckedChange={(checked) => onVisibilityChange(!!checked)}
+        className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+      />
+      
+      <span className="flex-1 text-sm font-medium">
+        {formatColumnName(column.key)}
+      </span>
+      
+      <Badge variant={column.visible ? "default" : "secondary"} className="text-xs">
+        {column.visible ? "Visible" : "Hidden"}
+      </Badge>
+    </div>
+  );
+};
+
+export const ColumnManager: React.FC<ColumnManagerProps> = ({
+  visibleColumns,
+  onVisibilityChange,
+  onColumnOrderChange,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { columnPreferences, saveColumnPreferences, isLoading } = useUserPreferences();
+  const [localPreferences, setLocalPreferences] = useState<ColumnPreference[]>([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
+
+  // Initialize default columns if no preferences exist
+  const defaultColumns: (keyof OptionData)[] = [
+    'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
+    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
+  ];
+
+  useEffect(() => {
+    if (columnPreferences.length > 0) {
+      setLocalPreferences([...columnPreferences]);
+    } else {
+      // Initialize with default preferences
+      const defaultPrefs = defaultColumns.map((col, index) => ({
+        key: col,
+        visible: true,
+        order: index
+      }));
+      
+      // Add all other possible columns as hidden
+      const allColumns = Object.keys({} as OptionData) as (keyof OptionData)[];
+      const remainingColumns = allColumns.filter(col => !defaultColumns.includes(col));
+      
+      const allPrefs = [
+        ...defaultPrefs,
+        ...remainingColumns.map((col, index) => ({
+          key: col,
+          visible: false,
+          order: defaultColumns.length + index
+        }))
+      ];
+      
+      setLocalPreferences(allPrefs);
+    }
+  }, [columnPreferences]);
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (active.id !== over?.id) {
+      setLocalPreferences((items) => {
+        const oldIndex = items.findIndex((item) => item.key === active.id);
+        const newIndex = items.findIndex((item) => item.key === over?.id);
+        
+        const newItems = arrayMove(items, oldIndex, newIndex);
+        
+        // Update order values
+        return newItems.map((item, index) => ({
+          ...item,
+          order: index
+        }));
+      });
+    }
+  };
+
+  const handleVisibilityChange = (columnKey: string, visible: boolean) => {
+    setLocalPreferences(prev => 
+      prev.map(col => 
+        col.key === columnKey 
+          ? { ...col, visible }
+          : col
+      )
+    );
+  };
+
+  const handleSave = async () => {
+    await saveColumnPreferences(localPreferences);
+    
+    // Update parent component
+    const visibleCols = localPreferences
+      .filter(col => col.visible)
+      .sort((a, b) => a.order - b.order)
+      .map(col => col.key as keyof OptionData);
+    
+    onColumnOrderChange(visibleCols);
+    setIsOpen(false);
+  };
+
+  const visibleCount = localPreferences.filter(col => col.visible).length;
+
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="ml-2">
+          <Settings className="h-4 w-4 mr-1" />
+          Columns ({visibleCount})
+        </Button>
+      </DialogTrigger>
+      
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
+        <DialogHeader>
+          <DialogTitle>Manage Table Columns</DialogTitle>
+          <p className="text-sm text-muted-foreground">
+            Drag to reorder columns and check/uncheck to show/hide them. Click Save to persist your preferences.
+          </p>
+        </DialogHeader>
+        
+        <div className="flex-1 overflow-y-auto space-y-2 pr-2">
+          {!isLoading && localPreferences.length > 0 && (
+            <DndContext
+              sensors={sensors}
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={localPreferences.map(col => col.key)}
+                strategy={verticalListSortingStrategy}
+              >
+                {localPreferences
+                  .sort((a, b) => a.order - b.order)
+                  .map((column) => (
+                    <SortableColumnItem
+                      key={column.key}
+                      column={column}
+                      onVisibilityChange={(visible) => 
+                        handleVisibilityChange(column.key, visible)
+                      }
+                    />
+                  ))}
+              </SortableContext>
+            </DndContext>
+          )}
+        </div>
+        
+        <div className="flex justify-between items-center pt-4 border-t">
+          <p className="text-sm text-muted-foreground">
+            {visibleCount} of {localPreferences.length} columns visible
+          </p>
+          
+          <div className="flex space-x-2">
+            <Button variant="outline" onClick={() => setIsOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleSave} disabled={isLoading}>
+              <Save className="h-4 w-4 mr-1" />
+              Save Preferences
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};

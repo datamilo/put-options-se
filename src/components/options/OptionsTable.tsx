@@ -14,6 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown, Filter, Eye, EyeOff } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ColumnManager } from "./ColumnManager";
+import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { formatNumber } from "@/lib/utils";
 
 interface OptionsTableProps {
@@ -47,36 +49,31 @@ export const OptionsTable = ({
   onSortChange,
   enableFiltering = true 
 }: OptionsTableProps) => {
-  const [showColumnManager, setShowColumnManager] = useState(false);
-  const [visibleColumns, setVisibleColumns] = useState<string[]>([]);
-  const [activeGroups, setActiveGroups] = useState<Set<string>>(new Set());
+  const { columnPreferences, isLoading } = useUserPreferences();
+  const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
 
-  // Define column groups for better organization
-  const columnGroups = {
-    basic: ['StockName', 'OptionName', 'Premium', 'recalculatedNumberOfContracts', 'PotentialLossAtLowerBound', 'ProbWorthless_Bayesian_IsoCal', '1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV'],
-    'reportOrXDay': ['FinancialReport', 'X-Day'],
-    risk: ['1_2_3_ProbOfWorthless_Weighted', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV','ProbWorthless_Bayesian_IsoCal'],
-    loss: ['LossAtBadDecline', 'LossAtWorstDecline', 'LossAt100DayWorstDecline', 'LossAt_2008_100DayWorstDecline', 'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'PotentialLossAtLowerBound'],
-    statistics: ['PoW_Stats_MedianLossPct', 'PoW_Stats_WorstLossPct', 'PoW_Stats_MedianLoss', 'PoW_Stats_WorstLoss', 'PoW_Stats_MedianProbOfWorthless', 'PoW_Stats_MinProbOfWorthless', 'PoW_Stats_MaxProbOfWorthless'],
-    profitloss: ['ProfitLossPctLeastBad', 'ProfitLossPctBad', 'ProfitLossPctWorst', 'ProfitLossPct100DayWorst', 'Loss_Least_Bad'],
-    pricing: ['StockPrice', 'NumberOfContractsBasedOnLimit', 'Bid', 'Bid_Ask_Mid_Price', 'Option_Price_Min', 'Underlying_Value', 'AskBidSpread'],
-    volatility: ['ImpliedVolatility', 'TodayStockMedianIV_Maximum100DaysToExp', 'AllMedianIV_Maximum100DaysToExp', 'IV_AllMedianIV_Maximum100DaysToExp_Ratio', 'IV_ClosestToStrike', 'IV_UntilExpiryClosestToStrike'],
-    bounds: ['Lower_Bound', 'Lower_Bound_at_Accuracy', 'Lower_Bound_HistMedianIV', 'Lower_Bound_HistMedianIV_at_Accuracy', 'LowerBoundClosestToStrike'],
-    'iv_analysis': ['LowerBoundDistanceFromCurrentPrice', 'LowerBoundDistanceFromStrike', 'ImpliedDownPct', 'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike', 'ProbAssignment', 'SafetyCategory', 'CushionMinusIVPct'],
-    other: ['FinancialReport', 'X-Day', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean', 'Mean_Accuracy',  'StockPrice_After_2008_100DayWorstDecline', 'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy', 'StrikeBelowLowerAtAcc']
-  };
-
-  // Get all available columns from data
-  const allColumns = data.length > 0 ? Object.keys(data[0]) : [];
+  // Default columns if no preferences exist
+  const defaultColumns: (keyof OptionData)[] = [
+    'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
+    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
+  ];
   
-  // Initialize visible columns on first load
+  // Initialize visible columns from user preferences or defaults
   useEffect(() => {
-    if (visibleColumns.length === 0 && allColumns.length > 0) {
-      setVisibleColumns(columnGroups.basic);
+    if (!isLoading) {
+      if (columnPreferences.length > 0) {
+        const visibleCols = columnPreferences
+          .filter(col => col.visible)
+          .sort((a, b) => a.order - b.order)
+          .map(col => col.key as keyof OptionData);
+        setVisibleColumns(visibleCols);
+      } else {
+        setVisibleColumns(defaultColumns);
+      }
     }
-  }, [allColumns.length, visibleColumns.length]);
+  }, [columnPreferences, isLoading]);
 
   // Handle click outside to close filter dropdown
   useEffect(() => {
@@ -232,46 +229,16 @@ export const OptionsTable = ({
     return "bg-success text-success-foreground";
   };
 
-  const toggleColumn = (column: string) => {
-    setVisibleColumns(prev => 
-      prev.includes(column) 
-        ? prev.filter(col => col !== column)
-        : [...prev, column]
-    );
+  const handleColumnVisibilityChange = (column: keyof OptionData, visible: boolean) => {
+    if (visible) {
+      setVisibleColumns(prev => [...prev, column]);
+    } else {
+      setVisibleColumns(prev => prev.filter(col => col !== column));
+    }
   };
 
-  const toggleColumnGroup = (groupName: keyof typeof columnGroups) => {
-    const isActive = activeGroups.has(groupName);
-    
-    if (isActive) {
-      // Remove columns from this group
-      setVisibleColumns(prev => 
-        prev.filter(col => !columnGroups[groupName].includes(col))
-      );
-      setActiveGroups(prev => {
-        const newSet = new Set(prev);
-        newSet.delete(groupName);
-        return newSet;
-      });
-    } else {
-      // Add columns from this group
-      setVisibleColumns(prev => {
-        if (groupName === 'reportOrXDay') {
-          // Insert reportOrXDay columns at positions 2 and 3 (third and fourth from left)
-          const newCols = [...prev];
-          const columnsToAdd = columnGroups[groupName].filter(col => !newCols.includes(col));
-          
-          // Insert at position 2 (after StockName and OptionName)
-          newCols.splice(2, 0, ...columnsToAdd);
-          return newCols;
-        } else {
-          // For other groups, append at the end
-          const newCols = [...new Set([...prev, ...columnGroups[groupName]])];
-          return newCols;
-        }
-      });
-      setActiveGroups(prev => new Set([...prev, groupName]));
-    }
+  const handleColumnOrderChange = (newOrder: (keyof OptionData)[]) => {
+    setVisibleColumns(newOrder);
   };
 
   return (
@@ -286,65 +253,12 @@ export const OptionsTable = ({
           </div>
         )}
         
-        <Button
-          variant="outline"
-          onClick={() => setShowColumnManager(!showColumnManager)}
-          className="flex items-center gap-2"
-        >
-          {showColumnManager ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          Columns ({visibleColumns.length})
-        </Button>
+        <ColumnManager
+          visibleColumns={visibleColumns}
+          onVisibilityChange={handleColumnVisibilityChange}
+          onColumnOrderChange={handleColumnOrderChange}
+        />
       </div>
-
-      {showColumnManager && (
-        <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
-          <div className="flex flex-wrap gap-2">
-            {Object.entries(columnGroups).map(([groupName, columns]) => (
-              <Button
-                key={groupName}
-                variant={activeGroups.has(groupName) ? "default" : "outline"}
-                size="sm"
-                onClick={() => toggleColumnGroup(groupName as keyof typeof columnGroups)}
-              >
-                {groupName === 'reportOrXDay' ? 'Report or X Day' : groupName.charAt(0).toUpperCase() + groupName.slice(1)}
-              </Button>
-            ))}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setVisibleColumns(allColumns)}
-            >
-              Show All
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setVisibleColumns(columnGroups.basic)}
-            >
-              Reset to Basic
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 max-h-40 overflow-y-auto">
-            {allColumns.map(column => (
-              <div key={column} className="flex items-center space-x-2">
-                <Checkbox
-                  id={column}
-                  checked={visibleColumns.includes(column)}
-                  onCheckedChange={() => toggleColumn(column)}
-                />
-                <label 
-                  htmlFor={column} 
-                  className="text-sm cursor-pointer truncate"
-                  title={formatColumnName(column)}
-                >
-                  {formatColumnName(column)}
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <ScrollArea className="w-full whitespace-nowrap rounded-md border">
         <Table>
