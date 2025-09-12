@@ -138,11 +138,25 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   };
 
   useEffect(() => {
+    const allColumns = getAllColumns();
+    
     if (columnPreferences.length > 0) {
-      setLocalPreferences([...columnPreferences]);
+      // Merge existing preferences with any missing columns
+      const existingKeys = new Set(columnPreferences.map(pref => pref.key));
+      const missingColumns = allColumns.filter(col => !existingKeys.has(col));
+      
+      const mergedPreferences = [
+        ...columnPreferences,
+        ...missingColumns.map((col, index) => ({
+          key: col,
+          visible: defaultColumns.includes(col),
+          order: columnPreferences.length + index
+        }))
+      ];
+      
+      setLocalPreferences(mergedPreferences);
     } else {
       // Initialize with all available columns
-      const allColumns = getAllColumns();
       const allPrefs = allColumns.map((col, index) => ({
         key: col,
         visible: defaultColumns.includes(col),
