@@ -38,14 +38,17 @@ const AppHeader = () => {
 };
 
 const App = () => {
-  // Use Vite's built-in environment detection for GitHub Pages
-  const basename = import.meta.env.DEV ? '' : '/put-options-se';
+  // Only GitHub Pages needs the /put-options-se basename
+  // Lovable staging and development should use empty basename
+  const isGitHubPages = window.location.hostname === 'datamilo.github.io';
+  const basename = isGitHubPages ? '/put-options-se' : '';
   
   console.log("App component rendering", {
     location: window.location.href,
     pathname: window.location.pathname,
     hash: window.location.hash,
-    isDev: import.meta.env.DEV,
+    hostname: window.location.hostname,
+    isGitHubPages,
     basename
   });
   return (
