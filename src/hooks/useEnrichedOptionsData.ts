@@ -34,32 +34,42 @@ export const useEnrichedOptionsData = () => {
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         
-        // Debug Evolution AB specifically
-        if (option.OptionName === 'EVO5U770') {
-          console.log('🎯 Evolution AB Debug:', {
-            optionName: option.OptionName,
-            numberOfContracts,
-            lowerBoundClosestToStrike: matchingIVData.LowerBoundClosestToStrike,
-            underlyingValue,
-            premium: option.Premium,
-            expectedStep1: 3 * 762.7 * 100, // Should be 228810
-            expectedStep2: 228810 - 231000, // Should be -2190
-            expectedStep3: 1777 + (-2190) // Should be -413
-          });
-        }
+        // Step 1: Calculate "Underlying Value (Investment)" = StrikePrice * Number Of Contracts * 100
+        const underlyingValueInvestment = option.StrikePrice * numberOfContracts * 100;
         
-        // Step 1: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
+        // Step 2: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
         const underlyingValueLowerBoundClosestToStrike = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
         
-        // Step 2: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
-        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValue;
+        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
+        const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValueInvestment;
         
-        // Step 3: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        // Step 4: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
         
-        // Step 4: If negative, apply transaction cost calculation
+        // Step 5: Set positive values to zero
+        if (potentialLossAtLowerBound >= 0) {
+          potentialLossAtLowerBound = 0;
+        }
+        
+        // Step 6: Apply transaction cost to negative values
         if (potentialLossAtLowerBound < 0) {
           potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
+        }
+        
+        // Debug for HOLMB5U356 specifically
+        if (option.OptionName === 'HOLMB5U356') {
+          console.log('🎯 HOLMB5U356 Debug:', {
+            optionName: option.OptionName,
+            strikePrice: option.StrikePrice,
+            numberOfContracts,
+            lowerBoundClosestToStrike: matchingIVData.LowerBoundClosestToStrike,
+            premium: option.Premium,
+            underlyingValueInvestment,
+            underlyingValueLowerBoundClosestToStrike,
+            lossLowerBoundClosestToStrike,
+            potentialLossAtLowerBound,
+            expectedResult: -2402.8272
+          });
         }
       }
 
