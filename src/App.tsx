@@ -52,7 +52,7 @@ const App = () => {
               <ErrorBoundary>
                 <Toaster />
                 <Sonner />
-                <BrowserRouter basename={import.meta.env.BASE_URL === '/put-options-se/' ? '/put-options-se' : ''}>
+                <BrowserRouter basename={import.meta.env.BASE_URL !== '/' ? import.meta.env.BASE_URL.replace(/\/$/, '') : ''}>
                   <AppHeader />
                   <Routes>
                     <Route path="/auth" element={<Auth />} />

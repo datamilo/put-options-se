@@ -39,6 +39,9 @@ jobs:
           CI: 'true'
         run: npm run build
 
+      - name: Post-build setup
+        run: node scripts/postbuild.js
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

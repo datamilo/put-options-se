@@ -16,6 +16,9 @@ export default defineConfig(async ({ mode }) => {
   const isProduction = mode === 'production';
   const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.CI === 'true';
   
+  // GitHub Pages base path should match the repository name exactly
+  const basePath = (isProduction && isGitHubPages) ? '/put-options-se/' : '/';
+  
   return {
     server: {
       host: "::",
@@ -30,7 +33,7 @@ export default defineConfig(async ({ mode }) => {
         "@": path.resolve(__dirname, "./src"),
       },
     },
-    base: (isProduction && isGitHubPages) ? '/put-options-se/' : '/',
+    base: basePath,
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
