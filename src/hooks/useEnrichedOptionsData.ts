@@ -1,11 +1,13 @@
 import { useMemo } from 'react';
 import { OptionData } from '@/types/options';
 import { useOptionsData } from './useOptionsData';
+import { useRecalculatedOptions } from './useRecalculatedOptions';
 import { useIVData } from './useIVData';
 import { useSettings } from '@/contexts/SettingsContext';
 
 export const useEnrichedOptionsData = () => {
-  const { data: optionsData, isLoading: isOptionsLoading, error: optionsError, ...optionsMethods } = useOptionsData();
+  const { data: rawOptionsData, isLoading: isOptionsLoading, error: optionsError, ...optionsMethods } = useOptionsData();
+  const optionsData = useRecalculatedOptions(rawOptionsData);
   const { data: ivData, isLoading: isIVLoading, error: ivError } = useIVData();
   const { underlyingValue, transactionCost } = useSettings();
 
