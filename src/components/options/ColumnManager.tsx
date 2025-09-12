@@ -111,29 +111,43 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
     'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
   ];
 
+  // Get all available columns from OptionData type
+  const getAllColumns = (): (keyof OptionData)[] => {
+    return [
+      'StockName', 'OptionName', 'ExpiryDate', 'FinancialReport', 'X-Day', 'Premium',
+      'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean', '1_2_3_ProbOfWorthless_Weighted',
+      'ProbWorthless_Bayesian_IsoCal', '1_ProbOfWorthless_Original', '2_ProbOfWorthless_Calibrated',
+      '3_ProbOfWorthless_Historical_IV', 'Lower_Bound_at_Accuracy', 'LossAtBadDecline', 'LossAtWorstDecline',
+      'PoW_Stats_MedianLossPct', 'PoW_Stats_WorstLossPct', 'PoW_Stats_MedianLoss', 'PoW_Stats_WorstLoss',
+      'PoW_Stats_MedianProbOfWorthless', 'PoW_Stats_MinProbOfWorthless', 'PoW_Stats_MaxProbOfWorthless',
+      'LossAt100DayWorstDecline', 'LossAt_2008_100DayWorstDecline', 'Mean_Accuracy', 'Lower_Bound_HistMedianIV_at_Accuracy',
+      'Lower_Bound', 'Lower_Bound_HistMedianIV', 'Bid_Ask_Mid_Price', 'Option_Price_Min', 'NumberOfContractsBasedOnLimit',
+      'Bid', 'ProfitLossPctLeastBad', 'Loss_Least_Bad', 'IV_AllMedianIV_Maximum100DaysToExp_Ratio', 'StockPrice',
+      'DaysToExpiry', 'AskBidSpread', 'Underlying_Value', 'StrikePrice', 'StockPrice_After_2008_100DayWorstDecline',
+      'LossAt50DayWorstDecline', 'LossAt_2008_50DayWorstDecline', 'ProfitLossPctBad', 'ProfitLossPctWorst',
+      'ProfitLossPct100DayWorst', 'ImpliedVolatility', 'TodayStockMedianIV_Maximum100DaysToExp',
+      'AllMedianIV_Maximum100DaysToExp', 'ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy', 'StrikeBelowLowerAtAcc',
+      'Ask', 'WorstHistoricalDecline', 'BadHistoricalDecline', 'ImpliedVolatilityUntilExpiry',
+      'StockPrice_After_100DayWorstDecline', 'StockPrice_After_50DayWorstDecline', 'StockPrice_After_2008_50DayWorstDecline',
+      '100DayMaxPrice', '100DayMaxPriceDate', '50DayMaxPrice', '50DayMaxPriceDate', 'Historical100DaysWorstDecline',
+      'Historical50DaysWorstDecline', '2008_100DaysWorstDecline', '2008_50DaysWorstDecline', 'IV_ClosestToStrike',
+      'IV_UntilExpiryClosestToStrike', 'LowerBoundClosestToStrike', 'LowerBoundDistanceFromCurrentPrice',
+      'LowerBoundDistanceFromStrike', 'ImpliedDownPct', 'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike',
+      'ProbAssignment', 'SafetyCategory', 'CushionMinusIVPct', 'PotentialLossAtLowerBound'
+    ];
+  };
+
   useEffect(() => {
     if (columnPreferences.length > 0) {
       setLocalPreferences([...columnPreferences]);
     } else {
-      // Initialize with default preferences
-      const defaultPrefs = defaultColumns.map((col, index) => ({
+      // Initialize with all available columns
+      const allColumns = getAllColumns();
+      const allPrefs = allColumns.map((col, index) => ({
         key: col,
-        visible: true,
+        visible: defaultColumns.includes(col),
         order: index
       }));
-      
-      // Add all other possible columns as hidden
-      const allColumns = Object.keys({} as OptionData) as (keyof OptionData)[];
-      const remainingColumns = allColumns.filter(col => !defaultColumns.includes(col));
-      
-      const allPrefs = [
-        ...defaultPrefs,
-        ...remainingColumns.map((col, index) => ({
-          key: col,
-          visible: false,
-          order: defaultColumns.length + index
-        }))
-      ];
       
       setLocalPreferences(allPrefs);
     }
