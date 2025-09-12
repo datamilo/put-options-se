@@ -185,7 +185,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   const handleSave = async () => {
     await saveColumnPreferences(localPreferences);
     
-    // Update parent component
+    // Update parent component with both visibility and order
     const visibleCols = localPreferences
       .filter(col => col.visible)
       .sort((a, b) => a.order - b.order)

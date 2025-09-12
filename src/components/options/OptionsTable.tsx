@@ -230,8 +230,15 @@ export const OptionsTable = ({
   };
 
   const handleColumnVisibilityChange = (column: keyof OptionData, visible: boolean) => {
-    // This will be handled by the ColumnManager's save functionality
-    // No need to update local state here as it's managed by the ColumnManager
+    if (visible) {
+      // Add column if not already visible
+      if (!visibleColumns.includes(column)) {
+        setVisibleColumns(prev => [...prev, column]);
+      }
+    } else {
+      // Remove column from visible columns
+      setVisibleColumns(prev => prev.filter(col => col !== column));
+    }
   };
 
   const handleColumnOrderChange = (newOrder: (keyof OptionData)[]) => {
