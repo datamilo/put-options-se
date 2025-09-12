@@ -58,17 +58,24 @@ export const useEnrichedOptionsData = () => {
         
         // Debug for HOLMB5U356 specifically
         if (option.OptionName === 'HOLMB5U356') {
-          console.log('🎯 HOLMB5U356 Debug:', {
+          console.log('🎯 HOLMB5U356 Debug - Full Calculation:', {
             optionName: option.OptionName,
             strikePrice: option.StrikePrice,
             numberOfContracts,
             lowerBoundClosestToStrike: matchingIVData.LowerBoundClosestToStrike,
             premium: option.Premium,
-            underlyingValueInvestment,
-            underlyingValueLowerBoundClosestToStrike,
-            lossLowerBoundClosestToStrike,
-            potentialLossAtLowerBound,
-            expectedResult: -2402.8272
+            transactionCost,
+            '1_underlyingValueInvestment': underlyingValueInvestment,
+            '2_underlyingValueLowerBoundClosestToStrike': underlyingValueLowerBoundClosestToStrike,
+            '3_lossLowerBoundClosestToStrike': lossLowerBoundClosestToStrike,
+            '4_beforeTransactionCost': option.Premium + lossLowerBoundClosestToStrike,
+            '5_potentialLossAtLowerBound_FINAL': potentialLossAtLowerBound,
+            expectedResult: -2402.8272,
+            expectedCalc_step1: 356.0 * 3 * 100,
+            expectedCalc_step2: 3 * 345.9 * 100,
+            expectedCalc_step3: (3 * 345.9 * 100) - (356.0 * 3 * 100),
+            expectedCalc_step4: 726 + ((3 * 345.9 * 100) - (356.0 * 3 * 100)),
+            expectedCalc_step5: (726 + ((3 * 345.9 * 100) - (356.0 * 3 * 100))) - ((726 + ((3 * 345.9 * 100) - (356.0 * 3 * 100))) * 0.000075 + 99)
           });
         }
       }
