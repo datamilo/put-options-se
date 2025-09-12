@@ -140,31 +140,35 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   useEffect(() => {
     const allColumns = getAllColumns();
     
-    if (columnPreferences.length > 0) {
-      // Merge existing preferences with any missing columns
-      const existingKeys = new Set(columnPreferences.map(pref => pref.key));
-      const missingColumns = allColumns.filter(col => !existingKeys.has(col));
-      
-      const mergedPreferences = [
-        ...columnPreferences,
-        ...missingColumns.map((col, index) => ({
-          key: col,
-          visible: defaultColumns.includes(col),
-          order: columnPreferences.length + index
-        }))
-      ];
-      
-      setLocalPreferences(mergedPreferences);
-    } else {
-      // Initialize with all available columns
-      const allPrefs = allColumns.map((col, index) => ({
+    // Always ensure ALL columns are included
+    const existingPrefsMap = new Map(columnPreferences.map(pref => [pref.key, pref]));
+    
+    const allPrefs = allColumns.map((col, index) => {
+      const existingPref = existingPrefsMap.get(col);
+      return existingPref || {
         key: col,
         visible: defaultColumns.includes(col),
-        order: index
-      }));
+        order: existingPrefsMap.size + index
+      };
+    });
+    
+    // Sort by existing order or add new ones at the end
+    allPrefs.sort((a, b) => {
+      const aHasOrder = existingPrefsMap.has(a.key);
+      const bHasOrder = existingPrefsMap.has(b.key);
       
-      setLocalPreferences(allPrefs);
-    }
+      if (aHasOrder && bHasOrder) {
+        return a.order - b.order;
+      } else if (aHasOrder) {
+        return -1;
+      } else if (bHasOrder) {
+        return 1;
+      } else {
+        return a.order - b.order;
+      }
+    });
+    
+    setLocalPreferences(allPrefs);
   }, [columnPreferences]);
 
   const handleDragEnd = (event: DragEndEvent) => {
