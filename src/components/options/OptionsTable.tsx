@@ -12,11 +12,12 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpDown, Filter, Eye, EyeOff } from "lucide-react";
+import { ArrowUpDown, Filter, Eye, EyeOff, Info } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnManager } from "./ColumnManager";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { formatNumber } from "@/lib/utils";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface OptionsTableProps {
   data: OptionData[];
@@ -246,26 +247,27 @@ export const OptionsTable = ({
   };
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between gap-4">
-        {enableFiltering && (
-          <div className="flex items-center space-x-2">
-            <Filter className="h-4 w-4" />
-            <span className="text-sm text-muted-foreground">
-              Click on column headers to filter
-            </span>
-          </div>
-        )}
-        
-        <ColumnManager
-          visibleColumns={visibleColumns}
-          onVisibilityChange={handleColumnVisibilityChange}
-          onColumnOrderChange={handleColumnOrderChange}
-        />
-      </div>
+    <TooltipProvider>
+      <div className="space-y-4">
+        <div className="flex items-center justify-between gap-4">
+          {enableFiltering && (
+            <div className="flex items-center space-x-2">
+              <Filter className="h-4 w-4" />
+              <span className="text-sm text-muted-foreground">
+                Click on column headers to filter
+              </span>
+            </div>
+          )}
+          
+          <ColumnManager
+            visibleColumns={visibleColumns}
+            onVisibilityChange={handleColumnVisibilityChange}
+            onColumnOrderChange={handleColumnOrderChange}
+          />
+        </div>
 
-      <ScrollArea className="w-full whitespace-nowrap rounded-md border">
-        <Table>
+        <ScrollArea className="w-full whitespace-nowrap rounded-md border">
+          <Table>
           <TableHeader>
             <TableRow>
               {visibleColumns.map(column => {
@@ -276,14 +278,36 @@ export const OptionsTable = ({
                 return (
                   <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
                     <div className="space-y-2">
-                      <Button
-                        variant="ghost"
-                        onClick={() => handleSort(column as keyof OptionData)}
-                        className="h-8 p-0 font-medium"
-                        title={formatColumnName(column)}
-                      >
-                        {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
-                      </Button>
+                      <div className="flex items-center gap-1">
+                        <Button
+                          variant="ghost"
+                          onClick={() => handleSort(column as keyof OptionData)}
+                          className="h-8 p-0 font-medium"
+                          title={formatColumnName(column)}
+                        >
+                          {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
+                        </Button>
+                        {column === 'OptionName' && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-xs">
+                              <div className="space-y-1 text-xs">
+                                <div className="font-medium">Color Legend:</div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
+                                  <span>Financial Report (Y)</span>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <div className="w-3 h-3 bg-red-500 rounded"></div>
+                                  <span>Ex-Dividend Day (Y)</span>
+                                </div>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
+                      </div>
                       
                       {enableFiltering && (
                         <div className="relative">
@@ -404,5 +428,6 @@ export const OptionsTable = ({
         <ScrollBar orientation="horizontal" />
       </ScrollArea>
     </div>
+    </TooltipProvider>
   );
 };
