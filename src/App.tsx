@@ -38,10 +38,16 @@ const AppHeader = () => {
 };
 
 const App = () => {
+  // Determine base path based on environment - only use /put-options-se for GitHub Pages
+  const isGitHubPages = window.location.hostname === 'datamilo.github.io';
+  const basename = isGitHubPages ? '/put-options-se' : '';
+  
   console.log("App component rendering", {
     location: window.location.href,
     pathname: window.location.pathname,
-    hash: window.location.hash
+    hash: window.location.hash,
+    isGitHubPages,
+    basename
   });
   return (
     <QueryClientProvider client={queryClient}>
@@ -52,7 +58,7 @@ const App = () => {
               <ErrorBoundary>
                 <Toaster />
                 <Sonner />
-                <BrowserRouter basename="/put-options-se">
+                <BrowserRouter basename={basename}>
                   <AppHeader />
                   <Routes>
                     <Route path="/auth" element={<Auth />} />
