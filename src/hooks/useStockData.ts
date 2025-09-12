@@ -16,8 +16,32 @@ export const useStockData = () => {
       setIsLoading(true);
       setError(null);
       
-      // Load the correct CSV file from GitHub repository
-      const response = await fetch(`https://raw.githubusercontent.com/datamilo/put-options-se/main/data/stock_data.csv?${Date.now()}`);
+      // Try multiple fallback URLs for better reliability on GitHub Pages
+      const urls = [
+        `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/stock_data.csv?${Date.now()}`,
+        `${window.location.origin}${import.meta.env.BASE_URL}data/stock_data.csv?${Date.now()}`
+      ];
+      
+      let lastError: Error | null = null;
+      let response: Response | null = null;
+      
+      for (const url of urls) {
+        try {
+          console.log('🔗 Trying stock data URL:', url);
+          response = await fetch(url);
+          if (response.ok) {
+            console.log('✅ Successfully loaded CSV from:', url);
+            break;
+          }
+        } catch (error) {
+          console.warn('❌ Failed to load from:', url, error);
+          lastError = error as Error;
+        }
+      }
+      
+      if (!response || !response.ok) {
+        throw lastError || new Error('Failed to load stock data from any URL');
+      }
       const csvText = await response.text();
       
       Papa.parse(csvText, {

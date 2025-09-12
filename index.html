@@ -5,14 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Put Options SE</title>
     <script>
-      // GitHub Pages SPA redirect handling
+      // GitHub Pages SPA redirect handling for /put-options-se/ base path
       (function(l) {
         if (l.search[1] === '/' ) {
           var decoded = l.search.slice(1).split('&').map(function(s) { 
             return s.replace(/~and~/g, '&')
           }).join('?');
+          // Handle the base path correctly for GitHub Pages
+          var basePath = l.hostname === 'datamilo.github.io' ? '/put-options-se' : '';
           window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
+              basePath + decoded + l.hash
           );
         }
       }(window.location))

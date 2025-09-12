@@ -56,10 +56,10 @@ export const useIVData = () => {
     setError(null);
     ivDataSingleton.error = null;
 
-    // Only try the reliable URLs that we know work
+    // Try multiple fallback URLs for better reliability on GitHub Pages
     const urls = [
       `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/IV_PotentialDecline.csv?${Date.now()}`,
-      `https://datamilo.github.io/put-options-se/data/IV_PotentialDecline.csv?${Date.now()}`
+      `${window.location.origin}${import.meta.env.BASE_URL}data/IV_PotentialDecline.csv?${Date.now()}`
     ];
 
     let lastError: Error | null = null;

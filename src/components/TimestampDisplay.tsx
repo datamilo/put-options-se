@@ -12,10 +12,32 @@ export const TimestampDisplay = () => {
       console.log('📡 About to fetch timestamps...');
       
       try {
-        const url = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?${Date.now()}`;
-        console.log('🌐 Fetching from URL:', url);
+        // Try multiple fallback URLs for better reliability on GitHub Pages
+        const urls = [
+          `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?${Date.now()}`,
+          `${window.location.origin}${import.meta.env.BASE_URL}data/last_updated.json?${Date.now()}`
+        ];
         
-        const response = await fetch(url);
+        let lastError: Error | null = null;
+        let response: Response | null = null;
+        
+        for (const url of urls) {
+          try {
+            console.log('🔗 Trying timestamp URL:', url);
+            response = await fetch(url);
+            if (response.ok) {
+              console.log('✅ Successfully loaded timestamps from:', url);
+              break;
+            }
+          } catch (error) {
+            console.warn('❌ Failed to load from:', url, error);
+            lastError = error as Error;
+          }
+        }
+        
+        if (!response || !response.ok) {
+          throw lastError || new Error('Failed to load timestamps from any URL');
+        }
         console.log('📨 Got response:', response.status);
         
         if (response.ok) {
