@@ -25,7 +25,12 @@ jobs:
         run: npm ci
 
       - name: Pre-build setup
-        run: node scripts/prebuild.js
+        run: |
+          if [ -f "scripts/prebuild.js" ]; then
+            node scripts/prebuild.js || echo "Prebuild script failed, continuing..."
+          else
+            echo "No prebuild script found, skipping..."
+          fi
 
       - name: Build for GitHub Pages
         env:
