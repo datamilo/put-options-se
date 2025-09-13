@@ -297,11 +297,11 @@ export const OptionsTable = ({
                                 <div className="font-medium">Color Legend:</div>
                                 <div className="flex items-center gap-2">
                                   <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                                  <span>Financial Report (Y)</span>
+                                  <span>Financial Report</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <div className="w-3 h-3 bg-red-500 rounded"></div>
-                                  <span>Ex-Dividend Day (Y)</span>
+                                  <span>Ex-Dividend Day</span>
                                 </div>
                               </div>
                             </TooltipContent>
