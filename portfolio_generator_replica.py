@@ -72,6 +72,11 @@ class OptionData:
     
     # Potential loss field (placeholder for IV data enrichment)
     PotentialLossAtLowerBound: float = 0.0
+    
+    # Risk metrics (calculated)
+    expected_value: float = field(init=False, default=0.0)
+    expected_value_per_capital: float = field(init=False, default=0.0)
+    risk_adjusted_score: float = field(init=False, default=0.0)
 
     def __post_init__(self):
         """Calculate recalculated values after initialization"""
@@ -289,28 +294,43 @@ def filter_options(options: List[OptionData], stock_data: List[StockData]) -> Li
     
     return filtered_options
 
-def sort_options(options: List[OptionData]) -> List[OptionData]:
-    """Sort options by probability, potential loss, and premium (exact replica of React logic)"""
-    def sort_key(option: OptionData) -> Tuple[float, float, float]:
+def calculate_risk_metrics(options: List[OptionData]) -> List[OptionData]:
+    """Calculate risk-adjusted metrics for each option"""
+    for option in options:
         prob = get_probability_value(option, SELECTED_PROBABILITY_FIELD)
+        potential_loss = abs(option.PotentialLossAtLowerBound) if option.PotentialLossAtLowerBound else 1  # Use absolute value and avoid division by zero
+        premium = option.Premium
         
-        if MIN_PROBABILITY_WORTHLESS:
-            # When minimum probability is set, prioritize options closest to the target value
-            min_prob_decimal = MIN_PROBABILITY_WORTHLESS / 100
-            prob_diff = abs(prob - min_prob_decimal)
-        else:
-            # When no minimum is set, prioritize highest probability (negative for reverse sort)
-            prob_diff = -prob
+        # Calculate Expected Value: Premium - (1 - ProbOfWorthless) × PotentialLoss
+        expected_value = premium - (1 - prob) * potential_loss
         
-        # Secondary sort: prefer options with less potential loss (closer to zero)
-        # More negative values should come later, so we use negative of the loss
-        potential_loss = option.PotentialLossAtLowerBound
-        loss_priority = -potential_loss  # Less negative loss (closer to zero) comes first
+        # Calculate capital required (investment amount)
+        capital_required = option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100
         
-        # Tertiary sort: higher premium first (negative for reverse sort)
-        premium_priority = -option.Premium
+        # Calculate Expected Value per unit of capital
+        expected_value_per_capital = expected_value / capital_required if capital_required > 0 else 0
         
-        return (prob_diff, loss_priority, premium_priority)
+        # Calculate simplified risk-adjusted score: (Premium / PotentialLoss) × ProbOfWorthless
+        risk_adjusted_score = (premium / potential_loss) * prob if potential_loss > 0 else prob
+        
+        # Store calculated metrics
+        option.expected_value = expected_value
+        option.expected_value_per_capital = expected_value_per_capital
+        option.risk_adjusted_score = risk_adjusted_score
+    
+    return options
+
+def sort_options(options: List[OptionData]) -> List[OptionData]:
+    """Sort options by risk-adjusted score (higher is better)"""
+    def sort_key(option: OptionData) -> Tuple[float, float, float]:
+        score = option.risk_adjusted_score
+        ev_per_cap = option.expected_value_per_capital
+        premium = option.Premium
+        
+        # Primary sort: highest risk-adjusted score first (negative for desc order)
+        # Secondary sort: highest expected value per capital first
+        # Tertiary sort: highest premium first
+        return (-score, -ev_per_cap, -premium)
     
     return sorted(options, key=sort_key)
 
@@ -385,9 +405,13 @@ def generate_portfolio(options_data: List[OptionData], stock_data: List[StockDat
     filtered_options = filter_options(options_data, stock_data)
     print(f"After filtering: {len(filtered_options)} options")
     
-    # Step 2: Sort options
-    sorted_options = sort_options(filtered_options)
-    print(f"Options sorted by probability, potential loss, and premium")
+    # Step 2: Calculate risk metrics
+    options_with_metrics = calculate_risk_metrics(filtered_options)
+    print(f"Risk metrics calculated for all options")
+    
+    # Step 3: Sort options by risk-adjusted score
+    sorted_options = sort_options(options_with_metrics)
+    print(f"Options sorted by risk-adjusted score (premium/loss × probability)")
     
     # Step 3: Select portfolio
     result = select_portfolio(sorted_options)

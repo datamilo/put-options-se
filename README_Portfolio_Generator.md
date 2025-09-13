@@ -82,10 +82,15 @@ The script follows the exact same logic as the React application:
 - Expiry date matching (if specified)
 - Minimum probability threshold (if specified)
 
-### 3. Sorting Priority
-1. **Probability matching**: Options closest to target probability (if minimum set) or highest probability (if no minimum)
-2. **Potential loss**: Less negative loss preferred (closer to zero)
-3. **Premium**: Higher premium preferred
+### 3. Risk Metrics Calculation
+- **Expected Value**: `Premium - (1 - ProbOfWorthless) × PotentialLoss`
+- **Expected Value per Capital**: `Expected Value / (Strike Price × Contracts × 100)`
+- **Risk-Adjusted Score**: `(Premium / PotentialLoss) × ProbOfWorthless`
+
+### 4. Sorting Priority
+1. **Risk-Adjusted Score**: Highest score first (balances premium efficiency, probability, and loss)
+2. **Expected Value per Capital**: Highest return on investment first
+3. **Premium**: Higher premium preferred as tiebreaker
 
 ### 4. Portfolio Selection
 - Maximum one option per stock

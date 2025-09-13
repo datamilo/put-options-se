@@ -178,29 +178,45 @@ const PortfolioGenerator = () => {
         return true;
       });
 
-      // Sort by probability, potential loss, and premium for optimal selection
+      // Calculate risk-adjusted scores and sort by best risk/return ratio
+      filteredOptions.forEach(option => {
+        const prob = getProbabilityValue(option);
+        const potentialLoss = Math.abs((option as any).PotentialLossAtLowerBound || 1); // Use absolute value and avoid division by zero
+        const premium = option.Premium;
+        
+        // Calculate Expected Value: Premium - (1 - ProbOfWorthless) × PotentialLoss
+        const expectedValue = premium - (1 - prob) * potentialLoss;
+        
+        // Calculate capital required (investment amount)
+        const capitalRequired = option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100;
+        
+        // Calculate Expected Value per unit of capital
+        const expectedValuePerCapital = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
+        
+        // Calculate simplified risk-adjusted score: (Premium / PotentialLoss) × ProbOfWorthless
+        const riskAdjustedScore = potentialLoss > 0 ? (premium / potentialLoss) * prob : prob;
+        
+        // Store calculated metrics on the option for potential display
+        (option as any).expectedValue = expectedValue;
+        (option as any).expectedValuePerCapital = expectedValuePerCapital;
+        (option as any).riskAdjustedScore = riskAdjustedScore;
+      });
+
+      // Sort by risk-adjusted score (higher is better)
       filteredOptions.sort((a, b) => {
-        const probA = getProbabilityValue(a);
-        const probB = getProbabilityValue(b);
+        const scoreA = (a as any).riskAdjustedScore || 0;
+        const scoreB = (b as any).riskAdjustedScore || 0;
         
-        if (minProbabilityWorthless) {
-          // Convert user input from percentage to decimal for comparison
-          const minProbDecimal = minProbabilityWorthless / 100;
-          // When minimum probability is set, prioritize options closest to the target value
-          const diffA = Math.abs(probA - minProbDecimal);
-          const diffB = Math.abs(probB - minProbDecimal);
-          if (diffA !== diffB) return diffA - diffB; // Closest to target first
-        } else {
-          // When no minimum is set, prioritize highest probability
-          if (probB !== probA) return probB - probA; // Higher probability first
-        }
+        // Primary sort: highest risk-adjusted score first
+        if (scoreB !== scoreA) return scoreB - scoreA;
         
-        // Secondary sort: prefer options with less potential loss (closer to zero)
-        const lossA = (a as any).PotentialLossAtLowerBound || 0;
-        const lossB = (b as any).PotentialLossAtLowerBound || 0;
-        if (lossA !== lossB) return lossB - lossA; // Less negative loss first (closer to zero)
+        // Secondary sort: highest expected value per capital first
+        const evPerCapA = (a as any).expectedValuePerCapital || 0;
+        const evPerCapB = (b as any).expectedValuePerCapital || 0;
+        if (evPerCapB !== evPerCapA) return evPerCapB - evPerCapA;
         
-        return b.Premium - a.Premium; // Higher premium first if probability and loss equal
+        // Tertiary sort: highest premium first
+        return b.Premium - a.Premium;
       });
 
       // Select maximum one option per stock
