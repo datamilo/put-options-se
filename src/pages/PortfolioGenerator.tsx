@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ArrowLeft, Settings, ChevronDown } from "lucide-react";
+import { ArrowLeft, Settings, ChevronDown, Info } from "lucide-react";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
@@ -72,6 +72,9 @@ const PortfolioGenerator = () => {
   // Portfolio table sorting state
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  
+  // Description visibility state
+  const [showDescription, setShowDescription] = useState(false);
 
   const handleSortChange = (field: keyof OptionData) => {
     if (sortField === field) {
@@ -306,13 +309,34 @@ const PortfolioGenerator = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mb-4">
         <Button variant="ghost" onClick={handleBackToMain} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
           Back to Options
         </Button>
         <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => setShowDescription(!showDescription)}
+          className="ml-auto flex items-center gap-2 text-muted-foreground hover:text-foreground"
+        >
+          <Info className="h-4 w-4" />
+          How it works
+        </Button>
       </div>
+
+      {showDescription && (
+        <Card className="border-muted bg-muted/20">
+          <CardContent className="pt-4">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              An algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium. 
+              It then calculates risk-adjusted scores and expected values, ranks all options, and automatically 
+              selects a diversified set that maximizes premium while minimizing risk.
+            </p>
+          </CardContent>
+        </Card>
+      )}
 
       <Card>
         <CardHeader>
