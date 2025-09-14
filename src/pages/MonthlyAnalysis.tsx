@@ -39,7 +39,7 @@ export const MonthlyAnalysis = () => {
     return stocks.sort();
   }, [monthlyStats]);
 
-  // Filtered data
+  // Filtered data for charts and tables (respects month filter)
   const filteredStats = useMemo(() => {
     let filtered = monthlyStats;
 
@@ -55,6 +55,19 @@ export const MonthlyAnalysis = () => {
 
     return filtered.slice(0, topN);
   }, [monthlyStats, selectedMonth, selectedStock, minHistory, topN]);
+
+  // Unfiltered data for heatmap (shows all months, but respects stock selection and min history)
+  const heatmapData = useMemo(() => {
+    let filtered = monthlyStats;
+
+    if (selectedStock) {
+      filtered = filtered.filter(stat => stat.name === selectedStock);
+    }
+
+    filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
+
+    return filtered;
+  }, [monthlyStats, selectedStock, minHistory]);
 
   // KPI calculations
   const kpis = useMemo(() => {
@@ -303,7 +316,7 @@ export const MonthlyAnalysis = () => {
               </p>
             </CardHeader>
             <CardContent>
-              <MonthlySeasonalityHeatmap data={filteredStats} />
+              <MonthlySeasonalityHeatmap data={heatmapData} />
             </CardContent>
           </Card>
 
