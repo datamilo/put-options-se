@@ -56,9 +56,25 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     const sortedStocks = Array.from(stockMap.values()).sort((a, b) => {
       switch (sortBy) {
         case 'pct_pos_return_months':
-          return b.avgPosMonths - a.avgPosMonths;
+          // If a specific month is selected, sort by that month's data
+          if (selectedMonth > 0) {
+            const aValue = a.monthlyData.get(selectedMonth)?.pct_pos_return_months || 0;
+            const bValue = b.monthlyData.get(selectedMonth)?.pct_pos_return_months || 0;
+            return bValue - aValue;
+          } else {
+            // Otherwise sort by average across all months
+            return b.avgPosMonths - a.avgPosMonths;
+          }
         case 'avg_return':
-          return b.avgReturn - a.avgReturn;
+          // If a specific month is selected, sort by that month's data
+          if (selectedMonth > 0) {
+            const aValue = a.monthlyData.get(selectedMonth)?.return_month_mean_pct_return_month || 0;
+            const bValue = b.monthlyData.get(selectedMonth)?.return_month_mean_pct_return_month || 0;
+            return bValue - aValue;
+          } else {
+            // Otherwise sort by average across all months
+            return b.avgReturn - a.avgReturn;
+          }
         case 'alphabetical':
           return a.name.localeCompare(b.name);
         default:
@@ -67,7 +83,7 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     });
 
     return sortedStocks.slice(0, maxStocks);
-  }, [data, sortBy, maxStocks]);
+  }, [data, sortBy, maxStocks, selectedMonth]);
 
   const getColorClass = (value: number | null, metric: MetricType) => {
     if (value === null) return 'bg-muted/30';
