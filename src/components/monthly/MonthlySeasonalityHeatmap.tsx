@@ -118,7 +118,7 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     if (metric === 'pct_pos_return_months') {
       return value.toFixed(0);
     } else {
-      return value > 0 ? `+${value.toFixed(1)}` : value.toFixed(1);
+      return value > 0 ? `+${value.toFixed(1)}%` : `${value.toFixed(1)}%`;
     }
   };
 
