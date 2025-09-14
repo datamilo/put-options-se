@@ -83,8 +83,17 @@ export const useMonthlyStockData = () => {
       const result = Papa.parse<MonthlyStockData>(csvText, {
         header: true,
         skipEmptyLines: true,
+        delimiter: '|', // The file uses pipe separators, not commas
         transform: (value: string, field: string) => {
-          if (['month', 'year', 'day_low_day_of_month', 'day_high_day_of_month'].includes(field)) {
+          if (field === 'month') {
+            // Convert month names to numbers
+            const monthMap: Record<string, number> = {
+              'Jan': 1, 'Feb': 2, 'Mar': 3, 'Apr': 4, 'May': 5, 'Jun': 6,
+              'Jul': 7, 'Aug': 8, 'Sep': 9, 'Oct': 10, 'Nov': 11, 'Dec': 12
+            };
+            return monthMap[value] || parseInt(value) || 0;
+          }
+          if (['year', 'day_low_day_of_month', 'day_high_day_of_month'].includes(field)) {
             return parseInt(value) || 0;
           }
           if (['open', 'high', 'low', 'close', 'close_previous_month', 'low_previous_month', 
@@ -102,6 +111,7 @@ export const useMonthlyStockData = () => {
 
       const data = result.data.filter(row => row.name && row.month && row.year);
       console.log(`📊 Parsed ${data.length} monthly records`);
+      console.log(`📊 Sample records:`, data.slice(0, 3));
       setMonthlyData(data);
       
       // Calculate statistics
