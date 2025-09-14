@@ -118,8 +118,9 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     if (metric === 'pct_pos_return_months') {
       return Math.round(value).toString();
     } else {
-      // Round to 2 decimal places and format as percentage
-      const roundedValue = Math.round(value * 100) / 100;
+      // Convert decimal to percentage and round to 2 decimal places
+      const percentageValue = value * 100;
+      const roundedValue = Math.round(percentageValue * 100) / 100;
       return roundedValue > 0 ? `+${roundedValue.toFixed(2)}%` : `${roundedValue.toFixed(2)}%`;
     }
   };
