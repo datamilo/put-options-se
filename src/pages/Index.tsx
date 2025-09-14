@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info } from "lucide-react";
+import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
@@ -336,7 +336,7 @@ const Index = () => {
             <h1 className="text-4xl font-bold">Put Options Data</h1>
             <TimestampDisplay />
           </div>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-2">
             <Button 
               onClick={() => {
                 console.log('🔄 Navigating to portfolio generator...');
@@ -348,7 +348,17 @@ const Index = () => {
               size="sm"
               className="bg-white text-black border-gray-300 hover:bg-gray-50"
             >
-              Generate Portfolio Automatically
+              <BarChart3 className="mr-2 h-4 w-4" />
+              Portfolio Generator
+            </Button>
+            <Button
+              onClick={() => navigate("/monthly-analysis")}
+              variant="outline"
+              size="sm"
+              className="bg-white text-black border-gray-300 hover:bg-gray-50"
+            >
+              <TrendingUp className="mr-2 h-4 w-4" />
+              Monthly Analysis
             </Button>
           </div>
         </div>
