@@ -110,7 +110,7 @@ export const OptionsTable = ({
       'ProbAssignment': 'Prob Assignment',
       'SafetyCategory': 'Safety Category',
       'CushionMinusIVPct': 'Cushion Minus IV %',
-      'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound'
+      'PotentialLossAtLowerBound': 'Potential Loss At Lower Bound'
     };
     
     if (fieldMappings[field]) {

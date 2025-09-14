@@ -330,10 +330,9 @@ const PortfolioGenerator = () => {
         <Card className="border-muted bg-muted/20">
           <CardContent className="pt-4">
             <p className="text-sm text-muted-foreground leading-relaxed">
-              The Portfolio Generator uses an algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium. 
-              It calculates risk-adjusted scores and expected values, ranks all options, and automatically 
+              An algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium. 
+              It then calculates risk-adjusted scores and expected values, ranks all options, and automatically 
               selects a diversified set that maximizes premium while minimizing risk.
-              It will always pick just one option per stock.
             </p>
           </CardContent>
         </Card>
