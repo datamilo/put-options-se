@@ -312,13 +312,11 @@ export const OptionsTable = ({
                             <TooltipTrigger asChild>
                               <Info className="h-3 w-3 text-muted-foreground cursor-help" />
                             </TooltipTrigger>
-                            <TooltipContent side="top" className="max-w-sm">
-                              <div className="text-xs leading-relaxed">
+                            <TooltipContent side="top" className="max-w-md w-full z-50" align="center">
+                              <div className="text-xs leading-relaxed p-1">
                                 <p className="font-medium mb-2">How this field is calculated:</p>
-                                <p>This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</p>
-                                <br />
-                                <p>Calculation: Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)</p>
-                                <br />
+                                <p className="mb-2">This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</p>
+                                <p className="mb-2">Calculation: Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)</p>
                                 <p>The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position.</p>
                               </div>
                             </TooltipContent>
