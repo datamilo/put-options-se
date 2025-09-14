@@ -294,7 +294,7 @@ export const OptionsTable = ({
                             </TooltipTrigger>
                             <TooltipContent side="top" className="max-w-xs">
                               <div className="space-y-1 text-xs">
-                                <div className="font-medium">Color Legend:</div>
+                                <div className="font-medium"></div>
                                 <div className="flex items-center gap-2">
                                   <div className="w-3 h-3 bg-orange-500 rounded"></div>
                                   <span>Financial Report</span>
