@@ -170,7 +170,7 @@ Data points: ${stat.number_of_months_available} months`;
                 {month}
               </div>
             ))}
-            <div className="w-16 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2">
+            <div className="w-16 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2" title="Accumulated ranking points across all months based on % positive months, average return, and downside protection">
               Score
             </div>
           </div>

@@ -310,7 +310,35 @@ export const MonthlyAnalysis = () => {
           {/* Seasonality Heatmap */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>Monthly Seasonality Heatmap</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                Monthly Seasonality Heatmap
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <path d="M12 17h.01"/>
+                      </svg>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80">
+                    <div className="space-y-3">
+                      <h4 className="font-medium">How is the Score calculated?</h4>
+                      <div className="text-sm text-muted-foreground space-y-2">
+                        <p>The Score represents accumulated ranking points across all months based on three key metrics:</p>
+                        <ul className="list-disc list-inside space-y-1 ml-2">
+                          <li><strong>% Positive Months:</strong> Percentage of months with positive returns</li>
+                          <li><strong>Average Return:</strong> Mean monthly return percentage</li>
+                          <li><strong>Downside Protection:</strong> Average decline from open to low (higher is better)</li>
+                        </ul>
+                        <p>For each month, stocks are ranked on these metrics. Top 5 performers get points: 1st place = 5 points, 2nd = 4 points, etc. The Score is the sum of all points earned across months.</p>
+                        <p className="text-xs italic">Note: Only stocks with at least 3 months of data are ranked to ensure reliability.</p>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              </CardTitle>
               <p className="text-sm text-muted-foreground">
                 Percentage of positive return months by stock and calendar month
               </p>
