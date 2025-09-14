@@ -312,14 +312,25 @@ export const OptionsTable = ({
                             <TooltipTrigger asChild>
                               <Info className="h-3 w-3 text-muted-foreground cursor-help" />
                             </TooltipTrigger>
-                            <TooltipContent side="top" className="z-[9999] bg-background border shadow-lg" align="center" sideOffset={5}>
-                              <div className="text-xs leading-relaxed p-3 min-w-0" style={{ width: 'max-content', maxWidth: '400px' }}>
-                                <p className="font-medium mb-2">How this field is calculated:</p>
-                                <p className="mb-2">This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</p>
-                                <p className="mb-2 font-mono text-xs bg-muted/50 p-2 rounded whitespace-nowrap">
+                            <TooltipContent 
+                              side="top" 
+                              align="center" 
+                              sideOffset={5}
+                              className="z-[9999] border bg-popover text-popover-foreground shadow-md !max-w-none !w-auto"
+                              style={{ 
+                                width: 'auto',
+                                minWidth: 'max-content',
+                                maxWidth: 'none',
+                                whiteSpace: 'normal'
+                              }}
+                            >
+                              <div className="text-xs leading-relaxed p-3" style={{ width: 'auto', minWidth: 'max-content' }}>
+                                <div className="font-medium mb-2">How this field is calculated:</div>
+                                <div className="mb-2">This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</div>
+                                <div className="mb-2 font-mono text-xs bg-muted/50 p-2 rounded">
                                   Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)
-                                </p>
-                                <p>The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position.</p>
+                                </div>
+                                <div>The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position.</div>
                               </div>
                             </TooltipContent>
                           </Tooltip>
