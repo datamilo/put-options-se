@@ -110,7 +110,7 @@ export const OptionsTable = ({
       'ProbAssignment': 'Prob Assignment',
       'SafetyCategory': 'Safety Category',
       'CushionMinusIVPct': 'Cushion Minus IV %',
-      'PotentialLossAtLowerBound': 'Potential Loss At Lower Bound'
+      'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound'
     };
     
     if (fieldMappings[field]) {
@@ -303,6 +303,23 @@ export const OptionsTable = ({
                                   <div className="w-3 h-3 bg-red-500 rounded"></div>
                                   <span>Ex-Dividend Day</span>
                                 </div>
+                              </div>
+                            </TooltipContent>
+                          </Tooltip>
+                        )}
+                        {column === 'PotentialLossAtLowerBound' && (
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Info className="h-3 w-3 text-muted-foreground cursor-help" />
+                            </TooltipTrigger>
+                            <TooltipContent side="top" className="max-w-sm">
+                              <div className="text-xs leading-relaxed">
+                                <p className="font-medium mb-2">How this field is calculated:</p>
+                                <p>This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</p>
+                                <br />
+                                <p>Calculation: Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)</p>
+                                <br />
+                                <p>The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position.</p>
                               </div>
                             </TooltipContent>
                           </Tooltip>

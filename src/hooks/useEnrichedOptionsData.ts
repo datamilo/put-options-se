@@ -45,7 +45,7 @@ export const useEnrichedOptionsData = () => {
         // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
         const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValueInvestment;
         
-        // Step 4: Potential Loss At Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
+        // Step 4: Potential Loss At IV Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
         
         // Step 5: Set positive values to zero
