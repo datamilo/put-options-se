@@ -56,26 +56,12 @@ export const MonthlyAnalysis = () => {
     return filtered.slice(0, topN);
   }, [monthlyStats, selectedMonth, selectedStock, minHistory, topN]);
 
-  // Heatmap data that respects all filters including month selection
+  // Heatmap data that respects filters but always shows all months per stock
   const heatmapData = useMemo(() => {
     let filtered = monthlyStats;
 
     // Filter by minimum history requirement
     filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
-
-    // If a specific month is selected, only include stocks that have good performance in that month
-    if (selectedMonth > 0) {
-      // Get stocks that meet criteria for the selected month
-      const validStocksForMonth = new Set<string>();
-      filtered.forEach(stat => {
-        if (stat.month === selectedMonth) {
-          validStocksForMonth.add(stat.name);
-        }
-      });
-      
-      // Filter to only include stocks that have data for the selected month
-      filtered = filtered.filter(stat => validStocksForMonth.has(stat.name));
-    }
 
     // Filter by selected stock if any
     if (selectedStock) {
@@ -83,7 +69,7 @@ export const MonthlyAnalysis = () => {
     }
 
     return filtered;
-  }, [monthlyStats, selectedStock, minHistory, selectedMonth]);
+  }, [monthlyStats, selectedStock, minHistory]);
 
   // Aggregated data for charts that need stock-level summaries
   const aggregatedStockData = useMemo(() => {
@@ -424,7 +410,7 @@ export const MonthlyAnalysis = () => {
               </p>
             </CardHeader>
             <CardContent>
-              <MonthlySeasonalityHeatmap data={heatmapData} />
+              <MonthlySeasonalityHeatmap data={heatmapData} selectedMonth={selectedMonth} />
             </CardContent>
           </Card>
 

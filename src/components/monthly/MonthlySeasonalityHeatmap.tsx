@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 
 interface MonthlySeasonalityHeatmapProps {
   data: MonthlyStockStats[];
+  selectedMonth?: number; // 0 = all months, 1-12 = specific month
 }
 
 type MetricType = 'pct_pos_return_months' | 'return_month_mean_pct_return_month';
@@ -13,7 +14,7 @@ type SortType = 'top_5_accumulated_score' | 'alphabetical' | 'avg_return';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({ data }) => {
+export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({ data, selectedMonth = 0 }) => {
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('pct_pos_return_months');
   const [sortBy, setSortBy] = useState<SortType>('top_5_accumulated_score');
   const [maxStocks, setMaxStocks] = useState(20);
@@ -165,11 +166,17 @@ Data points: ${stat.number_of_months_available} months`;
             <div className="w-24 flex-shrink-0 text-xs font-medium text-muted-foreground p-2">
               Stock
             </div>
-            {MONTH_NAMES.map((month) => (
-              <div key={month} className="w-12 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2">
-                {month}
+            {selectedMonth === 0 ? (
+              MONTH_NAMES.map((month) => (
+                <div key={month} className="w-12 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2">
+                  {month}
+                </div>
+              ))
+            ) : (
+              <div className="w-12 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2">
+                {MONTH_NAMES[selectedMonth - 1]}
               </div>
-            ))}
+            )}
             <div className="w-16 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2" title="Accumulated ranking points across all months based on % positive months, average return, and downside protection">
               Score
             </div>
@@ -185,31 +192,59 @@ Data points: ${stat.number_of_months_available} months`;
                 </div>
                 
                 {/* Month Cells */}
-                {Array.from({ length: 12 }, (_, monthIndex) => {
-                  const month = monthIndex + 1;
-                  const stat = stockInfo.monthlyData.get(month);
-                  const value = stat ? stat[selectedMetric] : null;
-                  const monthsAvailable = stat?.number_of_months_available || 0;
-                  
-                  return (
-                    <div
-                      key={monthIndex}
-                      className={`
-                        w-12 h-8 flex-shrink-0 rounded-sm flex items-center justify-center 
-                        text-xs font-medium text-white cursor-help transition-all 
-                        hover:scale-110 hover:z-10 relative border border-white/10
-                        ${getColorClass(value, selectedMetric)} 
-                        ${getReliabilityOpacity(monthsAvailable)}
-                      `}
-                      title={getTooltipContent(stockInfo.name, month, stat)}
-                    >
-                      {formatValue(value, selectedMetric)}
-                      {monthsAvailable < 5 && value !== null && (
-                        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 rounded-sm pointer-events-none"></div>
-                      )}
-                    </div>
-                  );
-                })}
+                {selectedMonth === 0 ? (
+                  // Show all months
+                  Array.from({ length: 12 }, (_, monthIndex) => {
+                    const month = monthIndex + 1;
+                    const stat = stockInfo.monthlyData.get(month);
+                    const value = stat ? stat[selectedMetric] : null;
+                    const monthsAvailable = stat?.number_of_months_available || 0;
+                    
+                    return (
+                      <div
+                        key={monthIndex}
+                        className={`
+                          w-12 h-8 flex-shrink-0 rounded-sm flex items-center justify-center 
+                          text-xs font-medium text-white cursor-help transition-all 
+                          hover:scale-110 hover:z-10 relative border border-white/10
+                          ${getColorClass(value, selectedMetric)} 
+                          ${getReliabilityOpacity(monthsAvailable)}
+                        `}
+                        title={getTooltipContent(stockInfo.name, month, stat)}
+                      >
+                        {formatValue(value, selectedMetric)}
+                        {monthsAvailable < 5 && value !== null && (
+                          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 rounded-sm pointer-events-none"></div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  // Show only selected month
+                  (() => {
+                    const stat = stockInfo.monthlyData.get(selectedMonth);
+                    const value = stat ? stat[selectedMetric] : null;
+                    const monthsAvailable = stat?.number_of_months_available || 0;
+                    
+                    return (
+                      <div
+                        className={`
+                          w-12 h-8 flex-shrink-0 rounded-sm flex items-center justify-center 
+                          text-xs font-medium text-white cursor-help transition-all 
+                          hover:scale-110 hover:z-10 relative border border-white/10
+                          ${getColorClass(value, selectedMetric)} 
+                          ${getReliabilityOpacity(monthsAvailable)}
+                        `}
+                        title={getTooltipContent(stockInfo.name, selectedMonth, stat)}
+                      >
+                        {formatValue(value, selectedMetric)}
+                        {monthsAvailable < 5 && value !== null && (
+                          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 rounded-sm pointer-events-none"></div>
+                        )}
+                      </div>
+                    );
+                  })()
+                )}
                 
                 {/* Score Badge */}
                 <div className="w-16 flex-shrink-0 flex justify-center p-2">
