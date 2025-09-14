@@ -8,7 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
-import { useMonthlyStockData } from '@/hooks/useMonthlyStockData';
+import { useMonthlyStockData, MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonalityHeatmap';
 import { TopRankingChart } from '@/components/monthly/TopRankingChart';
 import { RiskReturnScatter } from '@/components/monthly/RiskReturnScatter';
@@ -68,6 +68,70 @@ export const MonthlyAnalysis = () => {
 
     return filtered;
   }, [monthlyStats, selectedStock, minHistory]);
+
+  // Aggregated data for charts that need stock-level summaries
+  const aggregatedStockData = useMemo(() => {
+    const stockMap = new Map<string, {
+      name: string;
+      totalScore: number;
+      avgReturn: number;
+      avgPosMonths: number;
+      avgDrawdown: number;
+      minDrawdown: number;
+      maxDrawdown: number;
+      totalMonths: number;
+      totalPosMonths: number;
+      monthCount: number;
+    }>();
+
+    monthlyStats.forEach(stat => {
+      if (stat.number_of_months_available < minHistory[0]) return;
+      
+      if (!stockMap.has(stat.name)) {
+        stockMap.set(stat.name, {
+          name: stat.name,
+          totalScore: 0,
+          avgReturn: 0,
+          avgPosMonths: 0,
+          avgDrawdown: 0,
+          minDrawdown: 0,
+          maxDrawdown: 0,
+          totalMonths: 0,
+          totalPosMonths: 0,
+          monthCount: 0
+        });
+      }
+      
+      const stock = stockMap.get(stat.name)!;
+      stock.totalScore = Math.max(stock.totalScore, stat.top_5_accumulated_score);
+      stock.avgReturn += stat.return_month_mean_pct_return_month;
+      stock.avgPosMonths += stat.pct_pos_return_months;
+      stock.avgDrawdown += stat.open_to_low_mean_pct_return_month;
+      stock.minDrawdown = Math.min(stock.minDrawdown, stat.open_to_low_min_pct_return_month);
+      stock.maxDrawdown = Math.max(stock.maxDrawdown, stat.open_to_low_max_pct_return_month);
+      stock.totalMonths += stat.number_of_months_available;
+      stock.totalPosMonths += stat.number_of_months_positive_return;
+      stock.monthCount++;
+    });
+
+    // Calculate averages and create proper MonthlyStockStats objects
+    const result: MonthlyStockStats[] = Array.from(stockMap.values()).map(stock => ({
+      name: stock.name,
+      month: 0, // Indicates aggregated data
+      number_of_months_available: Math.round(stock.totalMonths / stock.monthCount),
+      number_of_months_positive_return: Math.round(stock.totalPosMonths / stock.monthCount),
+      pct_pos_return_months: stock.avgPosMonths / stock.monthCount,
+      return_month_mean_pct_return_month: stock.avgReturn / stock.monthCount,
+      open_to_low_mean_pct_return_month: stock.avgDrawdown / stock.monthCount,
+      open_to_low_min_pct_return_month: stock.minDrawdown,
+      open_to_low_max_pct_return_month: stock.maxDrawdown,
+      top_5_accumulated_score: stock.totalScore
+    }));
+
+    return selectedStock 
+      ? result.filter(stock => stock.name === selectedStock)
+      : result.sort((a, b) => b.top_5_accumulated_score - a.top_5_accumulated_score).slice(0, 50);
+  }, [monthlyStats, minHistory, selectedStock]);
 
   // KPI calculations
   const kpis = useMemo(() => {
@@ -367,7 +431,7 @@ export const MonthlyAnalysis = () => {
             </CardHeader>
             <CardContent>
               <TopRankingChart 
-                data={filteredStats} 
+                data={selectedMonth === 0 ? aggregatedStockData : filteredStats} 
                 metric={selectedMetric}
                 month={selectedMonth}
               />
@@ -383,7 +447,7 @@ export const MonthlyAnalysis = () => {
               </p>
             </CardHeader>
             <CardContent>
-              <RiskReturnScatter data={filteredStats} />
+              <RiskReturnScatter data={aggregatedStockData} />
             </CardContent>
           </Card>
         </div>
