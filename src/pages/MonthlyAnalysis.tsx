@@ -31,7 +31,7 @@ export const MonthlyAnalysis = () => {
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const [minHistory, setMinHistory] = useState([3]);
   const [topN, setTopN] = useState(50);
-  const [selectedMetric, setSelectedMetric] = useState<'pct_pos_return_months' | 'return_month_mean_pct_return_month' | 'top_5_accumulated_score'>('pct_pos_return_months');
+  const [selectedMetric, setSelectedMetric] = useState<'pct_pos_return_months' | 'return_month_mean_pct_return_month'>('pct_pos_return_months');
 
   // Get unique stock names for dropdown
   const availableStocks = useMemo(() => {
@@ -75,7 +75,6 @@ export const MonthlyAnalysis = () => {
   const aggregatedStockData = useMemo(() => {
     const stockMap = new Map<string, {
       name: string;
-      totalScore: number;
       avgReturn: number;
       avgPosMonths: number;
       avgDrawdown: number;
@@ -92,7 +91,6 @@ export const MonthlyAnalysis = () => {
       if (!stockMap.has(stat.name)) {
         stockMap.set(stat.name, {
           name: stat.name,
-          totalScore: 0,
           avgReturn: 0,
           avgPosMonths: 0,
           avgDrawdown: 0,
@@ -105,7 +103,6 @@ export const MonthlyAnalysis = () => {
       }
       
       const stock = stockMap.get(stat.name)!;
-      stock.totalScore = Math.max(stock.totalScore, stat.top_5_accumulated_score);
       stock.avgReturn += stat.return_month_mean_pct_return_month;
       stock.avgPosMonths += stat.pct_pos_return_months;
       stock.avgDrawdown += stat.open_to_low_mean_pct_return_month;
@@ -127,12 +124,12 @@ export const MonthlyAnalysis = () => {
       open_to_low_mean_pct_return_month: stock.avgDrawdown / stock.monthCount,
       open_to_low_min_pct_return_month: stock.minDrawdown,
       open_to_low_max_pct_return_month: stock.maxDrawdown,
-      top_5_accumulated_score: stock.totalScore
+      top_5_accumulated_score: 0 // No longer used
     }));
 
     return selectedStock 
       ? result.filter(stock => stock.name === selectedStock)
-      : result.sort((a, b) => b.top_5_accumulated_score - a.top_5_accumulated_score).slice(0, 50);
+      : result.sort((a, b) => b.pct_pos_return_months - a.pct_pos_return_months).slice(0, 50);
   }, [monthlyStats, minHistory, selectedStock]);
 
   // KPI calculations
@@ -142,13 +139,11 @@ export const MonthlyAnalysis = () => {
     const avgPosReturnMonths = filteredStats.reduce((sum, stat) => sum + stat.pct_pos_return_months, 0) / filteredStats.length;
     const medianReturn = [...filteredStats].sort((a, b) => a.return_month_mean_pct_return_month - b.return_month_mean_pct_return_month)[Math.floor(filteredStats.length / 2)]?.return_month_mean_pct_return_month || 0;
     const stockCount = filteredStats.length;
-    const avgScore = filteredStats.reduce((sum, stat) => sum + stat.top_5_accumulated_score, 0) / filteredStats.length;
 
     return {
       avgPosReturnMonths,
       medianReturn,
-      stockCount,
-      avgScore
+      stockCount
     };
   }, [filteredStats]);
 
@@ -305,6 +300,7 @@ export const MonthlyAnalysis = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
+                    <SelectItem value="10">Top 10</SelectItem>
                     <SelectItem value="25">Top 25</SelectItem>
                     <SelectItem value="50">Top 50</SelectItem>
                     <SelectItem value="100">Top 100</SelectItem>
@@ -318,7 +314,7 @@ export const MonthlyAnalysis = () => {
 
         {/* KPIs */}
         {kpis && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <Card>
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
@@ -356,18 +352,6 @@ export const MonthlyAnalysis = () => {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Avg Score</p>
-                    <p className="text-2xl font-bold">{kpis.avgScore.toFixed(1)}</p>
-                  </div>
-                  <TrendingUp className="h-8 w-8 text-purple-500" />
-                </div>
-              </CardContent>
-            </Card>
           </div>
         )}
 
@@ -376,35 +360,7 @@ export const MonthlyAnalysis = () => {
           {/* Seasonality Heatmap */}
           <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                Monthly Seasonality Heatmap
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"/>
-                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
-                        <path d="M12 17h.01"/>
-                      </svg>
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80">
-                    <div className="space-y-3">
-                      <h4 className="font-medium">How is the Score calculated?</h4>
-                      <div className="text-sm text-muted-foreground space-y-2">
-                        <p>The Score represents accumulated ranking points across all months based on three key metrics:</p>
-                        <ul className="list-disc list-inside space-y-1 ml-2">
-                          <li><strong>% Positive Months:</strong> Percentage of months with positive returns</li>
-                          <li><strong>Average Return:</strong> Mean monthly return percentage</li>
-                          <li><strong>Downside Protection:</strong> Average decline from open to low (higher is better)</li>
-                        </ul>
-                        <p>For each month, stocks are ranked on these metrics. Top 5 performers get points: 1st place = 5 points, 2nd = 4 points, etc. The Score is the sum of all points earned across months.</p>
-                        <p className="text-xs italic">Note: Only stocks with at least 3 months of data are ranked to ensure reliability.</p>
-                      </div>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              </CardTitle>
+              <CardTitle>Monthly Seasonality Heatmap</CardTitle>
               <p className="text-sm text-muted-foreground">
                 Percentage of positive return months by stock and calendar month
               </p>
@@ -426,7 +382,6 @@ export const MonthlyAnalysis = () => {
                   <SelectContent>
                     <SelectItem value="pct_pos_return_months">Positive Months %</SelectItem>
                     <SelectItem value="return_month_mean_pct_return_month">Avg Return</SelectItem>
-                    <SelectItem value="top_5_accumulated_score">Score</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

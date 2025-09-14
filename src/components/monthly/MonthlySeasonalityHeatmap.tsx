@@ -10,21 +10,21 @@ interface MonthlySeasonalityHeatmapProps {
 }
 
 type MetricType = 'pct_pos_return_months' | 'return_month_mean_pct_return_month';
-type SortType = 'top_5_accumulated_score' | 'alphabetical' | 'avg_return';
+type SortType = 'pct_pos_return_months' | 'alphabetical' | 'avg_return';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({ data, selectedMonth = 0 }) => {
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('pct_pos_return_months');
-  const [sortBy, setSortBy] = useState<SortType>('top_5_accumulated_score');
+  const [sortBy, setSortBy] = useState<SortType>('pct_pos_return_months');
   const [maxStocks, setMaxStocks] = useState(20);
 
   // Process and sort stocks
   const processedData = useMemo(() => {
     const stockMap = new Map<string, {
       name: string;
-      score: number;
       avgReturn: number;
+      avgPosMonths: number;
       monthlyData: Map<number, MonthlyStockStats>;
     }>();
 
@@ -32,34 +32,37 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
       if (!stockMap.has(stat.name)) {
         stockMap.set(stat.name, {
           name: stat.name,
-          score: 0,
           avgReturn: 0,
+          avgPosMonths: 0,
           monthlyData: new Map()
         });
       }
       
       const stockInfo = stockMap.get(stat.name)!;
       stockInfo.monthlyData.set(stat.month, stat);
-      stockInfo.score = Math.max(stockInfo.score, stat.top_5_accumulated_score);
     });
 
-    // Calculate average returns for sorting
+    // Calculate averages for sorting
     stockMap.forEach((stockInfo) => {
-      const returns = Array.from(stockInfo.monthlyData.values()).map(s => s.return_month_mean_pct_return_month);
+      const values = Array.from(stockInfo.monthlyData.values());
+      const returns = values.map(s => s.return_month_mean_pct_return_month);
+      const posMonths = values.map(s => s.pct_pos_return_months);
+      
       stockInfo.avgReturn = returns.length > 0 ? returns.reduce((sum, r) => sum + r, 0) / returns.length : 0;
+      stockInfo.avgPosMonths = posMonths.length > 0 ? posMonths.reduce((sum, p) => sum + p, 0) / posMonths.length : 0;
     });
 
     // Sort stocks based on selected criteria
     const sortedStocks = Array.from(stockMap.values()).sort((a, b) => {
       switch (sortBy) {
-        case 'top_5_accumulated_score':
-          return b.score - a.score;
+        case 'pct_pos_return_months':
+          return b.avgPosMonths - a.avgPosMonths;
         case 'avg_return':
           return b.avgReturn - a.avgReturn;
         case 'alphabetical':
           return a.name.localeCompare(b.name);
         default:
-          return b.score - a.score;
+          return b.avgPosMonths - a.avgPosMonths;
       }
     });
 
@@ -136,7 +139,7 @@ Data points: ${stat.number_of_months_available} months`;
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-background border shadow-lg z-50">
-              <SelectItem value="top_5_accumulated_score">Score</SelectItem>
+              <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
               <SelectItem value="avg_return">Avg Return</SelectItem>
               <SelectItem value="alphabetical">Alphabetical</SelectItem>
             </SelectContent>
@@ -150,6 +153,7 @@ Data points: ${stat.number_of_months_available} months`;
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-background border shadow-lg z-50">
+              <SelectItem value="10">Top 10</SelectItem>
               <SelectItem value="20">Top 20</SelectItem>
               <SelectItem value="30">Top 30</SelectItem>
               <SelectItem value="50">Top 50</SelectItem>
@@ -177,9 +181,6 @@ Data points: ${stat.number_of_months_available} months`;
                 {MONTH_NAMES[selectedMonth - 1]}
               </div>
             )}
-            <div className="w-16 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2" title="Accumulated ranking points across all months based on % positive months, average return, and downside protection">
-              Score
-            </div>
           </div>
 
           {/* Stock Rows */}
@@ -245,13 +246,6 @@ Data points: ${stat.number_of_months_available} months`;
                     );
                   })()
                 )}
-                
-                {/* Score Badge */}
-                <div className="w-16 flex-shrink-0 flex justify-center p-2">
-                  <Badge variant="outline" className="text-xs">
-                    {stockInfo.score.toFixed(0)}
-                  </Badge>
-                </div>
               </div>
             ))}
           </div>
