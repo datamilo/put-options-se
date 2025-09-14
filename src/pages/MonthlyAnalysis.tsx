@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
@@ -11,7 +13,7 @@ import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonali
 import { TopRankingChart } from '@/components/monthly/TopRankingChart';
 import { RiskReturnScatter } from '@/components/monthly/RiskReturnScatter';
 import { MonthlyStatsTable } from '@/components/monthly/MonthlyStatsTable';
-import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const MONTH_NAMES = [
@@ -25,10 +27,17 @@ export const MonthlyAnalysis = () => {
   
   // Filter states
   const [selectedMonth, setSelectedMonth] = useState(0); // 0 = All months
-  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedStock, setSelectedStock] = useState('');
+  const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const [minHistory, setMinHistory] = useState([3]);
   const [topN, setTopN] = useState(50);
   const [selectedMetric, setSelectedMetric] = useState<'pct_pos_return_months' | 'return_month_mean_pct_return_month' | 'top_5_accumulated_score'>('pct_pos_return_months');
+
+  // Get unique stock names for dropdown
+  const availableStocks = useMemo(() => {
+    const stocks = Array.from(new Set(monthlyStats.map(stat => stat.name)));
+    return stocks.sort();
+  }, [monthlyStats]);
 
   // Filtered data
   const filteredStats = useMemo(() => {
@@ -38,16 +47,14 @@ export const MonthlyAnalysis = () => {
       filtered = filtered.filter(stat => stat.month === selectedMonth);
     }
 
-    if (searchQuery) {
-      filtered = filtered.filter(stat => 
-        stat.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+    if (selectedStock) {
+      filtered = filtered.filter(stat => stat.name === selectedStock);
     }
 
     filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
 
     return filtered.slice(0, topN);
-  }, [monthlyStats, selectedMonth, searchQuery, minHistory, topN]);
+  }, [monthlyStats, selectedMonth, selectedStock, minHistory, topN]);
 
   // KPI calculations
   const kpis = useMemo(() => {
@@ -147,12 +154,57 @@ export const MonthlyAnalysis = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Search Stocks</Label>
-                <Input
-                  placeholder="Search by name..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <Label>Select Stock</Label>
+                <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={stockDropdownOpen}
+                      className="w-full justify-between"
+                    >
+                      {selectedStock || "All stocks..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search stocks..." />
+                      <CommandList>
+                        <CommandEmpty>No stock found.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem
+                            value=""
+                            onSelect={() => {
+                              setSelectedStock('');
+                              setStockDropdownOpen(false);
+                            }}
+                          >
+                            <Check
+                              className={`mr-2 h-4 w-4 ${selectedStock === '' ? "opacity-100" : "opacity-0"}`}
+                            />
+                            All stocks
+                          </CommandItem>
+                          {availableStocks.map((stock) => (
+                            <CommandItem
+                              key={stock}
+                              value={stock}
+                              onSelect={(currentValue) => {
+                                setSelectedStock(currentValue === selectedStock ? '' : currentValue);
+                                setStockDropdownOpen(false);
+                              }}
+                            >
+                              <Check
+                                className={`mr-2 h-4 w-4 ${selectedStock === stock ? "opacity-100" : "opacity-0"}`}
+                              />
+                              {stock}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="space-y-2">
