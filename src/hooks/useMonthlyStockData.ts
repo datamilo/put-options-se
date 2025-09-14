@@ -45,7 +45,7 @@ export const useMonthlyStockData = () => {
 
       const urls = [
         '/data/Stocks_Monthly_Data.csv',
-        'https://raw.githubusercontent.com/yourusername/yourrepo/main/data/Stocks_Monthly_Data.csv'
+        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/Stocks_Monthly_Data.csv'
       ];
 
       let csvText = '';
