@@ -68,6 +68,10 @@ const PortfolioGenerator = () => {
     const saved = localStorage.getItem('portfolioGenerator_totalPotentialLoss');
     return saved ? parseFloat(saved) : 0;
   });
+  const [excludedStocks, setExcludedStocks] = useState<string[]>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_excludedStocks');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   // Portfolio table sorting state
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
@@ -105,6 +109,10 @@ const PortfolioGenerator = () => {
 
   const availableExpiryDates = useMemo(() => {
     return [...new Set(data.map(option => option.ExpiryDate))].sort();
+  }, [data]);
+
+  const availableStocks = useMemo(() => {
+    return [...new Set(data.map(option => option.StockName))].sort();
   }, [data]);
 
   // Input validation functions with localStorage persistence
@@ -160,6 +168,9 @@ const PortfolioGenerator = () => {
       let filteredOptions = data.filter(option => {
         // Basic checks - use the recalculated Premium which is updated based on underlying value
         if (option.Premium <= 0) return false;
+
+        // Exclude selected stocks
+        if (excludedStocks.includes(option.StockName)) return false;
 
         // Strike price below period filter
         if (strikeBelowPeriod) {
@@ -449,7 +460,7 @@ const PortfolioGenerator = () => {
               </DropdownMenu>
             </div>
 
-            <div className="space-y-2 md:col-span-2">
+            <div className="space-y-2">
               <Label>Expiry Date</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -478,6 +489,45 @@ const PortfolioGenerator = () => {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Exclude Stocks</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {excludedStocks.length > 0 ? `${excludedStocks.length} stock(s) excluded` : "No stocks excluded"}
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full bg-background z-50 max-h-[200px] overflow-y-auto">
+                  <DropdownMenuItem onClick={() => {
+                    setExcludedStocks([]);
+                    localStorage.setItem('portfolioGenerator_excludedStocks', JSON.stringify([]));
+                  }}>
+                    Clear All Exclusions
+                  </DropdownMenuItem>
+                  {availableStocks.map(stock => (
+                    <DropdownMenuItem 
+                      key={stock}
+                      onClick={() => {
+                        const newExcluded = excludedStocks.includes(stock)
+                          ? excludedStocks.filter(s => s !== stock)
+                          : [...excludedStocks, stock];
+                        setExcludedStocks(newExcluded);
+                        localStorage.setItem('portfolioGenerator_excludedStocks', JSON.stringify(newExcluded));
+                      }}
+                    >
+                      {excludedStocks.includes(stock) ? '✓ ' : ''}{stock}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+              {excludedStocks.length > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Excluded: {excludedStocks.join(', ')}
+                </p>
+              )}
             </div>
           </div>
           

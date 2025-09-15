@@ -18,6 +18,9 @@ interface OptionDetailsProps {
 export const OptionDetails = ({ option }: OptionDetailsProps) => {
   const { underlyingValue } = useSettings();
   
+  // Calculate the actual underlying value based on contracts and strike price
+  const calculatedUnderlyingValue = option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100;
+  
   const formatValue = (value: any, field: string) => {
     return formatNumber(value, field);
   };
@@ -109,7 +112,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         <CardContent className="space-y-3">
           <div className="flex justify-between">
              <span className="text-sm text-muted-foreground">Underlying Value (Investment)</span>
-             <span className="font-medium">{underlyingValue.toLocaleString()}</span>
+             <span className="font-medium">{calculatedUnderlyingValue.toLocaleString()}</span>
           </div>
           <Separator />
           <div className="flex justify-between">
