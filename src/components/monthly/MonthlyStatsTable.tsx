@@ -37,7 +37,8 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
   }, [data]);
 
   const handleSort = (key: SortKey) => {
-    console.log('🔄 Sorting triggered:', { key, currentSortKey: sortKey, currentDirection: sortDirection });
+    console.log('🚀 SORT FUNCTION CALLED!', { key, currentSortKey: sortKey, currentDirection: sortDirection });
+    alert(`Sorting by: ${key}`); // Temporary visual confirmation
     
     if (sortKey === key) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
