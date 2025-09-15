@@ -37,11 +37,15 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
   }, [data]);
 
   const handleSort = (key: SortKey) => {
+    console.log('🔄 Sorting triggered:', { key, currentSortKey: sortKey, currentDirection: sortDirection });
+    
     if (sortKey === key) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      console.log('🔄 Direction changed to:', sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortKey(key);
       setSortDirection('desc');
+      console.log('🔄 New sort key:', key, 'direction: desc');
     }
     setCurrentPage(1);
   };
@@ -64,7 +68,15 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
       );
     }
 
-    return filtered.sort((a, b) => {
+    console.log('🔍 Sorting data:', { 
+      sortKey, 
+      sortDirection, 
+      dataLength: filtered.length,
+      firstItemBefore: filtered[0]?.[sortKey],
+      lastItemBefore: filtered[filtered.length - 1]?.[sortKey]
+    });
+
+    const sorted = filtered.sort((a, b) => {
       let aValue: any = a[sortKey];
       let bValue: any = b[sortKey];
       
@@ -83,6 +95,13 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
       }
       return bValue - aValue;
     });
+
+    console.log('✅ Sorted data:', {
+      firstItemAfter: sorted[0]?.[sortKey],
+      lastItemAfter: sorted[sorted.length - 1]?.[sortKey]
+    });
+
+    return sorted;
   }, [data, searchTerm, sortKey, sortDirection, selectedMonth, selectedStock]);
 
   const paginatedData = useMemo(() => {
