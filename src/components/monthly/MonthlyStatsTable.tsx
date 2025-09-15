@@ -65,8 +65,18 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
     }
 
     return filtered.sort((a, b) => {
-      const aValue = a[sortKey] as number;
-      const bValue = b[sortKey] as number;
+      let aValue: any = a[sortKey];
+      let bValue: any = b[sortKey];
+      
+      // Handle string sorting for name field
+      if (sortKey === 'name') {
+        const result = aValue.localeCompare(bValue);
+        return sortDirection === 'asc' ? result : -result;
+      }
+      
+      // Handle numeric sorting for all other fields
+      aValue = Number(aValue) || 0;
+      bValue = Number(bValue) || 0;
       
       if (sortDirection === 'asc') {
         return aValue - bValue;
