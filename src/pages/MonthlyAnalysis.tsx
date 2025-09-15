@@ -10,8 +10,6 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { useMonthlyStockData, MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonalityHeatmap';
-import { TopRankingChart } from '@/components/monthly/TopRankingChart';
-import { RiskReturnScatter } from '@/components/monthly/RiskReturnScatter';
 import { MonthlyStatsTable } from '@/components/monthly/MonthlyStatsTable';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -29,9 +27,9 @@ export const MonthlyAnalysis = () => {
   const [selectedMonth, setSelectedMonth] = useState(0); // 0 = All months
   const [selectedStock, setSelectedStock] = useState('');
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
-  const [minHistory, setMinHistory] = useState([3]);
+  const [minHistory, setMinHistory] = useState([10]);
   const [topN, setTopN] = useState(50);
-  const [selectedMetric, setSelectedMetric] = useState<'pct_pos_return_months' | 'return_month_mean_pct_return_month'>('pct_pos_return_months');
+  
 
   // Get unique stock names for dropdown
   const availableStocks = useMemo(() => {
@@ -71,66 +69,6 @@ export const MonthlyAnalysis = () => {
     return filtered;
   }, [monthlyStats, selectedStock, minHistory]);
 
-  // Aggregated data for charts that need stock-level summaries
-  const aggregatedStockData = useMemo(() => {
-    const stockMap = new Map<string, {
-      name: string;
-      avgReturn: number;
-      avgPosMonths: number;
-      avgDrawdown: number;
-      minDrawdown: number;
-      maxDrawdown: number;
-      totalMonths: number;
-      totalPosMonths: number;
-      monthCount: number;
-    }>();
-
-    monthlyStats.forEach(stat => {
-      if (stat.number_of_months_available < minHistory[0]) return;
-      
-      if (!stockMap.has(stat.name)) {
-        stockMap.set(stat.name, {
-          name: stat.name,
-          avgReturn: 0,
-          avgPosMonths: 0,
-          avgDrawdown: 0,
-          minDrawdown: 0,
-          maxDrawdown: 0,
-          totalMonths: 0,
-          totalPosMonths: 0,
-          monthCount: 0
-        });
-      }
-      
-      const stock = stockMap.get(stat.name)!;
-      stock.avgReturn += stat.return_month_mean_pct_return_month;
-      stock.avgPosMonths += stat.pct_pos_return_months;
-      stock.avgDrawdown += stat.open_to_low_mean_pct_return_month;
-      stock.minDrawdown = Math.min(stock.minDrawdown, stat.open_to_low_min_pct_return_month);
-      stock.maxDrawdown = Math.max(stock.maxDrawdown, stat.open_to_low_max_pct_return_month);
-      stock.totalMonths += stat.number_of_months_available;
-      stock.totalPosMonths += stat.number_of_months_positive_return;
-      stock.monthCount++;
-    });
-
-    // Calculate averages and create proper MonthlyStockStats objects
-    const result: MonthlyStockStats[] = Array.from(stockMap.values()).map(stock => ({
-      name: stock.name,
-      month: 0, // Indicates aggregated data
-      number_of_months_available: Math.round(stock.totalMonths / stock.monthCount),
-      number_of_months_positive_return: Math.round(stock.totalPosMonths / stock.monthCount),
-      pct_pos_return_months: stock.avgPosMonths / stock.monthCount,
-      return_month_mean_pct_return_month: stock.avgReturn / stock.monthCount,
-      open_to_low_mean_pct_return_month: stock.avgDrawdown / stock.monthCount,
-      open_to_low_min_pct_return_month: stock.minDrawdown,
-      open_to_low_max_pct_return_month: stock.maxDrawdown,
-      top_5_accumulated_score: 0 // No longer used
-    }));
-
-    return selectedStock 
-      ? result.filter(stock => stock.name === selectedStock)
-      : result.sort((a, b) => b.pct_pos_return_months - a.pct_pos_return_months).slice(0, 50);
-  }, [monthlyStats, minHistory, selectedStock]);
 
   // KPI calculations
   const kpis = useMemo(() => {
@@ -355,70 +293,29 @@ export const MonthlyAnalysis = () => {
           </div>
         )}
 
-        {/* Main Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Seasonality Heatmap */}
-          <Card className="lg:col-span-2">
-            <CardHeader>
-              <CardTitle>Monthly Seasonality Heatmap</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Percentage of positive return months by stock and calendar month
-              </p>
-            </CardHeader>
-            <CardContent>
-              <MonthlySeasonalityHeatmap data={heatmapData} selectedMonth={selectedMonth} />
-            </CardContent>
-          </Card>
-
-          {/* Top Ranking Chart */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle>Top Performers</CardTitle>
-                <Select value={selectedMetric} onValueChange={(value: any) => setSelectedMetric(value)}>
-                  <SelectTrigger className="w-48">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="pct_pos_return_months">Positive Months %</SelectItem>
-                    <SelectItem value="return_month_mean_pct_return_month">Avg Return</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <TopRankingChart 
-                data={selectedMonth === 0 ? aggregatedStockData : filteredStats} 
-                metric={selectedMetric}
-                month={selectedMonth}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Risk Return Scatter */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Risk vs Return Analysis</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                Average monthly return vs typical drawdown
-              </p>
-            </CardHeader>
-            <CardContent>
-              <RiskReturnScatter data={aggregatedStockData} />
-            </CardContent>
-          </Card>
-        </div>
+        {/* Seasonality Heatmap */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Monthly Seasonality Heatmap</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Percentage of positive return months by stock and calendar month
+            </p>
+          </CardHeader>
+          <CardContent>
+            <MonthlySeasonalityHeatmap data={heatmapData} selectedMonth={selectedMonth} />
+          </CardContent>
+        </Card>
 
         {/* Interactive Table */}
         <Card>
           <CardHeader>
             <CardTitle>Detailed Statistics Table</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Complete monthly performance metrics for all filtered stocks
+              Complete monthly performance metrics for all stocks
             </p>
           </CardHeader>
           <CardContent>
-            <MonthlyStatsTable data={filteredStats} />
+            <MonthlyStatsTable data={monthlyStats} />
           </CardContent>
         </Card>
       </div>

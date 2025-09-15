@@ -231,6 +231,21 @@ Data points: ${stat.number_of_months_available} months`;
                           ${getReliabilityOpacity(monthsAvailable)}
                         `}
                         title={getTooltipContent(stockInfo.name, month, stat)}
+                        onTouchStart={(e) => {
+                          // Show tooltip on mobile touch
+                          const title = getTooltipContent(stockInfo.name, month, stat);
+                          // Create a temporary tooltip element for mobile
+                          const tooltip = document.createElement('div');
+                          tooltip.className = 'fixed z-50 bg-black text-white text-xs p-2 rounded shadow-lg pointer-events-none';
+                          tooltip.textContent = title;
+                          tooltip.style.top = `${e.touches[0].clientY - 50}px`;
+                          tooltip.style.left = `${e.touches[0].clientX - 75}px`;
+                          document.body.appendChild(tooltip);
+                          
+                          setTimeout(() => {
+                            document.body.removeChild(tooltip);
+                          }, 2000);
+                        }}
                       >
                         {formatValue(value, selectedMetric)}
                         {monthsAvailable < 5 && value !== null && (
@@ -256,6 +271,21 @@ Data points: ${stat.number_of_months_available} months`;
                           ${getReliabilityOpacity(monthsAvailable)}
                         `}
                         title={getTooltipContent(stockInfo.name, selectedMonth, stat)}
+                        onTouchStart={(e) => {
+                          // Show tooltip on mobile touch
+                          const title = getTooltipContent(stockInfo.name, selectedMonth, stat);
+                          // Create a temporary tooltip element for mobile
+                          const tooltip = document.createElement('div');
+                          tooltip.className = 'fixed z-50 bg-black text-white text-xs p-2 rounded shadow-lg pointer-events-none';
+                          tooltip.textContent = title;
+                          tooltip.style.top = `${e.touches[0].clientY - 50}px`;
+                          tooltip.style.left = `${e.touches[0].clientX - 75}px`;
+                          document.body.appendChild(tooltip);
+                          
+                          setTimeout(() => {
+                            document.body.removeChild(tooltip);
+                          }, 2000);
+                        }}
                       >
                         {formatValue(value, selectedMetric)}
                         {monthsAvailable < 5 && value !== null && (

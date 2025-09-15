@@ -3,7 +3,11 @@ import { MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Label } from '@/components/ui/label';
+import { ArrowUpDown, ArrowUp, ArrowDown, Check, ChevronsUpDown } from 'lucide-react';
 
 interface MonthlyStatsTableProps {
   data: MonthlyStockStats[];
@@ -11,12 +15,26 @@ interface MonthlyStatsTableProps {
 
 type SortKey = keyof MonthlyStockStats;
 
+const MONTH_NAMES = [
+  'All Months', 'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'
+];
+
 export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) => {
   const [sortKey, setSortKey] = useState<SortKey>('top_5_accumulated_score');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedMonth, setSelectedMonth] = useState(0); // 0 = All months
+  const [selectedStock, setSelectedStock] = useState('');
+  const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const itemsPerPage = 20;
+
+  // Get unique stock names for dropdown
+  const availableStocks = useMemo(() => {
+    const stocks = Array.from(new Set(data.map(stat => stat.name)));
+    return stocks.sort();
+  }, [data]);
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -31,8 +49,17 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
   const filteredAndSortedData = useMemo(() => {
     let filtered = data;
 
+    // Apply independent filters
+    if (selectedMonth > 0) {
+      filtered = filtered.filter(stat => stat.month === selectedMonth);
+    }
+
+    if (selectedStock) {
+      filtered = filtered.filter(stat => stat.name === selectedStock);
+    }
+
     if (searchTerm) {
-      filtered = data.filter(item => 
+      filtered = filtered.filter(item => 
         item.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
@@ -46,7 +73,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
       }
       return bValue - aValue;
     });
-  }, [data, searchTerm, sortKey, sortDirection]);
+  }, [data, searchTerm, sortKey, sortDirection, selectedMonth, selectedStock]);
 
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -72,17 +99,98 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
 
   return (
     <div className="space-y-4">
-      {/* Search */}
-      <div className="flex items-center justify-between">
-        <Input
-          placeholder="Search stocks..."
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
+      {/* Independent Filters */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/20 rounded-lg">
+        <div className="space-y-2">
+          <Label>Month Filter</Label>
+          <Select value={selectedMonth.toString()} onValueChange={(value) => {
+            setSelectedMonth(parseInt(value));
             setCurrentPage(1);
-          }}
-          className="max-w-sm"
-        />
+          }}>
+            <SelectTrigger>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent className="bg-background border shadow-lg z-50">
+              {MONTH_NAMES.map((month, index) => (
+                <SelectItem key={index} value={index.toString()}>
+                  {month}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Stock Filter</Label>
+          <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={stockDropdownOpen}
+                className="w-full justify-between"
+              >
+                {selectedStock || "All stocks..."}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0 bg-background border shadow-lg z-50" align="start">
+              <Command>
+                <CommandInput placeholder="Search stocks..." />
+                <CommandList>
+                  <CommandEmpty>No stock found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      value=""
+                      onSelect={() => {
+                        setSelectedStock('');
+                        setStockDropdownOpen(false);
+                        setCurrentPage(1);
+                      }}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${selectedStock === '' ? "opacity-100" : "opacity-0"}`}
+                      />
+                      All stocks
+                    </CommandItem>
+                    {availableStocks.map((stock) => (
+                      <CommandItem
+                        key={stock}
+                        value={stock}
+                        onSelect={(currentValue) => {
+                          setSelectedStock(currentValue === selectedStock ? '' : currentValue);
+                          setStockDropdownOpen(false);
+                          setCurrentPage(1);
+                        }}
+                      >
+                        <Check
+                          className={`mr-2 h-4 w-4 ${selectedStock === stock ? "opacity-100" : "opacity-0"}`}
+                        />
+                        {stock}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+
+        <div className="space-y-2">
+          <Label>Search</Label>
+          <Input
+            placeholder="Search stocks..."
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Results count */}
+      <div className="flex items-center justify-between">
         <div className="text-sm text-muted-foreground">
           {filteredAndSortedData.length} results
         </div>
