@@ -73,17 +73,20 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
       sortKey, 
       sortDirection, 
       dataLength: filtered.length,
-      firstItemBefore: filtered[0]?.[sortKey],
-      lastItemBefore: filtered[filtered.length - 1]?.[sortKey]
+      firstItemBefore: filtered[0]?.name,
+      firstItemBeforeValue: filtered[0]?.[sortKey]
     });
 
-    const sorted = filtered.sort((a, b) => {
+    // Create a new array to avoid mutating the original
+    const sorted = [...filtered].sort((a, b) => {
       let aValue: any = a[sortKey];
       let bValue: any = b[sortKey];
       
+      console.log('🔍 Comparing:', { aValue, bValue, sortKey });
+      
       // Handle string sorting for name field
       if (sortKey === 'name') {
-        const result = aValue.localeCompare(bValue);
+        const result = String(aValue).localeCompare(String(bValue));
         return sortDirection === 'asc' ? result : -result;
       }
       
@@ -91,15 +94,15 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
       aValue = Number(aValue) || 0;
       bValue = Number(bValue) || 0;
       
-      if (sortDirection === 'asc') {
-        return aValue - bValue;
-      }
-      return bValue - aValue;
+      const result = sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+      return result;
     });
 
     console.log('✅ Sorted data:', {
-      firstItemAfter: sorted[0]?.[sortKey],
-      lastItemAfter: sorted[sorted.length - 1]?.[sortKey]
+      firstItemAfter: sorted[0]?.name,
+      firstItemAfterValue: sorted[0]?.[sortKey],
+      lastItemAfter: sorted[sorted.length - 1]?.name,
+      lastItemAfterValue: sorted[sorted.length - 1]?.[sortKey]
     });
 
     return sorted;
