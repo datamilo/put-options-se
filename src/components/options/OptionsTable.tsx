@@ -12,12 +12,13 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpDown, Filter, Eye, EyeOff, Info } from "lucide-react";
+import { ArrowUpDown, Filter, Eye, EyeOff, Info, Download } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnManager } from "./ColumnManager";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { formatNumber } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { exportToExcel } from "@/utils/excelExport";
 
 interface OptionsTableProps {
   data: OptionData[];
@@ -246,6 +247,14 @@ export const OptionsTable = ({
     setVisibleColumns(newOrder);
   };
 
+  const handleExport = () => {
+    exportToExcel({
+      filename: 'options_data',
+      visibleColumns,
+      data: filteredData
+    });
+  };
+
   return (
     <TooltipProvider>
       <div className="space-y-4">
@@ -259,11 +268,22 @@ export const OptionsTable = ({
             </div>
           )}
           
-          <ColumnManager
-            visibleColumns={visibleColumns}
-            onVisibilityChange={handleColumnVisibilityChange}
-            onColumnOrderChange={handleColumnOrderChange}
-          />
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleExport}
+              className="flex items-center gap-2"
+            >
+              <Download className="h-4 w-4" />
+              Export to Excel
+            </Button>
+            <ColumnManager
+              visibleColumns={visibleColumns}
+              onVisibilityChange={handleColumnVisibilityChange}
+              onColumnOrderChange={handleColumnOrderChange}
+            />
+          </div>
         </div>
 
         <ScrollArea className="w-full whitespace-nowrap rounded-md border">

@@ -11,7 +11,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ArrowLeft, Settings, ChevronDown, Info } from "lucide-react";
+import { ArrowLeft, Settings, ChevronDown, Info, Download } from "lucide-react";
+import { exportToExcel } from "@/utils/excelExport";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
@@ -311,6 +312,21 @@ const PortfolioGenerator = () => {
     navigate(`/stock/${encodeURIComponent(stockName)}`);
   };
 
+  const handlePortfolioExport = () => {
+    // Get visible columns from OptionsTable component defaults for portfolio
+    const portfolioColumns: (keyof OptionData)[] = [
+      'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
+      'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted',
+      'PotentialLossAtLowerBound'
+    ];
+    
+    exportToExcel({
+      filename: 'generated_portfolio',
+      visibleColumns: portfolioColumns,
+      data: generatedPortfolio
+    });
+  };
+
   // Simplified: No automatic value syncing to avoid conflicts
 
   // Handle navigation to main page
@@ -540,12 +556,25 @@ const PortfolioGenerator = () => {
       {portfolioGenerated && (
         <Card>
           <CardHeader>
-            <CardTitle>Generated Portfolio ({generatedPortfolio.length} options)</CardTitle>
-            <div className="text-sm text-muted-foreground space-y-1">
-              <p>{portfolioMessage}</p>
-              <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
-              <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
-              <p>Total Calculated Risk of Loss: {Math.round(totalPotentialLoss).toLocaleString()} SEK</p>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle>Generated Portfolio ({generatedPortfolio.length} options)</CardTitle>
+                <div className="text-sm text-muted-foreground space-y-1 mt-2">
+                  <p>{portfolioMessage}</p>
+                  <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
+                  <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
+                  <p>Total Calculated Risk of Loss: {Math.round(totalPotentialLoss).toLocaleString()} SEK</p>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handlePortfolioExport}
+                className="flex items-center gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export to Excel
+              </Button>
             </div>
           </CardHeader>
           <CardContent>
