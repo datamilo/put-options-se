@@ -32,7 +32,7 @@ export const useEnrichedOptionsData = () => {
       }
 
       // Calculate potential loss at lower bound - following exact Python logic
-      let potentialLossAtLowerBound = 0;
+      let potentialLossAtLowerBound: number | null = null;
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
         

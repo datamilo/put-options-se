@@ -80,7 +80,7 @@ export interface OptionData {
   SafetyCategory?: string;
   CushionMinusIVPct?: number;
   // Calculated field
-  PotentialLossAtLowerBound?: number;
+  PotentialLossAtLowerBound?: number | null;
 }
 
 export interface OptionsFilter {

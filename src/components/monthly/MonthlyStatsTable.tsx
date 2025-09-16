@@ -21,7 +21,7 @@ const MONTH_NAMES = [
 ];
 
 export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) => {
-  const [sortKey, setSortKey] = useState<SortKey>('top_5_accumulated_score');
+  const [sortKey, setSortKey] = useState<SortKey>('pct_pos_return_months');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
@@ -273,13 +273,13 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Worst DD % {getSortIcon('open_to_low_min_pct_return_month')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-16">
+                <TableHead className="w-20">
                   <Button
                     variant="ghost"
-                    onClick={() => handleSort('top_5_accumulated_score')}
-                    className="h-auto p-0 font-medium"
+                    onClick={() => handleSort('open_to_low_max_pct_return_month')}
+                    className="h-auto p-0 font-medium text-xs"
                   >
-                    Score {getSortIcon('top_5_accumulated_score')}
+                    Best DD % {getSortIcon('open_to_low_max_pct_return_month')}
                   </Button>
                 </TableHead>
               </TableRow>
@@ -312,9 +312,8 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className={row.top_5_accumulated_score >= 10 ? 'text-green-600 font-medium' : 
-                                   row.top_5_accumulated_score >= 5 ? 'text-blue-600' : 'text-muted-foreground'}>
-                      {formatNumber(row.top_5_accumulated_score, 0)}
+                    <span className={row.open_to_low_max_pct_return_month >= 0 ? 'text-green-600' : 'text-orange-600'}>
+                      {formatNumber(row.open_to_low_max_pct_return_month)}%
                     </span>
                   </TableCell>
                 </TableRow>

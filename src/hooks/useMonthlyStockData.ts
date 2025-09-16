@@ -163,43 +163,17 @@ export const useMonthlyStockData = () => {
         open_to_low_mean_pct_return_month: meanOpenToLow,
         open_to_low_min_pct_return_month: minOpenToLow,
         open_to_low_max_pct_return_month: maxOpenToLow,
-        top_5_accumulated_score: 0 // Will be calculated separately
+        top_5_accumulated_score: 0 // Not used anymore
       });
     }
 
-    // Calculate top 5 scores
+    // Return stats array without score calculation
     const statsArray = Array.from(statsMap.values());
-    calculateTop5Scores(statsArray);
 
     return statsArray;
   };
 
-  const calculateTop5Scores = (stats: MonthlyStockStats[]) => {
-    // For each month, rank stocks and assign points
-    for (let month = 1; month <= 12; month++) {
-      const monthStats = stats.filter(s => s.month === month && s.number_of_months_available >= 3);
-      
-      // Rank by different metrics and assign points
-      const metrics = [
-        'pct_pos_return_months',
-        'return_month_mean_pct_return_month',
-        'open_to_low_mean_pct_return_month' // Higher is better (less negative)
-      ];
-
-      metrics.forEach(metric => {
-        const sorted = [...monthStats].sort((a, b) => {
-          if (metric === 'open_to_low_mean_pct_return_month') {
-            return b[metric as keyof MonthlyStockStats] as number - (a[metric as keyof MonthlyStockStats] as number);
-          }
-          return (b[metric as keyof MonthlyStockStats] as number) - (a[metric as keyof MonthlyStockStats] as number);
-        });
-
-        sorted.slice(0, 5).forEach((stat, index) => {
-          stat.top_5_accumulated_score += (5 - index); // 5 points for 1st, 4 for 2nd, etc.
-        });
-      });
-    }
-  };
+  // Remove the top 5 score calculation entirely
 
   useEffect(() => {
     loadMonthlyData();

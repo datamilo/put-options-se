@@ -250,48 +250,6 @@ export const MonthlyAnalysis = () => {
           </CardContent>
         </Card>
 
-        {/* KPIs */}
-        {kpis && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Avg Positive Months</p>
-                    <p className="text-2xl font-bold">{kpis.avgPosReturnMonths.toFixed(1)}%</p>
-                  </div>
-                  <TrendingUp className="h-8 w-8 text-green-500" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Median Return</p>
-                    <p className="text-2xl font-bold">{kpis.medianReturn.toFixed(2)}%</p>
-                  </div>
-                  <BarChart3 className="h-8 w-8 text-blue-500" />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-muted-foreground">Stocks in View</p>
-                    <p className="text-2xl font-bold">{kpis.stockCount}</p>
-                  </div>
-                  <Badge variant="secondary" className="text-lg px-3 py-1">
-                    {kpis.stockCount}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
 
         {/* Seasonality Heatmap */}
         <Card>

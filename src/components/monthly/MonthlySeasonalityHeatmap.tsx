@@ -85,26 +85,45 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     return sortedStocks.slice(0, maxStocks);
   }, [data, sortBy, maxStocks, selectedMonth]);
 
+  // Calculate percentiles for color thresholds
+  const colorThresholds = useMemo(() => {
+    const allValues = processedData.flatMap(stockInfo => {
+      if (selectedMonth === 0) {
+        return Array.from({ length: 12 }, (_, monthIndex) => {
+          const month = monthIndex + 1;
+          const stat = stockInfo.monthlyData.get(month);
+          return stat ? stat[selectedMetric] : null;
+        }).filter(v => v !== null) as number[];
+      } else {
+        const stat = stockInfo.monthlyData.get(selectedMonth);
+        return stat ? [stat[selectedMetric]] : [];
+      }
+    });
+
+    if (allValues.length === 0) return null;
+
+    const sorted = allValues.sort((a, b) => a - b);
+    const getPercentile = (p: number) => {
+      const index = Math.ceil(p * sorted.length / 100) - 1;
+      return sorted[Math.max(0, Math.min(index, sorted.length - 1))];
+    };
+
+    return {
+      p20: getPercentile(20),
+      p40: getPercentile(40),
+      p60: getPercentile(60),
+      p80: getPercentile(80)
+    };
+  }, [processedData, selectedMetric, selectedMonth]);
+
   const getColorClass = (value: number | null, metric: MetricType) => {
-    if (value === null) return 'bg-muted/30';
+    if (value === null || !colorThresholds) return 'bg-muted/30';
     
-    if (metric === 'pct_pos_return_months') {
-      if (value >= 80) return 'bg-green-600';
-      if (value >= 70) return 'bg-green-500';
-      if (value >= 60) return 'bg-green-400';
-      if (value >= 50) return 'bg-yellow-400';
-      if (value >= 40) return 'bg-orange-400';
-      if (value >= 30) return 'bg-red-400';
-      return 'bg-red-500';
-    } else {
-      if (value >= 5) return 'bg-green-600';
-      if (value >= 2) return 'bg-green-500';
-      if (value >= 0) return 'bg-green-400';
-      if (value >= -2) return 'bg-yellow-400';
-      if (value >= -5) return 'bg-orange-400';
-      if (value >= -10) return 'bg-red-400';
-      return 'bg-red-500';
-    }
+    if (value <= colorThresholds.p20) return 'bg-red-500';
+    if (value <= colorThresholds.p40) return 'bg-orange-400';
+    if (value <= colorThresholds.p60) return 'bg-yellow-400';
+    if (value <= colorThresholds.p80) return 'bg-green-400';
+    return 'bg-green-600';
   };
 
   const getReliabilityOpacity = (monthsAvailable: number) => {
@@ -130,7 +149,7 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     
     return `${stock} - ${MONTH_NAMES[month - 1]}
 ${stat.pct_pos_return_months.toFixed(1)}% positive months
-Avg return: ${stat.return_month_mean_pct_return_month.toFixed(2)}%
+Avg return: ${(stat.return_month_mean_pct_return_month * 100).toFixed(2)}%
 Data points: ${stat.number_of_months_available} months`;
   };
 
@@ -186,7 +205,7 @@ Data points: ${stat.number_of_months_available} months`;
         <div className="min-w-[800px] p-4">
           {/* Header Row */}
           <div className="flex mb-2">
-            <div className="w-24 flex-shrink-0 text-xs font-medium text-muted-foreground p-2">
+            <div className="w-32 flex-shrink-0 text-xs font-medium text-muted-foreground p-2">
               Stock
             </div>
             {selectedMonth === 0 ? (
@@ -207,7 +226,7 @@ Data points: ${stat.number_of_months_available} months`;
             {processedData.map((stockInfo) => (
               <div key={stockInfo.name} className="flex items-center hover:bg-muted/10 rounded">
                 {/* Stock Name */}
-                <div className="w-24 flex-shrink-0 text-xs font-medium p-2 truncate" title={stockInfo.name}>
+                <div className="w-32 flex-shrink-0 text-xs font-medium p-2 truncate" title={stockInfo.name}>
                   {stockInfo.name}
                 </div>
                 
@@ -308,50 +327,27 @@ Data points: ${stat.number_of_months_available} months`;
             {selectedMetric === 'pct_pos_return_months' ? '% Positive Months:' : 'Average Return (%):'}
           </span>
           
-          {selectedMetric === 'pct_pos_return_months' ? (
+          {colorThresholds && (
             <>
               <div className="flex items-center gap-1">
                 <div className="w-4 h-4 bg-red-500 rounded-sm"></div>
-                <span className="text-xs">0-30%</span>
+                <span className="text-xs">Bottom 20%</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-4 h-4 bg-orange-400 rounded-sm"></div>
-                <span className="text-xs">30-50%</span>
+                <span className="text-xs">20-40%</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-4 h-4 bg-yellow-400 rounded-sm"></div>
-                <span className="text-xs">50-60%</span>
+                <span className="text-xs">40-60%</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-4 h-4 bg-green-400 rounded-sm"></div>
-                <span className="text-xs">60-70%</span>
+                <span className="text-xs">60-80%</span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-4 h-4 bg-green-600 rounded-sm"></div>
-                <span className="text-xs">70%+</span>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-red-500 rounded-sm"></div>
-                <span className="text-xs">≤-10%</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-orange-400 rounded-sm"></div>
-                <span className="text-xs">-5% to -10%</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-yellow-400 rounded-sm"></div>
-                <span className="text-xs">-2% to 0%</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-green-400 rounded-sm"></div>
-                <span className="text-xs">0% to 2%</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-green-600 rounded-sm"></div>
-                <span className="text-xs">5%+</span>
+                <span className="text-xs">Top 20%</span>
               </div>
             </>
           )}
