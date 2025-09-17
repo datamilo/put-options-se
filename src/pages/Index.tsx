@@ -6,7 +6,6 @@ import { OptionsChart } from "@/components/options/OptionsChart";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useStockData } from "@/hooks/useStockData";
-import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { TimestampDisplay } from "@/components/TimestampDisplay";
 import { SettingsModal } from "@/components/SettingsModal";
 import { Button } from "@/components/ui/button";
@@ -27,11 +26,10 @@ const Index = () => {
   
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: rawData, isLoading, error, loadMockData } = useEnrichedOptionsData();
-  const { getStockSummary, getLowPriceForPeriod } = useStockData();
   
-  // Use recalculated options data
-  const data = useRecalculatedOptions(rawData);
+  // Use enriched data directly - it already includes recalculated options
+  const { data, isLoading, error, loadMockData } = useEnrichedOptionsData();
+  const { getStockSummary, getLowPriceForPeriod } = useStockData();
   
   // Initialize filter state from URL parameters
   const [selectedStocks, setSelectedStocks] = useState<string[]>(() => {

@@ -1,6 +1,5 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
-import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
@@ -9,10 +8,9 @@ const OptionDetailsPage = () => {
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { data: rawData } = useEnrichedOptionsData();
   
-  // Use recalculated options data
-  const data = useRecalculatedOptions(rawData);
+  // Use enriched data directly - it already includes recalculated options
+  const { data } = useEnrichedOptionsData();
 
   const handleBackClick = () => {
     navigate(-1);
