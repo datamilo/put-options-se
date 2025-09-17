@@ -27,57 +27,70 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   const [underlyingValue, setUnderlyingValueState] = useState<number>(100000);
   const [transactionCost, setTransactionCostState] = useState<number>(150);
   const userUpdateRef = useRef(false);
+  const lastUserValueRef = useRef<{ underlyingValue: number; transactionCost: number }>({ underlyingValue: 100000, transactionCost: 150 });
+  const hasInitializedRef = useRef(false);
 
   // Sync with user preferences, fallback to localStorage for non-authenticated users
   useEffect(() => {
-    if (!isLoading && !userUpdateRef.current) {
+    if (!isLoading) {
       console.log('SettingsContext: useEffect running', { 
         calculationSettings, 
         underlyingValue, 
         transactionCost,
-        userUpdate: userUpdateRef.current
+        userUpdate: userUpdateRef.current,
+        hasInitialized: hasInitializedRef.current,
+        lastUserValue: lastUserValueRef.current
       });
       
-      // Only sync from database if we don't have local changes pending
-      // This prevents overriding user's immediate changes while DB save is in progress
-      if (calculationSettings.underlyingValue !== 100000 || calculationSettings.transactionCost !== 150) {
-        // User has saved preferences - only update if they're different from current state
-        if (calculationSettings.underlyingValue !== underlyingValue) {
-          console.log('SettingsContext: Updating underlying value from DB:', calculationSettings.underlyingValue);
-          setUnderlyingValueState(calculationSettings.underlyingValue);
-        }
-        if (calculationSettings.transactionCost !== transactionCost) {
-          console.log('SettingsContext: Updating transaction cost from DB:', calculationSettings.transactionCost);
-          setTransactionCostState(calculationSettings.transactionCost);
-        }
-      } else {
-        // Fallback to localStorage for initial load or non-authenticated users
-        const savedUnderlyingValue = localStorage.getItem('underlyingValue');
-        if (savedUnderlyingValue) {
-          const parsed = parseInt(savedUnderlyingValue, 10);
-          if (!isNaN(parsed) && parsed > 0 && parsed !== underlyingValue) {
-            console.log('SettingsContext: Updating underlying value from localStorage:', parsed);
-            setUnderlyingValueState(parsed);
+      // Only sync from database on initial load or if the database value matches what the user last set
+      if (!hasInitializedRef.current || !userUpdateRef.current) {
+        // Initial load - sync from database if available, otherwise localStorage
+        if (calculationSettings.underlyingValue !== 100000 || calculationSettings.transactionCost !== 150) {
+          // User has saved preferences - update if they're different from current state
+          if (calculationSettings.underlyingValue !== underlyingValue && !userUpdateRef.current) {
+            console.log('SettingsContext: Initial sync - updating underlying value from DB:', calculationSettings.underlyingValue);
+            setUnderlyingValueState(calculationSettings.underlyingValue);
+            lastUserValueRef.current.underlyingValue = calculationSettings.underlyingValue;
           }
-        }
+          if (calculationSettings.transactionCost !== transactionCost && !userUpdateRef.current) {
+            console.log('SettingsContext: Initial sync - updating transaction cost from DB:', calculationSettings.transactionCost);
+            setTransactionCostState(calculationSettings.transactionCost);
+            lastUserValueRef.current.transactionCost = calculationSettings.transactionCost;
+          }
+        } else if (!hasInitializedRef.current) {
+          // Fallback to localStorage for initial load if no database values
+          const savedUnderlyingValue = localStorage.getItem('underlyingValue');
+          if (savedUnderlyingValue) {
+            const parsed = parseInt(savedUnderlyingValue, 10);
+            if (!isNaN(parsed) && parsed > 0 && parsed !== underlyingValue) {
+              console.log('SettingsContext: Initial sync - updating underlying value from localStorage:', parsed);
+              setUnderlyingValueState(parsed);
+              lastUserValueRef.current.underlyingValue = parsed;
+            }
+          }
 
-        const savedTransactionCost = localStorage.getItem('transactionCost');
-        if (savedTransactionCost) {
-          const parsed = parseInt(savedTransactionCost, 10);
-          if (!isNaN(parsed) && parsed >= 0 && parsed !== transactionCost) {
-            console.log('SettingsContext: Updating transaction cost from localStorage:', parsed);
-            setTransactionCostState(parsed);
+          const savedTransactionCost = localStorage.getItem('transactionCost');
+          if (savedTransactionCost) {
+            const parsed = parseInt(savedTransactionCost, 10);
+            if (!isNaN(parsed) && parsed >= 0 && parsed !== transactionCost) {
+              console.log('SettingsContext: Initial sync - updating transaction cost from localStorage:', parsed);
+              setTransactionCostState(parsed);
+              lastUserValueRef.current.transactionCost = parsed;
+            }
           }
         }
+        
+        hasInitializedRef.current = true;
       }
     }
   }, [calculationSettings, isLoading]);
 
   // Save to database and local state
   const setUnderlyingValue = (value: number) => {
-    console.log('SettingsContext: Setting underlying value to', value, 'Previous value was:', underlyingValue);
+    console.log('SettingsContext: User setting underlying value to', value, 'Previous value was:', underlyingValue);
     userUpdateRef.current = true; // Flag that this is a user-initiated update
     setUnderlyingValueState(value);
+    lastUserValueRef.current.underlyingValue = value; // Track the user's choice
     
     // Always save to localStorage as backup
     localStorage.setItem('underlyingValue', value.toString());
@@ -87,19 +100,14 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       underlyingValue: value,
       transactionCost
     });
-    console.log('SettingsContext: Updated both localStorage and database with:', value);
-    
-    // Reset the flag after a delay to prevent race conditions
-    setTimeout(() => {
-      userUpdateRef.current = false;
-      console.log('SettingsContext: Reset user update flag');
-    }, 1000);
+    console.log('SettingsContext: Updated both localStorage and database with underlying value:', value);
   };
 
   const setTransactionCost = (value: number) => {
-    console.log('SettingsContext: Setting transaction cost to', value, 'Previous value was:', transactionCost);
+    console.log('SettingsContext: User setting transaction cost to', value, 'Previous value was:', transactionCost);
     userUpdateRef.current = true; // Flag that this is a user-initiated update
     setTransactionCostState(value);
+    lastUserValueRef.current.transactionCost = value; // Track the user's choice
     
     // Always save to localStorage as backup
     localStorage.setItem('transactionCost', value.toString());
@@ -109,13 +117,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       underlyingValue,
       transactionCost: value
     });
-    console.log('SettingsContext: Updated transaction cost to:', value);
-    
-    // Reset the flag after a delay to prevent race conditions
-    setTimeout(() => {
-      userUpdateRef.current = false;
-      console.log('SettingsContext: Reset user update flag for transaction cost');
-    }, 1000);
+    console.log('SettingsContext: Updated both localStorage and database with transaction cost:', value);
   };
 
   return (
