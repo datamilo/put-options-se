@@ -30,16 +30,22 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   // Sync with user preferences, fallback to localStorage for non-authenticated users
   useEffect(() => {
     if (!isLoading) {
+      // Only sync from database if we don't have local changes pending
+      // This prevents overriding user's immediate changes while DB save is in progress
       if (calculationSettings.underlyingValue !== 100000 || calculationSettings.transactionCost !== 150) {
-        // User has saved preferences
-        setUnderlyingValueState(calculationSettings.underlyingValue);
-        setTransactionCostState(calculationSettings.transactionCost);
+        // User has saved preferences - only update if they're different from current state
+        if (calculationSettings.underlyingValue !== underlyingValue) {
+          setUnderlyingValueState(calculationSettings.underlyingValue);
+        }
+        if (calculationSettings.transactionCost !== transactionCost) {
+          setTransactionCostState(calculationSettings.transactionCost);
+        }
       } else {
         // Fallback to localStorage for initial load or non-authenticated users
         const savedUnderlyingValue = localStorage.getItem('underlyingValue');
         if (savedUnderlyingValue) {
           const parsed = parseInt(savedUnderlyingValue, 10);
-          if (!isNaN(parsed) && parsed > 0) {
+          if (!isNaN(parsed) && parsed > 0 && parsed !== underlyingValue) {
             setUnderlyingValueState(parsed);
           }
         }
@@ -47,7 +53,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
         const savedTransactionCost = localStorage.getItem('transactionCost');
         if (savedTransactionCost) {
           const parsed = parseInt(savedTransactionCost, 10);
-          if (!isNaN(parsed) && parsed >= 0) {
+          if (!isNaN(parsed) && parsed >= 0 && parsed !== transactionCost) {
             setTransactionCostState(parsed);
           }
         }
