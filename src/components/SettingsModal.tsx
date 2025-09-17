@@ -8,12 +8,20 @@ import { Slider } from '@/components/ui/slider';
 import { Settings } from 'lucide-react';
 import { toast } from 'sonner';
 
-export const SettingsModal = () => {
+interface SettingsModalProps {
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  triggerButton?: boolean;
+}
+
+export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerButton = true }: SettingsModalProps) => {
   const { underlyingValue, setUnderlyingValue, transactionCost, setTransactionCost } = useSettings();
   const [tempValue, setTempValue] = useState(underlyingValue);
   const [tempTransactionCost, setTempTransactionCost] = useState(transactionCost);
   const [inputValue, setInputValue] = useState(underlyingValue.toString());
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+  const setIsOpen = onOpenChange || setInternalIsOpen;
 
   const handleSliderChange = (value: number[]) => {
     const newValue = value[0];
@@ -71,21 +79,23 @@ export const SettingsModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button 
-          variant="outline" 
-          size="sm"
-          onClick={() => {
-            setTempValue(underlyingValue);
-            setTempTransactionCost(transactionCost);
-            setInputValue(underlyingValue.toString());
-            setIsOpen(true);
-          }}
-        >
-          <Settings className="h-4 w-4 mr-2" />
-          Settings
-        </Button>
-      </DialogTrigger>
+      {triggerButton && (
+        <DialogTrigger asChild>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => {
+              setTempValue(underlyingValue);
+              setTempTransactionCost(transactionCost);
+              setInputValue(underlyingValue.toString());
+              setIsOpen(true);
+            }}
+          >
+            <Settings className="h-4 w-4 mr-2" />
+            Settings
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Calculation Settings</DialogTitle>

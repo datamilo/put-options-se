@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, LogOut } from "lucide-react";
+import { Menu, BarChart3, TrendingUp, LogOut, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -11,10 +11,14 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/auth/AuthProvider";
+import { useState } from "react";
+import { useSettings } from "@/contexts/SettingsContext";
 
 export const NavigationMenu = () => {
   const navigate = useNavigate();
   const { signOut } = useAuth();
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { underlyingValue, transactionCost } = useSettings();
 
   return (
     <>
@@ -45,10 +49,14 @@ export const NavigationMenu = () => {
             Monthly Analysis
           </DropdownMenuItem>
           
-          <DropdownMenuItem asChild>
-            <div className="w-full">
-              <SettingsModal />
-            </div>
+          <DropdownMenuItem 
+            onClick={() => {
+              setSettingsOpen(true);
+            }}
+            className="cursor-pointer"
+          >
+            <Settings className="mr-2 h-4 w-4" />
+            Settings
           </DropdownMenuItem>
           
           <DropdownMenuItem asChild>
@@ -70,6 +78,11 @@ export const NavigationMenu = () => {
         </DropdownMenuContent>
       </DropdownMenu>
 
+      <SettingsModal 
+        isOpen={settingsOpen} 
+        onOpenChange={setSettingsOpen}
+        triggerButton={false}
+      />
     </>
   );
 };
