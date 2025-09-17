@@ -71,11 +71,6 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
         }
       }
     }
-    
-    // Reset the user update flag after processing
-    if (userUpdateRef.current) {
-      userUpdateRef.current = false;
-    }
   }, [calculationSettings, isLoading]);
 
   // Save to database and local state
@@ -93,6 +88,12 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       transactionCost
     });
     console.log('SettingsContext: Updated both localStorage and database with:', value);
+    
+    // Reset the flag after a delay to prevent race conditions
+    setTimeout(() => {
+      userUpdateRef.current = false;
+      console.log('SettingsContext: Reset user update flag');
+    }, 1000);
   };
 
   const setTransactionCost = (value: number) => {
@@ -109,6 +110,12 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       transactionCost: value
     });
     console.log('SettingsContext: Updated transaction cost to:', value);
+    
+    // Reset the flag after a delay to prevent race conditions
+    setTimeout(() => {
+      userUpdateRef.current = false;
+      console.log('SettingsContext: Reset user update flag for transaction cost');
+    }, 1000);
   };
 
   return (
