@@ -336,35 +336,6 @@ const Index = () => {
             <h1 className="text-4xl font-bold">Put Options Data</h1>
             <TimestampDisplay />
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <Button 
-              onClick={() => {
-                console.log('🔄 Navigating to portfolio generator...');
-                console.log('🔄 Current location:', window.location.href);
-                navigate('/portfolio-generator');
-                console.log('🔄 Navigation triggered');
-              }}
-              variant="outline"
-              size="sm"
-              className="bg-white text-black border-gray-300 hover:bg-gray-50"
-            >
-              <BarChart3 className="mr-2 h-4 w-4" />
-              Portfolio Generator
-            </Button>
-            <Button
-              onClick={() => navigate("/monthly-analysis")}
-              variant="outline"
-              size="sm"
-              className="bg-white text-black border-gray-300 hover:bg-gray-50"
-            >
-              <TrendingUp className="mr-2 h-4 w-4" />
-              Monthly Analysis
-            </Button>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <SettingsModal />
-          <ThemeToggle />
         </div>
       </div>
 

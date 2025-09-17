@@ -18,17 +18,19 @@ import { AuthProvider, useAuth } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import ErrorBoundary from "@/components/ErrorBoundary";
+import { NavigationMenu } from "@/components/NavigationMenu";
 const queryClient = new QueryClient();
 
 const AppHeader = () => {
-  const { session, signOut } = useAuth();
+  const { session } = useAuth();
   return (
     <header className="w-full flex items-center justify-between px-4 py-2">
-      <Link to="/" className="font-semibold">Put Options SE</Link>
+      <div className="flex items-center gap-3">
+        {session && <NavigationMenu />}
+        <Link to="/" className="font-semibold">Put Options SE</Link>
+      </div>
       <div>
-        {session ? (
-          <Button variant="outline" onClick={signOut}>Sign out</Button>
-        ) : (
+        {!session && (
           <Button asChild>
             <Link to="/auth">Sign in</Link>
           </Button>
