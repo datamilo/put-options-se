@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
-import { useRecalculatedOptions } from "@/hooks/useRecalculatedOptions";
+import { useRecalculatedOptions, RecalculatedOptionData } from "@/hooks/useRecalculatedOptions";
 import { useStockData } from "@/hooks/useStockData";
 import { useSettings } from "@/contexts/SettingsContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,9 +17,8 @@ import { exportToExcel } from "@/utils/excelExport";
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
-  const data = useRecalculatedOptions(rawData || []);
   const { getLowPriceForPeriod } = useStockData();
-  const { underlyingValue, setUnderlyingValue, transactionCost } = useSettings();
+  const { transactionCost } = useSettings();
 
   // Removed originalSettings to avoid conflicts
 
@@ -45,8 +44,36 @@ const PortfolioGenerator = () => {
   });
   const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(() => {
     const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
-    return saved ? saved : underlyingValue.toString();
+    return saved ? saved : "100000";
   });
+  
+  // Portfolio Generator's own underlying value (independent from global settings)
+  const [portfolioUnderlyingValue, setPortfolioUnderlyingValue] = useState<number>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
+    return saved ? parseInt(saved) : 100000;
+  });
+
+  // Custom recalculation function for Portfolio Generator using its own underlying value
+  const recalculateOptionsForPortfolio = (options: OptionData[]): RecalculatedOptionData[] => {
+    return options.map(option => {
+      const numberOfContractsBasedOnLimit = Math.round((portfolioUnderlyingValue / option.StrikePrice) / 100);
+      const bidAskMidPrice = (option.Bid + (option.Ask || option.Bid)) / 2;
+      const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
+
+      return {
+        ...option,
+        originalPremium: option.Premium,
+        recalculatedPremium,
+        recalculatedNumberOfContracts: numberOfContractsBasedOnLimit,
+        recalculatedBid_Ask_Mid_Price: bidAskMidPrice,
+        Premium: recalculatedPremium,
+        NumberOfContractsBasedOnLimit: numberOfContractsBasedOnLimit,
+        Bid_Ask_Mid_Price: bidAskMidPrice,
+      };
+    });
+  };
+
+  const data = recalculateOptionsForPortfolio(rawData || []);
   const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>(() => {
     return localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal";
   });
@@ -134,7 +161,7 @@ const PortfolioGenerator = () => {
   const handleUnderlyingValueBlur = () => {
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
-    setUnderlyingValue(clampedValue);
+    setPortfolioUnderlyingValue(clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
     localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
     
@@ -562,7 +589,7 @@ const PortfolioGenerator = () => {
                 <div className="text-sm text-muted-foreground space-y-1 mt-2">
                   <p>{portfolioMessage}</p>
                   <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
-                  <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {underlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
+                  <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {portfolioUnderlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
                   <p>Total Calculated Risk of Loss: {Math.round(totalPotentialLoss).toLocaleString()} SEK</p>
                 </div>
               </div>
