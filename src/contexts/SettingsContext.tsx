@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from 'react';
 import { useUserPreferences } from '@/hooks/useUserPreferences';
 
 interface SettingsContextType {
@@ -26,18 +26,28 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   const { calculationSettings, saveCalculationSettings, isLoading } = useUserPreferences();
   const [underlyingValue, setUnderlyingValueState] = useState<number>(100000);
   const [transactionCost, setTransactionCostState] = useState<number>(150);
+  const userUpdateRef = useRef(false);
 
   // Sync with user preferences, fallback to localStorage for non-authenticated users
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && !userUpdateRef.current) {
+      console.log('SettingsContext: useEffect running', { 
+        calculationSettings, 
+        underlyingValue, 
+        transactionCost,
+        userUpdate: userUpdateRef.current
+      });
+      
       // Only sync from database if we don't have local changes pending
       // This prevents overriding user's immediate changes while DB save is in progress
       if (calculationSettings.underlyingValue !== 100000 || calculationSettings.transactionCost !== 150) {
         // User has saved preferences - only update if they're different from current state
         if (calculationSettings.underlyingValue !== underlyingValue) {
+          console.log('SettingsContext: Updating underlying value from DB:', calculationSettings.underlyingValue);
           setUnderlyingValueState(calculationSettings.underlyingValue);
         }
         if (calculationSettings.transactionCost !== transactionCost) {
+          console.log('SettingsContext: Updating transaction cost from DB:', calculationSettings.transactionCost);
           setTransactionCostState(calculationSettings.transactionCost);
         }
       } else {
@@ -46,6 +56,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
         if (savedUnderlyingValue) {
           const parsed = parseInt(savedUnderlyingValue, 10);
           if (!isNaN(parsed) && parsed > 0 && parsed !== underlyingValue) {
+            console.log('SettingsContext: Updating underlying value from localStorage:', parsed);
             setUnderlyingValueState(parsed);
           }
         }
@@ -54,16 +65,23 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
         if (savedTransactionCost) {
           const parsed = parseInt(savedTransactionCost, 10);
           if (!isNaN(parsed) && parsed >= 0 && parsed !== transactionCost) {
+            console.log('SettingsContext: Updating transaction cost from localStorage:', parsed);
             setTransactionCostState(parsed);
           }
         }
       }
+    }
+    
+    // Reset the user update flag after processing
+    if (userUpdateRef.current) {
+      userUpdateRef.current = false;
     }
   }, [calculationSettings, isLoading]);
 
   // Save to database and local state
   const setUnderlyingValue = (value: number) => {
     console.log('SettingsContext: Setting underlying value to', value, 'Previous value was:', underlyingValue);
+    userUpdateRef.current = true; // Flag that this is a user-initiated update
     setUnderlyingValueState(value);
     
     // Always save to localStorage as backup
@@ -78,6 +96,8 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
   };
 
   const setTransactionCost = (value: number) => {
+    console.log('SettingsContext: Setting transaction cost to', value, 'Previous value was:', transactionCost);
+    userUpdateRef.current = true; // Flag that this is a user-initiated update
     setTransactionCostState(value);
     
     // Always save to localStorage as backup
@@ -88,6 +108,7 @@ export const SettingsProvider: React.FC<SettingsProviderProps> = ({ children }) 
       underlyingValue,
       transactionCost: value
     });
+    console.log('SettingsContext: Updated transaction cost to:', value);
   };
 
   return (

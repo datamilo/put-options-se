@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -22,6 +22,16 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
   const setIsOpen = onOpenChange || setInternalIsOpen;
+
+  // Sync temporary state with context values when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      console.log('SettingsModal: Modal opened, syncing values:', { underlyingValue, transactionCost });
+      setTempValue(underlyingValue);
+      setTempTransactionCost(transactionCost);
+      setInputValue(underlyingValue.toString());
+    }
+  }, [isOpen, underlyingValue, transactionCost]);
 
   const handleSliderChange = (value: number[]) => {
     const newValue = value[0];
