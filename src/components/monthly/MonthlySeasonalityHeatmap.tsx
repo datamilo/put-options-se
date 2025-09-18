@@ -262,7 +262,7 @@ Data points: ${stat.number_of_months_available} months`;
                       }
                     }}
                     className={`
-                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md
+                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md mx-0.5
                       transition-all duration-200 cursor-pointer hover:bg-muted/20
                       flex items-center justify-center gap-1
                       ${isActiveSortColumn
@@ -293,7 +293,7 @@ Data points: ${stat.number_of_months_available} months`;
                       }
                     }}
                     className={`
-                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md
+                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md mx-0.5
                       transition-all duration-200 cursor-pointer hover:bg-muted/20
                       flex items-center justify-center gap-1
                       ${isActiveSortColumn
