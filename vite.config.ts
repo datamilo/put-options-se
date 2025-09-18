@@ -21,9 +21,13 @@ export default defineConfig(async ({ mode }) => {
   
   return {
     server: {
-      host: "::",
-      port: 8080,
-    },
+  host: "::",
+  port: 8080,
+  watch: {
+    usePolling: true,
+    interval: 100
+    }
+  },
     plugins: [
       react(),
       componentTaggerPlugin,

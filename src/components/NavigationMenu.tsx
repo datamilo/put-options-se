@@ -1,8 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, LogOut, Settings } from "lucide-react";
+import { Menu, BarChart3, TrendingUp, LogOut, Settings, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,12 +12,14 @@ import {
 import { useAuth } from "@/auth/AuthProvider";
 import { useState } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
+import { useTheme } from "next-themes";
 
 export const NavigationMenu = () => {
   const navigate = useNavigate();
   const { signOut } = useAuth();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { underlyingValue, transactionCost } = useSettings();
+  const { setTheme, theme } = useTheme();
 
   return (
     <>
@@ -59,11 +60,15 @@ export const NavigationMenu = () => {
             Settings
           </DropdownMenuItem>
           
-          <DropdownMenuItem asChild>
-            <div className="flex items-center px-2 py-1.5">
-              <span className="mr-2 text-sm">Theme</span>
-              <ThemeToggle />
-            </div>
+          <DropdownMenuItem
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+            className="cursor-pointer"
+          >
+            {theme === "light" ? (
+              <Moon className="mr-2 h-4 w-4" />
+            ) : (
+              <Sun className="mr-2 h-4 w-4" />
+            )}
           </DropdownMenuItem>
           
           <DropdownMenuSeparator />
