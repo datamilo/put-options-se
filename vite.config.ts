@@ -14,10 +14,10 @@ export default defineConfig(async ({ mode }) => {
   }
 
   const isProduction = mode === 'production';
-  const isGitHubPages = process.env.GITHUB_PAGES === 'true' || process.env.CI === 'true';
-  
-  // GitHub Pages base path should match the repository name exactly - no trailing slash
-  const basePath = (isProduction && isGitHubPages) ? '/put-options-se' : '/';
+
+  // For GitHub Pages, we need to set the base path to match the repository name
+  // Check if we're building for GitHub Pages deployment
+  const basePath = isProduction ? '/put-options-se' : '/';
   
   return {
     server: {

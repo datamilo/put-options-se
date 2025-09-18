@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useMonthlyStockData, MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonalityHeatmap';
 import { MonthlyStatsTable } from '@/components/monthly/MonthlyStatsTable';
@@ -24,9 +25,10 @@ export const MonthlyAnalysis = () => {
   const { monthlyData, monthlyStats, isLoading, error } = useMonthlyStockData();
   
   // Filter states
-  const [selectedMonth, setSelectedMonth] = useState(0); // 0 = All months
+  const [selectedMonths, setSelectedMonths] = useState<number[]>([]); // Empty array = All months
   const [selectedStock, setSelectedStock] = useState('');
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
+  const [monthDropdownOpen, setMonthDropdownOpen] = useState(false);
   const [minHistory, setMinHistory] = useState([10]);
   const [topN, setTopN] = useState(50);
   
@@ -41,8 +43,8 @@ export const MonthlyAnalysis = () => {
   const filteredStats = useMemo(() => {
     let filtered = monthlyStats;
 
-    if (selectedMonth > 0) {
-      filtered = filtered.filter(stat => stat.month === selectedMonth);
+    if (selectedMonths.length > 0) {
+      filtered = filtered.filter(stat => selectedMonths.includes(stat.month));
     }
 
     if (selectedStock) {
@@ -52,7 +54,7 @@ export const MonthlyAnalysis = () => {
     filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
 
     return filtered.slice(0, topN);
-  }, [monthlyStats, selectedMonth, selectedStock, minHistory, topN]);
+  }, [monthlyStats, selectedMonths, selectedStock, minHistory, topN]);
 
   // Heatmap data that respects filters but always shows all months per stock
   const heatmapData = useMemo(() => {
@@ -134,7 +136,12 @@ export const MonthlyAnalysis = () => {
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
-                {selectedMonth === 0 ? 'All Months' : MONTH_NAMES[selectedMonth]}
+                {selectedMonths.length === 0
+                  ? 'All Months'
+                  : selectedMonths.length === 1
+                    ? MONTH_NAMES[selectedMonths[0]]
+                    : `${selectedMonths.length} months selected`
+                }
               </span>
             </div>
           </div>
@@ -150,19 +157,68 @@ export const MonthlyAnalysis = () => {
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
-                <Label>Month</Label>
-                <Select value={selectedMonth.toString()} onValueChange={(value) => setSelectedMonth(parseInt(value))}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {MONTH_NAMES.map((month, index) => (
-                      <SelectItem key={index} value={index.toString()}>
-                        {month}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label>Months</Label>
+                <Popover open={monthDropdownOpen} onOpenChange={setMonthDropdownOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={monthDropdownOpen}
+                      className="w-full justify-between"
+                    >
+                      {selectedMonths.length === 0
+                        ? "All months..."
+                        : selectedMonths.length === 1
+                        ? MONTH_NAMES[selectedMonths[0]]
+                        : `${selectedMonths.length} months selected`
+                      }
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-full p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search months..." />
+                      <CommandList>
+                        <CommandEmpty>No month found.</CommandEmpty>
+                        <CommandGroup>
+                          <CommandItem
+                            onSelect={() => {
+                              setSelectedMonths([]);
+                            }}
+                          >
+                            <Checkbox
+                              checked={selectedMonths.length === 0}
+                              className="mr-2"
+                            />
+                            All months
+                          </CommandItem>
+                          {MONTH_NAMES.slice(1).map((month, index) => {
+                            const monthNumber = index + 1;
+                            const isSelected = selectedMonths.includes(monthNumber);
+                            return (
+                              <CommandItem
+                                key={monthNumber}
+                                onSelect={() => {
+                                  if (isSelected) {
+                                    setSelectedMonths(prev => prev.filter(m => m !== monthNumber));
+                                  } else {
+                                    setSelectedMonths(prev => [...prev, monthNumber]);
+                                  }
+                                }}
+                              >
+                                <Checkbox
+                                  checked={isSelected}
+                                  className="mr-2"
+                                />
+                                {month}
+                              </CommandItem>
+                            );
+                          })}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
 
               <div className="space-y-2">
@@ -260,7 +316,7 @@ export const MonthlyAnalysis = () => {
             </p>
           </CardHeader>
           <CardContent>
-            <MonthlySeasonalityHeatmap data={heatmapData} selectedMonth={selectedMonth} />
+            <MonthlySeasonalityHeatmap data={heatmapData} selectedMonths={selectedMonths} />
           </CardContent>
         </Card>
 

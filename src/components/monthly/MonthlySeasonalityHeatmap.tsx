@@ -3,10 +3,11 @@ import { MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface MonthlySeasonalityHeatmapProps {
   data: MonthlyStockStats[];
-  selectedMonth?: number; // 0 = all months, 1-12 = specific month
+  selectedMonths?: number[]; // empty array = all months, [1,2,3] = specific months
 }
 
 type MetricType = 'pct_pos_return_months' | 'return_month_mean_pct_return_month';
@@ -14,10 +15,11 @@ type SortType = 'pct_pos_return_months' | 'alphabetical' | 'avg_return';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({ data, selectedMonth = 0 }) => {
+export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({ data, selectedMonths = [] }) => {
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('pct_pos_return_months');
   const [sortBy, setSortBy] = useState<SortType>('pct_pos_return_months');
   const [maxStocks, setMaxStocks] = useState(20);
+  const [sortByMonth, setSortByMonth] = useState<number | null>(null); // null = use general sorting, number = sort by specific month
 
   // Process and sort stocks
   const processedData = useMemo(() => {
@@ -54,23 +56,35 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
 
     // Sort stocks based on selected criteria
     const sortedStocks = Array.from(stockMap.values()).sort((a, b) => {
+      // If sorting by specific month, prioritize that
+      if (sortByMonth !== null) {
+        const aValue = a.monthlyData.get(sortByMonth)?.[selectedMetric] || 0;
+        const bValue = b.monthlyData.get(sortByMonth)?.[selectedMetric] || 0;
+        return bValue - aValue; // Always descending for month-specific sorting
+      }
+
+      // Otherwise use general sorting logic
       switch (sortBy) {
         case 'pct_pos_return_months':
-          // If a specific month is selected, sort by that month's data
-          if (selectedMonth > 0) {
-            const aValue = a.monthlyData.get(selectedMonth)?.pct_pos_return_months || 0;
-            const bValue = b.monthlyData.get(selectedMonth)?.pct_pos_return_months || 0;
-            return bValue - aValue;
+          // If specific months are selected, sort by average of those months
+          if (selectedMonths.length > 0) {
+            const aValues = selectedMonths.map(m => a.monthlyData.get(m)?.pct_pos_return_months || 0);
+            const bValues = selectedMonths.map(m => b.monthlyData.get(m)?.pct_pos_return_months || 0);
+            const aAvg = aValues.reduce((sum, v) => sum + v, 0) / aValues.length;
+            const bAvg = bValues.reduce((sum, v) => sum + v, 0) / bValues.length;
+            return bAvg - aAvg;
           } else {
             // Otherwise sort by average across all months
             return b.avgPosMonths - a.avgPosMonths;
           }
         case 'avg_return':
-          // If a specific month is selected, sort by that month's data
-          if (selectedMonth > 0) {
-            const aValue = a.monthlyData.get(selectedMonth)?.return_month_mean_pct_return_month || 0;
-            const bValue = b.monthlyData.get(selectedMonth)?.return_month_mean_pct_return_month || 0;
-            return bValue - aValue;
+          // If specific months are selected, sort by average of those months
+          if (selectedMonths.length > 0) {
+            const aValues = selectedMonths.map(m => a.monthlyData.get(m)?.return_month_mean_pct_return_month || 0);
+            const bValues = selectedMonths.map(m => b.monthlyData.get(m)?.return_month_mean_pct_return_month || 0);
+            const aAvg = aValues.reduce((sum, v) => sum + v, 0) / aValues.length;
+            const bAvg = bValues.reduce((sum, v) => sum + v, 0) / bValues.length;
+            return bAvg - aAvg;
           } else {
             // Otherwise sort by average across all months
             return b.avgReturn - a.avgReturn;
@@ -83,20 +97,22 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     });
 
     return sortedStocks.slice(0, maxStocks);
-  }, [data, sortBy, maxStocks, selectedMonth]);
+  }, [data, sortBy, maxStocks, selectedMonths, sortByMonth, selectedMetric]);
 
   // Calculate percentiles for color thresholds
   const colorThresholds = useMemo(() => {
     const allValues = processedData.flatMap(stockInfo => {
-      if (selectedMonth === 0) {
+      if (selectedMonths.length === 0) {
         return Array.from({ length: 12 }, (_, monthIndex) => {
           const month = monthIndex + 1;
           const stat = stockInfo.monthlyData.get(month);
           return stat ? stat[selectedMetric] : null;
         }).filter(v => v !== null) as number[];
       } else {
-        const stat = stockInfo.monthlyData.get(selectedMonth);
-        return stat ? [stat[selectedMetric]] : [];
+        return selectedMonths.map(month => {
+          const stat = stockInfo.monthlyData.get(month);
+          return stat ? stat[selectedMetric] : null;
+        }).filter(v => v !== null) as number[];
       }
     });
 
@@ -114,16 +130,16 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
       p60: getPercentile(60),
       p80: getPercentile(80)
     };
-  }, [processedData, selectedMetric, selectedMonth]);
+  }, [processedData, selectedMetric, selectedMonths]);
 
   const getColorClass = (value: number | null, metric: MetricType) => {
-    if (value === null || !colorThresholds) return 'bg-muted/30';
-    
-    if (value <= colorThresholds.p20) return 'bg-red-500';
-    if (value <= colorThresholds.p40) return 'bg-orange-400';
-    if (value <= colorThresholds.p60) return 'bg-yellow-400';
-    if (value <= colorThresholds.p80) return 'bg-green-400';
-    return 'bg-green-600';
+    if (value === null || !colorThresholds) return 'bg-slate-100 dark:bg-slate-800';
+
+    if (value <= colorThresholds.p20) return 'bg-gradient-to-br from-red-500 to-red-600';
+    if (value <= colorThresholds.p40) return 'bg-gradient-to-br from-orange-400 to-orange-500';
+    if (value <= colorThresholds.p60) return 'bg-gradient-to-br from-amber-400 to-amber-500';
+    if (value <= colorThresholds.p80) return 'bg-gradient-to-br from-emerald-400 to-emerald-500';
+    return 'bg-gradient-to-br from-emerald-500 to-emerald-600';
   };
 
   const getReliabilityOpacity = (monthsAvailable: number) => {
@@ -156,82 +172,158 @@ Data points: ${stat.number_of_months_available} months`;
   return (
     <div className="space-y-6">
       {/* Controls */}
-      <div className="flex flex-wrap items-center gap-4 p-4 bg-muted/20 rounded-lg">
-        <div className="flex items-center gap-2">
-          <Label htmlFor="metric-select" className="text-sm font-medium">Metric:</Label>
-          <Select value={selectedMetric} onValueChange={(value: MetricType) => setSelectedMetric(value)}>
-            <SelectTrigger id="metric-select" className="w-44 bg-background">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-background border shadow-lg z-50">
-              <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
-              <SelectItem value="return_month_mean_pct_return_month">Average Return</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      <div className="space-y-4">
+        {sortByMonth !== null && (
+          <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                  Sorted by {MONTH_NAMES[sortByMonth - 1]}
+                </Badge>
+                <span className="text-sm text-muted-foreground">
+                  Click any month header to change sorting or click again to clear
+                </span>
+              </div>
+              <button
+                onClick={() => setSortByMonth(null)}
+                className="text-sm text-muted-foreground hover:text-foreground underline"
+              >
+                Clear month sorting
+              </button>
+            </div>
+          </div>
+        )}
 
-        <div className="flex items-center gap-2">
-          <Label htmlFor="sort-select" className="text-sm font-medium">Sort by:</Label>
-          <Select value={sortBy} onValueChange={(value: SortType) => setSortBy(value)}>
-            <SelectTrigger id="sort-select" className="w-36 bg-background">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-background border shadow-lg z-50">
-              <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
-              <SelectItem value="avg_return">Avg Return</SelectItem>
-              <SelectItem value="alphabetical">Alphabetical</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <div className="flex flex-wrap items-center gap-6 p-6 bg-gradient-to-r from-muted/10 to-muted/20 rounded-xl border border-border/50 shadow-sm">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="metric-select" className="text-sm font-medium">Metric:</Label>
+            <Select value={selectedMetric} onValueChange={(value: MetricType) => setSelectedMetric(value)}>
+              <SelectTrigger id="metric-select" className="w-44 bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-background border shadow-lg z-50">
+                <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
+                <SelectItem value="return_month_mean_pct_return_month">Average Return</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <Label htmlFor="stocks-select" className="text-sm font-medium">Show:</Label>
-          <Select value={maxStocks.toString()} onValueChange={(value) => setMaxStocks(parseInt(value))}>
-            <SelectTrigger id="stocks-select" className="w-28 bg-background">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-background border shadow-lg z-50">
-              <SelectItem value="10">Top 10</SelectItem>
-              <SelectItem value="20">Top 20</SelectItem>
-              <SelectItem value="30">Top 30</SelectItem>
-              <SelectItem value="50">Top 50</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-2">
+            <Label htmlFor="sort-select" className="text-sm font-medium">Sort by:</Label>
+            <Select value={sortBy} onValueChange={(value: SortType) => setSortBy(value)}>
+              <SelectTrigger id="sort-select" className="w-36 bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-background border shadow-lg z-50">
+                <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
+                <SelectItem value="avg_return">Avg Return</SelectItem>
+                <SelectItem value="alphabetical">Alphabetical</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Label htmlFor="stocks-select" className="text-sm font-medium">Show:</Label>
+            <Select value={maxStocks.toString()} onValueChange={(value) => setMaxStocks(parseInt(value))}>
+              <SelectTrigger id="stocks-select" className="w-28 bg-background">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-background border shadow-lg z-50">
+                <SelectItem value="10">Top 10</SelectItem>
+                <SelectItem value="20">Top 20</SelectItem>
+                <SelectItem value="30">Top 30</SelectItem>
+                <SelectItem value="50">Top 50</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
       </div>
 
       {/* Heatmap */}
-      <div className="w-full overflow-x-auto bg-background rounded-lg border">
-        <div className="min-w-[800px] p-4">
+      <div className="w-full overflow-x-auto bg-background rounded-lg border shadow-sm">
+        <div className="min-w-[1200px] p-6">
           {/* Header Row */}
-          <div className="flex mb-2">
-            <div className="w-32 flex-shrink-0 text-xs font-medium text-muted-foreground p-2">
-              Stock
+          <div className="flex mb-3 pb-2 border-b border-border/50">
+            <div className="w-40 flex-shrink-0 text-sm font-semibold text-foreground px-3 py-2">
+              Stock Symbol
             </div>
-            {selectedMonth === 0 ? (
-              MONTH_NAMES.map((month) => (
-                <div key={month} className="w-12 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2">
-                  {month}
-                </div>
-              ))
+            {selectedMonths.length === 0 ? (
+              MONTH_NAMES.map((month, index) => {
+                const monthNumber = index + 1;
+                const isActiveSortColumn = sortByMonth === monthNumber;
+                return (
+                  <button
+                    key={month}
+                    onClick={() => {
+                      if (sortByMonth === monthNumber) {
+                        setSortByMonth(null); // Clear month-specific sorting
+                      } else {
+                        setSortByMonth(monthNumber);
+                      }
+                    }}
+                    className={`
+                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md
+                      transition-all duration-200 cursor-pointer hover:bg-muted/20
+                      flex items-center justify-center gap-1
+                      ${isActiveSortColumn
+                        ? 'bg-primary/10 text-primary border-2 border-primary/20'
+                        : 'text-foreground hover:text-primary'
+                      }
+                    `}
+                    title={`Click to sort by ${month} values`}
+                  >
+                    {month}
+                    {isActiveSortColumn && (
+                      <ChevronDown className="h-3 w-3" />
+                    )}
+                  </button>
+                );
+              })
             ) : (
-              <div className="w-12 flex-shrink-0 text-xs font-medium text-muted-foreground text-center p-2">
-                {MONTH_NAMES[selectedMonth - 1]}
-              </div>
+              selectedMonths.map((monthNumber) => {
+                const isActiveSortColumn = sortByMonth === monthNumber;
+                return (
+                  <button
+                    key={monthNumber}
+                    onClick={() => {
+                      if (sortByMonth === monthNumber) {
+                        setSortByMonth(null); // Clear month-specific sorting
+                      } else {
+                        setSortByMonth(monthNumber);
+                      }
+                    }}
+                    className={`
+                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md
+                      transition-all duration-200 cursor-pointer hover:bg-muted/20
+                      flex items-center justify-center gap-1
+                      ${isActiveSortColumn
+                        ? 'bg-primary/10 text-primary border-2 border-primary/20'
+                        : 'text-foreground hover:text-primary'
+                      }
+                    `}
+                    title={`Click to sort by ${MONTH_NAMES[monthNumber - 1]} values`}
+                  >
+                    {MONTH_NAMES[monthNumber - 1]}
+                    {isActiveSortColumn && (
+                      <ChevronDown className="h-3 w-3" />
+                    )}
+                  </button>
+                );
+              })
             )}
           </div>
 
           {/* Stock Rows */}
-          <div className="space-y-1">
+          <div className="space-y-2">
             {processedData.map((stockInfo) => (
-              <div key={stockInfo.name} className="flex items-center hover:bg-muted/10 rounded">
+              <div key={stockInfo.name} className="flex items-center hover:bg-muted/5 rounded-lg transition-colors duration-200">
                 {/* Stock Name */}
-                <div className="w-32 flex-shrink-0 text-xs font-medium p-2 truncate" title={stockInfo.name}>
+                <div className="w-40 flex-shrink-0 text-sm font-medium px-3 py-2 truncate text-foreground" title={stockInfo.name}>
                   {stockInfo.name}
                 </div>
                 
                 {/* Month Cells */}
-                {selectedMonth === 0 ? (
+                {selectedMonths.length === 0 ? (
                   // Show all months
                   Array.from({ length: 12 }, (_, monthIndex) => {
                     const month = monthIndex + 1;
@@ -243,10 +335,10 @@ Data points: ${stat.number_of_months_available} months`;
                       <div
                         key={monthIndex}
                         className={`
-                          w-12 h-8 flex-shrink-0 rounded-sm flex items-center justify-center 
-                          text-xs font-medium text-white cursor-help transition-all 
-                          hover:scale-110 hover:z-10 relative border border-white/10
-                          ${getColorClass(value, selectedMetric)} 
+                          w-16 h-10 flex-shrink-0 rounded-md flex items-center justify-center
+                          text-xs font-semibold text-white cursor-help transition-all duration-200
+                          hover:scale-105 hover:shadow-lg hover:z-10 relative border border-white/20 mx-0.5
+                          ${getColorClass(value, selectedMetric)}
                           ${getReliabilityOpacity(monthsAvailable)}
                         `}
                         title={getTooltipContent(stockInfo.name, month, stat)}
@@ -274,25 +366,26 @@ Data points: ${stat.number_of_months_available} months`;
                     );
                   })
                 ) : (
-                  // Show only selected month
-                  (() => {
-                    const stat = stockInfo.monthlyData.get(selectedMonth);
+                  // Show only selected months
+                  selectedMonths.map((monthNumber) => {
+                    const stat = stockInfo.monthlyData.get(monthNumber);
                     const value = stat ? stat[selectedMetric] : null;
                     const monthsAvailable = stat?.number_of_months_available || 0;
-                    
+
                     return (
                       <div
+                        key={monthNumber}
                         className={`
-                          w-12 h-8 flex-shrink-0 rounded-sm flex items-center justify-center 
-                          text-xs font-medium text-white cursor-help transition-all 
-                          hover:scale-110 hover:z-10 relative border border-white/10
-                          ${getColorClass(value, selectedMetric)} 
+                          w-16 h-10 flex-shrink-0 rounded-md flex items-center justify-center
+                          text-xs font-semibold text-white cursor-help transition-all duration-200
+                          hover:scale-105 hover:shadow-lg hover:z-10 relative border border-white/20 mx-0.5
+                          ${getColorClass(value, selectedMetric)}
                           ${getReliabilityOpacity(monthsAvailable)}
                         `}
-                        title={getTooltipContent(stockInfo.name, selectedMonth, stat)}
+                        title={getTooltipContent(stockInfo.name, monthNumber, stat)}
                         onTouchStart={(e) => {
                           // Show tooltip on mobile touch
-                          const title = getTooltipContent(stockInfo.name, selectedMonth, stat);
+                          const title = getTooltipContent(stockInfo.name, monthNumber, stat);
                           // Create a temporary tooltip element for mobile
                           const tooltip = document.createElement('div');
                           tooltip.className = 'fixed z-50 bg-black text-white text-xs p-2 rounded shadow-lg pointer-events-none';
@@ -300,7 +393,7 @@ Data points: ${stat.number_of_months_available} months`;
                           tooltip.style.top = `${e.touches[0].clientY - 50}px`;
                           tooltip.style.left = `${e.touches[0].clientX - 75}px`;
                           document.body.appendChild(tooltip);
-                          
+
                           setTimeout(() => {
                             document.body.removeChild(tooltip);
                           }, 2000);
@@ -312,7 +405,7 @@ Data points: ${stat.number_of_months_available} months`;
                         )}
                       </div>
                     );
-                  })()
+                  })
                 )}
               </div>
             ))}
@@ -321,50 +414,50 @@ Data points: ${stat.number_of_months_available} months`;
       </div>
 
       {/* Legend */}
-      <div className="space-y-3 p-4 bg-muted/10 rounded-lg">
-        <div className="flex flex-wrap items-center gap-4">
-          <span className="text-sm font-medium text-muted-foreground">
-            {selectedMetric === 'pct_pos_return_months' ? '% Positive Months:' : 'Average Return (%):'}
+      <div className="space-y-4 p-6 bg-gradient-to-r from-muted/5 to-muted/10 rounded-xl border border-border/50">
+        <div className="flex flex-wrap items-center gap-6">
+          <span className="text-base font-semibold text-foreground">
+            {selectedMetric === 'pct_pos_return_months' ? 'Performance Scale - % Positive Months' : 'Performance Scale - Average Return (%)'}
           </span>
-          
+
           {colorThresholds && (
-            <>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-red-500 rounded-sm"></div>
-                <span className="text-xs">Bottom 20%</span>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-br from-red-500 to-red-600 rounded-md shadow-sm"></div>
+                <span className="text-sm font-medium">Lowest 20%</span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-orange-400 rounded-sm"></div>
-                <span className="text-xs">20-40%</span>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-br from-orange-400 to-orange-500 rounded-md shadow-sm"></div>
+                <span className="text-sm font-medium">20-40%</span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-yellow-400 rounded-sm"></div>
-                <span className="text-xs">40-60%</span>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-br from-amber-400 to-amber-500 rounded-md shadow-sm"></div>
+                <span className="text-sm font-medium">40-60%</span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-green-400 rounded-sm"></div>
-                <span className="text-xs">60-80%</span>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-md shadow-sm"></div>
+                <span className="text-sm font-medium">60-80%</span>
               </div>
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-green-600 rounded-sm"></div>
-                <span className="text-xs">Top 20%</span>
+              <div className="flex items-center gap-2">
+                <div className="w-5 h-5 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-md shadow-sm"></div>
+                <span className="text-sm font-medium">Top 20%</span>
               </div>
-            </>
+            </div>
           )}
         </div>
-        
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
-          <span>Data reliability:</span>
-          <div className="flex items-center gap-1">
-            <div className="w-4 h-4 bg-primary rounded-sm opacity-40"></div>
-            <span>&lt;5 months (faded)</span>
+
+        <div className="flex items-center gap-6 text-sm text-muted-foreground pt-2 border-t border-border/30">
+          <span className="font-medium">Data Reliability:</span>
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-primary rounded-md opacity-40 shadow-sm"></div>
+            <span>&lt;5 months (limited data)</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-4 h-4 bg-primary rounded-sm opacity-70"></div>
-            <span>5-10 months</span>
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-primary rounded-md opacity-70 shadow-sm"></div>
+            <span>5-10 months (moderate)</span>
           </div>
-          <div className="flex items-center gap-1">
-            <div className="w-4 h-4 bg-primary rounded-sm"></div>
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 bg-primary rounded-md shadow-sm"></div>
             <span>10+ months (reliable)</span>
           </div>
         </div>
