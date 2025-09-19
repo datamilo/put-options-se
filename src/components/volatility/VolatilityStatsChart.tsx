@@ -1,7 +1,12 @@
-import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ScatterChart, Scatter } from 'recharts';
+import React, { useState, useMemo } from 'react';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Label } from '@/components/ui/label';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import { VolatilityStats } from '@/types/volatility';
 
 interface VolatilityStatsChartProps {
@@ -9,8 +14,40 @@ interface VolatilityStatsChartProps {
 }
 
 export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data }) => {
-  // Prepare data for charts (top 20 for readability)
-  const topStocks = data.slice(0, 20);
+  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
+  const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
+
+  // Get unique stock names
+  const uniqueStocks = useMemo(() => {
+    return Array.from(new Set(data.map(item => item.name))).sort();
+  }, [data]);
+
+  // Filter and prepare data based on selected stocks
+  const filteredData = useMemo(() => {
+    let filtered = data;
+    if (selectedStocks.length > 0) {
+      filtered = data.filter(item => selectedStocks.includes(item.name));
+    }
+    
+    // Convert decimal values to percentages and prepare chart data
+    return filtered.map(item => ({
+      ...item,
+      mean_abs_change: item.mean_abs_change * 100,
+      mean_change: item.mean_change * 100,
+      median_change: item.median_change * 100,
+      ci95_low: item.ci95_low * 100,
+      ci95_high: item.ci95_high * 100,
+      p05: item.p05 * 100,
+      p95: item.p95 * 100,
+      min_change: item.min_change * 100,
+      max_change: item.max_change * 100,
+      avg_volume_pct_change: item.avg_volume_pct_change * 100,
+      avg_intraday_spread_pct: Math.abs(item.avg_intraday_spread_pct) * 100
+    }));
+  }, [data, selectedStocks]);
+
+  // Take top 20 for readability
+  const topStocks = filteredData.slice(0, 20);
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -19,7 +56,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
           <p className="font-medium">{label}</p>
           {payload.map((entry: any, index: number) => (
             <p key={index} style={{ color: entry.color }}>
-              {entry.name}: {typeof entry.value === 'number' ? entry.value.toFixed(3) : entry.value}
+              {entry.name}: {typeof entry.value === 'number' ? `${entry.value.toFixed(2)}%` : entry.value}
             </p>
           ))}
         </div>
@@ -28,21 +65,85 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     return null;
   };
 
+  const handleStockToggle = (stock: string) => {
+    setSelectedStocks(prev => 
+      prev.includes(stock) 
+        ? prev.filter(s => s !== stock)
+        : [...prev, stock]
+    );
+  };
+
   return (
-    <Tabs defaultValue="volatility" className="w-full">
-      <TabsList className="grid w-full grid-cols-4">
-        <TabsTrigger value="volatility">Mean Volatility</TabsTrigger>
-        <TabsTrigger value="confidence">Confidence Intervals</TabsTrigger>
-        <TabsTrigger value="distribution">Distribution Metrics</TabsTrigger>
-        <TabsTrigger value="scatter">Risk vs Return</TabsTrigger>
-      </TabsList>
+    <div className="space-y-4">
+      {/* Stock Filter */}
+      <div className="space-y-2">
+        <Label>Filter Stocks</Label>
+        <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={stockDropdownOpen}
+              className="w-full justify-between"
+            >
+              {selectedStocks.length === 0 
+                ? "All stocks" 
+                : selectedStocks.length === 1 
+                ? selectedStocks[0]
+                : `${selectedStocks.length} stocks selected`
+              }
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Search stocks..." />
+              <CommandList>
+                <CommandEmpty>No stock found.</CommandEmpty>
+                <CommandGroup>
+                  <CommandItem
+                    onSelect={() => {
+                      setSelectedStocks([]);
+                      setStockDropdownOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={`mr-2 h-4 w-4 ${selectedStocks.length === 0 ? "opacity-100" : "opacity-0"}`}
+                    />
+                    All stocks
+                  </CommandItem>
+                  {uniqueStocks.map((stock) => (
+                    <CommandItem
+                      key={stock}
+                      onSelect={() => handleStockToggle(stock)}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${selectedStocks.includes(stock) ? "opacity-100" : "opacity-0"}`}
+                      />
+                      {stock}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <Tabs defaultValue="volatility" className="w-full">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="volatility">Mean Volatility</TabsTrigger>
+          <TabsTrigger value="confidence">Confidence Intervals</TabsTrigger>
+          <TabsTrigger value="distribution">Distribution Metrics</TabsTrigger>
+          <TabsTrigger value="minmax">Min/Max Changes</TabsTrigger>
+        </TabsList>
 
       <TabsContent value="volatility">
         <Card>
           <CardHeader>
             <CardTitle>Mean Absolute Price Change During Events</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Average absolute percentage change in closing price during corporate events (Top 20 stocks)
+              Average absolute percentage change in closing price during corporate events
             </p>
           </CardHeader>
           <CardContent>
@@ -56,7 +157,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                   height={100}
                   className="text-xs"
                 />
-                <YAxis className="text-xs" />
+                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="mean_abs_change" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
               </BarChart>
@@ -84,7 +185,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                   height={100}
                   className="text-xs"
                 />
-                <YAxis className="text-xs" />
+                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="ci95_low" fill="hsl(var(--destructive))" name="CI 95% Low" />
                 <Bar dataKey="mean_change" fill="hsl(var(--primary))" name="Mean Change" />
@@ -114,7 +215,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                   height={100}
                   className="text-xs"
                 />
-                <YAxis className="text-xs" />
+                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="p05" fill="hsl(var(--destructive))" name="5th Percentile" />
                 <Bar dataKey="median_change" fill="hsl(var(--primary))" name="Median" />
@@ -125,35 +226,35 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
         </Card>
       </TabsContent>
 
-      <TabsContent value="scatter">
+      <TabsContent value="minmax">
         <Card>
           <CardHeader>
-            <CardTitle>Volatility vs Average Intraday Spread</CardTitle>
+            <CardTitle>Min/Max Price Changes During Events</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Relationship between price volatility and intraday trading spreads during events
+              Largest positive and negative percentage changes observed for each stock during events
             </p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
-              <ScatterChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+              <BarChart data={topStocks} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis 
-                  dataKey="mean_abs_change" 
-                  name="Mean Absolute Change"
+                  dataKey="name" 
+                  angle={-45} 
+                  textAnchor="end" 
+                  height={100}
                   className="text-xs"
                 />
-                <YAxis 
-                  dataKey="avg_intraday_spread_pct"
-                  name="Avg Intraday Spread %"
-                  className="text-xs"
-                />
+                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
-                <Scatter fill="hsl(var(--primary))" />
-              </ScatterChart>
+                <Bar dataKey="min_change" fill="hsl(var(--destructive))" name="Min Change" />
+                <Bar dataKey="max_change" fill="hsl(var(--secondary))" name="Max Change" />
+              </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
       </TabsContent>
-    </Tabs>
+      </Tabs>
+    </div>
   );
 };

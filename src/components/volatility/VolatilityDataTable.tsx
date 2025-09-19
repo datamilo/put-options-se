@@ -287,15 +287,15 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
                 <TableCell className="font-medium">{row.name}</TableCell>
                 <TableCell>{row.type_of_event}</TableCell>
                 <TableCell>{row.event_value?.toFixed(2) || 'N/A'}</TableCell>
-                <TableCell>${row.close?.toFixed(2)}</TableCell>
+                <TableCell>{row.close?.toFixed(2)}</TableCell>
                 <TableCell>{row.volume?.toLocaleString()}</TableCell>
                 <TableCell className={row.close_price_pct_change_from_previous_day >= 0 ? 'text-green-600' : 'text-red-600'}>
-                  {row.close_price_pct_change_from_previous_day?.toFixed(2)}%
+                  {(row.close_price_pct_change_from_previous_day * 100)?.toFixed(2)}%
                 </TableCell>
                 <TableCell className={row.volume_pct_change_from_previous_day >= 0 ? 'text-green-600' : 'text-red-600'}>
-                  {row.volume_pct_change_from_previous_day?.toFixed(2)}%
+                  {(row.volume_pct_change_from_previous_day * 100)?.toFixed(2)}%
                 </TableCell>
-                <TableCell>{row.pct_intraday_high_low_movement?.toFixed(2)}%</TableCell>
+                <TableCell>{(Math.abs(row.pct_intraday_high_low_movement) * 100)?.toFixed(2)}%</TableCell>
               </TableRow>
             ))}
           </TableBody>
