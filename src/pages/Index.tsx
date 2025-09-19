@@ -328,11 +328,6 @@ const Index = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
-      {/* Discreet Timestamp Display */}
-      <div className="flex justify-end">
-        <TimestampDisplay />
-      </div>
-      
       {/* Professional Finance Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-background via-muted/50 to-background border border-border rounded-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
@@ -347,6 +342,11 @@ const Index = () => {
         <div className="absolute top-4 right-4 opacity-20">
           <BarChart3 className="h-24 w-24 text-primary" />
         </div>
+      </div>
+
+      {/* Discreet Timestamp Display */}
+      <div className="flex justify-center">
+        <TimestampDisplay />
       </div>
 
       {data.length === 0 ? (

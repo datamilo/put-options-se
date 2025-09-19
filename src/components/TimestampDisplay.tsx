@@ -72,7 +72,7 @@ export const TimestampDisplay = () => {
       <h3 className="text-xs font-medium text-muted-foreground mb-2">Last Updated</h3>
       <div className="space-y-1 text-xs text-muted-foreground">
         <p>Options: {format(new Date(timestamps.optionsData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
-        <p>Stock: {format(new Date(timestamps.stockData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
+        <p>Stocks: {format(new Date(timestamps.stockData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
       </div>
     </div>
   );
