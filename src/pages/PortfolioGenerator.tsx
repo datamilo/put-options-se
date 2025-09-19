@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { OptionData } from "@/types/options";
-import { OptionsTable } from "@/components/options/OptionsTable";
+import { PortfolioOptionsTable } from "@/components/options/PortfolioOptionsTable";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useRecalculatedOptions, RecalculatedOptionData } from "@/hooks/useRecalculatedOptions";
 import { useStockData } from "@/hooks/useStockData";
@@ -605,7 +605,7 @@ const PortfolioGenerator = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <OptionsTable
+            <PortfolioOptionsTable
               data={generatedPortfolio}
               onRowClick={handleOptionClick}
               onStockClick={handleStockClick}

@@ -17,6 +17,7 @@ export interface CalculationSettings {
 export const useUserPreferences = () => {
   const { user } = useAuth();
   const [columnPreferences, setColumnPreferences] = useState<ColumnPreference[]>([]);
+  const [portfolioColumnPreferences, setPortfolioColumnPreferences] = useState<ColumnPreference[]>([]);
   const [calculationSettings, setCalculationSettings] = useState<CalculationSettings>({
     underlyingValue: 100000,
     transactionCost: 150
@@ -52,6 +53,8 @@ export const useUserPreferences = () => {
       preferences?.forEach(pref => {
         if (pref.preference_type === 'column_preferences') {
           setColumnPreferences(pref.preference_data as any as ColumnPreference[]);
+        } else if (pref.preference_type === 'portfolio_column_preferences') {
+          setPortfolioColumnPreferences(pref.preference_data as any as ColumnPreference[]);
         } else if (pref.preference_type === 'calculation_settings') {
           setCalculationSettings(pref.preference_data as any as CalculationSettings);
         }
@@ -94,6 +97,37 @@ export const useUserPreferences = () => {
     }
   };
 
+  const savePortfolioColumnPreferences = async (preferences: ColumnPreference[]) => {
+    if (!user) {
+      console.log('User not authenticated, skipping portfolio column preferences save');
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from('user_preferences')
+        .upsert({
+          user_id: user.id,
+          preference_type: 'portfolio_column_preferences',
+          preference_data: preferences as any
+        }, {
+          onConflict: 'user_id,preference_type'
+        });
+
+      if (error) {
+        toast.error('Failed to save portfolio column preferences');
+        console.error('Error saving portfolio column preferences:', error);
+        return;
+      }
+
+      setPortfolioColumnPreferences(preferences);
+      toast.success('Portfolio column preferences saved');
+    } catch (error) {
+      toast.error('Failed to save portfolio column preferences');
+      console.error('Error saving portfolio column preferences:', error);
+    }
+  };
+
   const saveCalculationSettings = async (settings: CalculationSettings) => {
     if (!user) {
       console.log('User not authenticated, skipping calculation settings save');
@@ -127,9 +161,11 @@ export const useUserPreferences = () => {
 
   return {
     columnPreferences,
+    portfolioColumnPreferences,
     calculationSettings,
     isLoading,
     saveColumnPreferences,
+    savePortfolioColumnPreferences,
     saveCalculationSettings,
     refreshPreferences: loadPreferences
   };
