@@ -59,6 +59,8 @@ const PortfolioGenerator = () => {
       const numberOfContractsBasedOnLimit = Math.round((portfolioUnderlyingValue / option.StrikePrice) / 100);
       const bidAskMidPrice = (option.Bid + (option.Ask || option.Bid)) / 2;
       const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
+      // Calculate the actual underlying value based on portfolio settings
+      const calculatedUnderlyingValue = numberOfContractsBasedOnLimit * option.StrikePrice * 100;
 
       return {
         ...option,
@@ -69,11 +71,15 @@ const PortfolioGenerator = () => {
         Premium: recalculatedPremium,
         NumberOfContractsBasedOnLimit: numberOfContractsBasedOnLimit,
         Bid_Ask_Mid_Price: bidAskMidPrice,
+        // Override the Underlying_Value field with the calculated value based on portfolio settings
+        Underlying_Value: calculatedUnderlyingValue,
       };
     });
   };
 
+  // Use portfolio-specific recalculated data instead of global settings
   const data = recalculateOptionsForPortfolio(rawData || []);
+  
   const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>(() => {
     return localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal";
   });
