@@ -180,10 +180,33 @@ const PortfolioGenerator = () => {
   };
 
   // Helper function to get probability value with fallback
-  const getProbabilityValue = (option: OptionData): number => {
+  const getProbabilityValue = (option: OptionData): number | null => {
     const primaryValue = option[selectedProbabilityField as keyof OptionData] as number;
     const fallbackValue = option['1_2_3_ProbOfWorthless_Weighted'];
+    
+    // Return null if both primary and fallback values are missing/invalid
+    if ((primaryValue === null || primaryValue === undefined || isNaN(primaryValue)) && 
+        (fallbackValue === null || fallbackValue === undefined || isNaN(fallbackValue))) {
+      return null;
+    }
+    
     return primaryValue || fallbackValue || 0;
+  };
+
+  // Helper function to check if option has all required values for portfolio calculation
+  const hasRequiredValues = (option: OptionData): boolean => {
+    // Check if probability value is available
+    const probValue = getProbabilityValue(option);
+    if (probValue === null) return false;
+    
+    // Check if PotentialLossAtLowerBound is available (used in risk calculations)
+    const potentialLoss = (option as any).PotentialLossAtLowerBound;
+    if (potentialLoss === null || potentialLoss === undefined || isNaN(potentialLoss)) return false;
+    
+    // Check if NumberOfContractsBasedOnLimit is valid
+    if (!option.NumberOfContractsBasedOnLimit || option.NumberOfContractsBasedOnLimit <= 0) return false;
+    
+    return true;
   };
 
   const generatePortfolio = () => {
@@ -194,6 +217,9 @@ const PortfolioGenerator = () => {
 
       // Filter options based on criteria - use the recalculated data that includes updated premiums
       let filteredOptions = data.filter(option => {
+        // CRITICAL: Exclude options with missing required values first
+        if (!hasRequiredValues(option)) return false;
+        
         // Basic checks - use the recalculated Premium which is updated based on underlying value
         if (option.Premium <= 0) return false;
 
@@ -214,7 +240,7 @@ const PortfolioGenerator = () => {
           const prob = getProbabilityValue(option);
           // Convert user input from percentage (70) to decimal (0.70) for comparison
           const minProbDecimal = minProbabilityWorthless / 100;
-          if (prob < minProbDecimal) return false;
+          if (prob === null || prob < minProbDecimal) return false;
         }
 
         return true;
@@ -223,11 +249,12 @@ const PortfolioGenerator = () => {
       // Calculate risk-adjusted scores and sort by best risk/return ratio
       filteredOptions.forEach(option => {
         const prob = getProbabilityValue(option);
-        const potentialLoss = Math.abs((option as any).PotentialLossAtLowerBound || 1); // Use absolute value and avoid division by zero
+        const potentialLoss = Math.abs((option as any).PotentialLossAtLowerBound);
         const premium = option.Premium;
         
+        // At this point, we know prob and potentialLoss are valid (passed hasRequiredValues check)
         // Calculate Expected Value: Premium - (1 - ProbOfWorthless) × PotentialLoss
-        const expectedValue = premium - (1 - prob) * potentialLoss;
+        const expectedValue = premium - (1 - prob!) * potentialLoss;
         
         // Calculate capital required (investment amount)
         const capitalRequired = option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100;
@@ -236,7 +263,7 @@ const PortfolioGenerator = () => {
         const expectedValuePerCapital = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
         
         // Calculate simplified risk-adjusted score: (Premium / PotentialLoss) × ProbOfWorthless
-        const riskAdjustedScore = potentialLoss > 0 ? (premium / potentialLoss) * prob : prob;
+        const riskAdjustedScore = potentialLoss > 0 ? (premium / potentialLoss) * prob! : prob!;
         
         // Store calculated metrics on the option for potential display
         (option as any).expectedValue = expectedValue;
