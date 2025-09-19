@@ -15,7 +15,7 @@ interface VolatilityStatsChartProps {
 
 export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data }) => {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
-  const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
+  const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>(['Bokslutskommuniké', 'Kvartalsrapport']);
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const [eventTypeDropdownOpen, setEventTypeDropdownOpen] = useState(false);
 
