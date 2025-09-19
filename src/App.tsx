@@ -27,7 +27,6 @@ const AppHeader = () => {
     <header className="w-full flex items-center justify-between px-4 py-2">
       <div className="flex items-center gap-3">
         {session && <NavigationMenu />}
-        <Link to="/" className="font-semibold">Put Options SE</Link>
       </div>
       <div>
         {!session && (
