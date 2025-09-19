@@ -366,20 +366,6 @@ const PortfolioGenerator = () => {
     navigate(`/stock/${encodeURIComponent(stockName)}`);
   };
 
-  const handlePortfolioExport = () => {
-    // Get visible columns from OptionsTable component defaults for portfolio
-    const portfolioColumns: (keyof OptionData)[] = [
-      'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
-      'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted',
-      'PotentialLossAtLowerBound'
-    ];
-    
-    exportToExcel({
-      filename: 'generated_portfolio',
-      visibleColumns: portfolioColumns,
-      data: generatedPortfolio
-    });
-  };
 
   // Simplified: No automatic value syncing to avoid conflicts
 
@@ -620,15 +606,6 @@ const PortfolioGenerator = () => {
                   <p>Total Calculated Risk of Loss: {Math.round(totalPotentialLoss).toLocaleString()} SEK</p>
                 </div>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handlePortfolioExport}
-                className="flex items-center gap-2"
-              >
-                <Download className="h-4 w-4" />
-                Export to Excel
-              </Button>
             </div>
           </CardHeader>
           <CardContent>
