@@ -399,7 +399,7 @@ const PortfolioGenerator = () => {
       // Generate status message
       let message = "";
       if (totalPremium < totalPremiumTarget) {
-        const deficit = totalPremiumTarget - totalPremiumTarget;
+        const deficit = totalPremiumTarget - totalPremium;
         message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). `;
       } else {
         message = `Portfolio successfully generated with ${totalPremium} SEK premium.`;
