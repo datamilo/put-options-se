@@ -20,8 +20,8 @@ type SortDirection = 'asc' | 'desc';
 export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }) => {
   const [selectedStock, setSelectedStock] = useState<string>('');
   const [selectedEventType, setSelectedEventType] = useState<string>('');
-  const [selectedYear, setSelectedYear] = useState<string>('');
-  const [selectedMonth, setSelectedMonth] = useState<string>('');
+  const [selectedYear, setSelectedYear] = useState<string>('all');
+  const [selectedMonth, setSelectedMonth] = useState<string>('all');
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [sortKey, setSortKey] = useState<SortKey>('date');
@@ -67,11 +67,11 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
       filtered = filtered.filter(item => item.type_of_event === selectedEventType);
     }
 
-    if (selectedYear) {
+    if (selectedYear && selectedYear !== 'all') {
       filtered = filtered.filter(item => item.year === parseInt(selectedYear));
     }
 
-    if (selectedMonth) {
+    if (selectedMonth && selectedMonth !== 'all') {
       filtered = filtered.filter(item => item.month === parseInt(selectedMonth));
     }
 
@@ -231,7 +231,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
               <SelectValue placeholder="All years..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All years</SelectItem>
+              <SelectItem value="all">All years</SelectItem>
               {uniqueYears.map((year) => (
                 <SelectItem key={year} value={year.toString()}>
                   {year}
@@ -248,7 +248,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
               <SelectValue placeholder="All months..." />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All months</SelectItem>
+              <SelectItem value="all">All months</SelectItem>
               {months.map((month) => (
                 <SelectItem key={month.value} value={month.value}>
                   {month.label}
