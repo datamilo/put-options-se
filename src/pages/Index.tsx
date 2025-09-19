@@ -345,7 +345,7 @@ const Index = () => {
       </div>
 
       {/* Discreet Timestamp Display */}
-      <div className="flex justify-center">
+      <div className="flex justify-end">
         <TimestampDisplay />
       </div>
 
