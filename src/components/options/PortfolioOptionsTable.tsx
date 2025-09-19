@@ -66,13 +66,16 @@ export const PortfolioOptionsTable = ({
   // Initialize visible columns from user preferences or defaults
   useEffect(() => {
     if (!isLoading) {
+      console.log('🔍 Portfolio Table - columnPreferences:', columnPreferences);
       if (columnPreferences.length > 0) {
         const visibleCols = columnPreferences
           .filter(col => col.visible)
           .sort((a, b) => a.order - b.order)
           .map(col => col.key as keyof OptionData);
+        console.log('🔍 Portfolio Table - setting visibleColumns to:', visibleCols);
         setVisibleColumns(visibleCols);
       } else {
+        console.log('🔍 Portfolio Table - no preferences, using defaults:', defaultColumns);
         setVisibleColumns(defaultColumns);
       }
     }
@@ -249,6 +252,8 @@ export const PortfolioOptionsTable = ({
   };
 
   const handleExport = () => {
+    console.log('🔍 Portfolio Export - visibleColumns:', visibleColumns);
+    console.log('🔍 Portfolio Export - columnPreferences:', columnPreferences);
     exportToExcel({
       filename: 'portfolio_options_data',
       visibleColumns,
