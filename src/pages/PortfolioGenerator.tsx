@@ -107,6 +107,22 @@ const PortfolioGenerator = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // New state for optimization strategy
+  const [optimizationStrategy, setOptimizationStrategy] = useState<'returns' | 'capital' | 'balanced'>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_optimizationStrategy');
+    return saved as 'returns' | 'capital' | 'balanced' || 'returns';
+  });
+
+  // New state for maximum total capital constraint (optional)
+  const [maxTotalCapital, setMaxTotalCapital] = useState<number | null>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_maxTotalCapital');
+    return saved ? parseInt(saved) : null;
+  });
+  const [maxTotalCapitalInput, setMaxTotalCapitalInput] = useState<string>(() => {
+    const saved = localStorage.getItem('portfolioGenerator_maxTotalCapital');
+    return saved || "";
+  });
+
   // Portfolio table sorting state
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -139,6 +155,12 @@ const PortfolioGenerator = () => {
     { value: "1_ProbOfWorthless_Original", label: "Original" },
     { value: "2_ProbOfWorthless_Calibrated", label: "Calibrated" },
     { value: "3_ProbOfWorthless_Historical_IV", label: "Historical IV" },
+  ];
+
+  const optimizationStrategyOptions = [
+    { value: "returns", label: "Maximize Returns", description: "Prioritize highest risk-adjusted returns" },
+    { value: "capital", label: "Minimize Capital", description: "Prioritize lowest capital requirements" },
+    { value: "balanced", label: "Balanced", description: "Balance returns and capital efficiency" },
   ];
 
   const availableExpiryDates = useMemo(() => {
@@ -265,60 +287,100 @@ const PortfolioGenerator = () => {
         // Calculate capital required (investment amount)
         const capitalRequired = option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100;
         
-        // Calculate Expected Value per unit of capital
+        // Calculate Expected Value per unit of capital (Capital Efficiency Score)
         const expectedValuePerCapital = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
+        
+        // Calculate Capital Efficiency Score = ExpectedValue / UnderlyingValue
+        const capitalEfficiencyScore = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
         
         // Calculate simplified risk-adjusted score: (Premium / PotentialLoss) × ProbOfWorthless
         const riskAdjustedScore = potentialLoss > 0 ? (premium / potentialLoss) * prob! : prob!;
         
+        // Calculate combined score based on optimization strategy
+        let finalScore = 0;
+        if (optimizationStrategy === 'returns') {
+          finalScore = riskAdjustedScore;
+        } else if (optimizationStrategy === 'capital') {
+          // For capital minimization, prefer lower capital requirement with good returns
+          finalScore = capitalEfficiencyScore * (prob! * 2); // Weight by probability
+        } else { // balanced
+          finalScore = (riskAdjustedScore * 0.6) + (capitalEfficiencyScore * 0.4);
+        }
+        
         // Store calculated metrics on the option for potential display
         (option as any).expectedValue = expectedValue;
         (option as any).expectedValuePerCapital = expectedValuePerCapital;
+        (option as any).capitalEfficiencyScore = capitalEfficiencyScore;
         (option as any).riskAdjustedScore = riskAdjustedScore;
+        (option as any).finalScore = finalScore;
+        (option as any).capitalRequired = capitalRequired;
       });
 
-      // Sort by risk-adjusted score (higher is better)
+      // Sort by final score based on optimization strategy
       filteredOptions.sort((a, b) => {
-        const scoreA = (a as any).riskAdjustedScore || 0;
-        const scoreB = (b as any).riskAdjustedScore || 0;
+        const scoreA = (a as any).finalScore || 0;
+        const scoreB = (b as any).finalScore || 0;
         
-        // Primary sort: highest risk-adjusted score first
+        // Primary sort: highest final score first
         if (scoreB !== scoreA) return scoreB - scoreA;
         
-        // Secondary sort: highest expected value per capital first
-        const evPerCapA = (a as any).expectedValuePerCapital || 0;
-        const evPerCapB = (b as any).expectedValuePerCapital || 0;
-        if (evPerCapB !== evPerCapA) return evPerCapB - evPerCapA;
+        // Secondary sort based on optimization strategy
+        if (optimizationStrategy === 'capital') {
+          // For capital strategy, prefer lower capital requirement
+          const capitalA = (a as any).capitalRequired || 0;
+          const capitalB = (b as any).capitalRequired || 0;
+          if (capitalA !== capitalB) return capitalA - capitalB;
+        } else {
+          // For returns and balanced, prefer higher expected value per capital
+          const evPerCapA = (a as any).expectedValuePerCapital || 0;
+          const evPerCapB = (b as any).expectedValuePerCapital || 0;
+          if (evPerCapB !== evPerCapA) return evPerCapB - evPerCapA;
+        }
         
         // Tertiary sort: highest premium first
         return b.Premium - a.Premium;
       });
 
-      // Select maximum one option per stock
+      // Select maximum one option per stock with capital constraint check
+      let totalCapitalUsed = 0;
       for (const option of filteredOptions) {
         if (usedStocks.has(option.StockName)) continue;
         
-        // Use the recalculated Premium which reflects the current underlying value
-        if (totalPremium + option.Premium <= totalPremiumTarget) {
+        const optionCapital = (option as any).capitalRequired || 0;
+        const newTotalCapital = totalCapitalUsed + optionCapital;
+        
+        // Check both premium target and optional capital constraint
+        const premiumOk = totalPremium + option.Premium <= totalPremiumTarget;
+        const capitalOk = !maxTotalCapital || newTotalCapital <= maxTotalCapital;
+        
+        if (premiumOk && capitalOk) {
           selectedOptions.push(option);
           usedStocks.add(option.StockName);
           totalPremium += option.Premium; // This is the recalculated premium
+          totalCapitalUsed = newTotalCapital;
         }
       }
 
       // If we haven't reached target, try to get as close as possible by replacing options
       if (totalPremium < totalPremiumTarget) {
         // Sort remaining options by how close they get us to target
-        const remainingOptions = filteredOptions.filter(option => 
-          !usedStocks.has(option.StockName) && 
-          option.Premium <= (totalPremiumTarget - totalPremium)
-        );
+        const remainingOptions = filteredOptions.filter(option => {
+          const optionCapital = (option as any).capitalRequired || 0;
+          const premiumOk = !usedStocks.has(option.StockName) && option.Premium <= (totalPremiumTarget - totalPremium);
+          const capitalOk = !maxTotalCapital || (totalCapitalUsed + optionCapital) <= maxTotalCapital;
+          return premiumOk && capitalOk;
+        });
 
         for (const option of remainingOptions) {
-          if (totalPremium + option.Premium <= totalPremiumTarget) {
+          const optionCapital = (option as any).capitalRequired || 0;
+          const premiumOk = totalPremium + option.Premium <= totalPremiumTarget;
+          const capitalOk = !maxTotalCapital || (totalCapitalUsed + optionCapital) <= maxTotalCapital;
+          
+          if (premiumOk && capitalOk) {
             selectedOptions.push(option);
             usedStocks.add(option.StockName);
             totalPremium += option.Premium; // Using recalculated premium
+            totalCapitalUsed += optionCapital;
           }
         }
       }
@@ -337,11 +399,17 @@ const PortfolioGenerator = () => {
       // Generate status message
       let message = "";
       if (totalPremium < totalPremiumTarget) {
-        const deficit = totalPremiumTarget - totalPremium;
+        const deficit = totalPremiumTarget - totalPremiumTarget;
         message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). `;
       } else {
         message = `Portfolio successfully generated with ${totalPremium} SEK premium.`;
       }
+      
+      // Add capital efficiency info to message
+      const avgCapitalEfficiency = selectedOptions.length > 0 
+        ? selectedOptions.reduce((sum, opt) => sum + ((opt as any).capitalEfficiencyScore || 0), 0) / selectedOptions.length 
+        : 0;
+      message += ` Strategy: ${optimizationStrategyOptions.find(s => s.value === optimizationStrategy)?.label}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
 
       setGeneratedPortfolio(selectedOptions);
       setTotalUnderlyingValue(calculatedUnderlyingValue);
@@ -357,6 +425,10 @@ const PortfolioGenerator = () => {
       localStorage.setItem('portfolioGenerator_portfolioMessage', message);
       localStorage.setItem('portfolioGenerator_totalPotentialLoss', totalPotentialLoss.toString());
       localStorage.setItem('portfolioGenerator_portfolioGenerated', 'true');
+      localStorage.setItem('portfolioGenerator_optimizationStrategy', optimizationStrategy);
+      if (maxTotalCapital) {
+        localStorage.setItem('portfolioGenerator_maxTotalCapital', maxTotalCapital.toString());
+      }
     } catch (error) {
       console.error("Error:", error);
       setPortfolioMessage(`Error generating portfolio: ${error}`);
@@ -402,12 +474,13 @@ const PortfolioGenerator = () => {
       {showDescription && (
         <Card className="border-muted bg-muted/20">
           <CardContent className="pt-4">
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              The Portfolio Generator uses an algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium. 
-              It calculates risk-adjusted scores and expected values, ranks all options, and automatically 
-              selects a diversified set that maximizes premium while minimizing risk.
-              It will always pick just one option per stock.
-            </p>
+             <p className="text-sm text-muted-foreground leading-relaxed">
+               The Portfolio Generator uses an algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium. 
+               It calculates risk-adjusted scores and expected values, ranks all options based on your selected optimization strategy, and automatically 
+               selects a diversified set. <strong>Maximize Returns</strong> prioritizes highest risk-adjusted returns. <strong>Minimize Capital</strong> prioritizes 
+               lowest capital requirements while maintaining quality. <strong>Balanced</strong> optimizes for both return and capital efficiency.
+               It will always pick just one option per stock.
+             </p>
           </CardContent>
         </Card>
       )}
@@ -551,6 +624,53 @@ const PortfolioGenerator = () => {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Optimization Strategy</Label>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {optimizationStrategyOptions.find(opt => opt.value === optimizationStrategy)?.label || "Select Strategy"}
+                    <ChevronDown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-full bg-background z-50">
+                  {optimizationStrategyOptions.map(option => (
+                    <DropdownMenuItem 
+                      key={option.value}
+                      onClick={() => {
+                        setOptimizationStrategy(option.value as 'returns' | 'capital' | 'balanced');
+                        localStorage.setItem('portfolioGenerator_optimizationStrategy', option.value);
+                      }}
+                    >
+                      <div>
+                        <div className="font-medium">{option.label}</div>
+                        <div className="text-xs text-muted-foreground">{option.description}</div>
+                      </div>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="maxCapital">Maximum Total Capital (Optional)</Label>
+              <Input
+                id="maxCapital"
+                type="number"
+                value={maxTotalCapitalInput}
+                onChange={(e) => setMaxTotalCapitalInput(e.target.value)}
+                onBlur={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value) : null;
+                  setMaxTotalCapital(value);
+                  localStorage.setItem('portfolioGenerator_maxTotalCapital', value ? value.toString() : '');
+                }}
+                placeholder="e.g., 5,000,000 SEK"
+              />
+              <p className="text-xs text-muted-foreground">
+                Limits total underlying value across all options
+              </p>
             </div>
 
             <div className="space-y-2">
