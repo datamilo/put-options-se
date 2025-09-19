@@ -15,18 +15,27 @@ interface VolatilityStatsChartProps {
 
 export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data }) => {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
+  const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
+  const [eventTypeDropdownOpen, setEventTypeDropdownOpen] = useState(false);
 
-  // Get unique stock names
+  // Get unique stock names and event types
   const uniqueStocks = useMemo(() => {
     return Array.from(new Set(data.map(item => item.name))).sort();
   }, [data]);
 
-  // Filter and prepare data based on selected stocks
+  const uniqueEventTypes = useMemo(() => {
+    return Array.from(new Set(data.map(item => item.event_type))).sort();
+  }, [data]);
+
+  // Filter and prepare data based on selected stocks and event types
   const filteredData = useMemo(() => {
     let filtered = data;
     if (selectedStocks.length > 0) {
-      filtered = data.filter(item => selectedStocks.includes(item.name));
+      filtered = filtered.filter(item => selectedStocks.includes(item.name));
+    }
+    if (selectedEventTypes.length > 0) {
+      filtered = filtered.filter(item => selectedEventTypes.includes(item.event_type));
     }
     
     // Convert decimal values to percentages and prepare chart data
@@ -44,7 +53,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       avg_volume_pct_change: item.avg_volume_pct_change * 100,
       avg_intraday_spread_pct: Math.abs(item.avg_intraday_spread_pct) * 100
     }));
-  }, [data, selectedStocks]);
+  }, [data, selectedStocks, selectedEventTypes]);
 
   // Take top 20 for readability
   const topStocks = filteredData.slice(0, 20);
@@ -73,11 +82,21 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     );
   };
 
+  const handleEventTypeToggle = (eventType: string) => {
+    setSelectedEventTypes(prev => 
+      prev.includes(eventType) 
+        ? prev.filter(e => e !== eventType)
+        : [...prev, eventType]
+    );
+  };
+
   return (
     <div className="space-y-4">
-      {/* Stock Filter */}
-      <div className="space-y-2">
-        <Label>Filter Stocks</Label>
+      {/* Filters */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Stock Filter */}
+        <div className="space-y-2">
+          <Label>Filter Stocks</Label>
         <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -128,6 +147,62 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
             </Command>
           </PopoverContent>
         </Popover>
+        </div>
+
+        {/* Event Type Filter */}
+        <div className="space-y-2">
+          <Label>Filter Event Types</Label>
+          <Popover open={eventTypeDropdownOpen} onOpenChange={setEventTypeDropdownOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={eventTypeDropdownOpen}
+                className="w-full justify-between"
+              >
+                {selectedEventTypes.length === 0 
+                  ? "All event types" 
+                  : selectedEventTypes.length === 1 
+                  ? selectedEventTypes[0]
+                  : `${selectedEventTypes.length} event types selected`
+                }
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command>
+                <CommandInput placeholder="Search event types..." />
+                <CommandList>
+                  <CommandEmpty>No event type found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      onSelect={() => {
+                        setSelectedEventTypes([]);
+                        setEventTypeDropdownOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${selectedEventTypes.length === 0 ? "opacity-100" : "opacity-0"}`}
+                      />
+                      All event types
+                    </CommandItem>
+                    {uniqueEventTypes.map((eventType) => (
+                      <CommandItem
+                        key={eventType}
+                        onSelect={() => handleEventTypeToggle(eventType)}
+                      >
+                        <Check
+                          className={`mr-2 h-4 w-4 ${selectedEventTypes.includes(eventType) ? "opacity-100" : "opacity-0"}`}
+                        />
+                        {eventType}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
 
       <Tabs defaultValue="volatility" className="w-full">

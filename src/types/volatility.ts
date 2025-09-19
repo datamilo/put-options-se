@@ -19,6 +19,7 @@ export interface VolatilityEventData {
 
 export interface VolatilityStats {
   name: string;
+  event_type: string;
   count: number;
   mean_change: number;
   median_change: number;
