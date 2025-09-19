@@ -131,9 +131,8 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       </div>
 
       <Tabs defaultValue="volatility" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="volatility">Mean Volatility</TabsTrigger>
-          <TabsTrigger value="confidence">Confidence Intervals</TabsTrigger>
           <TabsTrigger value="distribution">Distribution Metrics</TabsTrigger>
           <TabsTrigger value="minmax">Min/Max Changes</TabsTrigger>
         </TabsList>
@@ -160,36 +159,6 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                 <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="mean_abs_change" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="confidence">
-        <Card>
-          <CardHeader>
-            <CardTitle>95% Confidence Intervals for Mean Returns</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              Statistical confidence intervals showing the range of expected returns during events
-            </p>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={400}>
-              <BarChart data={topStocks} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45} 
-                  textAnchor="end" 
-                  height={100}
-                  className="text-xs"
-                />
-                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
-                <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="ci95_low" fill="hsl(var(--destructive))" name="CI 95% Low" />
-                <Bar dataKey="mean_change" fill="hsl(var(--primary))" name="Mean Change" />
-                <Bar dataKey="ci95_high" fill="hsl(220, 70%, 40%)" name="CI 95% High" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
