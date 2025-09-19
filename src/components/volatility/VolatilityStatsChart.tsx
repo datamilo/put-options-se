@@ -189,7 +189,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="ci95_low" fill="hsl(var(--destructive))" name="CI 95% Low" />
                 <Bar dataKey="mean_change" fill="hsl(var(--primary))" name="Mean Change" />
-                <Bar dataKey="ci95_high" fill="hsl(var(--secondary))" name="CI 95% High" />
+                <Bar dataKey="ci95_high" fill="hsl(220, 70%, 40%)" name="CI 95% High" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -219,7 +219,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="p05" fill="hsl(var(--destructive))" name="5th Percentile" />
                 <Bar dataKey="median_change" fill="hsl(var(--primary))" name="Median" />
-                <Bar dataKey="p95" fill="hsl(var(--secondary))" name="95th Percentile" />
+                <Bar dataKey="p95" fill="hsl(220, 70%, 40%)" name="95th Percentile" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -248,7 +248,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
                 <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="min_change" fill="hsl(var(--destructive))" name="Min Change" />
-                <Bar dataKey="max_change" fill="hsl(var(--secondary))" name="Max Change" />
+                <Bar dataKey="max_change" fill="hsl(220, 70%, 40%)" name="Max Change" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
