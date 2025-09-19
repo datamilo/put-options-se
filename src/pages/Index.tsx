@@ -328,23 +328,21 @@ const Index = () => {
 
   return (
     <div className="container mx-auto p-6 space-y-6">
+      {/* Discreet Timestamp Display */}
+      <div className="flex justify-end">
+        <TimestampDisplay />
+      </div>
+      
       {/* Professional Finance Header */}
       <div className="relative overflow-hidden bg-gradient-to-r from-background via-muted/50 to-background border border-border rounded-lg">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5"></div>
         <div className="relative px-8 py-12 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-sm font-medium text-primary mb-4">
-            <TrendingUp className="h-4 w-4" />
-            Live Market Data
-          </div>
           <h1 className="text-5xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent mb-3">
             Swedish Put Options
           </h1>
           <p className="text-xl text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Real-time analysis and insights for Swedish equity put options
+            Analysis and insights for Swedish equity put options
           </p>
-          <div className="inline-flex items-center justify-center">
-            <TimestampDisplay />
-          </div>
         </div>
         <div className="absolute top-4 right-4 opacity-20">
           <BarChart3 className="h-24 w-24 text-primary" />

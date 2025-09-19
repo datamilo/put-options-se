@@ -68,9 +68,12 @@ export const TimestampDisplay = () => {
   }
 
   return (
-    <div className="text-sm text-muted-foreground space-y-1">
-      <p>Options data last updated: {format(new Date(timestamps.optionsData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
-      <p>Stock data last updated: {format(new Date(timestamps.stockData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
+    <div className="bg-muted/50 border border-border rounded-lg p-3 max-w-xs">
+      <h3 className="text-xs font-medium text-muted-foreground mb-2">Last Updated</h3>
+      <div className="space-y-1 text-xs text-muted-foreground">
+        <p>Options: {format(new Date(timestamps.optionsData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
+        <p>Stock: {format(new Date(timestamps.stockData.lastUpdated), 'yyyy-MM-dd HH:mm')}</p>
+      </div>
     </div>
   );
 };
