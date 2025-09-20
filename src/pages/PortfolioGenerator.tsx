@@ -6,6 +6,7 @@ import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useRecalculatedOptions, RecalculatedOptionData } from "@/hooks/useRecalculatedOptions";
 import { useStockData } from "@/hooks/useStockData";
 import { useSettings } from "@/contexts/SettingsContext";
+import { usePortfolioGeneratorPreferences } from "@/hooks/usePortfolioGeneratorPreferences";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,44 +20,24 @@ const PortfolioGenerator = () => {
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
   const { getLowPriceForPeriod } = useStockData();
   const { transactionCost } = useSettings();
+  const { settings, updateSetting, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
 
-  // Removed originalSettings to avoid conflicts
+  // Input states for form controls
+  const [totalPremiumInput, setTotalPremiumInput] = useState<string>(settings.totalPremiumTarget.toString());
+  const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(settings.portfolioUnderlyingValue.toString());
+  const [maxTotalCapitalInput, setMaxTotalCapitalInput] = useState<string>(settings.maxTotalCapital?.toString() || "");
 
-  // Form state with localStorage persistence
-  const [totalPremiumTarget, setTotalPremiumTarget] = useState<number>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_totalPremiumTarget');
-    return saved ? parseInt(saved) : 500;
-  });
-  const [totalPremiumInput, setTotalPremiumInput] = useState<string>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_totalPremiumTarget');
-    return saved ? saved : "500";
-  });
-  const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_strikeBelowPeriod');
-    return saved ? parseInt(saved) : null;
-  });
-  const [minProbabilityWorthless, setMinProbabilityWorthless] = useState<number | null>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_minProbabilityWorthless');
-    return saved ? parseInt(saved) : null;
-  });
-  const [selectedExpiryDate, setSelectedExpiryDate] = useState<string>(() => {
-    return localStorage.getItem('portfolioGenerator_selectedExpiryDate') || "";
-  });
-  const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
-    return saved ? saved : "100000";
-  });
-  
-  // Portfolio Generator's own underlying value (independent from global settings)
-  const [portfolioUnderlyingValue, setPortfolioUnderlyingValue] = useState<number>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_underlyingStockValue');
-    return saved ? parseInt(saved) : 100000;
-  });
+  // Update input states when settings change
+  useEffect(() => {
+    setTotalPremiumInput(settings.totalPremiumTarget.toString());
+    setUnderlyingValueInput(settings.portfolioUnderlyingValue.toString());
+    setMaxTotalCapitalInput(settings.maxTotalCapital?.toString() || "");
+  }, [settings]);
 
   // Custom recalculation function for Portfolio Generator using its own underlying value
   const recalculateOptionsForPortfolio = (options: OptionData[]): RecalculatedOptionData[] => {
     return options.map(option => {
-      const numberOfContractsBasedOnLimit = Math.round((portfolioUnderlyingValue / option.StrikePrice) / 100);
+      const numberOfContractsBasedOnLimit = Math.round((settings.portfolioUnderlyingValue / option.StrikePrice) / 100);
       const bidAskMidPrice = (option.Bid + (option.Ask || option.Bid)) / 2;
       const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
       // Calculate the actual underlying value based on portfolio settings
@@ -79,49 +60,6 @@ const PortfolioGenerator = () => {
 
   // Use portfolio-specific recalculated data instead of global settings
   const data = recalculateOptionsForPortfolio(rawData || []);
-  
-  const [selectedProbabilityField, setSelectedProbabilityField] = useState<string>(() => {
-    return localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal";
-  });
-  const [generatedPortfolio, setGeneratedPortfolio] = useState<OptionData[]>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_generatedPortfolio');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [portfolioGenerated, setPortfolioGenerated] = useState<boolean>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_portfolioGenerated');
-    return saved === 'true';
-  });
-  const [totalUnderlyingValue, setTotalUnderlyingValue] = useState<number>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_totalUnderlyingValue');
-    return saved ? parseInt(saved) : 0;
-  });
-  const [portfolioMessage, setPortfolioMessage] = useState<string>(() => {
-    return localStorage.getItem('portfolioGenerator_portfolioMessage') || "";
-  });
-  const [totalPotentialLoss, setTotalPotentialLoss] = useState<number>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_totalPotentialLoss');
-    return saved ? parseFloat(saved) : 0;
-  });
-  const [excludedStocks, setExcludedStocks] = useState<string[]>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_excludedStocks');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  // New state for optimization strategy
-  const [optimizationStrategy, setOptimizationStrategy] = useState<'returns' | 'capital' | 'balanced'>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_optimizationStrategy');
-    return saved as 'returns' | 'capital' | 'balanced' || 'returns';
-  });
-
-  // New state for maximum total capital constraint (optional)
-  const [maxTotalCapital, setMaxTotalCapital] = useState<number | null>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_maxTotalCapital');
-    return saved ? parseInt(saved) : null;
-  });
-  const [maxTotalCapitalInput, setMaxTotalCapitalInput] = useState<string>(() => {
-    const saved = localStorage.getItem('portfolioGenerator_maxTotalCapital');
-    return saved || "";
-  });
 
   // Portfolio table sorting state
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
@@ -171,13 +109,12 @@ const PortfolioGenerator = () => {
     return [...new Set(data.map(option => option.StockName))].sort();
   }, [data]);
 
-  // Input validation functions with localStorage persistence
+  // Input validation functions
   const validateTotalPremium = (value: string) => {
     const num = parseInt(value) || 500;
     const clampedValue = Math.max(500, Math.min(1000000, num));
-    setTotalPremiumTarget(clampedValue);
+    updateSetting('totalPremiumTarget', clampedValue);
     setTotalPremiumInput(clampedValue.toString());
-    localStorage.setItem('portfolioGenerator_totalPremiumTarget', clampedValue.toString());
   };
 
 
@@ -189,27 +126,22 @@ const PortfolioGenerator = () => {
   const handleUnderlyingValueBlur = () => {
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
-    setPortfolioUnderlyingValue(clampedValue);
+    updateSetting('portfolioUnderlyingValue', clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
-    localStorage.setItem('portfolioGenerator_underlyingStockValue', clampedValue.toString());
     
     // Clear any existing generated portfolio so user needs to regenerate with new value
-    if (portfolioGenerated) {
-      setGeneratedPortfolio([]);
-      setPortfolioGenerated(false);
-      setPortfolioMessage("");
-      setTotalPotentialLoss(0);
-      localStorage.removeItem('portfolioGenerator_generatedPortfolio');
-      localStorage.removeItem('portfolioGenerator_portfolioGenerated');
-      localStorage.removeItem('portfolioGenerator_portfolioMessage');
-      localStorage.removeItem('portfolioGenerator_totalUnderlyingValue');
-      localStorage.removeItem('portfolioGenerator_totalPotentialLoss');
+    if (settings.portfolioGenerated) {
+      updateSetting('generatedPortfolio', []);
+      updateSetting('portfolioGenerated', false);
+      updateSetting('portfolioMessage', "");
+      updateSetting('totalPotentialLoss', 0);
+      updateSetting('totalUnderlyingValue', 0);
     }
   };
 
   // Helper function to get probability value with fallback
   const getProbabilityValue = (option: OptionData): number | null => {
-    const primaryValue = option[selectedProbabilityField as keyof OptionData] as number;
+    const primaryValue = option[settings.selectedProbabilityField as keyof OptionData] as number;
     const fallbackValue = option['1_2_3_ProbOfWorthless_Weighted'];
     
     // Return null if both primary and fallback values are missing/invalid
@@ -252,22 +184,22 @@ const PortfolioGenerator = () => {
         if (option.Premium <= 0) return false;
 
         // Exclude selected stocks
-        if (excludedStocks.includes(option.StockName)) return false;
+        if (settings.excludedStocks.includes(option.StockName)) return false;
 
         // Strike price below period filter
-        if (strikeBelowPeriod) {
-          const lowPrice = getLowPriceForPeriod(option.StockName, strikeBelowPeriod);
+        if (settings.strikeBelowPeriod) {
+          const lowPrice = getLowPriceForPeriod(option.StockName, settings.strikeBelowPeriod);
           if (!lowPrice || option.StrikePrice > lowPrice) return false;
         }
 
         // Expiry date filter
-        if (selectedExpiryDate && option.ExpiryDate !== selectedExpiryDate) return false;
+        if (settings.selectedExpiryDate && option.ExpiryDate !== settings.selectedExpiryDate) return false;
 
         // Probability filter - must meet minimum threshold if specified
-        if (minProbabilityWorthless) {
+        if (settings.minProbabilityWorthless) {
           const prob = getProbabilityValue(option);
           // Convert user input from percentage (70) to decimal (0.70) for comparison
-          const minProbDecimal = minProbabilityWorthless / 100;
+          const minProbDecimal = settings.minProbabilityWorthless / 100;
           if (prob === null || prob < minProbDecimal) return false;
         }
 
@@ -298,9 +230,9 @@ const PortfolioGenerator = () => {
         
         // Calculate combined score based on optimization strategy
         let finalScore = 0;
-        if (optimizationStrategy === 'returns') {
+        if (settings.optimizationStrategy === 'returns') {
           finalScore = riskAdjustedScore;
-        } else if (optimizationStrategy === 'capital') {
+        } else if (settings.optimizationStrategy === 'capital') {
           // For capital minimization, prefer lower capital requirement with good returns
           finalScore = capitalEfficiencyScore * (prob! * 2); // Weight by probability
         } else { // balanced
@@ -325,7 +257,7 @@ const PortfolioGenerator = () => {
         if (scoreB !== scoreA) return scoreB - scoreA;
         
         // Secondary sort based on optimization strategy
-        if (optimizationStrategy === 'capital') {
+        if (settings.optimizationStrategy === 'capital') {
           // For capital strategy, prefer lower capital requirement
           const capitalA = (a as any).capitalRequired || 0;
           const capitalB = (b as any).capitalRequired || 0;
@@ -350,8 +282,8 @@ const PortfolioGenerator = () => {
         const newTotalCapital = totalCapitalUsed + optionCapital;
         
         // Check both premium target and optional capital constraint
-        const premiumOk = totalPremium + option.Premium <= totalPremiumTarget;
-        const capitalOk = !maxTotalCapital || newTotalCapital <= maxTotalCapital;
+        const premiumOk = totalPremium + option.Premium <= settings.totalPremiumTarget;
+        const capitalOk = !settings.maxTotalCapital || newTotalCapital <= settings.maxTotalCapital;
         
         if (premiumOk && capitalOk) {
           selectedOptions.push(option);
@@ -362,19 +294,19 @@ const PortfolioGenerator = () => {
       }
 
       // If we haven't reached target, try to get as close as possible by replacing options
-      if (totalPremium < totalPremiumTarget) {
+      if (totalPremium < settings.totalPremiumTarget) {
         // Sort remaining options by how close they get us to target
         const remainingOptions = filteredOptions.filter(option => {
           const optionCapital = (option as any).capitalRequired || 0;
-          const premiumOk = !usedStocks.has(option.StockName) && option.Premium <= (totalPremiumTarget - totalPremium);
-          const capitalOk = !maxTotalCapital || (totalCapitalUsed + optionCapital) <= maxTotalCapital;
+          const premiumOk = !usedStocks.has(option.StockName) && option.Premium <= (settings.totalPremiumTarget - totalPremium);
+          const capitalOk = !settings.maxTotalCapital || (totalCapitalUsed + optionCapital) <= settings.maxTotalCapital;
           return premiumOk && capitalOk;
         });
 
         for (const option of remainingOptions) {
           const optionCapital = (option as any).capitalRequired || 0;
-          const premiumOk = totalPremium + option.Premium <= totalPremiumTarget;
-          const capitalOk = !maxTotalCapital || (totalCapitalUsed + optionCapital) <= maxTotalCapital;
+          const premiumOk = totalPremium + option.Premium <= settings.totalPremiumTarget;
+          const capitalOk = !settings.maxTotalCapital || (totalCapitalUsed + optionCapital) <= settings.maxTotalCapital;
           
           if (premiumOk && capitalOk) {
             selectedOptions.push(option);
@@ -398,8 +330,8 @@ const PortfolioGenerator = () => {
 
       // Generate status message
       let message = "";
-      if (totalPremium < totalPremiumTarget) {
-        const deficit = totalPremiumTarget - totalPremium;
+      if (totalPremium < settings.totalPremiumTarget) {
+        const deficit = settings.totalPremiumTarget - totalPremium;
         message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). `;
       } else {
         message = `Portfolio successfully generated with ${totalPremium} SEK premium.`;
@@ -409,29 +341,18 @@ const PortfolioGenerator = () => {
       const avgCapitalEfficiency = selectedOptions.length > 0 
         ? selectedOptions.reduce((sum, opt) => sum + ((opt as any).capitalEfficiencyScore || 0), 0) / selectedOptions.length 
         : 0;
-      message += ` Strategy: ${optimizationStrategyOptions.find(s => s.value === optimizationStrategy)?.label}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
+      message += ` Strategy: ${optimizationStrategyOptions.find(s => s.value === settings.optimizationStrategy)?.label}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
 
-      setGeneratedPortfolio(selectedOptions);
-      setTotalUnderlyingValue(calculatedUnderlyingValue);
-      setPortfolioMessage(message);
-      setPortfolioGenerated(true);
+      // Update all portfolio settings
+      updateSetting('generatedPortfolio', selectedOptions);
+      updateSetting('totalUnderlyingValue', calculatedUnderlyingValue);
+      updateSetting('portfolioMessage', message);
+      updateSetting('portfolioGenerated', true);
+      updateSetting('totalPotentialLoss', totalPotentialLoss);
       
-      // Store total potential loss for display
-      setTotalPotentialLoss(totalPotentialLoss);
-      
-      // Save to localStorage
-      localStorage.setItem('portfolioGenerator_generatedPortfolio', JSON.stringify(selectedOptions));
-      localStorage.setItem('portfolioGenerator_totalUnderlyingValue', calculatedUnderlyingValue.toString());
-      localStorage.setItem('portfolioGenerator_portfolioMessage', message);
-      localStorage.setItem('portfolioGenerator_totalPotentialLoss', totalPotentialLoss.toString());
-      localStorage.setItem('portfolioGenerator_portfolioGenerated', 'true');
-      localStorage.setItem('portfolioGenerator_optimizationStrategy', optimizationStrategy);
-      if (maxTotalCapital) {
-        localStorage.setItem('portfolioGenerator_maxTotalCapital', maxTotalCapital.toString());
-      }
     } catch (error) {
       console.error("Error:", error);
-      setPortfolioMessage(`Error generating portfolio: ${error}`);
+      updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
     }
   };
 
@@ -525,30 +446,28 @@ const PortfolioGenerator = () => {
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {strikeBelowPeriod === null 
+                     {settings.strikeBelowPeriod === null 
                       ? "Select Period (Optional)" 
-                      : timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}
+                      : timePeriodOptions.find(opt => opt.days === settings.strikeBelowPeriod)?.label}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full bg-background z-50">
-                  <DropdownMenuItem onClick={() => {
-                    setStrikeBelowPeriod(null);
-                    localStorage.setItem('portfolioGenerator_strikeBelowPeriod', '');
-                  }}>
-                    No Filter
-                  </DropdownMenuItem>
-                  {timePeriodOptions.map(option => (
-                    <DropdownMenuItem 
-                      key={option.days}
-                      onClick={() => {
-                        setStrikeBelowPeriod(option.days);
-                        localStorage.setItem('portfolioGenerator_strikeBelowPeriod', option.days.toString());
-                      }}
-                    >
-                      {option.label}
-                    </DropdownMenuItem>
-                  ))}
+                   <DropdownMenuItem onClick={() => {
+                     updateSetting('strikeBelowPeriod', null);
+                   }}>
+                     No Filter
+                   </DropdownMenuItem>
+                   {timePeriodOptions.map(option => (
+                     <DropdownMenuItem 
+                       key={option.days}
+                       onClick={() => {
+                         updateSetting('strikeBelowPeriod', option.days);
+                       }}
+                     >
+                       {option.label}
+                     </DropdownMenuItem>
+                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -560,11 +479,10 @@ const PortfolioGenerator = () => {
                 type="number"
                 min="40"
                 max="100"
-                value={minProbabilityWorthless || ""}
+                value={settings.minProbabilityWorthless || ""}
                 onChange={(e) => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
-                  setMinProbabilityWorthless(value);
-                  localStorage.setItem('portfolioGenerator_minProbabilityWorthless', value ? value.toString() : '');
+                  updateSetting('minProbabilityWorthless', value);
                 }}
                 placeholder="40-100% (Optional)"
               />
@@ -575,7 +493,7 @@ const PortfolioGenerator = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {probabilityFieldOptions.find(opt => opt.value === selectedProbabilityField)?.label || "Select Field"}
+                    {probabilityFieldOptions.find(opt => opt.value === settings.selectedProbabilityField)?.label || "Select Field"}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -583,10 +501,9 @@ const PortfolioGenerator = () => {
                   {probabilityFieldOptions.map(option => (
                     <DropdownMenuItem 
                       key={option.value}
-                      onClick={() => {
-                        setSelectedProbabilityField(option.value);
-                        localStorage.setItem('portfolioGenerator_selectedProbabilityField', option.value);
-                      }}
+                       onClick={() => {
+                         updateSetting('selectedProbabilityField', option.value);
+                       }}
                     >
                       {option.label}
                     </DropdownMenuItem>
@@ -600,28 +517,26 @@ const PortfolioGenerator = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {selectedExpiryDate || "Select Expiry Date (Optional)"}
+                    {settings.selectedExpiryDate || "Select Expiry Date (Optional)"}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full bg-background z-50 max-h-[200px] overflow-y-auto">
-                  <DropdownMenuItem onClick={() => {
-                    setSelectedExpiryDate("");
-                    localStorage.setItem('portfolioGenerator_selectedExpiryDate', '');
-                  }}>
-                    All Expiry Dates
-                  </DropdownMenuItem>
-                  {availableExpiryDates.map(date => (
-                    <DropdownMenuItem 
-                      key={date}
-                      onClick={() => {
-                        setSelectedExpiryDate(date);
-                        localStorage.setItem('portfolioGenerator_selectedExpiryDate', date);
-                      }}
-                    >
-                      {date}
-                    </DropdownMenuItem>
-                  ))}
+                   <DropdownMenuItem onClick={() => {
+                     updateSetting('selectedExpiryDate', "");
+                   }}>
+                     All Expiry Dates
+                   </DropdownMenuItem>
+                   {availableExpiryDates.map(date => (
+                     <DropdownMenuItem 
+                       key={date}
+                       onClick={() => {
+                         updateSetting('selectedExpiryDate', date);
+                       }}
+                     >
+                       {date}
+                     </DropdownMenuItem>
+                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -631,7 +546,7 @@ const PortfolioGenerator = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {optimizationStrategyOptions.find(opt => opt.value === optimizationStrategy)?.label || "Select Strategy"}
+                    {optimizationStrategyOptions.find(opt => opt.value === settings.optimizationStrategy)?.label || "Select Strategy"}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -639,10 +554,9 @@ const PortfolioGenerator = () => {
                   {optimizationStrategyOptions.map(option => (
                     <DropdownMenuItem 
                       key={option.value}
-                      onClick={() => {
-                        setOptimizationStrategy(option.value as 'returns' | 'capital' | 'balanced');
-                        localStorage.setItem('portfolioGenerator_optimizationStrategy', option.value);
-                      }}
+                       onClick={() => {
+                         updateSetting('optimizationStrategy', option.value as 'returns' | 'capital' | 'balanced');
+                       }}
                     >
                       <div>
                         <div className="font-medium">{option.label}</div>
@@ -663,8 +577,7 @@ const PortfolioGenerator = () => {
                 onChange={(e) => setMaxTotalCapitalInput(e.target.value)}
                 onBlur={(e) => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
-                  setMaxTotalCapital(value);
-                  localStorage.setItem('portfolioGenerator_maxTotalCapital', value ? value.toString() : '');
+                  updateSetting('maxTotalCapital', value);
                 }}
                 placeholder="e.g., 5,000,000 SEK"
               />
@@ -678,38 +591,36 @@ const PortfolioGenerator = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {excludedStocks.length > 0 ? `${excludedStocks.length} stock(s) excluded` : "No stocks excluded"}
+                    {settings.excludedStocks.length > 0 ? `${settings.excludedStocks.length} stock(s) excluded` : "No stocks excluded"}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-full bg-background z-50 max-h-[200px] overflow-y-auto">
-                  <DropdownMenuItem onClick={() => {
-                    setExcludedStocks([]);
-                    localStorage.setItem('portfolioGenerator_excludedStocks', JSON.stringify([]));
-                  }}>
-                    Clear All Exclusions
-                  </DropdownMenuItem>
-                  {availableStocks.map(stock => (
-                    <DropdownMenuItem 
-                      key={stock}
-                      onClick={() => {
-                        const newExcluded = excludedStocks.includes(stock)
-                          ? excludedStocks.filter(s => s !== stock)
-                          : [...excludedStocks, stock];
-                        setExcludedStocks(newExcluded);
-                        localStorage.setItem('portfolioGenerator_excludedStocks', JSON.stringify(newExcluded));
-                      }}
-                    >
-                      {excludedStocks.includes(stock) ? '✓ ' : ''}{stock}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-              {excludedStocks.length > 0 && (
-                <p className="text-xs text-muted-foreground">
-                  Excluded: {excludedStocks.join(', ')}
-                </p>
-              )}
+                   <DropdownMenuItem onClick={() => {
+                     updateSetting('excludedStocks', []);
+                   }}>
+                     Clear All Exclusions
+                   </DropdownMenuItem>
+                   {availableStocks.map(stock => (
+                     <DropdownMenuItem 
+                       key={stock}
+                       onClick={() => {
+                         const newExcluded = settings.excludedStocks.includes(stock)
+                           ? settings.excludedStocks.filter(s => s !== stock)
+                           : [...settings.excludedStocks, stock];
+                         updateSetting('excludedStocks', newExcluded);
+                       }}
+                     >
+                       {settings.excludedStocks.includes(stock) ? '✓ ' : ''}{stock}
+                     </DropdownMenuItem>
+                   ))}
+                 </DropdownMenuContent>
+               </DropdownMenu>
+               {settings.excludedStocks.length > 0 && (
+                 <p className="text-xs text-muted-foreground">
+                   Excluded: {settings.excludedStocks.join(', ')}
+                 </p>
+               )}
             </div>
           </div>
           
@@ -719,24 +630,24 @@ const PortfolioGenerator = () => {
         </CardContent>
       </Card>
 
-      {portfolioGenerated && (
+      {settings.portfolioGenerated && (
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Generated Portfolio ({generatedPortfolio.length} options)</CardTitle>
+                <CardTitle>Generated Portfolio ({settings.generatedPortfolio.length} options)</CardTitle>
                 <div className="text-sm text-muted-foreground space-y-1 mt-2">
-                  <p>{portfolioMessage}</p>
-                  <p>Total Underlying Stock Value: {totalUnderlyingValue.toLocaleString()} SEK</p>
-                  <p>Total Premium: {generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {portfolioUnderlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
-                  <p>Total Calculated Risk of Loss: {Math.round(totalPotentialLoss).toLocaleString()} SEK</p>
+                  <p>{settings.portfolioMessage}</p>
+                  <p>Total Underlying Stock Value: {settings.totalUnderlyingValue.toLocaleString()} SEK</p>
+                  <p>Total Premium: {settings.generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {settings.portfolioUnderlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
+                  <p>Total Calculated Risk of Loss: {Math.round(settings.totalPotentialLoss).toLocaleString()} SEK</p>
                 </div>
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <PortfolioOptionsTable
-              data={generatedPortfolio}
+              data={settings.generatedPortfolio}
               onRowClick={handleOptionClick}
               onStockClick={handleStockClick}
               sortField={sortField}
