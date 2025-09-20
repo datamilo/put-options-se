@@ -22,6 +22,9 @@ const PortfolioGenerator = () => {
   const { transactionCost } = useSettings();
   const { settings, updateSetting, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
 
+  // Add state to prevent validation during portfolio generation
+  const [isGeneratingPortfolio, setIsGeneratingPortfolio] = useState(false);
+
   // Input states for form controls
   const [totalPremiumInput, setTotalPremiumInput] = useState<string>(settings.totalPremiumTarget.toString());
   const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(settings.portfolioUnderlyingValue.toString());
@@ -124,6 +127,13 @@ const PortfolioGenerator = () => {
   };
 
   const handleUnderlyingValueBlur = () => {
+    // Don't validate during portfolio generation to prevent interference
+    if (isGeneratingPortfolio) {
+      console.log('Skipping validation during portfolio generation');
+      return;
+    }
+    
+    console.log('handleUnderlyingValueBlur called with input:', underlyingValueInput);
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     updateSetting('portfolioUnderlyingValue', clampedValue);
@@ -170,6 +180,9 @@ const PortfolioGenerator = () => {
   };
 
   const generatePortfolio = () => {
+    console.log('Portfolio generation started with underlying value:', settings.portfolioUnderlyingValue);
+    setIsGeneratingPortfolio(true);
+    
     try {
       const selectedOptions: OptionData[] = [];
       const usedStocks = new Set<string>();
@@ -353,6 +366,9 @@ const PortfolioGenerator = () => {
     } catch (error) {
       console.error("Error:", error);
       updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
+    } finally {
+      setIsGeneratingPortfolio(false);
+      console.log('Portfolio generation completed');
     }
   };
 

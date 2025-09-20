@@ -88,9 +88,9 @@ export const usePortfolioGeneratorPreferences = () => {
         .select('preference_data')
         .eq('user_id', user.id)
         .eq('preference_type', 'portfolio_generator')
-        .single();
+        .maybeSingle();
 
-      if (error && error.code !== 'PGRST116') {
+      if (error) {
         console.error('Error loading portfolio generator preferences:', error);
         return;
       }
