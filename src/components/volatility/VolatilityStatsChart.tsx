@@ -7,13 +7,14 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, Command
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { VolatilityStats } from '@/types/volatility';
+import { VolatilityStats, VolatilityEventData } from '@/types/volatility';
 
 interface VolatilityStatsChartProps {
   data: VolatilityStats[];
+  rawData: VolatilityEventData[];
 }
 
-export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data }) => {
+export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data, rawData }) => {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>(['Bokslutskommuniké', 'Kvartalsrapport']);
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
@@ -25,17 +26,107 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
   }, [data]);
 
   const uniqueEventTypes = useMemo(() => {
-    return Array.from(new Set(data.map(item => item.event_type))).sort();
-  }, [data]);
+    return Array.from(new Set(rawData.map(item => item.type_of_event))).sort();
+  }, [rawData]);
 
-  // Filter and prepare data based on selected stocks and event types
+  // Filter and recalculate data based on selected stocks and event types
   const filteredData = useMemo(() => {
-    let filtered = data;
+    // First filter raw data by event types
+    let filteredRawData = rawData;
+    if (selectedEventTypes.length > 0) {
+      filteredRawData = filteredRawData.filter(item => selectedEventTypes.includes(item.type_of_event));
+    }
+
+    // Recalculate statistics for the filtered raw data
+    const grouped = filteredRawData.reduce((acc, row) => {
+      const key = row.name;
+      if (!acc[key]) {
+        acc[key] = [];
+      }
+      acc[key].push(row);
+      return acc;
+    }, {} as Record<string, VolatilityEventData[]>);
+
+    const recalculatedStats: VolatilityStats[] = [];
+
+    for (const [name, stockData] of Object.entries(grouped)) {
+      const validChanges = stockData
+        .map(d => d.close_price_pct_change_from_previous_day)
+        .filter(change => !isNaN(change));
+
+      if (validChanges.length === 0) continue;
+
+      const count = validChanges.length;
+      const mean_change = validChanges.reduce((sum, val) => sum + val, 0) / count;
+      
+      // Calculate median
+      const sortedChanges = [...validChanges].sort((a, b) => a - b);
+      const median_change = count % 2 === 0 
+        ? (sortedChanges[count / 2 - 1] + sortedChanges[count / 2]) / 2
+        : sortedChanges[Math.floor(count / 2)];
+
+      // Calculate standard deviation
+      const variance = validChanges.reduce((sum, val) => sum + Math.pow(val - mean_change, 2), 0) / count;
+      const std_dev = Math.sqrt(variance);
+
+      const min_change = Math.min(...validChanges);
+      const max_change = Math.max(...validChanges);
+
+      // Calculate percentiles
+      const p05 = count > 0 ? sortedChanges[Math.floor(count * 0.05)] : NaN;
+      const p95 = count > 0 ? sortedChanges[Math.floor(count * 0.95)] : NaN;
+
+      const mean_abs_change = validChanges.reduce((sum, val) => sum + Math.abs(val), 0) / count;
+      const negative_count = validChanges.filter(val => val < 0).length;
+      const negative_rate = negative_count / count;
+
+      const se_mean = std_dev / Math.sqrt(count);
+      const ci95_low = mean_change - 1.96 * se_mean;
+      const ci95_high = mean_change + 1.96 * se_mean;
+
+      // Calculate volume change average
+      const validVolumeChanges = stockData
+        .map(d => d.volume_pct_change_from_previous_day)
+        .filter(change => !isNaN(change));
+      const avg_volume_pct_change = validVolumeChanges.length > 0 
+        ? validVolumeChanges.reduce((sum, val) => sum + val, 0) / validVolumeChanges.length
+        : 0;
+
+      // Calculate intraday spread average (taking absolute value)
+      const validSpreadChanges = stockData
+        .map(d => Math.abs(d.pct_intraday_high_low_movement))
+        .filter(change => !isNaN(change));
+      const avg_intraday_spread_pct = validSpreadChanges.length > 0
+        ? validSpreadChanges.reduce((sum, val) => sum + val, 0) / validSpreadChanges.length
+        : 0;
+
+      recalculatedStats.push({
+        name,
+        count,
+        mean_change,
+        median_change,
+        std_dev,
+        min_change,
+        max_change,
+        p05,
+        p95,
+        mean_abs_change,
+        negative_count,
+        negative_rate,
+        se_mean,
+        ci95_low,
+        ci95_high,
+        avg_volume_pct_change,
+        avg_intraday_spread_pct
+      });
+    }
+
+    // Sort by mean absolute change
+    let filtered = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change);
+    
+    // Filter by selected stocks
     if (selectedStocks.length > 0) {
       filtered = filtered.filter(item => selectedStocks.includes(item.name));
-    }
-    if (selectedEventTypes.length > 0) {
-      filtered = filtered.filter(item => selectedEventTypes.includes(item.event_type));
     }
     
     // Convert decimal values to percentages and prepare chart data
@@ -53,7 +144,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       avg_volume_pct_change: item.avg_volume_pct_change * 100,
       avg_intraday_spread_pct: Math.abs(item.avg_intraday_spread_pct) * 100
     }));
-  }, [data, selectedStocks, selectedEventTypes]);
+  }, [rawData, selectedStocks, selectedEventTypes]);
 
   // Take top 20 for readability
   const topStocks = filteredData.slice(0, 20);

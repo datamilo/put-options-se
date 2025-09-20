@@ -89,9 +89,9 @@ export const useVolatilityData = () => {
   };
 
   const calculateVolatilityStats = (data: VolatilityEventData[]): VolatilityStats[] => {
-    // Group by stock name and event type
+    // Group by stock name only
     const grouped = data.reduce((acc, row) => {
-      const key = `${row.name}|${row.type_of_event}`;
+      const key = row.name;
       if (!acc[key]) {
         acc[key] = [];
       }
@@ -101,8 +101,7 @@ export const useVolatilityData = () => {
 
     const statsArray: VolatilityStats[] = [];
 
-    for (const [key, stockData] of Object.entries(grouped)) {
-      const [name, event_type] = key.split('|');
+    for (const [name, stockData] of Object.entries(grouped)) {
       const validChanges = stockData
         .map(d => d.close_price_pct_change_from_previous_day)
         .filter(change => !isNaN(change));
@@ -155,7 +154,6 @@ export const useVolatilityData = () => {
 
       statsArray.push({
         name,
-        event_type,
         count,
         mean_change,
         median_change,

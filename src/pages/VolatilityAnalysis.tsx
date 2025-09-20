@@ -124,7 +124,7 @@ export const VolatilityAnalysis = () => {
             </p>
           </CardHeader>
           <CardContent>
-            <VolatilityStatsChart data={volatilityStats} />
+            <VolatilityStatsChart data={volatilityStats} rawData={volatilityData} />
           </CardContent>
         </Card>
 
