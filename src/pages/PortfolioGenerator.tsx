@@ -664,16 +664,39 @@ const PortfolioGenerator = () => {
            </Button>
            
            <Button onClick={() => {
-             console.log('Resetting portfolio generator settings to defaults...');
-             // Reset to default values
-             updateSetting('portfolioUnderlyingValue', 100000);
-             updateSetting('totalPremiumTarget', 500);
-             updateSetting('portfolioGenerated', false);
-             updateSetting('generatedPortfolio', []);
-             updateSetting('portfolioMessage', '');
-           }} variant="outline" className="w-full md:w-auto" size="lg">
-             Reset to Defaults
+             console.log('=== FORCE RESET CLICKED ===');
+             // Force clear localStorage
+             localStorage.removeItem('portfolioGenerator_underlyingStockValue');
+             localStorage.removeItem('portfolioGenerator_totalPremiumTarget');
+             localStorage.removeItem('portfolioGenerator_generatedPortfolio');
+             localStorage.removeItem('portfolioGenerator_portfolioGenerated');
+             localStorage.removeItem('portfolioGenerator_portfolioMessage');
+             localStorage.removeItem('portfolioGenerator_totalUnderlyingValue');
+             localStorage.removeItem('portfolioGenerator_totalPotentialLoss');
+             
+             // Force set input values directly
+             setUnderlyingValueInput('100000');
+             setTotalPremiumInput('500');
+             
+             console.log('Force reset complete - page will reload');
+             window.location.reload();
+           }} variant="destructive" className="w-full md:w-auto" size="lg">
+             Force Reset & Reload
            </Button>
+           
+           <Button onClick={() => {
+             console.log('=== DEBUGGING INFO ===');
+             console.log('Current settings object:', settings);
+             console.log('Current underlyingValueInput:', underlyingValueInput);
+             console.log('localStorage portfolioGenerator_underlyingStockValue:', localStorage.getItem('portfolioGenerator_underlyingStockValue'));
+             console.log('All localStorage portfolio keys:');
+             Object.keys(localStorage).filter(key => key.startsWith('portfolioGenerator_')).forEach(key => {
+               console.log(`  ${key}: ${localStorage.getItem(key)}`);
+             });
+           }} variant="secondary" className="w-full md:w-auto" size="lg">
+             Debug Info
+           </Button>
+
         </CardContent>
       </Card>
 
