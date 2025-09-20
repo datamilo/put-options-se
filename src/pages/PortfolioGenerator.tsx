@@ -20,7 +20,7 @@ const PortfolioGenerator = () => {
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
   const { getLowPriceForPeriod } = useStockData();
   const { transactionCost } = useSettings();
-  const { settings, updateSetting, resetToDefaults, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
+  const { settings, updateSetting, updateMultipleSettings, resetToDefaults, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
 
   // Add state to prevent validation during portfolio generation
   const [isGeneratingPortfolio, setIsGeneratingPortfolio] = useState(false);
@@ -32,17 +32,20 @@ const PortfolioGenerator = () => {
 
   // Update input states when settings change
   useEffect(() => {
-    console.log('Settings changed - portfolioUnderlyingValue:', settings.portfolioUnderlyingValue);
-    console.log('localStorage underlyingStockValue:', localStorage.getItem('portfolioGenerator_underlyingStockValue'));
     setTotalPremiumInput(settings.totalPremiumTarget.toString());
-    setUnderlyingValueInput(settings.portfolioUnderlyingValue.toString());
+
+    // Only update underlying value input on initial load or major changes from external sources
+    if (underlyingValueInput === '' || underlyingValueInput === '0') {
+      setUnderlyingValueInput(settings.portfolioUnderlyingValue.toString());
+    }
+
     setMaxTotalCapitalInput(settings.maxTotalCapital?.toString() || "");
   }, [settings]);
 
   // Custom recalculation function for Portfolio Generator using its own underlying value
-  const recalculateOptionsForPortfolio = (options: OptionData[]): RecalculatedOptionData[] => {
+  const recalculateOptionsForPortfolio = (options: OptionData[], underlyingValue: number): RecalculatedOptionData[] => {
     return options.map(option => {
-      const numberOfContractsBasedOnLimit = Math.round((settings.portfolioUnderlyingValue / option.StrikePrice) / 100);
+      const numberOfContractsBasedOnLimit = Math.round((underlyingValue / option.StrikePrice) / 100);
       const bidAskMidPrice = (option.Bid + (option.Ask || option.Bid)) / 2;
       const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
       // Calculate the actual underlying value based on portfolio settings
@@ -65,8 +68,7 @@ const PortfolioGenerator = () => {
 
   // Use portfolio-specific recalculated data instead of global settings
   const data = useMemo(() => {
-    console.log('Recalculating options with underlying value:', settings.portfolioUnderlyingValue);
-    return recalculateOptionsForPortfolio(rawData || []);
+    return recalculateOptionsForPortfolio(rawData || [], settings.portfolioUnderlyingValue);
   }, [rawData, settings.portfolioUnderlyingValue, transactionCost]);
 
   // Portfolio table sorting state
@@ -134,23 +136,24 @@ const PortfolioGenerator = () => {
   const handleUnderlyingValueBlur = () => {
     // Don't validate during portfolio generation to prevent interference
     if (isGeneratingPortfolio) {
-      console.log('Skipping validation during portfolio generation');
       return;
     }
-    
-    console.log('handleUnderlyingValueBlur called with input:', underlyingValueInput);
+
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
     updateSetting('portfolioUnderlyingValue', clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
-    
+
     // Clear any existing generated portfolio so user needs to regenerate with new value
     if (settings.portfolioGenerated) {
-      updateSetting('generatedPortfolio', []);
-      updateSetting('portfolioGenerated', false);
-      updateSetting('portfolioMessage', "");
-      updateSetting('totalPotentialLoss', 0);
-      updateSetting('totalUnderlyingValue', 0);
+      updateMultipleSettings({
+        generatedPortfolio: [],
+        portfolioGenerated: false,
+        portfolioMessage: "",
+        totalPotentialLoss: 0,
+        totalUnderlyingValue: 0,
+        portfolioUnderlyingValue: clampedValue
+      });
     }
   };
 
@@ -184,11 +187,16 @@ const PortfolioGenerator = () => {
     return true;
   };
 
-  const generatePortfolio = () => {
-    console.log('=== PORTFOLIO GENERATION STARTED ===');
-    console.log('Current settings.portfolioUnderlyingValue:', settings.portfolioUnderlyingValue);
-    console.log('Current underlyingValueInput:', underlyingValueInput);
-    console.log('All settings:', settings);
+  const generatePortfolio = (useUnderlyingValue?: number) => {
+    // Use the provided underlying value or fall back to settings
+    const effectiveUnderlyingValue = useUnderlyingValue || settings.portfolioUnderlyingValue;
+
+    // Early return if no data
+    if (!data || data.length === 0) {
+      updateSetting('portfolioMessage', 'No options data available for portfolio generation');
+      return;
+    }
+
     setIsGeneratingPortfolio(true);
     
     try {
@@ -196,8 +204,11 @@ const PortfolioGenerator = () => {
       const usedStocks = new Set<string>();
       let totalPremium = 0;
 
+      // Recalculate options using the effective underlying value
+      const recalculatedData = recalculateOptionsForPortfolio(rawData || [], effectiveUnderlyingValue);
+
       // Filter options based on criteria - use the recalculated data that includes updated premiums
-      let filteredOptions = data.filter(option => {
+      let filteredOptions = recalculatedData.filter(option => {
         // CRITICAL: Exclude options with missing required values first
         if (!hasRequiredValues(option)) return false;
         
@@ -364,26 +375,20 @@ const PortfolioGenerator = () => {
         : 0;
       message += ` Strategy: ${optimizationStrategyOptions.find(s => s.value === settings.optimizationStrategy)?.label}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
 
-      // Update all portfolio settings
-      console.log('=== UPDATING PORTFOLIO RESULTS ===');
-      console.log('selectedOptions length:', selectedOptions.length);
-      console.log('calculatedUnderlyingValue:', calculatedUnderlyingValue);
-      console.log('message:', message);
-      
-      updateSetting('generatedPortfolio', selectedOptions);
-      updateSetting('totalUnderlyingValue', calculatedUnderlyingValue);
-      updateSetting('portfolioMessage', message);
-      updateSetting('portfolioGenerated', true);
-      updateSetting('totalPotentialLoss', totalPotentialLoss);
-      
-      console.log('=== PORTFOLIO SETTINGS UPDATED ===');
-      
+      // Save all changes in a single batch update to prevent race conditions
+      updateMultipleSettings({
+        generatedPortfolio: selectedOptions,
+        portfolioGenerated: true,
+        portfolioMessage: message,
+        totalUnderlyingValue: calculatedUnderlyingValue,
+        totalPotentialLoss: totalPotentialLoss,
+        portfolioUnderlyingValue: effectiveUnderlyingValue
+      });
+
     } catch (error) {
-      console.error("Error:", error);
       updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
     } finally {
       setIsGeneratingPortfolio(false);
-      console.log('Portfolio generation completed');
     }
   };
 
@@ -463,11 +468,14 @@ const PortfolioGenerator = () => {
               <Label htmlFor="underlyingValue">Underlying Stock Value Per Option</Label>
                 <Input
                 id="underlyingValue"
-                type="number"
+                type="text"
+                inputMode="numeric"
+                pattern="[0-9]*"
                 value={underlyingValueInput}
                 onChange={(e) => handleUnderlyingValueChange(e.target.value)}
                 onBlur={handleUnderlyingValueBlur}
                 placeholder="10,000 - 1,000,000"
+                className="text-left"
               />
               <p className="text-xs text-muted-foreground">Range: 10,000 - 1,000,000 SEK</p>
             </div>
@@ -655,54 +663,24 @@ const PortfolioGenerator = () => {
             </div>
           </div>
           
-           <Button onClick={() => {
-             console.log('Generate Portfolio button clicked');
-             console.log('Current portfolioUnderlyingValue before generation:', settings.portfolioUnderlyingValue);
-             generatePortfolio();
-           }} className="w-full md:w-auto" size="lg">
-             Generate Portfolio Automatically
+           <Button
+             onClick={() => {
+               const inputValue = parseInt(underlyingValueInput) || 100000;
+               const clampedValue = Math.max(10000, Math.min(1000000, inputValue));
+
+               if (!data || data.length === 0) {
+                 return;
+               }
+
+               generatePortfolio(clampedValue);
+             }}
+             disabled={isGeneratingPortfolio || (!data || data.length === 0)}
+             type="button"
+             className="w-full md:w-auto"
+             size="lg"
+           >
+             {isGeneratingPortfolio ? 'Generating...' : 'Generate Portfolio Automatically'}
             </Button>
-            
-            <Button onClick={() => {
-              console.log('=== PROPER RESET BUTTON CLICKED ===');
-              resetToDefaults();
-            }} variant="outline" className="w-full md:w-auto" size="lg">
-              Reset to Defaults (Fixed)
-            </Button>
-           
-           <Button onClick={() => {
-             console.log('=== FORCE RESET CLICKED ===');
-             // Force clear localStorage
-             localStorage.removeItem('portfolioGenerator_underlyingStockValue');
-             localStorage.removeItem('portfolioGenerator_totalPremiumTarget');
-             localStorage.removeItem('portfolioGenerator_generatedPortfolio');
-             localStorage.removeItem('portfolioGenerator_portfolioGenerated');
-             localStorage.removeItem('portfolioGenerator_portfolioMessage');
-             localStorage.removeItem('portfolioGenerator_totalUnderlyingValue');
-             localStorage.removeItem('portfolioGenerator_totalPotentialLoss');
-             
-             // Force set input values directly
-             setUnderlyingValueInput('100000');
-             setTotalPremiumInput('500');
-             
-             console.log('Force reset complete - page will reload');
-             window.location.reload();
-           }} variant="destructive" className="w-full md:w-auto" size="lg">
-             Force Reset & Reload
-           </Button>
-           
-           <Button onClick={() => {
-             console.log('=== DEBUGGING INFO ===');
-             console.log('Current settings object:', settings);
-             console.log('Current underlyingValueInput:', underlyingValueInput);
-             console.log('localStorage portfolioGenerator_underlyingStockValue:', localStorage.getItem('portfolioGenerator_underlyingStockValue'));
-             console.log('All localStorage portfolio keys:');
-             Object.keys(localStorage).filter(key => key.startsWith('portfolioGenerator_')).forEach(key => {
-               console.log(`  ${key}: ${localStorage.getItem(key)}`);
-             });
-           }} variant="secondary" className="w-full md:w-auto" size="lg">
-             Debug Info
-           </Button>
 
         </CardContent>
       </Card>
