@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useMonthlyStockData, MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonalityHeatmap';
 import { MonthlyStatsTable } from '@/components/monthly/MonthlyStatsTable';
+import { TimelinePerformanceChart } from '@/components/monthly/TimelinePerformanceChart';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -317,6 +318,19 @@ export const MonthlyAnalysis = () => {
           </CardHeader>
           <CardContent>
             <MonthlySeasonalityHeatmap data={heatmapData} selectedMonths={selectedMonths} />
+          </CardContent>
+        </Card>
+
+        {/* Timeline Performance Chart */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Timeline Performance Chart</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Historical monthly returns over time - analyze when good/bad months occurred
+            </p>
+          </CardHeader>
+          <CardContent>
+            <TimelinePerformanceChart data={monthlyData} selectedStock={selectedStock} />
           </CardContent>
         </Card>
 
