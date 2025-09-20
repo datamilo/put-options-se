@@ -103,9 +103,14 @@ export const usePortfolioGeneratorPreferences = () => {
         const supabaseSettings = data.preference_data as unknown as PortfolioGeneratorSettings;
         console.log('Loading Supabase settings:', supabaseSettings);
         console.log('Supabase portfolioUnderlyingValue:', supabaseSettings.portfolioUnderlyingValue);
-        setSettings(supabaseSettings);
-        // Also update localStorage for consistency
-        saveToLocalStorage(supabaseSettings);
+        
+        // Only use Supabase data if it looks valid, otherwise keep localStorage
+        if (supabaseSettings.portfolioUnderlyingValue && supabaseSettings.portfolioUnderlyingValue >= 10000 && supabaseSettings.portfolioUnderlyingValue <= 1000000) {
+          setSettings(supabaseSettings);
+          saveToLocalStorage(supabaseSettings);
+        } else {
+          console.log('Supabase data looks invalid, keeping localStorage settings');
+        }
       } else {
         console.log('No Supabase data found, keeping localStorage settings');
       }

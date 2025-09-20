@@ -365,11 +365,18 @@ const PortfolioGenerator = () => {
       message += ` Strategy: ${optimizationStrategyOptions.find(s => s.value === settings.optimizationStrategy)?.label}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
 
       // Update all portfolio settings
+      console.log('=== UPDATING PORTFOLIO RESULTS ===');
+      console.log('selectedOptions length:', selectedOptions.length);
+      console.log('calculatedUnderlyingValue:', calculatedUnderlyingValue);
+      console.log('message:', message);
+      
       updateSetting('generatedPortfolio', selectedOptions);
       updateSetting('totalUnderlyingValue', calculatedUnderlyingValue);
       updateSetting('portfolioMessage', message);
       updateSetting('portfolioGenerated', true);
       updateSetting('totalPotentialLoss', totalPotentialLoss);
+      
+      console.log('=== PORTFOLIO SETTINGS UPDATED ===');
       
     } catch (error) {
       console.error("Error:", error);
@@ -650,17 +657,22 @@ const PortfolioGenerator = () => {
           
            <Button onClick={() => {
              console.log('Generate Portfolio button clicked');
+             console.log('Current portfolioUnderlyingValue before generation:', settings.portfolioUnderlyingValue);
              generatePortfolio();
            }} className="w-full md:w-auto" size="lg">
              Generate Portfolio Automatically
            </Button>
            
            <Button onClick={() => {
-             console.log('Clearing all data...');
-             localStorage.clear();
-             window.location.reload();
+             console.log('Resetting portfolio generator settings to defaults...');
+             // Reset to default values
+             updateSetting('portfolioUnderlyingValue', 100000);
+             updateSetting('totalPremiumTarget', 500);
+             updateSetting('portfolioGenerated', false);
+             updateSetting('generatedPortfolio', []);
+             updateSetting('portfolioMessage', '');
            }} variant="outline" className="w-full md:w-auto" size="lg">
-             Clear All Data & Reload
+             Reset to Defaults
            </Button>
         </CardContent>
       </Card>
