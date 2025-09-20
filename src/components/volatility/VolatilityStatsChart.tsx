@@ -72,6 +72,12 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       const min_change = Math.min(...validChanges);
       const max_change = Math.max(...validChanges);
 
+      // Find the events that caused min/max changes
+      const minIndex = validChanges.indexOf(min_change);
+      const maxIndex = validChanges.indexOf(max_change);
+      const minEvent = stockData.find(d => d.close_price_pct_change_from_previous_day === min_change);
+      const maxEvent = stockData.find(d => d.close_price_pct_change_from_previous_day === max_change);
+
       // Calculate percentiles
       const p05 = count > 0 ? sortedChanges[Math.floor(count * 0.05)] : NaN;
       const p95 = count > 0 ? sortedChanges[Math.floor(count * 0.95)] : NaN;
@@ -117,7 +123,11 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
         ci95_low,
         ci95_high,
         avg_volume_pct_change,
-        avg_intraday_spread_pct
+        avg_intraday_spread_pct,
+        min_event_type: minEvent?.type_of_event || '',
+        min_event_date: minEvent?.date || '',
+        max_event_type: maxEvent?.type_of_event || '',
+        max_event_date: maxEvent?.date || ''
       });
     }
 
@@ -151,13 +161,27 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
+      const stockData = filteredData.find(item => item.name === label);
+      
       return (
         <div className="bg-background border border-border rounded-lg shadow-lg p-3">
           <p className="font-medium">{label}</p>
           {payload.map((entry: any, index: number) => (
-            <p key={index} style={{ color: entry.color }}>
-              {entry.name}: {typeof entry.value === 'number' ? `${entry.value.toFixed(2)}%` : entry.value}
-            </p>
+            <div key={index}>
+              <p style={{ color: entry.color }}>
+                {entry.name}: {typeof entry.value === 'number' ? `${entry.value.toFixed(2)}%` : entry.value}
+              </p>
+              {stockData && entry.dataKey === 'min_change' && (
+                <p className="text-xs text-muted-foreground">
+                  Event: {stockData.min_event_type} on {stockData.min_event_date}
+                </p>
+              )}
+              {stockData && entry.dataKey === 'max_change' && (
+                <p className="text-xs text-muted-foreground">
+                  Event: {stockData.max_event_type} on {stockData.max_event_date}
+                </p>
+              )}
+            </div>
           ))}
         </div>
       );

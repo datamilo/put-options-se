@@ -121,8 +121,12 @@ export const useVolatilityData = () => {
       const variance = validChanges.reduce((sum, val) => sum + Math.pow(val - mean_change, 2), 0) / count;
       const std_dev = Math.sqrt(variance);
 
-      const min_change = Math.min(...validChanges);
-      const max_change = Math.max(...validChanges);
+        const min_change = Math.min(...validChanges);
+        const max_change = Math.max(...validChanges);
+
+        // Find the events that caused min/max changes
+        const minEvent = stockData.find(d => d.close_price_pct_change_from_previous_day === min_change);
+        const maxEvent = stockData.find(d => d.close_price_pct_change_from_previous_day === max_change);
 
       // Calculate percentiles
       const p05 = count > 0 ? sortedChanges[Math.floor(count * 0.05)] : NaN;
@@ -169,7 +173,11 @@ export const useVolatilityData = () => {
         ci95_low,
         ci95_high,
         avg_volume_pct_change,
-        avg_intraday_spread_pct
+        avg_intraday_spread_pct,
+        min_event_type: minEvent?.type_of_event || '',
+        min_event_date: minEvent?.date || '',
+        max_event_type: maxEvent?.type_of_event || '',
+        max_event_date: maxEvent?.date || ''
       });
     }
 

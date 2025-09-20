@@ -35,4 +35,8 @@ export interface VolatilityStats {
   ci95_high: number;
   avg_volume_pct_change: number;
   avg_intraday_spread_pct: number;
+  min_event_type: string;
+  min_event_date: string;
+  max_event_type: string;
+  max_event_date: string;
 }
