@@ -135,6 +135,8 @@ export const usePortfolioGeneratorPreferences = () => {
             user_id: user.id,
             preference_type: 'portfolio_generator',
             preference_data: newSettings as any
+          }, {
+            onConflict: 'user_id,preference_type'
           });
 
         if (error) {
