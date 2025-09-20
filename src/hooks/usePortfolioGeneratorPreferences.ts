@@ -44,6 +44,9 @@ export const usePortfolioGeneratorPreferences = () => {
   // Load settings from localStorage initially
   useEffect(() => {
     const loadLocalStorageSettings = () => {
+      console.log('Loading localStorage settings...');
+      console.log('localStorage underlyingStockValue:', localStorage.getItem('portfolioGenerator_underlyingStockValue'));
+      
       const localSettings: PortfolioGeneratorSettings = {
         totalPremiumTarget: parseInt(localStorage.getItem('portfolioGenerator_totalPremiumTarget') || '500'),
         strikeBelowPeriod: localStorage.getItem('portfolioGenerator_strikeBelowPeriod') ? 
@@ -65,6 +68,7 @@ export const usePortfolioGeneratorPreferences = () => {
         portfolioMessage: localStorage.getItem('portfolioGenerator_portfolioMessage') || "",
         totalPotentialLoss: parseFloat(localStorage.getItem('portfolioGenerator_totalPotentialLoss') || '0'),
       };
+      console.log('Loaded localStorage settings:', localSettings);
       setSettings(localSettings);
     };
 
@@ -97,9 +101,13 @@ export const usePortfolioGeneratorPreferences = () => {
 
       if (data?.preference_data) {
         const supabaseSettings = data.preference_data as unknown as PortfolioGeneratorSettings;
+        console.log('Loading Supabase settings:', supabaseSettings);
+        console.log('Supabase portfolioUnderlyingValue:', supabaseSettings.portfolioUnderlyingValue);
         setSettings(supabaseSettings);
         // Also update localStorage for consistency
         saveToLocalStorage(supabaseSettings);
+      } else {
+        console.log('No Supabase data found, keeping localStorage settings');
       }
     } catch (error) {
       console.error('Error loading portfolio generator preferences:', error);
@@ -152,6 +160,12 @@ export const usePortfolioGeneratorPreferences = () => {
     key: K,
     value: PortfolioGeneratorSettings[K]
   ) => {
+    if (key === 'portfolioUnderlyingValue') {
+      console.log('=== UPDATING portfolioUnderlyingValue ===');
+      console.log('From:', settings[key]);
+      console.log('To:', value);
+      console.trace('Update called from:');
+    }
     const newSettings = { ...settings, [key]: value };
     saveSettings(newSettings);
   };

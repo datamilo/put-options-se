@@ -32,6 +32,8 @@ const PortfolioGenerator = () => {
 
   // Update input states when settings change
   useEffect(() => {
+    console.log('Settings changed - portfolioUnderlyingValue:', settings.portfolioUnderlyingValue);
+    console.log('localStorage underlyingStockValue:', localStorage.getItem('portfolioGenerator_underlyingStockValue'));
     setTotalPremiumInput(settings.totalPremiumTarget.toString());
     setUnderlyingValueInput(settings.portfolioUnderlyingValue.toString());
     setMaxTotalCapitalInput(settings.maxTotalCapital?.toString() || "");
@@ -62,7 +64,10 @@ const PortfolioGenerator = () => {
   };
 
   // Use portfolio-specific recalculated data instead of global settings
-  const data = recalculateOptionsForPortfolio(rawData || []);
+  const data = useMemo(() => {
+    console.log('Recalculating options with underlying value:', settings.portfolioUnderlyingValue);
+    return recalculateOptionsForPortfolio(rawData || []);
+  }, [rawData, settings.portfolioUnderlyingValue, transactionCost]);
 
   // Portfolio table sorting state
   const [sortField, setSortField] = useState<keyof OptionData | null>(null);
@@ -180,7 +185,10 @@ const PortfolioGenerator = () => {
   };
 
   const generatePortfolio = () => {
-    console.log('Portfolio generation started with underlying value:', settings.portfolioUnderlyingValue);
+    console.log('=== PORTFOLIO GENERATION STARTED ===');
+    console.log('Current settings.portfolioUnderlyingValue:', settings.portfolioUnderlyingValue);
+    console.log('Current underlyingValueInput:', underlyingValueInput);
+    console.log('All settings:', settings);
     setIsGeneratingPortfolio(true);
     
     try {
@@ -640,9 +648,20 @@ const PortfolioGenerator = () => {
             </div>
           </div>
           
-          <Button onClick={generatePortfolio} className="w-full md:w-auto" size="lg">
-            Generate Portfolio Automatically
-          </Button>
+           <Button onClick={() => {
+             console.log('Generate Portfolio button clicked');
+             generatePortfolio();
+           }} className="w-full md:w-auto" size="lg">
+             Generate Portfolio Automatically
+           </Button>
+           
+           <Button onClick={() => {
+             console.log('Clearing all data...');
+             localStorage.clear();
+             window.location.reload();
+           }} variant="outline" className="w-full md:w-auto" size="lg">
+             Clear All Data & Reload
+           </Button>
         </CardContent>
       </Card>
 
