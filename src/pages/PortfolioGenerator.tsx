@@ -20,7 +20,7 @@ const PortfolioGenerator = () => {
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
   const { getLowPriceForPeriod } = useStockData();
   const { transactionCost } = useSettings();
-  const { settings, updateSetting, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
+  const { settings, updateSetting, resetToDefaults, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
 
   // Add state to prevent validation during portfolio generation
   const [isGeneratingPortfolio, setIsGeneratingPortfolio] = useState(false);
@@ -661,7 +661,14 @@ const PortfolioGenerator = () => {
              generatePortfolio();
            }} className="w-full md:w-auto" size="lg">
              Generate Portfolio Automatically
-           </Button>
+            </Button>
+            
+            <Button onClick={() => {
+              console.log('=== PROPER RESET BUTTON CLICKED ===');
+              resetToDefaults();
+            }} variant="outline" className="w-full md:w-auto" size="lg">
+              Reset to Defaults (Fixed)
+            </Button>
            
            <Button onClick={() => {
              console.log('=== FORCE RESET CLICKED ===');

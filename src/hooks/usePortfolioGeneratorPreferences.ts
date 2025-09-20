@@ -40,6 +40,7 @@ export const usePortfolioGeneratorPreferences = () => {
   const { user } = useAuth();
   const [settings, setSettings] = useState<PortfolioGeneratorSettings>(defaultSettings);
   const [isLoading, setIsLoading] = useState(true);
+  const [isResetting, setIsResetting] = useState(false); // Flag to prevent Supabase override during reset
 
   // Load settings from localStorage initially
   useEffect(() => {
@@ -78,13 +79,13 @@ export const usePortfolioGeneratorPreferences = () => {
 
   // Load settings from Supabase when user is authenticated
   useEffect(() => {
-    if (user) {
+    if (user && !isResetting) { // Don't load Supabase data during reset
       loadSupabaseSettings();
     }
-  }, [user]);
+  }, [user, isResetting]);
 
   const loadSupabaseSettings = async () => {
-    if (!user) return;
+    if (!user || isResetting) return; // Don't load during reset
 
     try {
       const { data, error } = await supabase
@@ -175,10 +176,42 @@ export const usePortfolioGeneratorPreferences = () => {
     saveSettings(newSettings);
   };
 
+  const resetToDefaults = () => {
+    console.log('=== RESETTING TO DEFAULTS ===');
+    setIsResetting(true);
+    
+    // Set to clean defaults
+    const cleanDefaults = {
+      ...defaultSettings,
+      portfolioUnderlyingValue: 100000,
+      totalPremiumTarget: 500,
+    };
+    
+    console.log('Setting clean defaults:', cleanDefaults);
+    setSettings(cleanDefaults);
+    saveToLocalStorage(cleanDefaults);
+    
+    // Clear any corrupted Supabase data
+    if (user) {
+      supabase
+        .from('user_preferences')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('preference_type', 'portfolio_generator')
+        .then(() => {
+          console.log('Cleared corrupted Supabase data');
+          setIsResetting(false);
+        });
+    } else {
+      setIsResetting(false);
+    }
+  };
+
   return {
     settings,
     isLoading,
     updateSetting,
     saveSettings,
+    resetToDefaults, // New function that properly resets
   };
 };
