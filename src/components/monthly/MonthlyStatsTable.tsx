@@ -298,22 +298,22 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                   </TableCell>
                   <TableCell>
                     <span className={row.return_month_mean_pct_return_month >= 0 ? 'text-green-600' : 'text-red-600'}>
-                      {formatNumber(row.return_month_mean_pct_return_month)}%
+                      {formatNumber(row.return_month_mean_pct_return_month * 100)}%
                     </span>
                   </TableCell>
                   <TableCell>
-                    <span className={row.open_to_low_mean_pct_return_month >= -5 ? 'text-green-600' : 'text-red-600'}>
-                      {formatNumber(row.open_to_low_mean_pct_return_month)}%
+                    <span className={row.open_to_low_mean_pct_return_month >= -0.05 ? 'text-green-600' : 'text-red-600'}>
+                      {formatNumber(row.open_to_low_mean_pct_return_month * 100)}%
                     </span>
                   </TableCell>
                   <TableCell>
                     <span className="text-red-600">
-                      {formatNumber(row.open_to_low_min_pct_return_month)}%
+                      {formatNumber(row.open_to_low_min_pct_return_month * 100)}%
                     </span>
                   </TableCell>
                   <TableCell>
                     <span className={row.open_to_low_max_pct_return_month >= 0 ? 'text-green-600' : 'text-orange-600'}>
-                      {formatNumber(row.open_to_low_max_pct_return_month)}%
+                      {formatNumber(row.open_to_low_max_pct_return_month * 100)}%
                     </span>
                   </TableCell>
                 </TableRow>

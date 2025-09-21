@@ -56,7 +56,8 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
           const monthReturns = yearGroups[year][month];
           if (monthReturns && monthReturns.length > 0) {
             // Calculate average return for this month in this year
-            yearData[`month_${month}`] = monthReturns.reduce((sum, val) => sum + val, 0) / monthReturns.length;
+            // Multiply by 100 to convert from decimal to percentage
+            yearData[`month_${month}`] = (monthReturns.reduce((sum, val) => sum + val, 0) / monthReturns.length) * 100;
           }
         }
 
@@ -181,16 +182,6 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
             data={chartData}
             margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
           >
-            <defs>
-              <linearGradient id="positiveGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#22c55e" stopOpacity={0.2}/>
-                <stop offset="100%" stopColor="#22c55e" stopOpacity={0.05}/>
-              </linearGradient>
-              <linearGradient id="negativeGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#ef4444" stopOpacity={0.05}/>
-                <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
-              </linearGradient>
-            </defs>
 
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
@@ -219,16 +210,16 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
             <ReferenceArea
               y1={0}
               y2={yAxisRange.max}
-              fill="url(#positiveGradient)"
-              fillOpacity={1}
+              fill="#22c55e"
+              fillOpacity={0.1}
             />
 
             {/* Background shading for negative area */}
             <ReferenceArea
               y1={yAxisRange.min}
               y2={0}
-              fill="url(#negativeGradient)"
-              fillOpacity={1}
+              fill="#ef4444"
+              fillOpacity={0.1}
             />
 
             {/* Zero Reference Line - makes positive/negative values visually clear */}
