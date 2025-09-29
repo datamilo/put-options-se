@@ -459,9 +459,9 @@ const PortfolioGenerator = () => {
                 value={totalPremiumInput}
                 onChange={(e) => setTotalPremiumInput(e.target.value)}
                 onBlur={(e) => validateTotalPremium(e.target.value)}
-                placeholder="500 - 1,000,000"
+                placeholder="500 - 1 000 000"
               />
-              <p className="text-xs text-muted-foreground">Range: 500 - 1,000,000 SEK</p>
+              <p className="text-xs text-muted-foreground">Range: 500 - 1 000 000 SEK</p>
             </div>
 
             <div className="space-y-2">
@@ -474,10 +474,10 @@ const PortfolioGenerator = () => {
                 value={underlyingValueInput}
                 onChange={(e) => handleUnderlyingValueChange(e.target.value)}
                 onBlur={handleUnderlyingValueBlur}
-                placeholder="10,000 - 1,000,000"
+                placeholder="10 000 - 1 000 000"
                 className="text-left"
               />
-              <p className="text-xs text-muted-foreground">Range: 10,000 - 1,000,000 SEK</p>
+              <p className="text-xs text-muted-foreground">Range: 10 000 - 1 000 000 SEK</p>
             </div>
 
             <div className="space-y-2">
@@ -618,7 +618,7 @@ const PortfolioGenerator = () => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
                   updateSetting('maxTotalCapital', value);
                 }}
-                placeholder="e.g., 5,000,000 SEK"
+                placeholder="e.g., 5 000 000 SEK"
               />
               <p className="text-xs text-muted-foreground">
                 Limits total underlying value across all options

@@ -72,7 +72,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
       setIsOpen(false);
       toast.success(`Settings updated: Underlying value ${tempValue.toLocaleString()}, Transaction cost ${tempTransactionCost}`);
     } else {
-      toast.error('Please enter a value between 10,000 and 1,000,000');
+      toast.error('Please enter a value between 10 000 and 1 000 000');
     }
   };
 
@@ -133,8 +133,8 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
                   className="w-full"
                 />
                 <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>10,000</span>
-                  <span>1,000,000</span>
+                  <span>10 000</span>
+                  <span>1 000 000</span>
                 </div>
               </div>
               
@@ -146,7 +146,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
                   value={inputValue}
                   onChange={handleInputChange}
                   onBlur={handleInputBlur}
-                  placeholder="100,000"
+                  placeholder="100 000"
                 />
               </div>
             </div>
