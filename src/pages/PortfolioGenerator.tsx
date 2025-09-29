@@ -364,9 +364,9 @@ const PortfolioGenerator = () => {
       let message = "";
       if (totalPremium < settings.totalPremiumTarget) {
         const deficit = settings.totalPremiumTarget - totalPremium;
-        message = `Portfolio generated with ${totalPremium} SEK premium (${deficit} SEK below target). `;
+        message = `Portfolio generated with ${totalPremium.toLocaleString('sv-SE')} SEK premium (${deficit.toLocaleString('sv-SE')} SEK below target). `;
       } else {
-        message = `Portfolio successfully generated with ${totalPremium} SEK premium.`;
+        message = `Portfolio successfully generated with ${totalPremium.toLocaleString('sv-SE')} SEK premium.`;
       }
       
       // Add capital efficiency info to message
@@ -693,9 +693,9 @@ const PortfolioGenerator = () => {
                 <CardTitle>Generated Portfolio ({settings.generatedPortfolio.length} options)</CardTitle>
                 <div className="text-sm text-muted-foreground space-y-1 mt-2">
                   <p>{settings.portfolioMessage}</p>
-                  <p>Total Underlying Stock Value: {settings.totalUnderlyingValue.toLocaleString()} SEK</p>
-                  <p>Total Premium: {settings.generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString()} SEK (Based on {settings.portfolioUnderlyingValue.toLocaleString()} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
-                  <p>Total Calculated Risk of Loss: {Math.round(settings.totalPotentialLoss).toLocaleString()} SEK</p>
+                  <p>Total Underlying Stock Value: {settings.totalUnderlyingValue.toLocaleString('sv-SE')} SEK</p>
+                  <p>Total Premium: {settings.generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString('sv-SE')} SEK (Based on {settings.portfolioUnderlyingValue.toLocaleString('sv-SE')} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
+                  <p>Total Calculated Risk of Loss: {Math.round(settings.totalPotentialLoss).toLocaleString('sv-SE')} SEK</p>
                 </div>
               </div>
             </div>

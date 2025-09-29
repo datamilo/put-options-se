@@ -65,7 +65,7 @@ export const VolatilityAnalysis = () => {
             <div className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
-                {totalEvents.toLocaleString()} events analyzed
+                {totalEvents.toLocaleString('sv-SE')} events analyzed
               </span>
             </div>
           </div>
@@ -81,7 +81,7 @@ export const VolatilityAnalysis = () => {
               <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{totalEvents.toLocaleString()}</div>
+              <div className="text-2xl font-bold">{totalEvents.toLocaleString('sv-SE')}</div>
               <p className="text-xs text-muted-foreground">
                 Corporate events analyzed
               </p>

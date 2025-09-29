@@ -94,7 +94,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
       return [`${value.toFixed(2)}`, 'Price'];
     }
     if (name === 'volume') {
-      return [value.toLocaleString(), 'Volume'];
+      return [value.toLocaleString('sv-SE'), 'Volume'];
     }
     return [value, name];
   };

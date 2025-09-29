@@ -104,7 +104,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
             Pricing
             {isRecalculated && (
                <Badge variant="secondary" className="text-xs">
-                 Recalculated for {underlyingValue.toLocaleString()}
+                 Recalculated for {underlyingValue.toLocaleString('sv-SE')}
                </Badge>
             )}
           </CardTitle>
@@ -112,7 +112,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
         <CardContent className="space-y-3">
           <div className="flex justify-between">
              <span className="text-sm text-muted-foreground">Underlying Value (Investment)</span>
-             <span className="font-medium">{calculatedUnderlyingValue.toLocaleString()}</span>
+             <span className="font-medium">{calculatedUnderlyingValue.toLocaleString('sv-SE')}</span>
           </div>
           <Separator />
           <div className="flex justify-between">

@@ -70,7 +70,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
       setUnderlyingValue(tempValue);
       setTransactionCost(tempTransactionCost);
       setIsOpen(false);
-      toast.success(`Settings updated: Underlying value ${tempValue.toLocaleString()}, Transaction cost ${tempTransactionCost}`);
+      toast.success(`Settings updated: Underlying value ${tempValue.toLocaleString('sv-SE')}, Transaction cost ${tempTransactionCost}`);
     } else {
       toast.error('Please enter a value between 10 000 and 1 000 000');
     }
@@ -84,7 +84,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
   };
 
   const formatCurrency = (value: number) => {
-    return value.toLocaleString();
+    return value.toLocaleString('sv-SE');
   };
 
   return (

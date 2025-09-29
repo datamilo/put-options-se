@@ -132,7 +132,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                           </div>
                           <div className="space-y-1">
                             <div className="text-sm">
-                              <span className="font-medium">Premium:</span> {Number(data.x).toLocaleString()}
+                              <span className="font-medium">Premium:</span> {Number(data.x).toLocaleString('sv-SE')}
                             </div>
                             {selectedProbFields.map((field) => (
                               <div key={field} className="text-sm">
