@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
@@ -33,35 +33,11 @@ const Index = () => {
   const { getStockSummary, getLowPriceForPeriod } = useStockData();
   const { settings: savedFilters, isLoading: isLoadingPreferences, saveSettings: saveFilterSettings } = useMainPagePreferences();
   
-  // Initialize filter state from URL parameters (URL takes precedence over saved preferences)
-  const [selectedStocks, setSelectedStocks] = useState<string[]>(() => {
-    const stocks = searchParams.get('stocks');
-    if (!stocks) return [];
-    
-    // Use URL encoding to handle stock names with commas
-    try {
-      const decodedStocks = decodeURIComponent(stocks);
-      const result = JSON.parse(decodedStocks);
-      return Array.isArray(result) ? result : [];
-    } catch {
-      // Fallback to comma split for backward compatibility
-      return stocks.split(',').filter(Boolean);
-    }
-  });
-  const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>(() => {
-    const dates = searchParams.get('expiryDates');
-    if (!dates) return [];
-    
-    try {
-      const decodedDates = decodeURIComponent(dates);
-      const result = JSON.parse(decodedDates);
-      return Array.isArray(result) ? result : [];
-    } catch {
-      // Fallback to comma split for backward compatibility
-      return dates.split(',').filter(Boolean);
-    }
-  });
+  // Initialize filter state - will be populated from preferences or URL
+  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
+  const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
   const [preferencesLoaded, setPreferencesLoaded] = useState(false);
+  const urlParamsProcessed = useRef(false);
   const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(() => {
     const period = searchParams.get('strikeBelowPeriod');
     return period ? parseInt(period, 10) : null;
@@ -162,84 +138,103 @@ const Index = () => {
     </>
   );
 
-  // Update URL parameters when filters and sorting change
+  // Handle URL parameters for sharing (only on initial load)
   useEffect(() => {
-    const params = new URLSearchParams();
+    if (urlParamsProcessed.current || !data.length) return;
     
-    if (selectedStocks.length > 0) {
-      // Use JSON encoding to handle stock names with commas
-      params.set('stocks', encodeURIComponent(JSON.stringify(selectedStocks)));
-    }
-    if (selectedExpiryDates.length > 0) {
-      params.set('expiryDates', encodeURIComponent(JSON.stringify(selectedExpiryDates)));
-    }
-    if (strikeBelowPeriod !== null) {
-      params.set('strikeBelowPeriod', strikeBelowPeriod.toString());
-    }
-    if (selectedRiskLevels.length > 0) {
-      params.set('riskLevels', encodeURIComponent(JSON.stringify(selectedRiskLevels)));
-    }
-    if (sortField !== null) {
-      params.set('sortField', sortField);
-    }
-    if (sortDirection !== 'asc') {
-      params.set('sortDirection', sortDirection);
-    }
-    
-    setSearchParams(params, { replace: true });
-  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, selectedRiskLevels, sortField, sortDirection, setSearchParams]);
-
-  // Load saved preferences when data is available (only if no URL params)
-  useEffect(() => {
-    if (data.length > 0 && !isLoadingPreferences && !preferencesLoaded && !searchParams.has('expiryDates') && !searchParams.has('stocks') && !searchParams.has('riskLevels')) {
-      const availableStocks = [...new Set(data.map(option => option.StockName))];
-      const availableExpiryDates = [...new Set(data.map(option => option.ExpiryDate))];
+    const hasUrlParams = searchParams.has('stocks') || searchParams.has('expiryDates') || searchParams.has('riskLevels');
+    if (hasUrlParams && !preferencesLoaded) {
+      // Process URL params for sharing
+      const stocks = searchParams.get('stocks');
+      const dates = searchParams.get('expiryDates');
+      const riskLevels = searchParams.get('riskLevels');
       
-      // Filter saved stocks to only include ones that exist in current data
-      const validSavedStocks = savedFilters.selectedStocks.filter(stock => availableStocks.includes(stock));
-      const validSavedExpiryDates = savedFilters.selectedExpiryDates.filter(date => availableExpiryDates.includes(date));
-      
-      // If no valid saved expiry dates, calculate third Friday of next month as default
-      let expiryDatesToUse = validSavedExpiryDates;
-      if (expiryDatesToUse.length === 0) {
-        // Calculate third Friday of next month
-        const today = new Date();
-        const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-        
-        // Find first Friday of next month
-        const firstFriday = new Date(nextMonth);
-        const dayOfWeek = firstFriday.getDay();
-        const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
-        firstFriday.setDate(firstFriday.getDate() + daysUntilFriday);
-        
-        // Third Friday is 14 days after first Friday
-        const thirdFriday = new Date(firstFriday);
-        thirdFriday.setDate(thirdFriday.getDate() + 14);
-        
-        // Find the expiry date closest to third Friday
-        let closestDate = availableExpiryDates[0];
-        let smallestDiff = Infinity;
-        
-        availableExpiryDates.forEach(dateStr => {
-          const expiryDate = new Date(dateStr);
-          const diff = Math.abs(expiryDate.getTime() - thirdFriday.getTime());
-          if (diff < smallestDiff) {
-            smallestDiff = diff;
-            closestDate = dateStr;
-          }
-        });
-        
-        if (closestDate) {
-          expiryDatesToUse = [closestDate];
+      if (stocks) {
+        try {
+          const result = JSON.parse(decodeURIComponent(stocks));
+          if (Array.isArray(result)) setSelectedStocks(result);
+        } catch {
+          setSelectedStocks(stocks.split(',').filter(Boolean));
         }
       }
       
-      setSelectedStocks(validSavedStocks);
-      setSelectedExpiryDates(expiryDatesToUse);
-      setSelectedRiskLevels(savedFilters.selectedRiskLevels);
-      setPreferencesLoaded(true);
+      if (dates) {
+        try {
+          const result = JSON.parse(decodeURIComponent(dates));
+          if (Array.isArray(result)) setSelectedExpiryDates(result);
+        } catch {
+          setSelectedExpiryDates(dates.split(',').filter(Boolean));
+        }
+      }
+      
+      if (riskLevels) {
+        try {
+          const result = JSON.parse(decodeURIComponent(riskLevels));
+          if (Array.isArray(result)) setSelectedRiskLevels(result);
+        } catch {
+          setSelectedRiskLevels(riskLevels.split(',').filter(Boolean));
+        }
+      }
+      
+      urlParamsProcessed.current = true;
     }
-  }, [data, isLoadingPreferences, preferencesLoaded, savedFilters, searchParams]);
+  }, [data.length, searchParams, preferencesLoaded]);
+
+  // Update URL parameters when filters and sorting change (removed to prevent interference with preferences)
+  
+  // Load saved preferences when data is available
+  useEffect(() => {
+    // Skip if already loaded, or if URL params were processed (sharing link)
+    if (preferencesLoaded || urlParamsProcessed.current) return;
+    if (data.length === 0 || isLoadingPreferences) return;
+    
+    const availableStocks = [...new Set(data.map(option => option.StockName))];
+    const availableExpiryDates = [...new Set(data.map(option => option.ExpiryDate))];
+    
+    // Filter saved stocks to only include ones that exist in current data
+    const validSavedStocks = savedFilters.selectedStocks.filter(stock => availableStocks.includes(stock));
+    const validSavedExpiryDates = savedFilters.selectedExpiryDates.filter(date => availableExpiryDates.includes(date));
+    
+    // If no valid saved expiry dates, calculate third Friday of next month as default
+    let expiryDatesToUse = validSavedExpiryDates;
+    if (expiryDatesToUse.length === 0) {
+      // Calculate third Friday of next month
+      const today = new Date();
+      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+      
+      // Find first Friday of next month
+      const firstFriday = new Date(nextMonth);
+      const dayOfWeek = firstFriday.getDay();
+      const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+      firstFriday.setDate(firstFriday.getDate() + daysUntilFriday);
+      
+      // Third Friday is 14 days after first Friday
+      const thirdFriday = new Date(firstFriday);
+      thirdFriday.setDate(thirdFriday.getDate() + 14);
+      
+      // Find the expiry date closest to third Friday
+      let closestDate = availableExpiryDates[0];
+      let smallestDiff = Infinity;
+      
+      availableExpiryDates.forEach(dateStr => {
+        const expiryDate = new Date(dateStr);
+        const diff = Math.abs(expiryDate.getTime() - thirdFriday.getTime());
+        if (diff < smallestDiff) {
+          smallestDiff = diff;
+          closestDate = dateStr;
+        }
+      });
+      
+      if (closestDate) {
+        expiryDatesToUse = [closestDate];
+      }
+    }
+    
+    setSelectedStocks(validSavedStocks);
+    setSelectedExpiryDates(expiryDatesToUse);
+    setSelectedRiskLevels(savedFilters.selectedRiskLevels);
+    setPreferencesLoaded(true);
+  }, [data, isLoadingPreferences, preferencesLoaded, savedFilters]);
   
   // Save preferences whenever filters change (debounced by only saving when user is done interacting)
   useEffect(() => {
