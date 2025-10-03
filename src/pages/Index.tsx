@@ -36,7 +36,6 @@ const Index = () => {
   // Initialize filter state - will be populated from preferences or URL
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
-  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
   const urlParamsProcessed = useRef(false);
   const [strikeBelowPeriod, setStrikeBelowPeriod] = useState<number | null>(() => {
     const period = searchParams.get('strikeBelowPeriod');
@@ -143,7 +142,7 @@ const Index = () => {
     if (urlParamsProcessed.current || !data.length) return;
     
     const hasUrlParams = searchParams.has('stocks') || searchParams.has('expiryDates') || searchParams.has('riskLevels');
-    if (hasUrlParams && !preferencesLoaded) {
+    if (hasUrlParams) {
       // Process URL params for sharing
       const stocks = searchParams.get('stocks');
       const dates = searchParams.get('expiryDates');
@@ -178,14 +177,14 @@ const Index = () => {
       
       urlParamsProcessed.current = true;
     }
-  }, [data.length, searchParams, preferencesLoaded]);
+  }, [data.length, searchParams]);
 
   // Update URL parameters when filters and sorting change (removed to prevent interference with preferences)
   
   // Load saved preferences when data is available
   useEffect(() => {
-    // Skip if already loaded, or if URL params were processed (sharing link)
-    if (preferencesLoaded || urlParamsProcessed.current) return;
+    // Skip if URL params were processed (sharing link)
+    if (urlParamsProcessed.current) return;
     if (data.length === 0 || isLoadingPreferences) return;
     
     const availableStocks = [...new Set(data.map(option => option.StockName))];
@@ -207,8 +206,7 @@ const Index = () => {
     setSelectedStocks(validSavedStocks);
     setSelectedExpiryDates(expiryDatesToUse);
     setSelectedRiskLevels(savedFilters.selectedRiskLevels);
-    setPreferencesLoaded(true);
-  }, [data, isLoadingPreferences, preferencesLoaded, savedFilters]);
+  }, [data, isLoadingPreferences, savedFilters]);
   
   // Helper function to calculate default expiry date (third Friday of next month)
   const calculateDefaultExpiryDate = (availableExpiryDates: string[]) => {
@@ -256,7 +254,7 @@ const Index = () => {
   
   // Save preferences whenever filters change (debounced by only saving when user is done interacting)
   useEffect(() => {
-    if (preferencesLoaded && data.length > 0) {
+    if (!isLoadingPreferences && data.length > 0 && !urlParamsProcessed.current) {
       const timeoutId = setTimeout(() => {
         saveFilterSettings({
           selectedStocks,
@@ -268,7 +266,7 @@ const Index = () => {
       
       return () => clearTimeout(timeoutId);
     }
-  }, [selectedStocks, selectedExpiryDates, selectedRiskLevels, preferencesLoaded, data.length, saveFilterSettings]);
+  }, [selectedStocks, selectedExpiryDates, selectedRiskLevels, isLoadingPreferences, data.length, saveFilterSettings]);
   
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
