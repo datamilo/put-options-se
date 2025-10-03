@@ -18,7 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info, TrendingUp } from "lucide-react";
+import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info, TrendingUp, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
@@ -198,35 +198,9 @@ const Index = () => {
     // If no valid saved expiry dates, calculate third Friday of next month as default
     let expiryDatesToUse = validSavedExpiryDates;
     if (expiryDatesToUse.length === 0) {
-      // Calculate third Friday of next month
-      const today = new Date();
-      const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-      
-      // Find first Friday of next month
-      const firstFriday = new Date(nextMonth);
-      const dayOfWeek = firstFriday.getDay();
-      const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
-      firstFriday.setDate(firstFriday.getDate() + daysUntilFriday);
-      
-      // Third Friday is 14 days after first Friday
-      const thirdFriday = new Date(firstFriday);
-      thirdFriday.setDate(thirdFriday.getDate() + 14);
-      
-      // Find the expiry date closest to third Friday
-      let closestDate = availableExpiryDates[0];
-      let smallestDiff = Infinity;
-      
-      availableExpiryDates.forEach(dateStr => {
-        const expiryDate = new Date(dateStr);
-        const diff = Math.abs(expiryDate.getTime() - thirdFriday.getTime());
-        if (diff < smallestDiff) {
-          smallestDiff = diff;
-          closestDate = dateStr;
-        }
-      });
-      
-      if (closestDate) {
-        expiryDatesToUse = [closestDate];
+      const defaultDate = calculateDefaultExpiryDate(availableExpiryDates);
+      if (defaultDate) {
+        expiryDatesToUse = [defaultDate];
       }
     }
     
@@ -235,6 +209,50 @@ const Index = () => {
     setSelectedRiskLevels(savedFilters.selectedRiskLevels);
     setPreferencesLoaded(true);
   }, [data, isLoadingPreferences, preferencesLoaded, savedFilters]);
+  
+  // Helper function to calculate default expiry date (third Friday of next month)
+  const calculateDefaultExpiryDate = (availableExpiryDates: string[]) => {
+    const today = new Date();
+    const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
+    
+    // Find first Friday of next month
+    const firstFriday = new Date(nextMonth);
+    const dayOfWeek = firstFriday.getDay();
+    const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+    firstFriday.setDate(firstFriday.getDate() + daysUntilFriday);
+    
+    // Third Friday is 14 days after first Friday
+    const thirdFriday = new Date(firstFriday);
+    thirdFriday.setDate(thirdFriday.getDate() + 14);
+    
+    // Find the expiry date closest to third Friday
+    let closestDate = availableExpiryDates[0];
+    let smallestDiff = Infinity;
+    
+    availableExpiryDates.forEach(dateStr => {
+      const expiryDate = new Date(dateStr);
+      const diff = Math.abs(expiryDate.getTime() - thirdFriday.getTime());
+      if (diff < smallestDiff) {
+        smallestDiff = diff;
+        closestDate = dateStr;
+      }
+    });
+    
+    return closestDate;
+  };
+  
+  // Reset filters to default
+  const resetToDefault = () => {
+    const availableExpiryDates = [...new Set(data.map(option => option.ExpiryDate))];
+    const defaultDate = calculateDefaultExpiryDate(availableExpiryDates);
+    
+    setSelectedStocks([]);
+    setSelectedExpiryDates(defaultDate ? [defaultDate] : []);
+    setSelectedRiskLevels([]);
+    setStrikeBelowPeriod(null);
+    
+    toast.success("Filters reset to default");
+  };
   
   // Save preferences whenever filters change (debounced by only saving when user is done interacting)
   useEffect(() => {
@@ -423,7 +441,16 @@ const Index = () => {
               </p>
             </div>
             
-            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-start gap-4 flex-wrap">
+              <Button 
+                onClick={resetToDefault} 
+                variant="outline"
+                className="self-start"
+                title="Reset all filters to default (third Friday of next month)"
+              >
+                Reset to Default
+              </Button>
+              
               <div className="space-y-2">
                 <div className="flex items-center gap-1 min-h-5">
                   <Label>Strike Price Below</Label>
