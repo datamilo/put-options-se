@@ -187,12 +187,17 @@ const Index = () => {
     if (urlParamsProcessed.current) return;
     if (data.length === 0 || isLoadingPreferences) return;
     
+    console.log('📥 Loading preferences from Supabase:', savedFilters);
+    
     const availableStocks = [...new Set(data.map(option => option.StockName))];
     const availableExpiryDates = [...new Set(data.map(option => option.ExpiryDate))];
     
     // Filter saved stocks to only include ones that exist in current data
     const validSavedStocks = savedFilters.selectedStocks.filter(stock => availableStocks.includes(stock));
     const validSavedExpiryDates = savedFilters.selectedExpiryDates.filter(date => availableExpiryDates.includes(date));
+    
+    console.log('✅ Valid saved stocks:', validSavedStocks);
+    console.log('✅ Valid saved dates:', validSavedExpiryDates);
     
     // If no valid saved expiry dates, calculate third Friday of next month as default
     let expiryDatesToUse = validSavedExpiryDates;
@@ -201,11 +206,14 @@ const Index = () => {
       if (defaultDate) {
         expiryDatesToUse = [defaultDate];
       }
+      console.log('🎯 Using default expiry date:', expiryDatesToUse);
     }
     
     setSelectedStocks(validSavedStocks);
     setSelectedExpiryDates(expiryDatesToUse);
     setSelectedRiskLevels(savedFilters.selectedRiskLevels);
+    
+    console.log('📝 Applied filters - stocks:', validSavedStocks, 'dates:', expiryDatesToUse, 'risk:', savedFilters.selectedRiskLevels);
   }, [data, isLoadingPreferences, savedFilters]);
   
   // Helper function to calculate default expiry date (third Friday of next month)
@@ -256,6 +264,11 @@ const Index = () => {
   useEffect(() => {
     if (!isLoadingPreferences && data.length > 0 && !urlParamsProcessed.current) {
       const timeoutId = setTimeout(() => {
+        console.log('💾 Saving preferences to Supabase:', {
+          selectedStocks,
+          selectedExpiryDates,
+          selectedRiskLevels
+        });
         saveFilterSettings({
           selectedStocks,
           selectedExpiryDates,

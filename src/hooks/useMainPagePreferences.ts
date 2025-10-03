@@ -64,8 +64,11 @@ export const useMainPagePreferences = () => {
 
         if (data?.preference_data) {
           const loadedSettings = data.preference_data as any as MainPageFilterSettings;
+          console.log('🔄 useMainPagePreferences - Loaded from Supabase:', loadedSettings);
           setSettings(loadedSettings);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(loadedSettings));
+        } else {
+          console.log('🔄 useMainPagePreferences - No saved preferences found in Supabase');
         }
       } catch (error) {
         console.error('Error loading main page settings:', error);
@@ -78,6 +81,7 @@ export const useMainPagePreferences = () => {
   }, [user]);
 
   const saveSettings = async (newSettings: MainPageFilterSettings) => {
+    console.log('💾 useMainPagePreferences - Saving settings:', newSettings);
     setSettings(newSettings);
     
     // Save to localStorage
@@ -102,6 +106,8 @@ export const useMainPagePreferences = () => {
 
         if (error) {
           console.error('Error saving main page settings to Supabase:', error);
+        } else {
+          console.log('✅ useMainPagePreferences - Successfully saved to Supabase');
         }
       } catch (error) {
         console.error('Error saving main page settings:', error);
