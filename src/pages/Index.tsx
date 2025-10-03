@@ -433,10 +433,10 @@ const Index = () => {
         <div className="space-y-6">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold">
+              <h2 className="text-lg font-semibold">
                 {filteredData.length} Options Available
               </h2>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 From {filteredStocks.length} different stocks
               </p>
             </div>
@@ -444,10 +444,12 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row sm:items-start gap-4 flex-wrap">
               <Button 
                 onClick={resetToDefault} 
-                variant="outline"
-                className="self-start"
+                variant="ghost"
+                size="sm"
+                className="self-start text-xs text-muted-foreground hover:text-foreground"
                 title="Reset all filters to default (third Friday of next month)"
               >
+                <RotateCcw className="h-3 w-3 mr-1" />
                 Reset to Default
               </Button>
               
