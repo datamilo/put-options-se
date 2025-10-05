@@ -174,11 +174,24 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Financial Report</p>
-              <p className="font-medium">{formatValue(option.FinancialReport, 'FinancialReport')}</p>
+              <p className="font-medium">
+                {option.FinancialReport === 'Y' && option.ExpiryDate 
+                  ? formatValue(option.FinancialReport, 'FinancialReport')
+                  : formatValue(option.FinancialReport, 'FinancialReport')}
+              </p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">X-Day</p>
-              <p className="font-medium">{formatValue(option['X-Day'], 'X-Day')}</p>
+              <p className="font-medium">
+                {option['X-Day'] && option.ExpiryDate 
+                  ? (() => {
+                      const expiryDate = new Date(option.ExpiryDate);
+                      const xDayDate = new Date(expiryDate);
+                      xDayDate.setDate(expiryDate.getDate() - option['X-Day']);
+                      return xDayDate.toLocaleDateString('sv-SE');
+                    })()
+                  : 'N/A'}
+              </p>
             </div>
           </div>
         </CardContent>
