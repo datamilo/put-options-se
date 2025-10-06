@@ -169,7 +169,8 @@ export const OptionsTable = ({
         if (!filter.textValue) return true;
         return String(value).toLowerCase().includes(filter.textValue.toLowerCase());
       } else {
-        if (typeof value !== 'number') return true;
+        // Exclude non-numeric values (like "-" for missing data) from numeric filters
+        if (typeof value !== 'number') return false;
         if (filter.minValue !== undefined && value < filter.minValue) return false;
         if (filter.maxValue !== undefined && value > filter.maxValue) return false;
         return true;
@@ -386,11 +387,11 @@ export const OptionsTable = ({
                               ) : (
                                 <div className="space-y-2">
                                   <Input
-                                    type="number"
+                                    type="text"
                                     placeholder="Min value"
                                     value={filter?.minValue || ''}
                                     onChange={(e) => {
-                                      const value = e.target.value;
+                                      const value = e.target.value.replace(',', '.');
                                       const numValue = value ? parseFloat(value) : undefined;
                                       if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
                                         updateColumnFilter(column, { minValue: numValue });
@@ -399,11 +400,11 @@ export const OptionsTable = ({
                                     className="h-8"
                                   />
                                   <Input
-                                    type="number"
+                                    type="text"
                                     placeholder="Max value"
                                     value={filter?.maxValue || ''}
                                     onChange={(e) => {
-                                      const value = e.target.value;
+                                      const value = e.target.value.replace(',', '.');
                                       const numValue = value ? parseFloat(value) : undefined;
                                       if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
                                         updateColumnFilter(column, { maxValue: numValue });
