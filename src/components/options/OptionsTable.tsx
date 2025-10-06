@@ -54,6 +54,7 @@ export const OptionsTable = ({
   const { columnPreferences, isLoading } = useUserPreferences();
   const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [filterInputs, setFilterInputs] = useState<{ minValue: string; maxValue: string }>({ minValue: '', maxValue: '' });
   const filterRef = useRef<HTMLDivElement>(null);
 
   // Default columns if no preferences exist
@@ -366,7 +367,18 @@ export const OptionsTable = ({
                           <Button
                             variant={hasFilter ? "default" : "outline"}
                             size="sm"
-                            onClick={() => setActiveFilter(activeFilter === column ? null : column)}
+                            onClick={() => {
+                              const isOpening = activeFilter !== column;
+                              setActiveFilter(isOpening ? column : null);
+                              if (isOpening) {
+                                // Initialize input values when opening filter
+                                const currentFilter = getColumnFilter(column);
+                                setFilterInputs({
+                                  minValue: currentFilter?.minValue !== undefined ? String(currentFilter.minValue).replace('.', ',') : '',
+                                  maxValue: currentFilter?.maxValue !== undefined ? String(currentFilter.maxValue).replace('.', ',') : ''
+                                });
+                              }
+                            }}
                             className="h-6 w-full text-xs"
                           >
                             <Filter className="h-3 w-3 mr-1" />
@@ -393,31 +405,38 @@ export const OptionsTable = ({
                                     type="text"
                                     inputMode="decimal"
                                     placeholder="Min value"
-                                    value={filter?.minValue !== undefined ? String(filter.minValue).replace('.', ',') : ''}
+                                    value={filterInputs.minValue}
                                     onChange={(e) => {
-                                      const value = e.target.value.replace(',', '.');
-                                      if (value === '') {
+                                      const inputValue = e.target.value;
+                                      setFilterInputs(prev => ({ ...prev, minValue: inputValue }));
+                                      
+                                      const normalizedValue = inputValue.replace(',', '.');
+                                      if (normalizedValue === '') {
                                         updateColumnFilter(column, { minValue: undefined });
                                       } else {
-                                        const numValue = parseFloat(value);
+                                        const numValue = parseFloat(normalizedValue);
                                         if (!isNaN(numValue) && isFinite(numValue)) {
                                           updateColumnFilter(column, { minValue: numValue });
                                         }
                                       }
                                     }}
                                     className="h-8"
+                                    autoFocus
                                   />
                                   <Input
                                     type="text"
                                     inputMode="decimal"
                                     placeholder="Max value"
-                                    value={filter?.maxValue !== undefined ? String(filter.maxValue).replace('.', ',') : ''}
+                                    value={filterInputs.maxValue}
                                     onChange={(e) => {
-                                      const value = e.target.value.replace(',', '.');
-                                      if (value === '') {
+                                      const inputValue = e.target.value;
+                                      setFilterInputs(prev => ({ ...prev, maxValue: inputValue }));
+                                      
+                                      const normalizedValue = inputValue.replace(',', '.');
+                                      if (normalizedValue === '') {
                                         updateColumnFilter(column, { maxValue: undefined });
                                       } else {
-                                        const numValue = parseFloat(value);
+                                        const numValue = parseFloat(normalizedValue);
                                         if (!isNaN(numValue) && isFinite(numValue)) {
                                           updateColumnFilter(column, { maxValue: numValue });
                                         }
@@ -431,7 +450,8 @@ export const OptionsTable = ({
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => {
-                                  updateColumnFilter(column, fieldType === 'text' ? { textValue: '' } : { minValue: undefined, maxValue: undefined });
+                                  updateColumnFilter(column, { minValue: undefined, maxValue: undefined });
+                                  setFilterInputs({ minValue: '', maxValue: '' });
                                   setActiveFilter(null);
                                 }}
                                 className="mt-2 h-6 w-full text-xs"
