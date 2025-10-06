@@ -286,7 +286,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
                 <TableCell>{row.date}</TableCell>
                 <TableCell className="font-medium">{row.name}</TableCell>
                 <TableCell>{row.type_of_event}</TableCell>
-                <TableCell>{row.event_value?.toFixed(2) || 'N/A'}</TableCell>
+                <TableCell>{row.event_value !== undefined && row.event_value !== null ? Math.round(row.event_value) : 'N/A'}</TableCell>
                 <TableCell>{row.close?.toFixed(2)}</TableCell>
                 <TableCell>{row.volume?.toLocaleString('sv-SE')}</TableCell>
                 <TableCell className={row.close_price_pct_change_from_previous_day >= 0 ? 'text-green-600' : 'text-red-600'}>
