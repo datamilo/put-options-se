@@ -388,26 +388,36 @@ export const OptionsTable = ({
                                 <div className="space-y-2">
                                   <Input
                                     type="text"
+                                    inputMode="decimal"
                                     placeholder="Min value"
-                                    value={filter?.minValue || ''}
+                                    value={filter?.minValue !== undefined ? String(filter.minValue).replace('.', ',') : ''}
                                     onChange={(e) => {
                                       const value = e.target.value.replace(',', '.');
-                                      const numValue = value ? parseFloat(value) : undefined;
-                                      if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
-                                        updateColumnFilter(column, { minValue: numValue });
+                                      if (value === '') {
+                                        updateColumnFilter(column, { minValue: undefined });
+                                      } else {
+                                        const numValue = parseFloat(value);
+                                        if (!isNaN(numValue) && isFinite(numValue)) {
+                                          updateColumnFilter(column, { minValue: numValue });
+                                        }
                                       }
                                     }}
                                     className="h-8"
                                   />
                                   <Input
                                     type="text"
+                                    inputMode="decimal"
                                     placeholder="Max value"
-                                    value={filter?.maxValue || ''}
+                                    value={filter?.maxValue !== undefined ? String(filter.maxValue).replace('.', ',') : ''}
                                     onChange={(e) => {
                                       const value = e.target.value.replace(',', '.');
-                                      const numValue = value ? parseFloat(value) : undefined;
-                                      if (numValue === undefined || (!isNaN(numValue) && isFinite(numValue))) {
-                                        updateColumnFilter(column, { maxValue: numValue });
+                                      if (value === '') {
+                                        updateColumnFilter(column, { maxValue: undefined });
+                                      } else {
+                                        const numValue = parseFloat(value);
+                                        if (!isNaN(numValue) && isFinite(numValue)) {
+                                          updateColumnFilter(column, { maxValue: numValue });
+                                        }
                                       }
                                     }}
                                     className="h-8"
