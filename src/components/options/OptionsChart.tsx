@@ -106,7 +106,6 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
               <ScatterChart
-                data={scatterData}
                 margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -122,6 +121,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                   tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                 />
                 <Tooltip 
+                  cursor={{ strokeDasharray: '3 3' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length > 0) {
                       const data = payload[0].payload;
@@ -154,6 +154,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                   <Scatter 
                     key={field}
                     name={field} 
+                    data={scatterData}
                     dataKey={field} 
                     fill={colors[index % colors.length]} 
                   />
