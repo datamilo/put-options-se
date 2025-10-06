@@ -169,8 +169,11 @@ export const OptionsTable = ({
         if (!filter.textValue) return true;
         return String(value).toLowerCase().includes(filter.textValue.toLowerCase());
       } else {
-        // Exclude non-numeric values (like "-" for missing data) from numeric filters
+        // For numeric filters, exclude non-numeric values (like "-" for missing data)
         if (typeof value !== 'number') return false;
+        // If no filter values set, show all numeric values
+        if (filter.minValue === undefined && filter.maxValue === undefined) return true;
+        // Apply min/max filters
         if (filter.minValue !== undefined && value < filter.minValue) return false;
         if (filter.maxValue !== undefined && value > filter.maxValue) return false;
         return true;
