@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ArrowLeft, Settings, ChevronDown, Info, Download } from "lucide-react";
 import { exportToExcel } from "@/utils/excelExport";
+import { toast } from "@/hooks/use-toast";
 
 const PortfolioGenerator = () => {
   const navigate = useNavigate();
@@ -198,6 +199,11 @@ const PortfolioGenerator = () => {
     }
 
     setIsGeneratingPortfolio(true);
+    
+    toast({
+      title: "Generating Portfolio",
+      description: "Analyzing options and building your portfolio...",
+    });
     
     try {
       const selectedOptions: OptionData[] = [];
@@ -385,8 +391,18 @@ const PortfolioGenerator = () => {
         portfolioUnderlyingValue: effectiveUnderlyingValue
       });
 
+      toast({
+        title: "Portfolio Generated",
+        description: `Successfully created portfolio with ${selectedOptions.length} options.`,
+      });
+
     } catch (error) {
       updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
+      toast({
+        title: "Error",
+        description: "Failed to generate portfolio. Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setIsGeneratingPortfolio(false);
     }
