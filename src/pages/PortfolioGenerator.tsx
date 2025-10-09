@@ -35,9 +35,14 @@ const PortfolioGenerator = () => {
   useEffect(() => {
     setTotalPremiumInput(settings.totalPremiumTarget.toString());
 
-    // Only update underlying value input on initial load or major changes from external sources
-    if (underlyingValueInput === '' || underlyingValueInput === '0') {
-      setUnderlyingValueInput(settings.portfolioUnderlyingValue.toString());
+    // Update underlying value input when settings change, unless user is currently editing it
+    const currentInputValue = parseInt(underlyingValueInput) || 0;
+    const settingsValue = settings.portfolioUnderlyingValue;
+    
+    // Only update if values are different (prevents overwriting during typing)
+    // But always sync on initial load or when settings change significantly
+    if (currentInputValue !== settingsValue) {
+      setUnderlyingValueInput(settingsValue.toString());
     }
 
     setMaxTotalCapitalInput(settings.maxTotalCapital?.toString() || "");
