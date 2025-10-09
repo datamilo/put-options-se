@@ -142,8 +142,12 @@ const PortfolioGenerator = () => {
 
     const num = parseInt(underlyingValueInput) || 10000;
     const clampedValue = Math.max(10000, Math.min(1000000, num));
+    
+    // Save the value immediately to ensure persistence
     updateSetting('portfolioUnderlyingValue', clampedValue);
     setUnderlyingValueInput(clampedValue.toString());
+    
+    console.log('📝 Portfolio Generator - Saved underlying value:', clampedValue);
 
     // Clear any existing generated portfolio so user needs to regenerate with new value
     if (settings.portfolioGenerated) {
@@ -200,12 +204,15 @@ const PortfolioGenerator = () => {
 
     setIsGeneratingPortfolio(true);
     
+    // Show toast immediately
     toast({
       title: "Generating Portfolio",
       description: "Analyzing options and building your portfolio...",
     });
     
-    try {
+    // Defer the actual generation to allow UI to update with the toast
+    setTimeout(() => {
+      try {
       const selectedOptions: OptionData[] = [];
       const usedStocks = new Set<string>();
       let totalPremium = 0;
@@ -391,21 +398,22 @@ const PortfolioGenerator = () => {
         portfolioUnderlyingValue: effectiveUnderlyingValue
       });
 
-      toast({
-        title: "Portfolio Generated",
-        description: `Successfully created portfolio with ${selectedOptions.length} options.`,
-      });
+        toast({
+          title: "Portfolio Generated",
+          description: `Successfully created portfolio with ${selectedOptions.length} options.`,
+        });
 
-    } catch (error) {
-      updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
-      toast({
-        title: "Error",
-        description: "Failed to generate portfolio. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGeneratingPortfolio(false);
-    }
+      } catch (error) {
+        updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
+        toast({
+          title: "Error",
+          description: "Failed to generate portfolio. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsGeneratingPortfolio(false);
+      }
+    }, 100); // Small delay to allow UI to update
   };
 
   const handleOptionClick = (option: OptionData) => {

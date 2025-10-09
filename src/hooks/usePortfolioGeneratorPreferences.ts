@@ -111,6 +111,7 @@ export const usePortfolioGeneratorPreferences = () => {
   };
 
   const saveToLocalStorage = (newSettings: PortfolioGeneratorSettings) => {
+    console.log('💾 Saving to localStorage:', { portfolioUnderlyingValue: newSettings.portfolioUnderlyingValue });
     localStorage.setItem('portfolioGenerator_totalPremiumTarget', newSettings.totalPremiumTarget.toString());
     localStorage.setItem('portfolioGenerator_strikeBelowPeriod', newSettings.strikeBelowPeriod?.toString() || '');
     localStorage.setItem('portfolioGenerator_minProbabilityWorthless', newSettings.minProbabilityWorthless?.toString() || '');
@@ -128,6 +129,7 @@ export const usePortfolioGeneratorPreferences = () => {
   };
 
   const saveSettings = async (newSettings: PortfolioGeneratorSettings) => {
+    console.log('💾 Saving settings:', { portfolioUnderlyingValue: newSettings.portfolioUnderlyingValue });
     setSettings(newSettings);
     saveToLocalStorage(newSettings);
 
@@ -145,6 +147,8 @@ export const usePortfolioGeneratorPreferences = () => {
 
         if (error) {
           console.error('Error saving portfolio generator preferences:', error);
+        } else {
+          console.log('✅ Successfully saved to Supabase');
         }
       } catch (error) {
         console.error('Error saving portfolio generator preferences:', error);
