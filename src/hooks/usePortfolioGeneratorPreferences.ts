@@ -41,6 +41,7 @@ export const usePortfolioGeneratorPreferences = () => {
   const [settings, setSettings] = useState<PortfolioGeneratorSettings>(defaultSettings);
   const [isLoading, setIsLoading] = useState(true);
   const [isResetting, setIsResetting] = useState(false); // Flag to prevent Supabase override during reset
+  const [hasLoadedFromSupabase, setHasLoadedFromSupabase] = useState(false); // Track if we've loaded from Supabase
 
   // Load settings from localStorage initially
   useEffect(() => {
@@ -73,15 +74,15 @@ export const usePortfolioGeneratorPreferences = () => {
     setIsLoading(false);
   }, []);
 
-  // Load settings from Supabase when user is authenticated
+  // Load settings from Supabase when user is authenticated (only once on initial mount)
   useEffect(() => {
-    if (user && !isResetting) { // Don't load Supabase data during reset
+    if (user && !isResetting && !hasLoadedFromSupabase) { // Only load once
       loadSupabaseSettings();
     }
-  }, [user, isResetting]);
+  }, [user, isResetting, hasLoadedFromSupabase]);
 
   const loadSupabaseSettings = async () => {
-    if (!user || isResetting) return; // Don't load during reset
+    if (!user || isResetting || hasLoadedFromSupabase) return; // Don't load if already loaded
 
     try {
       const { data, error } = await supabase
@@ -93,6 +94,7 @@ export const usePortfolioGeneratorPreferences = () => {
 
       if (error) {
         console.error('Error loading portfolio generator preferences:', error);
+        setHasLoadedFromSupabase(true);
         return;
       }
 
@@ -105,8 +107,11 @@ export const usePortfolioGeneratorPreferences = () => {
           saveToLocalStorage(supabaseSettings);
         }
       }
+      
+      setHasLoadedFromSupabase(true); // Mark as loaded
     } catch (error) {
       console.error('Error loading portfolio generator preferences:', error);
+      setHasLoadedFromSupabase(true);
     }
   };
 
@@ -171,6 +176,7 @@ export const usePortfolioGeneratorPreferences = () => {
 
   const resetToDefaults = () => {
     setIsResetting(true);
+    setHasLoadedFromSupabase(false); // Reset the flag
 
     const cleanDefaults = {
       ...defaultSettings,
