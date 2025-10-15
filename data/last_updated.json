@@ -1,7 +1,10 @@
 {
-  "timestamp": "2025-10-15T07:11:05.396052",
-  "date": "2025-10-15",
-  "data_csv_rows": 5695,
-  "iv_csv_rows": 6018,
-  "script_version": "v2.0-modular"
+  "optionsData": {
+    "lastUpdated": "2025-10-14 00:00:00",
+    "description": "Put options price data"
+  },
+  "stockData": {
+    "lastUpdated": "2025-10-14 18:00:00",
+    "description": "Stock price data"
+  }
 }
