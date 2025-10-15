@@ -19,6 +19,7 @@ import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { formatNumber } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { exportToExcel } from "@/utils/excelExport";
+import { FieldInfoTooltip } from "@/components/ui/field-info-tooltip";
 
 interface OptionsTableProps {
   data: OptionData[];
@@ -312,54 +313,7 @@ export const OptionsTable = ({
                         >
                           {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
                         </Button>
-                        {column === 'OptionName' && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-                            </TooltipTrigger>
-                            <TooltipContent side="top" className="max-w-xs">
-                              <div className="space-y-1 text-xs">
-                                <div className="font-medium"></div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                                  <span>Financial Report</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                  <div className="w-3 h-3 bg-red-500 rounded"></div>
-                                  <span>Ex-Dividend Day</span>
-                                </div>
-                              </div>
-                            </TooltipContent>
-                          </Tooltip>
-                        )}
-                        {column === 'PotentialLossAtLowerBound' && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-                            </TooltipTrigger>
-                            <TooltipContent 
-                              side="top" 
-                              align="center" 
-                              sideOffset={5}
-                              className="z-[9999] border bg-popover text-popover-foreground shadow-md !max-w-none !w-auto"
-                              style={{ 
-                                width: 'auto',
-                                minWidth: 'max-content',
-                                maxWidth: 'none',
-                                whiteSpace: 'normal'
-                              }}
-                            >
-                              <div className="text-xs leading-relaxed p-3" style={{ width: 'auto', minWidth: 'max-content' }}>
-                                <div className="font-medium mb-2">How this field is calculated:</div>
-                                <div className="mb-2">This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</div>
-                                <div className="mb-2 font-mono text-xs bg-muted/50 p-2 rounded">
-                                  Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)
-                                </div>
-                                <div>The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position.</div>
-                              </div>
-                            </TooltipContent>
-                          </Tooltip>
-                        )}
+                        <FieldInfoTooltip fieldName={column} />
                       </div>
                       
                       {enableFiltering && (
