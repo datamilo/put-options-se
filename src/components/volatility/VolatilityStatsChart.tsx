@@ -141,25 +141,46 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     }
 
     // Sort by mean absolute change and convert decimal values to percentages
-    const finalData = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change).map(item => ({
-      ...item,
-      mean_abs_change: item.mean_abs_change * 100,
-      mean_change: item.mean_change * 100,
-      median_change: item.median_change * 100,
-      ci95_low: item.ci95_low * 100,
-      ci95_high: item.ci95_high * 100,
-      p05: item.p05 * 100,
-      p95: item.p95 * 100,
-      min_change: item.min_change * 100,
-      max_change: item.max_change * 100,
-      avg_volume_pct_change: item.avg_volume_pct_change * 100,
-      avg_intraday_spread_pct: Math.abs(item.avg_intraday_spread_pct) * 100
-    }));
+    // Ensure all values are valid numbers (not NaN or undefined) for Recharts
+    const finalData = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change).map(item => {
+      const safeNumber = (value: number) => {
+        if (value === undefined || value === null || isNaN(value)) {
+          return 0;
+        }
+        return value;
+      };
+
+      return {
+        name: item.name || 'Unknown', // Ensure name is always a string
+        count: item.count || 0,
+        mean_abs_change: safeNumber(item.mean_abs_change) * 100,
+        mean_change: safeNumber(item.mean_change) * 100,
+        median_change: safeNumber(item.median_change) * 100,
+        std_dev: safeNumber(item.std_dev),
+        ci95_low: safeNumber(item.ci95_low) * 100,
+        ci95_high: safeNumber(item.ci95_high) * 100,
+        p05: safeNumber(item.p05) * 100,
+        p95: safeNumber(item.p95) * 100,
+        min_change: safeNumber(item.min_change) * 100,
+        max_change: safeNumber(item.max_change) * 100,
+        negative_count: item.negative_count || 0,
+        negative_rate: safeNumber(item.negative_rate),
+        se_mean: safeNumber(item.se_mean),
+        avg_volume_pct_change: safeNumber(item.avg_volume_pct_change) * 100,
+        avg_intraday_spread_pct: Math.abs(safeNumber(item.avg_intraday_spread_pct)) * 100,
+        min_event_type: item.min_event_type || '',
+        min_event_date: item.min_event_date || '',
+        max_event_type: item.max_event_type || '',
+        max_event_date: item.max_event_date || ''
+      };
+    });
 
     console.log('✅ [VolatilityStatsChart] finalData:', {
       isArray: Array.isArray(finalData),
       length: finalData.length,
-      sample: finalData.slice(0, 2)
+      sample: finalData.slice(0, 2),
+      allHaveNames: finalData.every(d => d.name),
+      sampleDataKeys: finalData.length > 0 ? Object.keys(finalData[0]) : []
     });
 
     return finalData;
@@ -171,7 +192,8 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
   console.log('📊 [VolatilityStatsChart] topStocks for chart:', {
     isArray: Array.isArray(topStocks),
     length: topStocks.length,
-    sample: topStocks.slice(0, 1)
+    sample: topStocks.slice(0, 1),
+    sampleFull: topStocks.length > 0 ? topStocks[0] : null
   });
 
   const CustomTooltip = ({ active, payload, label }: any) => {
