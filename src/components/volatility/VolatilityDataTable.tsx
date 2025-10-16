@@ -28,14 +28,23 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
 
   // Get unique values for filters
   const uniqueStocks = useMemo(() => {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return [];
+    }
     return Array.from(new Set(data.map(item => item.name))).sort();
   }, [data]);
 
   const uniqueEventTypes = useMemo(() => {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return [];
+    }
     return Array.from(new Set(data.map(item => item.type_of_event))).sort();
   }, [data]);
 
   const uniqueYears = useMemo(() => {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return [];
+    }
     return Array.from(new Set(data.map(item => item.year))).sort((a, b) => b - a);
   }, [data]);
 
@@ -56,6 +65,10 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
 
   // Filter and sort data
   const filteredAndSortedData = useMemo(() => {
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      return [];
+    }
+
     let filtered = data;
 
     if (selectedStocks.length > 0) {
@@ -206,7 +219,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
-        Showing {filteredAndSortedData.length} of {data.length} records
+        Showing {filteredAndSortedData.length} of {data?.length || 0} records
       </div>
 
       {/* Table */}
