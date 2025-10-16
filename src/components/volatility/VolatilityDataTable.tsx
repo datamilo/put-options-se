@@ -12,6 +12,7 @@ import { VolatilityEventData } from '@/types/volatility';
 
 interface VolatilityDataTableProps {
   data: VolatilityEventData[];
+  selectedStocks: string[];
 }
 
 type SortKey = keyof VolatilityEventData;

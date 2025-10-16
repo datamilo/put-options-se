@@ -1,15 +1,33 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useVolatilityData } from '@/hooks/useVolatilityData';
 import { VolatilityStatsChart } from '@/components/volatility/VolatilityStatsChart';
 import { VolatilityDataTable } from '@/components/volatility/VolatilityDataTable';
-import { ArrowLeft, TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
+import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/components/ui/command';
+import { cn } from '@/lib/utils';
 
 export const VolatilityAnalysis = () => {
   const navigate = useNavigate();
   const { volatilityData, volatilityStats, isLoading, error } = useVolatilityData();
+  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
+  const [stockFilterOpen, setStockFilterOpen] = useState(false);
+
+  const uniqueStocks = useMemo(() => {
+    const stocks = new Set(volatilityData.map(d => d.name));
+    return Array.from(stocks).sort();
+  }, [volatilityData]);
+
+  const handleStockToggle = (stock: string) => {
+    setSelectedStocks(prev =>
+      prev.includes(stock)
+        ? prev.filter(s => s !== stock)
+        : [...prev, stock]
+    );
+  };
 
   if (isLoading) {
     return (
@@ -58,8 +76,8 @@ export const VolatilityAnalysis = () => {
                 Back to Options
               </Button>
               <div>
-                <h1 className="text-2xl font-bold">Event Volatility Analysis</h1>
-                <p className="text-muted-foreground">Stock price behavior around corporate events</p>
+                <h1 className="text-2xl font-bold">Financial Reporting Volatility Analysis</h1>
+                <p className="text-muted-foreground">Stock price behavior during financial reporting periods</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -73,6 +91,55 @@ export const VolatilityAnalysis = () => {
       </div>
 
       <div className="container mx-auto px-4 py-6 space-y-6">
+        {/* Stock Filter */}
+        <Card>
+          <CardHeader>
+            <CardTitle>Filter by Stock</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Select stocks to analyze (leave empty to show all)
+            </p>
+          </CardHeader>
+          <CardContent>
+            <Popover open={stockFilterOpen} onOpenChange={setStockFilterOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={stockFilterOpen}
+                  className="w-full justify-between"
+                >
+                  {selectedStocks.length === 0
+                    ? "All stocks"
+                    : `${selectedStocks.length} stock${selectedStocks.length > 1 ? 's' : ''} selected`}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-full p-0">
+                <Command>
+                  <CommandInput placeholder="Search stocks..." />
+                  <CommandEmpty>No stock found.</CommandEmpty>
+                  <CommandGroup className="max-h-64 overflow-auto">
+                    {uniqueStocks.map((stock) => (
+                      <CommandItem
+                        key={stock}
+                        onSelect={() => handleStockToggle(stock)}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            selectedStocks.includes(stock) ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                        {stock}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
+          </CardContent>
+        </Card>
+
         {/* Summary Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
@@ -124,7 +191,7 @@ export const VolatilityAnalysis = () => {
             </p>
           </CardHeader>
           <CardContent>
-            <VolatilityStatsChart data={volatilityStats} rawData={volatilityData} />
+            <VolatilityStatsChart data={volatilityStats} rawData={volatilityData} selectedStocks={selectedStocks} />
           </CardContent>
         </Card>
 
@@ -137,7 +204,7 @@ export const VolatilityAnalysis = () => {
             </p>
           </CardHeader>
           <CardContent>
-            <VolatilityDataTable data={volatilityData} />
+            <VolatilityDataTable data={volatilityData} selectedStocks={selectedStocks} />
           </CardContent>
         </Card>
       </div>

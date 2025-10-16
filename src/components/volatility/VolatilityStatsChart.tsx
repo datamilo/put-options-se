@@ -12,6 +12,7 @@ import { VolatilityStats, VolatilityEventData } from '@/types/volatility';
 interface VolatilityStatsChartProps {
   data: VolatilityStats[];
   rawData: VolatilityEventData[];
+  selectedStocks: string[];
 }
 
 export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data, rawData }) => {
@@ -189,21 +190,6 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     return null;
   };
 
-  const handleStockToggle = (stock: string) => {
-    setSelectedStocks(prev => 
-      prev.includes(stock) 
-        ? prev.filter(s => s !== stock)
-        : [...prev, stock]
-    );
-  };
-
-  const handleEventTypeToggle = (eventType: string) => {
-    setSelectedEventTypes(prev => 
-      prev.includes(eventType) 
-        ? prev.filter(e => e !== eventType)
-        : [...prev, eventType]
-    );
-  };
 
   return (
     <div className="space-y-4">
