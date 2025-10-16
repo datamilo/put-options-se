@@ -16,8 +16,19 @@ export const VolatilityAnalysis = () => {
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [stockFilterOpen, setStockFilterOpen] = useState(false);
 
+  console.log('🔍 [VolatilityAnalysis] Hook data:', {
+    volatilityDataIsArray: Array.isArray(volatilityData),
+    volatilityDataLength: volatilityData?.length,
+    volatilityStatsIsArray: Array.isArray(volatilityStats),
+    volatilityStatsLength: volatilityStats?.length,
+    isLoading,
+    error,
+    selectedStocks
+  });
+
   const uniqueStocks = useMemo(() => {
     if (!volatilityData || !Array.isArray(volatilityData) || volatilityData.length === 0) {
+      console.log('⚠️ [VolatilityAnalysis] uniqueStocks: returning empty array');
       return [];
     }
     const stocks = new Set(volatilityData.map(d => d.name));

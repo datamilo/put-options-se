@@ -73,11 +73,15 @@ export const useVolatilityData = () => {
       const data = result.data.filter(row => row.name && row.date);
       console.log(`📊 Parsed ${data.length} volatility records`);
       console.log(`📊 Sample records:`, data.slice(0, 3));
+      console.log(`📊 Data is array:`, Array.isArray(data));
+      console.log(`📊 Data type:`, typeof data);
       setVolatilityData(data);
-      
+
       // Calculate statistics
       const stats = calculateVolatilityStats(data);
       console.log(`📈 Calculated stats for ${stats.length} stocks`);
+      console.log(`📈 Stats is array:`, Array.isArray(stats));
+      console.log(`📈 Stats sample:`, stats.slice(0, 2));
       setVolatilityStats(stats);
       
     } catch (err) {

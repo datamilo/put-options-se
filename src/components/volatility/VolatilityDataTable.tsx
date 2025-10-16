@@ -26,9 +26,18 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
   const [sortKey, setSortKey] = useState<SortKey>('date');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
+  console.log('🔍 [VolatilityDataTable] Received data:', {
+    isUndefined: data === undefined,
+    isNull: data === null,
+    isArray: Array.isArray(data),
+    length: data?.length,
+    type: typeof data
+  });
+
   // Get unique values for filters
   const uniqueStocks = useMemo(() => {
     if (!data || !Array.isArray(data) || data.length === 0) {
+      console.log('⚠️ [VolatilityDataTable] uniqueStocks: returning empty array');
       return [];
     }
     return Array.from(new Set(data.map(item => item.name))).sort();

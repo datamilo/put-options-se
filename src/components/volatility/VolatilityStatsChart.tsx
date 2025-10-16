@@ -19,8 +19,18 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
 
   // Filter and recalculate data based on selected stocks
   const filteredData = useMemo(() => {
+    console.log('🔍 [VolatilityStatsChart] rawData:', {
+      isUndefined: rawData === undefined,
+      isNull: rawData === null,
+      isArray: Array.isArray(rawData),
+      length: rawData?.length,
+      type: typeof rawData
+    });
+    console.log('🔍 [VolatilityStatsChart] selectedStocks:', selectedStocks);
+
     // Guard against undefined or null rawData
     if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
+      console.log('⚠️ [VolatilityStatsChart] Returning empty array - no data');
       return [];
     }
 
@@ -131,7 +141,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     }
 
     // Sort by mean absolute change and convert decimal values to percentages
-    return recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change).map(item => ({
+    const finalData = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change).map(item => ({
       ...item,
       mean_abs_change: item.mean_abs_change * 100,
       mean_change: item.mean_change * 100,
@@ -145,10 +155,24 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       avg_volume_pct_change: item.avg_volume_pct_change * 100,
       avg_intraday_spread_pct: Math.abs(item.avg_intraday_spread_pct) * 100
     }));
+
+    console.log('✅ [VolatilityStatsChart] finalData:', {
+      isArray: Array.isArray(finalData),
+      length: finalData.length,
+      sample: finalData.slice(0, 2)
+    });
+
+    return finalData;
   }, [rawData, selectedStocks]);
 
   // Take top 20 for readability
   const topStocks = filteredData.slice(0, 20);
+
+  console.log('📊 [VolatilityStatsChart] topStocks for chart:', {
+    isArray: Array.isArray(topStocks),
+    length: topStocks.length,
+    sample: topStocks.slice(0, 1)
+  });
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
