@@ -301,6 +301,16 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
   };
 
 
+  // Don't render charts if we don't have valid data
+  if (!topStocks || topStocks.length === 0) {
+    console.log('⚠️ [VolatilityStatsChart] No data to display charts');
+    return (
+      <div className="text-center p-8 text-muted-foreground">
+        No data available to display charts
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <Tabs defaultValue="volatility" className="w-full">
