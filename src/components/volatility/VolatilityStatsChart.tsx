@@ -84,6 +84,26 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     });
     console.log('🔍 [VolatilityStatsChart] selectedStocks:', selectedStocks);
 
+    // If no stocks selected, use the sanitized prop data (already has all stats calculated)
+    if (selectedStocks.length === 0) {
+      console.log('✅ [VolatilityStatsChart] No filtering - using sanitized prop data');
+      // Convert to percentages to match the recalculated data format
+      return sanitizedDataProp.map(item => ({
+        ...item,
+        mean_abs_change: item.mean_abs_change * 100,
+        mean_change: item.mean_change * 100,
+        median_change: item.median_change * 100,
+        ci95_low: item.ci95_low * 100,
+        ci95_high: item.ci95_high * 100,
+        p05: item.p05 * 100,
+        p95: item.p95 * 100,
+        min_change: item.min_change * 100,
+        max_change: item.max_change * 100,
+        avg_volume_pct_change: item.avg_volume_pct_change * 100,
+        avg_intraday_spread_pct: item.avg_intraday_spread_pct * 100
+      })).sort((a, b) => b.mean_abs_change - a.mean_abs_change);
+    }
+
     // Guard against undefined or null rawData
     if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
       console.log('⚠️ [VolatilityStatsChart] Returning empty array - no data');
@@ -92,10 +112,8 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
 
     let filteredRawData = rawData;
 
-    // Filter by selected stocks if any
-    if (selectedStocks.length > 0) {
-      filteredRawData = filteredRawData.filter(row => selectedStocks.includes(row.name));
-    }
+    // Filter by selected stocks
+    filteredRawData = filteredRawData.filter(row => selectedStocks.includes(row.name));
 
     // If filtering resulted in no data, return empty array
     if (filteredRawData.length === 0) {
@@ -240,7 +258,7 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     });
 
     return finalData;
-  }, [rawData, selectedStocks]);
+  }, [rawData, selectedStocks, sanitizedDataProp]);
 
   // Take top 20 for readability
   const topStocks = filteredData.slice(0, 20);
