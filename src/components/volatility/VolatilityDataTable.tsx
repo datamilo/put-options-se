@@ -1,12 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Check, ChevronsUpDown, ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { VolatilityEventData } from '@/types/volatility';
 
@@ -18,23 +15,10 @@ type SortKey = keyof VolatilityEventData;
 type SortDirection = 'asc' | 'desc';
 
 export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }) => {
-  const [selectedStock, setSelectedStock] = useState<string>('');
-  const [selectedEventType, setSelectedEventType] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('all');
   const [selectedMonth, setSelectedMonth] = useState<string>('all');
-  const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
-  const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [sortKey, setSortKey] = useState<SortKey>('date');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
-
-  // Get unique values for filters
-  const uniqueStocks = useMemo(() => {
-    return Array.from(new Set(data.map(item => item.name))).sort();
-  }, [data]);
-
-  const uniqueEventTypes = useMemo(() => {
-    return Array.from(new Set(data.map(item => item.type_of_event))).sort();
-  }, [data]);
 
   const uniqueYears = useMemo(() => {
     return Array.from(new Set(data.map(item => item.year))).sort((a, b) => b - a);
@@ -55,17 +39,9 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
     { value: '12', label: 'December' }
   ];
 
-  // Filter and sort data
+  // Filter and sort data (only by year/month, stock filtering is done in parent)
   const filteredAndSortedData = useMemo(() => {
     let filtered = data;
-
-    if (selectedStock) {
-      filtered = filtered.filter(item => item.name === selectedStock);
-    }
-
-    if (selectedEventType) {
-      filtered = filtered.filter(item => item.type_of_event === selectedEventType);
-    }
 
     if (selectedYear && selectedYear !== 'all') {
       filtered = filtered.filter(item => item.year === parseInt(selectedYear));
@@ -79,16 +55,16 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
     return filtered.sort((a, b) => {
       const aValue = a[sortKey];
       const bValue = b[sortKey];
-      
+
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
       }
-      
+
       const aStr = String(aValue);
       const bStr = String(bValue);
       return sortDirection === 'asc' ? aStr.localeCompare(bStr) : bStr.localeCompare(aStr);
     });
-  }, [data, selectedStock, selectedEventType, selectedYear, selectedMonth, sortKey, sortDirection]);
+  }, [data, selectedYear, selectedMonth, sortKey, sortDirection]);
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -115,115 +91,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="space-y-2">
-          <Label>Stock Name</Label>
-          <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={stockDropdownOpen}
-                className="w-full justify-between"
-              >
-                {selectedStock || "All stocks..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
-              <Command>
-                <CommandInput placeholder="Search stocks..." />
-                <CommandList>
-                  <CommandEmpty>No stock found.</CommandEmpty>
-                  <CommandGroup>
-                    <CommandItem
-                      value=""
-                      onSelect={() => {
-                        setSelectedStock('');
-                        setStockDropdownOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${selectedStock === '' ? "opacity-100" : "opacity-0"}`}
-                      />
-                      All stocks
-                    </CommandItem>
-                    {uniqueStocks.map((stock) => (
-                      <CommandItem
-                        key={stock}
-                        value={stock}
-                        onSelect={(currentValue) => {
-                          setSelectedStock(currentValue === selectedStock ? '' : currentValue);
-                          setStockDropdownOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={`mr-2 h-4 w-4 ${selectedStock === stock ? "opacity-100" : "opacity-0"}`}
-                        />
-                        {stock}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        <div className="space-y-2">
-          <Label>Event Type</Label>
-          <Popover open={eventDropdownOpen} onOpenChange={setEventDropdownOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                role="combobox"
-                aria-expanded={eventDropdownOpen}
-                className="w-full justify-between"
-              >
-                {selectedEventType || "All event types..."}
-                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-full p-0" align="start">
-              <Command>
-                <CommandInput placeholder="Search event types..." />
-                <CommandList>
-                  <CommandEmpty>No event type found.</CommandEmpty>
-                  <CommandGroup>
-                    <CommandItem
-                      value=""
-                      onSelect={() => {
-                        setSelectedEventType('');
-                        setEventDropdownOpen(false);
-                      }}
-                    >
-                      <Check
-                        className={`mr-2 h-4 w-4 ${selectedEventType === '' ? "opacity-100" : "opacity-0"}`}
-                      />
-                      All event types
-                    </CommandItem>
-                    {uniqueEventTypes.map((eventType) => (
-                      <CommandItem
-                        key={eventType}
-                        value={eventType}
-                        onSelect={(currentValue) => {
-                          setSelectedEventType(currentValue === selectedEventType ? '' : currentValue);
-                          setEventDropdownOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={`mr-2 h-4 w-4 ${selectedEventType === eventType ? "opacity-100" : "opacity-0"}`}
-                        />
-                        {eventType}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
-        </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label>Year</Label>
           <Select value={selectedYear} onValueChange={setSelectedYear}>
