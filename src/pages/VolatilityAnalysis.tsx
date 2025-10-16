@@ -17,6 +17,9 @@ export const VolatilityAnalysis = () => {
   const [stockFilterOpen, setStockFilterOpen] = useState(false);
 
   const uniqueStocks = useMemo(() => {
+    if (!volatilityData || !Array.isArray(volatilityData) || volatilityData.length === 0) {
+      return [];
+    }
     const stocks = new Set(volatilityData.map(d => d.name));
     return Array.from(stocks).sort();
   }, [volatilityData]);
