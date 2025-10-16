@@ -17,6 +17,62 @@ interface VolatilityStatsChartProps {
 
 export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data, rawData, selectedStocks }) => {
 
+  // Sanitize the data prop to ensure all numeric values are valid for Recharts
+  const sanitizedDataProp = useMemo(() => {
+    console.log('🔍 [VolatilityStatsChart] Incoming data prop:', {
+      isUndefined: data === undefined,
+      isNull: data === null,
+      isArray: Array.isArray(data),
+      length: data?.length,
+      type: typeof data,
+      sample: data?.slice(0, 2)
+    });
+
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      console.log('⚠️ [VolatilityStatsChart] data prop invalid, returning empty array');
+      return [];
+    }
+
+    // Sanitize all values to prevent NaN/undefined issues in Recharts
+    const safeNumber = (value: number) => {
+      if (value === undefined || value === null || isNaN(value)) {
+        return 0;
+      }
+      return value;
+    };
+
+    const sanitized = data.map(item => ({
+      name: item.name || 'Unknown',
+      count: item.count || 0,
+      mean_abs_change: safeNumber(item.mean_abs_change),
+      mean_change: safeNumber(item.mean_change),
+      median_change: safeNumber(item.median_change),
+      std_dev: safeNumber(item.std_dev),
+      ci95_low: safeNumber(item.ci95_low),
+      ci95_high: safeNumber(item.ci95_high),
+      p05: safeNumber(item.p05),
+      p95: safeNumber(item.p95),
+      min_change: safeNumber(item.min_change),
+      max_change: safeNumber(item.max_change),
+      negative_count: item.negative_count || 0,
+      negative_rate: safeNumber(item.negative_rate),
+      se_mean: safeNumber(item.se_mean),
+      avg_volume_pct_change: safeNumber(item.avg_volume_pct_change),
+      avg_intraday_spread_pct: safeNumber(item.avg_intraday_spread_pct),
+      min_event_type: item.min_event_type || '',
+      min_event_date: item.min_event_date || '',
+      max_event_type: item.max_event_type || '',
+      max_event_date: item.max_event_date || ''
+    }));
+
+    console.log('✅ [VolatilityStatsChart] Sanitized data prop:', {
+      length: sanitized.length,
+      sample: sanitized.slice(0, 1)
+    });
+
+    return sanitized;
+  }, [data]);
+
   // Filter and recalculate data based on selected stocks
   const filteredData = useMemo(() => {
     console.log('🔍 [VolatilityStatsChart] rawData:', {
