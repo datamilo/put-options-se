@@ -19,11 +19,21 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
 
   // Filter and recalculate data based on selected stocks
   const filteredData = useMemo(() => {
+    // Guard against undefined or null rawData
+    if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
+      return [];
+    }
+
     let filteredRawData = rawData;
 
     // Filter by selected stocks if any
     if (selectedStocks.length > 0) {
       filteredRawData = filteredRawData.filter(row => selectedStocks.includes(row.name));
+    }
+
+    // If filtering resulted in no data, return empty array
+    if (filteredRawData.length === 0) {
+      return [];
     }
 
     // Recalculate statistics for the filtered raw data
