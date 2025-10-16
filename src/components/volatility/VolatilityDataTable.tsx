@@ -12,48 +12,31 @@ import { VolatilityEventData } from '@/types/volatility';
 
 interface VolatilityDataTableProps {
   data: VolatilityEventData[];
-  selectedStocks: string[];
 }
 
 type SortKey = keyof VolatilityEventData;
 type SortDirection = 'asc' | 'desc';
 
-export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, selectedStocks }) => {
+export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data }) => {
+  const [selectedStock, setSelectedStock] = useState<string>('');
   const [selectedEventType, setSelectedEventType] = useState<string>('');
   const [selectedYear, setSelectedYear] = useState<string>('all');
   const [selectedMonth, setSelectedMonth] = useState<string>('all');
+  const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const [eventDropdownOpen, setEventDropdownOpen] = useState(false);
   const [sortKey, setSortKey] = useState<SortKey>('date');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
-  console.log('🔍 [VolatilityDataTable] Received data:', {
-    isUndefined: data === undefined,
-    isNull: data === null,
-    isArray: Array.isArray(data),
-    length: data?.length,
-    type: typeof data
-  });
-
   // Get unique values for filters
   const uniqueStocks = useMemo(() => {
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      console.log('⚠️ [VolatilityDataTable] uniqueStocks: returning empty array');
-      return [];
-    }
     return Array.from(new Set(data.map(item => item.name))).sort();
   }, [data]);
 
   const uniqueEventTypes = useMemo(() => {
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      return [];
-    }
     return Array.from(new Set(data.map(item => item.type_of_event))).sort();
   }, [data]);
 
   const uniqueYears = useMemo(() => {
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      return [];
-    }
     return Array.from(new Set(data.map(item => item.year))).sort((a, b) => b - a);
   }, [data]);
 
@@ -74,14 +57,10 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
 
   // Filter and sort data
   const filteredAndSortedData = useMemo(() => {
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      return [];
-    }
-
     let filtered = data;
 
-    if (selectedStocks.length > 0) {
-      filtered = filtered.filter(item => selectedStocks.includes(item.name));
+    if (selectedStock) {
+      filtered = filtered.filter(item => item.name === selectedStock);
     }
 
     if (selectedEventType) {
@@ -109,7 +88,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
       const bStr = String(bValue);
       return sortDirection === 'asc' ? aStr.localeCompare(bStr) : bStr.localeCompare(aStr);
     });
-  }, [data, selectedStocks, selectedEventType, selectedYear, selectedMonth, sortKey, sortDirection]);
+  }, [data, selectedStock, selectedEventType, selectedYear, selectedMonth, sortKey, sortDirection]);
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) {
@@ -136,7 +115,61 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="space-y-2">
+          <Label>Stock Name</Label>
+          <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={stockDropdownOpen}
+                className="w-full justify-between"
+              >
+                {selectedStock || "All stocks..."}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command>
+                <CommandInput placeholder="Search stocks..." />
+                <CommandList>
+                  <CommandEmpty>No stock found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      value=""
+                      onSelect={() => {
+                        setSelectedStock('');
+                        setStockDropdownOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${selectedStock === '' ? "opacity-100" : "opacity-0"}`}
+                      />
+                      All stocks
+                    </CommandItem>
+                    {uniqueStocks.map((stock) => (
+                      <CommandItem
+                        key={stock}
+                        value={stock}
+                        onSelect={(currentValue) => {
+                          setSelectedStock(currentValue === selectedStock ? '' : currentValue);
+                          setStockDropdownOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={`mr-2 h-4 w-4 ${selectedStock === stock ? "opacity-100" : "opacity-0"}`}
+                        />
+                        {stock}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+
         <div className="space-y-2">
           <Label>Event Type</Label>
           <Popover open={eventDropdownOpen} onOpenChange={setEventDropdownOpen}>
@@ -228,7 +261,7 @@ export const VolatilityDataTable: React.FC<VolatilityDataTableProps> = ({ data, 
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
-        Showing {filteredAndSortedData.length} of {data?.length || 0} records
+        Showing {filteredAndSortedData.length} of {data.length} records
       </div>
 
       {/* Table */}

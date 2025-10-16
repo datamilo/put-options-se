@@ -12,112 +12,29 @@ import { VolatilityStats, VolatilityEventData } from '@/types/volatility';
 interface VolatilityStatsChartProps {
   data: VolatilityStats[];
   rawData: VolatilityEventData[];
-  selectedStocks: string[];
 }
 
-export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data, rawData, selectedStocks }) => {
+export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data, rawData }) => {
+  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
+  const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>(['Bokslutskommuniké', 'Kvartalsrapport']);
+  const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
+  const [eventTypeDropdownOpen, setEventTypeDropdownOpen] = useState(false);
 
-  // Sanitize the data prop to ensure all numeric values are valid for Recharts
-  const sanitizedDataProp = useMemo(() => {
-    console.log('🔍 [VolatilityStatsChart] Incoming data prop:', {
-      isUndefined: data === undefined,
-      isNull: data === null,
-      isArray: Array.isArray(data),
-      length: data?.length,
-      type: typeof data,
-      sample: data?.slice(0, 2)
-    });
-
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      console.log('⚠️ [VolatilityStatsChart] data prop invalid, returning empty array');
-      return [];
-    }
-
-    // Sanitize all values to prevent NaN/undefined issues in Recharts
-    const safeNumber = (value: number) => {
-      if (value === undefined || value === null || isNaN(value)) {
-        return 0;
-      }
-      return value;
-    };
-
-    const sanitized = data.map(item => ({
-      name: item.name || 'Unknown',
-      count: item.count || 0,
-      mean_abs_change: safeNumber(item.mean_abs_change),
-      mean_change: safeNumber(item.mean_change),
-      median_change: safeNumber(item.median_change),
-      std_dev: safeNumber(item.std_dev),
-      ci95_low: safeNumber(item.ci95_low),
-      ci95_high: safeNumber(item.ci95_high),
-      p05: safeNumber(item.p05),
-      p95: safeNumber(item.p95),
-      min_change: safeNumber(item.min_change),
-      max_change: safeNumber(item.max_change),
-      negative_count: item.negative_count || 0,
-      negative_rate: safeNumber(item.negative_rate),
-      se_mean: safeNumber(item.se_mean),
-      avg_volume_pct_change: safeNumber(item.avg_volume_pct_change),
-      avg_intraday_spread_pct: safeNumber(item.avg_intraday_spread_pct),
-      min_event_type: item.min_event_type || '',
-      min_event_date: item.min_event_date || '',
-      max_event_type: item.max_event_type || '',
-      max_event_date: item.max_event_date || ''
-    }));
-
-    console.log('✅ [VolatilityStatsChart] Sanitized data prop:', {
-      length: sanitized.length,
-      sample: sanitized.slice(0, 1)
-    });
-
-    return sanitized;
+  // Get unique stock names and event types
+  const uniqueStocks = useMemo(() => {
+    return Array.from(new Set(data.map(item => item.name))).sort();
   }, [data]);
 
-  // Filter and recalculate data based on selected stocks
+  const uniqueEventTypes = useMemo(() => {
+    return Array.from(new Set(rawData.map(item => item.type_of_event))).sort();
+  }, [rawData]);
+
+  // Filter and recalculate data based on selected stocks and event types
   const filteredData = useMemo(() => {
-    console.log('🔍 [VolatilityStatsChart] rawData:', {
-      isUndefined: rawData === undefined,
-      isNull: rawData === null,
-      isArray: Array.isArray(rawData),
-      length: rawData?.length,
-      type: typeof rawData
-    });
-    console.log('🔍 [VolatilityStatsChart] selectedStocks:', selectedStocks);
-
-    // If no stocks selected, use the sanitized prop data (already has all stats calculated)
-    if (selectedStocks.length === 0) {
-      console.log('✅ [VolatilityStatsChart] No filtering - using sanitized prop data');
-      // Convert to percentages to match the recalculated data format
-      return sanitizedDataProp.map(item => ({
-        ...item,
-        mean_abs_change: item.mean_abs_change * 100,
-        mean_change: item.mean_change * 100,
-        median_change: item.median_change * 100,
-        ci95_low: item.ci95_low * 100,
-        ci95_high: item.ci95_high * 100,
-        p05: item.p05 * 100,
-        p95: item.p95 * 100,
-        min_change: item.min_change * 100,
-        max_change: item.max_change * 100,
-        avg_volume_pct_change: item.avg_volume_pct_change * 100,
-        avg_intraday_spread_pct: item.avg_intraday_spread_pct * 100
-      })).sort((a, b) => b.mean_abs_change - a.mean_abs_change);
-    }
-
-    // Guard against undefined or null rawData
-    if (!rawData || !Array.isArray(rawData) || rawData.length === 0) {
-      console.log('⚠️ [VolatilityStatsChart] Returning empty array - no data');
-      return [];
-    }
-
+    // First filter raw data by event types
     let filteredRawData = rawData;
-
-    // Filter by selected stocks
-    filteredRawData = filteredRawData.filter(row => selectedStocks.includes(row.name));
-
-    // If filtering resulted in no data, return empty array
-    if (filteredRawData.length === 0) {
-      return [];
+    if (selectedEventTypes.length > 0) {
+      filteredRawData = filteredRawData.filter(item => selectedEventTypes.includes(item.type_of_event));
     }
 
     // Recalculate statistics for the filtered raw data
@@ -214,61 +131,33 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       });
     }
 
-    // Sort by mean absolute change and convert decimal values to percentages
-    // Ensure all values are valid numbers (not NaN or undefined) for Recharts
-    const finalData = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change).map(item => {
-      const safeNumber = (value: number) => {
-        if (value === undefined || value === null || isNaN(value)) {
-          return 0;
-        }
-        return value;
-      };
-
-      return {
-        name: item.name || 'Unknown', // Ensure name is always a string
-        count: item.count || 0,
-        mean_abs_change: safeNumber(item.mean_abs_change) * 100,
-        mean_change: safeNumber(item.mean_change) * 100,
-        median_change: safeNumber(item.median_change) * 100,
-        std_dev: safeNumber(item.std_dev),
-        ci95_low: safeNumber(item.ci95_low) * 100,
-        ci95_high: safeNumber(item.ci95_high) * 100,
-        p05: safeNumber(item.p05) * 100,
-        p95: safeNumber(item.p95) * 100,
-        min_change: safeNumber(item.min_change) * 100,
-        max_change: safeNumber(item.max_change) * 100,
-        negative_count: item.negative_count || 0,
-        negative_rate: safeNumber(item.negative_rate),
-        se_mean: safeNumber(item.se_mean),
-        avg_volume_pct_change: safeNumber(item.avg_volume_pct_change) * 100,
-        avg_intraday_spread_pct: Math.abs(safeNumber(item.avg_intraday_spread_pct)) * 100,
-        min_event_type: item.min_event_type || '',
-        min_event_date: item.min_event_date || '',
-        max_event_type: item.max_event_type || '',
-        max_event_date: item.max_event_date || ''
-      };
-    });
-
-    console.log('✅ [VolatilityStatsChart] finalData:', {
-      isArray: Array.isArray(finalData),
-      length: finalData.length,
-      sample: finalData.slice(0, 2),
-      allHaveNames: finalData.every(d => d.name),
-      sampleDataKeys: finalData.length > 0 ? Object.keys(finalData[0]) : []
-    });
-
-    return finalData;
-  }, [rawData, selectedStocks, sanitizedDataProp]);
+    // Sort by mean absolute change
+    let filtered = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change);
+    
+    // Filter by selected stocks
+    if (selectedStocks.length > 0) {
+      filtered = filtered.filter(item => selectedStocks.includes(item.name));
+    }
+    
+    // Convert decimal values to percentages and prepare chart data
+    return filtered.map(item => ({
+      ...item,
+      mean_abs_change: item.mean_abs_change * 100,
+      mean_change: item.mean_change * 100,
+      median_change: item.median_change * 100,
+      ci95_low: item.ci95_low * 100,
+      ci95_high: item.ci95_high * 100,
+      p05: item.p05 * 100,
+      p95: item.p95 * 100,
+      min_change: item.min_change * 100,
+      max_change: item.max_change * 100,
+      avg_volume_pct_change: item.avg_volume_pct_change * 100,
+      avg_intraday_spread_pct: Math.abs(item.avg_intraday_spread_pct) * 100
+    }));
+  }, [rawData, selectedStocks, selectedEventTypes]);
 
   // Take top 20 for readability
   const topStocks = filteredData.slice(0, 20);
-
-  console.log('📊 [VolatilityStatsChart] topStocks for chart:', {
-    isArray: Array.isArray(topStocks),
-    length: topStocks.length,
-    sample: topStocks.slice(0, 1),
-    sampleFull: topStocks.length > 0 ? topStocks[0] : null
-  });
 
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -300,19 +189,137 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     return null;
   };
 
-
-  // Don't render charts if we don't have valid data
-  if (!topStocks || topStocks.length === 0) {
-    console.log('⚠️ [VolatilityStatsChart] No data to display charts');
-    return (
-      <div className="text-center p-8 text-muted-foreground">
-        No data available to display charts
-      </div>
+  const handleStockToggle = (stock: string) => {
+    setSelectedStocks(prev => 
+      prev.includes(stock) 
+        ? prev.filter(s => s !== stock)
+        : [...prev, stock]
     );
-  }
+  };
+
+  const handleEventTypeToggle = (eventType: string) => {
+    setSelectedEventTypes(prev => 
+      prev.includes(eventType) 
+        ? prev.filter(e => e !== eventType)
+        : [...prev, eventType]
+    );
+  };
 
   return (
     <div className="space-y-4">
+      {/* Filters */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Stock Filter */}
+        <div className="space-y-2">
+          <Label>Filter Stocks</Label>
+        <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
+          <PopoverTrigger asChild>
+            <Button
+              variant="outline"
+              role="combobox"
+              aria-expanded={stockDropdownOpen}
+              className="w-full justify-between"
+            >
+              {selectedStocks.length === 0 
+                ? "All stocks" 
+                : selectedStocks.length === 1 
+                ? selectedStocks[0]
+                : `${selectedStocks.length} stocks selected`
+              }
+              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-full p-0" align="start">
+            <Command>
+              <CommandInput placeholder="Search stocks..." />
+              <CommandList>
+                <CommandEmpty>No stock found.</CommandEmpty>
+                <CommandGroup>
+                  <CommandItem
+                    onSelect={() => {
+                      setSelectedStocks([]);
+                      setStockDropdownOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={`mr-2 h-4 w-4 ${selectedStocks.length === 0 ? "opacity-100" : "opacity-0"}`}
+                    />
+                    All stocks
+                  </CommandItem>
+                  {uniqueStocks.map((stock) => (
+                    <CommandItem
+                      key={stock}
+                      onSelect={() => handleStockToggle(stock)}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${selectedStocks.includes(stock) ? "opacity-100" : "opacity-0"}`}
+                      />
+                      {stock}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
+        </div>
+
+        {/* Event Type Filter */}
+        <div className="space-y-2">
+          <Label>Filter Event Types</Label>
+          <Popover open={eventTypeDropdownOpen} onOpenChange={setEventTypeDropdownOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={eventTypeDropdownOpen}
+                className="w-full justify-between"
+              >
+                {selectedEventTypes.length === 0 
+                  ? "All event types" 
+                  : selectedEventTypes.length === 1 
+                  ? selectedEventTypes[0]
+                  : `${selectedEventTypes.length} event types selected`
+                }
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-full p-0" align="start">
+              <Command>
+                <CommandInput placeholder="Search event types..." />
+                <CommandList>
+                  <CommandEmpty>No event type found.</CommandEmpty>
+                  <CommandGroup>
+                    <CommandItem
+                      onSelect={() => {
+                        setSelectedEventTypes([]);
+                        setEventTypeDropdownOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={`mr-2 h-4 w-4 ${selectedEventTypes.length === 0 ? "opacity-100" : "opacity-0"}`}
+                      />
+                      All event types
+                    </CommandItem>
+                    {uniqueEventTypes.map((eventType) => (
+                      <CommandItem
+                        key={eventType}
+                        onSelect={() => handleEventTypeToggle(eventType)}
+                      >
+                        <Check
+                          className={`mr-2 h-4 w-4 ${selectedEventTypes.includes(eventType) ? "opacity-100" : "opacity-0"}`}
+                        />
+                        {eventType}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div>
+
       <Tabs defaultValue="volatility" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="volatility">Mean Volatility</TabsTrigger>
