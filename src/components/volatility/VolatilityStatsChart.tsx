@@ -21,6 +21,11 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
   const filteredData = useMemo(() => {
     let filteredRawData = rawData;
 
+    // Filter by selected stocks if any
+    if (selectedStocks.length > 0) {
+      filteredRawData = filteredRawData.filter(row => selectedStocks.includes(row.name));
+    }
+
     // Recalculate statistics for the filtered raw data
     const grouped = filteredRawData.reduce((acc, row) => {
       const key = row.name;
@@ -115,16 +120,8 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       });
     }
 
-    // Sort by mean absolute change
-    let filtered = recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change);
-    
-    // Filter by selected stocks
-    if (selectedStocks.length > 0) {
-      filtered = filtered.filter(item => selectedStocks.includes(item.name));
-    }
-    
-    // Convert decimal values to percentages and prepare chart data
-    return filtered.map(item => ({
+    // Sort by mean absolute change and convert decimal values to percentages
+    return recalculatedStats.sort((a, b) => b.mean_abs_change - a.mean_abs_change).map(item => ({
       ...item,
       mean_abs_change: item.mean_abs_change * 100,
       mean_change: item.mean_change * 100,
