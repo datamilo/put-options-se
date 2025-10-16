@@ -32,7 +32,15 @@ export const VolatilityAnalysis = () => {
       return [];
     }
     const stocks = new Set(volatilityData.map(d => d.name));
-    return Array.from(stocks).sort();
+    const stocksArray = Array.from(stocks).sort();
+    console.log('✅ [VolatilityAnalysis] uniqueStocks created:', {
+      isArray: Array.isArray(stocksArray),
+      length: stocksArray.length,
+      sample: stocksArray.slice(0, 5),
+      allStrings: stocksArray.every(s => typeof s === 'string'),
+      hasUndefined: stocksArray.some(s => s === undefined || s === null)
+    });
+    return stocksArray;
   }, [volatilityData]);
 
   const handleStockToggle = (stock: string) => {
@@ -133,7 +141,13 @@ export const VolatilityAnalysis = () => {
                   <CommandInput placeholder="Search stocks..." />
                   <CommandEmpty>No stock found.</CommandEmpty>
                   <CommandGroup className="max-h-64 overflow-auto">
-                    {uniqueStocks.map((stock) => (
+                    {(() => {
+                      console.log('🎯 [VolatilityAnalysis] Rendering CommandGroup with uniqueStocks:', {
+                        isArray: Array.isArray(uniqueStocks),
+                        length: uniqueStocks?.length,
+                        sample: uniqueStocks?.slice(0, 3)
+                      });
+                      return uniqueStocks.map((stock) => (
                       <CommandItem
                         key={stock}
                         onSelect={() => handleStockToggle(stock)}
@@ -146,7 +160,8 @@ export const VolatilityAnalysis = () => {
                         />
                         {stock}
                       </CommandItem>
-                    ))}
+                      ));
+                    })()}
                   </CommandGroup>
                 </Command>
               </PopoverContent>
