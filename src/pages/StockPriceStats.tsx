@@ -29,23 +29,7 @@ export const StockPriceStats = () => {
 
       <div className="container mx-auto px-4 py-6">
         <Card className="overflow-hidden">
-          <CardHeader>
-            <CardTitle>Interactive Analysis Tool</CardTitle>
-            <p className="text-sm text-muted-foreground mt-2">
-              Explore stock price patterns, support levels, and trading opportunities with our comprehensive Streamlit application.
-            </p>
-          </CardHeader>
           <CardContent className="space-y-4">
-            <div className="bg-muted/50 p-4 rounded-lg border">
-              <p className="text-sm text-muted-foreground mb-4">
-                The Stock Price Stats application provides two main analysis modes:
-              </p>
-              <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
-                <li><strong>Stock Analysis:</strong> Deep dive into individual stock price behavior with rolling low indicators and key metrics</li>
-                <li><strong>Top Performers:</strong> Analyze all 68 stocks across success, resilience, risk, strategy, and temporal metrics</li>
-              </ul>
-            </div>
-
             {/* Embedded Streamlit App */}
             <div className="w-full border rounded-lg overflow-hidden bg-background">
               <iframe
