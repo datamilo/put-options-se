@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon } from "lucide-react";
+import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -50,15 +50,23 @@ export const NavigationMenu = () => {
             Monthly Analysis
           </DropdownMenuItem>
           
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => navigate('/volatility-analysis')}
             className="cursor-pointer"
           >
             <Activity className="mr-2 h-4 w-4" />
             Volatility Analysis
           </DropdownMenuItem>
-          
-          <DropdownMenuItem 
+
+          <DropdownMenuItem
+            onClick={() => navigate('/stock-price-stats')}
+            className="cursor-pointer"
+          >
+            <LineChart className="mr-2 h-4 w-4" />
+            Stock Price Stats
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
             onClick={() => {
               setSettingsOpen(true);
             }}

@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import PortfolioGenerator from "./pages/PortfolioGenerator";
 import { MonthlyAnalysis } from "./pages/MonthlyAnalysis";
 import { VolatilityAnalysis } from "./pages/VolatilityAnalysis";
+import StockPriceStats from "./pages/StockPriceStats";
 import OptionDetailsPage from "./pages/OptionDetailsPage";
 import StockDetailsPage from "./pages/StockDetailsPage";
 import NotFound from "./pages/NotFound";
@@ -72,6 +73,7 @@ const App = () => {
                     <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
                     <Route path="/monthly-analysis" element={<ProtectedRoute><MonthlyAnalysis /></ProtectedRoute>} />
                     <Route path="/volatility-analysis" element={<ProtectedRoute><VolatilityAnalysis /></ProtectedRoute>} />
+                    <Route path="/stock-price-stats" element={<ProtectedRoute><StockPriceStats /></ProtectedRoute>} />
                     <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
                     <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
                     <Route path="*" element={<NotFound />} />
