@@ -40,7 +40,7 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **Index** (`/`) - Main options analysis dashboard with filterable table
 - **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools with independent settings
 - **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
-- **Volatility Analysis** (`/volatility-analysis`) - Stock event volatility tracking
+- **Financial Reporting Volatility** (`/volatility-analysis`) - Stock event volatility tracking
 - **Option Details** (`/option/:optionId`) - Detailed individual option analysis
 - **Stock Details** (`/stock/:stockName`) - Individual stock performance
 - **Authentication** (`/auth`, `/auth/callback`) - User login/signup

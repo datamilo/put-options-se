@@ -55,7 +55,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <Activity className="mr-2 h-4 w-4" />
-            Volatility Analysis
+            Financial Reporting Volatility
           </DropdownMenuItem>
 
           <DropdownMenuItem
