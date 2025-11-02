@@ -1,6 +1,9 @@
 export interface StockData {
   date: string;
   name: string;
+  open: number;
+  high: number;
+  low: number;
   close: number;
   volume: number;
   pct_change_close: number;

@@ -1,5 +1,5 @@
 import { StockData, StockSummary } from "@/types/stock";
-import { StockChart } from "./StockChart";
+import { CandlestickChart } from "./CandlestickChart";
 import { useStockData } from "@/hooks/useStockData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -115,8 +115,8 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
         </CardContent>
       </Card>
 
-      {/* Interactive Chart */}
-      <StockChart data={stockData} stockName={stockSummary.name} />
+      {/* Interactive Candlestick Chart */}
+      <CandlestickChart data={stockData} stockName={stockSummary.name} />
 
       {/* Additional Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -49,7 +49,7 @@ export const useStockData = () => {
         delimiter: '|',
         skipEmptyLines: true,
         transform: (value, field) => {
-          if (field === 'close' || field === 'volume' || field === 'pct_change_close') {
+          if (field === 'open' || field === 'high' || field === 'low' || field === 'close' || field === 'volume' || field === 'pct_change_close') {
             // Handle empty values in numeric fields
             if (value === '' || value === null || value === undefined) {
               return field === 'volume' ? 0 : null;
@@ -95,11 +95,11 @@ export const useStockData = () => {
 
     const periodAgo = new Date();
     periodAgo.setDate(periodAgo.getDate() - periodDays);
-    
+
     const recentData = stockData.filter(d => new Date(d.date) >= periodAgo);
     if (recentData.length === 0) return null;
-    
-    const prices = recentData.map(d => d.close);
+
+    const prices = recentData.map(d => d.low);
     return Math.min(...prices);
   };
 
@@ -109,14 +109,15 @@ export const useStockData = () => {
 
     const periodAgo = new Date();
     periodAgo.setDate(periodAgo.getDate() - periodDays);
-    
+
     const recentData = stockData.filter(d => new Date(d.date) >= periodAgo);
     if (recentData.length === 0) return null;
-    
-    const prices = recentData.map(d => d.close);
+
+    const highs = recentData.map(d => d.high);
+    const lows = recentData.map(d => d.low);
     return {
-      high: Math.max(...prices),
-      low: Math.min(...prices)
+      high: Math.max(...highs),
+      low: Math.min(...lows)
     };
   };
 
@@ -133,15 +134,16 @@ export const useStockData = () => {
     const priceChange = previousData ? latestData.close - previousData.close : 0;
     const priceChangePercent = previousData ? (priceChange / previousData.close) * 100 : 0;
 
-    // Calculate 52-week high and low
+    // Calculate 52-week high and low using OHLC data
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-    
+
     const recentData = stockData.filter(d => new Date(d.date) >= oneYearAgo);
-    const prices = recentData.map(d => d.close);
-    
-    const highPrice52Week = Math.max(...prices);
-    const lowPrice52Week = Math.min(...prices);
+    const highs = recentData.map(d => d.high);
+    const lows = recentData.map(d => d.low);
+
+    const highPrice52Week = Math.max(...highs);
+    const lowPrice52Week = Math.min(...lows);
 
     // Calculate volatility (standard deviation of daily returns)
     const returns = recentData.slice(1).map((d, i) => 
