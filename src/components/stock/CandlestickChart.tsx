@@ -13,7 +13,7 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Activity } from "lucide-react";
+import { Activity, BarChart3 } from "lucide-react";
 
 interface CandlestickChartProps {
   data: StockData[];
@@ -81,6 +81,7 @@ const transformDataForCandlestick = (data: StockData[]) => {
 
 export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => {
   const [timeRange, setTimeRange] = useState<'1M' | '3M' | '6M' | '1Y' | 'ALL'>('6M');
+  const [showVolume, setShowVolume] = useState<boolean>(false);
 
   const getFilteredData = () => {
     if (timeRange === 'ALL') return data;
@@ -190,6 +191,16 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
     return value.toFixed(2);
   };
 
+  const formatVolumeYAxisLabel = (value: number) => {
+    if (value >= 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    }
+    if (value >= 1000) {
+      return `${(value / 1000).toFixed(0)}K`;
+    }
+    return value.toString();
+  };
+
   const formatXAxisLabel = (tickItem: string) => {
     const date = new Date(tickItem);
     if (timeRange === '1Y' || timeRange === 'ALL') {
@@ -277,6 +288,15 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
               </Button>
             ))}
           </div>
+
+          <Button
+            variant={showVolume ? "default" : "outline"}
+            size="sm"
+            onClick={() => setShowVolume(!showVolume)}
+          >
+            <BarChart3 className="h-4 w-4 mr-1" />
+            Volume
+          </Button>
         </div>
       </CardHeader>
 
@@ -292,16 +312,36 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
                 ticks={getXAxisTicks()}
               />
               <YAxis
+                yAxisId="price"
+                orientation="left"
                 className="text-muted-foreground"
                 domain={getPriceDomain()}
                 tickFormatter={formatYAxisLabel}
               />
+              {showVolume && (
+                <YAxis
+                  yAxisId="volume"
+                  orientation="right"
+                  className="text-muted-foreground"
+                  tickFormatter={formatVolumeYAxisLabel}
+                />
+              )}
               <Tooltip content={<CustomTooltip />} />
               <Bar
+                yAxisId="price"
                 dataKey="high"
                 shape={renderCandlestick}
                 isAnimationActive={false}
               />
+              {showVolume && (
+                <Bar
+                  yAxisId="volume"
+                  dataKey="volume"
+                  fill="hsl(var(--muted-foreground))"
+                  fillOpacity={0.3}
+                  name="Volume"
+                />
+              )}
             </ComposedChart>
           </ResponsiveContainer>
         </div>
