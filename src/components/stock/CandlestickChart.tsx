@@ -305,18 +305,6 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
             </ComposedChart>
           </ResponsiveContainer>
         </div>
-
-        {/* Legend */}
-        <div className="flex justify-center gap-6 mt-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-green-600 rounded"></div>
-            <span>Bullish (Close ≥ Open)</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 bg-red-600 rounded"></div>
-            <span>Bearish (Close &lt; Open)</span>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
