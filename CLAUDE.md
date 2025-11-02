@@ -64,6 +64,8 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 #### UI Components
 - **OptionsTable** - Main data table with sorting, filtering, and column management
 - **OptionsChart** - Interactive price/volume charts
+- **CandlestickChart** - OHLC candlestick chart with volume overlay for stock analysis
+- **StockChart** - Legacy line chart component (replaced by CandlestickChart)
 - **MonthlySeasonalityHeatmap** - Seasonal performance visualization
 - **SettingsModal** - User preference configuration
 - **NavigationMenu** - App navigation with dropdown menu
@@ -80,10 +82,12 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - Calculated metrics: PotentialReturn, BreakEven, ProbabilityITM
 - User-customizable: UnderlyingValue, TransactionCost
 
-### Stock Data
-- Historical monthly performance
-- Seasonal analysis data
-- Risk/return metrics
+### Stock Data (OHLC Format)
+- **OHLC Fields**: open, high, low, close prices for each trading day
+- **Volume Data**: Daily trading volume
+- **Date**: Trading date for each data point
+- **Percentage Change**: Daily close price change percentage
+- Historical data used for price range calculations and chart visualization
 
 ## Key Features
 
@@ -97,9 +101,15 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - Date range selection for option expiry
 - Minimum volume/open interest filters
 - Stock symbol filtering
+- **Strike Price Below Filter**: Uses actual intraday low prices (not close) for accurate filtering
 - Column visibility management
 
 ### 3. Data Visualization
+- **OHLC Candlestick Charts**: Full price action visualization with open, high, low, close data
+  - Green candlesticks for bullish days (close ≥ open)
+  - Red candlesticks for bearish days (close < open)
+  - Optional volume overlay with dual Y-axis
+  - Time range filters (1M, 3M, 6M, 1Y, ALL)
 - Interactive charts with Recharts
 - Seasonality heatmaps
 - Risk/return scatter plots
@@ -155,7 +165,12 @@ The application maintains **two separate settings systems** to avoid conflicts:
 
 ## Known Issues & Limitations
 
-### Recent Fixes Applied
+### Recent Fixes & Updates Applied
+- **OHLC Candlestick Charts** (2025-11): Implemented full OHLC data support
+  - Updated StockData type to include open, high, low fields
+  - Created CandlestickChart component with volume overlay toggle
+  - Updated price calculations to use actual high/low values instead of close prices
+  - Strike Price Below filter now uses intraday low prices for accuracy
 - **Double Calculation Bug**: Fixed issue where options were being recalculated twice
 - **Settings Reversion**: Resolved problem where user settings reverted after apply
 - **State Management**: Improved handling of user preferences vs database sync
@@ -177,6 +192,8 @@ The application maintains **two separate settings systems** to avoid conflicts:
 - Always use semantic tokens from design system, never direct colors
 - When creating new preference hooks, use `hasLoadedFromSupabase` flag to prevent continuous reloading
 - Input fields should sync with settings via useEffect, but avoid infinite loops
+- **OHLC Data**: Always use `low` field for period lows and `high`/`low` for ranges (not close prices)
+- **Stock Charts**: Use CandlestickChart component for stock detail pages (shows OHLC data visually)
 
 ### File Organization
 - `/src/hooks` - Custom React hooks for data fetching and calculations
@@ -205,12 +222,22 @@ The application maintains **two separate settings systems** to avoid conflicts:
 ## Data Flow Architecture
 
 ### Options Data Pipeline
-1. **CSV Files** → `/data/data.csv` (options) and `/data/stock_data.csv`
+1. **CSV Files** → `/data/data.csv` (options) and `/data/stock_data.csv` (OHLC format)
 2. **useOptionsData** → Fetches and parses CSV with Papa Parse
-3. **useStockData** → Fetches current stock prices
+3. **useStockData** → Fetches and parses OHLC stock data (open, high, low, close, volume)
 4. **useEnrichedOptionsData** → Combines options + stock data + user settings
 5. **useRecalculatedOptions** → Applies calculation formulas (used internally by useEnrichedOptionsData)
 6. **Components** → Consume enriched data for display
+
+### Stock Data Pipeline (OHLC)
+1. **CSV Source** → GitHub raw CSV or local `/public/data/stock_data.csv`
+2. **Format** → Pipe-delimited: `date|name|open|high|low|close|volume|pct_change_close`
+3. **useStockData Hook** → Parses all OHLC fields as numeric values
+4. **Price Calculations**:
+   - `getLowPriceForPeriod()` → Uses `low` field for accurate period lows
+   - `getPriceRangeForPeriod()` → Uses `high` and `low` fields for true ranges
+   - `getStockSummary()` → Calculates 52-week high/low from OHLC data
+5. **Visualization** → CandlestickChart component renders OHLC data with optional volume
 
 ### Settings Data Flow
 1. **User Input** → Component state (e.g., underlyingValueInput)
