@@ -1,0 +1,290 @@
+"""
+Filter Relevant Stocks from Price Data
+
+This script filters the price_data_all.parquet file to include only stocks
+that have options available, based on the nasdaq_options_available.csv file.
+
+Usage:
+    python filter_relevant_stocks.py
+
+Output:
+    - price_data_filtered.parquet: Filtered price data (parquet format)
+"""
+
+import pandas as pd
+import numpy as np
+from pathlib import Path
+import logging
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+
+class StockDataFilter:
+    """Filter stock price data to only include relevant stocks with options"""
+
+    def __init__(self, options_root: str = None, price_data_folder: str = None, output_folder: str = None):
+        """
+        Initialize the filter.
+
+        Args:
+            options_root: Folder where nasdaq_options_available.csv is located (defaults to current directory)
+            price_data_folder: Folder where price_data_all.parquet is located (defaults to current directory)
+            output_folder: Folder where price_data_filtered.parquet will be saved (defaults to options_root)
+        """
+        if options_root is None:
+            self.options_root = Path.cwd()
+        else:
+            self.options_root = Path(options_root)
+
+        if price_data_folder is None:
+            self.price_data_folder = Path.cwd()
+        else:
+            self.price_data_folder = Path(price_data_folder)
+
+        if output_folder is None:
+            self.output_folder = self.options_root
+        else:
+            self.output_folder = Path(output_folder)
+
+    def load_options_stocks(self) -> list:
+        """
+        Load list of stocks that have options available.
+
+        Returns:
+            List of stock names (NordnetName format)
+        """
+        logger.info("Loading stocks with options available...")
+
+        # First try nasdaq_options_available.csv (definitive list)
+        options_file = self.options_root / 'nasdaq_options_available.csv'
+
+        if options_file.exists():
+            try:
+                df = pd.read_csv(options_file, sep='|')
+
+                # Get stock names from NordnetName column
+                if 'NordnetName' in df.columns:
+                    stocks = df['NordnetName'].dropna().unique().tolist()
+                    # Remove empty strings
+                    stocks = [s for s in stocks if s and str(s).strip()]
+                    logger.info(f"✓ Found {len(stocks)} stocks with options")
+                    return stocks
+                else:
+                    logger.error(f"'NordnetName' column not found in {options_file}")
+
+            except Exception as e:
+                logger.error(f"Error reading {options_file}: {e}")
+
+        # Fallback: try nasdaq_nordnet_stock_names.csv
+        nordnet_file = self.options_root / 'nasdaq_nordnet_stock_names.csv'
+
+        if nordnet_file.exists():
+            try:
+                df = pd.read_csv(nordnet_file, sep='|')
+
+                if 'NordnetName' in df.columns:
+                    stocks = df['NordnetName'].dropna().unique().tolist()
+                    stocks = [s for s in stocks if s and str(s).strip()]
+                    logger.info(f"✓ Found {len(stocks)} stocks (from nordnet names file)")
+                    return stocks
+
+            except Exception as e:
+                logger.error(f"Error reading {nordnet_file}: {e}")
+
+        raise FileNotFoundError(
+            "Could not find stock list files. Expected: "
+            "nasdaq_options_available.csv or nasdaq_nordnet_stock_names.csv"
+        )
+
+    def load_price_data(self) -> pd.DataFrame:
+        """
+        Load stock price data from parquet file.
+
+        Returns:
+            DataFrame with all stock price data
+        """
+        logger.info("Loading price data...")
+
+        parquet_file = self.price_data_folder / 'price_data_all.parquet'
+
+        if not parquet_file.exists():
+            raise FileNotFoundError(f"Price data file not found: {parquet_file}")
+
+        try:
+            df = pd.read_parquet(parquet_file)
+            logger.info(f"✓ Loaded {len(df):,} records from {parquet_file.name}")
+            logger.info(f"  - Columns: {', '.join(df.columns.tolist())}")
+            logger.info(f"  - Total unique stocks: {df['name'].nunique()}")
+            logger.info(f"  - Date range: {df['date'].min()} to {df['date'].max()}")
+            return df
+
+        except Exception as e:
+            logger.error(f"Error loading price data: {e}")
+            raise
+
+    def filter_data(self, df: pd.DataFrame, stocks_to_keep: list) -> pd.DataFrame:
+        """
+        Filter price data to only include specified stocks.
+
+        Args:
+            df: Stock price DataFrame
+            stocks_to_keep: List of stock names to keep
+
+        Returns:
+            Filtered DataFrame
+        """
+        logger.info(f"Filtering data to {len(stocks_to_keep)} stocks...")
+
+        # Show initial stats
+        initial_count = len(df)
+        initial_stocks = df['name'].nunique()
+
+        # Filter to stocks in the list
+        df_filtered = df[df['name'].isin(stocks_to_keep)].copy()
+
+        # Show filtered stats
+        filtered_count = len(df_filtered)
+        filtered_stocks = df_filtered['name'].nunique()
+
+        logger.info(f"✓ Filtering complete:")
+        logger.info(f"  - Records: {initial_count:,} → {filtered_count:,} "
+                   f"({filtered_count/initial_count*100:.1f}% retained)")
+        logger.info(f"  - Stocks: {initial_stocks} → {filtered_stocks}")
+
+        # Show which stocks from options list were found
+        found_stocks = set(df_filtered['name'].unique())
+        expected_stocks = set(stocks_to_keep)
+        missing_stocks = expected_stocks - found_stocks
+
+        if missing_stocks:
+            logger.warning(f"  ⚠ {len(missing_stocks)} stocks from options list not found in price data:")
+            for stock in sorted(list(missing_stocks))[:10]:  # Show first 10
+                logger.warning(f"    - {stock}")
+            if len(missing_stocks) > 10:
+                logger.warning(f"    ... and {len(missing_stocks) - 10} more")
+
+        return df_filtered
+
+    def remove_incomplete_days(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Remove trading days with incomplete OHLC data.
+
+        Some data sources include the most recent trading day with only the
+        close price (open, high, low are NaN) until the market closes.
+        This removes those incomplete days to ensure valid candlestick charts.
+
+        Args:
+            df: Stock price DataFrame
+
+        Returns:
+            DataFrame with only complete trading days
+        """
+        logger.info("Removing incomplete trading days...")
+
+        initial_count = len(df)
+
+        # Remove rows where any of open, high, low are NaN
+        # (close is always required)
+        df_complete = df.dropna(subset=['open', 'high', 'low']).copy()
+
+        removed_count = initial_count - len(df_complete)
+
+        if removed_count > 0:
+            logger.info(f"✓ Removed {removed_count:,} rows with incomplete OHLC data")
+            logger.info(f"  - Records: {initial_count:,} → {len(df_complete):,}")
+        else:
+            logger.info(f"✓ No incomplete trading days found")
+
+        return df_complete
+
+    def save_filtered_data(self, df: pd.DataFrame,
+                          parquet_output: str = 'price_data_filtered.parquet'):
+        """
+        Save filtered data to parquet format.
+
+        Args:
+            df: Filtered DataFrame to save
+            parquet_output: Output parquet filename
+        """
+        logger.info("Saving filtered data...")
+
+        # Save as parquet
+        parquet_path = self.output_folder / parquet_output
+        df.to_parquet(parquet_path, index=False)
+        parquet_size = parquet_path.stat().st_size / 1024 / 1024  # MB
+        logger.info(f"✓ Saved parquet: {parquet_path.name} ({parquet_size:.2f} MB)")
+
+    def run(self):
+        """Execute the complete filtering process"""
+        logger.info("="*80)
+        logger.info("FILTERING STOCK PRICE DATA TO RELEVANT STOCKS")
+        logger.info("="*80)
+
+        try:
+            # Load list of stocks with options
+            stocks_with_options = self.load_options_stocks()
+
+            # Load all price data
+            df_all = self.load_price_data()
+
+            # Filter to relevant stocks
+            df_filtered = self.filter_data(df_all, stocks_with_options)
+
+            # Remove incomplete trading days (recent days with only close price)
+            df_complete = self.remove_incomplete_days(df_filtered)
+
+            # Save filtered data
+            self.save_filtered_data(df_complete)
+
+            logger.info("")
+            logger.info("="*80)
+            logger.info("✓ FILTERING COMPLETE!")
+            logger.info("="*80)
+            logger.info(f"Filtered dataset contains:")
+            logger.info(f"  - {len(df_complete):,} records (complete trading days only)")
+            logger.info(f"  - {df_complete['name'].nunique()} unique stocks")
+            logger.info(f"  - Date range: {df_complete['date'].min()} to {df_complete['date'].max()}")
+            logger.info("")
+            logger.info("Output file:")
+            logger.info(f"  - price_data_filtered.parquet")
+            logger.info("="*80)
+
+            return True
+
+        except Exception as e:
+            logger.error(f"✗ Error during filtering: {e}")
+            import traceback
+            traceback.print_exc()
+            return False
+
+
+def main():
+    """Main entry point"""
+    # Paths configuration
+    temp_folder = Path(__file__).parent  # Location of this script
+    options_data_folder = Path('/mnt/c/Users/Gustaf/OneDrive/OptionsData')
+    output_folder = temp_folder
+
+    filter_tool = StockDataFilter(
+        options_root=temp_folder,
+        price_data_folder=options_data_folder,
+        output_folder=output_folder
+    )
+    success = filter_tool.run()
+
+    if success:
+        print("\n✓ Success! You can now use price_data_filtered.parquet for your analysis.")
+    else:
+        print("\n✗ Filtering failed. Check the error messages above.")
+
+    return 0 if success else 1
+
+
+if __name__ == "__main__":
+    import sys
+    sys.exit(main())
