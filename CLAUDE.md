@@ -211,83 +211,25 @@ The application maintains **two separate settings systems** to avoid conflicts:
 4. If authenticated, value upserted to Supabase
 5. On page reload, settings load from Supabase (if authenticated) or localStorage (if guest)
 
-## Known Issues & Limitations
+## Current Application State
 
-### Current State (2025-11)
-The application is fully functional with the following current characteristics and limitations:
+### Fully Functional Features
+The application is fully functional with all major features implemented and working correctly.
 
 ### Current Limitations
 - **Static Data**: Relies on pre-generated CSV files, not real-time market data
 - **GitHub Pages Deployment**: Specific basename handling for GitHub Pages vs other environments
 - **CSV Processing**: Large datasets may impact initial load performance
 
-## Rolling Low Historical Lookback Fix
-
-### Technical Problem
-The rolling low calculation was being computed only on the filtered date range (between dateFrom and dateTo), which prevented longer rolling periods from accessing sufficient historical data for their lookback windows.
-
-**Issue:**
-- UI sets dateFrom to the first available date in the data range
-- Rolling low was calculated on this already-filtered data
-- 30-90 day periods worked because they needed less history
-- 270-day and 365-day periods failed because they couldn't look back far enough
-- Result: All rolling periods appeared identical
-
-**Example with Evolution AB:**
-- Data available: 2024-01-02 to 2025-11-03 (462 trading days)
-- User selects date range: 2024-01-02 to 2025-11-03 (default)
-- Rolling low calculation on filtered data:
-  - 180-day period: Can look back from 2024-01-02, finds minimum of subset
-  - 365-day period: Tries to look back 365 days before 2024-01-02, but there's no data before that date
-  - Result: Both use same available data, producing identical rolling low values
-
-### Solution Implemented
-
-**Fix** (`src/hooks/useConsecutiveBreaksAnalysis.ts`):
-Calculate rolling low on the **full historical stockData**, then filter the results to match the requested date range.
-
-```typescript
-// Calculate rolling low on FULL data (not just filtered range)
-// This ensures longer periods have historical lookback data available
-const dataWithRollingLow = calculateRollingLow(stockData, params.periodDays);
-
-// Filter the rolling low results to match the requested date range
-const filteredRollingLow = filterDataByDate(dataWithRollingLow, fromDate, toDate);
-```
-
-**How it works:**
-1. Load all historical stock data for the selected stock
-2. Calculate rolling low on the entire dataset
-   - Each day's rolling low = minimum low of all trading days within N calendar days
-   - Uses `date.setDate(date.getDate() - periodDays)` for calendar day lookback
-3. Filter the rolling low results to show only the requested date range
-4. Use filtered results for break detection and visualization
-
-**Result for Evolution AB:**
-- 30-day rolling low: ✓ Works (lookback within data span)
-- 90-day rolling low: ✓ Works (lookback within data span)
-- 180-day rolling low: ✓ Works (lookback within data span)
-- 270-day rolling low: ✓ **NOW WORKS** (full history available for lookback)
-- 365-day rolling low: ✓ **NOW WORKS** (full history available for lookback)
-
-### Key Implementation Details
-
-**File**: `src/hooks/useConsecutiveBreaksAnalysis.ts`
-- Line 251-253: Rolling low calculated on FULL `stockData` (not filtered range)
-- Line 256: Results filtered to match date range for display
-- Line 259: Break analysis uses `filteredRollingLow` (for display range)
-- Line 262: Break clustering on `breaks` (from filtered rolling low data)
-- Line 265: Statistics calculated on `filteredRollingLow`
-- Line 269: UI receives `filteredRollingLow` (filtered to date range)
-
-**Data Flow:**
-1. User selects stock and rolling period
-2. Load all historical data for that stock
-3. Calculate rolling low using full historical data (enables proper lookback)
-4. Filter rolling low results to selected date range
-5. Display filtered results with accurate rolling low values for all periods
-
 ## Development Notes
+
+### Documentation Standards
+**CRITICAL**: This documentation reflects the **current state of the project only**.
+- Only document how the application **currently works**, not how it used to work
+- Remove past fixes, troubleshooting, and historical issues once they're resolved
+- When fixing bugs or implementing features, update documentation to reflect the current implementation
+- Delete outdated troubleshooting sections and historical context
+- This keeps documentation focused, accurate, and prevents confusion about what's actually working
 
 ### Git & GitHub Workflow
 **CRITICAL**: Always sync with GitHub after any changes are made. Follow this workflow:
