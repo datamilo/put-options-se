@@ -133,10 +133,18 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 The Support Level Analysis dashboard analyzes how well a stock's low is holding as a support level by detecting and clustering support breaks.
 
 **Key Features:**
-- **Rolling Low Calculation**: Computes N-period rolling minimum of low prices (30, 90, 180, 270, or 365 days)
+- **Rolling Low Calculation**: Computes N-period rolling minimum of low prices (30, 90, 180, 270, or 365 calendar days)
+  - Uses calendar day lookback, not trading days
+  - Includes data validation to ensure sufficient historical coverage
+  - Automatic warning system alerts users when coverage is suboptimal
 - **Support Break Detection**: Identifies when rolling low decreases, signaling a break of previous support
 - **Break Clustering**: Groups consecutive support breaks within a configurable time window (1-90 days)
 - **Multi-Trace Visualization**: Plotly chart with candlestick prices, rolling low line (blue dashed), and break markers (red circles)
+- **Data Validation & Warnings**:
+  - Calendar day span validation against requested period
+  - Coverage percentage calculation (threshold: 30% minimum)
+  - Yellow warning banner for suboptimal data coverage
+  - Suggested shorter periods for better analysis results
 - **Detailed Analytics**:
   - Cluster statistics (duration, gaps between breaks, total/average drops)
   - Support break history table with break details
@@ -144,26 +152,31 @@ The Support Level Analysis dashboard analyzes how well a stock's low is holding 
   - Stability metrics and trading days per break analysis
 
 **Data Flow:**
-1. User selects stock and configures filters
+1. User selects stock and configures filters (rolling period: 30/90/180/270/365 days)
 2. `useConsecutiveBreaksAnalysis` hook loads stock data via `useStockData`
-3. `calculateRollingLow()` computes rolling support levels
-4. `analyzeSupportBreaks()` detects support breaks
-5. `analyzeConsecutiveBreaks()` clusters breaks within max gap window
-6. `calculateBreakStats()` generates statistics
-7. Plotly chart renders with three traces (candlesticks, rolling low, breaks)
-8. Tables and metrics display cluster details and statistics
+3. **Data Validation Step**: `validateDataSufficiency()` checks calendar day span and coverage
+4. If validation produces warning, passes it to UI for display
+5. `calculateRollingLow()` computes rolling support levels using calendar day lookback
+6. `analyzeSupportBreaks()` detects support breaks (when rolling_low decreases)
+7. `analyzeConsecutiveBreaks()` clusters breaks within configurable max gap window
+8. `calculateBreakStats()` generates stability and timing statistics
+9. Plotly chart renders with three traces (candlesticks, rolling low, breaks)
+10. Tables and metrics display cluster details and statistics
 
 **File Structure:**
-- **Page**: `src/pages/ConsecutiveBreaksAnalysis.tsx` - Main dashboard with Plotly visualization
-- **Hook**: `src/hooks/useConsecutiveBreaksAnalysis.ts` - Core analysis logic
-- **Types**: `src/types/consecutiveBreaks.ts` - Data structure definitions (RollingLowData, SupportBreak, BreakCluster, BreakStatistics)
+- **Page**: `src/pages/ConsecutiveBreaksAnalysis.tsx` - Main dashboard with Plotly visualization and warning banner (lines 221-248)
+- **Hook**: `src/hooks/useConsecutiveBreaksAnalysis.ts` - Core analysis logic with validation (validateDataSufficiency function at lines 229-279)
+- **Types**: `src/types/consecutiveBreaks.ts` - Data structure definitions including DataValidationWarning interface
 - **Data**: `/data/stock_data.csv` - OHLC stock price data with format `date|name|open|high|low|close|volume|pct_change_close`
 
-**Important Notes:**
+**Important Implementation Notes:**
 - The route uses `/consecutive-breaks` but displays as "Support Level Analysis" in navigation
-- Performance optimization: Uses efficient sliding window algorithm for large period selections
-- Charts use Plotly (not Recharts) for native financial charting capabilities
-- All data is stored in `/data/` folder, not dependent on external APIs or services
+- **Calendar Day Calculation**: Rolling low uses `date.setDate(date.getDate() - periodDays)` which operates on calendar days, not trading days
+- **Validation Coverage**: Minimum 30% of data should have valid rolling low values for reliable analysis
+- **Performance**: Uses efficient sliding window algorithm for large period selections
+- **Visualization**: Charts use Plotly (not Recharts) for native financial charting capabilities
+- **Data Independence**: All data stored in `/data/` folder, not dependent on external APIs or services
+- **Silent Failure Prevention**: Before validation, long periods with insufficient data would silently produce incomplete analysis. Now users are informed and offered alternatives.
 
 ## Authentication & User Management
 - **Supabase Auth** for user management
@@ -203,29 +216,105 @@ The application maintains **two separate settings systems** to avoid conflicts:
 
 ## Known Issues & Limitations
 
-### Recent Fixes & Updates Applied
-- **Support Level Analysis Dashboard** (2025-11): New feature replacing Stock Price Stats
-  - Analyzes how well a stock's low is holding as support level
-  - Implements rolling low calculation with configurable periods (30-365 days)
-  - Detects support breaks and clusters them within time windows
-  - Uses Plotly for native financial chart with candlesticks, rolling low line, and break markers
-  - Optimized performance algorithm for large period selections
-  - Route: `/consecutive-breaks`, Menu: "Support Level Analysis"
-- **OHLC Candlestick Charts** (2025-11): Implemented full OHLC data support
-  - Updated StockData type to include open, high, low fields
-  - Created CandlestickChart component with volume overlay toggle
-  - Updated price calculations to use actual high/low values instead of close prices
-  - Strike Price Below filter now uses intraday low prices for accuracy
-- **Double Calculation Bug**: Fixed issue where options were being recalculated twice
-- **Settings Reversion**: Resolved problem where user settings reverted after apply
-- **State Management**: Improved handling of user preferences vs database sync
-- **Portfolio Generator Value Reversion**: Fixed continuous Supabase reload overwriting user changes
-- **Input Field Sync**: Fixed useEffect conditions preventing proper input field updates
+### Current State (2025-11)
+The application is fully functional with the following current characteristics and limitations:
 
 ### Current Limitations
 - **Static Data**: Relies on pre-generated CSV files, not real-time market data
 - **GitHub Pages Deployment**: Specific basename handling for GitHub Pages vs other environments
 - **CSV Processing**: Large datasets may impact initial load performance
+
+## Rolling Low Calendar Day Validation System
+
+### Technical Overview
+The Support Level Analysis dashboard's rolling low calculation uses **calendar days** (not trading days) for its lookback window. This is critical because the algorithm uses `date.setDate(date.getDate() - periodDays)`, which operates on calendar days, not trading days.
+
+**Key Distinction:**
+- Stock data contains only **trading days** (M-F, excluding holidays)
+- Rolling low calculation uses **calendar days** for the lookback period
+- A stock with 462 trading days typically spans ~676 calendar days (2 years)
+- This mismatch must be correctly validated to ensure sufficient historical data
+
+### Validation Mechanism
+
+**DataValidationWarning Interface** (`src/types/consecutiveBreaks.ts`):
+```typescript
+export interface DataValidationWarning {
+  type: 'insufficient_data' | 'low_analysis_coverage';
+  message: string;
+  suggestedPeriod?: number;
+  minRequiredDays?: number;
+  availableDays?: number;
+  coveragePercentage?: number;
+}
+```
+
+**Validation Function** (`src/hooks/useConsecutiveBreaksAnalysis.ts`):
+The `validateDataSufficiency()` function performs two checks:
+
+1. **Absolute Data Check**: Ensures calendar day span ≥ requested period
+   - Rejects: Period requires more calendar days than data covers
+   - Example: 365-day period requires 365 calendar days minimum
+
+2. **Coverage Check**: Ensures at least 30% of data has valid rolling low values
+   - Warning Threshold: Coverage < 30%
+   - Calculation: `(calendarDaySpan - periodDays) / calendarDaySpan * 100`
+   - Example: 676 calendar days - 365 period = 311 valid days = 46% coverage ✓
+
+### Validation Coverage Examples
+
+For Evolution AB (462 trading days across ~676 calendar days from 2024-01-02 to 2025-11-03):
+
+| Period | Calendar Days Needed | Valid Calendar Days | Coverage | Status |
+|--------|----------------------|---------------------|----------|--------|
+| 30-day | 30 | 646 | 95.6% | ✓ No warning |
+| 90-day | 90 | 586 | 86.7% | ✓ No warning |
+| 180-day | 180 | 496 | 73.2% | ✓ No warning |
+| 270-day | 270 | 406 | 60.1% | ✓ No warning |
+| 365-day | 365 | 311 | 46.0% | ✓ No warning |
+
+### User Interface Warning System
+
+When data coverage is insufficient or below 30%, a yellow warning banner appears:
+- **Header**: "Insufficient Data for This Analysis Period"
+- **Message**: Shows coverage percentage and calendar day breakdown
+- **Suggestion Button**: Auto-switches to recommended shorter period when clicked
+- **Suggestion Logic**:
+  - 365-day period → suggests 180-day
+  - 270-day period → suggests 180-day
+  - 180-day period → suggests 90-day
+
+**File**: `src/pages/ConsecutiveBreaksAnalysis.tsx` (lines 221-248)
+
+### Implementation Details
+
+**validateDataSufficiency() Function** calculates:
+1. First date and last date from filtered data
+2. Calendar day span using millisecond difference: `(lastDate - firstDate) / (1000 * 60 * 60 * 24)`
+3. Valid analysis days: `calendarDaySpan - periodDays`
+4. Coverage percentage: `(validDays / calendarDaySpan) * 100`
+5. Returns `DataValidationWarning` if coverage < 30% or span < period
+
+**Flow**:
+1. `analyzeStock()` receives filtered data and period
+2. Calls `validateDataSufficiency(filteredData, periodDays)`
+3. Returns warning object if validation fails
+4. Warning is passed to UI via `ConsecutiveBreaksAnalysis.warning` field
+5. UI conditionally renders yellow warning banner if warning exists
+
+### Why This Matters
+
+Without calendar day validation:
+- Users might perform analysis on stocks with insufficient historical lookback
+- Rolling low calculations for early dates would contain NULL values
+- Break detection would skip NULL entries, reducing analysis quality
+- Results would appear valid but be based on incomplete data (silent failure)
+
+With validation:
+- Users are informed when analysis may be limited
+- Suggested shorter periods provide viable alternatives
+- Clear coverage metrics prevent misinterpretation
+- Maintains data integrity across all analysis periods
 
 ## Development Notes
 
@@ -239,7 +328,13 @@ The application maintains **two separate settings systems** to avoid conflicts:
 - Input fields should sync with settings via useEffect, but avoid infinite loops
 - **OHLC Data**: Always use `low` field for period lows and `high`/`low` for ranges (not close prices)
 - **Stock Charts**: Use CandlestickChart component for stock detail pages (shows OHLC data visually)
-- **Support Level Analysis**: Uses Plotly (not Recharts) for financial charting - native support for candlesticks and multi-trace visualization
+- **Support Level Analysis**:
+  - Uses Plotly (not Recharts) for financial charting - native support for candlesticks and multi-trace visualization
+  - **Critical**: Rolling low uses calendar days (not trading days) in lookback window via `date.setDate(date.getDate() - periodDays)`
+  - Always validate data sufficiency using `validateDataSufficiency()` function before analysis
+  - Calendar day validation ensures accuracy: calculates span from first to last date, checks coverage ≥ 30%
+  - Return DataValidationWarning if coverage suboptimal, pass to UI for warning banner display
+  - Example: Stock with ~676 calendar days (2 years) enables 365-day rolling low (46% coverage, no warning)
 - **Performance**: Support Level Analysis uses optimized sliding window algorithm - avoid nested loops that iterate over all historical data for large periods
 
 ### File Organization
@@ -291,24 +386,36 @@ The application maintains **two separate settings systems** to avoid conflicts:
 5. **Visualization** → CandlestickChart component renders OHLC data with optional volume
 
 ### Support Level Analysis Data Pipeline
-1. **Data Source** → `/data/stock_data.csv` (via useStockData hook)
-2. **User Configuration** → Select stock, date range, rolling period (30/90/180/270/365 days), max gap (1-90 days)
-3. **useConsecutiveBreaksAnalysis Hook** → Orchestrates analysis pipeline
-4. **Analysis Steps**:
-   - `calculateRollingLow()` → Computes N-day rolling minimum of low prices
-   - `analyzeSupportBreaks()` → Detects when rolling_low decreases
-   - `analyzeConsecutiveBreaks()` → Clusters breaks within max gap window
+1. **Data Source** → `/data/stock_data.csv` (via useStockData hook, OHLC format)
+2. **User Configuration** → Select stock, date range, rolling period (30/90/180/270/365 calendar days), max gap (1-90 days)
+3. **useConsecutiveBreaksAnalysis Hook** → Orchestrates analysis pipeline:
+   - Loads and filters stock data by date range
+4. **Data Validation Step** → `validateDataSufficiency()`:
+   - Calculates calendar day span: `(lastDate - firstDate) / (1000 * 60 * 60 * 24)`
+   - Checks if span ≥ requested period (absolute minimum)
+   - Calculates coverage: `(calendarDaySpan - periodDays) / calendarDaySpan * 100`
+   - Triggers warning if coverage < 30% (optional data, analysis still proceeds)
+   - Returns DataValidationWarning object (or null if no issues)
+5. **Analysis Steps**:
+   - `calculateRollingLow()` → Computes N-calendar-day rolling minimum of low prices
+     - Uses `date.setDate(date.getDate() - periodDays)` for calendar day lookback
+     - First N rows will have NULL rolling_low until sufficient history is available
+   - `analyzeSupportBreaks()` → Detects when rolling_low decreases (skips NULL values)
+   - `analyzeConsecutiveBreaks()` → Clusters breaks within configurable max gap window
    - `calculateBreakStats()` → Generates stability, drop, and timing metrics
-5. **Output Data Structure**:
-   - RollingLowData: Date + OHLC + rolling_low
+6. **Output Data Structure** with warning field:
+   - RollingLowData: Date + OHLC + rolling_low (null for first N rows)
    - SupportBreak: Date, prev_support, new_support, drop_pct, days_since
    - BreakCluster: ID, breaks array, statistics (duration, gaps, drops)
    - BreakStatistics: Overall metrics (stability, avg drop, trading days per break)
-6. **Visualization** → Plotly chart with three traces:
-   - Candlestick: OHLC price data
-   - Rolling Low Line: Blue dashed line tracking support level
-   - Break Markers: Red circles marking support breaks
-7. **Display** → Dashboard with metrics cards, cluster distribution chart, detailed tables
+   - DataValidationWarning: type, message, suggestedPeriod, availableDays, coveragePercentage
+7. **UI Display**:
+   - If warning exists: Yellow banner with coverage details and suggestion button
+   - Plotly chart with three traces:
+     - Candlestick: OHLC price data
+     - Rolling Low Line: Blue dashed line tracking support level
+     - Break Markers: Red circles marking support breaks
+   - Dashboard with metrics cards, cluster distribution chart, detailed tables
 
 ### Settings Data Flow
 1. **User Input** → Component state (e.g., underlyingValueInput)
