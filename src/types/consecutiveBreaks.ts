@@ -46,20 +46,10 @@ export interface BreakStatistics {
   lastBreakDate: string;
 }
 
-export interface DataValidationWarning {
-  type: 'insufficient_data' | 'low_analysis_coverage';
-  message: string;
-  suggestedPeriod?: number;
-  minRequiredDays?: number;
-  availableDays?: number;
-  coveragePercentage?: number;
-}
-
 export interface ConsecutiveBreaksAnalysis {
   stockName: string;
   data: RollingLowData[];
   breaks: SupportBreak[];
   clusters: BreakCluster[];
   stats: BreakStatistics | null;
-  warning?: DataValidationWarning;
 }
