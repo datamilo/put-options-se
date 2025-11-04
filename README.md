@@ -166,4 +166,4 @@ This project is proprietary and confidential.
 
 ## Support
 
-For issues, questions, or contributions, please check the project documentation or contact the development team.
+For issues, questions, or contributions, please check the project documentation.
