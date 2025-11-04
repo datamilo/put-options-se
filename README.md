@@ -1,73 +1,169 @@
-# Welcome to your Lovable project
+# Put Options SE
 
-## Project info
+A comprehensive financial analysis web application for put options trading and stock market analysis. Put Options SE provides sophisticated tools for analyzing put options data, calculating potential returns, visualizing market trends, and examining support levels with customizable parameters.
 
-**URL**: https://lovable.dev/projects/afdf1af2-6b80-4f3b-9677-5c9f237bbfca
+## Features
 
-## How can I edit this code?
+### Options Analysis
+- **Interactive Options Table**: Filter and analyze put options by strike price, expiry date, volume, and other metrics
+- **Dynamic Calculations**: Real-time recalculation based on customizable underlying values and transaction costs
+- **Risk Assessment**: Calculate potential returns, break-even points, and probability metrics
+- **OHLC Candlestick Charts**: Full price action visualization for individual stocks
 
-There are several ways of editing your application.
+### Support Level Analysis
+- **Rolling Low Calculation**: Analyze stock support levels using N-day rolling minimum (30, 90, 180, 270, or 365 calendar days)
+- **Support Break Detection**: Identify when rolling support levels break down
+- **Break Clustering**: Group consecutive support breaks within configurable time windows
+- **Multi-Trace Visualization**: Plotly charts with candlesticks, rolling low line, and break markers
+- **Detailed Analytics**: Cluster statistics, support break history, and stability metrics
 
-**Use Lovable**
+### Portfolio Generation
+- **Automated Portfolio Builder**: Generate optimized put options portfolios based on multiple strategies
+- **Risk Metrics**: Expected Value, EV per Capital, and Risk-Adjusted Score calculations
+- **Multi-Factor Filtering**: Apply filters across date range, probability, strike price, volume, and more
+- **Strategy Selection**: Sort by EV, EV per Capital, or Risk-Adjusted metrics
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/afdf1af2-6b80-4f3b-9677-5c9f237bbfca) and start prompting.
+### Seasonality & Trends
+- **Monthly Analysis**: Historical performance analysis with seasonal patterns
+- **Heatmap Visualization**: Identify seasonal trading opportunities
+- **Volatility Tracking**: Stock event volatility analysis with historical tracking
 
-Changes made via Lovable will be committed automatically to this repo.
+### User Experience
+- **Dark/Light Mode**: Theme support with persistent preferences
+- **User Preferences**: Customizable settings with Supabase persistence (or localStorage for guest users)
+- **Column Management**: Show/hide options table columns based on preference
+- **Responsive Design**: Mobile-optimized layouts and touch-friendly interactions
+- **Authentication**: Optional Supabase auth with row-level security
 
-**Use your preferred IDE**
+## Tech Stack
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Frontend**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with shadcn/ui components
+- **Visualization**: Recharts and Plotly
+- **Data Processing**: Papa Parse for CSV handling
+- **State Management**: TanStack Query for data fetching
+- **Authentication**: Supabase
+- **Theme Support**: Next Themes
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Getting Started
 
-Follow these steps:
+### Prerequisites
+- Node.js 16+ (install with [nvm](https://github.com/nvm-sh/nvm#installing-and-updating))
+- npm or yarn
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+### Installation
+
+```bash
+# Clone the repository
 git clone <YOUR_GIT_URL>
+cd put-options-se-1
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Install dependencies
+npm install
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will open at `http://localhost:5173` with hot-reload enabled.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Build for Production
 
-**Use GitHub Codespaces**
+```bash
+# Build the project
+npm run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Preview the production build
+npm run preview
+```
 
-## What technologies are used for this project?
+Note: The build process automatically runs `scripts/prebuild.js` to copy data files from `/data` to `/public/data`.
 
-This project is built with:
+## Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+put-options-se-1/
+├── src/
+│   ├── pages/              # Route components
+│   ├── components/         # Reusable UI components
+│   ├── hooks/              # Custom React hooks
+│   ├── types/              # TypeScript interfaces
+│   ├── contexts/           # React context providers
+│   ├── auth/               # Authentication components
+│   └── lib/                # Utility functions
+├── data/                   # Source CSV data files (tracked in git)
+├── public/
+│   ├── data/               # Generated CSV files (copied at build time)
+│   └── ...
+├── scripts/
+│   └── prebuild.js         # Data file synchronization script
+└── package.json
+```
 
-## How can I deploy this project?
+## Key Pages
 
-Simply open [Lovable](https://lovable.dev/projects/afdf1af2-6b80-4f3b-9677-5c9f237bbfca) and click on Share -> Publish.
+- **Dashboard** (`/`) - Main options analysis with filterable table
+- **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength analysis
+- **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools
+- **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
+- **Volatility Analysis** (`/volatility-analysis`) - Stock event volatility tracking
+- **Stock Details** (`/stock/:stockName`) - Individual stock price action
+- **Option Details** (`/option/:optionId`) - Detailed option analysis
 
-## Can I connect a custom domain to my Lovable project?
+## Data
 
-Yes, you can!
+The application uses static CSV data files:
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- **Stock Data** (`/data/stock_data.csv`): OHLC prices with format `date|name|open|high|low|close|volume|pct_change_close`
+- **Options Data** (`/data/data.csv`): Put options with symbol, strike, expiry, prices, and metrics
+- **Other Data**: Monthly, volatility, and probability data in CSV format
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+All data files are stored in `/data/` (source of truth) and automatically synchronized to `/public/data/` during build via `scripts/prebuild.js`.
+
+## Development
+
+### Available Scripts
+
+- `npm run dev` - Start development server with hot reload
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build locally
+- `npm run typecheck` - Run TypeScript type checking
+- `npm run lint` - Run ESLint
+
+### Important Development Patterns
+
+- **Data Hooks**: Use `useEnrichedOptionsData` for options table data (includes recalculations)
+- **Settings Systems**: Main page and Portfolio Generator maintain separate preference systems
+- **Support Level Analysis**: Calculate rolling low on FULL historical data before filtering for display
+- **OHLC Data**: Always use `low` field for period lows (not close prices)
+- **Charts**: Use CandlestickChart for OHLC visualization, Plotly for Support Level Analysis
+
+See `CLAUDE.md` for comprehensive documentation of architecture, data flows, and implementation patterns.
+
+## User Preferences
+
+The application supports two independent settings systems:
+
+1. **Main Page Settings** - Underlying value, transaction cost, column visibility
+2. **Portfolio Generator Settings** - Portfolio-specific filters and preferences
+
+Settings persist via Supabase for authenticated users or localStorage for guests.
+
+## Deployment
+
+- **Primary**: Lovable.dev hosting
+- **GitHub Pages**: Alternative deployment (with basename handling)
+- **Build Scripts**: Prebuild script automatically synchronizes data files
+
+## Documentation
+
+For detailed technical documentation including architecture, data flows, and development patterns, see `CLAUDE.md`.
+
+## License
+
+This project is proprietary and confidential.
+
+## Support
+
+For issues, questions, or contributions, please check the project documentation or contact the development team.
