@@ -289,6 +289,16 @@ const filteredRollingLow = filterDataByDate(dataWithRollingLow, fromDate, toDate
 
 ## Development Notes
 
+### Git & GitHub Workflow
+**CRITICAL**: Always sync with GitHub after any changes are made. Follow this workflow:
+1. Make code changes
+2. Build and test locally (`npm run build`)
+3. Commit changes with descriptive messages
+4. Push to GitHub (`git push`)
+5. Verify changes are reflected on GitHub
+
+This ensures the remote repository always reflects the current state of the codebase and prevents merge conflicts.
+
 ### Important Patterns
 - Use `useEnrichedOptionsData` for options table data (already includes recalculations)
 - Avoid calling `useRecalculatedOptions` on already enriched data

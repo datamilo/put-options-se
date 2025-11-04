@@ -212,8 +212,9 @@ const Index = () => {
     setSelectedStocks(validSavedStocks);
     setSelectedExpiryDates(expiryDatesToUse);
     setSelectedRiskLevels(savedFilters.selectedRiskLevels);
-    
-    console.log('📝 Applied filters - stocks:', validSavedStocks, 'dates:', expiryDatesToUse, 'risk:', savedFilters.selectedRiskLevels);
+    setStrikeBelowPeriod(savedFilters.strikeBelowPeriod || null);
+
+    console.log('📝 Applied filters - stocks:', validSavedStocks, 'dates:', expiryDatesToUse, 'risk:', savedFilters.selectedRiskLevels, 'strikeBelowPeriod:', savedFilters.strikeBelowPeriod);
   }, [data, isLoadingPreferences, savedFilters]);
   
   // Helper function to calculate default expiry date (third Friday of next month)
@@ -267,19 +268,21 @@ const Index = () => {
         console.log('💾 Saving preferences to Supabase:', {
           selectedStocks,
           selectedExpiryDates,
-          selectedRiskLevels
+          selectedRiskLevels,
+          strikeBelowPeriod
         });
         saveFilterSettings({
           selectedStocks,
           selectedExpiryDates,
           selectedRiskLevels,
-          strikePriceFilter: 'all' // Not used, keeping for compatibility
+          strikePriceFilter: 'all', // Not used, keeping for compatibility
+          strikeBelowPeriod
         });
       }, 500); // Debounce to avoid saving too frequently
-      
+
       return () => clearTimeout(timeoutId);
     }
-  }, [selectedStocks, selectedExpiryDates, selectedRiskLevels, isLoadingPreferences, data.length, saveFilterSettings]);
+  }, [selectedStocks, selectedExpiryDates, selectedRiskLevels, strikeBelowPeriod, isLoadingPreferences, data.length, saveFilterSettings]);
   
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");

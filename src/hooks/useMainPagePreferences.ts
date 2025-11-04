@@ -7,13 +7,15 @@ export interface MainPageFilterSettings {
   selectedExpiryDates: string[];
   selectedRiskLevels: string[];
   strikePriceFilter: string;
+  strikeBelowPeriod: number | null;
 }
 
 const defaultSettings: MainPageFilterSettings = {
   selectedStocks: [],
   selectedExpiryDates: [],
   selectedRiskLevels: [],
-  strikePriceFilter: 'all'
+  strikePriceFilter: 'all',
+  strikeBelowPeriod: null
 };
 
 const STORAGE_KEY = 'mainPageFilterSettings';
