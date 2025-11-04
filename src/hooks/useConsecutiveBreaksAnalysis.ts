@@ -302,23 +302,27 @@ export const useConsecutiveBreaksAnalysis = () => {
       const filteredData = filterDataByDate(stockData, fromDate, toDate);
 
       // Validate data sufficiency
-      const warning = validateDataSufficiency(filteredData, params.periodDays);
+      const warning = validateDataSufficiency(stockData, params.periodDays);
 
-      // Calculate rolling low
-      const dataWithRollingLow = calculateRollingLow(filteredData, params.periodDays);
+      // Calculate rolling low on FULL data (not just filtered range)
+      // This ensures longer periods have historical lookback data available
+      const dataWithRollingLow = calculateRollingLow(stockData, params.periodDays);
+
+      // Filter the rolling low results to match the requested date range
+      const filteredRollingLow = filterDataByDate(dataWithRollingLow, fromDate, toDate);
 
       // Analyze breaks
-      const breaks = analyzeSupportBreaks(dataWithRollingLow);
+      const breaks = analyzeSupportBreaks(filteredRollingLow);
 
       // Analyze clusters
       const clusters = analyzeConsecutiveBreaks(breaks, params.maxGapDays);
 
       // Calculate stats
-      const stats = calculateBreakStats(dataWithRollingLow, breaks);
+      const stats = calculateBreakStats(filteredRollingLow, breaks);
 
       return {
         stockName,
-        data: dataWithRollingLow,
+        data: filteredRollingLow,
         breaks,
         clusters,
         stats,
