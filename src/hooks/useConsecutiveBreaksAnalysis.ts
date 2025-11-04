@@ -6,6 +6,7 @@ import {
   BreakCluster,
   BreakStatistics,
   ConsecutiveBreaksAnalysis,
+  DataValidationWarning,
 } from '@/types/consecutiveBreaks';
 
 interface FilterParams {
@@ -225,6 +226,58 @@ export const useConsecutiveBreaksAnalysis = () => {
     []
   );
 
+  const validateDataSufficiency = useCallback(
+    (filteredData: typeof allStockData, periodDays: number): DataValidationWarning | null => {
+      if (filteredData.length < 2) return null;
+
+      // Calculate calendar day span, not trading days
+      const firstDate = new Date(filteredData[0].date);
+      const lastDate = new Date(filteredData[filteredData.length - 1].date);
+      const calendarDaySpan = Math.ceil((lastDate.getTime() - firstDate.getTime()) / (1000 * 60 * 60 * 24));
+
+      // Rolling low uses calendar days, not trading days
+      // We need at least periodDays of calendar data before valid rolling lows begin
+      const validCalendarDays = calendarDaySpan - periodDays;
+      const coveragePercentage = (validCalendarDays / calendarDaySpan) * 100;
+      const minCoverageThreshold = 30; // At least 30% of calendar span should have valid data
+
+      // Only warn if we don't have enough calendar days
+      if (calendarDaySpan < periodDays) {
+        return {
+          type: 'insufficient_data',
+          message: `This stock has only ${calendarDaySpan} calendar days of data, but the ${periodDays}-day period requires at least ${periodDays} calendar days. Not enough historical data for this analysis period.`,
+          minRequiredDays: periodDays,
+          availableDays: calendarDaySpan,
+          coveragePercentage: Math.round(coveragePercentage),
+        };
+      }
+
+      // Warn if coverage is too low (less than 30%)
+      if (coveragePercentage < minCoverageThreshold) {
+        let suggestedPeriod = periodDays;
+        if (periodDays === 365) {
+          suggestedPeriod = 180;
+        } else if (periodDays === 270) {
+          suggestedPeriod = 180;
+        } else if (periodDays === 180) {
+          suggestedPeriod = 90;
+        }
+
+        return {
+          type: 'low_analysis_coverage',
+          message: `The selected ${periodDays}-day period only covers ${coveragePercentage.toFixed(1)}% of available data (${validCalendarDays} of ${calendarDaySpan} calendar days). Results may be limited.`,
+          suggestedPeriod,
+          minRequiredDays: periodDays,
+          availableDays: calendarDaySpan,
+          coveragePercentage: Math.round(coveragePercentage),
+        };
+      }
+
+      return null;
+    },
+    [allStockData]
+  );
+
   const analyzeStock = useCallback(
     (stockName: string, params: FilterParams): ConsecutiveBreaksAnalysis | null => {
       // Get stock data
@@ -248,6 +301,9 @@ export const useConsecutiveBreaksAnalysis = () => {
       // Filter by date
       const filteredData = filterDataByDate(stockData, fromDate, toDate);
 
+      // Validate data sufficiency
+      const warning = validateDataSufficiency(filteredData, params.periodDays);
+
       // Calculate rolling low
       const dataWithRollingLow = calculateRollingLow(filteredData, params.periodDays);
 
@@ -266,9 +322,10 @@ export const useConsecutiveBreaksAnalysis = () => {
         breaks,
         clusters,
         stats,
+        warning: warning || undefined,
       };
     },
-    [allStockData, filterDataByDate, calculateRollingLow, analyzeSupportBreaks, analyzeConsecutiveBreaks, calculateBreakStats]
+    [allStockData, filterDataByDate, calculateRollingLow, analyzeSupportBreaks, analyzeConsecutiveBreaks, calculateBreakStats, validateDataSufficiency]
   );
 
   return {
