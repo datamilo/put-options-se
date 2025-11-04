@@ -136,7 +136,7 @@ export const ConsecutiveBreaksAnalysis = () => {
 
         {/* Controls */}
         <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {/* Stock Select */}
             <div className="flex flex-col space-y-2">
               <Label htmlFor="stock-select" className="font-semibold">
@@ -221,7 +221,7 @@ export const ConsecutiveBreaksAnalysis = () => {
         {/* Chart */}
         {analysis && (
           <>
-            <div className="bg-white dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 mb-8">
+            <div className="w-full bg-white dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 mb-8 overflow-hidden">
               <Plot
                 data={plotlyTraces}
                 layout={plotlyLayout}
@@ -230,6 +230,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                   displayModeBar: true,
                   displaylogo: false,
                 }}
+                style={{ width: '100%', height: '600px' }}
               />
             </div>
 
@@ -289,7 +290,7 @@ export const ConsecutiveBreaksAnalysis = () => {
 
             {/* Cluster Distribution Chart */}
             {analysis.clusters.length > 0 && (
-              <div className="bg-white dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 mb-8">
+              <div className="w-full bg-white dark:bg-gray-950 p-4 rounded-lg border border-gray-200 dark:border-gray-800 mb-8 overflow-hidden">
                 <Plot
                   data={[
                     {
@@ -321,6 +322,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                     margin: { l: 50, r: 50, t: 60, b: 50 },
                   }}
                   config={{ responsive: true, displayModeBar: false }}
+                  style={{ width: '100%', height: '400px' }}
                 />
               </div>
             )}
