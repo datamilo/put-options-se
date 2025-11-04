@@ -5,8 +5,8 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build --mode production",
-        "build:dev": "vite build --mode development",
+        "build": "node scripts/prebuild.js && vite build --mode production",
+        "build:dev": "node scripts/prebuild.js && vite build --mode development",
         "preview": "vite preview",
         "deploy": "gh-pages -d dist"
     },
