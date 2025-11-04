@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, LineChart, Zap } from "lucide-react";
+import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -59,19 +59,11 @@ export const NavigationMenu = () => {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => navigate('/stock-price-stats')}
-            className="cursor-pointer"
-          >
-            <LineChart className="mr-2 h-4 w-4" />
-            Stock Price Stats
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
             onClick={() => navigate('/consecutive-breaks')}
             className="cursor-pointer"
           >
             <Zap className="mr-2 h-4 w-4" />
-            Consecutive Breaks
+            Consecutive Breaks Analysis
           </DropdownMenuItem>
 
           <DropdownMenuItem
