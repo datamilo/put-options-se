@@ -52,12 +52,23 @@ export const useConsecutiveBreaksAnalysis = () => {
       const lookbackDate = new Date(currentDate);
       lookbackDate.setDate(lookbackDate.getDate() - periodDays);
 
-      let minLow = Infinity;
-      for (let j = 0; j <= i; j++) {
+      // More efficient: find the start index of the lookback window
+      let startIdx = 0;
+      for (let j = i; j >= 0; j--) {
         const checkDate = new Date(data[j].date);
-        if (checkDate >= lookbackDate && checkDate <= currentDate) {
-          minLow = Math.min(minLow, data[j].low);
+        if (checkDate < lookbackDate) {
+          startIdx = j + 1;
+          break;
         }
+        if (j === 0) {
+          startIdx = 0;
+        }
+      }
+
+      // Find minimum low only within the lookback window
+      let minLow = Infinity;
+      for (let j = startIdx; j <= i; j++) {
+        minLow = Math.min(minLow, data[j].low);
       }
 
       result.push({
