@@ -63,7 +63,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <Zap className="mr-2 h-4 w-4" />
-            Consecutive Breaks Analysis
+            Support Level Analysis
           </DropdownMenuItem>
 
           <DropdownMenuItem

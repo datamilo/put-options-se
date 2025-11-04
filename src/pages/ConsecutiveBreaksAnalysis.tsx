@@ -127,10 +127,10 @@ export const ConsecutiveBreaksAnalysis = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            📊 Consecutive Break Analysis Dashboard
+            📊 Support Level Analysis Dashboard
           </h1>
           <p className="text-muted-foreground">
-            Clustering of support breaks - when multiple breaks happen within a short period
+            Analyze how well a stock's low is holding as support - tracking support breaks and clusters
           </p>
         </div>
 
@@ -277,7 +277,7 @@ export const ConsecutiveBreaksAnalysis = () => {
               <Card>
                 <CardContent className="pt-6">
                   <div className="text-sm font-medium text-gray-600">
-                    Max Consecutive Breaks
+                    Max Support Breaks
                   </div>
                   <div className="text-2xl font-bold text-orange-700">
                     {analysis.clusters.length > 0
@@ -316,7 +316,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                   ]}
                   layout={{
                     title: 'Distribution of Cluster Sizes',
-                    xaxis: { title: 'Number of Consecutive Breaks in Cluster' },
+                    xaxis: { title: 'Number of Support Breaks in Cluster' },
                     yaxis: { title: 'Number of Clusters' },
                     height: 400,
                     margin: { l: 50, r: 50, t: 60, b: 50 },
