@@ -41,6 +41,7 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools with independent settings
 - **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
 - **Financial Reporting Volatility** (`/volatility-analysis`) - Stock event volatility tracking
+- **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength and break analysis (formerly Stock Price Stats)
 - **Option Details** (`/option/:optionId`) - Detailed individual option analysis
 - **Stock Details** (`/stock/:stockName`) - Individual stock performance
 - **Authentication** (`/auth`, `/auth/callback`) - User login/signup
@@ -51,11 +52,12 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **useEnrichedOptionsData** - Main hook combining options data with user calculations
 - **useRecalculatedOptions** - Applies user settings to option calculations
 - **useOptionsData** - Fetches and parses options CSV data
-- **useStockData** - Fetches and parses stock price data
+- **useStockData** - Fetches and parses stock price data (OHLC format with volume)
 - **useMonthlyStockData** - Historical stock performance data
 - **useVolatilityData** - Stock event volatility data
 - **useProbabilityHistory** - Historical probability tracking
 - **useIVData** - Implied volatility potential decline data
+- **useConsecutiveBreaksAnalysis** - Support level analysis with rolling lows and break detection
 - **useUserPreferences** - Supabase integration for main page user settings
 - **usePortfolioGeneratorPreferences** - Independent settings for portfolio generator page
 - **useMainPagePreferences** - Main page-specific preferences
@@ -127,6 +129,42 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - Collapsible navigation
 - Touch-friendly interactions
 
+### 6. Support Level Analysis
+The Support Level Analysis dashboard analyzes how well a stock's low is holding as a support level by detecting and clustering support breaks.
+
+**Key Features:**
+- **Rolling Low Calculation**: Computes N-period rolling minimum of low prices (30, 90, 180, 270, or 365 days)
+- **Support Break Detection**: Identifies when rolling low decreases, signaling a break of previous support
+- **Break Clustering**: Groups consecutive support breaks within a configurable time window (1-90 days)
+- **Multi-Trace Visualization**: Plotly chart with candlestick prices, rolling low line (blue dashed), and break markers (red circles)
+- **Detailed Analytics**:
+  - Cluster statistics (duration, gaps between breaks, total/average drops)
+  - Support break history table with break details
+  - Break distribution chart
+  - Stability metrics and trading days per break analysis
+
+**Data Flow:**
+1. User selects stock and configures filters
+2. `useConsecutiveBreaksAnalysis` hook loads stock data via `useStockData`
+3. `calculateRollingLow()` computes rolling support levels
+4. `analyzeSupportBreaks()` detects support breaks
+5. `analyzeConsecutiveBreaks()` clusters breaks within max gap window
+6. `calculateBreakStats()` generates statistics
+7. Plotly chart renders with three traces (candlesticks, rolling low, breaks)
+8. Tables and metrics display cluster details and statistics
+
+**File Structure:**
+- **Page**: `src/pages/ConsecutiveBreaksAnalysis.tsx` - Main dashboard with Plotly visualization
+- **Hook**: `src/hooks/useConsecutiveBreaksAnalysis.ts` - Core analysis logic
+- **Types**: `src/types/consecutiveBreaks.ts` - Data structure definitions (RollingLowData, SupportBreak, BreakCluster, BreakStatistics)
+- **Data**: `/data/stock_data.csv` - OHLC stock price data with format `date|name|open|high|low|close|volume|pct_change_close`
+
+**Important Notes:**
+- The route uses `/consecutive-breaks` but displays as "Support Level Analysis" in navigation
+- Performance optimization: Uses efficient sliding window algorithm for large period selections
+- Charts use Plotly (not Recharts) for native financial charting capabilities
+- All data is stored in `/data/` folder, not dependent on external APIs or services
+
 ## Authentication & User Management
 - **Supabase Auth** for user management
 - **Protected Routes** for authenticated features
@@ -166,6 +204,13 @@ The application maintains **two separate settings systems** to avoid conflicts:
 ## Known Issues & Limitations
 
 ### Recent Fixes & Updates Applied
+- **Support Level Analysis Dashboard** (2025-11): New feature replacing Stock Price Stats
+  - Analyzes how well a stock's low is holding as support level
+  - Implements rolling low calculation with configurable periods (30-365 days)
+  - Detects support breaks and clusters them within time windows
+  - Uses Plotly for native financial chart with candlesticks, rolling low line, and break markers
+  - Optimized performance algorithm for large period selections
+  - Route: `/consecutive-breaks`, Menu: "Support Level Analysis"
 - **OHLC Candlestick Charts** (2025-11): Implemented full OHLC data support
   - Updated StockData type to include open, high, low fields
   - Created CandlestickChart component with volume overlay toggle
@@ -194,22 +239,28 @@ The application maintains **two separate settings systems** to avoid conflicts:
 - Input fields should sync with settings via useEffect, but avoid infinite loops
 - **OHLC Data**: Always use `low` field for period lows and `high`/`low` for ranges (not close prices)
 - **Stock Charts**: Use CandlestickChart component for stock detail pages (shows OHLC data visually)
+- **Support Level Analysis**: Uses Plotly (not Recharts) for financial charting - native support for candlesticks and multi-trace visualization
+- **Performance**: Support Level Analysis uses optimized sliding window algorithm - avoid nested loops that iterate over all historical data for large periods
 
 ### File Organization
 - `/src/hooks` - Custom React hooks for data fetching and calculations
   - Data fetching hooks: `useOptionsData`, `useStockData`, `useMonthlyStockData`, etc.
-  - Calculation hooks: `useRecalculatedOptions`, `useEnrichedOptionsData`
+  - Calculation hooks: `useRecalculatedOptions`, `useEnrichedOptionsData`, `useConsecutiveBreaksAnalysis`
   - Preference hooks: `useUserPreferences`, `usePortfolioGeneratorPreferences`, `useMainPagePreferences`
 - `/src/components` - Reusable UI components organized by feature
   - `/options` - Options table, charts, and details
   - `/stock` - Stock charts and details
   - `/monthly` - Monthly analysis visualizations
   - `/volatility` - Volatility analysis components
-- `/src/pages` - Route components
+  - `/support-levels` - Support Level Analysis components (if needed in future)
+- `/src/pages` - Route components (includes ConsecutiveBreaksAnalysis.tsx for Support Level Analysis)
+- `/src/types` - TypeScript interfaces (includes consecutiveBreaks.ts for Support Level Analysis types)
 - `/src/contexts` - React context providers (SettingsContext, AuthProvider)
 - `/src/auth` - Authentication components and protected routes
 - `/data` - Static CSV data files (source files)
-- `/public/data` - Public CSV data files (deployed files)
+  - `stock_data.csv` - Used by Support Level Analysis (OHLC format)
+  - Other CSV files for options, volatility, and monthly data
+- `/public/data` - Public CSV data files (deployed files, copied from `/data` at build time)
 - `/src/components/ui` - shadcn/ui component library
 - `/scripts` - Build and deployment scripts
 
@@ -238,6 +289,26 @@ The application maintains **two separate settings systems** to avoid conflicts:
    - `getPriceRangeForPeriod()` → Uses `high` and `low` fields for true ranges
    - `getStockSummary()` → Calculates 52-week high/low from OHLC data
 5. **Visualization** → CandlestickChart component renders OHLC data with optional volume
+
+### Support Level Analysis Data Pipeline
+1. **Data Source** → `/data/stock_data.csv` (via useStockData hook)
+2. **User Configuration** → Select stock, date range, rolling period (30/90/180/270/365 days), max gap (1-90 days)
+3. **useConsecutiveBreaksAnalysis Hook** → Orchestrates analysis pipeline
+4. **Analysis Steps**:
+   - `calculateRollingLow()` → Computes N-day rolling minimum of low prices
+   - `analyzeSupportBreaks()` → Detects when rolling_low decreases
+   - `analyzeConsecutiveBreaks()` → Clusters breaks within max gap window
+   - `calculateBreakStats()` → Generates stability, drop, and timing metrics
+5. **Output Data Structure**:
+   - RollingLowData: Date + OHLC + rolling_low
+   - SupportBreak: Date, prev_support, new_support, drop_pct, days_since
+   - BreakCluster: ID, breaks array, statistics (duration, gaps, drops)
+   - BreakStatistics: Overall metrics (stability, avg drop, trading days per break)
+6. **Visualization** → Plotly chart with three traces:
+   - Candlestick: OHLC price data
+   - Rolling Low Line: Blue dashed line tracking support level
+   - Break Markers: Red circles marking support breaks
+7. **Display** → Dashboard with metrics cards, cluster distribution chart, detailed tables
 
 ### Settings Data Flow
 1. **User Input** → Component state (e.g., underlyingValueInput)
