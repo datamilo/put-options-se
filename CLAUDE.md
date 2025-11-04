@@ -161,7 +161,7 @@ The Support Level Analysis dashboard analyzes how well a stock's low is holding 
 
 **File Structure:**
 - **Page**: `src/pages/ConsecutiveBreaksAnalysis.tsx` - Main dashboard with Plotly visualization
-- **Hook**: `src/hooks/useConsecutiveBreaksAnalysis.ts` - Core analysis logic (rolling low calculation on full stockData at lines 309-312)
+- **Hook**: `src/hooks/useConsecutiveBreaksAnalysis.ts` - Core analysis logic (rolling low calculation on full stockData at lines 251-256)
 - **Types**: `src/types/consecutiveBreaks.ts` - Data structure definitions
 - **Data**: `/data/stock_data.csv` - OHLC stock price data with format `date|name|open|high|low|close|volume|pct_change_close`
 
@@ -273,12 +273,12 @@ const filteredRollingLow = filterDataByDate(dataWithRollingLow, fromDate, toDate
 ### Key Implementation Details
 
 **File**: `src/hooks/useConsecutiveBreaksAnalysis.ts`
-- Line 305: Validation checks full `stockData` (not filtered)
-- Line 309: Rolling low calculated on `stockData` (full history)
-- Line 312: Results filtered to match date range for display
-- Line 315: Break analysis uses `filteredRollingLow` (for display range)
-- Line 321: Statistics calculated on `filteredRollingLow`
-- Line 325: UI receives `filteredRollingLow` (filtered to date range)
+- Line 251-253: Rolling low calculated on FULL `stockData` (not filtered range)
+- Line 256: Results filtered to match date range for display
+- Line 259: Break analysis uses `filteredRollingLow` (for display range)
+- Line 262: Break clustering on `breaks` (from filtered rolling low data)
+- Line 265: Statistics calculated on `filteredRollingLow`
+- Line 269: UI receives `filteredRollingLow` (filtered to date range)
 
 **Data Flow:**
 1. User selects stock and rolling period
