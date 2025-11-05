@@ -3,7 +3,7 @@ export interface OptionData {
   OptionName: string;
   ExpiryDate: string;
   FinancialReport?: string;
-  'X-Day'?: number;
+  'X-Day'?: string | null;
   Premium: number;
   PoW_Simulation_Mean_Earnings?: number;
   '100k_Invested_Loss_Mean'?: number;

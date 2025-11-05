@@ -48,7 +48,7 @@ export const useOptionsData = () => {
             transformHeader: (header) => header.trim(),
             transform: (value, field) => {
               const numericFields = [
-                'X-Day', 'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
+                'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
                 '1_2_3_ProbOfWorthless_Weighted', 'ProbWorthless_Bayesian_IsoCal', '1_ProbOfWorthless_Original', 
                 '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV', 'Lower_Bound_at_Accuracy',
                 'LossAtBadDecline', 'LossAtWorstDecline', 'PoW_Stats_MedianLossPct',
@@ -130,7 +130,7 @@ export const useOptionsData = () => {
       transformHeader: (header) => header.trim(),
       transform: (value, field) => {
         const numericFields = [
-          'X-Day', 'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
+          'Premium', 'PoW_Simulation_Mean_Earnings', '100k_Invested_Loss_Mean',
           '1_2_3_ProbOfWorthless_Weighted', 'ProbWorthless_Bayesian_IsoCal', '1_ProbOfWorthless_Original', 
           '2_ProbOfWorthless_Calibrated', '3_ProbOfWorthless_Historical_IV', 'Lower_Bound_at_Accuracy',
           'LossAtBadDecline', 'LossAtWorstDecline', 'PoW_Stats_MedianLossPct',

@@ -232,14 +232,18 @@ The application is fully functional with all major features implemented and work
 - This keeps documentation focused, accurate, and prevents confusion about what's actually working
 
 ### Git & GitHub Workflow
-**CRITICAL**: Always sync with GitHub after any changes are made. Follow this workflow:
+**CRITICAL**: Always commit changes immediately after making them. Follow this workflow:
 1. Make code changes
 2. Build and test locally (`npm run build`)
-3. Commit changes with descriptive messages
+3. **Commit changes immediately** with descriptive messages (`git commit`)
 4. Push to GitHub (`git push`)
 5. Verify changes are reflected on GitHub
 
-This ensures the remote repository always reflects the current state of the codebase and prevents merge conflicts.
+**IMPORTANT**: Do not accumulate uncommitted changes. Commit after each significant change or fix is complete. This ensures:
+- The remote repository always reflects the current state of the codebase
+- Changes are properly tracked and documented in git history
+- Prevents merge conflicts and makes debugging easier
+- Keeps the repository clean and organized
 
 ### Important Patterns
 - Use `useEnrichedOptionsData` for options table data (already includes recalculations)
