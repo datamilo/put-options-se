@@ -79,7 +79,6 @@ export const ConsecutiveBreaksAnalysis = () => {
           close: analysis.data.map((d) => d.close),
           name: 'Price',
           hovertemplate: '<b>Open:</b> %{open:.2f} kr<br><b>High:</b> %{high:.2f} kr<br><b>Low:</b> %{low:.2f} kr<br><b>Close:</b> %{close:.2f} kr<extra></extra>',
-          hoverinfo: 'text',
         },
         // Rolling low trace
         {
