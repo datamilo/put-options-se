@@ -3,16 +3,6 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig(async ({ mode }) => {
-  let componentTaggerPlugin: any = null;
-  if (mode === 'development') {
-    try {
-      const mod = await import('lovable-tagger');
-      componentTaggerPlugin = mod.componentTagger();
-    } catch {
-      componentTaggerPlugin = null;
-    }
-  }
-
   const isProduction = mode === 'production';
 
   // For GitHub Pages, we need to set the base path to match the repository name
@@ -30,8 +20,7 @@ export default defineConfig(async ({ mode }) => {
   },
     plugins: [
       react(),
-      componentTaggerPlugin,
-    ].filter(Boolean),
+    ],
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),

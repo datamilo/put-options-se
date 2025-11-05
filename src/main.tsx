@@ -32,11 +32,8 @@ try {
         <pre style="margin-top: 10px; font-size: 12px; overflow: auto;">${errorDetails}</pre>
       </details>
       <div style="margin-top: 20px;">
-        <button onclick="window.location.reload()" style="padding: 10px 20px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 10px;">
+        <button onclick="window.location.reload()" style="padding: 10px 20px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer;">
           Reload Page
-        </button>
-        <button onclick="window.location.href='https://put-options-se.lovable.app/'" style="padding: 10px 20px; background: #2e7d32; color: white; border: none; border-radius: 4px; cursor: pointer;">
-          Go to Staging
         </button>
       </div>
       <p style="margin-top: 20px; font-size: 12px; color: #666;">

@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signUp = async (email: string, password: string) => {
-    // Build correct redirect URL for both lovable.app and github.io with HashRouter
+    // Build correct redirect URL for GitHub Pages deployment with HashRouter
     let redirectTo;
     if (window.location.hostname.includes('github.io')) {
       redirectTo = `${window.location.origin}/put-options-se/#/auth/callback`;
