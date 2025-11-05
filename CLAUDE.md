@@ -364,6 +364,25 @@ The application is fully functional with all major features implemented and work
 6. **Selection** → Pick top options (max one per stock) until premium target reached
 7. **Statistics** → Calculate portfolio-level metrics
 
+### Portfolio Generator Generated Portfolio Navigation
+**Feature**: Users can click on stock names or option names in the "Generated Portfolio" results table to open detail pages in new browser tabs.
+
+**Implementation**:
+- **Click Handlers**: `handleOptionClick()` and `handleStockClick()` in `src/pages/PortfolioGenerator.tsx` (lines 424-439)
+- **Behavior**: Clicking opens stock/option details in new tabs (`window.open(..., '_blank')`) while keeping the portfolio generator open
+- **URL Construction**: Dynamically detects base path from current URL:
+  - GitHub Pages: `/put-options-se` base path detected from `window.location.pathname`
+  - Direct deployments: `/` base path used
+  - Constructs full URL: `${window.location.origin}${basePath}/stock/...` or `/option/...`
+- **Pass-through Props**: `onRowClick` and `onStockClick` props passed to `PortfolioOptionsTable` component
+- **Visual Indicators**:
+  - Stock names and option names are clickable with cursor and hover effects
+  - Color coding maintained (orange for FinancialReport='Y', red for X-Day='Y')
+
+**File References**:
+- **Page**: `src/pages/PortfolioGenerator.tsx` - Lines 424-439 contain click handlers
+- **Table Component**: `src/components/options/PortfolioOptionsTable.tsx` - Lines 454-470 handle cell rendering with click events
+
 ## Deployment
 - **Primary**: Lovable.dev hosting
 - **GitHub Pages**: Alternative deployment with basename handling
