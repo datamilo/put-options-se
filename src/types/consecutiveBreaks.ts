@@ -6,6 +6,7 @@ export interface RollingLowData {
   close: number;
   volume: number;
   rolling_low: number | null;
+  last_break_date?: string | null;
 }
 
 export interface SupportBreak {

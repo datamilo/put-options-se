@@ -65,10 +65,14 @@ export const useConsecutiveBreaksAnalysis = () => {
         }
       }
 
-      // Find minimum low only within the lookback window
+      // Find minimum low only within the lookback window and track when it was set
       let minLow = Infinity;
+      let minLowDate = '';
       for (let j = startIdx; j <= i; j++) {
-        minLow = Math.min(minLow, data[j].low);
+        if (data[j].low < minLow) {
+          minLow = data[j].low;
+          minLowDate = data[j].date;
+        }
       }
 
       result.push({
@@ -79,6 +83,7 @@ export const useConsecutiveBreaksAnalysis = () => {
         close: data[i].close,
         volume: data[i].volume,
         rolling_low: minLow === Infinity ? null : minLow,
+        last_break_date: minLow === Infinity ? null : minLowDate,
       });
     }
 

@@ -87,7 +87,8 @@ export const ConsecutiveBreaksAnalysis = () => {
           y: analysis.data.map((d) => d.rolling_low),
           name: 'Rolling Low',
           line: { color: 'blue', width: 2, dash: 'dash' },
-          hovertemplate: '<b>%{x|%Y-%m-%d}</b><br>Rolling Low: %{y:.2f} kr<extra></extra>',
+          customdata: analysis.data.map((d) => d.last_break_date),
+          hovertemplate: '<b>%{x|%Y-%m-%d}</b><br>Rolling Low: %{y:.2f} kr<br>Last Break: %{customdata|%Y-%m-%d}<extra></extra>',
         },
         // Breaks trace
         {
