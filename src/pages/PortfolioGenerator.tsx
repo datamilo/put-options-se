@@ -423,11 +423,15 @@ const PortfolioGenerator = () => {
 
   const handleOptionClick = (option: OptionData) => {
     const optionId = encodeURIComponent(option.OptionName);
-    navigate(`/option/${optionId}`);
+    const basePath = import.meta.env.BASE_URL || '/';
+    const url = `${window.location.origin}${basePath}option/${optionId}`;
+    window.open(url, '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
-    navigate(`/stock/${encodeURIComponent(stockName)}`);
+    const basePath = import.meta.env.BASE_URL || '/';
+    const url = `${window.location.origin}${basePath}stock/${encodeURIComponent(stockName)}`;
+    window.open(url, '_blank');
   };
 
 
