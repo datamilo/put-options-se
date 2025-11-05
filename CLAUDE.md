@@ -333,11 +333,17 @@ This ensures the remote repository always reflects the current state of the code
    - SupportBreak: Date, prev_support, new_support, drop_pct, days_since
    - BreakCluster: ID, breaks array, statistics (duration, gaps, drops)
    - BreakStatistics: Overall metrics (stability, avg drop, trading days per break)
-8. **UI Display** → Plotly chart with three traces:
-   - Candlestick: OHLC price data (filtered to date range)
-   - Rolling Low Line: Blue dashed line tracking support level (calculated from full history, displayed in date range)
-   - Break Markers: Red circles marking support breaks
+8. **UI Display** → Plotly chart with three traces in unified hover mode:
+   - **Candlestick**: OHLC price data (filtered to date range) with default Plotly hover format showing Open, High, Low, Close values
+   - **Rolling Low Line**: Blue dashed line tracking support level (calculated from full history, displayed in date range) with custom hover showing Rolling Low value and Last Break date
+   - **Break Markers**: Red circles marking support breaks with hover info showing support level and drop percentage
+   - **Unified Hover**: Combined tooltip shows Date (top), OHLC values (from candlestick), Rolling Low value, and Last Break date
    - Dashboard with metrics cards, cluster distribution chart, detailed tables
+
+**Hover Implementation Note:**
+- Uses Plotly's default candlestick hover format (not custom hovertemplate) because custom templates don't work with unified hover mode for candlestick traces
+- Rolling Low and Break Markers use custom hovertemplates to show specific values
+- Date is shown once at the top in unified mode, avoiding redundancy
 
 ### Settings Data Flow
 1. **User Input** → Component state (e.g., underlyingValueInput)
