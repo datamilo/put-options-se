@@ -423,14 +423,18 @@ const PortfolioGenerator = () => {
 
   const handleOptionClick = (option: OptionData) => {
     const optionId = encodeURIComponent(option.OptionName);
-    const basePath = import.meta.env.BASE_URL || '/';
-    const url = `${window.location.origin}${basePath}option/${optionId}`;
+    // Extract the base path from the current URL (e.g., /put-options-se or /)
+    const currentPath = window.location.pathname;
+    const basePath = currentPath.includes('/put-options-se') ? '/put-options-se' : '';
+    const url = `${window.location.origin}${basePath}/option/${optionId}`;
     window.open(url, '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
-    const basePath = import.meta.env.BASE_URL || '/';
-    const url = `${window.location.origin}${basePath}stock/${encodeURIComponent(stockName)}`;
+    // Extract the base path from the current URL (e.g., /put-options-se or /)
+    const currentPath = window.location.pathname;
+    const basePath = currentPath.includes('/put-options-se') ? '/put-options-se' : '';
+    const url = `${window.location.origin}${basePath}/stock/${encodeURIComponent(stockName)}`;
     window.open(url, '_blank');
   };
 
