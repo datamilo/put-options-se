@@ -1,5 +1,6 @@
 // Rolled back to remove broken chart implementations
 import React, { useState, useMemo } from 'react';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import Plot from 'react-plotly.js';
 import { useConsecutiveBreaksAnalysis } from '@/hooks/useConsecutiveBreaksAnalysis';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/table';
 
 export const ConsecutiveBreaksAnalysis = () => {
+  usePageTitle('Support Level Analysis');
   const { uniqueStocks, selectedStock, setSelectedStock, analyzeStock } =
     useConsecutiveBreaksAnalysis();
 

@@ -1,10 +1,12 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useStockData } from "@/hooks/useStockData";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { StockDetails } from "@/components/stock/StockDetails";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2 } from "lucide-react";
 
 const StockDetailsPage = () => {
+  usePageTitle('Stock Details');
   const { stockName } = useParams<{ stockName: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

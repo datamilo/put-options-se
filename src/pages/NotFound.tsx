@@ -1,8 +1,10 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuth } from "@/auth/AuthProvider";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 const NotFound = () => {
+  usePageTitle('Page Not Found');
   const location = useLocation();
   const { session, loading } = useAuth();
 

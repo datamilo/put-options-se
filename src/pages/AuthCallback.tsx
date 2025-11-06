@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { supabase } from "@/integrations/supabase/client";
 
 const AuthCallback = () => {
+  usePageTitle('Authentication');
   const navigate = useNavigate();
 
   useEffect(() => {

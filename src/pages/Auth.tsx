@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/auth/AuthProvider";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Auth = () => {
+  usePageTitle('Login');
   const { signIn, signUp, session } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -17,10 +19,6 @@ const Auth = () => {
   const [info, setInfo] = useState<string | null>(null);
 
   const from = useMemo(() => (location.state as any)?.from?.pathname || "/", [location.state]);
-
-  useEffect(() => {
-    document.title = "Sign in | Put Options SE";
-  }, []);
 
   useEffect(() => {
     if (session) {

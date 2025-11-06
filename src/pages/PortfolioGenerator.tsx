@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { OptionData } from "@/types/options";
 import { PortfolioOptionsTable } from "@/components/options/PortfolioOptionsTable";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
@@ -17,6 +18,7 @@ import { exportToExcel } from "@/utils/excelExport";
 import { toast } from "@/hooks/use-toast";
 
 const PortfolioGenerator = () => {
+  usePageTitle('Portfolio Generator');
   const navigate = useNavigate();
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
   const { getLowPriceForPeriod } = useStockData();

@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
@@ -12,6 +13,7 @@ import { ArrowLeft, TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const VolatilityAnalysis = () => {
+  usePageTitle('Volatility Analysis');
   const navigate = useNavigate();
   const { volatilityData, volatilityStats, isLoading, error } = useVolatilityData();
 

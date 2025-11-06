@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { usePageTitle } from '@/hooks/usePageTitle';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -22,6 +23,7 @@ const MONTH_NAMES = [
 ];
 
 export const MonthlyAnalysis = () => {
+  usePageTitle('Monthly Analysis');
   const navigate = useNavigate();
   const { monthlyData, monthlyStats, isLoading, error } = useMonthlyStockData();
   

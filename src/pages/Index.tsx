@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
@@ -24,7 +25,8 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const Index = () => {
   console.log('🏠 Index component rendering');
-  
+
+  usePageTitle('Options Analysis');
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   

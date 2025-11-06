@@ -1,14 +1,16 @@
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 const OptionDetailsPage = () => {
+  usePageTitle('Option Details');
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  
+
   // Use enriched data directly - it already includes recalculated options
   const { data } = useEnrichedOptionsData();
 
