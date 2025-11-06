@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
 const OptionDetailsPage = () => {
-  usePageTitle('Option Details');
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -20,6 +19,9 @@ const OptionDetailsPage = () => {
 
   // Find the option by ID (using OptionName as the unique identifier)
   const option = data.find(opt => encodeURIComponent(opt.OptionName) === optionId);
+
+  // Set page title with option name
+  usePageTitle('Option Details', option?.OptionName);
 
   if (!option) {
     return (

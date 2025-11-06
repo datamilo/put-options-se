@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2 } from "lucide-react";
 
 const StockDetailsPage = () => {
-  usePageTitle('Stock Details');
   const { stockName } = useParams<{ stockName: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -15,6 +14,9 @@ const StockDetailsPage = () => {
   const handleBackClick = () => {
     navigate(-1);
   };
+
+  const decodedStockName = stockName ? decodeURIComponent(stockName) : '';
+  usePageTitle('Stock Details', decodedStockName);
 
   if (!stockName) {
     return (
@@ -37,7 +39,6 @@ const StockDetailsPage = () => {
     );
   }
 
-  const decodedStockName = decodeURIComponent(stockName);
   const stockData = getStockData(decodedStockName);
   const stockSummary = getStockSummary(decodedStockName);
 
