@@ -115,7 +115,7 @@ export const ConsecutiveBreaksAnalysis = () => {
     },
     xaxis: {
       title: 'Date',
-      type: 'date',
+      type: 'category',
       rangeslider: { visible: false },
     },
     hovermode: 'x unified',
