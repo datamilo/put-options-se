@@ -117,10 +117,13 @@ export const ConsecutiveBreaksAnalysis = () => {
       title: 'Date',
       type: 'category',
       rangeslider: { visible: false },
+      tickmode: 'auto',
+      nticks: 10,
+      tickangle: -45,
     },
     hovermode: 'x unified',
     height: 600,
-    margin: { l: 50, r: 50, t: 80, b: 50 },
+    margin: { l: 50, r: 50, t: 80, b: 120 },
     dragmode: 'zoom',
   };
 
