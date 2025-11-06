@@ -135,15 +135,14 @@ The Support Level Analysis dashboard analyzes how well a stock's low is holding 
 **Key Features:**
 - **Rolling Low Calculation**: Computes N-period rolling minimum of low prices (30, 90, 180, 270, or 365 calendar days)
   - Uses full historical data to ensure proper calendar day lookback for all periods
-  - Fixed to work correctly for 270-day (9-month) and 365-day (1-year) periods
   - Each day's rolling low = minimum low of all trading days within the rolling period window
 - **Support Break Detection**: Identifies when rolling low decreases, signaling a break of previous support
 - **Break Clustering**: Groups consecutive support breaks within a configurable time window (1-90 days)
 - **Multi-Trace Visualization**: Plotly chart with candlestick prices, rolling low line (blue dashed), and break markers (red circles)
 - **Detailed Analytics**:
-  - Cluster statistics (duration, gaps between breaks, total/average drops)
-  - Support break history table with break details
-  - Break distribution chart
+  - Metric cards showing total breaks, clusters, multi-break cluster count, and max breaks in a cluster
+  - Cluster statistics cards (duration, gaps between breaks, total/average drops) for each cluster
+  - Support break history table with detailed break information
   - Stability metrics and trading days per break analysis
 
 **Data Flow:**
@@ -169,10 +168,9 @@ The Support Level Analysis dashboard analyzes how well a stock's low is holding 
 - The route uses `/consecutive-breaks` but displays as "Support Level Analysis" in navigation
 - **Historical Lookback**: Rolling low calculated on full historical data, then filtered for display
   - This ensures 365-day periods can look back 365 calendar days even if user only views recent dates
-  - Fixes issue where longer periods appeared identical to shorter periods
 - **Calendar Day Calculation**: Rolling low uses `date.setDate(date.getDate() - periodDays)` which operates on calendar days, not trading days
 - **Performance**: Uses efficient sliding window algorithm for large period selections
-- **Visualization**: Charts use Plotly (not Recharts) for native financial charting capabilities
+- **Visualization**: Charts use Plotly for native financial charting capabilities (candlestick support, multi-trace unified hover)
 - **Data Independence**: All data stored in `/data/` folder, not dependent on external APIs or services
 
 ## Authentication & User Management
@@ -337,12 +335,15 @@ The application is fully functional with all major features implemented and work
    - SupportBreak: Date, prev_support, new_support, drop_pct, days_since
    - BreakCluster: ID, breaks array, statistics (duration, gaps, drops)
    - BreakStatistics: Overall metrics (stability, avg drop, trading days per break)
-8. **UI Display** → Plotly chart with three traces in unified hover mode:
-   - **Candlestick**: OHLC price data (filtered to date range) with default Plotly hover format showing Open, High, Low, Close values
-   - **Rolling Low Line**: Blue dashed line tracking support level (calculated from full history, displayed in date range) with custom hover showing Rolling Low value and Last Break date
-   - **Break Markers**: Red circles marking support breaks with hover info showing support level and drop percentage
-   - **Unified Hover**: Combined tooltip shows Date (top), OHLC values (from candlestick), Rolling Low value, and Last Break date
-   - Dashboard with metrics cards, cluster distribution chart, detailed tables
+8. **UI Display**:
+   - **Plotly Chart** with three traces in unified hover mode:
+     - **Candlestick**: OHLC price data (filtered to date range) with default Plotly hover format showing Open, High, Low, Close values
+     - **Rolling Low Line**: Blue dashed line tracking support level (calculated from full history, displayed in date range) with custom hover showing Rolling Low value and Last Break date
+     - **Break Markers**: Red circles marking support breaks with hover info showing support level and drop percentage
+     - **Unified Hover**: Combined tooltip shows Date, OHLC values, Rolling Low value, and Last Break date
+   - **Dashboard Sections**:
+     - Metrics cards (total breaks, clusters, multi-break clusters, max breaks)
+     - Cluster detail cards with statistics (duration, gaps, drops, break tables)
 
 **Hover Implementation Note:**
 - Uses Plotly's default candlestick hover format (not custom hovertemplate) because custom templates don't work with unified hover mode for candlestick traces
