@@ -1,3 +1,4 @@
+// Rolled back to remove broken chart implementations
 import React, { useState, useMemo } from 'react';
 import Plot from 'react-plotly.js';
 import { useConsecutiveBreaksAnalysis } from '@/hooks/useConsecutiveBreaksAnalysis';
