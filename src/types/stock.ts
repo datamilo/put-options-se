@@ -14,6 +14,9 @@ export interface StockSummary {
   currentPrice: number;
   priceChange: number;
   priceChangePercent: number;
+  priceChangePercentWeek: number;
+  priceChangePercentMonth: number;
+  priceChangePercentYear: number;
   volume: number;
   medianVolume: number;
   highPrice52Week: number;

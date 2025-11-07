@@ -130,9 +130,42 @@ export const useStockData = () => {
 
     const latestData = stockData[stockData.length - 1];
     const previousData = stockData[stockData.length - 2];
-    
+
     const priceChange = previousData ? latestData.close - previousData.close : 0;
     const priceChangePercent = previousData ? (priceChange / previousData.close) * 100 : 0;
+
+    // Calculate price changes for different periods
+    const currentDate = new Date(latestData.date);
+
+    // 1 Week ago
+    const oneWeekAgo = new Date(currentDate);
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const weekAgoData = stockData
+      .filter(d => new Date(d.date) <= oneWeekAgo)
+      .slice(-1)[0];
+    const priceChangePercentWeek = weekAgoData
+      ? ((latestData.close - weekAgoData.close) / weekAgoData.close) * 100
+      : 0;
+
+    // 1 Month ago (30 days)
+    const oneMonthAgo = new Date(currentDate);
+    oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+    const monthAgoData = stockData
+      .filter(d => new Date(d.date) <= oneMonthAgo)
+      .slice(-1)[0];
+    const priceChangePercentMonth = monthAgoData
+      ? ((latestData.close - monthAgoData.close) / monthAgoData.close) * 100
+      : 0;
+
+    // 1 Year ago (365 days)
+    const oneYearAgoDate = new Date(currentDate);
+    oneYearAgoDate.setDate(oneYearAgoDate.getDate() - 365);
+    const yearAgoData = stockData
+      .filter(d => new Date(d.date) <= oneYearAgoDate)
+      .slice(-1)[0];
+    const priceChangePercentYear = yearAgoData
+      ? ((latestData.close - yearAgoData.close) / yearAgoData.close) * 100
+      : 0;
 
     // Calculate 52-week high and low using OHLC data
     const oneYearAgo = new Date();
@@ -164,6 +197,9 @@ export const useStockData = () => {
       currentPrice: latestData.close,
       priceChange,
       priceChangePercent,
+      priceChangePercentWeek,
+      priceChangePercentMonth,
+      priceChangePercentYear,
       volume: latestData.volume,
       medianVolume,
       highPrice52Week,
