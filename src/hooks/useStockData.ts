@@ -137,34 +137,35 @@ export const useStockData = () => {
     // Calculate price changes for different periods
     const currentDate = new Date(latestData.date);
 
-    // 1 Week ago
-    const oneWeekAgo = new Date(currentDate);
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    const weekAgoData = stockData
-      .filter(d => new Date(d.date) <= oneWeekAgo)
-      .slice(-1)[0];
-    const priceChangePercentWeek = weekAgoData
-      ? ((latestData.close - weekAgoData.close) / weekAgoData.close) * 100
+    // Start of current week (Monday)
+    const startOfWeek = new Date(currentDate);
+    const dayOfWeek = startOfWeek.getDay();
+    const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // If Sunday (0), go back 6 days, else go back to Monday
+    startOfWeek.setDate(startOfWeek.getDate() - daysToMonday);
+    startOfWeek.setHours(0, 0, 0, 0);
+    const weekStartData = stockData
+      .filter(d => new Date(d.date) >= startOfWeek)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
+    const priceChangePercentWeek = weekStartData
+      ? ((latestData.close - weekStartData.close) / weekStartData.close) * 100
       : 0;
 
-    // 1 Month ago (30 days)
-    const oneMonthAgo = new Date(currentDate);
-    oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
-    const monthAgoData = stockData
-      .filter(d => new Date(d.date) <= oneMonthAgo)
-      .slice(-1)[0];
-    const priceChangePercentMonth = monthAgoData
-      ? ((latestData.close - monthAgoData.close) / monthAgoData.close) * 100
+    // Start of current month
+    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const monthStartData = stockData
+      .filter(d => new Date(d.date) >= startOfMonth)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
+    const priceChangePercentMonth = monthStartData
+      ? ((latestData.close - monthStartData.close) / monthStartData.close) * 100
       : 0;
 
-    // 1 Year ago (365 days)
-    const oneYearAgoDate = new Date(currentDate);
-    oneYearAgoDate.setDate(oneYearAgoDate.getDate() - 365);
-    const yearAgoData = stockData
-      .filter(d => new Date(d.date) <= oneYearAgoDate)
-      .slice(-1)[0];
-    const priceChangePercentYear = yearAgoData
-      ? ((latestData.close - yearAgoData.close) / yearAgoData.close) * 100
+    // Start of current year
+    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
+    const yearStartData = stockData
+      .filter(d => new Date(d.date) >= startOfYear)
+      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
+    const priceChangePercentYear = yearStartData
+      ? ((latestData.close - yearStartData.close) / yearStartData.close) * 100
       : 0;
 
     // Calculate 52-week high and low using OHLC data

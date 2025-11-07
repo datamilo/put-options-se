@@ -129,25 +129,25 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">1-Day Change</span>
+              <span className="text-muted-foreground">Today</span>
               <span className={isPositiveChange ? 'text-green-600' : 'text-red-600'}>
                 {isPositiveChange ? '+' : ''}{stockSummary.priceChangePercent.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">1-Week Change</span>
+              <span className="text-muted-foreground">Current Week</span>
               <span className={stockSummary.priceChangePercentWeek >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {stockSummary.priceChangePercentWeek >= 0 ? '+' : ''}{stockSummary.priceChangePercentWeek.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">1-Month Change</span>
+              <span className="text-muted-foreground">Current Month</span>
               <span className={stockSummary.priceChangePercentMonth >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {stockSummary.priceChangePercentMonth >= 0 ? '+' : ''}{stockSummary.priceChangePercentMonth.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">1-Year Change</span>
+              <span className="text-muted-foreground">Current Year</span>
               <span className={stockSummary.priceChangePercentYear >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {stockSummary.priceChangePercentYear >= 0 ? '+' : ''}{stockSummary.priceChangePercentYear.toFixed(2)}%
               </span>
