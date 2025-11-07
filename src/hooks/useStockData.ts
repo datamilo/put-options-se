@@ -137,35 +137,35 @@ export const useStockData = () => {
     // Calculate price changes for different periods
     const currentDate = new Date(latestData.date);
 
-    // Start of current week (Monday)
-    const startOfWeek = new Date(currentDate);
-    const dayOfWeek = startOfWeek.getDay();
-    const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // If Sunday (0), go back 6 days, else go back to Monday
-    startOfWeek.setDate(startOfWeek.getDate() - daysToMonday);
-    startOfWeek.setHours(0, 0, 0, 0);
-    const weekStartData = stockData
-      .filter(d => new Date(d.date) >= startOfWeek)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-    const priceChangePercentWeek = weekStartData
-      ? ((latestData.close - weekStartData.close) / weekStartData.close) * 100
+    // Last trading day of previous week (find last data point before current week's Monday)
+    const startOfCurrentWeek = new Date(currentDate);
+    const dayOfWeek = startOfCurrentWeek.getDay();
+    const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+    startOfCurrentWeek.setDate(startOfCurrentWeek.getDate() - daysToMonday);
+    startOfCurrentWeek.setHours(0, 0, 0, 0);
+    const previousWeekData = stockData
+      .filter(d => new Date(d.date) < startOfCurrentWeek)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const priceChangePercentWeek = previousWeekData
+      ? ((latestData.close - previousWeekData.close) / previousWeekData.close) * 100
       : 0;
 
-    // Start of current month
-    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const monthStartData = stockData
-      .filter(d => new Date(d.date) >= startOfMonth)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-    const priceChangePercentMonth = monthStartData
-      ? ((latestData.close - monthStartData.close) / monthStartData.close) * 100
+    // Last trading day of previous month
+    const startOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    const previousMonthData = stockData
+      .filter(d => new Date(d.date) < startOfCurrentMonth)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const priceChangePercentMonth = previousMonthData
+      ? ((latestData.close - previousMonthData.close) / previousMonthData.close) * 100
       : 0;
 
-    // Start of current year
-    const startOfYear = new Date(currentDate.getFullYear(), 0, 1);
-    const yearStartData = stockData
-      .filter(d => new Date(d.date) >= startOfYear)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-    const priceChangePercentYear = yearStartData
-      ? ((latestData.close - yearStartData.close) / yearStartData.close) * 100
+    // Last trading day of previous year
+    const startOfCurrentYear = new Date(currentDate.getFullYear(), 0, 1);
+    const previousYearData = stockData
+      .filter(d => new Date(d.date) < startOfCurrentYear)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const priceChangePercentYear = previousYearData
+      ? ((latestData.close - previousYearData.close) / previousYearData.close) * 100
       : 0;
 
     // Calculate 52-week high and low using OHLC data
