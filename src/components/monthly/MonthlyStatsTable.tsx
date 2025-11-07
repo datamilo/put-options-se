@@ -197,10 +197,13 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
         </div>
       </div>
 
-      {/* Results count */}
+      {/* Results count and info */}
       <div className="flex items-center justify-between">
         <div className="text-sm text-muted-foreground">
           {filteredAndSortedData.length} results
+        </div>
+        <div className="text-xs text-muted-foreground italic">
+          Drawdown = decline from month's open to lowest intramonth price
         </div>
       </div>
 
@@ -261,7 +264,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('open_to_low_mean_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Avg DD % {getSortIcon('open_to_low_mean_pct_return_month')}
+                    Avg Drawdown % {getSortIcon('open_to_low_mean_pct_return_month')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20">
@@ -270,7 +273,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('open_to_low_min_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Worst DD % {getSortIcon('open_to_low_min_pct_return_month')}
+                    Worst Drawdown % {getSortIcon('open_to_low_min_pct_return_month')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20">
@@ -279,7 +282,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('open_to_low_max_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Best DD % {getSortIcon('open_to_low_max_pct_return_month')}
+                    Best Drawdown % {getSortIcon('open_to_low_max_pct_return_month')}
                   </Button>
                 </TableHead>
               </TableRow>
