@@ -39,7 +39,7 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 ### Core Pages
 - **Index** (`/`) - Main options analysis dashboard with filterable table
 - **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools with independent settings
-- **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
+- **Monthly Analysis** (`/monthly-analysis`) - Historical performance, seasonality, and drawdown metrics
 - **Financial Reporting Volatility** (`/volatility-analysis`) - Stock event volatility tracking
 - **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength and break analysis (formerly Stock Price Stats)
 - **Option Details** (`/option/:optionId`) - Detailed individual option analysis
@@ -123,13 +123,90 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - Column visibility preferences
 - Calculation parameter storage
 
-### 5. Responsive Design
+### 5. Monthly Analysis & Seasonality
+The Monthly Analysis page (`/monthly-analysis`) provides historical performance data and seasonality patterns for stocks across different months.
+
+**Detailed Statistics Table Metrics:**
+
+**Return Metrics:**
+- **Pos %**: Percentage of months with positive returns (closing price went up)
+- **Avg Ret %**: Average percentage return across all historical occurrences of that month
+- **Avg Drawdown %**: Average intramonth drawdown (average decline from month's opening price to lowest price during that month)
+- **Worst Drawdown %**: Worst-case intramonth drawdown ever recorded (most negative decline from open to low)
+- **Best Drawdown %**: Best-case intramonth drawdown (smallest decline or 0% if price held above opening)
+
+**Drawdown Definition:**
+Drawdown measures the percentage decline from the **opening price** of the month to the **lowest price** reached during that month.
+- Negative values indicate the stock declined from open to low
+- 0% or positive values indicate the stock never dropped below its opening price
+- Example: If a stock opened at $100 and the low was $95, the drawdown for that month is -5%
+
+**Filters & Controls:**
+- **Month Filter**: View statistics for specific months or all months combined
+- **Stock Filter**: Filter by individual stock names
+- **Search**: Text-based search to find specific stocks
+- **Sortable Columns**: Click column headers to sort by any metric
+
+**Key Insights:**
+- High "Pos %" shows months historically favorable for a stock
+- "Worst Drawdown %" shows maximum risk (worst month for pullback)
+- "Best Drawdown %" of 0% indicates strong support at the opening level in best-case scenarios
+- Comparing "Avg Ret %" with "Avg Drawdown %" shows if positive returns come with high intramonth volatility
+
+**File References:**
+- **Page**: `src/pages/MonthlyAnalysis.tsx` - Main page layout
+- **Component**: `src/components/monthly/MonthlyStatsTable.tsx` - Detailed statistics table with sorting/filtering
+- **Hook**: `src/hooks/useMonthlyStockData.ts` - Data loading and statistics calculation
+- **Visualization**: `src/components/monthly/MonthlySeasonalityHeatmap.tsx` - Heatmap showing seasonality patterns
+
+### 6. Responsive Design
 - Mobile-optimized layouts
 - Dark/light theme support
 - Collapsible navigation
 - Touch-friendly interactions
 
-### 6. Support Level Analysis
+### 7. Stock Analysis & Performance Metrics
+The Stock Details page (`/stock/:stockName`) provides comprehensive performance metrics and historical analysis for individual stocks.
+
+**Performance Metrics Displayed:**
+- **Today**: Compares yesterday's closing price to today's closing price
+- **Current Week**: Compares last trading day of previous week to current closing price
+- **Current Month**: Compares last trading day of previous month to current closing price
+- **Current Year**: Compares last trading day of previous year to current closing price
+
+**Calculation Method (Industry Standard):**
+All period changes use the formula: `((Current Close - Baseline Close) / Baseline Close) × 100`
+
+**Key Points:**
+- All calculations use **closing prices** for consistency (not open, high, or low)
+- Week baseline: Last Friday's close before current trading week
+- Month baseline: Last trading day of previous month (e.g., Dec 31 for January)
+- Year baseline: Last trading day of previous year (e.g., Dec 31, 2024 for 2025)
+- Color coding: Green for positive changes, red for negative changes
+- This approach aligns with Yahoo Finance, Bloomberg, and industry financial standards
+
+**Additional Metrics:**
+- **1-Year High/Low**: Maximum and minimum prices from the past 52 weeks
+- **Distance from 1-Year High**: Percentage below the 52-week high
+- **Distance from 1-Year Low**: Percentage above the 52-week low
+- **Annualized Volatility**: Standard deviation of daily returns, annualized using √252 trading days
+- **Median Volume**: Median trading volume over the past year
+- **Price Range**: Difference between 52-week high and low
+- **Range Ratio**: High/low ratio showing volatility relative to price
+
+**Charts:**
+- **OHLC Candlestick Chart**: Interactive chart showing open, high, low, close data with volume overlay
+  - Time range filters: 1M, 3M, 6M, 1Y, ALL
+  - Green candles for bullish days, red for bearish days
+- **Price Ranges Card**: Shows price ranges for different time periods (1W, 1M, 3M, 6M, 9M, 1Y)
+
+**File References:**
+- **Page**: `src/pages/StockDetailsPage.tsx` - Route handler for stock details
+- **Component**: `src/components/stock/StockDetails.tsx` - Performance metrics display and layout
+- **Hook**: `src/hooks/useStockData.ts` - Data loading and calculation logic for period changes
+- **Types**: `src/types/stock.ts` - StockData and StockSummary interfaces
+
+### 8. Support Level Analysis
 The Support Level Analysis dashboard analyzes how well a stock's low is holding as a support level by detecting and clustering support breaks.
 
 **Key Features:**
@@ -253,6 +330,12 @@ The application is fully functional with all major features implemented and work
 - Input fields should sync with settings via useEffect, but avoid infinite loops
 - **OHLC Data**: Always use `low` field for period lows and `high`/`low` for ranges (not close prices)
 - **Stock Charts**: Use CandlestickChart component for stock detail pages (shows OHLC data visually)
+- **Stock Period Changes**: Calculate percentage changes using previous period's closing price as baseline
+  - Week-to-date: Use last Friday's close (last trading day before current week)
+  - Month-to-date: Use last trading day of previous month's close
+  - Year-to-date: Use last trading day of previous year's close (Dec 31)
+  - Formula: `((current - baseline) / baseline) × 100`
+  - Always use `.close` field for consistency with financial industry standards
 - **Support Level Analysis**:
   - Uses Plotly (not Recharts) for financial charting - native support for candlesticks and multi-trace visualization
   - **Critical**: Calculate rolling low on FULL historical stockData, not filtered date range
@@ -309,6 +392,47 @@ The application is fully functional with all major features implemented and work
    - `getPriceRangeForPeriod()` → Uses `high` and `low` fields for true ranges
    - `getStockSummary()` → Calculates 52-week high/low from OHLC data
 5. **Visualization** → CandlestickChart component renders OHLC data with optional volume
+
+### Stock Period Change Calculations
+The Stock Details page calculates percentage changes for different time periods using industry-standard methodology:
+
+**Period Change Formula:** `((Current Close - Baseline Close) / Baseline Close) × 100`
+
+**Baseline Selection Logic:**
+1. **Current Week Baseline**:
+   - Identifies start of current trading week (Monday)
+   - Searches for last trading day BEFORE Monday
+   - Uses that day's closing price as baseline
+   - Formula: `((latestData.close - previousWeekData.close) / previousWeekData.close) × 100`
+
+2. **Current Month Baseline**:
+   - Identifies 1st day of current month
+   - Searches for last trading day BEFORE month 1st
+   - Uses that day's closing price as baseline
+   - Example: January uses Dec 31 close
+   - Formula: `((latestData.close - previousMonthData.close) / previousMonthData.close) × 100`
+
+3. **Current Year Baseline**:
+   - Identifies Jan 1st of current year
+   - Searches for last trading day BEFORE Jan 1st
+   - Uses that day's closing price as baseline
+   - Example: 2025 uses Dec 31, 2024 close
+   - Formula: `((latestData.close - previousYearData.close) / previousYearData.close) × 100`
+
+**Implementation Details:**
+- **useStockData Hook** (src/hooks/useStockData.ts lines 137-169):
+  - `getStockSummary()` function calculates all period changes
+  - Uses `.close` field consistently for all calculations
+  - Filters stock data for period boundaries using date comparisons
+  - Returns `priceChangePercentWeek`, `priceChangePercentMonth`, `priceChangePercentYear` in StockSummary
+- **Data Accuracy**:
+  - Compares actual closing prices (not estimated values)
+  - Respects market calendars (skips weekends/holidays automatically)
+  - Handles year/month boundaries correctly
+- **Standards Compliance**:
+  - Matches Yahoo Finance WTD (week-to-date) calculation method
+  - Matches Bloomberg MTD (month-to-date) calculation method
+  - Matches financial industry YTD (year-to-date) standard
 
 ### Support Level Analysis Data Pipeline
 1. **Data Source** → `/data/stock_data.csv` (via useStockData hook, OHLC format)
