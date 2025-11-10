@@ -42,8 +42,8 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **Monthly Analysis** (`/monthly-analysis`) - Historical performance, seasonality, and drawdown metrics
 - **Financial Reporting Volatility** (`/volatility-analysis`) - Stock event volatility tracking
 - **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength and break analysis (formerly Stock Price Stats)
+- **Stock Analysis** (`/stock-analysis`, `/stock/:stockName`) - Individual stock performance with stock selector dropdown
 - **Option Details** (`/option/:optionId`) - Detailed individual option analysis
-- **Stock Details** (`/stock/:stockName`) - Individual stock performance
 - **Authentication** (`/auth`, `/auth/callback`) - User login/signup
 
 ### Key Components
@@ -52,7 +52,7 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **useEnrichedOptionsData** - Main hook combining options data with user calculations
 - **useRecalculatedOptions** - Applies user settings to option calculations
 - **useOptionsData** - Fetches and parses options CSV data
-- **useStockData** - Fetches and parses stock price data (OHLC format with volume)
+- **useStockData** - Fetches and parses stock price data (OHLC format with volume), provides `getAllStockNames()` for stock selector dropdown
 - **useMonthlyStockData** - Historical stock performance data
 - **useVolatilityData** - Stock event volatility data
 - **useProbabilityHistory** - Historical probability tracking
@@ -166,7 +166,12 @@ Drawdown measures the percentage decline from the **opening price** of the month
 - Touch-friendly interactions
 
 ### 7. Stock Analysis & Performance Metrics
-The Stock Details page (`/stock/:stockName`) provides comprehensive performance metrics and historical analysis for individual stocks.
+The Stock Analysis page (`/stock-analysis`, `/stock/:stockName`) provides comprehensive performance metrics and historical analysis for individual stocks with multiple access methods.
+
+**Access Methods:**
+1. **From Navigation Menu**: Click menu → "Stock Analysis" to access the page with a default stock and dropdown selector
+2. **From Options Table**: Click any stock name in the main options table to navigate directly to that stock's analysis with "Back to Options" button
+3. **Stock Selector Dropdown**: Available on all Stock Analysis views to switch between stocks instantly
 
 **Performance Metrics Displayed:**
 - **Today**: Compares yesterday's closing price to today's closing price
@@ -200,10 +205,19 @@ All period changes use the formula: `((Current Close - Baseline Close) / Baselin
   - Green candles for bullish days, red for bearish days
 - **Price Ranges Card**: Shows price ranges for different time periods (1W, 1M, 3M, 6M, 9M, 1Y)
 
+**Stock Selector Dropdown:**
+- Displays all available stocks from the data source
+- Sorted alphabetically for easy navigation
+- Selecting a stock automatically updates the URL and displays that stock's analysis
+- Available when accessed via `/stock-analysis` (default to first stock) or `/stock/:stockName` (shows current stock)
+- "Back to Options" button only visible when accessed from options table navigation
+
 **File References:**
-- **Page**: `src/pages/StockDetailsPage.tsx` - Route handler for stock details
+- **Page**: `src/pages/StockDetailsPage.tsx` (lines 1-230) - Route handler for both `/stock-analysis` and `/stock/:stockName` routes
 - **Component**: `src/components/stock/StockDetails.tsx` - Performance metrics display and layout
-- **Hook**: `src/hooks/useStockData.ts` - Data loading and calculation logic for period changes
+- **Hook**: `src/hooks/useStockData.ts` - Data loading, calculation logic for period changes, and `getAllStockNames()` method for dropdown
+- **Navigation**: `src/components/NavigationMenu.tsx` - Adds "Stock Analysis" link to dropdown menu
+- **Router**: `src/App.tsx` - Routes for `/stock-analysis` and `/stock/:stockName`
 - **Types**: `src/types/stock.ts` - StockData and StockSummary interfaces
 
 ### 8. Support Level Analysis
