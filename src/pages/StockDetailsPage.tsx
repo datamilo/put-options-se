@@ -16,7 +16,6 @@ import { useState, useEffect } from "react";
 const StockDetailsPage = () => {
   const { stockName: paramStockName } = useParams<{ stockName: string }>();
   const navigate = useNavigate();
-  const location = useLocation();
   const { getStockData, getStockSummary, isLoading, error, getAllStockNames } = useStockData();
 
   const isFromStock = paramStockName !== undefined;
