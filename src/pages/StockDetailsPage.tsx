@@ -1,4 +1,4 @@
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useStockData } from "@/hooks/useStockData";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { StockDetails } from "@/components/stock/StockDetails";
