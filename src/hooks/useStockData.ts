@@ -209,6 +209,11 @@ export const useStockData = () => {
     };
   };
 
+  const getAllStockNames = (): string[] => {
+    const uniqueNames = Array.from(new Set(allStockData.map(d => d.name)));
+    return uniqueNames.sort();
+  };
+
   return {
     allStockData,
     isLoading,
@@ -217,6 +222,7 @@ export const useStockData = () => {
     getStockSummary,
     getLowPriceForPeriod,
     getPriceRangeForPeriod,
-    loadStockData
+    loadStockData,
+    getAllStockNames
   };
 };
