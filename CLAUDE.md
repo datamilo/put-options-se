@@ -342,21 +342,23 @@ The application is fully functional with all major features implemented and work
 - Delete outdated troubleshooting sections and historical context
 - This keeps documentation focused, accurate, and prevents confusion about what's actually working
 
-### Git & GitHub Workflow
-**⚠️ CRITICAL - SEE TOP OF DOCUMENT FOR MANDATORY WORKFLOW ⚠️**
+### Git & GitHub Workflow - MANDATORY PROCESS
 
-**You MUST commit and push after EVERY change - see the critical workflow rule at the top of this document.**
+⚠️ **CRITICAL: This workflow is non-negotiable. Every code change follows these steps in order.**
 
-**Complete workflow:**
-1. Make code changes
-2. Build and test locally (`npm run build`)
-3. Stage all changes (`git add -A`)
-4. **Commit immediately** with descriptive messages using the format below
-5. **Push to GitHub** (`git push`)
-6. **Verify** the push succeeded
+**STEP 1: Make code changes**
+- Edit files and save
 
-**Commit Message Format:**
+**STEP 2: Build and test locally**
 ```bash
+npm run build
+```
+- Ensure no errors in build output
+- Test locally to verify changes work
+
+**STEP 3: Stage and commit changes**
+```bash
+git add .
 git commit -m "$(cat <<'EOF'
 Brief summary of changes
 
@@ -371,12 +373,37 @@ EOF
 )"
 ```
 
+**STEP 4: PUSH TO GITHUB (DO NOT SKIP THIS STEP)**
+```bash
+git push
+```
+- This step is mandatory and must run every time
+- If you skip this, your work is NOT complete
+
+**STEP 5: Verify on GitHub**
+- Visit https://github.com/datamilo/put-options-se
+- Confirm your changes appear in the repository
+- Confirm your commit message is visible in the commit log
+
+⚠️ **CRITICAL REMINDER: DO NOT STOP AFTER STEP 3**
+- Committing without pushing is incomplete work
+- Always finish the full workflow: Step 1 → 2 → 3 → 4 → 5
+- If `git status` shows `ahead of origin/main`, you skipped the push
+
+**Verification Checklist:**
+- [ ] Code changes made and tested locally
+- [ ] `npm run build` completed with no errors
+- [ ] `git commit` completed with clear message
+- [ ] `git push` completed successfully
+- [ ] `git status` shows `Your branch is up to date with 'origin/main'`
+- [ ] GitHub repository reflects the changes when visited
+
 **Why this is non-negotiable:**
 - The remote repository MUST always reflect the current state of the codebase
 - Changes must be properly tracked and documented in git history
 - Prevents merge conflicts and makes debugging easier
 - Keeps the repository clean and organized
-- **User expects changes to be on GitHub immediately**
+- User expects changes to be on GitHub immediately
 
 ### Important Patterns
 - Use `useEnrichedOptionsData` for options table data (already includes recalculations)
