@@ -6,7 +6,7 @@ import { CalibrationChart } from '@/components/probability/CalibrationChart';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 
-export const ProbabilityRecoveryAnalysis: React.FC = () => {
+export const ProbabilityAnalysis: React.FC = () => {
   const { isLoading: recoveryLoading, error: recoveryError, stocks, chartData, stockChartData } = useProbabilityRecoveryData();
   const { calibrationData, isLoading: validationLoading, error: validationError, getCalibrationPoints } = useProbabilityValidationData();
 
@@ -28,7 +28,7 @@ export const ProbabilityRecoveryAnalysis: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p>Loading probability recovery data...</p>
+          <p>Loading probability analysis data...</p>
         </div>
       </div>
     );

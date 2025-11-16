@@ -75,19 +75,11 @@ export const NavigationMenu = () => {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => navigate('/probability-recovery')}
+            onClick={() => navigate('/probability-analysis')}
             className="cursor-pointer"
           >
             <Target className="mr-2 h-4 w-4" />
-            Probability Recovery Analysis
-          </DropdownMenuItem>
-
-          <DropdownMenuItem
-            onClick={() => navigate('/probability-validation')}
-            className="cursor-pointer"
-          >
-            <CheckCircle className="mr-2 h-4 w-4" />
-            Probability Validation Report
+            Probability Analysis
           </DropdownMenuItem>
 
           <DropdownMenuItem
