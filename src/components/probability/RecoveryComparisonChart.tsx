@@ -126,12 +126,9 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
             {entry.value !== null ? (
               <>
                 <p className="text-sm opacity-90 ml-2">
-                  Worthless Rate: {entry.value.toFixed(1)}%
-                </p>
-                <p className="text-sm opacity-70 ml-2">
-                  {entry.name === 'Recovery Candidates'
-                    ? `${entry.value.toFixed(1)}% (${data.recovery_candidate_n.toLocaleString()})`
-                    : `${entry.value.toFixed(1)}% (${data.baseline_n.toLocaleString()})`}
+                  Worthless Rate: {entry.value.toFixed(1)}% ({entry.name === 'Recovery Candidates'
+                    ? `${data.recovery_candidate_n.toLocaleString()}`
+                    : `${data.baseline_n.toLocaleString()}`})
                 </p>
               </>
             ) : (
