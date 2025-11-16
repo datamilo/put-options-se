@@ -20,11 +20,7 @@ interface RecoveryComparisonChartProps {
 }
 
 export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = ({ scenarios }) => {
-  const [threshold, setThreshold] = React.useState('0.8');
-  const [method, setMethod] = React.useState('Weighted Average');
-  const [probBin, setProbBin] = React.useState('80-90%');
-
-  // Get available options
+  // Get available options first
   const thresholds = useMemo(() =>
     Array.from(new Set(scenarios.map(s => s.HistoricalPeakThreshold.toString()))).sort(),
     [scenarios]
@@ -40,6 +36,34 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
     [scenarios]
   );
 
+  // Initialize with first available values, or defaults if no data
+  const defaultThreshold = thresholds.length > 0 ? thresholds[0] : '0.8';
+  const defaultMethod = methods.length > 0 ? methods[0] : 'Weighted Average';
+  const defaultProbBin = probBins.length > 0 ? probBins[0] : '80-90%';
+
+  const [threshold, setThreshold] = React.useState(defaultThreshold);
+  const [method, setMethod] = React.useState(defaultMethod);
+  const [probBin, setProbBin] = React.useState(defaultProbBin);
+
+  // Update selections if they're not in available options
+  React.useEffect(() => {
+    if (thresholds.length > 0 && !thresholds.includes(threshold)) {
+      setThreshold(thresholds[0]);
+    }
+  }, [thresholds, threshold]);
+
+  React.useEffect(() => {
+    if (methods.length > 0 && !methods.includes(method)) {
+      setMethod(methods[0]);
+    }
+  }, [methods, method]);
+
+  React.useEffect(() => {
+    if (probBins.length > 0 && !probBins.includes(probBin)) {
+      setProbBin(probBins[0]);
+    }
+  }, [probBins, probBin]);
+
   // Filter and prepare data
   const chartData = useMemo(() => {
     const filtered = scenarios.filter(s =>
@@ -48,7 +72,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
       s.CurrentProb_Bin === probBin
     );
 
-    return filtered
+    const mapped = filtered
       .map(s => ({
         dteBin: s.DTE_Bin,
         advantage: s.Advantage_pp,
@@ -61,6 +85,16 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
         const order = ['0-7', '8-14', '15-21', '22-28', '29-35', '36+'];
         return order.indexOf(a.dteBin) - order.indexOf(b.dteBin);
       });
+
+    console.log('📊 RecoveryComparisonChart Data:', {
+      totalScenarios: scenarios.length,
+      filters: { threshold, method, probBin },
+      filteredCount: filtered.length,
+      mappedCount: mapped.length,
+      sampleData: mapped.length > 0 ? mapped[0] : 'empty'
+    });
+
+    return mapped;
   }, [scenarios, threshold, method, probBin]);
 
   const CustomTooltip = ({ active, payload }: any) => {
