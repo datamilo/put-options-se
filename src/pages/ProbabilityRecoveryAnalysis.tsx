@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useProbabilityRecoveryData } from '@/hooks/useProbabilityRecoveryData';
+import { useProbabilityValidationData } from '@/hooks/useProbabilityValidationData';
 import { RecoveryComparisonChart } from '@/components/probability/RecoveryComparisonChart';
+import { CalibrationChart } from '@/components/probability/CalibrationChart';
 import { Card, CardContent } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 
 export const ProbabilityRecoveryAnalysis: React.FC = () => {
-  const { isLoading, error, stocks, chartData, stockChartData } = useProbabilityRecoveryData();
+  const { isLoading: recoveryLoading, error: recoveryError, stocks, chartData, stockChartData } = useProbabilityRecoveryData();
+  const { calibrationData, isLoading: validationLoading, error: validationError, getCalibrationPoints } = useProbabilityValidationData();
+
+  const isLoading = recoveryLoading || validationLoading;
+  const error = recoveryError || validationError;
+
+  const calibrationPoints = useMemo(() => getCalibrationPoints('aggregated'), [getCalibrationPoints]);
+
+  // Get unique stocks for calibration chart filter
+  const availableStocks = useMemo(() => {
+    const stocks = calibrationData
+      .filter(d => d.DataType === 'calibration_by_stock' && d.Stock)
+      .map(d => d.Stock);
+    return Array.from(new Set(stocks)).sort();
+  }, [calibrationData]);
 
   if (isLoading) {
     return (
@@ -34,8 +50,28 @@ export const ProbabilityRecoveryAnalysis: React.FC = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-8">
         <h1 className="text-3xl font-bold mb-2">
-          Probability Recovery Analysis
+          Probability Analysis
         </h1>
+      </div>
+
+      {/* Calibration Analysis - from Validation Report */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Calibration Analysis</h2>
+        <CalibrationChart
+          calibrationPoints={calibrationPoints}
+          availableStocks={availableStocks}
+          getCalibrationPoints={getCalibrationPoints}
+        />
+      </div>
+
+      {/* Section Separator */}
+      <div className="border-t-2 border-border my-8" />
+
+      {/* Recovery Analysis Section */}
+      <div className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/20 rounded-lg p-8">
+        <h2 className="text-2xl font-bold">
+          Probability Recovery Analysis
+        </h2>
       </div>
 
       {/* Explanation */}
