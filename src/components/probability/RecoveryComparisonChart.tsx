@@ -79,7 +79,9 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
 
   // Prepare chart data with both bars
   const barChartData = useMemo(() => {
-    const dteBins = ['0-7', '8-14', '15-21', '22-28', '29-35', '36+'];
+    let dteBins = ['0-7', '8-14', '15-21', '22-28', '29-35', '36+'];
+    // Reverse the order to show highest DTE first (matching HTML behavior)
+    dteBins = dteBins.slice().reverse();
     const dataMap: any[] = [];
 
     // Get the appropriate data source
@@ -97,7 +99,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
         dataMap.push({
           name: dte,
           'Recovery Candidates': point.recovery_candidate_rate * 100,
-          'Baseline': point.baseline_rate !== null ? point.baseline_rate * 100 : 0,
+          'Baseline': point.baseline_rate !== null ? point.baseline_rate * 100 : null,
           recovery_candidate_n: point.recovery_candidate_n,
           baseline_n: point.baseline_n
         });
@@ -111,28 +113,19 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
     if (!active || !payload || !payload.length) return null;
 
     const data = payload[0].payload;
-    const thresholdPct = Math.round(parseFloat(threshold) * 100);
+    const entry = payload[0];
 
     return (
       <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
         <p className="font-semibold mb-2">{data.name} days</p>
-        {payload.map((entry: any, index: number) => (
-          <div key={index}>
-            <p className="text-sm" style={{ color: entry.color }}>
-              {entry.name}: {entry.value.toFixed(1)}%
-            </p>
-          </div>
-        ))}
-        {data.recovery_candidate_n > 0 && (
-          <p className="text-xs opacity-70 mt-2">
-            Recovery Candidates: {data.recovery_candidate_n.toLocaleString()}
-          </p>
-        )}
-        {data.baseline_n > 0 && (
-          <p className="text-xs opacity-70">
-            Baseline: {data.baseline_n.toLocaleString()}
-          </p>
-        )}
+        <p className="text-sm mb-2">
+          Worthless Rate: {entry.value.toFixed(1)}%
+        </p>
+        <p className="text-sm opacity-70">
+          {entry.name === 'Recovery Candidates'
+            ? `${entry.value.toFixed(1)}% (${data.recovery_candidate_n.toLocaleString()})`
+            : `${entry.value.toFixed(1)}% (${data.baseline_n.toLocaleString()})`}
+        </p>
       </div>
     );
   };
