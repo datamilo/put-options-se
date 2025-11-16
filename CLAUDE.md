@@ -65,6 +65,7 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **Financial Reporting Volatility** (`/volatility-analysis`) - Stock event volatility tracking
 - **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength and break analysis (formerly Stock Price Stats)
 - **Stock Analysis** (`/stock-analysis`, `/stock/:stockName`) - Individual stock performance with stock selector dropdown
+- **Probability Analysis** (`/probability-analysis`) - Comprehensive probability analysis with calibration validation and recovery opportunities
 - **Option Details** (`/option/:optionId`) - Detailed individual option analysis
 - **Authentication** (`/auth`, `/auth/callback`) - User login/signup
 
@@ -292,6 +293,46 @@ The Support Level Analysis dashboard analyzes how well a stock's low is holding 
 - **Guest Mode** with localStorage persistence
 - **Row Level Security** for user data isolation
 
+### 9. Probability Analysis
+The Probability Analysis page (`/probability-analysis`) provides comprehensive probability method validation and recovery opportunity analysis in one consolidated view.
+
+**Features:**
+- **Calibration Analysis Section**:
+  - Validates different probability calculation methods (Weighted Average, Bayesian Calibrated, Original Black-Scholes, Bias Corrected, Historical IV)
+  - Scatter plot comparing predicted vs actual probabilities
+  - Stock-specific filtering to isolate performance by stock
+  - Metrics for calibration error, Brier score, and prediction accuracy
+
+- **Probability Recovery Analysis Section**:
+  - Identifies recovery opportunities where market underestimates probability of success
+  - Compares options that had high historical ITM probability (80%+) vs current lower probability
+  - Interactive Recovery Advantage Analysis chart with:
+    - Historical Peak Threshold selector (0.5-0.95)
+    - Probability Method selector (different calculation approaches)
+    - Current Probability Bin selector (30-40%, 40-50%, 50-60%, etc.)
+    - Optional stock filter for individual stock analysis
+  - Grouped bar chart showing:
+    - Recovery Candidates: Options meeting recovery criteria
+    - Baseline: Control group for comparison
+    - Worthless rates with sample counts in tooltip
+
+**Page Layout:**
+1. Calibration Analysis chart (top) - validates probability methods
+2. Clear section separator
+3. Probability Recovery Analysis header
+4. Explanation text about recovery opportunities
+5. Interactive Recovery Advantage Analysis chart with filters
+
+**Data Files:**
+- `validation_report_data.csv` - Calibration method performance data
+- `recovery_report_data.csv` - Recovery analysis scenario data
+
+**File References:**
+- **Page**: `src/pages/ProbabilityAnalysis.tsx` - Combined analysis page
+- **Hooks**: `useProbabilityValidationData.ts`, `useProbabilityRecoveryData.ts` - Data loading
+- **Components**: `CalibrationChart.tsx`, `RecoveryComparisonChart.tsx` - Interactive visualizations
+- **Types**: `probabilityValidation.ts`, `probabilityRecovery.ts` - Data structures
+
 ## Data Sources
 - Static CSV files in `/data` (tracked in git)
 - Python scripts for data generation (`portfolio_generator.py`)
@@ -440,7 +481,7 @@ git push
   - `/stock` - Stock charts and details
   - `/monthly` - Monthly analysis visualizations
   - `/volatility` - Volatility analysis components
-  - `/probability` - Probability analysis components (recovery & validation)
+  - `/probability` - Probability analysis components (calibration, recovery, and supporting charts)
 - `/src/pages` - Route components
 - `/src/types` - TypeScript interfaces
 - `/src/contexts` - React context providers (SettingsContext, AuthProvider)
