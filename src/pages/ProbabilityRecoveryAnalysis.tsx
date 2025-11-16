@@ -9,15 +9,6 @@ import { Loader2 } from 'lucide-react';
 export const ProbabilityRecoveryAnalysis: React.FC = () => {
   const { scenarios, isLoading, error } = useProbabilityRecoveryData();
 
-  React.useEffect(() => {
-    console.log('🔍 Recovery Analysis - Data Status:', {
-      scenariosLength: scenarios.length,
-      isLoading,
-      error,
-      hasSampleScenario: scenarios.length > 0 ? scenarios[0] : 'no data'
-    });
-  }, [scenarios, isLoading, error]);
-
   const metrics = useMemo(() => {
     if (scenarios.length === 0) {
       return {

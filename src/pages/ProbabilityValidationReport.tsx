@@ -18,17 +18,6 @@ export const ProbabilityValidationReport: React.FC = () => {
   } = useProbabilityValidationData();
 
   const performance = useMemo(() => getMethodPerformance(), [getMethodPerformance]);
-
-  React.useEffect(() => {
-    console.log('🔍 Validation Report - Data Status:', {
-      metricsLength: metrics.length,
-      calibrationDataLength: calibrationData.length,
-      performanceLength: performance.length,
-      isLoading,
-      error,
-      hasSampleMetric: metrics.length > 0 ? metrics[0] : 'no metrics'
-    });
-  }, [metrics, calibrationData, performance, isLoading, error]);
   const calibrationPoints = useMemo(() => getCalibrationPoints('aggregated'), [getCalibrationPoints]);
 
   const summary = useMemo(() => {

@@ -64,12 +64,14 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
     }
   }, [probBins, probBin]);
 
-  // Filter and prepare data
+  // Filter and prepare data - exclude rows with empty Advantage_pp (Baseline_N = 0)
   const chartData = useMemo(() => {
     const filtered = scenarios.filter(s =>
       s.HistoricalPeakThreshold.toString() === threshold &&
       s.ProbMethod === method &&
-      s.CurrentProb_Bin === probBin
+      s.CurrentProb_Bin === probBin &&
+      s.Baseline_N > 0 && // Only include rows with baseline comparison
+      s.Advantage_pp !== null && s.Advantage_pp !== undefined && s.Advantage_pp !== 0
     );
 
     const mapped = filtered
@@ -85,14 +87,6 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
         const order = ['0-7', '8-14', '15-21', '22-28', '29-35', '36+'];
         return order.indexOf(a.dteBin) - order.indexOf(b.dteBin);
       });
-
-    console.log('📊 RecoveryComparisonChart Data:', {
-      totalScenarios: scenarios.length,
-      filters: { threshold, method, probBin },
-      filteredCount: filtered.length,
-      mappedCount: mapped.length,
-      sampleData: mapped.length > 0 ? mapped[0] : 'empty'
-    });
 
     return mapped;
   }, [scenarios, threshold, method, probBin]);
