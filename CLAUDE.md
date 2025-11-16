@@ -1,5 +1,27 @@
 # Put Options SE - Project Summary for Claude Code
 
+---
+## ⚠️ CRITICAL WORKFLOW RULE - READ THIS FIRST ⚠️
+
+**MANDATORY GIT WORKFLOW - NO EXCEPTIONS:**
+
+After making ANY changes to this project, you MUST immediately:
+1. Run `npm run build` to test the build
+2. Run `git add -A` to stage all changes
+3. Run `git commit -m "descriptive message"` to commit
+4. Run `git push` to sync with GitHub
+5. Verify the push succeeded
+
+**DO NOT:**
+- ❌ Continue to other tasks without committing
+- ❌ Accumulate multiple changes before committing
+- ❌ Skip the push step
+- ❌ Forget to verify the push succeeded
+
+**This is not optional. Every code change MUST be immediately committed and pushed to GitHub.**
+
+---
+
 ## Project Overview
 Put Options SE is a comprehensive financial analysis web application focused on put options trading and stock market analysis. The application provides sophisticated tools for analyzing put options data, calculating potential returns, and visualizing market trends with customizable parameters.
 
@@ -321,18 +343,40 @@ The application is fully functional with all major features implemented and work
 - This keeps documentation focused, accurate, and prevents confusion about what's actually working
 
 ### Git & GitHub Workflow
-**CRITICAL**: Always commit changes immediately after making them. Follow this workflow:
+**⚠️ CRITICAL - SEE TOP OF DOCUMENT FOR MANDATORY WORKFLOW ⚠️**
+
+**You MUST commit and push after EVERY change - see the critical workflow rule at the top of this document.**
+
+**Complete workflow:**
 1. Make code changes
 2. Build and test locally (`npm run build`)
-3. **Commit changes immediately** with descriptive messages (`git commit`)
-4. Push to GitHub (`git push`)
-5. Verify changes are reflected on GitHub
+3. Stage all changes (`git add -A`)
+4. **Commit immediately** with descriptive messages using the format below
+5. **Push to GitHub** (`git push`)
+6. **Verify** the push succeeded
 
-**IMPORTANT**: Do not accumulate uncommitted changes. Commit after each significant change or fix is complete. This ensures:
-- The remote repository always reflects the current state of the codebase
-- Changes are properly tracked and documented in git history
+**Commit Message Format:**
+```bash
+git commit -m "$(cat <<'EOF'
+Brief summary of changes
+
+- Detailed bullet points of what was added/modified
+- Include file paths and component names
+- Mention any breaking changes or important notes
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"
+```
+
+**Why this is non-negotiable:**
+- The remote repository MUST always reflect the current state of the codebase
+- Changes must be properly tracked and documented in git history
 - Prevents merge conflicts and makes debugging easier
 - Keeps the repository clean and organized
+- **User expects changes to be on GitHub immediately**
 
 ### Important Patterns
 - Use `useEnrichedOptionsData` for options table data (already includes recalculations)
