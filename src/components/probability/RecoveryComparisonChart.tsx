@@ -236,7 +236,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                   domain={[0, 100]}
                   className="text-sm"
                 />
-                <Tooltip content={<CustomTooltip />} />
+                <Tooltip content={({ active, payload }) => <CustomTooltip active={active} payload={payload} />} />
                 <Legend
                   wrapperStyle={{ paddingTop: '20px' }}
                   layout="horizontal"
