@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, Zap, LineChart } from "lucide-react";
+import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, Zap, LineChart, Target, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -72,6 +72,22 @@ export const NavigationMenu = () => {
           >
             <LineChart className="mr-2 h-4 w-4" />
             Stock Analysis
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => navigate('/probability-recovery')}
+            className="cursor-pointer"
+          >
+            <Target className="mr-2 h-4 w-4" />
+            Probability Recovery Analysis
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => navigate('/probability-validation')}
+            className="cursor-pointer"
+          >
+            <CheckCircle className="mr-2 h-4 w-4" />
+            Probability Validation Report
           </DropdownMenuItem>
 
           <DropdownMenuItem

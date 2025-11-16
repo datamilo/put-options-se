@@ -19,10 +19,12 @@ if (!fs.existsSync(publicDataDir)) {
 // Copy data files to public directory for GitHub Pages
 const dataDir = path.join(__dirname, '..', 'data');
 const filesToCopy = [
-  'data.csv', 
-  'IV_PotentialDecline.csv', 
-  'stock_data.csv', 
+  'data.csv',
+  'IV_PotentialDecline.csv',
+  'stock_data.csv',
   'probability_history.csv',
+  'recovery_report_data.csv',
+  'validation_report_data.csv',
   'last_updated.json'
 ];
 
