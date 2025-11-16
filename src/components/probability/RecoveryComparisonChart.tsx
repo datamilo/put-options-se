@@ -7,118 +7,146 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
-  Cell
+  ResponsiveContainer
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import { RecoveryScenario } from '@/types/probabilityRecovery';
 
-interface RecoveryComparisonChartProps {
-  scenarios: RecoveryScenario[];
+interface ChartDataPoint {
+  recovery_candidate_n: number;
+  recovery_candidate_rate: number;
+  baseline_n: number;
+  baseline_rate: number | null;
+  advantage: number | null;
 }
 
-export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = ({ scenarios }) => {
-  // Get available options first
-  const thresholds = useMemo(() =>
-    Array.from(new Set(scenarios.map(s => s.HistoricalPeakThreshold.toString()))).sort(),
-    [scenarios]
-  );
+type ChartDataStructure = Record<string, Record<string, Record<string, Record<string, Record<string, ChartDataPoint>>>>>;
 
-  const methods = useMemo(() =>
-    Array.from(new Set(scenarios.map(s => s.ProbMethod))).sort(),
-    [scenarios]
-  );
+interface RecoveryComparisonChartProps {
+  stocks: string[];
+  chartData: ChartDataStructure;
+  stockChartData: ChartDataStructure;
+}
 
-  const probBins = useMemo(() =>
-    Array.from(new Set(scenarios.map(s => s.CurrentProb_Bin))).sort(),
-    [scenarios]
-  );
+export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = ({
+  stocks,
+  chartData,
+  stockChartData
+}) => {
+  // Get available thresholds and methods from chart data
+  const availableOptions = useMemo(() => {
+    const thresholds = new Set<string>();
+    const methods = new Set<string>();
+    const probBins = new Set<string>();
 
-  // Initialize with first available values, or defaults if no data
-  const defaultThreshold = thresholds.length > 0 ? thresholds[0] : '0.8';
-  const defaultMethod = methods.length > 0 ? methods[0] : 'Weighted Average';
-  const defaultProbBin = probBins.length > 0 ? probBins[0] : '80-90%';
-
-  const [threshold, setThreshold] = React.useState(defaultThreshold);
-  const [method, setMethod] = React.useState(defaultMethod);
-  const [probBin, setProbBin] = React.useState(defaultProbBin);
-
-  // Update selections if they're not in available options
-  React.useEffect(() => {
-    if (thresholds.length > 0 && !thresholds.includes(threshold)) {
-      setThreshold(thresholds[0]);
-    }
-  }, [thresholds, threshold]);
-
-  React.useEffect(() => {
-    if (methods.length > 0 && !methods.includes(method)) {
-      setMethod(methods[0]);
-    }
-  }, [methods, method]);
-
-  React.useEffect(() => {
-    if (probBins.length > 0 && !probBins.includes(probBin)) {
-      setProbBin(probBins[0]);
-    }
-  }, [probBins, probBin]);
-
-  // Filter and prepare data - exclude rows with empty Advantage_pp (Baseline_N = 0)
-  const chartData = useMemo(() => {
-    const filtered = scenarios.filter(s =>
-      s.HistoricalPeakThreshold.toString() === threshold &&
-      s.ProbMethod === method &&
-      s.CurrentProb_Bin === probBin &&
-      s.Baseline_N > 0 && // Only include rows with baseline comparison
-      s.Advantage_pp !== null && s.Advantage_pp !== undefined && s.Advantage_pp !== 0
-    );
-
-    const mapped = filtered
-      .map(s => ({
-        dteBin: s.DTE_Bin,
-        advantage: s.Advantage_pp,
-        recoveryCandidates: s.RecoveryCandidate_N,
-        worthlessRate: s.RecoveryCandidate_WorthlessRate * 100,
-        baseline: s.Baseline_N
-      }))
-      .sort((a, b) => {
-        // Sort by DTE bins
-        const order = ['0-7', '8-14', '15-21', '22-28', '29-35', '36+'];
-        return order.indexOf(a.dteBin) - order.indexOf(b.dteBin);
+    // Extract from aggregated data
+    Object.keys(chartData).forEach(threshold => {
+      thresholds.add(threshold);
+      Object.keys(chartData[threshold]).forEach(method => {
+        methods.add(method);
+        Object.keys(chartData[threshold][method]).forEach(probBin => {
+          probBins.add(probBin);
+        });
       });
+    });
 
-    return mapped;
-  }, [scenarios, threshold, method, probBin]);
+    // Extract from stock data
+    Object.keys(stockChartData).forEach(threshold => {
+      thresholds.add(threshold);
+      Object.keys(stockChartData[threshold]).forEach(stock => {
+        Object.keys(stockChartData[threshold][stock]).forEach(method => {
+          methods.add(method);
+          Object.keys(stockChartData[threshold][stock][method]).forEach(probBin => {
+            probBins.add(probBin);
+          });
+        });
+      });
+    });
+
+    return {
+      thresholds: Array.from(thresholds).sort(),
+      methods: Array.from(methods).sort(),
+      probBins: Array.from(probBins).sort()
+    };
+  }, [chartData, stockChartData]);
+
+  // Initialize with first available values
+  const [threshold, setThreshold] = React.useState(availableOptions.thresholds[0] || '0.8');
+  const [method, setMethod] = React.useState(availableOptions.methods[0] || 'Weighted Average');
+  const [probBin, setProbBin] = React.useState(availableOptions.probBins[0] || '50-60%');
+  const [stock, setStock] = React.useState('All Stocks');
+
+  // Prepare chart data with both bars
+  const barChartData = useMemo(() => {
+    const dteBins = ['0-7', '8-14', '15-21', '22-28', '29-35', '36+'];
+    const dataMap: any[] = [];
+
+    // Get the appropriate data source
+    const selectedData = stock === 'All Stocks'
+      ? chartData[threshold]?.[method]?.[probBin]
+      : stockChartData[threshold]?.[stock]?.[method]?.[probBin];
+
+    if (!selectedData) {
+      return [];
+    }
+
+    for (const dte of dteBins) {
+      const point = selectedData[dte];
+      if (point) {
+        dataMap.push({
+          name: dte,
+          'Recovery Candidates': point.recovery_candidate_rate * 100,
+          'Baseline': point.baseline_rate !== null ? point.baseline_rate * 100 : 0,
+          recovery_candidate_n: point.recovery_candidate_n,
+          baseline_n: point.baseline_n
+        });
+      }
+    }
+
+    return dataMap;
+  }, [chartData, stockChartData, threshold, method, probBin, stock]);
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload || !payload.length) return null;
 
     const data = payload[0].payload;
+    const thresholdPct = Math.round(parseFloat(threshold) * 100);
+
     return (
       <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-        <p className="font-semibold mb-2">DTE: {data.dteBin} days</p>
-        <p className="text-sm text-green-600 dark:text-green-400">
-          Advantage: {data.advantage.toFixed(2)} pp
-        </p>
-        <p className="text-sm opacity-70">
-          Recovery Candidates: {data.recoveryCandidates.toLocaleString()}
-        </p>
-        <p className="text-sm opacity-70">
-          Worthless Rate: {data.worthlessRate.toFixed(1)}%
-        </p>
-        <p className="text-sm opacity-70">
-          Baseline: {data.baseline.toLocaleString()}
-        </p>
+        <p className="font-semibold mb-2">{data.name} days</p>
+        {payload.map((entry: any, index: number) => (
+          <div key={index}>
+            <p className="text-sm" style={{ color: entry.color }}>
+              {entry.name}: {entry.value.toFixed(1)}%
+            </p>
+          </div>
+        ))}
+        {data.recovery_candidate_n > 0 && (
+          <p className="text-xs opacity-70 mt-2">
+            Recovery Candidates: {data.recovery_candidate_n.toLocaleString()}
+          </p>
+        )}
+        {data.baseline_n > 0 && (
+          <p className="text-xs opacity-70">
+            Baseline: {data.baseline_n.toLocaleString()}
+          </p>
+        )}
       </div>
     );
   };
+
+  const thresholdPct = Math.round(parseFloat(threshold) * 100);
+  const title = stock === 'All Stocks'
+    ? `Recovery Candidates (${thresholdPct}%+ peak) vs Baseline - ${method} (${probBin})`
+    : `${stock} - ${method} (${probBin}) - Peak Threshold: ${thresholdPct}%+`;
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Recovery Advantage Analysis</CardTitle>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           <div>
             <Label>Historical Peak Threshold</Label>
             <Select value={threshold} onValueChange={setThreshold}>
@@ -126,7 +154,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {thresholds.map(t => (
+                {availableOptions.thresholds.map(t => (
                   <SelectItem key={t} value={t}>
                     {(parseFloat(t) * 100).toFixed(0)}%
                   </SelectItem>
@@ -141,7 +169,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {methods.map(m => (
+                {availableOptions.methods.map(m => (
                   <SelectItem key={m} value={m}>
                     {m}
                   </SelectItem>
@@ -156,9 +184,24 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {probBins.map(pb => (
+                {availableOptions.probBins.map(pb => (
                   <SelectItem key={pb} value={pb}>
                     {pb}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>Stock (optional)</Label>
+            <Select value={stock} onValueChange={setStock}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {stocks.map(s => (
+                  <SelectItem key={s} value={s}>
+                    {s}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -167,30 +210,39 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
         </div>
       </CardHeader>
       <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis
-              dataKey="dteBin"
-              label={{ value: 'Days to Expiry', position: 'insideBottom', offset: -5 }}
-              className="text-sm"
-            />
-            <YAxis
-              label={{ value: 'Advantage (percentage points)', angle: -90, position: 'insideLeft' }}
-              className="text-sm"
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Bar dataKey="advantage" fill="hsl(var(--primary))" name="Advantage (pp)" radius={[4, 4, 0, 0]}>
-              {chartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={entry.advantage > 0 ? 'hsl(142, 76%, 36%)' : 'hsl(0, 72%, 51%)'}
+        {barChartData.length === 0 ? (
+          <div className="flex items-center justify-center h-96">
+            <p className="text-center text-destructive">No data available for this combination</p>
+          </div>
+        ) : (
+          <div>
+            <p className="text-sm font-semibold mb-4">{title}</p>
+            <ResponsiveContainer width="100%" height={400}>
+              <BarChart data={barChartData}>
+                <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                <XAxis
+                  dataKey="name"
+                  label={{ value: 'Days to Expiry (Calendar Days)', position: 'insideBottom', offset: -5 }}
+                  className="text-sm"
                 />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+                <YAxis
+                  label={{ value: 'Worthless Rate (%)', angle: -90, position: 'insideLeft' }}
+                  domain={[0, 100]}
+                  className="text-sm"
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend
+                  wrapperStyle={{ paddingTop: '20px' }}
+                  layout="horizontal"
+                  align="center"
+                  verticalAlign="bottom"
+                />
+                <Bar dataKey="Recovery Candidates" fill="#16a34a" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Baseline" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

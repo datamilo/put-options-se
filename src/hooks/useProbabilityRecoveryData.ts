@@ -2,12 +2,72 @@ import { useState, useCallback, useEffect } from 'react';
 import Papa from 'papaparse';
 import { ProbabilityRecoveryData, RecoveryScenario, RecoveryStockData } from '@/types/probabilityRecovery';
 
+interface ChartDataPoint {
+  recovery_candidate_n: number;
+  recovery_candidate_rate: number;
+  baseline_n: number;
+  baseline_rate: number | null;
+  advantage: number | null;
+}
+
+type ChartDataStructure = Record<string, Record<string, Record<string, Record<string, Record<string, ChartDataPoint>>>>>;
+
 export const useProbabilityRecoveryData = () => {
   const [data, setData] = useState<ProbabilityRecoveryData[]>([]);
   const [scenarios, setScenarios] = useState<RecoveryScenario[]>([]);
   const [stockData, setStockData] = useState<RecoveryStockData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [stocks, setStocks] = useState<string[]>([]);
+  const [chartData, setChartData] = useState<ChartDataStructure>({});
+  const [stockChartData, setStockChartData] = useState<ChartDataStructure>({});
+
+  // Build hierarchical chart data structure
+  const buildChartDataStructure = useCallback((rows: ProbabilityRecoveryData[]) => {
+    const aggregatedChart: ChartDataStructure = {};
+    const stockChart: ChartDataStructure = {};
+    const uniqueStocks = new Set<string>();
+
+    for (const row of rows) {
+      const threshold = row.HistoricalPeakThreshold.toString();
+      const method = row.ProbMethod;
+      const probBin = row.CurrentProb_Bin;
+      const dte = row.DTE_Bin;
+      const stock = row.Stock || '';
+
+      // Calculate rates from worthless rates
+      const recovery_candidate_rate = 1 - (row.RecoveryCandidate_WorthlessRate || 0);
+      const baseline_rate = row.Baseline_N > 0 && row.Baseline_WorthlessRate !== undefined
+        ? 1 - row.Baseline_WorthlessRate
+        : null;
+
+      const dataPoint: ChartDataPoint = {
+        recovery_candidate_n: row.RecoveryCandidate_N,
+        recovery_candidate_rate,
+        baseline_n: row.Baseline_N,
+        baseline_rate,
+        advantage: row.Advantage_pp
+      };
+
+      if (row.DataType === 'scenario' || stock === '') {
+        // Build aggregated data structure: threshold -> method -> probBin -> dte
+        if (!aggregatedChart[threshold]) aggregatedChart[threshold] = {};
+        if (!aggregatedChart[threshold][method]) aggregatedChart[threshold][method] = {};
+        if (!aggregatedChart[threshold][method][probBin]) aggregatedChart[threshold][method][probBin] = {};
+        aggregatedChart[threshold][method][probBin][dte] = dataPoint;
+      } else {
+        // Build stock data structure: threshold -> stock -> method -> probBin -> dte
+        if (!stockChart[threshold]) stockChart[threshold] = {};
+        if (!stockChart[threshold][stock]) stockChart[threshold][stock] = {};
+        if (!stockChart[threshold][stock][method]) stockChart[threshold][stock][method] = {};
+        if (!stockChart[threshold][stock][method][probBin]) stockChart[threshold][stock][method][probBin] = {};
+        stockChart[threshold][stock][method][probBin][dte] = dataPoint;
+        uniqueStocks.add(stock);
+      }
+    }
+
+    return { aggregatedChart, stockChart, uniqueStocks: Array.from(uniqueStocks).sort() };
+  }, []);
 
   const loadCSVFromGitHub = useCallback(async (filename: string) => {
     console.log('📥 Loading Recovery CSV:', filename);
@@ -91,6 +151,12 @@ export const useProbabilityRecoveryData = () => {
         setScenarios(scenarioData);
         setStockData(stockRecoveryData);
 
+        // Build chart data structures
+        const { aggregatedChart, stockChart, uniqueStocks } = buildChartDataStructure(parseResult);
+        setChartData(aggregatedChart);
+        setStockChartData(stockChart);
+        setStocks(['All Stocks', ...uniqueStocks]);
+
         setIsLoading(false);
         return parseResult;
 
@@ -107,7 +173,7 @@ export const useProbabilityRecoveryData = () => {
     setError(errorMessage);
     setIsLoading(false);
     throw lastError;
-  }, []);
+  }, [buildChartDataStructure]);
 
   useEffect(() => {
     loadCSVFromGitHub('recovery_report_data.csv').catch(err => {
@@ -121,6 +187,9 @@ export const useProbabilityRecoveryData = () => {
     stockData,
     isLoading,
     error,
+    stocks,
+    chartData,
+    stockChartData,
     reload: () => loadCSVFromGitHub('recovery_report_data.csv')
   };
 };

@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2 } from 'lucide-react';
 
 export const ProbabilityRecoveryAnalysis: React.FC = () => {
-  const { scenarios, isLoading, error } = useProbabilityRecoveryData();
+  const { scenarios, isLoading, error, stocks, chartData, stockChartData } = useProbabilityRecoveryData();
 
   const metrics = useMemo(() => {
     if (scenarios.length === 0) {
@@ -121,7 +121,7 @@ export const ProbabilityRecoveryAnalysis: React.FC = () => {
       {/* Interactive Analysis */}
       <div>
         <h2 className="text-2xl font-bold mb-4">Interactive Analysis</h2>
-        <RecoveryComparisonChart scenarios={scenarios} />
+        <RecoveryComparisonChart stocks={stocks} chartData={chartData} stockChartData={stockChartData} />
       </div>
 
       {/* Top Scenarios */}
