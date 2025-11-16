@@ -113,19 +113,32 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
     if (!active || !payload || !payload.length) return null;
 
     const data = payload[0].payload;
-    const entry = payload[0];
 
     return (
       <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
         <p className="font-semibold mb-2">{data.name} days</p>
-        <p className="text-sm mb-2">
-          Worthless Rate: {entry.value.toFixed(1)}%
-        </p>
-        <p className="text-sm opacity-70">
-          {entry.name === 'Recovery Candidates'
-            ? `${entry.value.toFixed(1)}% (${data.recovery_candidate_n.toLocaleString()})`
-            : `${entry.value.toFixed(1)}% (${data.baseline_n.toLocaleString()})`}
-        </p>
+
+        {payload.map((entry: any, index: number) => (
+          <div key={index}>
+            <p className="text-sm mb-1">
+              <span style={{ color: entry.color }} className="font-medium">{entry.name}:</span>
+            </p>
+            {entry.value !== null ? (
+              <>
+                <p className="text-sm opacity-90 ml-2">
+                  Worthless Rate: {entry.value.toFixed(1)}%
+                </p>
+                <p className="text-sm opacity-70 ml-2">
+                  {entry.name === 'Recovery Candidates'
+                    ? `${entry.value.toFixed(1)}% (${data.recovery_candidate_n.toLocaleString()})`
+                    : `${entry.value.toFixed(1)}% (${data.baseline_n.toLocaleString()})`}
+                </p>
+              </>
+            ) : (
+              <p className="text-sm opacity-70 ml-2">No data</p>
+            )}
+          </div>
+        ))}
       </div>
     );
   };
