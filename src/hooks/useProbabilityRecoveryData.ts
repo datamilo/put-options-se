@@ -16,7 +16,6 @@ export const useProbabilityRecoveryData = () => {
 
     const urls = [
       `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}?${Date.now()}`,
-      `https://raw.githubusercontent.com/datamilo/put-options-se/main/public/data/${filename}?${Date.now()}`,
       `${window.location.origin}${import.meta.env.BASE_URL}data/${filename}?${Date.now()}`
     ];
 

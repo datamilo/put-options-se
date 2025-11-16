@@ -78,8 +78,6 @@ npm run build
 npm run preview
 ```
 
-Note: The build process automatically runs `scripts/prebuild.js` to copy data files from `/data` to `/public/data`.
-
 ## Project Structure
 
 ```
@@ -92,12 +90,8 @@ put-options-se-1/
 │   ├── contexts/           # React context providers
 │   ├── auth/               # Authentication components
 │   └── lib/                # Utility functions
-├── data/                   # Source CSV data files (tracked in git)
-├── public/
-│   ├── data/               # Generated CSV files (copied at build time)
-│   └── ...
-├── scripts/
-│   └── prebuild.js         # Data file synchronization script
+├── data/                   # CSV data files (tracked in git)
+├── public/                 # Static assets
 └── package.json
 ```
 
@@ -113,13 +107,14 @@ put-options-se-1/
 
 ## Data
 
-The application uses static CSV data files:
+The application uses static CSV data files stored in `/data/`:
 
-- **Stock Data** (`/data/stock_data.csv`): OHLC prices with format `date|name|open|high|low|close|volume|pct_change_close`
-- **Options Data** (`/data/data.csv`): Put options with symbol, strike, expiry, prices, and metrics
-- **Other Data**: Monthly, volatility, and probability data in CSV format
+- **Stock Data** (`stock_data.csv`): OHLC prices with format `date|name|open|high|low|close|volume|pct_change_close`
+- **Options Data** (`data.csv`): Put options with symbol, strike, expiry, prices, and metrics
+- **Probability Data** (`recovery_report_data.csv`, `validation_report_data.csv`): Probability analysis data
+- **Other Data**: Monthly, volatility, and historical probability data in CSV format
 
-All data files are stored in `/data/` (source of truth) and automatically synchronized to `/public/data/` during build via `scripts/prebuild.js`.
+Data is loaded directly from GitHub's `/data/` folder via raw.githubusercontent.com URLs.
 
 ## Development
 

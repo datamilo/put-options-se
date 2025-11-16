@@ -293,7 +293,7 @@ The Support Level Analysis dashboard analyzes how well a stock's low is holding 
 - **Row Level Security** for user data isolation
 
 ## Data Sources
-- Static CSV files in `/data` and `/public/data`
+- Static CSV files in `/data` (tracked in git)
 - Python scripts for data generation (`portfolio_generator.py`)
 - Automated data updates with timestamps
 
@@ -413,17 +413,18 @@ EOF
   - `/stock` - Stock charts and details
   - `/monthly` - Monthly analysis visualizations
   - `/volatility` - Volatility analysis components
-  - `/support-levels` - Support Level Analysis components (if needed in future)
-- `/src/pages` - Route components (includes ConsecutiveBreaksAnalysis.tsx for Support Level Analysis)
-- `/src/types` - TypeScript interfaces (includes consecutiveBreaks.ts for Support Level Analysis types)
+  - `/probability` - Probability analysis components (recovery & validation)
+- `/src/pages` - Route components
+- `/src/types` - TypeScript interfaces
 - `/src/contexts` - React context providers (SettingsContext, AuthProvider)
 - `/src/auth` - Authentication components and protected routes
-- `/data` - Static CSV data files (source files)
-  - `stock_data.csv` - Used by Support Level Analysis (OHLC format)
-  - Other CSV files for options, volatility, and monthly data
-- `/public/data` - Public CSV data files (deployed files, copied from `/data` at build time)
+- `/data` - Static CSV data files (source of truth, tracked in git)
+  - `stock_data.csv` - OHLC format stock data
+  - `data.csv` - Options data
+  - `recovery_report_data.csv` - Probability recovery analysis data
+  - `validation_report_data.csv` - Probability validation data
+  - Other CSV files for volatility, monthly, and historical data
 - `/src/components/ui` - shadcn/ui component library
-- `/scripts` - Build and deployment scripts
 
 ### Design System
 - Custom HSL color tokens in `index.css`
@@ -442,7 +443,7 @@ EOF
 6. **Components** → Consume enriched data for display
 
 ### Stock Data Pipeline (OHLC)
-1. **CSV Source** → GitHub raw CSV or local `/public/data/stock_data.csv`
+1. **CSV Source** → GitHub raw CSV from `/data/stock_data.csv`
 2. **Format** → Pipe-delimited: `date|name|open|high|low|close|volume|pct_change_close`
 3. **useStockData Hook** → Parses all OHLC fields as numeric values
 4. **Price Calculations**:
@@ -570,7 +571,7 @@ The Stock Details page calculates percentage changes for different time periods 
 - **Primary**: Lovable.dev hosting
 - **GitHub Pages**: Alternative deployment with basename handling
 - **Environment Detection**: Automatic hostname-based configuration
-- **Build Scripts**: Prebuild script copies data files from `/data` to `/public/data`
+- **Data Loading**: CSV files loaded directly from GitHub's `/data/` folder via raw.githubusercontent.com URLs
 
 ## Supabase Database Schema
 
