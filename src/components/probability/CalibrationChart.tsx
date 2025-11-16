@@ -20,14 +20,16 @@ import { CalibrationPoint } from '@/types/probabilityValidation';
 interface CalibrationChartProps {
   calibrationPoints: CalibrationPoint[];
   availableStocks?: string[];
+  getCalibrationPoints?: (filterType: 'aggregated' | 'by_stock', filterValue?: string) => CalibrationPoint[];
 }
 
 export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   calibrationPoints,
-  availableStocks = []
+  availableStocks = [],
+  getCalibrationPoints: getCalibrationPointsFn
 }) => {
   const [filterType, setFilterType] = useState<'all' | 'stock'>('all');
-  const [selectedStock, setSelectedStock] = useState<string>('');
+  const [selectedStock, setSelectedStock] = useState<string>(availableStocks.length > 0 ? availableStocks[0] : '');
 
   const COLORS: Record<string, string> = {
     'Weighted Average': '#1f77b4',
@@ -41,9 +43,14 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const chartData = useMemo(() => {
     let filtered = calibrationPoints;
 
-    if (filterType === 'stock' && selectedStock) {
-      // This filtering would need to be done in the parent component
-      // For now, we'll show all aggregated data
+    // If user selects "By Stock" and a specific stock, get stock-specific data
+    if (filterType === 'stock' && selectedStock && getCalibrationPointsFn) {
+      filtered = getCalibrationPointsFn('by_stock', selectedStock);
+    }
+    // If showing all, use aggregated data
+    else if (filterType === 'all') {
+      // calibrationPoints should already be aggregated from the parent
+      filtered = calibrationPoints;
     }
 
     // Group by method
@@ -66,7 +73,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     });
 
     return grouped;
-  }, [calibrationPoints, filterType, selectedStock]);
+  }, [calibrationPoints, filterType, selectedStock, getCalibrationPointsFn]);
 
   // Prepare perfect calibration line
   const perfectLine = [

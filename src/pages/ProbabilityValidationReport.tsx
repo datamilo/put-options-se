@@ -158,6 +158,7 @@ export const ProbabilityValidationReport: React.FC = () => {
         <CalibrationChart
           calibrationPoints={calibrationPoints}
           availableStocks={availableStocks}
+          getCalibrationPoints={getCalibrationPoints}
         />
       </div>
 
