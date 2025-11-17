@@ -218,7 +218,10 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             </div>
             <div>
               <Label>Days to Expiry</Label>
-              <Select value={selectedDTE} onValueChange={setSelectedDTE}>
+              <Select value={selectedDTE} onValueChange={(val) => {
+                console.log('🔄 DTE changed:', selectedDTE, '→', val);
+                setSelectedDTE(val);
+              }}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select DTE" />
                 </SelectTrigger>
