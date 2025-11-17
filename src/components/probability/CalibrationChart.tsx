@@ -45,23 +45,15 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const chartData = useMemo(() => {
     let filtered: CalibrationPoint[] = [];
 
-    console.log('=== CalibrationChart chartData memo ===');
-    console.log('selectedDTE:', selectedDTE);
-    console.log('selectedStock:', selectedStock);
-    console.log('calibrationPoints.length:', calibrationPoints.length);
-
     // When DTE is selected and not "All DTE", we need calibration_by_stock_and_dte data
     if (selectedDTE !== 'All DTE') {
-      console.log('Branch: DTE specific (not All DTE)');
       // Get all by_stock_and_dte records for this DTE
       const dteRecords = calibrationPoints.filter(p => {
         const point = p as any;
         return point.DataType === 'calibration_by_stock_and_dte' && point.DTE_Bin === selectedDTE;
       });
-      console.log('dteRecords.length:', dteRecords.length);
 
       if (selectedStock === 'All Stocks') {
-        console.log('Branch: All Stocks - AGGREGATING');
         // Aggregate across all stocks for this DTE
         // Group by method and predicted probability, sum counts, calculate weighted average
         const aggregated: Record<string, any> = {};
@@ -86,8 +78,6 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
           aggregated[key].totalActualCount += count * (p.actual || 0);
         });
 
-        console.log('aggregated keys:', Object.keys(aggregated).length);
-
         // Convert to CalibrationPoint format with weighted average actual rate
         filtered = Object.values(aggregated).map((item: any) => ({
           predicted: item.predicted,
@@ -95,35 +85,28 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
           count: item.totalCount,
           method: item.method
         }));
-        console.log('filtered.length after aggregation:', filtered.length);
       } else {
-        console.log('Branch: Specific stock - NO AGGREGATION');
         // For specific stock, just filter by stock (no aggregation needed)
         filtered = dteRecords.filter(p => {
           const point = p as any;
           return point.Stock === selectedStock;
         });
-        console.log('filtered.length:', filtered.length);
       }
     } else {
-      console.log('Branch: All DTE');
       // When DTE is "All DTE", show aggregated or by-stock data
       if (selectedStock !== 'All Stocks') {
-        console.log('Branch: All DTE + Specific Stock');
         // For specific stock, use by_stock data (no DTE filtering)
         filtered = calibrationPoints.filter(p => {
           const point = p as any;
           return point.Stock === selectedStock && point.DataType === 'calibration_by_stock';
         });
       } else {
-        console.log('Branch: All DTE + All Stocks');
         // For All Stocks, use aggregated data (no stock or DTE filtering)
         filtered = calibrationPoints.filter(p => {
           const point = p as any;
           return point.DataType === 'calibration_aggregated';
         });
       }
-      console.log('filtered.length:', filtered.length);
     }
 
     // Group by method
@@ -144,13 +127,6 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     Object.keys(grouped).forEach(method => {
       grouped[method].sort((a, b) => a.predicted - b.predicted);
     });
-
-    console.log('Final grouped object keys:', Object.keys(grouped));
-    Object.entries(grouped).forEach(([method, points]) => {
-      console.log(`  ${method}: ${points.length} points`);
-    });
-    const totalPoints = Object.values(grouped).reduce((sum, arr) => sum + (arr as any).length, 0);
-    console.log('Total chart points:', totalPoints);
 
     return grouped;
   }, [calibrationPoints, selectedStock, selectedDTE, getCalibrationPointsFn]);
