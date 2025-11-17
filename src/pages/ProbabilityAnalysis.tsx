@@ -66,7 +66,6 @@ export const ProbabilityAnalysis: React.FC = () => {
                 <LineChart className="h-6 w-6 text-blue-600" />
                 <div>
                   <h1 className="text-2xl font-bold">Probability Analysis</h1>
-                  <p className="text-xs text-muted-foreground">Data-driven validation of probability methods</p>
                 </div>
               </div>
             </div>
@@ -78,9 +77,7 @@ export const ProbabilityAnalysis: React.FC = () => {
       {/* Main Content */}
       <div className="flex-1 container mx-auto p-6 space-y-6">
         {/* Executive Overview - Two Column Layout */}
-        <div className="space-y-3">
-          <h2 className="text-lg font-semibold">What You'll Learn</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Calibration Analysis Overview */}
             <Card className="border-blue-500/20 bg-blue-500/5">
               <CardContent className="pt-6 space-y-3">
@@ -106,7 +103,6 @@ export const ProbabilityAnalysis: React.FC = () => {
                 </p>
               </CardContent>
             </Card>
-          </div>
         </div>
 
         {/* Calibration Analysis Section */}
