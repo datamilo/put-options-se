@@ -129,17 +129,6 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       grouped[method].sort((a, b) => a.predicted - b.predicted);
     });
 
-    // DEBUG: Log what will be rendered
-    if (selectedDTE !== 'All DTE' && selectedStock === 'All Stocks') {
-      console.log(`📊 RENDERING FOR DTE="${selectedDTE}" + All Stocks:`);
-      let totalPointsInChart = 0;
-      Object.entries(grouped).forEach(([method, points]) => {
-        console.log(`  ${method}: ${points.length} points`);
-        totalPointsInChart += points.length;
-      });
-      console.log(`  TOTAL: ${totalPointsInChart} points to render`);
-    }
-
     return grouped;
   }, [calibrationPoints, selectedStock, selectedDTE, getCalibrationPointsFn]);
 

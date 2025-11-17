@@ -16,23 +16,17 @@ export const ProbabilityAnalysis: React.FC = () => {
   const error = recoveryError || validationError;
 
   const calibrationPoints = useMemo(() => {
-    // Return all calibration data (aggregated, by_stock, and by_stock_and_dte)
-    // This allows CalibrationChart to filter by DTE while still supporting "All DTE" aggregated view
-    return calibrationData
-      .filter(d =>
-        d.DataType === 'calibration_aggregated' ||
-        d.DataType === 'calibration_by_stock' ||
-        d.DataType === 'calibration_by_stock_and_dte'
-      )
-      .map(d => ({
-        predicted: d.PredictedProb,
-        actual: d.ActualRate,
-        count: d.Count,
-        method: d.ProbMethod,
-        DTE_Bin: d.DTE_Bin,
-        Stock: d.Stock,
-        DataType: d.DataType
-      }));
+    // Separate data by type for CalibrationChart to use
+    // CalibrationChart will select the appropriate data based on DTE and Stock filters
+    return calibrationData.map(d => ({
+      predicted: d.PredictedProb,
+      actual: d.ActualRate,
+      count: d.Count,
+      method: d.ProbMethod,
+      DTE_Bin: d.DTE_Bin,
+      Stock: d.Stock,
+      DataType: d.DataType
+    }));
   }, [calibrationData]);
 
   // Get unique stocks for calibration chart filter
