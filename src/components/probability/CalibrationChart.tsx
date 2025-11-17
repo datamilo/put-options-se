@@ -32,11 +32,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
 
   const COLORS: Record<string, string> = {
-    'Weighted Average': '#1f77b4',
-    'Bayesian Calibrated': '#2ca02c',
-    'Original Black-Scholes': '#ff7f0e',
-    'Bias Corrected': '#d62728',
-    'Historical IV': '#9467bd'
+    'Weighted Average': '#3b82f6',
+    'Bayesian Calibrated': '#10b981',
+    'Original Black-Scholes': '#f59e0b',
+    'Bias Corrected': '#ef4444',
+    'Historical IV': '#8b5cf6'
   };
 
   // Filter and group data by method
@@ -207,8 +207,8 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
           </div>
         ) : (
-        <ResponsiveContainer width="100%" height={500}>
-          <LineChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+        <ResponsiveContainer width="100%" height={550}>
+          <LineChart margin={{ top: 20, right: 20, bottom: 80, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
               type="number"
@@ -227,7 +227,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               className="text-sm"
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend />
+            <Legend verticalAlign="bottom" height={36} />
 
             {/* Perfect calibration reference line */}
             <Line
