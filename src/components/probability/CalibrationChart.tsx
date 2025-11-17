@@ -207,15 +207,15 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
           </div>
         ) : (
-        <ResponsiveContainer width="100%" height={600}>
-          <LineChart margin={{ top: 20, right: 20, bottom: 120, left: 20 }}>
+        <ResponsiveContainer width="100%" height={700}>
+          <LineChart margin={{ top: 20, right: 20, bottom: 150, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
               type="number"
               dataKey="predicted"
               domain={[0, 1]}
               tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
-              label={{ value: 'Predicted Probability', position: 'insideBottom', offset: -10 }}
+              label={{ value: 'Predicted Probability', position: 'bottom', offset: 10 }}
               className="text-sm"
             />
             <YAxis
