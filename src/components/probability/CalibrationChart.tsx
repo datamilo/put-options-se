@@ -56,32 +56,34 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
       if (selectedStock === 'All Stocks') {
         // Aggregate across all stocks for this DTE
-        // Group by method and predicted probability, sum counts, calculate weighted average
+        // Group by method and BIN (not exact predicted probability), sum counts, calculate weighted average
         const aggregated: Record<string, any> = {};
 
         dteRecords.forEach(point => {
           const p = point as any;
-          // Create unique key combining method and predicted probability
-          const key = `${p.method}|${p.predicted}`;
+          // Create unique key combining method and BIN
+          const key = `${p.method}|${p.Bin}`;
 
           if (!aggregated[key]) {
             aggregated[key] = {
               method: p.method,
-              predicted: p.predicted,
+              Bin: p.Bin,
               totalCount: 0,
-              totalActualCount: 0
+              totalActualCount: 0,
+              totalPredictedCount: 0
             };
           }
 
-          // Sum counts and accumulate weighted actual rate
+          // Sum counts and accumulate weighted actual rate and predicted rate
           const count = p.count || 0;
           aggregated[key].totalCount += count;
           aggregated[key].totalActualCount += count * (p.actual || 0);
+          aggregated[key].totalPredictedCount += count * (p.predicted || 0);
         });
 
-        // Convert to CalibrationPoint format with weighted average actual rate
+        // Convert to CalibrationPoint format with weighted average actual rate and predicted rate
         filtered = Object.values(aggregated).map((item: any) => ({
-          predicted: item.predicted,
+          predicted: item.totalCount > 0 ? item.totalPredictedCount / item.totalCount : 0,
           actual: item.totalCount > 0 ? item.totalActualCount / item.totalCount : 0,
           count: item.totalCount,
           method: item.method

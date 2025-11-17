@@ -36,6 +36,8 @@ export interface CalibrationPoint {
   actual: number;
   count: number;
   method: string;
+  Bin?: string;
   DTE_Bin?: string;
   Stock?: string;
+  DataType?: string;
 }

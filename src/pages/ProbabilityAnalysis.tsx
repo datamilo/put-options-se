@@ -23,6 +23,7 @@ export const ProbabilityAnalysis: React.FC = () => {
       actual: d.ActualRate,
       count: d.Count,
       method: d.ProbMethod,
+      Bin: d.Bin,
       DTE_Bin: d.DTE_Bin,
       Stock: d.Stock,
       DataType: d.DataType
