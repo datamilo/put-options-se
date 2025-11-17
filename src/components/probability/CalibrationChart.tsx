@@ -102,15 +102,17 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             <Label>Stock</Label>
             <Select value={selectedStock} onValueChange={setSelectedStock}>
               <SelectTrigger>
-                <SelectValue />
+                <SelectValue placeholder="Select a stock" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="All Stocks">All Stocks</SelectItem>
-                {availableStocks.map(stock => (
-                  <SelectItem key={stock} value={stock}>
-                    {stock}
-                  </SelectItem>
-                ))}
+                {availableStocks
+                  .filter(stock => stock !== 'All Stocks')
+                  .map(stock => (
+                    <SelectItem key={stock} value={stock}>
+                      {stock}
+                    </SelectItem>
+                  ))}
               </SelectContent>
             </Select>
           </div>
