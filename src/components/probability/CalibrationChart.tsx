@@ -29,6 +29,9 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   getCalibrationPoints: getCalibrationPointsFn
 }) => {
   const [selectedStock, setSelectedStock] = useState<string>('All Stocks');
+  const [selectedDTE, setSelectedDTE] = useState<string>('All DTE');
+
+  const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
 
   const COLORS: Record<string, string> = {
     'Weighted Average': '#1f77b4',
@@ -51,6 +54,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       filtered = calibrationPoints;
     }
 
+    // Filter by DTE bin if not "All DTE"
+    if (selectedDTE !== 'All DTE') {
+      filtered = filtered.filter(point => (point as any).DTE_Bin === selectedDTE);
+    }
+
     // Group by method
     const grouped: Record<string, Array<{ predicted: number; actual: number; count: number }>> = {};
 
@@ -71,7 +79,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     });
 
     return grouped;
-  }, [calibrationPoints, selectedStock, getCalibrationPointsFn]);
+  }, [calibrationPoints, selectedStock, selectedDTE, getCalibrationPointsFn]);
 
   // Prepare perfect calibration line
   const perfectLine = [
@@ -98,23 +106,40 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       <CardHeader>
         <CardTitle>Calibration Analysis</CardTitle>
         {availableStocks.length > 0 && (
-          <div className="mt-4 max-w-xs">
-            <Label>Stock</Label>
-            <Select value={selectedStock} onValueChange={setSelectedStock}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a stock" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="All Stocks">All Stocks</SelectItem>
-                {availableStocks
-                  .filter(stock => stock !== 'All Stocks')
-                  .map(stock => (
-                    <SelectItem key={stock} value={stock}>
-                      {stock}
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+            <div>
+              <Label>Stock</Label>
+              <Select value={selectedStock} onValueChange={setSelectedStock}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a stock" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="All Stocks">All Stocks</SelectItem>
+                  {availableStocks
+                    .filter(stock => stock !== 'All Stocks')
+                    .map(stock => (
+                      <SelectItem key={stock} value={stock}>
+                        {stock}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Days to Expiry</Label>
+              <Select value={selectedDTE} onValueChange={setSelectedDTE}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select DTE" />
+                </SelectTrigger>
+                <SelectContent>
+                  {DTE_BINS.map(dte => (
+                    <SelectItem key={dte} value={dte}>
+                      {dte}
                     </SelectItem>
                   ))}
-              </SelectContent>
-            </Select>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         )}
       </CardHeader>
