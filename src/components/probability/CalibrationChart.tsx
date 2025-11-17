@@ -47,22 +47,51 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
     // When DTE is selected and not "All DTE", we need calibration_by_stock_and_dte data
     if (selectedDTE !== 'All DTE') {
-      // Filter for DTE-specific data (only calibration_by_stock_and_dte has DTE_Bin values)
-      filtered = calibrationPoints.filter(point => {
-        const p = point as any;
-        // Check if this record has a DTE_Bin (only by_stock_and_dte records do)
-        if (p.DTE_Bin === selectedDTE && p.DataType === 'calibration_by_stock_and_dte') {
-          // Check stock filter
-          if (selectedStock === 'All Stocks') {
-            // For All Stocks with specific DTE, show all stocks in that DTE bin
-            return true;
-          } else {
-            // For specific stock, check both stock and DTE
-            return p.Stock === selectedStock;
-          }
-        }
-        return false;
+      // Get all by_stock_and_dte records for this DTE
+      const dteRecords = calibrationPoints.filter(p => {
+        const point = p as any;
+        return point.DataType === 'calibration_by_stock_and_dte' && point.DTE_Bin === selectedDTE;
       });
+
+      if (selectedStock === 'All Stocks') {
+        // Aggregate across all stocks for this DTE
+        // Group by method and predicted probability, sum counts, calculate weighted average
+        const aggregated: Record<string, any> = {};
+
+        dteRecords.forEach(point => {
+          const p = point as any;
+          // Create unique key combining method and predicted probability
+          const key = `${p.method}|${p.predicted}`;
+
+          if (!aggregated[key]) {
+            aggregated[key] = {
+              method: p.method,
+              predicted: p.predicted,
+              totalCount: 0,
+              totalActualCount: 0
+            };
+          }
+
+          // Sum counts and accumulate weighted actual rate
+          const count = p.count || 0;
+          aggregated[key].totalCount += count;
+          aggregated[key].totalActualCount += count * (p.actual || 0);
+        });
+
+        // Convert to CalibrationPoint format with weighted average actual rate
+        filtered = Object.values(aggregated).map((item: any) => ({
+          predicted: item.predicted,
+          actual: item.totalCount > 0 ? item.totalActualCount / item.totalCount : 0,
+          count: item.totalCount,
+          method: item.method
+        }));
+      } else {
+        // For specific stock, just filter by stock (no aggregation needed)
+        filtered = dteRecords.filter(p => {
+          const point = p as any;
+          return point.Stock === selectedStock;
+        });
+      }
     } else {
       // When DTE is "All DTE", show aggregated or by-stock data
       if (selectedStock !== 'All Stocks') {
