@@ -109,10 +109,18 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       }
     }
 
+    // Calculate 25th percentile of counts to filter out low-sample outliers
+    const counts = filtered.map(p => p.count).sort((a, b) => a - b);
+    const percentile25Index = Math.floor(counts.length * 0.25);
+    const countThreshold = counts.length > 0 ? counts[percentile25Index] : 0;
+
+    // Filter out points with count below 25th percentile
+    const filteredByCount = filtered.filter(p => p.count >= countThreshold);
+
     // Group by method
     const grouped: Record<string, Array<{ predicted: number; actual: number; count: number }>> = {};
 
-    filtered.forEach(point => {
+    filteredByCount.forEach(point => {
       if (!grouped[point.method]) {
         grouped[point.method] = [];
       }
