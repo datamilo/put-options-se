@@ -47,33 +47,36 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
     // When DTE is selected and not "All DTE", we need calibration_by_stock_and_dte data
     if (selectedDTE !== 'All DTE') {
-      // For DTE-specific filtering, we need to get the by_stock_and_dte data
-      if (getCalibrationPointsFn) {
-        // Use a special filter type for by_stock_and_dte data
-        // Since getCalibrationPointsFn might not support this, we'll filter from calibrationPoints
-        filtered = calibrationPoints.filter(point => {
-          const p = point as any;
-          // Check if this is DTE-filtered data (has DTE_Bin column)
-          if (p.DTE_Bin === selectedDTE) {
-            // Check stock filter
-            if (selectedStock === 'All Stocks') {
-              // For All Stocks, we'd need aggregated DTE data, but it might not exist
-              // Fall back to showing all stocks with this DTE
-              return true;
-            } else {
-              // For specific stock, check both stock and DTE
-              return p.Stock === selectedStock;
-            }
+      // Filter for DTE-specific data (only calibration_by_stock_and_dte has DTE_Bin values)
+      filtered = calibrationPoints.filter(point => {
+        const p = point as any;
+        // Check if this record has a DTE_Bin (only by_stock_and_dte records do)
+        if (p.DTE_Bin === selectedDTE && p.DataType === 'calibration_by_stock_and_dte') {
+          // Check stock filter
+          if (selectedStock === 'All Stocks') {
+            // For All Stocks with specific DTE, show all stocks in that DTE bin
+            return true;
+          } else {
+            // For specific stock, check both stock and DTE
+            return p.Stock === selectedStock;
           }
-          return false;
-        });
-      }
+        }
+        return false;
+      });
     } else {
-      // When DTE is "All DTE", use the original logic
-      if (selectedStock !== 'All Stocks' && getCalibrationPointsFn) {
-        filtered = getCalibrationPointsFn('by_stock', selectedStock);
+      // When DTE is "All DTE", show aggregated or by-stock data
+      if (selectedStock !== 'All Stocks') {
+        // For specific stock, use by_stock data (no DTE filtering)
+        filtered = calibrationPoints.filter(p => {
+          const point = p as any;
+          return point.Stock === selectedStock && point.DataType === 'calibration_by_stock';
+        });
       } else {
-        filtered = calibrationPoints;
+        // For All Stocks, use aggregated data (no stock or DTE filtering)
+        filtered = calibrationPoints.filter(p => {
+          const point = p as any;
+          return point.DataType === 'calibration_aggregated';
+        });
       }
     }
 
