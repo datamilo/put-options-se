@@ -7,10 +7,7 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
-  Scatter,
-  ScatterChart,
-  ZAxis
+  ResponsiveContainer
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -203,7 +200,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={500}>
-          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+          <LineChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
               type="number"
@@ -221,16 +218,18 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               label={{ value: 'Actual Rate', angle: -90, position: 'insideLeft' }}
               className="text-sm"
             />
-            <ZAxis type="number" dataKey="count" range={[50, 400]} />
             <Tooltip content={<CustomTooltip />} />
             <Legend />
 
             {/* Perfect calibration reference line */}
-            <Scatter
+            <Line
               data={perfectLine}
-              fill="black"
-              line={{ stroke: 'black', strokeWidth: 2, strokeDasharray: '5 5' }}
-              shape="circle"
+              type="monotone"
+              dataKey="actual"
+              stroke="black"
+              strokeWidth={2}
+              strokeDasharray="5 5"
+              dot={false}
               isAnimationActive={false}
               name="Perfect Calibration"
             />
@@ -242,22 +241,25 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
                 return null;
               }
               return (
-                <Scatter
+                <Line
                   key={method}
                   data={points}
-                  fill={COLORS[method] || '#999'}
-                  shape="circle"
+                  type="monotone"
+                  dataKey="actual"
+                  stroke={COLORS[method] || '#999'}
+                  strokeWidth={2}
+                  dot={{ fill: COLORS[method] || '#999', r: 4 }}
                   name={method}
                 />
               );
             })}
-          </ScatterChart>
+          </LineChart>
         </ResponsiveContainer>
         )}
         <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
           <p className="text-sm text-blue-800 dark:text-blue-300">
-            <strong>Interpretation:</strong> Points closer to the diagonal line indicate better calibration.
-            Larger circles represent more data points at that probability level.
+            <strong>Interpretation:</strong> Lines closer to the diagonal indicate better calibration.
+            Each dot represents a probability bin showing predicted vs actual rates.
           </p>
         </div>
       </CardContent>
