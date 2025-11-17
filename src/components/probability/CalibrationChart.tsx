@@ -207,8 +207,8 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
           </div>
         ) : (
-        <ResponsiveContainer width="100%" height={550}>
-          <LineChart margin={{ top: 20, right: 20, bottom: 80, left: 20 }}>
+        <ResponsiveContainer width="100%" height={600}>
+          <LineChart margin={{ top: 20, right: 20, bottom: 120, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
               type="number"
