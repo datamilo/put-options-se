@@ -31,6 +31,26 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const [selectedStock, setSelectedStock] = useState<string>('All Stocks');
   const [selectedDTE, setSelectedDTE] = useState<string>('All DTE');
 
+  // DEBUG: Log incoming calibrationPoints to verify it has DTE_Bin and Stock fields
+  React.useEffect(() => {
+    console.log('🔍 CalibrationChart received calibrationPoints:');
+    console.log('  Total points:', calibrationPoints.length);
+    const sample = calibrationPoints[0];
+    if (sample) {
+      console.log('  Sample point keys:', Object.keys(sample));
+      console.log('  Has DTE_Bin field?', 'DTE_Bin' in sample);
+      console.log('  Has Stock field?', 'Stock' in sample);
+      console.log('  Has DataType field?', 'DataType' in sample);
+    }
+    // Count by DataType
+    const byType = {};
+    calibrationPoints.forEach(p => {
+      const dt = (p as any).DataType || 'undefined';
+      byType[dt] = (byType[dt] || 0) + 1;
+    });
+    console.log('  By DataType:', byType);
+  }, [calibrationPoints]);
+
   const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
 
   const COLORS: Record<string, string> = {
