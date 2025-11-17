@@ -28,8 +28,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   availableStocks = [],
   getCalibrationPoints: getCalibrationPointsFn
 }) => {
-  const [filterType, setFilterType] = useState<'all' | 'stock'>('all');
-  const [selectedStock, setSelectedStock] = useState<string>(availableStocks.length > 0 ? availableStocks[0] : '');
+  const [selectedStock, setSelectedStock] = useState<string>('All Stocks');
 
   const COLORS: Record<string, string> = {
     'Weighted Average': '#1f77b4',
@@ -43,13 +42,12 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const chartData = useMemo(() => {
     let filtered = calibrationPoints;
 
-    // If user selects "By Stock" and a specific stock, get stock-specific data
-    if (filterType === 'stock' && selectedStock && getCalibrationPointsFn) {
+    // If a specific stock is selected (not "All Stocks"), get stock-specific data
+    if (selectedStock !== 'All Stocks' && getCalibrationPointsFn) {
       filtered = getCalibrationPointsFn('by_stock', selectedStock);
     }
-    // If showing all, use aggregated data
-    else if (filterType === 'all') {
-      // calibrationPoints should already be aggregated from the parent
+    // If "All Stocks" is selected, use aggregated data
+    else {
       filtered = calibrationPoints;
     }
 
@@ -73,7 +71,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     });
 
     return grouped;
-  }, [calibrationPoints, filterType, selectedStock, getCalibrationPointsFn]);
+  }, [calibrationPoints, selectedStock, getCalibrationPointsFn]);
 
   // Prepare perfect calibration line
   const perfectLine = [
@@ -100,36 +98,21 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       <CardHeader>
         <CardTitle>Calibration Analysis</CardTitle>
         {availableStocks.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <div>
-              <Label>View</Label>
-              <Select value={filterType} onValueChange={(v) => setFilterType(v as 'all' | 'stock')}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Stocks (Aggregated)</SelectItem>
-                  <SelectItem value="stock">By Stock</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            {filterType === 'stock' && (
-              <div>
-                <Label>Stock</Label>
-                <Select value={selectedStock} onValueChange={setSelectedStock}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a stock" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableStocks.map(stock => (
-                      <SelectItem key={stock} value={stock}>
-                        {stock}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+          <div className="mt-4 max-w-xs">
+            <Label>Stock</Label>
+            <Select value={selectedStock} onValueChange={setSelectedStock}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="All Stocks">All Stocks</SelectItem>
+                {availableStocks.map(stock => (
+                  <SelectItem key={stock} value={stock}>
+                    {stock}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         )}
       </CardHeader>
