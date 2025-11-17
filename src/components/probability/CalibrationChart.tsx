@@ -162,6 +162,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
         )}
       </CardHeader>
       <CardContent>
+        {Object.keys(chartData).length === 0 || Object.values(chartData).every((points: any) => !points || points.length === 0) ? (
+          <div className="flex items-center justify-center h-96 bg-muted/30 rounded-lg">
+            <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
+          </div>
+        ) : (
         <ResponsiveContainer width="100%" height={500}>
           <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
@@ -196,18 +201,25 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             />
 
             {/* Method calibration curves */}
-            {Object.entries(chartData).map(([method, points]) => (
-              <Scatter
-                key={method}
-                data={points}
-                fill={COLORS[method] || '#999'}
-                line={{ stroke: COLORS[method] || '#999', strokeWidth: 2 }}
-                shape="circle"
-                name={method}
-              />
-            ))}
+            {Object.entries(chartData).map(([method, points]) => {
+              // Only render if method has data points
+              if (!points || points.length === 0) {
+                return null;
+              }
+              return (
+                <Scatter
+                  key={method}
+                  data={points}
+                  fill={COLORS[method] || '#999'}
+                  line={{ stroke: COLORS[method] || '#999', strokeWidth: 2 }}
+                  shape="circle"
+                  name={method}
+                />
+              );
+            })}
           </ScatterChart>
         </ResponsiveContainer>
+        )}
         <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
           <p className="text-sm text-blue-800 dark:text-blue-300">
             <strong>Interpretation:</strong> Points closer to the diagonal line indicate better calibration.
