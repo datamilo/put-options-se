@@ -43,20 +43,38 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
   // Filter and group data by method
   const chartData = useMemo(() => {
-    let filtered = calibrationPoints;
+    let filtered: CalibrationPoint[] = [];
 
-    // If a specific stock is selected (not "All Stocks"), get stock-specific data
-    if (selectedStock !== 'All Stocks' && getCalibrationPointsFn) {
-      filtered = getCalibrationPointsFn('by_stock', selectedStock);
-    }
-    // If "All Stocks" is selected, use aggregated data
-    else {
-      filtered = calibrationPoints;
-    }
-
-    // Filter by DTE bin if not "All DTE"
+    // When DTE is selected and not "All DTE", we need calibration_by_stock_and_dte data
     if (selectedDTE !== 'All DTE') {
-      filtered = filtered.filter(point => (point as any).DTE_Bin === selectedDTE);
+      // For DTE-specific filtering, we need to get the by_stock_and_dte data
+      if (getCalibrationPointsFn) {
+        // Use a special filter type for by_stock_and_dte data
+        // Since getCalibrationPointsFn might not support this, we'll filter from calibrationPoints
+        filtered = calibrationPoints.filter(point => {
+          const p = point as any;
+          // Check if this is DTE-filtered data (has DTE_Bin column)
+          if (p.DTE_Bin === selectedDTE) {
+            // Check stock filter
+            if (selectedStock === 'All Stocks') {
+              // For All Stocks, we'd need aggregated DTE data, but it might not exist
+              // Fall back to showing all stocks with this DTE
+              return true;
+            } else {
+              // For specific stock, check both stock and DTE
+              return p.Stock === selectedStock;
+            }
+          }
+          return false;
+        });
+      }
+    } else {
+      // When DTE is "All DTE", use the original logic
+      if (selectedStock !== 'All Stocks' && getCalibrationPointsFn) {
+        filtered = getCalibrationPointsFn('by_stock', selectedStock);
+      } else {
+        filtered = calibrationPoints;
+      }
     }
 
     // Group by method

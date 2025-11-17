@@ -1,5 +1,5 @@
 export interface ProbabilityValidationData {
-  DataType: 'metrics' | 'calibration_aggregated' | 'calibration_by_dte' | 'calibration_by_stock';
+  DataType: 'metrics' | 'calibration_aggregated' | 'calibration_by_stock' | 'calibration_by_stock_and_dte';
   Stock: string;
   DTE_Bin: string;
   ProbMethod: string;
@@ -19,7 +19,7 @@ export interface ValidationMetrics extends ProbabilityValidationData {
 }
 
 export interface CalibrationData extends ProbabilityValidationData {
-  DataType: 'calibration_aggregated' | 'calibration_by_dte' | 'calibration_by_stock';
+  DataType: 'calibration_aggregated' | 'calibration_by_stock' | 'calibration_by_stock_and_dte';
 }
 
 export interface MethodPerformance {
@@ -36,4 +36,6 @@ export interface CalibrationPoint {
   actual: number;
   count: number;
   method: string;
+  DTE_Bin?: string;
+  Stock?: string;
 }

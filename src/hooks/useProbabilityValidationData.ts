@@ -90,8 +90,8 @@ export const useProbabilityValidationData = () => {
         const metricsData = parseResult.filter(row => row.DataType === 'metrics') as ValidationMetrics[];
         const calibData = parseResult.filter(row =>
           row.DataType === 'calibration_aggregated' ||
-          row.DataType === 'calibration_by_dte' ||
-          row.DataType === 'calibration_by_stock'
+          row.DataType === 'calibration_by_stock' ||
+          row.DataType === 'calibration_by_stock_and_dte'
         ) as CalibrationData[];
 
         setMetrics(metricsData);
