@@ -162,6 +162,9 @@ export const LowerBoundDistributionChart: React.FC<
       xaxis: {
         title: 'Date',
         range: [minDate, maxDate],
+        tickformat: '%Y-%m-%d',
+        nticks: 20,
+        tickangle: -45,
       },
       yaxis: {
         title: 'Price (SEK)',
