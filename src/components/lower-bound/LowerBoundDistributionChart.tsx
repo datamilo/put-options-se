@@ -138,6 +138,19 @@ export const LowerBoundDistributionChart: React.FC<
             stroke="#6b7280"
           />
 
+          <YAxis
+            yAxisId="right"
+            orientation="right"
+            label={{
+              value: 'Breach Count',
+              angle: 90,
+              position: 'insideRight',
+              offset: 10,
+            }}
+            tick={{ fontSize: 12 }}
+            stroke="#ef4444"
+          />
+
           <Tooltip
             contentStyle={{
               backgroundColor: '#ffffff',
@@ -161,13 +174,14 @@ export const LowerBoundDistributionChart: React.FC<
             height={36}
           />
 
-          {/* Range visualization as area/bar */}
+          {/* Breach count bars (secondary y-axis) */}
           <Bar
-            dataKey="rangeMax"
-            name="Max Bound"
-            fill="url(#rangeGradient)"
+            yAxisId="right"
+            dataKey="breachCount"
+            name="Breach Count"
+            fill="#ef4444"
+            opacity={0.6}
             isAnimationActive={false}
-            shape={{ fill: 'transparent' }}
           />
 
           {/* Median line */}
@@ -203,35 +217,24 @@ export const LowerBoundDistributionChart: React.FC<
             dot={{ fill: '#000000', r: 5 }}
             isAnimationActive={false}
           />
-
-          {/* Breach markers */}
-          {chartData.map((entry, index) => (
-            <Bar
-              key={`breach-${index}`}
-              dataKey={() => entry.breachCount > 0 ? entry.mean : null}
-              name={index === 0 ? 'Breaches' : ''}
-              fill="#ef4444"
-              isAnimationActive={false}
-            />
-          ))}
         </ComposedChart>
       </ResponsiveContainer>
 
       <div className="mt-4 space-y-2 text-sm text-slate-600">
         <p>
-          Total expirations: {chartData.length} | Breaches: {chartData.reduce((sum, d) => sum + d.breachCount, 0)}
+          Total expirations: {chartData.length} | Total breaches: {chartData.reduce((sum, d) => sum + d.breachCount, 0)}
         </p>
         <p>
-          <span className="inline-block w-3 h-3 bg-black mr-2"></span> Black
-          line = Actual expiry close price
+          <span className="inline-block w-3 h-3 bg-red-500 mr-2"></span> Red bars = Breach count per expiry date (right y-axis)
         </p>
         <p>
-          <span className="inline-block w-3 h-3 bg-blue-500 mr-2"></span> Blue
-          line = Median prediction
+          <span className="inline-block w-3 h-3 bg-black mr-2"></span> Black line = Actual expiry close price
         </p>
         <p>
-          <span className="inline-block w-3 h-3 bg-purple-500 mr-2"></span>{' '}
-          Purple dashed = Mean prediction
+          <span className="inline-block w-3 h-3 bg-blue-500 mr-2"></span> Blue line = Median prediction
+        </p>
+        <p>
+          <span className="inline-block w-3 h-3 bg-purple-500 mr-2"></span> Purple dashed = Mean prediction
         </p>
       </div>
     </div>
