@@ -18,7 +18,14 @@ After making changes to this project, you MUST immediately:
 - ✓ Styling changes (CSS/Tailwind)
 - ✓ Data processing or calculation changes
 - ✓ Build configuration changes
-- ✗ NOT needed for: documentation, comments, markdown, comments-only edits, trivial text updates, .gitignore changes
+- ✗ NOT needed for:
+  - Documentation or comments (including CLAUDE.md updates)
+  - Markdown or .md files
+  - Comments-only edits in code
+  - Trivial text updates or rewordings
+  - Configuration files like .gitignore
+  - **Small Plotly/chart configuration changes** (e.g., axis tick formatting, label rotation, colors)
+  - **Small CSS/styling tweaks** that don't involve new dependencies or major layout changes
 
 **DO NOT:**
 - ❌ Continue to other tasks without committing
