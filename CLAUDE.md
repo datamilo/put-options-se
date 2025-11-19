@@ -343,101 +343,161 @@ The Probability Analysis page (`/probability-analysis`) provides comprehensive p
 - **Types**: `probabilityValidation.ts`, `probabilityRecovery.ts` - Data structures
 
 ### 10. Lower Bound Analysis
-The Lower Bound Analysis page (`/lower-bound-analysis`) validates IV-based lower bound predictions against historical stock prices. It displays hit rate trends and prediction distributions for each stock with an interactive unified dashboard.
+The Lower Bound Analysis page (`/lower-bound-analysis`) validates IV-based lower bound predictions against historical stock prices. It provides traders with quantifiable evidence that implied volatility (IV) estimates of downside risk are conservative, enabling better risk assessment for put options trading.
 
-**Features:**
-- **Summary Metrics**: Overall statistics including total options analyzed, overall hit rate, total breaches, and stocks analyzed
-- **Stock Selector**: Dropdown to select any stock from the dataset (56+ stocks)
+**Business Rationale & Context:**
+
+The Lower Bound Analysis answers a critical question for options traders: **"How reliable are IV-based downside risk predictions?"**
+
+- **Business Goal**: Validate IV-based lower bound predictions using historical data to assess their reliability for trading decisions
+- **Key Finding**: 83.62% hit rate vs 68% theoretical expectation (from 1-sigma normal distribution)
+  - This outperformance indicates IV systematically underestimates downside risk
+  - Traders can use this insight to make more confident risk assessments for put options
+  - IV is "conservative" - real price declines are less severe than IV predicts
+- **Data Scope**: 102,633+ historical options across 56+ stocks, April 2024 - November 2025
+- **Validation Method**: 1-sigma (68% confidence level) predictions tested against actual expiry close prices
+
+**User-Facing Features:**
+- **Summary Metrics Card**: Overall statistics including total options analyzed, overall hit rate, total breaches, and stocks analyzed
+- **Stock Selector Dropdown**: Choose from 56+ stocks to analyze individual performance
 - **Three Analysis Tabs**:
   1. **Trend Analysis**:
-     - Monthly hit rate evolution chart with dual y-axis (Recharts ComposedChart)
+     - Monthly hit rate evolution with dual y-axis visualization
      - Left axis: Hit rate percentage (0-100%)
      - Right axis: Number of predictions per month (volume)
-     - Dynamic y-axis scaling with 10% padding
-     - Hover tooltips showing exact values
+     - Shows how prediction accuracy evolves over time
+     - Hover tooltips display exact values
 
   2. **Distribution**:
-     - Multi-trace chart showing prediction distributions and breach analysis (Plotly)
-     - **Black line**: Continuous daily stock price across trading days
-     - **Blue violin plots**: Prediction distributions at each expiry date
-       - Violin width shows density of predicted values
-       - Meanline visible within each violin
-       - Shows range of predicted lower bounds for that expiry
-     - **Red bars**: Breach count at each expiry date (right y-axis)
-       - Shows how many predictions were breached at that expiry
-     - Hover tooltips show OHLC values, prediction distribution, and breach counts
+     - Multi-trace Plotly visualization showing prediction distributions and breach analysis
+     - **Black line**: Continuous daily stock price (all trading days from 2024-05-01 onward)
+     - **Blue violin plots**: Prediction distribution density at each expiry date
+       - Each violin shows the spread of predicted lower bounds (min to max)
+       - Meanline visible within each violin showing central tendency
+       - Fixed-width violins for consistent visual comparison across expiries
+     - **Red bars**: Breach count at each expiry date (right y-axis, secondary scale)
+       - Quantifies how many predictions were breached (predictions held/failed)
+     - Unified hover mode shows combined information across all traces
 
   3. **Statistics**:
-     - Sortable table with per-expiry metrics
+     - Sortable table with detailed per-expiry metrics
      - Columns: Expiry date, prediction count, breach count, hit rate %, min/max/median bounds, expiry close price
      - Click any column header to sort ascending/descending
-     - Color-coded hit rates (green ≥85%, blue 75-85%, yellow 65-75%, red <65%)
+     - Color-coded hit rates: green (≥85%), blue (75-85%), yellow (65-75%), red (<65%)
 
-- **Stock Summary Metrics**: Per-stock statistics displayed dynamically as you change stock selection
-  - Total predictions for selected stock
-  - Total breaches
-  - Overall hit rate percentage
-  - Breach rate percentage
+- **Stock Summary Metrics Card**: Dynamically updates with selected stock showing total predictions, total breaches, and overall hit rate
 
-**Business Context:**
-- Validates 1-sigma (68% confidence level) IV-based lower bound predictions
-- Analyzes 102,633+ historical options across 56+ stocks
-- Period covered: April 2024 - November 2025
-- **Overall Performance**: 83.62% hit rate (predictions held at expiry)
-  - Expected: 68% (by normal distribution theory)
-  - Actual: 83.62% (outperforming expectations)
-- Indicates IV is conservative in downside risk estimates
+**Technical Architecture:**
 
-**Data Pipeline:**
-1. Load CSV files: `hit_rate_trends_by_stock.csv`, `all_stocks_daily_predictions.csv`, `all_stocks_expiry_stats.csv`
-2. Parse and aggregate data by selected stock
-3. `useLowerBoundStockData()` returns object containing:
-   - `expiryStats`: Pre-calculated statistics for each expiry date
-   - `dailyPredictions`: Daily prediction values for distribution visualization
-   - `totalPredictions`, `totalBreaches`, `overallHitRate`: Aggregated metrics
-4. Pass `dailyPredictions` as a prop to `LowerBoundDistributionChart` (not loaded internally)
-5. Generate visualizations from aggregated data
-6. Display interactive tabs for different views
+**Data Flow** (`src/hooks/useLowerBoundData.ts`):
+1. **useAllLowerBoundData()** - Global hook that orchestrates all data loading:
+   - Loads three CSV files: `hit_rate_trends_by_stock.csv`, `all_stocks_daily_predictions.csv`, `all_stocks_expiry_stats.csv`
+   - Aggregates data at global level (all stocks)
+   - Filters stocks with minimum 6 expiry dates to ensure sufficient data
+   - Uses TanStack Query with 24-hour cache and 7-day garbage collection
+   - Calculates summary metrics: total options, total breaches, overall hit rate, date ranges
 
-**File References:**
-- **Page**: `src/pages/LowerBoundAnalysis.tsx` - Main page with tab navigation and layout
-- **Hooks**:
-  - `useAllLowerBoundData()` - Loads and caches all global data (monthly trends, summary metrics)
-  - `useLowerBoundStockData(stock)` - Gets data for selected stock (expiryStats, dailyPredictions, aggregated metrics)
-- **Components**:
-  - `LowerBoundTrendChart.tsx` - Monthly trend visualization (Recharts ComposedChart)
-  - `LowerBoundDistributionChart.tsx` - Distribution and breach analysis chart (Plotly violin plots + bar chart)
-  - `LowerBoundExpiryTable.tsx` - Sortable statistics table
-  - `LowerBoundControls.tsx` - Stock selector, summary cards
-- **Types**: `src/types/lowerBound.ts` - TypeScript interfaces
-- **Data Files**:
-  - `/data/hit_rate_trends_by_stock.csv` - Monthly hit rate data (1,071 rows)
-  - `/data/all_stocks_daily_predictions.csv` - Daily predictions (102,633+ rows)
-  - `/data/all_stocks_expiry_stats.csv` - Expiry statistics (2,405+ rows)
+2. **useLowerBoundStockData(stock)** - Stock-specific selector hook:
+   - Filters global data to selected stock
+   - Returns aggregated object containing:
+     - `expiryStats`: Pre-calculated statistics for each expiry date
+     - `dailyPredictions`: All daily prediction values for that stock
+     - `totalPredictions`, `totalBreaches`, `overallHitRate`: Stock-level aggregates
+     - `monthlyTrends`: Month-level trend data for that stock
 
-**Key Implementation Details:**
-- **Data Loading**: Uses TanStack Query for efficient caching with Papa Parse for CSV parsing
-- **Distribution Chart Visualization** (`LowerBoundDistributionChart.tsx`):
-  - Uses Plotly (not Recharts) for financial charting capabilities
-  - Accepts `dailyPredictions` as a prop from parent component (loaded via `useLowerBoundStockData`)
-  - Does NOT load daily predictions internally - receives them from `stockDataQuery.data.dailyPredictions`
-  - Stock price data loaded separately via `useStockData` hook
-  - Three traces rendered in correct order:
-    1. **Breach bars** (background layer) - Red bars showing breach count at each expiry
-    2. **Violin plots** (middle layer) - Blue violins showing prediction distribution at each expiry
-    3. **Stock price line** (foreground layer) - Black line showing continuous daily stock prices
-  - Uses secondary y-axis for dual metrics (prices on left, breach counts on right)
-  - Unified hover mode combines tooltips from all traces
-- **Trend Chart** (Recharts ComposedChart) - Combines line and bar charts
-- **Responsive design** for mobile/tablet/desktop
-- **Dynamic chart scaling** based on selected stock data
-- **Color-coded metrics** for quick visual assessment
+**Component Architecture:**
 
-**Critical Implementation Notes:**
-- `LowerBoundDistributionChart` receives `dailyPredictions` as a prop - this prevents duplicate async data loading
-- Component checks only `stockDataQuery.isSuccess` for data readiness (stock data already includes daily predictions)
-- Trace rendering order matters: Plotly renders traces in the order they're added to the array
-- Plotly's unified hover mode provides combined tooltips across all three trace types
+**Page** (`src/pages/LowerBoundAnalysis.tsx` lines 21-199):
+- Manages tab navigation and overall layout
+- Calls `useAllLowerBoundData()` once for global data
+- Calls `useLowerBoundStockData(selectedStock)` for selected stock
+- Passes `dailyPredictions` as prop to distribution chart (not loaded internally)
+- Handles loading and error states
+
+**LowerBoundDistributionChart** (`src/components/lower-bound/LowerBoundDistributionChart.tsx`):
+
+*Why it uses Plotly instead of Recharts:*
+- Plotly supports financial violin plots (Recharts does not)
+- Violin plots visually show prediction distribution density
+- Plotly's unified hover mode combines multiple trace types seamlessly
+- Native support for fixed-width violins and secondary y-axis
+
+*Implementation details:*
+- **Data Loading**: Loads stock price data via `useStockData()` hook
+  - Filters to minimum date of 2024-05-01 (when options data begins) - line 32
+  - This ensures chart only shows relevant data period
+  - Rationale: Historical stock prices before options data would be misleading
+- **Data Ready Check** (line 26):
+  - `isStockDataReady = !stockDataQuery.isLoading && stockDataQuery.allStockData.length > 0`
+  - Checks `useStockData` hook which returns custom state (not React Query)
+  - Uses `allStockData` property (not `.data`) - important for correct property access
+
+- **Three Plotly Traces rendered in order** (lines 59-134):
+  1. **Breach Count Bars** (background, line 61-75):
+     - Red bars with 60% opacity
+     - Uses secondary y-axis (y2) for right-side scale
+     - Only shows expiries with breaches > 0
+     - Hover template: `'<b>Breaches at %{x}</b><br>Count: %{y}'`
+
+  2. **Violin Plots** (middle, lines 82-122):
+     - For each expiry date with ≥3 prediction data points
+     - **Critical properties for correct visualization** (lines 109-112):
+       - `hoveron: 'violins+points'` - Allows interaction with violin shapes
+       - `scalemode: 'width'` - Fixed width violins (not auto-scaled)
+       - `width: 432000000` - ~5 day width in milliseconds for consistent sizing
+       - `span: [minBound, maxBound]` - Shows prediction range bounds from expiryStats (lines 116-118)
+     - Blue fill with meanline visible
+     - Meanline shows average predicted lower bound at that expiry
+     - Span bounds come from `LowerBound_Min` and `LowerBound_Max` in expiryStats
+
+  3. **Stock Price Line** (foreground, lines 125-132):
+     - Black line with 2.5 width
+     - Continuous daily closing prices (all trading days after 2024-05-01)
+     - Hover template: `'<b>Stock Price</b><br>Date: %{x}<br>Close: %{y:.2f} SEK'`
+
+- **Dual Y-Axis Setup** (lines 147-157):
+  - Left axis (y): Price in SEK, 0-auto
+  - Right axis (y2): Breach count, 0 to (maxBreachCount × 3)
+  - Secondary axis scaled up 3× to match historical breach bar heights
+
+**Other Components:**
+- **LowerBoundTrendChart** (`src/components/lower-bound/LowerBoundTrendChart.tsx`): Recharts ComposedChart showing monthly trends
+- **LowerBoundExpiryTable** (`src/components/lower-bound/LowerBoundExpiryTable.tsx`): Sortable statistics table
+- **LowerBoundControls** (`src/components/lower-bound/LowerBoundControls.tsx`): Stock selector dropdown and summary metric cards
+
+**Data Files** (`/data/`):
+- `hit_rate_trends_by_stock.csv` - Monthly hit rate data (1,071 rows, pipe-delimited)
+- `all_stocks_daily_predictions.csv` - Daily predictions (102,633 rows, pipe-delimited)
+  - Schema: Stock|PredictionDate|ExpiryDate|StockPrice|LowerBound|StrikePrice
+  - Contains all prediction instances (each trading day may have predictions for multiple expiries)
+- `all_stocks_expiry_stats.csv` - Expiry statistics (2,405 rows, pipe-delimited)
+  - Schema: Stock|ExpiryDate|LowerBound_Min|LowerBound_Max|LowerBound_Median|LowerBound_Mean|PredictionCount|BreachCount|ExpiryClosePrice
+  - Pre-calculated aggregates for each stock/expiry combination
+
+**Key Design Decisions:**
+
+1. **Why pass dailyPredictions as a prop, not load internally?**
+   - Parent already loads all data via `useLowerBoundStockData()`
+   - Prevents duplicate async loading and race conditions
+   - Component receives pre-filtered, ready-to-use data from parent
+   - Single source of truth for data loading
+
+2. **Why filter stock data to 2024-05-01?**
+   - Options data begins around 2024-04-18
+   - Historical stock prices before this date add visual noise
+   - Aligns chart visualization period with data analysis period
+   - Improves visual clarity and prevents misleading historical context
+
+3. **Why use Plotly for violin plots?**
+   - Recharts doesn't support violin plot type
+   - Plotly's fixed-width violins provide consistent visual comparison
+   - Native support for multiple traces with different y-axes
+   - Unified hover mode works seamlessly across trace types
+
+4. **Why show span bounds in violins?**
+   - Provides visual context of min/max prediction range
+   - Helps traders understand prediction uncertainty at each expiry
+   - Matches HTML file visualization from original analysis
 
 ## Data Sources
 - Static CSV files in `/data` (tracked in git)
@@ -482,12 +542,35 @@ The application is fully functional with all major features implemented and work
 ## Development Notes
 
 ### Documentation Standards
-**CRITICAL**: This documentation reflects the **current state of the project only**.
-- Only document how the application **currently works**, not how it used to work
-- Remove past fixes, troubleshooting, and historical issues once they're resolved
-- When fixing bugs or implementing features, update documentation to reflect the current implementation
-- Delete outdated troubleshooting sections and historical context
-- This keeps documentation focused, accurate, and prevents confusion about what's actually working
+**🔴 CRITICAL - CURRENT STATE ONLY**: This documentation reflects the **current, working state of the project only**.
+
+**What to document:**
+- ✓ How the application **currently works** right now
+- ✓ Current implementation details, architectural patterns, and design decisions
+- ✓ Business rationale for current design choices
+- ✓ Technical implementation with code references and line numbers
+- ✓ Current limitations and constraints
+
+**What NOT to document:**
+- ✗ Previous versions, iterations, or past implementations
+- ✗ Bugs that have been fixed (only document the working solution)
+- ✗ Troubleshooting steps from past issues
+- ✗ Historical context about how problems were discovered or solved
+- ✗ Abandoned approaches or discarded ideas
+- ✗ Development process or debugging journey
+
+**Why this matters:**
+- Developers should understand how the system works NOW, not how it used to fail
+- Outdated documentation causes confusion and wastes debugging time
+- The current implementation IS the truth - document that
+- Remove historical context immediately when issues are resolved and features are working
+
+**When updating documentation:**
+1. Describe the current, working implementation in detail
+2. Explain why this design was chosen (business and technical rationale)
+3. Include file references and line numbers for implementation
+4. Delete ALL previous troubleshooting, error descriptions, and historical notes
+5. Focus on current state: architecture, flow, patterns, and decisions
 
 ### Git & GitHub Workflow - MANDATORY PROCESS
 
@@ -578,14 +661,33 @@ git push
   - This ensures all periods (30/90/180/270/365 days) have sufficient historical lookback
   - Example: For 365-day rolling low, need up to 365 days of history before display date - full data calculation provides this
 - **Performance**: Support Level Analysis uses optimized sliding window algorithm - avoid nested loops that iterate over all historical data for large periods
-- **Lower Bound Analysis**:
-  - Uses Plotly for multi-trace financial visualization (violin plots, bars, line charts)
-  - **Critical**: `LowerBoundDistributionChart` accepts `dailyPredictions` as a prop from parent component
-  - Parent component loads data via `useLowerBoundStockData()` which returns `dailyPredictions`
-  - Distribution chart does NOT call async hook internally - receives pre-loaded data from parent
-  - This prevents duplicate data loading and avoids infinite loading states
-  - Trace rendering order: Bars first (background), violins (middle), stock line (foreground)
-  - Plotly unified hover mode combines tooltips from all three trace types
+- **Lower Bound Analysis** (`src/components/lower-bound/LowerBoundDistributionChart.tsx`):
+  - **Architecture Pattern**: Pass pre-loaded data as props, don't load internally
+    - Parent loads all data via `useLowerBoundStockData()`
+    - Distribution chart receives `dailyPredictions`, `expiryStats` as props
+    - Component is pure visualization layer, not data layer
+    - Prevents duplicate async loads and race conditions
+  - **Data Ready Check**: `isStockDataReady = !stockDataQuery.isLoading && stockDataQuery.allStockData.length > 0`
+    - `useStockData` is custom hook returning `{allStockData, isLoading, ...}` (not React Query)
+    - Must check correct properties: `isLoading` (not `isSuccess`) and `allStockData` (not `.data`)
+  - **Stock Data Filtering**: Filter to minimum date of `'2024-05-01'` (line 32)
+    - Rationale: Options data begins ~2024-04-18, historical prices before this add visual noise
+    - Ensures chart visualization period aligns with data analysis period
+  - **Plotly Violin Configuration** (lines 109-117):
+    - `hoveron: 'violins+points'` - Enables hover interaction with violin shapes
+    - `scalemode: 'width'` - Fixed-width violins for consistent visual comparison
+    - `width: 432000000` - ~5 day width in milliseconds (absolute positioning, not relative)
+    - `span: [minBound, maxBound]` - Shows prediction range bounds visually
+    - These properties are critical for correct Plotly rendering; missing them causes invisible violins
+  - **Trace Rendering Order** matters in Plotly:
+    1. Bars first (background) - uses secondary y-axis (y2)
+    2. Violins second (middle) - uses primary y-axis (y)
+    3. Stock line last (foreground) - uses primary y-axis (y)
+    - Plotly renders in order added to array; order determines z-order/visibility
+  - **Dual Y-Axis**:
+    - Left (y): Price in SEK, auto-scaled
+    - Right (y2): Breach count, scaled 3× to match bar heights
+    - Use `yaxis: 'y2'` for secondary traces (bars), omit for primary (violins, line)
 
 ### File Organization
 - `/src/hooks` - Custom React hooks for data fetching and calculations
