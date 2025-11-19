@@ -55,15 +55,21 @@ export const LowerBoundDistributionChart: React.FC<
 
     const traces: any[] = [];
 
-    // 1. Stock price line (black)
-    if (stockPriceData.length > 0) {
+    // 1. Breach count bars first (so they appear behind everything)
+    const breachesOnly = expiryStats.filter((s) => {
+      const count = parseInt(s.BreachCount) || 0;
+      return count > 0;
+    });
+    if (breachesOnly.length > 0) {
       traces.push({
-        x: stockPriceData.map((d) => d.date),
-        y: stockPriceData.map((d) => d.close),
-        mode: 'lines',
-        name: 'Stock Price',
-        line: { color: 'black', width: 2.5 },
-        hovertemplate: '<b>Stock Price</b><br>Date: %{x}<br>Close: %{y:.2f} SEK<extra></extra>',
+        x: breachesOnly.map((s) => s.ExpiryDate),
+        y: breachesOnly.map((s) => parseInt(s.BreachCount)),
+        type: 'bar',
+        name: 'Breach Count',
+        marker: { color: 'red', opacity: 0.6 },
+        yaxis: 'y2',
+        hovertemplate:
+          '<b>Breaches at %{x}</b><br>Count: %{y}<extra></extra>',
       });
     }
 
@@ -81,7 +87,10 @@ export const LowerBoundDistributionChart: React.FC<
       if (expiryPreds.length >= 3) {
         traces.push({
           x: expiryPreds.map(() => expiryDate),
-          y: expiryPreds.map((p) => p.LowerBound),
+          y: expiryPreds.map((p) => {
+            const val = parseFloat(p.LowerBound);
+            return isNaN(val) ? 0 : val;
+          }),
           type: 'violin',
           name: 'Predictions',
           showlegend: false,
@@ -96,18 +105,15 @@ export const LowerBoundDistributionChart: React.FC<
       }
     }
 
-    // 3. Breach count bars (only where breaches > 0) on secondary y-axis
-    const breachesOnly = expiryStats.filter((s) => s.BreachCount > 0);
-    if (breachesOnly.length > 0) {
+    // 3. Stock price line last (so it appears on top)
+    if (stockPriceData.length > 0) {
       traces.push({
-        x: breachesOnly.map((s) => s.ExpiryDate),
-        y: breachesOnly.map((s) => s.BreachCount),
-        type: 'bar',
-        name: 'Breach Count',
-        marker: { color: 'red', opacity: 0.6 },
-        yaxis: 'y2',
-        hovertemplate:
-          '<b>Breaches at %{x}</b><br>Count: %{y}<extra></extra>',
+        x: stockPriceData.map((d) => d.date),
+        y: stockPriceData.map((d) => d.close),
+        mode: 'lines',
+        name: 'Stock Price',
+        line: { color: 'black', width: 2.5 },
+        hovertemplate: '<b>Stock Price</b><br>Date: %{x}<br>Close: %{y:.2f} SEK<extra></extra>',
       });
     }
 
@@ -129,6 +135,12 @@ export const LowerBoundDistributionChart: React.FC<
     const minDate = stockPriceData[0].date;
     const maxDate = stockPriceData[stockPriceData.length - 1].date;
 
+    // Calculate max breach count for y-axis scaling
+    const maxBreachCount = expiryStats.reduce((max, s) => {
+      const count = parseInt(s.BreachCount) || 0;
+      return Math.max(max, count);
+    }, 0);
+
     return {
       title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count</sub>`,
       xaxis: {
@@ -144,14 +156,7 @@ export const LowerBoundDistributionChart: React.FC<
         side: 'right',
         overlaying: 'y',
         showgrid: false,
-        range: [
-          0,
-          Math.max(
-            (expiryStats.reduce((max, s) => Math.max(max, s.BreachCount), 0) ||
-              1) * 3,
-            1
-          ),
-        ],
+        range: [0, Math.max(maxBreachCount * 3, 1)],
       },
       height: 700,
       template: 'plotly_white',
