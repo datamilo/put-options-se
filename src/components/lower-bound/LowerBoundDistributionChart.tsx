@@ -27,8 +27,12 @@ export const LowerBoundDistributionChart: React.FC<
 
   const stockPriceData = useMemo(() => {
     if (!stockDataQuery.allStockData || stockDataQuery.allStockData.length === 0) return [];
+
+    // Filter to start from when options data begins (approximately 2024-05-01)
+    const minDate = '2024-05-01';
+
     return stockDataQuery.allStockData
-      .filter((d) => d.name === stock)
+      .filter((d) => d.name === stock && d.date >= minDate)
       .map((d) => ({
         date: d.date,
         close: d.close,
@@ -80,9 +84,14 @@ export const LowerBoundDistributionChart: React.FC<
         (p) => p.ExpiryDate === expiryDate
       );
 
+      // Get min/max bounds for this expiry from expiryStats
+      const expiryStatForViolinSpan = expiryStats.find((s) => s.ExpiryDate === expiryDate);
+      const minBound = expiryStatForViolinSpan ? parseFloat(expiryStatForViolinSpan.LowerBound_Min) : null;
+      const maxBound = expiryStatForViolinSpan ? parseFloat(expiryStatForViolinSpan.LowerBound_Max) : null;
+
       // Only create violin if we have at least 3 data points
       if (expiryPreds.length >= 3) {
-        traces.push({
+        const violinTrace: any = {
           x: expiryPreds.map(() => expiryDate),
           y: expiryPreds.map((p) => {
             const val = parseFloat(p.LowerBound);
@@ -97,8 +106,18 @@ export const LowerBoundDistributionChart: React.FC<
           meanline: { visible: true },
           points: false,
           hoverinfo: 'y',
+          hoveron: 'violins+points',
+          scalemode: 'width',
           spanmode: 'hard',
-        });
+          width: 432000000, // ~5 day width in milliseconds for fixed violin size
+        };
+
+        // Add span property if we have bounds
+        if (minBound !== null && maxBound !== null && !isNaN(minBound) && !isNaN(maxBound)) {
+          violinTrace.span = [minBound, maxBound];
+        }
+
+        traces.push(violinTrace);
       }
     }
 
