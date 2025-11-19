@@ -164,6 +164,7 @@ export const LowerBoundAnalysis: React.FC = () => {
                   {stockDataQuery.isSuccess && stockDataQuery.data && (
                     <LowerBoundDistributionChart
                       data={stockDataQuery.data.expiryStats}
+                      dailyPredictions={stockDataQuery.data.dailyPredictions}
                       stock={selectedStock}
                       isLoading={isLoading}
                     />

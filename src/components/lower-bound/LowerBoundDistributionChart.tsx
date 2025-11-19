@@ -6,25 +6,24 @@
 
 import React, { useMemo } from 'react';
 import Plot from 'react-plotly.js';
-import { LowerBoundExpiryStatistic } from '@/types/lowerBound';
+import { LowerBoundExpiryStatistic, LowerBoundDailyPrediction } from '@/types/lowerBound';
 import { useStockData } from '@/hooks/useStockData';
-import { useLowerBoundDailyPredictions } from '@/hooks/useLowerBoundData';
 
 interface LowerBoundDistributionChartProps {
   data: LowerBoundExpiryStatistic[];
+  dailyPredictions: LowerBoundDailyPrediction[];
   stock: string;
   isLoading?: boolean;
 }
 
 export const LowerBoundDistributionChart: React.FC<
   LowerBoundDistributionChartProps
-> = ({ data, stock, isLoading = false }) => {
-  // Load stock price and daily prediction data for this stock
+> = ({ data, dailyPredictions: dailyPredictionsProp, stock, isLoading = false }) => {
+  // Load stock price data for this stock
   const stockDataQuery = useStockData();
-  const dailyPredictionsQuery = useLowerBoundDailyPredictions();
 
   // Wait until all required data is loaded
-  const isDataReady = stockDataQuery.isSuccess && dailyPredictionsQuery.isSuccess;
+  const isDataReady = stockDataQuery.isSuccess;
 
   const stockPriceData = useMemo(() => {
     if (!stockDataQuery.data) return [];
@@ -37,13 +36,8 @@ export const LowerBoundDistributionChart: React.FC<
       .sort((a, b) => a.date.localeCompare(b.date));
   }, [stockDataQuery.data, stock]);
 
-  // Get daily predictions for this stock
-  const dailyPredictions = useMemo(() => {
-    if (!dailyPredictionsQuery.data) return [];
-    return dailyPredictionsQuery.data
-      .filter((d) => d.Stock === stock)
-      .sort((a, b) => a.ExpiryDate.localeCompare(b.ExpiryDate));
-  }, [dailyPredictionsQuery.data, stock]);
+  // Use daily predictions from props (already filtered by parent)
+  const dailyPredictions = dailyPredictionsProp;
 
   // Get expiry stats for this stock
   const expiryStats = useMemo(() => {
