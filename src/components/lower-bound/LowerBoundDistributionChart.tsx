@@ -175,12 +175,12 @@ export const LowerBoundDistributionChart: React.FC<
         mode: 'markers',
         name: 'Earnings Events',
         marker: {
-          color: 'rgba(100, 150, 200, 0.7)',
-          size: 8,
+          color: 'rgb(255, 165, 0)',
+          size: 12,
           symbol: 'circle',
           line: {
-            color: 'rgba(50, 100, 180, 1)',
-            width: 2,
+            color: 'rgb(255, 100, 0)',
+            width: 2.5,
           },
         },
         hovertemplate: '<b>Earnings Report</b><br>Date: %{x}<br>Price: %{y:.2f} SEK<extra></extra>',
