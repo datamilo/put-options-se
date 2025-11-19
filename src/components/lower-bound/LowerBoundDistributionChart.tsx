@@ -141,7 +141,7 @@ export const LowerBoundDistributionChart: React.FC<
       }
     }
 
-    // 3. Stock price line last (so it appears on top)
+    // 3. Stock price line
     if (stockPriceData.length > 0) {
       traces.push({
         x: stockPriceData.map((d) => d.date),
@@ -153,8 +153,42 @@ export const LowerBoundDistributionChart: React.FC<
       });
     }
 
+    // 4. Earnings event markers as dots (last so they appear on top)
+    if (earningsEventDates.length > 0 && stockPriceData.length > 0) {
+      // Find stock price at each earnings event date (or closest date)
+      const earningsEventPrices = earningsEventDates.map((eventDate) => {
+        const priceData = stockPriceData.find((d) => d.date === eventDate);
+        if (priceData) return priceData.close;
+
+        // Find closest date if exact match not found
+        const closest = stockPriceData.reduce((prev, current) => {
+          const prevDiff = Math.abs(new Date(prev.date).getTime() - new Date(eventDate).getTime());
+          const currentDiff = Math.abs(new Date(current.date).getTime() - new Date(eventDate).getTime());
+          return currentDiff < prevDiff ? current : prev;
+        });
+        return closest.close;
+      });
+
+      traces.push({
+        x: earningsEventDates,
+        y: earningsEventPrices,
+        mode: 'markers',
+        name: 'Earnings Events',
+        marker: {
+          color: 'rgba(100, 150, 200, 0.7)',
+          size: 8,
+          symbol: 'circle',
+          line: {
+            color: 'rgba(50, 100, 180, 1)',
+            width: 2,
+          },
+        },
+        hovertemplate: '<b>Earnings Report</b><br>Date: %{x}<br>Price: %{y:.2f} SEK<extra></extra>',
+      });
+    }
+
     return traces;
-  }, [stockPriceData, expiryStats, dailyPredictions]);
+  }, [stockPriceData, expiryStats, dailyPredictions, earningsEventDates]);
 
   const layout = useMemo(() => {
     if (stockPriceData.length === 0) {
@@ -177,23 +211,8 @@ export const LowerBoundDistributionChart: React.FC<
       return Math.max(max, count);
     }, 0);
 
-    // Build shapes for earnings event vertical lines
-    const shapes = earningsEventDates.map((eventDate) => ({
-      type: 'line',
-      x0: eventDate,
-      x1: eventDate,
-      y0: 0,
-      y1: 1,
-      yref: 'paper',
-      line: {
-        color: 'rgba(100, 150, 200, 0.4)',
-        width: 2,
-        dash: 'dash',
-      },
-    }));
-
     return {
-      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count | Blue dashed lines = earnings reports</sub>`,
+      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count | Blue dots = earnings events</sub>`,
       xaxis: {
         title: 'Date',
         range: [minDate, maxDate],
@@ -217,9 +236,8 @@ export const LowerBoundDistributionChart: React.FC<
       showlegend: true,
       hovermode: 'x unified',
       violinmode: 'overlay',
-      shapes: shapes,
     };
-  }, [stockPriceData, expiryStats, stock, earningsEventDates]);
+  }, [stockPriceData, expiryStats, stock]);
 
   if (isLoading || !isStockDataReady) {
     return (
