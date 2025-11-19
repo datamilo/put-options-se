@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, Zap, LineChart, Target, CheckCircle } from "lucide-react";
+import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, Zap, LineChart, Target, CheckCircle, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -80,6 +80,14 @@ export const NavigationMenu = () => {
           >
             <Target className="mr-2 h-4 w-4" />
             Probability Analysis
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => navigate('/lower-bound-analysis')}
+            className="cursor-pointer"
+          >
+            <BarChart className="mr-2 h-4 w-4" />
+            Lower Bound Analysis
           </DropdownMenuItem>
 
           <DropdownMenuItem

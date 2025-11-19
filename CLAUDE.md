@@ -74,6 +74,7 @@ Put Options SE is a comprehensive financial analysis web application focused on 
 - **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength and break analysis (formerly Stock Price Stats)
 - **Stock Analysis** (`/stock-analysis`, `/stock/:stockName`) - Individual stock performance with stock selector dropdown
 - **Probability Analysis** (`/probability-analysis`) - Comprehensive probability analysis with calibration validation and recovery opportunities
+- **Lower Bound Analysis** (`/lower-bound-analysis`) - IV-based lower bound prediction validation with hit rate trends and distribution analysis
 - **Option Details** (`/option/:optionId`) - Detailed individual option analysis
 - **Authentication** (`/auth`, `/auth/callback`) - User login/signup
 
@@ -341,6 +342,83 @@ The Probability Analysis page (`/probability-analysis`) provides comprehensive p
 - **Components**: `CalibrationChart.tsx`, `RecoveryComparisonChart.tsx` - Interactive visualizations
 - **Types**: `probabilityValidation.ts`, `probabilityRecovery.ts` - Data structures
 
+### 10. Lower Bound Analysis
+The Lower Bound Analysis page (`/lower-bound-analysis`) validates IV-based lower bound predictions against historical stock prices. It displays hit rate trends and prediction distributions for each stock with an interactive unified dashboard.
+
+**Features:**
+- **Summary Metrics**: Overall statistics including total options analyzed, overall hit rate, total breaches, and stocks analyzed
+- **Stock Selector**: Dropdown to select any stock from the dataset (56+ stocks)
+- **Three Analysis Tabs**:
+  1. **Trend Analysis**:
+     - Monthly hit rate evolution chart with dual y-axis
+     - Left axis: Hit rate percentage (0-100%)
+     - Right axis: Number of predictions per month (volume)
+     - Dynamic y-axis scaling with 10% padding
+     - Hover tooltips showing exact values
+
+  2. **Distribution**:
+     - Multi-trace chart showing prediction ranges and breach analysis
+     - Black line: Actual expiry close price
+     - Blue line: Median predicted lower bound
+     - Purple dashed line: Mean predicted lower bound
+     - Light blue area: Prediction range (min to max bounds)
+     - Shows how many breaches occurred at each expiry
+
+  3. **Statistics**:
+     - Sortable table with per-expiry metrics
+     - Columns: Expiry date, prediction count, breach count, hit rate %, min/max/median bounds, expiry close price
+     - Click any column header to sort ascending/descending
+     - Color-coded hit rates (green ≥85%, blue 75-85%, yellow 65-75%, red <65%)
+
+- **Stock Summary Metrics**: Per-stock statistics displayed dynamically as you change stock selection
+  - Total predictions for selected stock
+  - Total breaches
+  - Overall hit rate percentage
+  - Breach rate percentage
+
+**Business Context:**
+- Validates 1-sigma (68% confidence level) IV-based lower bound predictions
+- Analyzes 102,633+ historical options across 56+ stocks
+- Period covered: April 2024 - November 2025
+- **Overall Performance**: 83.62% hit rate (predictions held at expiry)
+  - Expected: 68% (by normal distribution theory)
+  - Actual: 83.62% (outperforming expectations)
+- Indicates IV is conservative in downside risk estimates
+
+**Data Pipeline:**
+1. Load CSV files: `hit_rate_trends_by_stock.csv`, `all_stocks_daily_predictions.csv`, `all_stocks_expiry_stats.csv`
+2. Parse and aggregate data by selected stock
+3. Calculate monthly trends (grouping by expiry date)
+4. Generate visualizations from aggregated data
+5. Display interactive tabs for different views
+
+**File References:**
+- **Page**: `src/pages/LowerBoundAnalysis.tsx` - Main page with tab navigation and layout
+- **Hooks**:
+  - `useLowerBoundTrendData()` - Loads hit rate trends
+  - `useLowerBoundDailyPredictions()` - Loads daily prediction data
+  - `useLowerBoundExpiryStats()` - Loads expiry statistics
+  - `useAllLowerBoundData()` - Composite hook combining all data
+  - `useLowerBoundStockData(stock)` - Gets data for selected stock
+- **Components**:
+  - `LowerBoundTrendChart.tsx` - Monthly trend visualization (Recharts)
+  - `LowerBoundDistributionChart.tsx` - Distribution and breach analysis chart
+  - `LowerBoundExpiryTable.tsx` - Sortable statistics table
+  - `LowerBoundControls.tsx` - Stock selector, summary cards
+- **Types**: `src/types/lowerBound.ts` - TypeScript interfaces
+- **Data Files**:
+  - `/data/hit_rate_trends_by_stock.csv` - Monthly hit rate data (1,071 rows)
+  - `/data/all_stocks_daily_predictions.csv` - Daily predictions (102,633+ rows)
+  - `/data/all_stocks_expiry_stats.csv` - Expiry statistics (2,405+ rows)
+
+**Key Implementation Details:**
+- Uses TanStack Query for efficient caching and data fetching
+- Papa Parse for CSV parsing with pipe-delimited format
+- Recharts for interactive visualizations
+- Responsive design for mobile/tablet/desktop
+- Dynamic chart scaling based on selected stock data
+- Color-coded metrics for quick visual assessment
+
 ## Data Sources
 - Static CSV files in `/data` (tracked in git)
 - Python scripts for data generation (`portfolio_generator.py`)
@@ -492,6 +570,7 @@ git push
   - `/monthly` - Monthly analysis visualizations
   - `/volatility` - Volatility analysis components
   - `/probability` - Probability analysis components (calibration, recovery, and supporting charts)
+  - `/lower-bound` - Lower bound analysis components (trend chart, distribution chart, table, controls)
 - `/src/pages` - Route components
 - `/src/types` - TypeScript interfaces
 - `/src/contexts` - React context providers (SettingsContext, AuthProvider)
@@ -501,6 +580,9 @@ git push
   - `data.csv` - Options data
   - `recovery_report_data.csv` - Probability recovery analysis data
   - `validation_report_data.csv` - Probability validation data
+  - `hit_rate_trends_by_stock.csv` - Monthly hit rate trends for lower bound analysis
+  - `all_stocks_daily_predictions.csv` - Daily predictions for lower bound analysis
+  - `all_stocks_expiry_stats.csv` - Expiry statistics for lower bound analysis
   - Other CSV files for volatility, monthly, and historical data
 - `/src/components/ui` - shadcn/ui component library
 
