@@ -1,6 +1,6 @@
 /**
  * Lower Bound Distribution Chart Component
- * Displays prediction distribution and breach analysis
+ * Displays prediction distribution and breach analysis with daily stock prices
  */
 
 import React, { useMemo } from 'react';
@@ -14,48 +14,66 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Cell,
 } from 'recharts';
 import { LowerBoundExpiryStatistic } from '@/types/lowerBound';
+import { useStockData } from '@/hooks/useStockData';
 
 interface LowerBoundDistributionChartProps {
   data: LowerBoundExpiryStatistic[];
   stock: string;
-  stockPriceData?: Array<{ date: string; close: number }>;
   isLoading?: boolean;
 }
 
 export const LowerBoundDistributionChart: React.FC<
   LowerBoundDistributionChartProps
-> = ({ data, stock, stockPriceData, isLoading = false }) => {
-  // Filter and prepare chart data
+> = ({ data, stock, isLoading = false }) => {
+  // Load stock price data for this stock
+  const stockDataQuery = useStockData();
+  const stockPriceData = useMemo(() => {
+    if (!stockDataQuery.data) return [];
+    return stockDataQuery.data
+      .filter((d) => d.name === stock)
+      .map((d) => ({
+        date: d.date,
+        close: d.close,
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date));
+  }, [stockDataQuery.data, stock]);
+  // Create combined chart data with daily stock prices and expiry statistics
   const chartData = useMemo(() => {
-    const stockData = data
-      .filter((d) => d.Stock === stock)
-      .sort((a, b) => a.ExpiryDate.localeCompare(b.ExpiryDate))
-      .map((d) => {
-        // Calculate if this expiry had breaches
-        const breachRate =
-          d.PredictionCount > 0
-            ? (d.BreachCount / d.PredictionCount) * 100
-            : 0;
+    // Start with daily stock prices
+    const priceData = stockPriceData.map((d) => ({
+      date: d.date,
+      close: d.close,
+      median: null as number | null,
+      mean: null as number | null,
+      breachCount: 0,
+      expiryClose: null as number | null,
+    }));
 
+    // Add expiry statistics to their respective dates
+    const expiryMap = new Map<string, LowerBoundExpiryStatistic>();
+    data.filter((d) => d.Stock === stock).forEach((d) => {
+      expiryMap.set(d.ExpiryDate, d);
+    });
+
+    // Merge expiry data into the price data
+    const merged = priceData.map((p) => {
+      const expiry = expiryMap.get(p.date);
+      if (expiry) {
         return {
-          expiryDate: d.ExpiryDate,
-          rangeMin: d.LowerBound_Min,
-          rangeMax: d.LowerBound_Max,
-          median: d.LowerBound_Median,
-          mean: d.LowerBound_Mean,
-          predictionCount: d.PredictionCount,
-          breachCount: d.BreachCount,
-          breachRate: Math.round(breachRate * 100) / 100,
-          expiryClose: d.ExpiryClosePrice || 0,
-          hit: (d.BreachCount === 0) ? true : false,
+          ...p,
+          median: expiry.LowerBound_Median,
+          mean: expiry.LowerBound_Mean,
+          breachCount: expiry.BreachCount,
+          expiryClose: expiry.ExpiryClosePrice,
         };
-      });
+      }
+      return p;
+    });
 
-    return stockData;
-  }, [data, stock]);
+    return merged.sort((a, b) => a.date.localeCompare(b.date));
+  }, [data, stock, stockPriceData]);
 
   // Calculate price range for y-axis
   const priceRange = useMemo(() => {
@@ -118,7 +136,7 @@ export const LowerBoundDistributionChart: React.FC<
           <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
 
           <XAxis
-            dataKey="expiryDate"
+            dataKey="date"
             angle={-45}
             textAnchor="end"
             height={100}
@@ -159,13 +177,14 @@ export const LowerBoundDistributionChart: React.FC<
               padding: '12px',
             }}
             formatter={(value, name) => {
+              if (value === null) return null;
               const num = value as number;
               if (typeof num === 'number') {
                 return [num.toFixed(2), name];
               }
               return [value, name];
             }}
-            labelFormatter={(label) => `Expiry: ${label}`}
+            labelFormatter={(label) => `Date: ${label}`}
           />
 
           <Legend
@@ -222,19 +241,19 @@ export const LowerBoundDistributionChart: React.FC<
 
       <div className="mt-4 space-y-2 text-sm text-slate-600">
         <p>
-          Total expirations: {chartData.length} | Total breaches: {chartData.reduce((sum, d) => sum + d.breachCount, 0)}
+          Date range: {chartData.length > 0 ? `${chartData[0].date} to ${chartData[chartData.length - 1].date}` : 'N/A'} | Total breaches: {chartData.reduce((sum, d) => sum + d.breachCount, 0)}
+        </p>
+        <p>
+          <span className="inline-block w-3 h-3 bg-black mr-2"></span> Black line = Daily stock price (all trading days)
+        </p>
+        <p>
+          <span className="inline-block w-3 h-3 bg-blue-500 mr-2"></span> Blue line = Median predicted bound (shown only on expiry dates)
+        </p>
+        <p>
+          <span className="inline-block w-3 h-3 bg-purple-500 mr-2"></span> Purple dashed = Mean predicted bound (shown only on expiry dates)
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-red-500 mr-2"></span> Red bars = Breach count per expiry date (right y-axis)
-        </p>
-        <p>
-          <span className="inline-block w-3 h-3 bg-black mr-2"></span> Black line = Actual expiry close price
-        </p>
-        <p>
-          <span className="inline-block w-3 h-3 bg-blue-500 mr-2"></span> Blue line = Median prediction
-        </p>
-        <p>
-          <span className="inline-block w-3 h-3 bg-purple-500 mr-2"></span> Purple dashed = Mean prediction
         </p>
       </div>
     </div>
