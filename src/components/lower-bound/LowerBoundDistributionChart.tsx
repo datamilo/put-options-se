@@ -29,6 +29,7 @@ export const LowerBoundDistributionChart: React.FC<
 > = ({ data, stock, isLoading = false }) => {
   // Load stock price data for this stock
   const stockDataQuery = useStockData();
+
   const stockPriceData = useMemo(() => {
     if (!stockDataQuery.data) return [];
     return stockDataQuery.data
@@ -39,21 +40,49 @@ export const LowerBoundDistributionChart: React.FC<
       }))
       .sort((a, b) => a.date.localeCompare(b.date));
   }, [stockDataQuery.data, stock]);
+
   // Create combined chart data with daily stock prices and expiry statistics
   const chartData = useMemo(() => {
-    // Start with daily stock prices
-    const priceData = stockPriceData.map((d) => ({
+    // Get expiry statistics for this stock
+    const expiryStats = data.filter((d) => d.Stock === stock);
+
+    // If we have no stock price data but have expiry stats, still show something
+    // (use expiry dates as the base)
+    let baseData: Array<{ date: string; close: number | null }>;
+
+    if (stockPriceData.length > 0) {
+      // Preferred: use all daily stock prices as base
+      baseData = stockPriceData.map((d) => ({
+        date: d.date,
+        close: d.close,
+      }));
+    } else if (expiryStats.length > 0) {
+      // Fallback: use just the expiry dates
+      const uniqueDates = Array.from(
+        new Set(expiryStats.map((d) => d.ExpiryDate))
+      ).sort();
+      baseData = uniqueDates.map((date) => ({
+        date,
+        close: null,
+      }));
+    } else {
+      // No data at all
+      return [];
+    }
+
+    // Create base data structure
+    const priceData = baseData.map((d) => ({
       date: d.date,
-      close: d.close,
+      close: d.close as number | null,
       median: null as number | null,
       mean: null as number | null,
       breachCount: 0,
       expiryClose: null as number | null,
     }));
 
-    // Add expiry statistics to their respective dates
+    // Create expiry map
     const expiryMap = new Map<string, LowerBoundExpiryStatistic>();
-    data.filter((d) => d.Stock === stock).forEach((d) => {
+    expiryStats.forEach((d) => {
       expiryMap.set(d.ExpiryDate, d);
     });
 
@@ -82,17 +111,18 @@ export const LowerBoundDistributionChart: React.FC<
     }
 
     const allPrices = [
-      ...chartData.map((d) => d.rangeMin),
-      ...chartData.map((d) => d.rangeMax),
+      ...chartData.map((d) => d.close),
+      ...chartData.map((d) => d.median),
+      ...chartData.map((d) => d.mean),
       ...chartData.map((d) => d.expiryClose),
-    ].filter((p) => p > 0);
+    ].filter((p) => p !== null && p > 0);
 
     if (allPrices.length === 0) {
       return { min: 0, max: 100 };
     }
 
-    const minPrice = Math.min(...allPrices);
-    const maxPrice = Math.max(...allPrices);
+    const minPrice = Math.min(...(allPrices as number[]));
+    const maxPrice = Math.max(...(allPrices as number[]));
     const padding = (maxPrice - minPrice) * 0.1;
 
     return {

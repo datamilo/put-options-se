@@ -136,9 +136,19 @@ export const useAllLowerBoundData = () => {
         throw new Error('Data not loaded');
       }
 
-      // Extract unique stocks
+      // Extract unique stocks with sufficient data (at least 6 expiry dates)
+      const expiryCountByStock = new Map<string, number>();
+      expiryQuery.data.forEach((stat) => {
+        const current = expiryCountByStock.get(stat.Stock) || 0;
+        expiryCountByStock.set(stat.Stock, current + 1);
+      });
+
       const stocks = Array.from(
-        new Set(dailyQuery.data.map((d) => d.Stock))
+        new Set(
+          dailyQuery.data
+            .map((d) => d.Stock)
+            .filter((stock) => (expiryCountByStock.get(stock) || 0) >= 6)
+        )
       ).sort();
 
       // Calculate summary metrics
