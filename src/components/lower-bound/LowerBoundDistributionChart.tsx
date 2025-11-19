@@ -2,12 +2,14 @@
  * Lower Bound Distribution Chart Component
  * Displays prediction distribution and breach analysis with daily stock prices
  * Uses Plotly for violin plot visualization
+ * Includes earnings event markers from historical stock event data
  */
 
 import React, { useMemo } from 'react';
 import Plot from 'react-plotly.js';
 import { LowerBoundExpiryStatistic, LowerBoundDailyPrediction } from '@/types/lowerBound';
 import { useStockData } from '@/hooks/useStockData';
+import { useVolatilityData } from '@/hooks/useVolatilityData';
 
 interface LowerBoundDistributionChartProps {
   data: LowerBoundExpiryStatistic[];
@@ -21,6 +23,9 @@ export const LowerBoundDistributionChart: React.FC<
 > = ({ data, dailyPredictions: dailyPredictionsProp, stock, isLoading = false }) => {
   // Load stock price data for this stock
   const stockDataQuery = useStockData();
+
+  // Load earnings events data
+  const earningsDataQuery = useVolatilityData();
 
   // Wait until stock data is loaded (useStockData returns isLoading, not isSuccess)
   const isStockDataReady = !stockDataQuery.isLoading && stockDataQuery.allStockData.length > 0;
@@ -42,6 +47,21 @@ export const LowerBoundDistributionChart: React.FC<
 
   // Use daily predictions from props (already filtered by parent)
   const dailyPredictions = dailyPredictionsProp;
+
+  // Get earnings event dates for this stock (deduped)
+  const earningsEventDates = useMemo(() => {
+    if (!earningsDataQuery.volatilityData || earningsDataQuery.volatilityData.length === 0) return [];
+
+    // Filter to this stock and earnings events only
+    const earningsEvents = earningsDataQuery.volatilityData.filter(
+      (event) => event.name === stock &&
+      (event.type_of_event === 'Kvartalsrapport' || event.type_of_event === 'Bokslutskommuniké')
+    );
+
+    // Deduplicate by date and sort
+    const uniqueDates = Array.from(new Set(earningsEvents.map((e) => e.date))).sort();
+    return uniqueDates;
+  }, [earningsDataQuery.volatilityData, stock]);
 
   // Get expiry stats for this stock
   const expiryStats = useMemo(() => {
@@ -157,8 +177,23 @@ export const LowerBoundDistributionChart: React.FC<
       return Math.max(max, count);
     }, 0);
 
+    // Build shapes for earnings event vertical lines
+    const shapes = earningsEventDates.map((eventDate) => ({
+      type: 'line',
+      x0: eventDate,
+      x1: eventDate,
+      y0: 0,
+      y1: 1,
+      yref: 'paper',
+      line: {
+        color: 'rgba(100, 150, 200, 0.4)',
+        width: 2,
+        dash: 'dash',
+      },
+    }));
+
     return {
-      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count</sub>`,
+      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count | Blue dashed lines = earnings reports</sub>`,
       xaxis: {
         title: 'Date',
         range: [minDate, maxDate],
@@ -182,8 +217,9 @@ export const LowerBoundDistributionChart: React.FC<
       showlegend: true,
       hovermode: 'x unified',
       violinmode: 'overlay',
+      shapes: shapes,
     };
-  }, [stockPriceData, expiryStats, stock]);
+  }, [stockPriceData, expiryStats, stock, earningsEventDates]);
 
   if (isLoading || !isStockDataReady) {
     return (
