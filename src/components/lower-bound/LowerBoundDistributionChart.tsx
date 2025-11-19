@@ -22,19 +22,19 @@ export const LowerBoundDistributionChart: React.FC<
   // Load stock price data for this stock
   const stockDataQuery = useStockData();
 
-  // Wait until all required data is loaded
-  const isDataReady = stockDataQuery.isSuccess;
+  // Wait until stock data is loaded (useStockData returns isLoading, not isSuccess)
+  const isStockDataReady = !stockDataQuery.isLoading && stockDataQuery.allStockData.length > 0;
 
   const stockPriceData = useMemo(() => {
-    if (!stockDataQuery.data) return [];
-    return stockDataQuery.data
+    if (!stockDataQuery.allStockData || stockDataQuery.allStockData.length === 0) return [];
+    return stockDataQuery.allStockData
       .filter((d) => d.name === stock)
       .map((d) => ({
         date: d.date,
         close: d.close,
       }))
       .sort((a, b) => a.date.localeCompare(b.date));
-  }, [stockDataQuery.data, stock]);
+  }, [stockDataQuery.allStockData, stock]);
 
   // Use daily predictions from props (already filtered by parent)
   const dailyPredictions = dailyPredictionsProp;
@@ -163,7 +163,7 @@ export const LowerBoundDistributionChart: React.FC<
     };
   }, [stockPriceData, expiryStats, stock]);
 
-  if (isLoading || !isDataReady) {
+  if (isLoading || !isStockDataReady) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
         <p className="text-slate-500">Loading distribution data...</p>
