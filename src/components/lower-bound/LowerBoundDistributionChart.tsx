@@ -23,6 +23,9 @@ export const LowerBoundDistributionChart: React.FC<
   const stockDataQuery = useStockData();
   const dailyPredictionsQuery = useLowerBoundDailyPredictions();
 
+  // Wait until all required data is loaded
+  const isDataReady = stockDataQuery.isSuccess && dailyPredictionsQuery.isSuccess;
+
   const stockPriceData = useMemo(() => {
     if (!stockDataQuery.data) return [];
     return stockDataQuery.data
@@ -166,7 +169,7 @@ export const LowerBoundDistributionChart: React.FC<
     };
   }, [stockPriceData, expiryStats, stock]);
 
-  if (isLoading) {
+  if (isLoading || !isDataReady) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
         <p className="text-slate-500">Loading distribution data...</p>
@@ -195,7 +198,7 @@ export const LowerBoundDistributionChart: React.FC<
             displayModeBar: true,
             displaylogo: false,
           }}
-          style={{ width: '100%' }}
+          style={{ width: '100%', height: '700px' }}
         />
       )}
 
