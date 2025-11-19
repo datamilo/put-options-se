@@ -5,12 +5,20 @@
 
 **MANDATORY GIT WORKFLOW - NO EXCEPTIONS:**
 
-After making ANY changes to this project, you MUST immediately:
-1. Run `npm run build` to test the build
+After making changes to this project, you MUST immediately:
+1. **Build (conditionally)** - Only required for substantive changes
 2. Run `git add -A` to stage all changes
 3. Run `git commit -m "descriptive message"` to commit
 4. Run `git push` to sync with GitHub
 5. Verify the push succeeded
+
+**When to run `npm run build`:**
+- ✓ Any changes to React components, hooks, or logic
+- ✓ TypeScript/JavaScript modifications
+- ✓ Styling changes (CSS/Tailwind)
+- ✓ Data processing or calculation changes
+- ✓ Build configuration changes
+- ✗ NOT needed for: documentation, comments, markdown, comments-only edits, trivial text updates, .gitignore changes
 
 **DO NOT:**
 - ❌ Continue to other tasks without committing
@@ -390,12 +398,14 @@ The application is fully functional with all major features implemented and work
 **STEP 1: Make code changes**
 - Edit files and save
 
-**STEP 2: Build and test locally**
+**STEP 2: Build (when needed)**
+- For substantive code/component/logic changes, run:
 ```bash
 npm run build
 ```
 - Ensure no errors in build output
 - Test locally to verify changes work
+- **Skip for:** documentation-only, comments-only, trivial text updates, or config-only changes like .gitignore
 
 **STEP 3: Stage and commit changes**
 ```bash
@@ -433,7 +443,7 @@ git push
 
 **Verification Checklist:**
 - [ ] Code changes made and tested locally
-- [ ] `npm run build` completed with no errors
+- [ ] `npm run build` completed with no errors (if substantive changes)
 - [ ] `git commit` completed with clear message
 - [ ] `git push` completed successfully
 - [ ] `git status` shows `Your branch is up to date with 'origin/main'`
