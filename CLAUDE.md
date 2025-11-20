@@ -1,5 +1,9 @@
 # Put Options SE - Project Summary for Claude Code
 
+> **This file (CLAUDE.md) is the main index.** For complete page documentation, implementation details, and technical specifications, see the `/docs` folder.
+
+---
+
 ## CRITICAL WORKFLOW RULE
 
 **MANDATORY GIT WORKFLOW - NO EXCEPTIONS:**
