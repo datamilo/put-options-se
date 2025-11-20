@@ -85,41 +85,23 @@ export const LowerBoundDistributionChart: React.FC<
     });
   }, [expiryStats]);
 
-  // Generate x-axis tick values and text: expiry dates + intermediate dates if gaps are large
+  // Generate x-axis tick values: ALL unique expiry dates from entire dataset (not just current stock)
+  // This ensures every stock shows the same x-axis dates, even if they don't have all expiries
   const xAxisTicksData = useMemo(() => {
-    const expiryDates = expiryStats
-      .map((s) => s.ExpiryDate)
+    // Get ALL unique expiry dates from the entire dataset
+    const allExpiryDates = Array.from(new Set(data.map((d) => d.ExpiryDate)))
       .sort()
-      .filter((v, i, a) => a.indexOf(v) === i); // dedup
+      .filter((v) => v); // Remove any empty values
 
-    if (expiryDates.length === 0) {
+    if (allExpiryDates.length === 0) {
       return { tickvals: [], ticktext: [] };
     }
 
-    const allDates: string[] = [];
-    allDates.push(expiryDates[0]);
-
-    // Add intermediate dates if gaps are large
-    for (let i = 1; i < expiryDates.length; i++) {
-      const prevDate = new Date(expiryDates[i - 1]);
-      const nextDate = new Date(expiryDates[i]);
-      const daysDiff = (nextDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24);
-
-      // If gap > 21 days, add intermediate date(s) at the midpoint
-      if (daysDiff > 21) {
-        const midDate = new Date(prevDate);
-        midDate.setDate(midDate.getDate() + Math.floor(daysDiff / 2));
-        allDates.push(midDate.toISOString().split('T')[0]);
-      }
-
-      allDates.push(expiryDates[i]);
-    }
-
     return {
-      tickvals: allDates,
-      ticktext: allDates,
+      tickvals: allExpiryDates,
+      ticktext: allExpiryDates,
     };
-  }, [expiryStats]);
+  }, [data]);
 
   // Build traces for Plotly subplots
   const plotlyData = useMemo(() => {
@@ -325,6 +307,7 @@ export const LowerBoundDistributionChart: React.FC<
         tickvals: xAxisTicksData.tickvals.length > 0 ? xAxisTicksData.tickvals : undefined,
         ticktext: xAxisTicksData.ticktext.length > 0 ? xAxisTicksData.ticktext : undefined,
         tickangle: -45,
+        showticklabels: true,
         domain: [0, 1],
       },
       yaxis3: {
