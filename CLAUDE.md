@@ -426,46 +426,84 @@ The Lower Bound Analysis answers a critical question for options traders: **"How
 *Why it uses Plotly instead of Recharts:*
 - Plotly supports financial violin plots (Recharts does not)
 - Violin plots visually show prediction distribution density
-- Plotly's unified hover mode combines multiple trace types seamlessly
-- Native support for fixed-width violins and secondary y-axis
+- Native support for subplots with independent y-axes
+- Supports dual-axis visualization with multiple trace types
+- Fixed-width violins provide consistent visual comparison
+
+*Subplot Layout - Two synchronized charts:*
+- **Chart 1 (Main)**: Prediction distribution with breaches (top 65%)
+  - Y-axis 1: Price (SEK) - left side
+  - Y-axis 2: Breach Count - right side
+  - X-axis: Shared date range
+
+- **Chart 2 (Secondary)**: Span percentage (bottom 30%)
+  - Y-axis 3: Span % - left side
+  - X-axis: Shared date range with Chart 1
+
+- Both charts show identical date labels on x-axis (sampled expiry dates)
 
 *Implementation details:*
 - **Data Loading**: Loads stock price data via `useStockData()` hook
-  - Filters to minimum date of 2024-05-01 (when options data begins) - line 32
+  - Filters to minimum date of 2024-05-01 (when options data begins)
   - This ensures chart only shows relevant data period
   - Rationale: Historical stock prices before options data would be misleading
-- **Data Ready Check** (line 26):
+
+- **Data Ready Check** (line 31):
   - `isStockDataReady = !stockDataQuery.isLoading && stockDataQuery.allStockData.length > 0`
   - Checks `useStockData` hook which returns custom state (not React Query)
   - Uses `allStockData` property (not `.data`) - important for correct property access
 
-- **Three Plotly Traces rendered in order** (lines 59-134):
-  1. **Breach Count Bars** (background, line 61-75):
+- **X-Axis Labels** (lines 88-123):
+  - Generates list of all unique expiry dates from entire dataset
+  - Samples dates evenly to show max 15 labels for readability
+  - Algorithm: If > 15 dates, shows every Nth date evenly spaced
+  - Always includes first and last expiry date
+  - Both xaxis and xaxis2 use identical tickvals/ticktext for synchronization
+
+- **Main Chart Traces** (ROW 1, lines 140-246):
+  1. **Breach Count Bars** (background):
      - Red bars with 60% opacity
      - Uses secondary y-axis (y2) for right-side scale
      - Only shows expiries with breaches > 0
-     - Hover template: `'<b>Breaches at %{x}</b><br>Count: %{y}'`
+     - Hover: `'<b>%{x}</b><br>Breaches: %{y}'`
 
-  2. **Violin Plots** (middle, lines 82-122):
+  2. **Violin Plots** (middle):
      - For each expiry date with ≥3 prediction data points
-     - **Critical properties for correct visualization** (lines 109-112):
+     - **Critical properties for correct visualization**:
        - `hoveron: 'violins+points'` - Allows interaction with violin shapes
        - `scalemode: 'width'` - Fixed width violins (not auto-scaled)
        - `width: 432000000` - ~5 day width in milliseconds for consistent sizing
-       - `span: [minBound, maxBound]` - Shows prediction range bounds from expiryStats (lines 116-118)
+       - `span: [minBound, maxBound]` - Shows prediction range bounds from expiryStats
      - Blue fill with meanline visible
      - Meanline shows average predicted lower bound at that expiry
      - Span bounds come from `LowerBound_Min` and `LowerBound_Max` in expiryStats
+     - Hover: `'<b>%{x}</b><br>Prediction: %{y:.2f} SEK'`
 
-  3. **Stock Price Line** (foreground, lines 125-132):
+  3. **Stock Price Line** (foreground):
      - Black line with 2.5 width
      - Continuous daily closing prices (all trading days after 2024-05-01)
-     - Hover template: `'<b>Stock Price</b><br>Date: %{x}<br>Close: %{y:.2f} SEK'`
+     - Hover: `'<b>%{x}</b><br>Stock Price: %{y:.2f} SEK'`
 
-- **Dual Y-Axis Setup** (lines 147-157):
-  - Left axis (y): Price in SEK, 0-auto
-  - Right axis (y2): Breach count, 0 to (maxBreachCount × 3)
-  - Secondary axis scaled up 3× to match historical breach bar heights
+  4. **Earnings Event Markers**:
+     - Orange circular markers (size 12) with orange borders
+     - Position: Stock price at earnings event date
+     - Hover: `'<b>%{x}</b><br>Earnings Report Price: %{y:.2f} SEK'`
+
+- **Span Percentage Chart Traces** (ROW 2, lines 251-262):
+  - Green bars showing span percentage for each expiry date
+  - Calculation: `((maxBound - minBound) / minBound) × 100`
+  - Hover: `'<b>%{x}</b><br>Span: %{y:.2f}%'`
+
+- **Y-Axis Setup**:
+  - yaxis (y1): Price (SEK), domain [0.40, 1]
+  - yaxis2: Breach count, domain [0.40, 1], overlays y1, range [0, maxBreachCount × 3]
+  - yaxis3: Span %, domain [0, 0.35], range [0, maxSpanPercentage × 1.1]
+  - Gap between charts: domain [0.35, 0.40] prevents overlap
+
+- **Hover Template Standardization**:
+  - All tooltips use `%{x}` for date, ensuring consistent YYYY-MM-DD format
+  - Date formatting controlled by Plotly's tickformat ('%Y-%m-%d')
+  - No custom date labels in tooltips (avoids conflicting formats)
 
 **Other Components:**
 - **LowerBoundTrendChart** (`src/components/lower-bound/LowerBoundTrendChart.tsx`): Recharts ComposedChart showing monthly trends
