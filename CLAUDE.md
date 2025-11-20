@@ -47,6 +47,10 @@ Detailed documentation for each page is in the `/docs` folder:
 | Lower Bound Analysis | `/lower-bound-analysis` | [docs/lower-bound-analysis.md](docs/lower-bound-analysis.md) | IV-based prediction validation |
 | Volatility Analysis | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Financial reporting volatility |
 
+### Additional Documentation
+- [docs/FIELD_GUIDE.md](docs/FIELD_GUIDE.md) - Business-focused explanation of all 67 fields in data.csv for investors
+- [docs/README_Portfolio_Generator.md](docs/README_Portfolio_Generator.md) - Python script documentation for portfolio generation
+
 ---
 
 ## Project Structure
