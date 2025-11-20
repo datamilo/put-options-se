@@ -85,6 +85,42 @@ export const LowerBoundDistributionChart: React.FC<
     });
   }, [expiryStats]);
 
+  // Generate x-axis tick values and text: expiry dates + intermediate dates if gaps are large
+  const xAxisTicksData = useMemo(() => {
+    const expiryDates = expiryStats
+      .map((s) => s.ExpiryDate)
+      .sort()
+      .filter((v, i, a) => a.indexOf(v) === i); // dedup
+
+    if (expiryDates.length === 0) {
+      return { tickvals: [], ticktext: [] };
+    }
+
+    const allDates: string[] = [];
+    allDates.push(expiryDates[0]);
+
+    // Add intermediate dates if gaps are large
+    for (let i = 1; i < expiryDates.length; i++) {
+      const prevDate = new Date(expiryDates[i - 1]);
+      const nextDate = new Date(expiryDates[i]);
+      const daysDiff = (nextDate.getTime() - prevDate.getTime()) / (1000 * 60 * 60 * 24);
+
+      // If gap > 21 days, add intermediate date(s) at the midpoint
+      if (daysDiff > 21) {
+        const midDate = new Date(prevDate);
+        midDate.setDate(midDate.getDate() + Math.floor(daysDiff / 2));
+        allDates.push(midDate.toISOString().split('T')[0]);
+      }
+
+      allDates.push(expiryDates[i]);
+    }
+
+    return {
+      tickvals: allDates,
+      ticktext: allDates,
+    };
+  }, [expiryStats]);
+
   // Build traces for Plotly subplots
   const plotlyData = useMemo(() => {
     if (stockPriceData.length === 0 && expiryStats.length === 0) {
@@ -261,7 +297,8 @@ export const LowerBoundDistributionChart: React.FC<
         title: '',
         range: [minDate, maxDate],
         tickformat: '%Y-%m-%d',
-        nticks: 20,
+        tickvals: xAxisTicksData.tickvals.length > 0 ? xAxisTicksData.tickvals : undefined,
+        ticktext: xAxisTicksData.ticktext.length > 0 ? xAxisTicksData.ticktext : undefined,
         tickangle: -45,
         showticklabels: false,
         domain: [0, 1],
@@ -285,7 +322,8 @@ export const LowerBoundDistributionChart: React.FC<
         title: 'Date',
         range: [minDate, maxDate],
         tickformat: '%Y-%m-%d',
-        nticks: 20,
+        tickvals: xAxisTicksData.tickvals.length > 0 ? xAxisTicksData.tickvals : undefined,
+        ticktext: xAxisTicksData.ticktext.length > 0 ? xAxisTicksData.ticktext : undefined,
         tickangle: -45,
         domain: [0, 1],
       },
@@ -306,7 +344,7 @@ export const LowerBoundDistributionChart: React.FC<
     };
 
     return layoutObj;
-  }, [stockPriceData, expiryStats, spanData, stock]);
+  }, [stockPriceData, expiryStats, spanData, xAxisTicksData, stock]);
 
   if (isLoading || !isStockDataReady) {
     return (
