@@ -147,7 +147,7 @@ export const LowerBoundDistributionChart: React.FC<
         yaxis: 'y2',
         xaxis: 'x1',
         hovertemplate:
-          '<b>Breaches at %{x}</b><br>Count: %{y}<extra></extra>',
+          '<b>%{x}</b><br>Breaches: %{y}<extra></extra>',
       });
     }
 
@@ -180,7 +180,7 @@ export const LowerBoundDistributionChart: React.FC<
           opacity: 0.6,
           meanline: { visible: true },
           points: false,
-          hoverinfo: 'y',
+          hovertemplate: '<b>%{x}</b><br>Prediction: %{y:.2f} SEK<extra></extra>',
           hoveron: 'violins+points',
           scalemode: 'width',
           spanmode: 'hard',
@@ -207,7 +207,7 @@ export const LowerBoundDistributionChart: React.FC<
         line: { color: 'black', width: 2.5 },
         xaxis: 'x1',
         yaxis: 'y1',
-        hovertemplate: '<b>Stock Price</b><br>Date: %{x}<br>Close: %{y:.2f} SEK<extra></extra>',
+        hovertemplate: '<b>%{x}</b><br>Stock Price: %{y:.2f} SEK<extra></extra>',
       });
     }
 
@@ -241,7 +241,7 @@ export const LowerBoundDistributionChart: React.FC<
         },
         xaxis: 'x1',
         yaxis: 'y1',
-        hovertemplate: '<b>Earnings Report</b><br>Date: %{x}<br>Price: %{y:.2f} SEK<extra></extra>',
+        hovertemplate: '<b>%{x}</b><br>Earnings Report Price: %{y:.2f} SEK<extra></extra>',
       });
     }
 
@@ -258,7 +258,7 @@ export const LowerBoundDistributionChart: React.FC<
         xaxis: 'x2',
         yaxis: 'y3',
         hovertemplate:
-          '<b>Span %</b><br>Date: %{x}<br>Span: %{y:.2f}%<extra></extra>',
+          '<b>%{x}</b><br>Span: %{y:.2f}%<extra></extra>',
       });
     }
 
