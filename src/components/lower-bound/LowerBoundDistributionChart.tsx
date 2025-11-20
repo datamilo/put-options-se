@@ -1,7 +1,8 @@
 /**
  * Lower Bound Distribution Chart Component
  * Displays prediction distribution and breach analysis with daily stock prices
- * Uses Plotly for violin plot visualization
+ * Uses Plotly subplots: main chart (distribution + breaches) + secondary chart (span %)
+ * Both charts share x-axis and show unified hover info
  * Includes earnings event markers from historical stock event data
  */
 
@@ -84,7 +85,7 @@ export const LowerBoundDistributionChart: React.FC<
     });
   }, [expiryStats]);
 
-  // Build traces for Plotly
+  // Build traces for Plotly subplots
   const plotlyData = useMemo(() => {
     if (stockPriceData.length === 0 && expiryStats.length === 0) {
       return [];
@@ -92,7 +93,9 @@ export const LowerBoundDistributionChart: React.FC<
 
     const traces: any[] = [];
 
-    // 1. Breach count bars first (so they appear behind everything)
+    // ===== ROW 1: MAIN CHART (Distribution + Breaches) =====
+
+    // 1. Breach count bars
     const breachesOnly = expiryStats.filter((s) => {
       const count = parseInt(s.BreachCount) || 0;
       return count > 0;
@@ -105,26 +108,13 @@ export const LowerBoundDistributionChart: React.FC<
         name: 'Breach Count',
         marker: { color: 'red', opacity: 0.6 },
         yaxis: 'y2',
+        xaxis: 'x1',
         hovertemplate:
           '<b>Breaches at %{x}</b><br>Count: %{y}<extra></extra>',
       });
     }
 
-    // 1b. Span percentage bars
-    if (spanData.length > 0) {
-      traces.push({
-        x: spanData.map((s) => s.expiryDate),
-        y: spanData.map((s) => s.spanPercentage),
-        type: 'bar',
-        name: 'Span %',
-        marker: { color: 'rgb(76, 175, 80)', opacity: 0.7 },
-        yaxis: 'y3',
-        hovertemplate:
-          '<b>Span at %{x}</b><br>Span: %{y:.2f}%<extra></extra>',
-      });
-    }
-
-    // 2. Violin plots for prediction distributions at each expiry
+    // 2. Violin plots for prediction distributions
     const uniqueExpiries = Array.from(
       new Set(expiryStats.map((s) => s.ExpiryDate))
     ).sort();
@@ -134,12 +124,10 @@ export const LowerBoundDistributionChart: React.FC<
         (p) => p.ExpiryDate === expiryDate
       );
 
-      // Get min/max bounds for this expiry from expiryStats
       const expiryStatForViolinSpan = expiryStats.find((s) => s.ExpiryDate === expiryDate);
       const minBound = expiryStatForViolinSpan ? parseFloat(expiryStatForViolinSpan.LowerBound_Min) : null;
       const maxBound = expiryStatForViolinSpan ? parseFloat(expiryStatForViolinSpan.LowerBound_Max) : null;
 
-      // Only create violin if we have at least 3 data points
       if (expiryPreds.length >= 3) {
         const violinTrace: any = {
           x: expiryPreds.map(() => expiryDate),
@@ -159,10 +147,11 @@ export const LowerBoundDistributionChart: React.FC<
           hoveron: 'violins+points',
           scalemode: 'width',
           spanmode: 'hard',
-          width: 432000000, // ~5 day width in milliseconds for fixed violin size
+          width: 432000000,
+          xaxis: 'x1',
+          yaxis: 'y1',
         };
 
-        // Add span property if we have bounds
         if (minBound !== null && maxBound !== null && !isNaN(minBound) && !isNaN(maxBound)) {
           violinTrace.span = [minBound, maxBound];
         }
@@ -179,18 +168,18 @@ export const LowerBoundDistributionChart: React.FC<
         mode: 'lines',
         name: 'Stock Price',
         line: { color: 'black', width: 2.5 },
+        xaxis: 'x1',
+        yaxis: 'y1',
         hovertemplate: '<b>Stock Price</b><br>Date: %{x}<br>Close: %{y:.2f} SEK<extra></extra>',
       });
     }
 
-    // 4. Earnings event markers as dots (last so they appear on top)
+    // 4. Earnings event markers
     if (earningsEventDates.length > 0 && stockPriceData.length > 0) {
-      // Find stock price at each earnings event date (or closest date)
       const earningsEventPrices = earningsEventDates.map((eventDate) => {
         const priceData = stockPriceData.find((d) => d.date === eventDate);
         if (priceData) return priceData.close;
 
-        // Find closest date if exact match not found
         const closest = stockPriceData.reduce((prev, current) => {
           const prevDiff = Math.abs(new Date(prev.date).getTime() - new Date(eventDate).getTime());
           const currentDiff = Math.abs(new Date(current.date).getTime() - new Date(eventDate).getTime());
@@ -213,12 +202,31 @@ export const LowerBoundDistributionChart: React.FC<
             width: 2.5,
           },
         },
+        xaxis: 'x1',
+        yaxis: 'y1',
         hovertemplate: '<b>Earnings Report</b><br>Date: %{x}<br>Price: %{y:.2f} SEK<extra></extra>',
       });
     }
 
+    // ===== ROW 2: SPAN PERCENTAGE CHART =====
+
+    // 5. Span percentage bars (on second subplot)
+    if (spanData.length > 0) {
+      traces.push({
+        x: spanData.map((s) => s.expiryDate),
+        y: spanData.map((s) => s.spanPercentage),
+        type: 'bar',
+        name: 'Span %',
+        marker: { color: 'rgb(76, 175, 80)', opacity: 0.7 },
+        xaxis: 'x2',
+        yaxis: 'y3',
+        hovertemplate:
+          '<b>Span %</b><br>Date: %{x}<br>Span: %{y:.2f}%<extra></extra>',
+      });
+    }
+
     return traces;
-  }, [stockPriceData, expiryStats, dailyPredictions, earningsEventDates]);
+  }, [stockPriceData, expiryStats, dailyPredictions, earningsEventDates, spanData]);
 
   const layout = useMemo(() => {
     if (stockPriceData.length === 0) {
@@ -226,7 +234,7 @@ export const LowerBoundDistributionChart: React.FC<
         title: `${stock} - Prediction Distribution & Breaches (No price data available)`,
         xaxis: { title: 'Date' },
         yaxis: { title: 'Price (SEK)' },
-        height: 700,
+        height: 800,
         template: 'plotly_white',
         hovermode: 'x unified',
       };
@@ -235,29 +243,33 @@ export const LowerBoundDistributionChart: React.FC<
     const minDate = stockPriceData[0].date;
     const maxDate = stockPriceData[stockPriceData.length - 1].date;
 
-    // Calculate max breach count for y-axis scaling
+    // Calculate max values for axis scaling
     const maxBreachCount = expiryStats.reduce((max, s) => {
       const count = parseInt(s.BreachCount) || 0;
       return Math.max(max, count);
     }, 0);
 
-    // Calculate max span percentage for y3 axis scaling
     const maxSpanPercentage = spanData.length > 0
       ? Math.max(...spanData.map((s) => s.spanPercentage))
       : 100;
 
-    return {
-      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count | Green bars = span % | Orange dots = earnings events</sub>`,
+    const layoutObj: any = {
+      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution | Red bars = breach count | Orange dots = earnings events | Green bars = span %</sub>`,
+
+      // ROW 1: Main chart (70% height)
       xaxis: {
-        title: 'Date',
+        title: '',
         range: [minDate, maxDate],
         tickformat: '%Y-%m-%d',
         nticks: 20,
         tickangle: -45,
+        showticklabels: false,
+        domain: [0, 1],
       },
       yaxis: {
         title: 'Price (SEK)',
         side: 'left',
+        domain: [0.35, 1],
       },
       yaxis2: {
         title: 'Breach Count',
@@ -265,22 +277,35 @@ export const LowerBoundDistributionChart: React.FC<
         overlaying: 'y',
         showgrid: false,
         range: [0, Math.max(maxBreachCount * 3, 1)],
+        domain: [0.35, 1],
+      },
+
+      // ROW 2: Span percentage chart (30% height)
+      xaxis2: {
+        title: 'Date',
+        range: [minDate, maxDate],
+        tickformat: '%Y-%m-%d',
+        nticks: 20,
+        tickangle: -45,
+        domain: [0, 1],
       },
       yaxis3: {
         title: 'Span %',
-        side: 'right',
-        overlaying: 'y',
-        showgrid: false,
-        anchor: 'free',
-        position: 0.85,
+        side: 'left',
         range: [0, Math.max(maxSpanPercentage * 1.1, 10)],
+        domain: [0, 0.3],
       },
-      height: 700,
+
+      // Layout configuration
+      height: 900,
       template: 'plotly_white',
       showlegend: true,
       hovermode: 'x unified',
       violinmode: 'overlay',
+      margin: { l: 60, r: 80, t: 120, b: 100 },
     };
+
+    return layoutObj;
   }, [stockPriceData, expiryStats, spanData, stock]);
 
   if (isLoading || !isStockDataReady) {
