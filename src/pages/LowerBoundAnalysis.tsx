@@ -7,6 +7,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { useAllLowerBoundData, useLowerBoundStockData } from '@/hooks/useLowerBoundData';
 import { LowerBoundTrendChart } from '@/components/lower-bound/LowerBoundTrendChart';
 import { LowerBoundDistributionChart } from '@/components/lower-bound/LowerBoundDistributionChart';
+import { LowerBoundSpanChart } from '@/components/lower-bound/LowerBoundSpanChart';
 import { LowerBoundExpiryTable } from '@/components/lower-bound/LowerBoundExpiryTable';
 import {
   StockSelector,
@@ -165,6 +166,26 @@ export const LowerBoundAnalysis: React.FC = () => {
                     <LowerBoundDistributionChart
                       data={stockDataQuery.data.expiryStats}
                       dailyPredictions={stockDataQuery.data.dailyPredictions}
+                      stock={selectedStock}
+                      isLoading={isLoading}
+                    />
+                  )}
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">
+                    Prediction Span Percentage - {selectedStock}
+                  </CardTitle>
+                  <p className="text-sm text-slate-600 mt-2">
+                    Width of prediction ranges (min to max bounds) as a percentage of minimum value
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  {stockDataQuery.isSuccess && stockDataQuery.data && (
+                    <LowerBoundSpanChart
+                      data={stockDataQuery.data.expiryStats}
                       stock={selectedStock}
                       isLoading={isLoading}
                     />
