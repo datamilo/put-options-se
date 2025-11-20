@@ -180,7 +180,7 @@ export const LowerBoundDistributionChart: React.FC<
           opacity: 0.6,
           meanline: { visible: true },
           points: false,
-          hoverinfo: 'skip',
+          hovertemplate: '%{x|%Y-%m-%d}<br>Prediction Range<extra></extra>',
           hoveron: 'violins',
           scalemode: 'width',
           spanmode: 'hard',
