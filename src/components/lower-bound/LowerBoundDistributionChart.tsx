@@ -68,6 +68,22 @@ export const LowerBoundDistributionChart: React.FC<
     return data.filter((d) => d.Stock === stock);
   }, [data, stock]);
 
+  // Calculate span percentages for each expiry
+  const spanData = useMemo(() => {
+    return expiryStats.map((stat) => {
+      const minBound = parseFloat(stat.LowerBound_Min);
+      const maxBound = parseFloat(stat.LowerBound_Max);
+      let spanPercentage = 0;
+      if (!isNaN(minBound) && !isNaN(maxBound) && minBound > 0) {
+        spanPercentage = ((maxBound - minBound) / minBound) * 100;
+      }
+      return {
+        expiryDate: stat.ExpiryDate,
+        spanPercentage,
+      };
+    });
+  }, [expiryStats]);
+
   // Build traces for Plotly
   const plotlyData = useMemo(() => {
     if (stockPriceData.length === 0 && expiryStats.length === 0) {
@@ -91,6 +107,20 @@ export const LowerBoundDistributionChart: React.FC<
         yaxis: 'y2',
         hovertemplate:
           '<b>Breaches at %{x}</b><br>Count: %{y}<extra></extra>',
+      });
+    }
+
+    // 1b. Span percentage bars
+    if (spanData.length > 0) {
+      traces.push({
+        x: spanData.map((s) => s.expiryDate),
+        y: spanData.map((s) => s.spanPercentage),
+        type: 'bar',
+        name: 'Span %',
+        marker: { color: 'rgb(76, 175, 80)', opacity: 0.7 },
+        yaxis: 'y3',
+        hovertemplate:
+          '<b>Span at %{x}</b><br>Span: %{y:.2f}%<extra></extra>',
       });
     }
 
@@ -211,8 +241,13 @@ export const LowerBoundDistributionChart: React.FC<
       return Math.max(max, count);
     }, 0);
 
+    // Calculate max span percentage for y3 axis scaling
+    const maxSpanPercentage = spanData.length > 0
+      ? Math.max(...spanData.map((s) => s.spanPercentage))
+      : 100;
+
     return {
-      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count | Blue dots = earnings events</sub>`,
+      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution at expiry | Red bars = breach count | Green bars = span % | Orange dots = earnings events</sub>`,
       xaxis: {
         title: 'Date',
         range: [minDate, maxDate],
@@ -231,13 +266,22 @@ export const LowerBoundDistributionChart: React.FC<
         showgrid: false,
         range: [0, Math.max(maxBreachCount * 3, 1)],
       },
+      yaxis3: {
+        title: 'Span %',
+        side: 'right',
+        overlaying: 'y',
+        showgrid: false,
+        anchor: 'free',
+        position: 0.85,
+        range: [0, Math.max(maxSpanPercentage * 1.1, 10)],
+      },
       height: 700,
       template: 'plotly_white',
       showlegend: true,
       hovermode: 'x unified',
       violinmode: 'overlay',
     };
-  }, [stockPriceData, expiryStats, stock]);
+  }, [stockPriceData, expiryStats, spanData, stock]);
 
   if (isLoading || !isStockDataReady) {
     return (
@@ -293,6 +337,10 @@ export const LowerBoundDistributionChart: React.FC<
         <p>
           <span className="inline-block w-3 h-3 bg-red-500 mr-2"></span>
           <strong>Red bars</strong> = Breach count per expiry date (right y-axis)
+        </p>
+        <p>
+          <span className="inline-block w-3 h-3 mr-2" style={{ backgroundColor: 'rgb(76, 175, 80)' }}></span>
+          <strong>Green bars</strong> = Span percentage (range width: (max - min) / min × 100%, right y-axis)
         </p>
       </div>
     </div>
