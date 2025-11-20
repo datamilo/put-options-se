@@ -301,12 +301,8 @@ export const LowerBoundDistributionChart: React.FC<
         tickvals: xAxisTicksData.tickvals.length > 0 ? xAxisTicksData.tickvals : undefined,
         ticktext: xAxisTicksData.ticktext.length > 0 ? xAxisTicksData.ticktext : undefined,
         tickangle: -45,
-        showticklabels: false, // Hide labels here, they appear on lower chart
+        showticklabels: false, // Hide labels here, they appear in separate area
         domain: [0, 1],
-        showspikes: true,
-        spikemode: 'across',
-        spikethickness: 1,
-        spikecolor: '#999',
       },
       yaxis: {
         title: 'Price (SEK)',
@@ -333,11 +329,6 @@ export const LowerBoundDistributionChart: React.FC<
         showticklabels: true,
         domain: [0, 1],
         anchor: 'y3', // Anchor to yaxis3 so labels appear at bottom of span chart
-        showspikes: true,
-        spikemode: 'across',
-        spikethickness: 1,
-        spikecolor: '#999',
-        matches: 'x', // Synchronize with main x-axis
       },
       yaxis3: {
         title: 'Span %',
@@ -351,19 +342,9 @@ export const LowerBoundDistributionChart: React.FC<
       height: 1000, // Increased height to accommodate spacing
       template: 'plotly_white',
       showlegend: true,
-      hovermode: 'x',
-      hoverdistance: 50, // Increase hover detection distance
-      spikedistance: -1, // Show spikes across all subplots
+      hovermode: 'x unified',
       violinmode: 'overlay',
       margin: { l: 60, r: 80, t: 120, b: 120 }, // Increased bottom margin
-
-      // Synchronize hover across subplots
-      grid: {
-        rows: 2,
-        columns: 1,
-        pattern: 'independent',
-        roworder: 'top to bottom',
-      },
     };
 
     return layoutObj;
