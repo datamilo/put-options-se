@@ -85,8 +85,8 @@ export const LowerBoundDistributionChart: React.FC<
     });
   }, [expiryStats]);
 
-  // Generate x-axis tick values: ALL unique expiry dates from entire dataset (not just current stock)
-  // This ensures every stock shows the same x-axis dates, even if they don't have all expiries
+  // Generate x-axis tick values: sample of expiry dates to avoid overcrowding
+  // Shows approximately 15-20 evenly spaced dates for readability
   const xAxisTicksData = useMemo(() => {
     // Get ALL unique expiry dates from the entire dataset
     const allExpiryDates = Array.from(new Set(data.map((d) => d.ExpiryDate)))
@@ -97,9 +97,28 @@ export const LowerBoundDistributionChart: React.FC<
       return { tickvals: [], ticktext: [] };
     }
 
+    // If we have too many dates, sample them evenly to avoid overcrowding
+    const maxTicks = 15;
+    let selectedDates: string[];
+
+    if (allExpiryDates.length <= maxTicks) {
+      selectedDates = allExpiryDates;
+    } else {
+      // Sample dates evenly across the range
+      const step = Math.floor(allExpiryDates.length / maxTicks);
+      selectedDates = [];
+      for (let i = 0; i < allExpiryDates.length; i += step) {
+        selectedDates.push(allExpiryDates[i]);
+      }
+      // Always include the last date
+      if (selectedDates[selectedDates.length - 1] !== allExpiryDates[allExpiryDates.length - 1]) {
+        selectedDates.push(allExpiryDates[allExpiryDates.length - 1]);
+      }
+    }
+
     return {
-      tickvals: allExpiryDates,
-      ticktext: allExpiryDates,
+      tickvals: selectedDates,
+      ticktext: selectedDates,
     };
   }, [data]);
 
@@ -301,7 +320,7 @@ export const LowerBoundDistributionChart: React.FC<
 
       // ROW 2: Span percentage chart (bottom ~35% with top margin for spacing)
       xaxis2: {
-        title: 'Date',
+        title: '',
         range: [minDate, maxDate],
         tickformat: '%Y-%m-%d',
         tickvals: xAxisTicksData.tickvals.length > 0 ? xAxisTicksData.tickvals : undefined,
@@ -309,12 +328,14 @@ export const LowerBoundDistributionChart: React.FC<
         tickangle: -45,
         showticklabels: true,
         domain: [0, 1],
+        anchor: 'y3', // Anchor to yaxis3 so labels appear at bottom of span chart
       },
       yaxis3: {
         title: 'Span %',
         side: 'left',
         range: [0, Math.max(maxSpanPercentage * 1.1, 10)],
         domain: [0, 0.35], // Ends at 0.35 to leave gap above
+        anchor: 'x2', // Anchor to xaxis2
       },
 
       // Layout configuration
