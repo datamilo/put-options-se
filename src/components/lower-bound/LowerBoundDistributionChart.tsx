@@ -292,7 +292,7 @@ export const LowerBoundDistributionChart: React.FC<
     const layoutObj: any = {
       title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution | Red bars = breach count | Orange dots = earnings events | Green bars = span %</sub>`,
 
-      // ROW 1: Main chart (70% height)
+      // ROW 1: Main chart (top ~65% with bottom margin for spacing)
       xaxis: {
         title: '',
         range: [minDate, maxDate],
@@ -300,13 +300,13 @@ export const LowerBoundDistributionChart: React.FC<
         tickvals: xAxisTicksData.tickvals.length > 0 ? xAxisTicksData.tickvals : undefined,
         ticktext: xAxisTicksData.ticktext.length > 0 ? xAxisTicksData.ticktext : undefined,
         tickangle: -45,
-        showticklabels: false,
+        showticklabels: false, // Hide labels here, they appear in separate area
         domain: [0, 1],
       },
       yaxis: {
         title: 'Price (SEK)',
         side: 'left',
-        domain: [0.35, 1],
+        domain: [0.40, 1], // Start from 0.40 to leave gap
       },
       yaxis2: {
         title: 'Breach Count',
@@ -314,10 +314,10 @@ export const LowerBoundDistributionChart: React.FC<
         overlaying: 'y',
         showgrid: false,
         range: [0, Math.max(maxBreachCount * 3, 1)],
-        domain: [0.35, 1],
+        domain: [0.40, 1],
       },
 
-      // ROW 2: Span percentage chart (30% height)
+      // ROW 2: Span percentage chart (bottom ~35% with top margin for spacing)
       xaxis2: {
         title: 'Date',
         range: [minDate, maxDate],
@@ -331,16 +331,16 @@ export const LowerBoundDistributionChart: React.FC<
         title: 'Span %',
         side: 'left',
         range: [0, Math.max(maxSpanPercentage * 1.1, 10)],
-        domain: [0, 0.3],
+        domain: [0, 0.35], // Ends at 0.35 to leave gap above
       },
 
       // Layout configuration
-      height: 900,
+      height: 1000, // Increased height to accommodate spacing
       template: 'plotly_white',
       showlegend: true,
       hovermode: 'x unified',
       violinmode: 'overlay',
-      margin: { l: 60, r: 80, t: 120, b: 100 },
+      margin: { l: 60, r: 80, t: 120, b: 120 }, // Increased bottom margin
     };
 
     return layoutObj;
