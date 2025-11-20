@@ -266,9 +266,9 @@ export const LowerBoundDistributionChart: React.FC<
   }, [stockPriceData, expiryStats, dailyPredictions, earningsEventDates, spanData]);
 
   const layout = useMemo(() => {
-    if (stockPriceData.length === 0) {
+    if (stockPriceData.length === 0 && expiryStats.length === 0) {
       return {
-        title: `${stock} - Prediction Distribution & Breaches (No price data available)`,
+        title: `${stock} - Prediction Distribution & Breaches (No data available)`,
         xaxis: { title: 'Date' },
         yaxis: { title: 'Price (SEK)' },
         height: 800,
@@ -277,8 +277,14 @@ export const LowerBoundDistributionChart: React.FC<
       };
     }
 
-    const minDate = stockPriceData[0].date;
-    const maxDate = stockPriceData[stockPriceData.length - 1].date;
+    // Get date range from stock data
+    const minDate = stockPriceData.length > 0 ? stockPriceData[0].date : '2024-05-01';
+    const stockMaxDate = stockPriceData.length > 0 ? stockPriceData[stockPriceData.length - 1].date : '2024-05-01';
+
+    // Extend date range to include future expiry dates
+    const expiryDates = expiryStats.map(s => s.ExpiryDate).filter(d => d);
+    const maxExpiryDate = expiryDates.length > 0 ? expiryDates.sort().pop() : stockMaxDate;
+    const maxDate = maxExpiryDate && maxExpiryDate > stockMaxDate ? maxExpiryDate : stockMaxDate;
 
     // Calculate max values for axis scaling
     const maxBreachCount = expiryStats.reduce((max, s) => {
