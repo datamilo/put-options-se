@@ -101,9 +101,10 @@ put-options-se-1/
 - **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength analysis
 - **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools
 - **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
-- **Volatility Analysis** (`/volatility-analysis`) - Stock event volatility tracking
-- **Stock Details** (`/stock/:stockName`) - Individual stock price action
-- **Option Details** (`/option/:optionId`) - Detailed option analysis
+- **Stock Analysis** (`/stock/:stockName`) - Individual stock performance metrics
+- **Probability Analysis** (`/probability-analysis`) - Probability method validation and recovery
+- **Lower Bound Analysis** (`/lower-bound-analysis`) - IV-based prediction validation
+- **Volatility Analysis** (`/volatility-analysis`) - Financial reporting volatility tracking
 
 ## Data
 
@@ -153,7 +154,10 @@ Settings persist via Supabase for authenticated users or localStorage for guests
 
 ## Documentation
 
-For detailed technical documentation including architecture, data flows, and development patterns, see `CLAUDE.md`.
+For detailed technical documentation including architecture, data flows, and development patterns:
+- **Main Index**: See `CLAUDE.md`
+- **Page Documentation**: See `/docs` folder for detailed documentation on each page
+- **Field Guide**: See `docs/FIELD_GUIDE.md` for business-focused explanation of all fields in data.csv
 
 ## License
 

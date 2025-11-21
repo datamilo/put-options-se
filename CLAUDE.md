@@ -69,9 +69,9 @@ Detailed documentation for each page is in the `/docs` folder:
 - `data.csv` - Options data
 - `recovery_report_data.csv` - Probability recovery analysis
 - `validation_report_data.csv` - Probability validation
-- `hit_rate_trends_by_stock.csv` - Lower bound monthly trends
-- `all_stocks_daily_predictions.csv` - Lower bound daily predictions
-- `all_stocks_expiry_stats.csv` - Lower bound expiry statistics
+- `hit_rate_trends_by_stock.csv` - Lower bound monthly trends (1,071 rows)
+- `all_stocks_daily_predictions.csv` - Lower bound daily predictions (115,000+ rows, includes future expirations)
+- `all_stocks_expiry_stats.csv` - Lower bound expiry statistics (2,681 rows, includes future expirations)
 
 ---
 

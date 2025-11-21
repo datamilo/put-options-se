@@ -10,7 +10,8 @@ The Lower Bound Analysis answers: **"How reliable are IV-based downside risk pre
 
 - **Key Finding**: 83.62% hit rate vs 68% theoretical expectation (from 1-sigma normal distribution)
 - **Insight**: IV systematically underestimates downside risk - traders can use this for more confident risk assessments
-- **Data Scope**: 102,633+ historical options across 56+ stocks, April 2024 - November 2025
+- **Data Scope**: 115,000+ predictions across 56+ stocks, April 2024 - future expiries
+- **Coverage**: Historical backtested data plus forward-looking predictions for future expirations
 
 ## User-Facing Features
 
@@ -29,10 +30,10 @@ Choose from 56+ stocks to analyze individual performance.
 
 2. **Distribution**:
    - Multi-trace Plotly visualization showing prediction distributions and breach analysis
-   - **Black line**: Continuous daily stock price
-   - **Blue violin plots**: Prediction distribution density at each expiry date
-   - **Red bars**: Breach count at each expiry date (right y-axis)
-   - **Green bars**: Span percentage showing prediction range width
+   - **Black line**: Continuous daily stock price (historical data only)
+   - **Blue violin plots**: Prediction distribution density at each expiry date (includes future expirations)
+   - **Red bars**: Breach count at each expiry date (right y-axis, historical only)
+   - **Green bars**: Span percentage showing prediction range width (all expirations)
 
 3. **Statistics**:
    - Sortable table with detailed per-expiry metrics
@@ -59,6 +60,7 @@ Choose from 56+ stocks to analyze individual performance.
 *Key Implementation Details:*
 - **Data Ready Check**: `isStockDataReady = !stockDataQuery.isLoading && stockDataQuery.allStockData.length > 0`
 - **Stock Data Filtering**: Filter to minimum date of `'2024-05-01'` (when options data begins)
+- **Extended Date Range**: Chart x-axis extends to maximum expiry date to show future predictions without price data
 - **Plotly Violin Configuration**:
   - `hoveron: 'violins'` - Enables hover interaction with violin shapes
   - `scalemode: 'width'` - Fixed-width violins for consistent visual comparison
@@ -73,14 +75,15 @@ Choose from 56+ stocks to analyze individual performance.
 
 ### Data Files (`/data/`)
 - `hit_rate_trends_by_stock.csv` - Monthly hit rate data (1,071 rows)
-- `all_stocks_daily_predictions.csv` - Daily predictions (102,633 rows)
-- `all_stocks_expiry_stats.csv` - Expiry statistics (2,405 rows)
+- `all_stocks_daily_predictions.csv` - Daily predictions (115,000+ rows, includes future expirations)
+- `all_stocks_expiry_stats.csv` - Expiry statistics (2,681 rows, includes future expirations)
 
 ## Key Design Decisions
 
 1. **Pass dailyPredictions as prop, not load internally** - Prevents duplicate async loading
 2. **Filter stock data to 2024-05-01** - Aligns visualization with data analysis period
-3. **Use Plotly for violin plots** - Recharts doesn't support violin plot type
+3. **Extend x-axis to future dates** - Shows violin plots for future expirations even without price data
+4. **Use Plotly for violin plots** - Recharts doesn't support violin plot type
 
 ## File References
 - **Page**: `src/pages/LowerBoundAnalysis.tsx`
