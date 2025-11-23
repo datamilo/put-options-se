@@ -9,13 +9,13 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 - **Rolling Low Calculation**: Computes N-period rolling minimum of low prices (30, 90, 180, 270, or 365 calendar days)
 - **Support Break Detection**: Identifies when rolling low decreases, signaling a break of previous support
 - **Break Clustering**: Groups consecutive support breaks within a configurable time window (1-90 days)
-- **Multi-Trace Visualization**: Plotly chart with candlestick prices, rolling low line (blue dashed), and break markers (red circles)
+- **Multi-Trace Visualization**: Plotly chart with candlestick prices, rolling low line (slate gray dashed), and break markers (purple circles)
 
 ## Key Components
 - **Plotly Chart** with three traces in unified hover mode:
-  - **Candlestick**: OHLC price data
-  - **Rolling Low Line**: Blue dashed line tracking support level
-  - **Break Markers**: Red circles marking support breaks
+  - **Candlestick**: OHLC price data (professional blue for up days, muted red for down days)
+  - **Rolling Low Line**: Slate gray dashed line tracking support level
+  - **Break Markers**: Purple circles marking support breaks
 
 ## Data Hooks
 - **useConsecutiveBreaksAnalysis** - Core analysis logic
@@ -32,7 +32,7 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 6. `analyzeConsecutiveBreaks()` clusters breaks within configurable max gap window
 7. `calculateBreakStats()` generates stability and timing statistics
 
-## Dashboard Sections
+## Page Sections
 - Metrics cards (total breaks, clusters, multi-break clusters, max breaks)
 - Cluster detail cards with statistics (duration, gaps, drops, break tables)
 - Support break history table
