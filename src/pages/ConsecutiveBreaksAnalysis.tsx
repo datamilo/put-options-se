@@ -136,7 +136,7 @@ export const ConsecutiveBreaksAnalysis = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            📊 Support Level Analysis Dashboard
+            📊 Support Level Analysis
           </h1>
           <p className="text-muted-foreground">
             Analyze how well a stock's low is holding as support - tracking support breaks and clusters
