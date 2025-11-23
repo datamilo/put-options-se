@@ -81,8 +81,8 @@ export const ConsecutiveBreaksAnalysis = () => {
           low: analysis.data.map((d) => d.low),
           close: analysis.data.map((d) => d.close),
           name: 'Price',
-          increasing: { line: { color: '#00D9FF' } },
-          decreasing: { line: { color: '#FF6B6B' } },
+          increasing: { line: { color: '#0066CC' } },
+          decreasing: { line: { color: '#CC3300' } },
         },
         // Rolling low trace
         {
@@ -91,7 +91,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           x: analysis.data.map((d) => d.date),
           y: analysis.data.map((d) => d.rolling_low),
           name: 'Rolling Low',
-          line: { color: '#6366F1', width: 2, dash: 'dash' },
+          line: { color: '#4B5563', width: 2, dash: 'dash' },
           customdata: analysis.data.map((d) => d.last_break_date),
           hovertemplate: '<b>Rolling Low:</b> %{y:.2f} kr<br><b>Last Break:</b> %{customdata|%Y-%m-%d}<extra></extra>',
         },
@@ -102,7 +102,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           x: analysis.breaks.map((b) => b.date),
           y: analysis.breaks.map((b) => b.new_support),
           name: 'Support Broken',
-          marker: { color: '#FF6B6B', size: 10, symbol: 'circle' },
+          marker: { color: '#CC3300', size: 10, symbol: 'circle' },
           text: analysis.breaks.map((b) => `Drop: ${b.drop_pct.toFixed(2)}%`),
           hovertemplate:
             '<b>%{x}</b><br>Support: %{y:.2f} kr<br>%{text}<extra></extra>',
