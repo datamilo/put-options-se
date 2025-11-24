@@ -23,7 +23,7 @@ import ProtectedRoute from "@/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { NavigationMenu } from "@/components/NavigationMenu";
-import { Home } from "lucide-react";
+import { Activity } from "lucide-react";
 const queryClient = new QueryClient();
 
 const AppHeader = () => {
@@ -40,7 +40,7 @@ const AppHeader = () => {
               title="Go to home page"
             >
               <Link to="/">
-                <Home className="h-5 w-5" />
+                <Activity className="h-5 w-5" />
               </Link>
             </Button>
             <NavigationMenu />
