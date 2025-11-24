@@ -71,7 +71,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <LineChart className="mr-2 h-4 w-4" />
-            Stock Analysis
+            Stock Metrics and History
           </DropdownMenuItem>
 
           <DropdownMenuItem

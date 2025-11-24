@@ -47,7 +47,7 @@ const StockDetailsPage = () => {
     navigate(`/stock/${encodedStock}`);
   };
 
-  usePageTitle('Stock Analysis', selectedStock);
+  usePageTitle('Stock Metrics and History', selectedStock);
 
   if (!selectedStock && isLoading) {
     return (
@@ -165,7 +165,7 @@ const StockDetailsPage = () => {
         )}
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Stock Analysis</h1>
+            <h1 className="text-3xl font-bold">Stock Metrics and History</h1>
           </div>
           <div className="w-full max-w-xs">
             <Select value={selectedStock} onValueChange={handleStockChange}>
@@ -195,7 +195,7 @@ const StockDetailsPage = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between gap-4 flex-wrap">
-        <h1 className="text-3xl font-bold">Stock Analysis</h1>
+        <h1 className="text-3xl font-bold">Stock Metrics and History</h1>
         {isFromStock && (
           <Button
             variant="outline"

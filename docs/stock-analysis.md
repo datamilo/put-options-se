@@ -1,13 +1,13 @@
-# Stock Analysis
+# Stock Metrics and History
 
 Routes: `/stock-analysis`, `/stock/:stockName`
 
 ## Overview
-Individual stock performance with stock selector dropdown, OHLC candlestick charts, and comprehensive performance metrics.
+Individual stock historical price data and performance metrics with stock selector dropdown, OHLC candlestick charts, and comprehensive performance metrics.
 
 ## Access Methods
-1. **From Navigation Menu**: Click menu → "Stock Analysis" to access with default stock and dropdown selector
-2. **From Options Table**: Click any stock name in the main options table to navigate directly to that stock's analysis
+1. **From Navigation Menu**: Click menu → "Stock Metrics and History" to access with default stock and dropdown selector
+2. **From Options Table**: Click any stock name in the main options table to navigate directly to that stock's metrics and history
 3. **Stock Selector Dropdown**: Available on all Stock Analysis views to switch between stocks instantly
 
 ## Key Components
