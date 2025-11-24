@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
+import { Layers } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -135,8 +136,9 @@ export const ConsecutiveBreaksAnalysis = () => {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
-            📊 Support Level Analysis
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
+            <Layers className="h-8 w-8" />
+            Support Level Analysis
           </h1>
           <p className="text-muted-foreground">
             Analyze how well a stock's low is holding as support - tracking support breaks and clusters
