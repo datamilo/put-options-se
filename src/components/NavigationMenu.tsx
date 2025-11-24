@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, Calendar, Activity, LogOut, Settings, Sun, Moon, ChartNetwork, LineChart, Target, BarChart } from "lucide-react";
+import { Menu, Bot, Calendar, Activity, LogOut, Settings, Sun, Moon, ChartNetwork, LineChart, TrendingUpDown, ArrowDown10 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -34,11 +34,11 @@ export const NavigationMenu = () => {
           align="start" 
           className="w-56 bg-background border shadow-lg z-50"
         >
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => navigate('/portfolio-generator')}
             className="cursor-pointer"
           >
-            <BarChart3 className="mr-2 h-4 w-4" />
+            <Bot className="mr-2 h-4 w-4" />
             Portfolio Generator
           </DropdownMenuItem>
           
@@ -78,7 +78,7 @@ export const NavigationMenu = () => {
             onClick={() => navigate('/probability-analysis')}
             className="cursor-pointer"
           >
-            <Target className="mr-2 h-4 w-4" />
+            <TrendingUpDown className="mr-2 h-4 w-4" />
             Probability Analysis
           </DropdownMenuItem>
 
@@ -86,7 +86,7 @@ export const NavigationMenu = () => {
             onClick={() => navigate('/lower-bound-analysis')}
             className="cursor-pointer"
           >
-            <BarChart className="mr-2 h-4 w-4" />
+            <ArrowDown10 className="mr-2 h-4 w-4" />
             Lower Bound Analysis
           </DropdownMenuItem>
 
