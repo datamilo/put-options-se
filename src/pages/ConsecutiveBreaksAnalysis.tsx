@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Layers } from 'lucide-react';
+import { ChartNetwork } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -137,7 +137,7 @@ export const ConsecutiveBreaksAnalysis = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
-            <Layers className="h-8 w-8" />
+            <ChartNetwork className="h-8 w-8" />
             Support Level Analysis
           </h1>
           <p className="text-muted-foreground">
