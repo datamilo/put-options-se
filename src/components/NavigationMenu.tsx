@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, BarChart3, TrendingUp, Activity, LogOut, Settings, Sun, Moon, Zap, LineChart, Target, CheckCircle, BarChart } from "lucide-react";
+import { Menu, BarChart3, Calendar, Activity, LogOut, Settings, Sun, Moon, Layers, LineChart, Target, BarChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -42,11 +42,11 @@ export const NavigationMenu = () => {
             Portfolio Generator
           </DropdownMenuItem>
           
-          <DropdownMenuItem 
+          <DropdownMenuItem
             onClick={() => navigate('/monthly-analysis')}
             className="cursor-pointer"
           >
-            <TrendingUp className="mr-2 h-4 w-4" />
+            <Calendar className="mr-2 h-4 w-4" />
             Monthly Analysis
           </DropdownMenuItem>
           
@@ -62,7 +62,7 @@ export const NavigationMenu = () => {
             onClick={() => navigate('/consecutive-breaks')}
             className="cursor-pointer"
           >
-            <Zap className="mr-2 h-4 w-4" />
+            <Layers className="mr-2 h-4 w-4" />
             Support Level Analysis
           </DropdownMenuItem>
 
