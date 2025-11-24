@@ -102,7 +102,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           x: analysis.breaks.map((b) => b.date),
           y: analysis.breaks.map((b) => b.new_support),
           name: 'Support Broken',
-          marker: { color: '#7C3AED', size: 5, symbol: 'circle' },
+          marker: { color: '#D97706', size: 5, symbol: 'circle' },
           text: analysis.breaks.map((b) => `Drop: ${b.drop_pct.toFixed(2)}%`),
           hovertemplate:
             '<b>%{x}</b><br>Support: %{y:.2f} kr<br>%{text}<extra></extra>',
