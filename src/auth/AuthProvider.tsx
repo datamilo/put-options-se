@@ -34,14 +34,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(session?.user ?? null);
     });
 
-    // THEN check for existing session
+    // THEN check for existing session with timeout
+    const timeout = setTimeout(() => {
+      console.warn("Auth session check timed out, continuing without session");
+      setLoading(false);
+    }, 5000);
+
     supabase.auth.getSession().then(({ data: { session } }) => {
+      clearTimeout(timeout);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
+    }).catch((error) => {
+      clearTimeout(timeout);
+      console.error("Failed to get session:", error);
+      setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      clearTimeout(timeout);
+      subscription.unsubscribe();
+    };
   }, []);
 
   const signIn = async (email: string, password: string) => {
@@ -51,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signUp = async (email: string, password: string) => {
     // Build correct redirect URL for GitHub Pages deployment with HashRouter
-    let redirectTo;
+    let redirectTo: string;
     if (window.location.hostname.includes('github.io')) {
       redirectTo = `${window.location.origin}/put-options-se/#/auth/callback`;
     } else {
