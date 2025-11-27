@@ -148,8 +148,12 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload || !payload.length) return null;
 
-    // Filter to only show the entry that has actual data (not null/undefined)
-    const validEntries = payload.filter((entry: any) => entry.value != null && entry.payload);
+    // Filter to only show actual method data, excluding the Perfect Calibration reference line
+    const validEntries = payload.filter((entry: any) =>
+      entry.value != null &&
+      entry.payload &&
+      entry.name !== 'Perfect Calibration'
+    );
 
     if (validEntries.length === 0) return null;
 
