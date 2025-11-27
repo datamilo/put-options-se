@@ -154,24 +154,23 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     if (validEntries.length === 0) return null;
 
     return (
-      <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+      <div className="bg-background border border-border rounded-lg p-2 shadow-lg">
         {validEntries.map((entry: any, index: number) => {
           const data = entry.payload;
           const methodName = entry.name || 'Unknown Method';
           const lineColor = entry.color || entry.stroke;
 
           return (
-            <div key={index} className={index > 0 ? 'mt-3 pt-3 border-t border-border' : ''}>
-              <p className="font-semibold mb-1 flex items-center gap-2">
+            <div key={index} className={index > 0 ? 'mt-2 pt-2 border-t border-border' : ''}>
+              <p className="text-xs font-semibold mb-0.5 flex items-center gap-1.5">
                 <span
-                  className="inline-block w-3 h-3 rounded-full"
+                  className="inline-block w-2 h-2 rounded-full flex-shrink-0"
                   style={{ backgroundColor: lineColor }}
                 />
                 {methodName}
               </p>
-              <p className="text-sm">Predicted: {(data.predicted * 100).toFixed(1)}%</p>
-              <p className="text-sm">Actual: {(data.actual * 100).toFixed(1)}%</p>
-              {data.count && <p className="text-sm opacity-70">Count: {data.count.toLocaleString()}</p>}
+              <p className="text-xs ml-3.5">P: {(data.predicted * 100).toFixed(1)}% | A: {(data.actual * 100).toFixed(1)}%</p>
+              {data.count && <p className="text-xs ml-3.5 opacity-70">n={data.count.toLocaleString()}</p>}
             </div>
           );
         })}
