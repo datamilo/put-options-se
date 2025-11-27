@@ -151,15 +151,15 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
         <CardTitle>Recovery Advantage Analysis</CardTitle>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           <div>
-            <Label>Historical Peak Threshold</Label>
-            <Select value={threshold} onValueChange={setThreshold}>
+            <Label>Stock (optional)</Label>
+            <Select value={stock} onValueChange={setStock}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {availableOptions.thresholds.map(t => (
-                  <SelectItem key={t} value={t}>
-                    {(parseFloat(t) * 100).toFixed(0)}%
+                {stocks.map(s => (
+                  <SelectItem key={s} value={s}>
+                    {s}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -181,6 +181,21 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
             </Select>
           </div>
           <div>
+            <Label>Historical Peak Threshold</Label>
+            <Select value={threshold} onValueChange={setThreshold}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {availableOptions.thresholds.map(t => (
+                  <SelectItem key={t} value={t}>
+                    {(parseFloat(t) * 100).toFixed(0)}%
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
             <Label>Current Probability Bin</Label>
             <Select value={probBin} onValueChange={setProbBin}>
               <SelectTrigger>
@@ -190,21 +205,6 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                 {availableOptions.probBins.map(pb => (
                   <SelectItem key={pb} value={pb}>
                     {pb}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-            <Label>Stock (optional)</Label>
-            <Select value={stock} onValueChange={setStock}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {stocks.map(s => (
-                  <SelectItem key={s} value={s}>
-                    {s}
                   </SelectItem>
                 ))}
               </SelectContent>
