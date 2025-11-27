@@ -11,16 +11,21 @@ Comprehensive probability method validation and recovery opportunity analysis fo
 - Validates different probability calculation methods (Weighted Average, Bayesian Calibrated, Original Black-Scholes, Bias Corrected, Historical IV)
 - Scatter plot comparing predicted vs actual probabilities
 - Stock-specific filtering to isolate performance by stock
-- Metrics for calibration error, Brier score, and prediction accuracy
+- Days to Expiry filtering for time-based analysis
+- Interactive tooltips showing:
+  - Method name with color indicator dot
+  - Predicted and Actual probabilities (compact format: P: X% | A: Y%)
+  - Sample count (n=X)
+- Perfect Calibration diagonal line shown as visual reference only (not in tooltip)
 
 ### Probability Recovery Analysis Section
 - Identifies recovery opportunities where market underestimates probability of success
 - Compares options that had high historical ITM probability (80%+) vs current lower probability
-- Interactive Recovery Advantage Analysis chart with:
-  - Historical Peak Threshold selector (0.5-0.95)
+- Interactive Recovery Advantage Analysis chart with filters (left to right):
+  - Stock selector (optional, defaults to "All Stocks")
   - Probability Method selector
+  - Historical Peak Threshold selector (0.5-0.95)
   - Current Probability Bin selector (30-40%, 40-50%, 50-60%, etc.)
-  - Optional stock filter
 
 ## Page Layout
 1. Calibration Analysis chart (top) - validates probability methods
