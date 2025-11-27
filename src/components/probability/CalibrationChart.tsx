@@ -148,22 +148,33 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload || !payload.length) return null;
 
-    const data = payload[0].payload;
-    const methodName = payload[0].name || 'Unknown Method';
-    const lineColor = payload[0].color || payload[0].stroke;
+    // Filter to only show the entry that has actual data (not null/undefined)
+    const validEntries = payload.filter((entry: any) => entry.value != null && entry.payload);
+
+    if (validEntries.length === 0) return null;
 
     return (
       <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-        <p className="font-semibold mb-2 flex items-center gap-2">
-          <span
-            className="inline-block w-3 h-3 rounded-full"
-            style={{ backgroundColor: lineColor }}
-          />
-          {methodName}
-        </p>
-        <p className="text-sm">Predicted: {(data.predicted * 100).toFixed(1)}%</p>
-        <p className="text-sm">Actual: {(data.actual * 100).toFixed(1)}%</p>
-        {data.count && <p className="text-sm opacity-70">Count: {data.count.toLocaleString()}</p>}
+        {validEntries.map((entry: any, index: number) => {
+          const data = entry.payload;
+          const methodName = entry.name || 'Unknown Method';
+          const lineColor = entry.color || entry.stroke;
+
+          return (
+            <div key={index} className={index > 0 ? 'mt-3 pt-3 border-t border-border' : ''}>
+              <p className="font-semibold mb-1 flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 rounded-full"
+                  style={{ backgroundColor: lineColor }}
+                />
+                {methodName}
+              </p>
+              <p className="text-sm">Predicted: {(data.predicted * 100).toFixed(1)}%</p>
+              <p className="text-sm">Actual: {(data.actual * 100).toFixed(1)}%</p>
+              {data.count && <p className="text-sm opacity-70">Count: {data.count.toLocaleString()}</p>}
+            </div>
+          );
+        })}
       </div>
     );
   };
