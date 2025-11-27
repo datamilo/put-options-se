@@ -149,9 +149,18 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     if (!active || !payload || !payload.length) return null;
 
     const data = payload[0].payload;
+    const methodName = payload[0].name || 'Unknown Method';
+    const lineColor = payload[0].color || payload[0].stroke;
+
     return (
       <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-        <p className="font-semibold mb-2">{payload[0].name || payload[0].dataKey}</p>
+        <p className="font-semibold mb-2 flex items-center gap-2">
+          <span
+            className="inline-block w-3 h-3 rounded-full"
+            style={{ backgroundColor: lineColor }}
+          />
+          {methodName}
+        </p>
         <p className="text-sm">Predicted: {(data.predicted * 100).toFixed(1)}%</p>
         <p className="text-sm">Actual: {(data.actual * 100).toFixed(1)}%</p>
         {data.count && <p className="text-sm opacity-70">Count: {data.count.toLocaleString()}</p>}
@@ -227,7 +236,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               className="text-sm"
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend verticalAlign="bottom" height={36} />
+            <Legend
+              verticalAlign="bottom"
+              height={80}
+              wrapperStyle={{ paddingTop: '20px' }}
+            />
 
             {/* Perfect calibration reference line */}
             <Line
