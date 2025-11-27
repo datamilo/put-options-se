@@ -130,17 +130,28 @@ EOF
 ```
 
 ### When to Build
-**Run `npm run build`:**
-- React components, hooks, or logic changes
-- TypeScript/JavaScript modifications
-- Styling changes (CSS/Tailwind)
-- Data processing or calculation changes
 
-**Skip build for:**
-- Documentation or markdown files
-- Comments-only edits
-- Small Plotly/chart configuration tweaks
-- Configuration files like .gitignore
+**⚠️ CRITICAL: Only build when LOGIC or STRUCTURE changes - NOT for UI tweaks!**
+
+**SKIP BUILD (most common) - DO NOT BUILD for:**
+- **Chart configuration**: Tooltip changes, legend adjustments, color changes, axis labels
+- **Component reordering**: Moving filters/dropdowns around, changing grid order
+- **UI styling**: CSS/Tailwind class changes, spacing, colors, fonts
+- **Documentation**: Markdown files, comments, README updates
+- **Configuration**: .gitignore, package.json metadata (not dependencies)
+- **Plotly/Recharts tweaks**: Hover templates, chart margins, legend positioning
+- **Layout changes**: Reordering JSX elements without logic changes
+
+**RUN BUILD ONLY for:**
+- **New React components or hooks** - Creating new .tsx/.ts files
+- **Business logic changes** - Calculations, data processing, filtering algorithms
+- **Hook modifications** - Changes to useEffect, useMemo, useCallback logic
+- **State management** - Context providers, state logic changes
+- **Type changes** - TypeScript interfaces that affect compiled code
+- **Dependency additions** - New npm packages installed
+- **Data fetching logic** - API calls, CSV parsing changes
+
+**When in doubt:** If you only changed JSX layout, chart props, tooltip content, filter order, or visual styling → SKIP BUILD
 
 ### Git Safety
 - NEVER update git config
