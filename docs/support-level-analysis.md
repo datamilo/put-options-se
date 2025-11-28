@@ -15,6 +15,8 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 - **Plotly Chart** with three traces in unified hover mode:
   - **Candlestick**: OHLC price data (professional blue for up days, muted red for down days)
   - **Rolling Low Line**: Slate gray dashed line tracking support level
+    - Hover tooltip shows: "Running Low: X.XX kr" and "Running Low Date: YYYY-MM-DD"
+    - Running Low Date = the date when the lowest price in the selected period occurred
   - **Break Markers**: Amber dots marking support breaks
 
 ## Data Hooks
