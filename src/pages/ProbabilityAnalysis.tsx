@@ -4,6 +4,7 @@ import { useProbabilityRecoveryData } from '@/hooks/useProbabilityRecoveryData';
 import { useProbabilityValidationData } from '@/hooks/useProbabilityValidationData';
 import { RecoveryComparisonChart } from '@/components/probability/RecoveryComparisonChart';
 import { CalibrationChart } from '@/components/probability/CalibrationChart';
+import { MethodComparisonChart } from '@/components/probability/MethodComparisonChart';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Loader2, ArrowLeft, LineChart, TrendingUp } from 'lucide-react';
@@ -151,6 +152,42 @@ export const ProbabilityAnalysis: React.FC = () => {
                 availableStocks={availableStocks}
                 getCalibrationPoints={getCalibrationPoints}
               />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Section Separator */}
+        <div className="border-t-2 border-border my-8" />
+
+        {/* Stock Performance Comparison Section */}
+        <div className="space-y-4 pt-4">
+          <div className="flex items-center gap-3">
+            <LineChart className="h-6 w-6 text-purple-600" />
+            <div>
+              <h2 className="text-2xl font-bold">Stock Performance by Method</h2>
+              <p className="text-sm text-muted-foreground">Compare Method Accuracy Across All Stocks</p>
+            </div>
+          </div>
+
+          {/* How to Read the Stock Comparison */}
+          <Card className="border-l-4 border-l-purple-500">
+            <CardContent className="pt-6 space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-3">How to Read the Chart</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  This analysis compares how each probability method performs across different stocks. Each cell shows the average calibration error—how much the method's predictions deviate from actual outcomes. Positive values (green) indicate the method is conservative, predicting lower probabilities than actual results. Negative values (red) indicate overconfidence, predicting higher probabilities than actual results.
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Use the DTE selector to see how method performance changes as options approach expiration. Search to focus on specific stocks and sort by any column to identify patterns.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Stock Performance Chart */}
+          <Card>
+            <CardContent className="pt-6">
+              <MethodComparisonChart calibrationPoints={calibrationPoints} />
             </CardContent>
           </Card>
         </div>
