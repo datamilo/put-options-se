@@ -39,7 +39,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     'Historical IV': '#8b5cf6'
   };
 
-  // Filter and group data by method, then merge into single array
+  // Filter and group data by method
   const chartData = useMemo(() => {
     let filtered: CalibrationPoint[] = [];
 
@@ -117,16 +117,26 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     // Filter out points with count below 25th percentile
     const filteredByCount = filtered.filter(p => p.count >= countThreshold);
 
-    // Sort by predicted value to maintain chart order
-    const sorted = filteredByCount.sort((a, b) => a.predicted - b.predicted);
+    // Group by method
+    const grouped: Record<string, Array<{ predicted: number; actual: number; count: number }>> = {};
 
-    // Return as single merged array with method labels for coloring in custom rendering
-    return sorted.map(point => ({
-      predicted: point.predicted,
-      actual: point.actual,
-      count: point.count,
-      method: point.method
-    }));
+    filteredByCount.forEach(point => {
+      if (!grouped[point.method]) {
+        grouped[point.method] = [];
+      }
+      grouped[point.method].push({
+        predicted: point.predicted,
+        actual: point.actual,
+        count: point.count
+      });
+    });
+
+    // Sort each method's points by predicted value
+    Object.keys(grouped).forEach(method => {
+      grouped[method].sort((a, b) => a.predicted - b.predicted);
+    });
+
+    return grouped;
   }, [calibrationPoints, selectedStock, selectedDTE, getCalibrationPointsFn]);
 
   // Prepare perfect calibration line
@@ -138,41 +148,37 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const CustomTooltip = ({ active, payload }: any) => {
     if (!active || !payload || !payload.length) return null;
 
-    // Only show tooltip if we have data with a method field (actual calibration point, not reference line)
-    const point = payload[0]?.payload;
-    if (!point || !point.method) return null;
+    // Filter to only show actual method data, excluding the Perfect Calibration reference line
+    const validEntries = payload.filter((entry: any) =>
+      entry.value != null &&
+      entry.payload &&
+      entry.name !== 'Perfect Calibration'
+    );
+
+    if (validEntries.length === 0) return null;
 
     return (
       <div className="bg-background border border-border rounded-lg p-2 shadow-lg">
-        <div>
-          <p className="text-xs font-semibold mb-0.5 flex items-center gap-1.5">
-            <span
-              className="inline-block w-2 h-2 rounded-full flex-shrink-0"
-              style={{ backgroundColor: COLORS[point.method] || '#999' }}
-            />
-            {point.method}
-          </p>
-          <p className="text-xs ml-3.5">P: {(point.predicted * 100).toFixed(1)}% | A: {(point.actual * 100).toFixed(1)}%</p>
-          {point.count && <p className="text-xs ml-3.5 opacity-70">n={point.count.toLocaleString()}</p>}
-        </div>
+        {validEntries.map((entry: any, index: number) => {
+          const data = entry.payload;
+          const methodName = entry.name || 'Unknown Method';
+          const lineColor = entry.color || entry.stroke;
+
+          return (
+            <div key={index} className={index > 0 ? 'mt-2 pt-2 border-t border-border' : ''}>
+              <p className="text-xs font-semibold mb-0.5 flex items-center gap-1.5">
+                <span
+                  className="inline-block w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: lineColor }}
+                />
+                {methodName}
+              </p>
+              <p className="text-xs ml-3.5">P: {(data.predicted * 100).toFixed(1)}% | A: {(data.actual * 100).toFixed(1)}%</p>
+              {data.count && <p className="text-xs ml-3.5 opacity-70">n={data.count.toLocaleString()}</p>}
+            </div>
+          );
+        })}
       </div>
-    );
-  };
-
-  // Custom dot renderer that colors dots by method
-  const CustomDot = (props: any) => {
-    const { cx, cy, payload } = props;
-    if (!payload || !payload.method) return null;
-
-    return (
-      <circle
-        cx={cx}
-        cy={cy}
-        r={4}
-        fill={COLORS[payload.method] || '#999'}
-        stroke="white"
-        strokeWidth={1}
-      />
     );
   };
 
@@ -219,13 +225,13 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
         )}
       </CardHeader>
       <CardContent>
-        {!chartData || chartData.length === 0 ? (
+        {Object.keys(chartData).length === 0 || Object.values(chartData).every((points: any) => !points || points.length === 0) ? (
           <div className="flex items-center justify-center h-96 bg-muted/30 rounded-lg">
             <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={700}>
-          <LineChart data={chartData} margin={{ top: 20, right: 20, bottom: 150, left: 20 }}>
+          <LineChart margin={{ top: 20, right: 20, bottom: 150, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
               type="number"
@@ -263,28 +269,25 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               name="Perfect Calibration"
             />
 
-            {/* Single data line with custom dot rendering by method */}
-            <Line
-              type="monotone"
-              dataKey="actual"
-              stroke="none"
-              dot={<CustomDot />}
-              isAnimationActive={false}
-            />
-
-            {/* Legend entries for each method - hidden lines just for legend display */}
-            {['Weighted Average', 'Bayesian Calibrated', 'Original Black-Scholes', 'Bias Corrected', 'Historical IV'].map(method => (
-              <Line
-                key={`legend-${method}`}
-                data={[]}
-                type="monotone"
-                stroke={COLORS[method] || '#999'}
-                strokeWidth={2}
-                dot={false}
-                isAnimationActive={false}
-                name={method}
-              />
-            ))}
+            {/* Method calibration curves */}
+            {Object.entries(chartData).map(([method, points]) => {
+              // Only render if method has data points
+              if (!points || points.length === 0) {
+                return null;
+              }
+              return (
+                <Line
+                  key={method}
+                  data={points}
+                  type="monotone"
+                  dataKey="actual"
+                  stroke={COLORS[method] || '#999'}
+                  strokeWidth={2}
+                  dot={{ fill: COLORS[method] || '#999', r: 4 }}
+                  name={method}
+                />
+              );
+            })}
           </LineChart>
         </ResponsiveContainer>
         )}
