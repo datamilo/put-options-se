@@ -1,14 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer
-} from 'recharts';
+import Plot from 'react-plotly.js';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
@@ -139,48 +130,91 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     return grouped;
   }, [calibrationPoints, selectedStock, selectedDTE, getCalibrationPointsFn]);
 
-  // Prepare perfect calibration line
-  const perfectLine = [
-    { predicted: 0, actual: 0 },
-    { predicted: 1, actual: 1 }
-  ];
+  // Prepare Plotly traces
+  const plotlyData = useMemo(() => {
+    const traces: any[] = [];
 
-  const CustomTooltip = ({ active, payload }: any) => {
-    if (!active || !payload || !payload.length) return null;
+    // Perfect calibration reference line (diagonal)
+    traces.push({
+      x: [0, 1],
+      y: [0, 1],
+      mode: 'lines',
+      name: 'Perfect Calibration',
+      line: {
+        color: 'black',
+        width: 2,
+        dash: 'dash'
+      },
+      hoverinfo: 'skip',
+      showlegend: true
+    });
 
-    // Filter to only show actual method data, excluding the Perfect Calibration reference line
-    const validEntries = payload.filter((entry: any) =>
-      entry.value != null &&
-      entry.payload &&
-      entry.name !== 'Perfect Calibration'
-    );
+    // Add traces for each method
+    Object.entries(chartData).forEach(([method, points]) => {
+      if (!points || points.length === 0) return;
 
-    if (validEntries.length === 0) return null;
+      const color = COLORS[method] || '#999';
 
-    return (
-      <div className="bg-background border border-border rounded-lg p-2 shadow-lg">
-        {validEntries.map((entry: any, index: number) => {
-          const data = entry.payload;
-          const methodName = entry.name || 'Unknown Method';
-          const lineColor = entry.color || entry.stroke;
+      traces.push({
+        x: points.map(p => p.predicted),
+        y: points.map(p => p.actual),
+        mode: 'lines+markers',
+        name: method,
+        line: {
+          color: color,
+          width: 2
+        },
+        marker: {
+          color: color,
+          size: 8,
+          line: {
+            color: 'white',
+            width: 1
+          }
+        },
+        hovertemplate:
+          '<b>' + method + '</b><br>' +
+          'Predicted: %{x:.1%}<br>' +
+          'Actual: %{y:.1%}<br>' +
+          'n=%{text}<extra></extra>',
+        text: points.map(p => p.count.toLocaleString()),
+        showlegend: true
+      });
+    });
 
-          return (
-            <div key={index} className={index > 0 ? 'mt-2 pt-2 border-t border-border' : ''}>
-              <p className="text-xs font-semibold mb-0.5 flex items-center gap-1.5">
-                <span
-                  className="inline-block w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: lineColor }}
-                />
-                {methodName}
-              </p>
-              <p className="text-xs ml-3.5">P: {(data.predicted * 100).toFixed(1)}% | A: {(data.actual * 100).toFixed(1)}%</p>
-              {data.count && <p className="text-xs ml-3.5 opacity-70">n={data.count.toLocaleString()}</p>}
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
+    return traces;
+  }, [chartData]);
+
+  const layout = useMemo(() => {
+    return {
+      title: {
+        text: '<b>Calibration Analysis</b>',
+        font: { size: 16 }
+      },
+      xaxis: {
+        title: 'Predicted Probability',
+        tickformat: '.0%',
+        range: [0, 1],
+        gridcolor: '#e5e7eb'
+      },
+      yaxis: {
+        title: 'Actual Rate',
+        tickformat: '.0%',
+        range: [0, 1],
+        gridcolor: '#e5e7eb'
+      },
+      height: 700,
+      template: 'plotly_white',
+      hovermode: 'closest',
+      showlegend: true,
+      legend: {
+        orientation: 'h',
+        y: -0.15,
+        x: 0.5,
+        xanchor: 'center'
+      }
+    };
+  }, []);
 
   return (
     <Card>
@@ -230,66 +264,18 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
           </div>
         ) : (
-        <ResponsiveContainer width="100%" height={700}>
-          <LineChart margin={{ top: 20, right: 20, bottom: 150, left: 20 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis
-              type="number"
-              dataKey="predicted"
-              domain={[0, 1]}
-              tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
-              label={{ value: 'Predicted Probability', position: 'bottom', offset: 10 }}
-              className="text-sm"
+          <div className="w-full">
+            <Plot
+              data={plotlyData}
+              layout={layout}
+              config={{
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+              }}
+              style={{ width: '100%', height: '700px' }}
             />
-            <YAxis
-              type="number"
-              dataKey="actual"
-              domain={[0, 1]}
-              tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
-              label={{ value: 'Actual Rate', angle: -90, position: 'insideLeft' }}
-              className="text-sm"
-            />
-            <Tooltip content={<CustomTooltip />} cursor={false} />
-            <Legend
-              verticalAlign="bottom"
-              height={80}
-              wrapperStyle={{ paddingTop: '20px' }}
-            />
-
-            {/* Perfect calibration reference line */}
-            <Line
-              data={perfectLine}
-              type="monotone"
-              dataKey="actual"
-              stroke="black"
-              strokeWidth={2}
-              strokeDasharray="5 5"
-              dot={false}
-              isAnimationActive={false}
-              name="Perfect Calibration"
-            />
-
-            {/* Method calibration curves */}
-            {Object.entries(chartData).map(([method, points]) => {
-              // Only render if method has data points
-              if (!points || points.length === 0) {
-                return null;
-              }
-              return (
-                <Line
-                  key={method}
-                  data={points}
-                  type="monotone"
-                  dataKey="actual"
-                  stroke={COLORS[method] || '#999'}
-                  strokeWidth={2}
-                  dot={{ fill: COLORS[method] || '#999', r: 4 }}
-                  name={method}
-                />
-              );
-            })}
-          </LineChart>
-        </ResponsiveContainer>
+          </div>
         )}
         <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
           <p className="text-sm text-blue-800 dark:text-blue-300">
