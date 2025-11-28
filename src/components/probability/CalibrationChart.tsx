@@ -18,9 +18,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 }) => {
   const [selectedStock, setSelectedStock] = useState<string>('All Stocks');
   const [selectedDTE, setSelectedDTE] = useState<string>('All DTE');
+  const [selectedMethod, setSelectedMethod] = useState<string>('All Methods');
 
 
   const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
+  const METHODS = ['All Methods', 'Weighted Average', 'Bayesian Calibrated', 'Original Black-Scholes', 'Bias Corrected', 'Historical IV'];
 
   const COLORS: Record<string, string> = {
     'Weighted Average': '#3b82f6',
@@ -153,6 +155,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     Object.entries(chartData).forEach(([method, points]) => {
       if (!points || points.length === 0) return;
 
+      // Skip this method if a specific method is selected and it doesn't match
+      if (selectedMethod !== 'All Methods' && method !== selectedMethod) {
+        return;
+      }
+
       const color = COLORS[method] || '#999';
 
       traces.push({
@@ -183,7 +190,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     });
 
     return traces;
-  }, [chartData]);
+  }, [chartData, selectedMethod]);
 
   const layout = useMemo(() => {
     return {
@@ -221,7 +228,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       <CardHeader>
         <CardTitle>Calibration Analysis</CardTitle>
         {availableStocks.length > 0 && (
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
             <div>
               <Label>Stock</Label>
               <Select value={selectedStock} onValueChange={setSelectedStock}>
@@ -250,6 +257,21 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
                   {DTE_BINS.map(dte => (
                     <SelectItem key={dte} value={dte}>
                       {dte}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label>Probability Method</Label>
+              <Select value={selectedMethod} onValueChange={setSelectedMethod}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select method" />
+                </SelectTrigger>
+                <SelectContent>
+                  {METHODS.map(method => (
+                    <SelectItem key={method} value={method}>
+                      {method}
                     </SelectItem>
                   ))}
                 </SelectContent>
