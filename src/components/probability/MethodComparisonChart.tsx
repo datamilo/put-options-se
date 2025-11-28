@@ -61,7 +61,8 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
           byStockMethod[record.Stock][record.method] = { totalError: 0, totalCount: 0 };
         }
 
-        byStockMethod[record.Stock][record.method].totalError += record.Count * record.CalibrationError;
+        const calibrationError = record.actual - record.predicted;
+        byStockMethod[record.Stock][record.method].totalError += record.Count * calibrationError;
         byStockMethod[record.Stock][record.method].totalCount += record.Count;
       });
 
@@ -92,7 +93,8 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
           byStockMethod[record.Stock][record.method] = { totalError: 0, totalCount: 0 };
         }
 
-        byStockMethod[record.Stock][record.method].totalError += record.Count * record.CalibrationError;
+        const calibrationError = record.actual - record.predicted;
+        byStockMethod[record.Stock][record.method].totalError += record.Count * calibrationError;
         byStockMethod[record.Stock][record.method].totalCount += record.Count;
       });
 
