@@ -45,9 +45,19 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
   // Calculate weighted calibration error for each stock-method pair
   const metricsData = useMemo(() => {
     const metrics: StockMethodMetrics[] = [];
-    const allRecords = calibrationPoints.filter(
-      (p: any) => p.DataType === 'calibration_by_stock_and_dte'
-    ) as any[];
+
+    // Ensure calibrationPoints is an array and filter for the data we need
+    const allRecords = Array.isArray(calibrationPoints)
+      ? calibrationPoints.filter((p: any) => p.DataType === 'calibration_by_stock_and_dte')
+      : [];
+
+    console.log('MethodComparisonChart - calibrationPoints count:', calibrationPoints?.length);
+    console.log('MethodComparisonChart - filtered records count:', allRecords.length);
+
+    if (allRecords.length === 0) {
+      console.warn('No calibration_by_stock_and_dte records found');
+      return [];
+    }
 
     if (selectedDTE === 'All DTE') {
       // For All DTE, aggregate across all DTE bins
@@ -190,58 +200,59 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
     );
   };
 
-  if (metricsData.length === 0) {
-    return (
-      <Card>
-        <CardContent className="pt-6">
-          <p className="text-muted-foreground text-center">No data available for this filter combination.</p>
-        </CardContent>
-      </Card>
-    );
-  }
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Stock Performance by Method</CardTitle>
-        <div className="mt-4 space-y-4">
-          <div className="flex items-end gap-4">
-            <div className="flex-1">
-              <Label>Days to Expiry</Label>
-              <Select value={selectedDTE} onValueChange={setSelectedDTE}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {DTE_BINS.map(dte => (
-                    <SelectItem key={dte} value={dte}>
-                      {dte}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+    <div className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Stock Performance by Method</CardTitle>
+          <div className="mt-4 space-y-4">
+            <div className="flex items-end gap-4">
+              <div className="flex-1">
+                <Label>Days to Expiry</Label>
+                <Select value={selectedDTE} onValueChange={setSelectedDTE}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {DTE_BINS.map(dte => (
+                      <SelectItem key={dte} value={dte}>
+                        {dte}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex-1">
+                <Label>Search Stock</Label>
+                <Input
+                  placeholder="e.g., ABB, TESLA"
+                  value={searchStock}
+                  onChange={(e) => setSearchStock(e.target.value)}
+                />
+              </div>
             </div>
-            <div className="flex-1">
-              <Label>Search Stock</Label>
-              <Input
-                placeholder="e.g., ABB, TESLA"
-                value={searchStock}
-                onChange={(e) => setSearchStock(e.target.value)}
-              />
-            </div>
-          </div>
 
-          <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-lg text-sm">
-            <p className="text-amber-900 dark:text-amber-200">
-              <strong>Color Guide:</strong> Green = conservative (under-predicts), Red = overconfident (over-predicts), White = well-calibrated
-            </p>
-            <p className="text-amber-800 dark:text-amber-300 text-xs mt-2">
-              Values show average calibration error (actual - predicted) weighted by sample size. Positive = conservative, Negative = overconfident.
-            </p>
+            <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-lg text-sm">
+              <p className="text-amber-900 dark:text-amber-200">
+                <strong>Color Guide:</strong> Green = conservative (under-predicts), Red = overconfident (over-predicts), White = well-calibrated
+              </p>
+              <p className="text-amber-800 dark:text-amber-300 text-xs mt-2">
+                Values show average calibration error (actual - predicted) weighted by sample size. Positive = conservative, Negative = overconfident.
+              </p>
+            </div>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent className="space-y-6">
+        </CardHeader>
+      </Card>
+
+      {metricsData.length === 0 ? (
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-muted-foreground text-center">No data available for this filter combination.</p>
+          </CardContent>
+        </Card>
+      ) : (
+      <Card>
+        <CardContent className="space-y-6">
         {/* Heatmap */}
         <div className="overflow-x-auto">
           <div className="min-w-max border rounded-lg">
@@ -351,6 +362,8 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
           </p>
         </div>
       </CardContent>
-    </Card>
+      </Card>
+      )}
+    </div>
   );
 };
