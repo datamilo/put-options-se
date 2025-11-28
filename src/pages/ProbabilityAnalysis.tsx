@@ -178,7 +178,7 @@ export const ProbabilityAnalysis: React.FC = () => {
                   This analysis compares how each probability method performs across different stocks. Each cell shows the average calibration error—how much the method's predictions deviate from actual outcomes. Positive values (green) indicate the method is conservative, predicting lower probabilities than actual results. Negative values (red) indicate overconfidence, predicting higher probabilities than actual results.
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Use the DTE selector to see how method performance changes as options approach expiration. Search to focus on specific stocks and sort by any column to identify patterns.
+                  Use the DTE selector to see how method performance changes as options approach expiration. Sort by any column to identify which methods work best for specific stocks.
                 </p>
               </div>
             </CardContent>

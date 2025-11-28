@@ -40,7 +40,6 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
   const [selectedDTE, setSelectedDTE] = useState<string>('8-14 days');
   const [sortColumn, setSortColumn] = useState<string>('stock');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [searchStock, setSearchStock] = useState<string>('');
 
   // Calculate weighted calibration error for each stock-method pair
   const metricsData = useMemo(() => {
@@ -145,13 +144,6 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
       avgError: METHODS.reduce((sum, m) => sum + (typeof row[m] === 'number' ? row[m] : 0), 0) / METHODS.length
     }));
 
-    // Filter by search stock
-    if (searchStock) {
-      stocksArray = stocksArray.filter(row =>
-        row.stock.toLowerCase().includes(searchStock.toLowerCase())
-      );
-    }
-
     // Sort by column
     stocksArray.sort((a, b) => {
       let aVal: any = a[sortColumn];
@@ -167,7 +159,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
     });
 
     return stocksArray;
-  }, [metricsData, searchStock, sortColumn, sortDirection]);
+  }, [metricsData, sortColumn, sortDirection]);
 
   // Get color for heatmap cell
   const getCellColor = (value: number) => {
@@ -206,30 +198,20 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
         <CardHeader>
           <CardTitle>Stock Performance by Method</CardTitle>
           <div className="mt-4 space-y-4">
-            <div className="flex items-end gap-4">
-              <div className="flex-1">
-                <Label>Days to Expiry</Label>
-                <Select value={selectedDTE} onValueChange={setSelectedDTE}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {DTE_BINS.map(dte => (
-                      <SelectItem key={dte} value={dte}>
-                        {dte}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex-1">
-                <Label>Search Stock</Label>
-                <Input
-                  placeholder="e.g., ABB, TESLA"
-                  value={searchStock}
-                  onChange={(e) => setSearchStock(e.target.value)}
-                />
-              </div>
+            <div className="max-w-xs">
+              <Label>Days to Expiry</Label>
+              <Select value={selectedDTE} onValueChange={setSelectedDTE}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {DTE_BINS.map(dte => (
+                    <SelectItem key={dte} value={dte}>
+                      {dte}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-lg text-sm">
