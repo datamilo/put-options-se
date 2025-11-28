@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import {
-  LineChart,
+  ComposedChart,
   Line,
+  Scatter,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -231,7 +232,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
           </div>
         ) : (
         <ResponsiveContainer width="100%" height={700}>
-          <LineChart margin={{ top: 20, right: 20, bottom: 150, left: 20 }}>
+          <ComposedChart margin={{ top: 20, right: 20, bottom: 150, left: 20 }}>
             <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
             <XAxis
               type="number"
@@ -269,26 +270,39 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               name="Perfect Calibration"
             />
 
-            {/* Method calibration curves */}
+            {/* Method calibration curves - Lines and Scatter combined */}
             {Object.entries(chartData).map(([method, points]) => {
               // Only render if method has data points
               if (!points || points.length === 0) {
                 return null;
               }
+              const color = COLORS[method] || '#999';
               return (
-                <Line
-                  key={method}
-                  data={points}
-                  type="monotone"
-                  dataKey="actual"
-                  stroke={COLORS[method] || '#999'}
-                  strokeWidth={2}
-                  dot={{ fill: COLORS[method] || '#999', r: 4 }}
-                  name={method}
-                />
+                <React.Fragment key={method}>
+                  {/* Line for visual connection */}
+                  <Line
+                    data={points}
+                    type="monotone"
+                    dataKey="actual"
+                    stroke={color}
+                    strokeWidth={2}
+                    dot={false}
+                    activeDot={false}
+                    isAnimationActive={false}
+                    legendType="none"
+                  />
+                  {/* Scatter for hover detection */}
+                  <Scatter
+                    data={points}
+                    dataKey="actual"
+                    fill={color}
+                    name={method}
+                    isAnimationActive={false}
+                  />
+                </React.Fragment>
               );
             })}
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
         )}
         <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
