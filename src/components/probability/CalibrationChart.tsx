@@ -249,7 +249,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               label={{ value: 'Actual Rate', angle: -90, position: 'insideLeft' }}
               className="text-sm"
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip />} cursor={false} />
             <Legend
               verticalAlign="bottom"
               height={80}
