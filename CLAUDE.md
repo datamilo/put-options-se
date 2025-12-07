@@ -50,6 +50,7 @@ Detailed documentation for each page is in the `/docs` folder:
 ### Additional Documentation
 - [docs/FIELD_GUIDE.md](docs/FIELD_GUIDE.md) - Business-focused explanation of all 67 fields in data.csv for investors
 - [docs/README_Portfolio_Generator.md](docs/README_Portfolio_Generator.md) - Python script documentation for portfolio generation
+- [docs/PROBABILITY_FIELD_NAMES.md](docs/PROBABILITY_FIELD_NAMES.md) - Probability field name alignment and standardization across all pages
 
 ---
 
