@@ -92,9 +92,10 @@ export const ProbabilityAnalysis: React.FC = () => {
                     variant="ghost"
                     size="sm"
                     title="Learn what PoW means and about the probability methods"
-                    className="h-9 w-9 p-0"
+                    className="gap-1"
                   >
                     <Info className="h-4 w-4" />
+                    <span className="text-xs">PoW ?</span>
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="max-w-md">
