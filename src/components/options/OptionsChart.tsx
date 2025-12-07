@@ -25,11 +25,11 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
   const [selectedProbFields, setSelectedProbFields] = useState<string[]>(['ProbWorthless_Bayesian_IsoCal']);
   
   const probabilityFields = [
-    { value: '1_2_3_ProbOfWorthless_Weighted', label: '1_2_3_ProbOfWorthless_Weighted' },
-    { value: 'ProbWorthless_Bayesian_IsoCal', label: 'ProbWorthless_Bayesian_IsoCal' },
-    { value: '1_ProbOfWorthless_Original', label: '1_ProbOfWorthless_Original' },
-    { value: '2_ProbOfWorthless_Calibrated', label: '2_ProbOfWorthless_Calibrated' },
-    { value: '3_ProbOfWorthless_Historical_IV', label: '3_ProbOfWorthless_Historical_IV' },
+    { value: '1_2_3_ProbOfWorthless_Weighted', label: 'Weighted Average' },
+    { value: 'ProbWorthless_Bayesian_IsoCal', label: 'Bayesian Calibrated' },
+    { value: '1_ProbOfWorthless_Original', label: 'Original Black-Scholes' },
+    { value: '2_ProbOfWorthless_Calibrated', label: 'Bias Corrected' },
+    { value: '3_ProbOfWorthless_Historical_IV', label: 'Historical IV' },
   ];
 
   const colors = ['#2563eb', '#dc2626', '#16a34a', '#ca8a04', '#9333ea'];

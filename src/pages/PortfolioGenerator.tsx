@@ -108,8 +108,8 @@ const PortfolioGenerator = () => {
   const probabilityFieldOptions = [
     { value: "ProbWorthless_Bayesian_IsoCal", label: "Bayesian Calibrated" },
     { value: "1_2_3_ProbOfWorthless_Weighted", label: "Weighted Average" },
-    { value: "1_ProbOfWorthless_Original", label: "Original" },
-    { value: "2_ProbOfWorthless_Calibrated", label: "Calibrated" },
+    { value: "1_ProbOfWorthless_Original", label: "Original Black-Scholes" },
+    { value: "2_ProbOfWorthless_Calibrated", label: "Bias Corrected" },
     { value: "3_ProbOfWorthless_Historical_IV", label: "Historical IV" },
   ];
 
