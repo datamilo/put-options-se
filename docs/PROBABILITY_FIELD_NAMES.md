@@ -1,46 +1,56 @@
 # Probability Field Name Alignment
 
-**Date**: December 7, 2025
-**Summary**: Standardized all probability method display names across the website to use canonical names from the Probability Analysis page.
+**Date**: December 7-8, 2025
+**Summary**: Standardized all probability method display names across the website to use canonical names with "PoW" prefix for clarity that they represent Probability of Worthless calculation methods.
 
-## Canonical Field Names
+## Important: Understanding "PoW"
 
-All probability methods now display consistently using these canonical names:
+**PoW = Probability of Worthless**
+
+All five probability calculation methods shown on the website are different ways of calculating the probability that an option will expire worthless (worthless rate). The "PoW - " prefix indicates this relationship.
+
+---
+
+## Canonical Field Names (Current)
+
+All probability methods now display with the "PoW - " prefix to clarify they are all calculating Probability of Worthless:
 
 | Field Key | Canonical Display Name | Previous Names |
 |-----------|------------------------|-----------------|
-| `1_2_3_ProbOfWorthless_Weighted` | **Weighted Average** | (no change) |
-| `ProbWorthless_Bayesian_IsoCal` | **Bayesian Calibrated** | "Bayesian IsoCal", "Bayesian Iso Cal" |
-| `1_ProbOfWorthless_Original` | **Original Black-Scholes** | "Original" |
-| `2_ProbOfWorthless_Calibrated` | **Bias Corrected** | "Calibrated" |
-| `3_ProbOfWorthless_Historical_IV` | **Historical IV** | (no change) |
+| `1_2_3_ProbOfWorthless_Weighted` | **PoW - Weighted Average** | "Weighted Average" |
+| `ProbWorthless_Bayesian_IsoCal` | **PoW - Bayesian Calibrated** | "Bayesian Calibrated", "Bayesian IsoCal" |
+| `1_ProbOfWorthless_Original` | **PoW - Original Black-Scholes** | "Original Black-Scholes", "Original" |
+| `2_ProbOfWorthless_Calibrated` | **PoW - Bias Corrected** | "Bias Corrected", "Calibrated" |
+| `3_ProbOfWorthless_Historical_IV` | **PoW - Historical IV** | "Historical IV" |
+
+---
 
 ## Changes by Component
 
 ### 1. OptionsTable.tsx
 **File**: `src/components/options/OptionsTable.tsx`
-**Lines**: 103-122
-**Change Type**: Added field name mappings in `formatColumnName()` function
+**Lines**: 117-121
+**Change Type**: Updated field name mappings in `formatColumnName()` function
 
-**Details**:
-- Added `fieldMappings` object with 5 probability field entries
-- Ensures table column headers display canonical names
-- Applies to: Main dashboard table columns
+**Changes**:
+- All 5 probability field mappings updated with "PoW - " prefix
 
 **Before**:
 ```javascript
-// Raw field names displayed: "1 2 3 Prob Of Worthless Weighted", etc.
+'1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
+'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
+'1_ProbOfWorthless_Original': 'Original Black-Scholes',
+'2_ProbOfWorthless_Calibrated': 'Bias Corrected',
+'3_ProbOfWorthless_Historical_IV': 'Historical IV'
 ```
 
 **After**:
 ```javascript
-const fieldMappings: { [key: string]: string } = {
-  '1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
-  'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
-  '1_ProbOfWorthless_Original': 'Original Black-Scholes',
-  '2_ProbOfWorthless_Calibrated': 'Bias Corrected',
-  '3_ProbOfWorthless_Historical_IV': 'Historical IV'
-};
+'1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
+'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
+'1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',
+'2_ProbOfWorthless_Calibrated': 'PoW - Bias Corrected',
+'3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV'
 ```
 
 **Affected Areas**: Main dashboard table column headers
@@ -49,13 +59,11 @@ const fieldMappings: { [key: string]: string } = {
 
 ### 2. ColumnManager.tsx
 **File**: `src/components/options/ColumnManager.tsx`
-**Lines**: 54-72
-**Change Type**: Added probability field mappings in `formatColumnName()` function
+**Lines**: 57-61
+**Change Type**: Updated probability field mappings in `formatColumnName()` function
 
-**Details**:
-- Added probability field mappings in column selection dialog
-- Used when users customize visible columns on main dashboard
-- Applies to: Column manager dialog on main dashboard
+**Changes**:
+- All 5 probability fields updated with "PoW - " prefix
 
 **Affected Areas**: Column customization dialog on main dashboard
 
@@ -63,13 +71,11 @@ const fieldMappings: { [key: string]: string } = {
 
 ### 3. PortfolioColumnManager.tsx
 **File**: `src/components/options/PortfolioColumnManager.tsx`
-**Lines**: 55-73
-**Change Type**: Added probability field mappings in `formatColumnName()` function
+**Lines**: 58-62
+**Change Type**: Updated probability field mappings in `formatColumnName()` function
 
-**Details**:
-- Added probability field mappings in column selection dialog
-- Used when users customize visible columns on Portfolio Generator page
-- Applies to: Column manager dialog on Portfolio Generator page
+**Changes**:
+- All 5 probability fields updated with "PoW - " prefix
 
 **Affected Areas**: Column customization dialog on Portfolio Generator page
 
@@ -77,25 +83,13 @@ const fieldMappings: { [key: string]: string } = {
 
 ### 4. PortfolioGenerator.tsx
 **File**: `src/pages/PortfolioGenerator.tsx`
-**Lines**: 108-114
+**Lines**: 109-113
 **Change Type**: Updated `probabilityFieldOptions` array labels
 
 **Changes**:
-- Line 111: `"Original"` → `"Original Black-Scholes"`
-- Line 112: `"Calibrated"` → `"Bias Corrected"`
+- All 5 probability method dropdown labels updated with "PoW - " prefix
 
 **Before**:
-```javascript
-const probabilityFieldOptions = [
-  { value: "ProbWorthless_Bayesian_IsoCal", label: "Bayesian Calibrated" },
-  { value: "1_2_3_ProbOfWorthless_Weighted", label: "Weighted Average" },
-  { value: "1_ProbOfWorthless_Original", label: "Original" },
-  { value: "2_ProbOfWorthless_Calibrated", label: "Calibrated" },
-  { value: "3_ProbOfWorthless_Historical_IV", label: "Historical IV" },
-];
-```
-
-**After**:
 ```javascript
 const probabilityFieldOptions = [
   { value: "ProbWorthless_Bayesian_IsoCal", label: "Bayesian Calibrated" },
@@ -106,35 +100,30 @@ const probabilityFieldOptions = [
 ];
 ```
 
+**After**:
+```javascript
+const probabilityFieldOptions = [
+  { value: "ProbWorthless_Bayesian_IsoCal", label: "PoW - Bayesian Calibrated" },
+  { value: "1_2_3_ProbOfWorthless_Weighted", label: "PoW - Weighted Average" },
+  { value: "1_ProbOfWorthless_Original", label: "PoW - Original Black-Scholes" },
+  { value: "2_ProbOfWorthless_Calibrated", label: "PoW - Bias Corrected" },
+  { value: "3_ProbOfWorthless_Historical_IV", label: "PoW - Historical IV" },
+];
+```
+
 **Affected Areas**: Probability method dropdown on Portfolio Generator page
 
 ---
 
 ### 5. OptionsChart.tsx
 **File**: `src/components/options/OptionsChart.tsx`
-**Lines**: 27-33
+**Lines**: 28-32
 **Change Type**: Updated `probabilityFields` array labels
 
 **Changes**:
-- All 5 fields updated from raw field names to canonical display names
-- Line 28: `'1_2_3_ProbOfWorthless_Weighted'` label changed from `'1_2_3_ProbOfWorthless_Weighted'` → `'Weighted Average'`
-- Line 29: `'ProbWorthless_Bayesian_IsoCal'` label changed from `'ProbWorthless_Bayesian_IsoCal'` → `'Bayesian Calibrated'`
-- Line 30: `'1_ProbOfWorthless_Original'` label changed from `'1_ProbOfWorthless_Original'` → `'Original Black-Scholes'`
-- Line 31: `'2_ProbOfWorthless_Calibrated'` label changed from `'2_ProbOfWorthless_Calibrated'` → `'Bias Corrected'`
-- Line 32: `'3_ProbOfWorthless_Historical_IV'` label changed from `'3_ProbOfWorthless_Historical_IV'` → `'Historical IV'`
+- All 5 probability fields updated from raw field names to "PoW - " prefixed display names
 
 **Before**:
-```javascript
-const probabilityFields = [
-  { value: '1_2_3_ProbOfWorthless_Weighted', label: '1_2_3_ProbOfWorthless_Weighted' },
-  { value: 'ProbWorthless_Bayesian_IsoCal', label: 'ProbWorthless_Bayesian_IsoCal' },
-  { value: '1_ProbOfWorthless_Original', label: '1_ProbOfWorthless_Original' },
-  { value: '2_ProbOfWorthless_Calibrated', label: '2_ProbOfWorthless_Calibrated' },
-  { value: '3_ProbOfWorthless_Historical_IV', label: '3_ProbOfWorthless_Historical_IV' },
-];
-```
-
-**After**:
 ```javascript
 const probabilityFields = [
   { value: '1_2_3_ProbOfWorthless_Weighted', label: 'Weighted Average' },
@@ -145,65 +134,121 @@ const probabilityFields = [
 ];
 ```
 
+**After**:
+```javascript
+const probabilityFields = [
+  { value: '1_2_3_ProbOfWorthless_Weighted', label: 'PoW - Weighted Average' },
+  { value: 'ProbWorthless_Bayesian_IsoCal', label: 'PoW - Bayesian Calibrated' },
+  { value: '1_ProbOfWorthless_Original', label: 'PoW - Original Black-Scholes' },
+  { value: '2_ProbOfWorthless_Calibrated', label: 'PoW - Bias Corrected' },
+  { value: '3_ProbOfWorthless_Historical_IV', label: 'PoW - Historical IV' },
+];
+```
+
 **Affected Areas**: Probability method selector in scatter/bar chart on main dashboard
 
 ---
 
 ### 6. ProbabilityHistoryChart.tsx
 **File**: `src/components/options/ProbabilityHistoryChart.tsx`
-**Lines**: 21-47
+**Lines**: 24, 29, 34, 39, 44
 **Change Type**: Updated `PROBABILITY_LINES` constant display names
 
 **Changes**:
-- Line 29: `'Bayesian IsoCal'` → `'Bayesian Calibrated'`
-- Line 34: `'Original'` → `'Original Black-Scholes'`
-- Line 39: `'Calibrated'` → `'Bias Corrected'`
+- All 5 probability method names updated with "PoW - " prefix in the legend
 
 **Before**:
 ```javascript
-const PROBABILITY_LINES = [
-  { key: '1_2_3_ProbOfWorthless_Weighted', name: 'Weighted Average', color: '#2563eb' },
-  { key: 'ProbWorthless_Bayesian_IsoCal', name: 'Bayesian IsoCal', color: '#dc2626' },
-  { key: '1_ProbOfWorthless_Original', name: 'Original', color: '#16a34a' },
-  { key: '2_ProbOfWorthless_Calibrated', name: 'Calibrated', color: '#ca8a04' },
-  { key: '3_ProbOfWorthless_Historical_IV', name: 'Historical IV', color: '#9333ea' }
-];
+{ key: '1_2_3_ProbOfWorthless_Weighted', name: 'Weighted Average', ... },
+{ key: 'ProbWorthless_Bayesian_IsoCal', name: 'Bayesian Calibrated', ... },
+{ key: '1_ProbOfWorthless_Original', name: 'Original Black-Scholes', ... },
+{ key: '2_ProbOfWorthless_Calibrated', name: 'Bias Corrected', ... },
+{ key: '3_ProbOfWorthless_Historical_IV', name: 'Historical IV', ... }
 ```
 
 **After**:
 ```javascript
-const PROBABILITY_LINES = [
-  { key: '1_2_3_ProbOfWorthless_Weighted', name: 'Weighted Average', color: '#2563eb' },
-  { key: 'ProbWorthless_Bayesian_IsoCal', name: 'Bayesian Calibrated', color: '#dc2626' },
-  { key: '1_ProbOfWorthless_Original', name: 'Original Black-Scholes', color: '#16a34a' },
-  { key: '2_ProbOfWorthless_Calibrated', name: 'Bias Corrected', color: '#ca8a04' },
-  { key: '3_ProbOfWorthless_Historical_IV', name: 'Historical IV', color: '#9333ea' }
-];
+{ key: '1_2_3_ProbOfWorthless_Weighted', name: 'PoW - Weighted Average', ... },
+{ key: 'ProbWorthless_Bayesian_IsoCal', name: 'PoW - Bayesian Calibrated', ... },
+{ key: '1_ProbOfWorthless_Original', name: 'PoW - Original Black-Scholes', ... },
+{ key: '2_ProbOfWorthless_Calibrated', name: 'PoW - Bias Corrected', ... },
+{ key: '3_ProbOfWorthless_Historical_IV', name: 'PoW - Historical IV', ... }
 ```
 
 **Affected Areas**: Legend labels in probability history chart (Option Details page)
 
 ---
 
-### 7. OptionDetails.tsx
-**File**: `src/components/options/OptionDetails.tsx`
-**Line**: 376
-**Change Type**: Updated card title
+### 7. CalibrationChart.tsx
+**File**: `src/components/probability/CalibrationChart.tsx`
+**Lines**: 25, 27-33
+**Change Type**: Updated `METHODS` constant and `COLORS` object
 
-**Change**:
-- Card title updated: `"Probability of Worthless Bayesian IsoCal Monte Carlo Simulation"` → `"Probability of Worthless Bayesian Calibrated Monte Carlo Simulation"`
+**Changes**:
+- `METHODS` array updated with "PoW - " prefix for all method names
+- `COLORS` object keys updated to match new method names with prefix
+
+**Affected Areas**: Calibration method selector and chart on Probability Analysis page
+
+---
+
+### 8. MethodComparisonChart.tsx
+**File**: `src/components/probability/MethodComparisonChart.tsx`
+**Lines**: 26, 29-35
+**Change Type**: Updated `METHODS` constant and `COLORS` object
+
+**Changes**:
+- `METHODS` array updated with "PoW - " prefix for all method names
+- `COLORS` object keys updated to match new method names with prefix
+
+**Affected Areas**: Stock performance comparison on Probability Analysis page
+
+---
+
+### 9. RecoveryComparisonChart.tsx
+**File**: `src/components/probability/RecoveryComparisonChart.tsx`
+**Line**: 76
+**Change Type**: Updated fallback method name
+
+**Changes**:
+- Default fallback method changed from `'Weighted Average'` to `'PoW - Weighted Average'`
+
+**Affected Areas**: Recovery analysis chart on Probability Analysis page
+
+---
+
+### 10. Data Files Updated
+**Files**:
+- `data/recovery_report_data.csv`
+- `data/validation_report_data.csv`
+
+**Change Type**: Updated all probability method names in the CSV data files
+
+**Changes**:
+- All occurrences of method names in the `ProbMethod` column updated with "PoW - " prefix
+- Ensures charts and analyses display consistent method names from data
 
 **Before**:
-```html
-<CardTitle>Probability of Worthless Bayesian IsoCal Monte Carlo Simulation</CardTitle>
+```
+ProbMethod|...
+Weighted Average|...
+Bayesian Calibrated|...
+Original Black-Scholes|...
+Bias Corrected|...
+Historical IV|...
 ```
 
 **After**:
-```html
-<CardTitle>Probability of Worthless Bayesian Calibrated Monte Carlo Simulation</CardTitle>
+```
+ProbMethod|...
+PoW - Weighted Average|...
+PoW - Bayesian Calibrated|...
+PoW - Original Black-Scholes|...
+PoW - Bias Corrected|...
+PoW - Historical IV|...
 ```
 
-**Affected Areas**: Section heading on Option Details page
+**Affected Areas**: All Probability Analysis page charts and data displays
 
 ---
 
@@ -220,52 +265,71 @@ const PROBABILITY_LINES = [
 
 ### Option Details Page
 - ✓ Probability history chart legend (ProbabilityHistoryChart.tsx)
-- ✓ Section title (OptionDetails.tsx)
 
 ### Probability Analysis Page
-- ✓ Already using canonical names (no changes needed)
+- ✓ Calibration chart method selector (CalibrationChart.tsx)
+- ✓ Stock performance comparison (MethodComparisonChart.tsx)
+- ✓ Recovery analysis chart (RecoveryComparisonChart.tsx)
 
 ---
 
 ## Git Commits
 
-Three commits were created for this alignment:
+Multiple commits created for this alignment:
 
-1. **Commit**: `3136f1f`
-   **Message**: "Align probability field names across all sites to match Probability Analysis page"
-   **Files**: ProbabilityHistoryChart.tsx, OptionDetails.tsx
+1. **Previous commits** (before PoW prefix)
+   - Aligned field names across components
+   - Created initial documentation
 
-2. **Commit**: `b40f4df`
-   **Message**: "Update probability method display names on main page to match Probability Analysis page"
-   **Files**: PortfolioGenerator.tsx, OptionsChart.tsx
-
-3. **Commit**: `4b59b0e` & `8ca8cdc`
-   **Message**: "Add probability field display name mappings to OptionsTable column headers"
-   **Files**: OptionsTable.tsx, ColumnManager.tsx, PortfolioColumnManager.tsx
+2. **Latest commit**: `dfc23bd`
+   - **Message**: "Add 'PoW - ' prefix to all probability of worthless method display names"
+   - **Files**: 11 files changed (component code and CSV data)
+   - Added "PoW - " prefix across all components and data files
 
 ---
 
 ## Backward Compatibility
 
 - **No breaking changes**: All changes are display-only; underlying data field names remain unchanged
-- **No CSV updates required**: Data files use field names, not display labels
-- **No database migrations needed**: All field names in data storage are unchanged
+- **CSV updates preserved**: Data files have been updated to include "PoW - " prefix in method names to ensure consistency
+- **No database migrations needed**: All field names in stored preferences are unchanged
 - **User settings preserved**: Existing column preferences reference field names (not labels), so they continue working
 
 ---
 
-## Testing Notes
+## User Communication
+
+Consider displaying a legend on pages showing probability methods:
+
+```
+Legend:
+PoW = Probability of Worthless
+(The probability that an option will expire worthless)
+```
+
+Recommended placement:
+- Near probability method dropdowns
+- In probability chart headers
+- In tooltips (info icon)
+- In help/documentation sections
+
+---
+
+## Testing Checklist
 
 Display name changes should be verified on:
-- [ ] Main dashboard table headers
+- [ ] Main dashboard table headers (all 5 methods should show "PoW - " prefix)
 - [ ] Column customization dialogs (both main page and Portfolio Generator)
 - [ ] Chart probability method selectors
 - [ ] Probability history chart legend
-- [ ] Option details card titles
+- [ ] Calibration analysis chart
+- [ ] Stock performance comparison table
+- [ ] Recovery analysis chart
+- [ ] Option details probability history
 
-All field names should now show:
-- "Weighted Average" (not "1 2 3 Prob Of Worthless Weighted")
-- "Bayesian Calibrated" (not "Bayesian IsoCal" or raw field name)
-- "Original Black-Scholes" (not "Original")
-- "Bias Corrected" (not "Calibrated")
-- "Historical IV" (unchanged)
+All field names should now show with "PoW - " prefix:
+- "PoW - Weighted Average"
+- "PoW - Bayesian Calibrated"
+- "PoW - Original Black-Scholes"
+- "PoW - Bias Corrected"
+- "PoW - Historical IV"
