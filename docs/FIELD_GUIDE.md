@@ -1,9 +1,11 @@
 # Put Options Analysis - Field Guide for Investors
 
-**Last Updated**: October 15, 2025
+**Last Updated**: December 8, 2025
 **Purpose**: Business-focused explanation of all 67 fields in `data.csv`
 
 This guide explains what each field means for your investment decisions, without technical jargon.
+
+**Note**: On the website, probability fields are displayed with "PoW - " prefix (e.g., "PoW - Weighted Average") to clarify that PoW = Probability of Worthless.
 
 ---
 

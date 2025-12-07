@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: November 28, 2025
+**Last Updated**: December 8, 2025
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -179,6 +179,23 @@
 
 ## Recent Changes & Updates
 
+### December 8, 2025
+✅ **Probability Field Naming Standardization**
+- Added "PoW - " prefix to all probability method display names across entire website
+- Updated all component field mappings (OptionsTable, ColumnManager, PortfolioColumnManager, OptionsChart, ProbabilityHistoryChart, CalibrationChart, MethodComparisonChart, RecoveryComparisonChart)
+- Updated CSV data files (recovery_report_data.csv, validation_report_data.csv) to use new method names
+
+✅ **PoW Legend Implementation**
+- Added PoW Legend card to main dashboard (Index.tsx) - explains "PoW = Probability of Worthless"
+- Added PoW Legend card to Probability Analysis page - provides context for analysis methods
+- Added PoW Legend card to Portfolio Generator page - explains selection options
+- All legends list the 5 probability calculation methods with brief descriptions
+
+✅ **Documentation Updates**
+- Updated probability-analysis.md to reference "PoW - " prefixed method names
+- Updated CURRENT_STATE.md with latest changes and PoW information
+- Created comprehensive PROBABILITY_FIELD_NAMES.md documenting all changes
+
 ### November 28, 2025
 ✅ **Probability Analysis Enhancement - Stock Performance Section**
 - Created new `MethodComparisonChart.tsx` component
@@ -297,12 +314,13 @@ useConsecutiveBreaksAnalysis()
 - Interpretation/guidance cards at bottom
 
 ### Color Schemes
-- **Probability Methods** (consistent across charts):
-  - Weighted Average: #3b82f6 (blue)
-  - Bayesian Calibrated: #10b981 (green)
-  - Original Black-Scholes: #f59e0b (amber)
-  - Bias Corrected: #ef4444 (red)
-  - Historical IV: #8b5cf6 (purple)
+- **Probability Methods** (consistent across charts, displayed as "PoW - " prefix):
+  - PoW - Weighted Average: #3b82f6 (blue)
+  - PoW - Bayesian Calibrated: #10b981 (green)
+  - PoW - Original Black-Scholes: #f59e0b (amber)
+  - PoW - Bias Corrected: #ef4444 (red)
+  - PoW - Historical IV: #8b5cf6 (purple)
+  - Note: PoW = Probability of Worthless
 
 - **Calibration Error**:
   - Green: Conservative (positive error)

@@ -27,11 +27,12 @@ All user inputs from the web application are available as configuration variable
 
 ### Probability Field Selection
 - `SELECTED_PROBABILITY_FIELD`: Which probability field to use for calculations
-  - "ProbWorthless_Bayesian_IsoCal" (default)
-  - "1_2_3_ProbOfWorthless_Weighted"
-  - "1_ProbOfWorthless_Original"
-  - "2_ProbOfWorthless_Calibrated"
-  - "3_ProbOfWorthless_Historical_IV"
+  - "ProbWorthless_Bayesian_IsoCal" (default) - displayed as "PoW - Bayesian Calibrated"
+  - "1_2_3_ProbOfWorthless_Weighted" - displayed as "PoW - Weighted Average"
+  - "1_ProbOfWorthless_Original" - displayed as "PoW - Original Black-Scholes"
+  - "2_ProbOfWorthless_Calibrated" - displayed as "PoW - Bias Corrected"
+  - "3_ProbOfWorthless_Historical_IV" - displayed as "PoW - Historical IV"
+  - Note: PoW = Probability of Worthless
 
 ## Data Files
 

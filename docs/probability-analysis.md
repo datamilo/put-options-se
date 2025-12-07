@@ -9,7 +9,8 @@ Comprehensive probability method validation and recovery opportunity analysis fo
 
 ### 1. Calibration Analysis Section
 - **Purpose**: Validates different probability calculation methods by comparing predicted vs actual probabilities
-- **Methods Compared**: Weighted Average, Bayesian Calibrated, Original Black-Scholes, Bias Corrected, Historical IV
+- **Methods Compared**: PoW - Weighted Average, PoW - Bayesian Calibrated, PoW - Original Black-Scholes, PoW - Bias Corrected, PoW - Historical IV
+- **Note**: PoW = Probability of Worthless (the probability an option will expire worthless)
 - **Chart Type**: Plotly scatter plot with lines and dots
 - **Perfect Calibration Reference**: Diagonal line (y=x) shown as visual reference
 - **Filters**:
