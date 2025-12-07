@@ -677,6 +677,26 @@ const Index = () => {
             </div>
           </div>
 
+          {/* PoW Legend */}
+          <div className="bg-muted/50 border border-muted-foreground/20 rounded-lg p-4">
+            <div className="flex items-start gap-3">
+              <Info className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+              <div className="space-y-2">
+                <p className="font-semibold text-sm">PoW Legend</p>
+                <p className="text-sm text-muted-foreground">
+                  <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless. The table shows 5 different calculation methods:
+                </p>
+                <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
+                  <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
+                  <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
+                  <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
+                  <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
+                  <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
           <Tabs defaultValue="table" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="table" className="flex items-center gap-2">
