@@ -179,6 +179,14 @@
 
 ## Recent Changes & Updates
 
+### December 8, 2025 (Latest)
+✅ **PoW Button Clarity Enhancement**
+- Improved "PoW ?" info buttons on all three pages
+- Added visible text "PoW ?" alongside info icon instead of icon-only approach
+- Makes it immediately clear users can click to learn what "PoW" means
+- Better discoverability than hidden tooltip on icon-only buttons
+- Applied to: Dashboard (toolbar), Probability Analysis (header), Portfolio Generator (header)
+
 ### December 8, 2025
 ✅ **Probability Field Naming Standardization**
 - Added "PoW - " prefix to all probability method display names across entire website
@@ -186,10 +194,11 @@
 - Updated CSV data files (recovery_report_data.csv, validation_report_data.csv) to use new method names
 
 ✅ **PoW Legend Implementation**
-- Added PoW Legend card to main dashboard (Index.tsx) - explains "PoW = Probability of Worthless"
-- Added PoW Legend card to Probability Analysis page - provides context for analysis methods
-- Added PoW Legend card to Portfolio Generator page - explains selection options
-- All legends list the 5 probability calculation methods with brief descriptions
+- Added "PoW ?" info buttons to main dashboard toolbar (next to Export and Columns buttons) - opens dialog explaining "PoW = Probability of Worthless"
+- Added "PoW ?" info button to Probability Analysis page header - provides context for analysis methods
+- Added "PoW ?" info button to Portfolio Generator page header - explains selection options
+- All dialogs list the 5 probability calculation methods with brief descriptions
+- Buttons are discreet and only visible when needed, improving page design and clarity
 
 ✅ **Documentation Updates**
 - Updated probability-analysis.md to reference "PoW - " prefixed method names
