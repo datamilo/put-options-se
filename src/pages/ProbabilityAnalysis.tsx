@@ -7,6 +7,7 @@ import { CalibrationChart } from '@/components/probability/CalibrationChart';
 import { MethodComparisonChart } from '@/components/probability/MethodComparisonChart';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Loader2, ArrowLeft, LineChart, TrendingUp, Info } from 'lucide-react';
 
 export const ProbabilityAnalysis: React.FC = () => {
@@ -83,33 +84,51 @@ export const ProbabilityAnalysis: React.FC = () => {
                 </div>
               </div>
             </div>
-            <TrendingUp className="h-6 w-6 text-muted-foreground" />
+            <div className="flex items-center gap-2">
+              {/* PoW Legend Info Button */}
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    title="Learn what PoW means and about the probability methods"
+                    className="h-9 w-9 p-0"
+                  >
+                    <Info className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>PoW Legend</DialogTitle>
+                  </DialogHeader>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="font-semibold text-sm mb-2">What is PoW?</p>
+                      <p className="text-sm text-muted-foreground">
+                        <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless.
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm mb-2">The 5 Calculation Methods</p>
+                      <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
+                        <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
+                        <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
+                        <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
+                        <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
+                        <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+                      </ul>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
+              <TrendingUp className="h-6 w-6 text-muted-foreground" />
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 container mx-auto p-6 space-y-6">
-        {/* PoW Legend */}
-        <div className="bg-muted/50 border border-muted-foreground/20 rounded-lg p-4">
-          <div className="flex items-start gap-3">
-            <Info className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-            <div className="space-y-2">
-              <p className="font-semibold text-sm">PoW Legend</p>
-              <p className="text-sm text-muted-foreground">
-                <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless. This page analyzes 5 calculation methods:
-              </p>
-              <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-                <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
-                <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
-                <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
-                <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
-                <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
         {/* Executive Overview - Two Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Calibration Analysis Overview */}

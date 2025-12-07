@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowLeft, Settings, ChevronDown, Info, Download } from "lucide-react";
 import { exportToExcel } from "@/utils/excelExport";
 import { toast } from "@/hooks/use-toast";
@@ -456,15 +457,54 @@ const PortfolioGenerator = () => {
           Back to Options
         </Button>
         <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => setShowDescription(!showDescription)}
-          className="ml-auto flex items-center gap-2 text-muted-foreground hover:text-foreground"
-        >
-          <Info className="h-4 w-4" />
-          How it works
-        </Button>
+        <div className="ml-auto flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowDescription(!showDescription)}
+            className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
+          >
+            <Info className="h-4 w-4" />
+            How it works
+          </Button>
+
+          {/* PoW Legend Info Button */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                title="Learn what PoW means and about the probability methods"
+                className="h-9 w-9 p-0"
+              >
+                <Info className="h-4 w-4" />
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-md">
+              <DialogHeader>
+                <DialogTitle>PoW Legend</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4">
+                <div>
+                  <p className="font-semibold text-sm mb-2">What is PoW?</p>
+                  <p className="text-sm text-muted-foreground">
+                    <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless (meaning you keep the premium).
+                  </p>
+                </div>
+                <div>
+                  <p className="font-semibold text-sm mb-2">The 5 Calculation Methods</p>
+                  <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
+                    <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
+                    <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
+                    <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
+                    <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
+                    <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+                  </ul>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {showDescription && (
@@ -480,26 +520,6 @@ const PortfolioGenerator = () => {
           </CardContent>
         </Card>
       )}
-
-      {/* PoW Legend */}
-      <div className="bg-muted/50 border border-muted-foreground/20 rounded-lg p-4">
-        <div className="flex items-start gap-3">
-          <Info className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
-          <div className="space-y-2">
-            <p className="font-semibold text-sm">PoW Legend</p>
-            <p className="text-sm text-muted-foreground">
-              <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless. You can select which calculation method the portfolio uses:
-            </p>
-            <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-              <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
-              <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
-              <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
-              <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
-              <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
-            </ul>
-          </div>
-        </div>
-      </div>
 
       <Card>
         <CardHeader>

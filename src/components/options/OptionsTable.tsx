@@ -18,6 +18,7 @@ import { ColumnManager } from "./ColumnManager";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
 import { formatNumber } from "@/lib/utils";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { exportToExcel } from "@/utils/excelExport";
 import { FieldInfoTooltip } from "@/components/ui/field-info-tooltip";
 
@@ -280,6 +281,43 @@ export const OptionsTable = ({
           )}
           
           <div className="flex items-center gap-2">
+            {/* PoW Legend Info Button */}
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  title="Learn what PoW means and about the probability methods"
+                  className="h-9 w-9 p-0"
+                >
+                  <Info className="h-4 w-4" />
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-md">
+                <DialogHeader>
+                  <DialogTitle>PoW Legend</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <p className="font-semibold text-sm mb-2">What is PoW?</p>
+                    <p className="text-sm text-muted-foreground">
+                      <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless (meaning you keep the premium).
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm mb-2">The 5 Calculation Methods</p>
+                    <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
+                      <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
+                      <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
+                      <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
+                      <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
+                      <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+                    </ul>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
             <Button
               variant="outline"
               size="sm"
