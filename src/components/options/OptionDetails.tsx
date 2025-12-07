@@ -373,7 +373,7 @@ export const OptionDetails = ({ option }: OptionDetailsProps) => {
 
       <Card>
         <CardHeader>
-          <CardTitle>Probability of Worthless Bayesian IsoCal Monte Carlo Simulation</CardTitle>
+          <CardTitle>Probability of Worthless Bayesian Calibrated Monte Carlo Simulation</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">

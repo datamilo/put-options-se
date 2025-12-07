@@ -26,17 +26,17 @@ const PROBABILITY_LINES = [
   },
   {
     key: 'ProbWorthless_Bayesian_IsoCal',
-    name: 'Bayesian IsoCal',
+    name: 'Bayesian Calibrated',
     color: '#dc2626'
   },
   {
     key: '1_ProbOfWorthless_Original',
-    name: 'Original',
+    name: 'Original Black-Scholes',
     color: '#16a34a'
   },
   {
     key: '2_ProbOfWorthless_Calibrated',
-    name: 'Calibrated',
+    name: 'Bias Corrected',
     color: '#ca8a04'
   },
   {
