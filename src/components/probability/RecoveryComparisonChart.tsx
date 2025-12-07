@@ -73,7 +73,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
 
   // Initialize with first available values
   const [threshold, setThreshold] = React.useState(availableOptions.thresholds[0] || '0.8');
-  const [method, setMethod] = React.useState(availableOptions.methods[0] || 'Weighted Average');
+  const [method, setMethod] = React.useState(availableOptions.methods[0] || 'PoW - Weighted Average');
   const [probBin, setProbBin] = React.useState(availableOptions.probBins[0] || '50-60%');
   const [stock, setStock] = React.useState('All Stocks');
 

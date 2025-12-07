@@ -114,11 +114,11 @@ export const OptionsTable = ({
       'SafetyCategory': 'Safety Category',
       'CushionMinusIVPct': 'Cushion Minus IV %',
       'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound',
-      '1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
-      'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
-      '1_ProbOfWorthless_Original': 'Original Black-Scholes',
-      '2_ProbOfWorthless_Calibrated': 'Bias Corrected',
-      '3_ProbOfWorthless_Historical_IV': 'Historical IV'
+      '1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
+      'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
+      '1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',
+      '2_ProbOfWorthless_Calibrated': 'PoW - Bias Corrected',
+      '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV'
     };
     
     if (fieldMappings[field]) {

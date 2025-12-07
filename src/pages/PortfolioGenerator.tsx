@@ -106,11 +106,11 @@ const PortfolioGenerator = () => {
   ];
 
   const probabilityFieldOptions = [
-    { value: "ProbWorthless_Bayesian_IsoCal", label: "Bayesian Calibrated" },
-    { value: "1_2_3_ProbOfWorthless_Weighted", label: "Weighted Average" },
-    { value: "1_ProbOfWorthless_Original", label: "Original Black-Scholes" },
-    { value: "2_ProbOfWorthless_Calibrated", label: "Bias Corrected" },
-    { value: "3_ProbOfWorthless_Historical_IV", label: "Historical IV" },
+    { value: "ProbWorthless_Bayesian_IsoCal", label: "PoW - Bayesian Calibrated" },
+    { value: "1_2_3_ProbOfWorthless_Weighted", label: "PoW - Weighted Average" },
+    { value: "1_ProbOfWorthless_Original", label: "PoW - Original Black-Scholes" },
+    { value: "2_ProbOfWorthless_Calibrated", label: "PoW - Bias Corrected" },
+    { value: "3_ProbOfWorthless_Historical_IV", label: "PoW - Historical IV" },
   ];
 
   const optimizationStrategyOptions = [

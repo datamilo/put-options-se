@@ -22,14 +22,14 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
 
   const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
-  const METHODS = ['All Methods', 'Weighted Average', 'Bayesian Calibrated', 'Original Black-Scholes', 'Bias Corrected', 'Historical IV'];
+  const METHODS = ['All Methods', 'PoW - Weighted Average', 'PoW - Bayesian Calibrated', 'PoW - Original Black-Scholes', 'PoW - Bias Corrected', 'PoW - Historical IV'];
 
   const COLORS: Record<string, string> = {
-    'Weighted Average': '#3b82f6',
-    'Bayesian Calibrated': '#10b981',
-    'Original Black-Scholes': '#f59e0b',
-    'Bias Corrected': '#ef4444',
-    'Historical IV': '#8b5cf6'
+    'PoW - Weighted Average': '#3b82f6',
+    'PoW - Bayesian Calibrated': '#10b981',
+    'PoW - Original Black-Scholes': '#f59e0b',
+    'PoW - Bias Corrected': '#ef4444',
+    'PoW - Historical IV': '#8b5cf6'
   };
 
   // Filter and group data by method

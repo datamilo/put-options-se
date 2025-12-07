@@ -21,27 +21,27 @@ interface ProbabilityHistoryChartProps {
 const PROBABILITY_LINES = [
   {
     key: '1_2_3_ProbOfWorthless_Weighted',
-    name: 'Weighted Average',
+    name: 'PoW - Weighted Average',
     color: '#2563eb'
   },
   {
     key: 'ProbWorthless_Bayesian_IsoCal',
-    name: 'Bayesian Calibrated',
+    name: 'PoW - Bayesian Calibrated',
     color: '#dc2626'
   },
   {
     key: '1_ProbOfWorthless_Original',
-    name: 'Original Black-Scholes',
+    name: 'PoW - Original Black-Scholes',
     color: '#16a34a'
   },
   {
     key: '2_ProbOfWorthless_Calibrated',
-    name: 'Bias Corrected',
+    name: 'PoW - Bias Corrected',
     color: '#ca8a04'
   },
   {
     key: '3_ProbOfWorthless_Historical_IV',
-    name: 'Historical IV',
+    name: 'PoW - Historical IV',
     color: '#9333ea'
   }
 ];
