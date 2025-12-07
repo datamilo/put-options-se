@@ -52,6 +52,19 @@ const SortableColumnItem: React.FC<{
   };
 
   const formatColumnName = (key: string): string => {
+    // Probability field mappings
+    const probabilityMappings: { [key: string]: string } = {
+      '1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
+      'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
+      '1_ProbOfWorthless_Original': 'Original Black-Scholes',
+      '2_ProbOfWorthless_Calibrated': 'Bias Corrected',
+      '3_ProbOfWorthless_Historical_IV': 'Historical IV'
+    };
+
+    if (probabilityMappings[key]) {
+      return probabilityMappings[key];
+    }
+
     return key
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, str => str.toUpperCase())
