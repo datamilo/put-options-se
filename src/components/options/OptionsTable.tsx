@@ -99,7 +99,7 @@ export const OptionsTable = ({
       return 'Number Of Contracts';
     }
     
-    // Special formatting for IV fields
+    // Special formatting for IV fields and probability fields
     const fieldMappings: { [key: string]: string } = {
       'IV_ClosestToStrike': 'IV Closest To Strike',
       'IV_UntilExpiryClosestToStrike': 'IV Until Expiry Closest To Strike',
@@ -113,7 +113,12 @@ export const OptionsTable = ({
       'ProbAssignment': 'Prob Assignment',
       'SafetyCategory': 'Safety Category',
       'CushionMinusIVPct': 'Cushion Minus IV %',
-      'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound'
+      'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound',
+      '1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
+      'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
+      '1_ProbOfWorthless_Original': 'Original Black-Scholes',
+      '2_ProbOfWorthless_Calibrated': 'Bias Corrected',
+      '3_ProbOfWorthless_Historical_IV': 'Historical IV'
     };
     
     if (fieldMappings[field]) {
