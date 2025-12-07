@@ -471,15 +471,35 @@ const PortfolioGenerator = () => {
         <Card className="border-muted bg-muted/20">
           <CardContent className="pt-4">
              <p className="text-sm text-muted-foreground leading-relaxed">
-               The Portfolio Generator uses an algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium. 
-               It calculates risk-adjusted scores and expected values, ranks all options based on your selected optimization strategy, and automatically 
-               selects a diversified set. <strong>Maximize Returns</strong> prioritizes highest risk-adjusted returns. <strong>Minimize Capital</strong> prioritizes 
+               The Portfolio Generator uses an algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium.
+               It calculates risk-adjusted scores and expected values, ranks all options based on your selected optimization strategy, and automatically
+               selects a diversified set. <strong>Maximize Returns</strong> prioritizes highest risk-adjusted returns. <strong>Minimize Capital</strong> prioritizes
                lowest capital requirements while maintaining quality. <strong>Balanced</strong> optimizes for both return and capital efficiency.
                It will always pick just one option per stock.
              </p>
           </CardContent>
         </Card>
       )}
+
+      {/* PoW Legend */}
+      <div className="bg-muted/50 border border-muted-foreground/20 rounded-lg p-4">
+        <div className="flex items-start gap-3">
+          <Info className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
+          <div className="space-y-2">
+            <p className="font-semibold text-sm">PoW Legend</p>
+            <p className="text-sm text-muted-foreground">
+              <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless. You can select which calculation method the portfolio uses:
+            </p>
+            <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
+              <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
+              <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
+              <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
+              <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
+              <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
       <Card>
         <CardHeader>
