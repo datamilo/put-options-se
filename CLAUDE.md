@@ -66,13 +66,21 @@ Detailed documentation for each page is in the `/docs` folder:
 - `/docs` - Detailed page documentation
 
 ### Data Files
+
+**Primary Data Files**:
 - `stock_data.csv` - OHLC format stock data
-- `data.csv` - Options data
+- `data.csv` - Options data (67+ fields)
 - `recovery_report_data.csv` - Probability recovery analysis
 - `validation_report_data.csv` - Probability validation
 - `hit_rate_trends_by_stock.csv` - Lower bound monthly trends (1,071 rows)
 - `all_stocks_daily_predictions.csv` - Lower bound daily predictions (115,000+ rows, includes future expirations)
 - `all_stocks_expiry_stats.csv` - Lower bound expiry statistics (2,681 rows, includes future expirations)
+
+**Additional Data Files**:
+- `probability_history.csv` - Historical probability data for ProbabilityHistoryChart component
+- `IV_PotentialDecline.csv` - Implied volatility-based decline predictions
+- `Stock_Events_Volatility_Data.csv` - Earnings and financial event volatility data
+- `Stocks_Monthly_Data.csv` - Monthly aggregated stock performance data
 
 ---
 
