@@ -36,7 +36,11 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 
 ## Page Sections
 - Metrics cards (total breaks, clusters, multi-break clusters, max breaks)
-- Cluster detail cards with statistics (duration, gaps, drops, break tables)
+- Cluster detail cards with statistics:
+  - Duration, gaps, total drop
+  - **Avg Drop per Break**: Average percentage decline when support breaks
+  - **Median Drop per Break**: Median percentage decline when support breaks (more robust than average)
+  - Break tables with dates and price movements
 - Support break history table
 
 ## Important Implementation Notes
@@ -44,6 +48,16 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 - **Calendar Day Calculation**: Uses `date.setDate(date.getDate() - periodDays)` for calendar days
 - **Performance**: Uses efficient sliding window algorithm for large period selections
 - **Visualization**: Charts use Plotly for native financial charting capabilities
+
+## Integration with Smart Option Finder
+
+The Support Level Analysis data is the foundation for the **Smart Option Finder** page (`/smart-option-finder`). That page automatically finds put options strategically positioned relative to support levels using the same rolling low calculations and metrics available here.
+
+Key metrics from this analysis used by Smart Option Finder:
+- Rolling low for each stock
+- Support stability percentage
+- Days since last break
+- Median drop per break (used to position strikes at historical worst-case scenarios)
 
 ## File References
 - **Page**: `src/pages/ConsecutiveBreaksAnalysis.tsx`
