@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: December 8, 2025
+**Last Updated**: December 14, 2025
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -14,7 +14,8 @@
 | [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Jun 2024 |
 | [Monthly Analysis](#monthly-analysis) | `/monthly-analysis` | ✅ Active | Nov 25 |
 | [Stock Analysis](#stock-analysis) | `/stock/:stockName` | ✅ Active | Nov 24 |
-| [Support Level Analysis](#support-level-analysis) | `/consecutive-breaks` | ✅ Active | Nov 28 |
+| [Support Level Analysis](#support-level-analysis) | `/consecutive-breaks` | ✅ Active | Dec 14 |
+| [Smart Option Finder](#smart-option-finder) | `/smart-option-finder` | ✅ Active | Dec 14 |
 | [Probability Analysis](#probability-analysis) | `/probability-analysis` | ✅ Active | Nov 28 |
 | [Lower Bound Analysis](#lower-bound-analysis) | `/lower-bound-analysis` | ✅ Active | Nov 28 |
 | [Volatility Analysis](#volatility-analysis) | `/volatility-analysis` | ✅ Active | Oct 2024 |
@@ -75,7 +76,12 @@
 ### Support Level Analysis
 **Route**: `/consecutive-breaks`
 
-**Latest Changes** (Nov 28, 2025):
+**Latest Changes** (Dec 14, 2025):
+- Added "Median Drop per Break" metric to All Break Clusters section
+- Shows statistical median of support break percentages for each cluster
+- Helps users position strikes at historically realistic worst-case levels
+
+**Earlier Changes** (Nov 28, 2025):
 - Renamed "Last Break" label to "Running Low Date" in hover tooltip
 - Clarifies that the date shown is the lowest price point during the selected period, not necessarily a break event
 
@@ -90,6 +96,40 @@
 - **Rolling Low Line**: Slate gray dashed line
   - Tooltip: "Running Low: X.XX kr" + "Running Low Date: YYYY-MM-DD"
 - **Break Markers**: Amber dots
+
+**Status**: Fully functional
+
+---
+
+### Smart Option Finder
+**Route**: `/smart-option-finder`
+
+**Latest Changes** (Dec 14, 2025):
+- 🆕 NEW PAGE: Automatic option finder based on support levels
+- Combines Support Level Analysis with option selection
+- Users can filter options positioned relative to any rolling low period
+
+**Features**:
+- **Rolling Low Period Selection**: 30, 90, 180, 270, or 365-day support timeframes
+- **Support Filters**:
+  - Min Support Stability: Filter by % of days support held without breaking
+  - Min Days Since Last Break: Ensure support is recently stable
+- **Strike Position Strategies**:
+  - At Support Level: Strike within 2% of rolling low
+  - At Median Drop Below Support: Strike positioned at historical worst-case scenario
+  - Custom % Below Support: User-defined offset below support
+  - Any Position: No strike filtering
+- **Results Table**:
+  - Shows matching options with support metrics
+  - Distance to support and strike vs support calculations
+  - Median drop per break for risk assessment
+  - Links to detailed option analysis and support level analysis
+
+**Technical Details**:
+- Uses `useSupportBasedOptionFinder` hook
+- Combines `useConsecutiveBreaksAnalysis` for support metrics
+- Client-side filtering for instant results
+- Support metrics recalculate dynamically when rolling period changes
 
 **Status**: Fully functional
 
@@ -179,7 +219,28 @@
 
 ## Recent Changes & Updates
 
-### December 8, 2025 (Latest)
+### December 14, 2025 (Latest)
+✅ **Smart Option Finder - NEW PAGE**
+- Launched new `/smart-option-finder` page for automated option selection based on support levels
+- Combines support level analysis with intelligent option filtering
+- **Key Features**:
+  - Rolling Low Period selector (30, 90, 180, 270, 365 days)
+  - Support stability and break history filters
+  - Multiple strike positioning strategies (at support, at median drop, custom %, any)
+  - Real-time results table with comprehensive support metrics
+  - Links to detailed option and support analysis
+
+✅ **Support Level Analysis Enhancement**
+- Added "Median Drop per Break" metric to All Break Clusters display
+- Shows statistical median of support break percentages for each cluster
+- Helps identify historical worst-case scenarios for strike positioning
+
+✅ **Documentation Additions**
+- Created comprehensive `smart-option-finder.md` documentation
+- Updated `CLAUDE.md` page index with Smart Option Finder entry
+- Updated `CURRENT_STATE.md` with all new features and changes
+
+### December 8, 2025
 ✅ **PoW Button Clarity Enhancement**
 - Improved "PoW ?" info buttons on all three pages
 - Added visible text "PoW ?" alongside info icon instead of icon-only approach
@@ -276,6 +337,17 @@
 ---
 
 ## Known Components & Hooks
+
+### Smart Option Finder Components & Hooks
+- **SupportBasedOptionFinder.tsx** - Main page component
+  - Configurable filters for rolling period, support stability, days since break
+  - Strike positioning strategy selector
+  - Dynamic results table with support metrics
+
+- **useSupportBasedOptionFinder.ts** - Core hook
+  - `calculateSupportMetrics(rollingPeriod)`: Calculates metrics for given period
+  - `findOptions(criteria)`: Filters and ranks options
+  - Returns support metrics and filtering function
 
 ### Probability Analysis Components
 - **CalibrationChart.tsx** - Plotly scatter chart for method validation
@@ -379,6 +451,7 @@ useConsecutiveBreaksAnalysis()
 
 ## Related Documentation
 
+- [smart-option-finder.md](smart-option-finder.md) - Smart Option Finder page documentation
 - [probability-analysis.md](probability-analysis.md) - Detailed Probability Analysis page docs
 - [support-level-analysis.md](support-level-analysis.md) - Support Level Analysis page docs
 - [lower-bound-analysis.md](lower-bound-analysis.md) - Lower Bound Analysis page docs
