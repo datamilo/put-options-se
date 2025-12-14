@@ -27,7 +27,7 @@ export const SupportBasedOptionFinder = () => {
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
 
   // Filter state
-  const [rollingPeriod] = useState<number>(90);
+  const [rollingPeriod, setRollingPeriod] = useState<string>('90');
   const [minSupportStability, setMinSupportStability] = useState<string>('85');
   const [minDaysSinceBreak, setMinDaysSinceBreak] = useState<string>('30');
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
@@ -36,7 +36,7 @@ export const SupportBasedOptionFinder = () => {
   // Find options based on current criteria
   const results = useMemo(() => {
     const criteria: FilterCriteria = {
-      rollingPeriod,
+      rollingPeriod: parseInt(rollingPeriod),
       minSupportStability: parseFloat(minSupportStability),
       minDaysSinceBreak: parseInt(minDaysSinceBreak),
       strikePosition: strikePosition as FilterCriteria['strikePosition'],
@@ -95,6 +95,23 @@ export const SupportBasedOptionFinder = () => {
               <div>
                 <h3 className="text-sm font-semibold mb-3 text-gray-700">Support Analysis</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="rolling-period" className="text-sm">
+                      Rolling Low Period
+                    </Label>
+                    <Select value={rollingPeriod} onValueChange={setRollingPeriod}>
+                      <SelectTrigger id="rolling-period">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="30">1-Month (30 days)</SelectItem>
+                        <SelectItem value="90">3-Month (90 days)</SelectItem>
+                        <SelectItem value="180">6-Month (180 days)</SelectItem>
+                        <SelectItem value="270">9-Month (270 days)</SelectItem>
+                        <SelectItem value="365">1-Year (365 days)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="support-stability" className="text-sm">
                       Min Support Stability (%)
@@ -186,7 +203,7 @@ export const SupportBasedOptionFinder = () => {
                       <TableHead className="text-blue-900">Option</TableHead>
                       <TableHead className="text-blue-900 text-right">Current Price</TableHead>
                       <TableHead className="text-blue-900 text-right">Strike</TableHead>
-                      <TableHead className="text-blue-900 text-right">Support (90d)</TableHead>
+                      <TableHead className="text-blue-900 text-right">Support ({rollingPeriod}d)</TableHead>
                       <TableHead className="text-blue-900 text-right">Distance to Support</TableHead>
                       <TableHead className="text-blue-900 text-right">Strike vs Support</TableHead>
                       <TableHead className="text-blue-900 text-right">Median Drop/Break</TableHead>

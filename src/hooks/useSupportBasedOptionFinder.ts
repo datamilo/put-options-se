@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useCallback } from 'react';
 import { useEnrichedOptionsData } from './useEnrichedOptionsData';
 import { useConsecutiveBreaksAnalysis } from './useConsecutiveBreaksAnalysis';
 import { useStockData } from './useStockData';
@@ -54,8 +54,8 @@ export const useSupportBasedOptionFinder = () => {
   const { uniqueStocks, analyzeStock } = useConsecutiveBreaksAnalysis();
   const { allStockData } = useStockData();
 
-  // Calculate support metrics for all stocks
-  const supportMetrics = useMemo((): Map<string, SupportMetrics> => {
+  // Calculate support metrics for a specific rolling period
+  const calculateSupportMetrics = useCallback((rollingPeriod: number): Map<string, SupportMetrics> => {
     const metrics = new Map<string, SupportMetrics>();
 
     if (!uniqueStocks || uniqueStocks.length === 0) return metrics;
@@ -70,11 +70,11 @@ export const useSupportBasedOptionFinder = () => {
 
       const currentPrice = stockDataForStock[0].close;
 
-      // Analyze with 90-day default period
+      // Analyze with specified rolling period
       const analysis = analyzeStock(stockName, {
         dateFrom: null,
         dateTo: null,
-        periodDays: 90,
+        periodDays: rollingPeriod,
         maxGapDays: 30,
       });
 
@@ -116,6 +116,9 @@ export const useSupportBasedOptionFinder = () => {
   // Filter and rank options based on criteria
   const findOptions = (criteria: FilterCriteria): SupportBasedOption[] => {
     if (!optionsData || optionsData.length === 0) return [];
+
+    // Calculate support metrics for the specified rolling period
+    const supportMetrics = calculateSupportMetrics(criteria.rollingPeriod);
 
     const results: SupportBasedOption[] = [];
 
@@ -205,7 +208,6 @@ export const useSupportBasedOptionFinder = () => {
   };
 
   return {
-    supportMetrics,
     findOptions,
     isLoading: optionsLoading,
   };
