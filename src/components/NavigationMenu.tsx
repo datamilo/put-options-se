@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Menu, Bot, Calendar, Activity, LogOut, Settings, Sun, Moon, ChartNetwork, LineChart, TrendingUpDown, ArrowDown10 } from "lucide-react";
+import { Menu, Bot, Calendar, Activity, LogOut, Settings, Sun, Moon, ChartNetwork, LineChart, TrendingUpDown, ArrowDown10, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
@@ -64,6 +64,14 @@ export const NavigationMenu = () => {
           >
             <ChartNetwork className="mr-2 h-4 w-4" />
             Support Level Analysis
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={() => navigate('/smart-option-finder')}
+            className="cursor-pointer"
+          >
+            <Target className="mr-2 h-4 w-4" />
+            Smart Option Finder
           </DropdownMenuItem>
 
           <DropdownMenuItem
