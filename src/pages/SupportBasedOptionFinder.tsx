@@ -32,11 +32,6 @@ export const SupportBasedOptionFinder = () => {
   const [minDaysSinceBreak, setMinDaysSinceBreak] = useState<string>('30');
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
   const [percentBelow, setPercentBelow] = useState<string>('5');
-  const [minProbOfWorthless, setMinProbOfWorthless] = useState<string>('0.70');
-  const [maxDaysToExpiry, setMaxDaysToExpiry] = useState<string>('90');
-  const [minPremium, setMinPremium] = useState<string>('1000');
-  const [requireStrikeBelowLowerAtAcc, setRequireStrikeBelowLowerAtAcc] = useState<boolean>(true);
-  const [maxBidAskSpread, setMaxBidAskSpread] = useState<string>('10');
 
   // Find options based on current criteria
   const results = useMemo(() => {
@@ -46,11 +41,11 @@ export const SupportBasedOptionFinder = () => {
       minDaysSinceBreak: parseInt(minDaysSinceBreak),
       strikePosition: strikePosition as FilterCriteria['strikePosition'],
       percentBelow: strikePosition === 'percent_below' ? parseFloat(percentBelow) : undefined,
-      minProbOfWorthless: parseFloat(minProbOfWorthless),
-      maxDaysToExpiry: parseInt(maxDaysToExpiry),
-      minPremium: parseFloat(minPremium),
-      requireStrikeBelowLowerAtAcc,
-      maxBidAskSpread: parseFloat(maxBidAskSpread),
+      minProbOfWorthless: 0,
+      maxDaysToExpiry: 999,
+      minPremium: 0,
+      requireStrikeBelowLowerAtAcc: false,
+      maxBidAskSpread: 999,
     };
 
     return findOptions(criteria);
@@ -60,11 +55,6 @@ export const SupportBasedOptionFinder = () => {
     minDaysSinceBreak,
     strikePosition,
     percentBelow,
-    minProbOfWorthless,
-    maxDaysToExpiry,
-    minPremium,
-    requireStrikeBelowLowerAtAcc,
-    maxBidAskSpread,
     findOptions,
   ]);
 
@@ -171,83 +161,6 @@ export const SupportBasedOptionFinder = () => {
                       />
                     </div>
                   )}
-                </div>
-              </div>
-
-              {/* Option Criteria */}
-              <div>
-                <h3 className="text-sm font-semibold mb-3 text-gray-700">Option Criteria</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="min-pow" className="text-sm">
-                      Min Probability of Worthless
-                    </Label>
-                    <Input
-                      id="min-pow"
-                      type="number"
-                      value={minProbOfWorthless}
-                      onChange={(e) => setMinProbOfWorthless(e.target.value)}
-                      min="0"
-                      max="1"
-                      step="0.05"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="max-days" className="text-sm">
-                      Max Days to Expiry
-                    </Label>
-                    <Input
-                      id="max-days"
-                      type="number"
-                      value={maxDaysToExpiry}
-                      onChange={(e) => setMaxDaysToExpiry(e.target.value)}
-                      min="1"
-                      step="10"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="min-premium" className="text-sm">
-                      Min Premium (SEK)
-                    </Label>
-                    <Input
-                      id="min-premium"
-                      type="number"
-                      value={minPremium}
-                      onChange={(e) => setMinPremium(e.target.value)}
-                      min="0"
-                      step="500"
-                    />
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="max-spread" className="text-sm">
-                      Max Bid-Ask Spread (SEK)
-                    </Label>
-                    <Input
-                      id="max-spread"
-                      type="number"
-                      value={maxBidAskSpread}
-                      onChange={(e) => setMaxBidAskSpread(e.target.value)}
-                      min="0"
-                      step="1"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Safety Filters */}
-              <div>
-                <h3 className="text-sm font-semibold mb-3 text-gray-700">Safety Filters</h3>
-                <div className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    id="require-lower-acc"
-                    checked={requireStrikeBelowLowerAtAcc}
-                    onChange={(e) => setRequireStrikeBelowLowerAtAcc(e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300"
-                  />
-                  <Label htmlFor="require-lower-acc" className="text-sm cursor-pointer">
-                    Require Strike Below Lower Bound at Accuracy
-                  </Label>
                 </div>
               </div>
             </div>
