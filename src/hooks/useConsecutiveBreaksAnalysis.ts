@@ -161,6 +161,12 @@ export const useConsecutiveBreaksAnalysis = () => {
 
     const totalDrop = clusterBreaks.reduce((sum, b) => sum + b.drop_pct, 0);
 
+    // Calculate median drop
+    const drops = [...clusterBreaks.map((b) => b.drop_pct)].sort((a, b) => a - b);
+    const medianDrop = drops.length % 2 === 0
+      ? (drops[drops.length / 2 - 1] + drops[drops.length / 2]) / 2
+      : drops[Math.floor(drops.length / 2)];
+
     return {
       id: clusterId,
       breaks: clusterBreaks,
@@ -177,6 +183,7 @@ export const useConsecutiveBreaksAnalysis = () => {
       max_gap: gaps.length > 0 ? Math.max(...gaps) : undefined,
       total_drop: totalDrop,
       avg_drop: totalDrop / clusterBreaks.length,
+      median_drop: medianDrop,
     };
   };
 

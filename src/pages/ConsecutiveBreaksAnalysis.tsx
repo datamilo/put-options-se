@@ -316,7 +316,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                           <div className="bg-orange-50 p-3 rounded border border-orange-200">
                             <div className="text-xs text-gray-600 font-medium">Duration</div>
                             <div className="text-lg font-bold text-orange-700">
@@ -341,6 +341,12 @@ export const ConsecutiveBreaksAnalysis = () => {
                             <div className="text-xs text-gray-600 font-medium">Avg Drop per Break</div>
                             <div className="text-lg font-bold text-orange-700">
                               {cluster.avg_drop.toFixed(2)}%
+                            </div>
+                          </div>
+                          <div className="bg-orange-50 p-3 rounded border border-orange-200">
+                            <div className="text-xs text-gray-600 font-medium">Median Drop per Break</div>
+                            <div className="text-lg font-bold text-orange-700">
+                              {cluster.median_drop.toFixed(2)}%
                             </div>
                           </div>
                         </div>

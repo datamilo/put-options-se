@@ -29,6 +29,7 @@ export interface BreakCluster {
   max_gap?: number;
   total_drop: number;
   avg_drop: number;
+  median_drop: number;
 }
 
 export interface BreakStatistics {
