@@ -16,6 +16,14 @@ A comprehensive financial analysis web application for put options trading and s
 - **Break Clustering**: Group consecutive support breaks within configurable time windows
 - **Multi-Trace Visualization**: Plotly charts with candlesticks, rolling low line, and break markers
 - **Detailed Analytics**: Cluster statistics, support break history, and stability metrics
+- **Median Drop Metrics**: Statistical analysis of support break severity for risk assessment
+
+### Smart Option Finder
+- **Automated Option Selection**: Find put options strategically positioned relative to support levels
+- **Rolling Period Selection**: Choose support timeframe (30, 90, 180, 270, or 365 days)
+- **Support-Based Filtering**: Filter by support stability and break history
+- **Strike Position Strategies**: Position strikes at support, at median drop below, custom %, or any level
+- **Real-time Results**: Instantly find matching options with support metrics and risk analysis
 
 ### Portfolio Generation
 - **Automated Portfolio Builder**: Generate optimized put options portfolios based on multiple strategies
@@ -99,6 +107,7 @@ put-options-se-1/
 
 - **Dashboard** (`/`) - Main options analysis with filterable table
 - **Support Level Analysis** (`/consecutive-breaks`) - Stock support level strength analysis
+- **Smart Option Finder** (`/smart-option-finder`) - Automatically find options positioned relative to support levels
 - **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools
 - **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
 - **Stock Analysis** (`/stock/:stockName`) - Individual stock performance metrics
