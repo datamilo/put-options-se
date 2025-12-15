@@ -270,7 +270,7 @@ export const SupportBasedOptionFinder = () => {
                       </span>
                     </TableCell>
                     <TableCell
-                      className="font-mono text-xs cursor-pointer hover:bg-accent/50 transition-colors"
+                      className="cursor-pointer hover:bg-accent/50 transition-colors"
                       onClick={() => handleOptionClick(option.optionName)}
                     >
                       <span className="font-medium text-primary hover:opacity-80 transition-all">
