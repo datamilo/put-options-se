@@ -55,71 +55,82 @@ export const useSupportBasedOptionFinder = () => {
   const { uniqueStocks, analyzeStock } = useConsecutiveBreaksAnalysis();
   const { allStockData, getLowPriceForPeriod } = useStockData();
 
-  // Calculate support metrics for a specific rolling period
-  const calculateSupportMetrics = useCallback((rollingPeriod: number): Map<string, SupportMetrics> => {
-    const metrics = new Map<string, SupportMetrics>();
+  // Memoize support metrics by rolling period to avoid recalculation on every filter change
+  const supportMetricsCache = useMemo(() => {
+    const cache: Map<number, Map<string, SupportMetrics>> = new Map();
 
-    if (!uniqueStocks || uniqueStocks.length === 0) return metrics;
-
-    uniqueStocks.forEach(stockName => {
-      // Get latest stock price
-      const stockDataForStock = allStockData
-        .filter(d => d.name === stockName)
-        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-      if (stockDataForStock.length === 0) return;
-
-      const currentPrice = stockDataForStock[0].close;
-
-      // Get rolling low using the same method as Strike Price Below filter
-      const rollingLow = getLowPriceForPeriod(stockName, rollingPeriod);
-
-      // Analyze with specified rolling period for break statistics
-      const analysis = analyzeStock(stockName, {
-        dateFrom: null,
-        dateTo: null,
-        periodDays: rollingPeriod,
-        maxGapDays: 30,
-      });
-
-      if (!analysis) return;
-
-      // Calculate median drop per break from clusters
-      let medianDropPerBreak = null;
-      let avgDropPerBreak = null;
-      if (analysis.clusters.length > 0) {
-        const allMedianDrops = analysis.clusters.map(c => c.median_drop);
-        allMedianDrops.sort((a, b) => a - b);
-        medianDropPerBreak = allMedianDrops.length % 2 === 0
-          ? (allMedianDrops[allMedianDrops.length / 2 - 1] + allMedianDrops[allMedianDrops.length / 2]) / 2
-          : allMedianDrops[Math.floor(allMedianDrops.length / 2)];
-
-        const allAvgDrops = analysis.clusters.map(c => c.avg_drop);
-        avgDropPerBreak = allAvgDrops.reduce((a, b) => a + b, 0) / allAvgDrops.length;
+    const calculateForPeriod = (rollingPeriod: number): Map<string, SupportMetrics> => {
+      if (cache.has(rollingPeriod)) {
+        return cache.get(rollingPeriod)!;
       }
 
-      metrics.set(stockName, {
-        stockName,
-        currentPrice,
-        rollingLow,
-        daysSinceLastBreak: analysis.stats?.daysSinceLastBreak ?? null,
-        supportStability: analysis.stats?.stability ?? 0,
-        numBreaks: analysis.breaks.length,
-        medianDropPerBreak,
-        avgDropPerBreak,
-        lastBreakDate: analysis.breaks.length > 0 ? analysis.breaks[analysis.breaks.length - 1].date : null,
-      });
-    });
+      const metrics = new Map<string, SupportMetrics>();
 
-    return metrics;
+      if (!uniqueStocks || uniqueStocks.length === 0) return metrics;
+
+      uniqueStocks.forEach(stockName => {
+        // Get latest stock price
+        const stockDataForStock = allStockData
+          .filter(d => d.name === stockName)
+          .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+        if (stockDataForStock.length === 0) return;
+
+        const currentPrice = stockDataForStock[0].close;
+
+        // Get rolling low using the same method as Strike Price Below filter
+        const rollingLow = getLowPriceForPeriod(stockName, rollingPeriod);
+
+        // Analyze with specified rolling period for break statistics
+        const analysis = analyzeStock(stockName, {
+          dateFrom: null,
+          dateTo: null,
+          periodDays: rollingPeriod,
+          maxGapDays: 30,
+        });
+
+        if (!analysis) return;
+
+        // Calculate median drop per break from clusters
+        let medianDropPerBreak = null;
+        let avgDropPerBreak = null;
+        if (analysis.clusters.length > 0) {
+          const allMedianDrops = analysis.clusters.map(c => c.median_drop);
+          allMedianDrops.sort((a, b) => a - b);
+          medianDropPerBreak = allMedianDrops.length % 2 === 0
+            ? (allMedianDrops[allMedianDrops.length / 2 - 1] + allMedianDrops[allMedianDrops.length / 2]) / 2
+            : allMedianDrops[Math.floor(allMedianDrops.length / 2)];
+
+          const allAvgDrops = analysis.clusters.map(c => c.avg_drop);
+          avgDropPerBreak = allAvgDrops.reduce((a, b) => a + b, 0) / allAvgDrops.length;
+        }
+
+        metrics.set(stockName, {
+          stockName,
+          currentPrice,
+          rollingLow,
+          daysSinceLastBreak: analysis.stats?.daysSinceLastBreak ?? null,
+          supportStability: analysis.stats?.stability ?? 0,
+          numBreaks: analysis.breaks.length,
+          medianDropPerBreak,
+          avgDropPerBreak,
+          lastBreakDate: analysis.breaks.length > 0 ? analysis.breaks[analysis.breaks.length - 1].date : null,
+        });
+      });
+
+      cache.set(rollingPeriod, metrics);
+      return metrics;
+    };
+
+    return { cache, calculateForPeriod };
   }, [uniqueStocks, analyzeStock, allStockData, getLowPriceForPeriod]);
 
   // Filter and rank options based on criteria
-  const findOptions = (criteria: FilterCriteria): SupportBasedOption[] => {
+  const findOptions = useCallback((criteria: FilterCriteria): SupportBasedOption[] => {
     if (!optionsData || optionsData.length === 0) return [];
 
-    // Calculate support metrics for the specified rolling period
-    const supportMetrics = calculateSupportMetrics(criteria.rollingPeriod);
+    // Get support metrics for the specified rolling period (cached if already computed)
+    const supportMetrics = supportMetricsCache.calculateForPeriod(criteria.rollingPeriod);
 
     const results: SupportBasedOption[] = [];
 
@@ -209,7 +220,7 @@ export const useSupportBasedOptionFinder = () => {
 
     // Sort by premium descending
     return results.sort((a, b) => b.premium - a.premium);
-  };
+  }, [optionsData, supportMetricsCache]);
 
   return {
     findOptions,

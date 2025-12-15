@@ -2,6 +2,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useSupportBasedOptionFinder, FilterCriteria } from '@/hooks/useSupportBasedOptionFinder';
 import { useEnrichedOptionsData } from '@/hooks/useEnrichedOptionsData';
+import { OptionData } from '@/types/options';
+import { OptionsTable } from '@/components/options/OptionsTable';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -13,19 +15,12 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Target } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 
 export const SupportBasedOptionFinder = () => {
   usePageTitle('Smart Option Finder');
+  const navigate = useNavigate();
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
   const { data: allOptionsData } = useEnrichedOptionsData();
 
@@ -36,6 +31,18 @@ export const SupportBasedOptionFinder = () => {
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
   const [percentBelow, setPercentBelow] = useState<string>('5');
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string | null>(null);
+  const [sortField, setSortField] = useState<keyof OptionData | null>(null);
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+
+  // Navigation handlers
+  const handleOptionClick = (option: OptionData) => {
+    const optionId = encodeURIComponent(option.OptionName);
+    navigate(`/option/${optionId}`);
+  };
+
+  const handleStockClick = (stockName: string) => {
+    navigate(`/stock/${encodeURIComponent(stockName)}`);
+  };
 
   // Initialize default expiry date on load
   useEffect(() => {
@@ -49,7 +56,7 @@ export const SupportBasedOptionFinder = () => {
   }, [allOptionsData, selectedExpiryDate]);
 
   // Find options based on current criteria
-  const results = useMemo(() => {
+  const supportBasedResults = useMemo(() => {
     const criteria: FilterCriteria = {
       rollingPeriod: parseInt(rollingPeriod),
       minSupportStability: parseFloat(minSupportStability),
@@ -74,6 +81,30 @@ export const SupportBasedOptionFinder = () => {
     selectedExpiryDate,
     findOptions,
   ]);
+
+  // Convert SupportBasedOption results to OptionData format for the table
+  const tableData: OptionData[] = useMemo(() => {
+    return supportBasedResults.map(result => ({
+      StockName: result.stockName,
+      OptionName: result.optionName,
+      ExpiryDate: result.expiryDate,
+      Premium: result.premium,
+      '1_2_3_ProbOfWorthless_Weighted': result.probOfWorthless,
+      ProbWorthless_Bayesian_IsoCal: result.probOfWorthless,
+      '1_ProbOfWorthless_Original': 0,
+      '2_ProbOfWorthless_Calibrated': 0,
+      '3_ProbOfWorthless_Historical_IV': 0,
+      StrikePrice: result.strikePrice,
+      DaysToExpiry: result.daysToExpiry,
+      Bid: 0,
+      Ask: 0,
+      AskBidSpread: result.bidAskSpread,
+      StockPrice: result.currentPrice,
+      Lower_Bound_at_Accuracy: result.lowerBoundAtAccuracy ?? 0,
+      NumberOfContractsBasedOnLimit: 0,
+      Underlying_Value: 0,
+    } as OptionData));
+  }, [supportBasedResults]);
 
   if (isLoading) {
     return (
@@ -221,93 +252,24 @@ export const SupportBasedOptionFinder = () => {
         {/* Results Summary */}
         <div className="mb-4">
           <p className="text-sm text-muted-foreground">
-            Found <span className="font-bold text-foreground">{results.length}</span> options matching criteria
+            Found <span className="font-bold text-foreground">{tableData.length}</span> options matching criteria
           </p>
         </div>
 
         {/* Results Table */}
-        {results.length > 0 ? (
-          <Card>
-            <CardContent className="pt-6">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-blue-50">
-                      <TableHead className="text-blue-900">Stock</TableHead>
-                      <TableHead className="text-blue-900">Option</TableHead>
-                      <TableHead className="text-blue-900 text-right">Current Price</TableHead>
-                      <TableHead className="text-blue-900 text-right">Strike</TableHead>
-                      <TableHead className="text-blue-900 text-right">Support ({rollingPeriod}d)</TableHead>
-                      <TableHead className="text-blue-900 text-right">Distance to Support</TableHead>
-                      <TableHead className="text-blue-900 text-right">Strike vs Support</TableHead>
-                      <TableHead className="text-blue-900 text-right">Median Drop/Break</TableHead>
-                      <TableHead className="text-blue-900 text-right">Premium</TableHead>
-                      <TableHead className="text-blue-900 text-right">PoW</TableHead>
-                      <TableHead className="text-blue-900 text-right">Days to Expiry</TableHead>
-                      <TableHead className="text-blue-900 text-right">Support Stability</TableHead>
-                      <TableHead className="text-blue-900 text-right">Days Since Break</TableHead>
-                      <TableHead className="text-blue-900">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {results.map((option, idx) => (
-                      <TableRow key={idx} className="hover:bg-blue-50">
-                        <TableCell className="font-medium">{option.stockName}</TableCell>
-                        <TableCell className="font-mono text-xs">{option.optionName}</TableCell>
-                        <TableCell className="text-right">{option.currentPrice.toFixed(2)} kr</TableCell>
-                        <TableCell className="text-right font-semibold">{option.strikePrice.toFixed(2)} kr</TableCell>
-                        <TableCell className="text-right">
-                          {option.rollingLow ? `${option.rollingLow.toFixed(2)} kr` : '-'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {option.distanceToSupport !== null ? (
-                            <span className={option.distanceToSupport < 5 ? 'text-orange-600 font-semibold' : ''}>
-                              {option.distanceToSupport.toFixed(1)}%
-                            </span>
-                          ) : '-'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {option.strikeVsSupport !== null ? (
-                            <span className={option.strikeVsSupport < 0 ? 'text-green-600 font-semibold' : ''}>
-                              {option.strikeVsSupport.toFixed(1)}%
-                            </span>
-                          ) : '-'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {option.medianDropPerBreak !== null ? `${option.medianDropPerBreak.toFixed(2)}%` : '-'}
-                        </TableCell>
-                        <TableCell className="text-right font-semibold text-green-700">
-                          {option.premium.toFixed(0)} kr
-                        </TableCell>
-                        <TableCell className="text-right">{(option.probOfWorthless * 100).toFixed(1)}%</TableCell>
-                        <TableCell className="text-right">{option.daysToExpiry}d</TableCell>
-                        <TableCell className="text-right">{option.supportStability.toFixed(1)}%</TableCell>
-                        <TableCell className="text-right">
-                          {option.daysSinceLastBreak !== null ? `${option.daysSinceLastBreak}d` : 'N/A'}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2 text-xs">
-                            <Link
-                              to={`/?search=${option.optionName}`}
-                              className="text-blue-600 hover:underline"
-                            >
-                              View
-                            </Link>
-                            <Link
-                              to={`/consecutive-breaks?stock=${option.stockName}`}
-                              className="text-blue-600 hover:underline"
-                            >
-                              Support
-                            </Link>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
+        {tableData.length > 0 ? (
+          <OptionsTable
+            data={tableData}
+            onRowClick={handleOptionClick}
+            onStockClick={handleStockClick}
+            sortField={sortField}
+            sortDirection={sortDirection}
+            onSortChange={(field, direction) => {
+              setSortField(field);
+              setSortDirection(direction);
+            }}
+            enableFiltering={true}
+          />
         ) : (
           <Card>
             <CardContent className="pt-6">
