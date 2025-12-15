@@ -14,7 +14,6 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Target, Info } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import {
   Table,
   TableBody,
@@ -38,13 +37,13 @@ export const SupportBasedOptionFinder = () => {
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
   const [percentBelow, setPercentBelow] = useState<string>('5');
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string | null>(null);
-  // Navigation handlers
+  // Navigation handlers - open in new tab
   const handleOptionClick = (optionName: string) => {
-    navigate(`/option/${encodeURIComponent(optionName)}`);
+    window.open(`/option/${encodeURIComponent(optionName)}`, '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
-    navigate(`/stock/${encodeURIComponent(stockName)}`);
+    window.open(`/stock/${encodeURIComponent(stockName)}`, '_blank');
   };
 
   // Initialize default expiry date on load
@@ -310,7 +309,7 @@ export const SupportBasedOptionFinder = () => {
                     </TableCell>
                     <TableCell>
                       <button
-                        onClick={() => navigate(`/consecutive-breaks?stock=${option.stockName}`)}
+                        onClick={() => window.open(`/consecutive-breaks?stock=${option.stockName}`, '_blank')}
                         className="text-primary hover:underline cursor-pointer text-xs"
                       >
                         View Analysis
