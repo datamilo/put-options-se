@@ -112,9 +112,9 @@ Minimum number of days required since the support level was last broken. Helps i
 - **PoW - Bayesian Calibrated**: Probability of worthless using Bayesian calibrated model
 - **PoW - Original**: Probability of worthless using original Black-Scholes method
 - **Days to Expiry**: Days until option expiration
-- **Support Stability**: % of days support held without breaking (informational only)
+- **Support Stability**: Percentage of trading days within the rolling period where the rolling low held without being broken. A tooltip (info icon) provides detailed explanation of this metric
 - **Days Since Break**: Days since last support break
-- **Actions**: Links to view option details and support analysis
+- **Support Analysis**: Link to view detailed support level analysis for the stock, including rolling low chart, break history, and stability metrics
 
 ## Configuration Examples
 
