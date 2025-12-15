@@ -19,10 +19,10 @@ A comprehensive financial analysis web application for put options trading and s
 - **Median Drop Metrics**: Statistical analysis of support break severity for risk assessment
 
 ### Support Level Options List
-- **Support-Based Filtering**: Filter put options by support levels, stability, and break history
+- **Support-Based Filtering**: Filter put options by rolling low support levels and support break history
 - **Rolling Period Selection**: Choose support timeframe (30, 90, 180, 270, or 365 days)
 - **Strike Position Strategies**: Position strikes at support, at median drop below, custom %, or any level
-- **Support Metrics Display**: View rolling low, distance to support, and stability percentages
+- **Support Metrics Display**: View rolling low, distance to support, and break stability
 - **Real-time Results**: Instantly browse and analyze filtered options with support metrics
 
 ### Portfolio Generation

@@ -4,7 +4,7 @@ Route: `/support-level-options`
 
 ## Overview
 
-Filter and analyze put options based on support levels. Users can browse options filtered by support stability, rolling low periods, and other support-related metrics to find options positioned relative to support levels.
+Filter and analyze put options based on support levels. Users can browse options filtered by rolling low periods, support break history, and strike positioning to find options positioned relative to support levels.
 
 ## Key Features
 
@@ -52,7 +52,8 @@ Filter and analyze put options based on support levels. Users can browse options
    - Calculate median drop per break from historical clusters
 
 2. Filter options based on:
-   - Support metrics (stability, days since break)
+   - Minimum days since last support break
+   - Strike price must be at or below rolling low
    - Strike position relative to rolling low
    - Current stock price vs strike and support
 
@@ -62,12 +63,6 @@ Filter and analyze put options based on support levels. Users can browse options
 
 ### Rolling Low Period (dropdown)
 Determines which timeframe is used to calculate the support level. The rolling low is the **minimum intraday low price** from the stock's historical data within the selected period. This uses the same calculation as the "Strike Price Below" filter on the main Options Dashboard for consistency.
-
-### Support Stability (%)
-Percentage of trading days where the rolling low held without being broken.
-- 100% = Perfect support (never broken in selected period)
-- 85% = Strong support (broken ~15% of days)
-- 50% = Weak support (broken frequently)
 
 ### Days Since Last Break (number)
 Minimum number of days required since the support level was last broken. Helps identify if support is currently holding.
@@ -114,9 +109,10 @@ Minimum number of days required since the support level was last broken. Helps i
   - Near 0%: Strike at support
 - **Median Drop/Break**: Historical median percentage drop when support breaks
 - **Premium**: Total premium collected for 100k SEK position
-- **PoW**: Probability of worthless (option expires with no value to you)
+- **PoW - Bayesian Calibrated**: Probability of worthless using Bayesian calibrated model
+- **PoW - Original**: Probability of worthless using original Black-Scholes method
 - **Days to Expiry**: Days until option expiration
-- **Support Stability**: % of days support held without breaking
+- **Support Stability**: % of days support held without breaking (informational only)
 - **Days Since Break**: Days since last support break
 - **Actions**: Links to view option details and support analysis
 
@@ -124,21 +120,18 @@ Minimum number of days required since the support level was last broken. Helps i
 
 ### Conservative Strategy (Strong Support)
 - Rolling Period: 180 days
-- Min Support Stability: 90%
 - Min Days Since Break: 60
 - Strike Position: At Median Drop Below Support
-- Result: Options with very strong, recently-held support; strikes positioned for worst-case historical scenarios
+- Result: Long-term support with recently-held levels; strikes positioned for worst-case historical scenarios
 
 ### Balanced Approach (Default)
 - Rolling Period: 90 days
-- Min Support Stability: 85%
 - Min Days Since Break: 30
 - Strike Position: At Median Drop Below Support
-- Result: Reasonable support stability with prudent strike positioning
+- Result: Medium-term support with prudent strike positioning
 
 ### Short-Term Support
 - Rolling Period: 30 days
-- Min Support Stability: 80%
 - Min Days Since Break: 14
 - Strike Position: Custom % Below Support (5-10%)
 - Result: Short-term support with flexibility in strike placement
@@ -165,10 +158,10 @@ Located in `src/hooks/useSupportBasedOptionFinder.ts`
 
 **FilterCriteria**
 - rollingPeriod: Selected period in days
-- minSupportStability: Minimum stability percentage
 - minDaysSinceBreak: Minimum days since last break
 - strikePosition: Strategy for positioning strikes
 - percentBelow: Custom percentage below support (optional)
+- expiryDate: Optional specific expiry date filter
 
 **SupportBasedOption**
 - Option data with calculated support metrics and distances
