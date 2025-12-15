@@ -96,25 +96,28 @@ Minimum number of days required since the support level was last broken. Helps i
 
 ## Results Table Columns
 
-- **Stock**: Company name (clickable - opens stock analysis in new tab)
-- **Option**: Option identifier (clickable - opens option details in new tab)
-- **Current Price**: Latest stock price
-- **Strike**: Put option strike price
-- **Support (Xd)**: Rolling low support level for selected period
-- **Distance to Support**: % distance from current price to support
-  - Low (<5%): Stock is near support
-  - High (>20%): Stock is far from support
-- **Strike vs Support**: % position of strike relative to support
-  - Negative: Strike below support
+All columns (except Support Analysis) are clickable to sort the table by that field. Click again to reverse sort direction. An arrow indicator shows the current sort field and direction.
+
+- **Stock**: Company name (clickable - opens stock analysis in new tab, or sorts table)
+- **Option**: Option identifier (clickable - opens option details in new tab, or sorts table)
+- **Current Price**: Latest stock price (sortable)
+- **Strike**: Put option strike price (sortable)
+- **Support (Xd)**: Rolling low support level for selected period (sortable)
+- **Distance to Support**: % distance from current price to support (sortable)
+  - **RED (<5%)**: Critical - stock is very close to support
+  - **ORANGE (5-10%)**: Warning - stock approaching support
+  - **Normal text (>10%)**: Stock has distance from support
+- **Strike vs Support**: % position of strike relative to support (sortable)
+  - Negative (GREEN): Strike below support
   - Positive: Strike above support
   - Near 0%: Strike at support
-- **Median Drop/Break**: Historical median percentage drop when support breaks
-- **Premium**: Total premium collected for 100k SEK position
-- **PoW - Bayesian Calibrated**: Probability of worthless using Bayesian calibrated model
-- **PoW - Original**: Probability of worthless using original Black-Scholes method
-- **Days to Expiry**: Days until option expiration
-- **Support Stability**: Percentage of trading days within the rolling period where the rolling low held without being broken. A tooltip (info icon) provides detailed explanation of this metric
-- **Days Since Break**: Days since last support break
+- **Median Drop/Break**: Historical median percentage drop when support breaks (sortable)
+- **Premium**: Total premium collected for 100k SEK position (sortable)
+- **PoW - Bayesian Calibrated**: Probability of worthless using Bayesian calibrated model (sortable)
+- **PoW - Original**: Probability of worthless using original Black-Scholes method (sortable)
+- **Days to Expiry**: Days until option expiration (sortable)
+- **Support Stability**: Percentage of trading days within the rolling period where the rolling low held without being broken. A tooltip (info icon) provides detailed explanation of this metric (sortable)
+- **Days Since Break**: Days since last support break (sortable)
 - **Support Analysis**: Link to view detailed support level analysis for the stock, including rolling low chart, break history, and stability metrics (opens in new tab)
 
 ## Configuration Examples
