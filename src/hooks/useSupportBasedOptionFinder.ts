@@ -26,7 +26,8 @@ export interface SupportBasedOption {
   strikeVsSupport: number | null;
   medianDropPerBreak: number | null;
   premium: number;
-  probOfWorthless: number;
+  powBayesianCalibrated: number;
+  powOriginal: number;
   daysToExpiry: number;
   supportStability: number;
   daysSinceLastBreak: number | null;
@@ -150,9 +151,10 @@ export const useSupportBasedOptionFinder = () => {
       // Filter: Strike must be at or below rolling low
       if (option.StrikePrice > metrics.rollingLow) return;
 
-      // Filter: Probability of worthless
-      const pow = option['1_2_3_ProbOfWorthless_Weighted'] ?? 0;
-      if (pow < criteria.minProbOfWorthless) return;
+      // Filter: Probability of worthless (using Bayesian Calibrated for filtering)
+      const powBayesianCalibrated = option['ProbWorthless_Bayesian_IsoCal'] ?? 0;
+      const powOriginal = option['1_ProbOfWorthless_Original'] ?? 0;
+      if (powBayesianCalibrated < criteria.minProbOfWorthless) return;
 
       // Filter: Days to expiry
       const daysToExpiry = Math.floor(
@@ -206,7 +208,8 @@ export const useSupportBasedOptionFinder = () => {
         strikeVsSupport,
         medianDropPerBreak: metrics.medianDropPerBreak,
         premium: option.Premium ?? 0,
-        probOfWorthless: pow,
+        powBayesianCalibrated,
+        powOriginal,
         daysToExpiry,
         supportStability: metrics.supportStability,
         daysSinceLastBreak: metrics.daysSinceLastBreak,

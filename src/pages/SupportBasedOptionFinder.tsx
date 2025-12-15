@@ -234,7 +234,8 @@ export const SupportBasedOptionFinder = () => {
                   <TableHead className="text-right min-w-[140px]">Strike vs Support</TableHead>
                   <TableHead className="text-right min-w-[140px]">Median Drop/Break</TableHead>
                   <TableHead className="text-right min-w-[100px]">Premium</TableHead>
-                  <TableHead className="text-right min-w-[80px]">PoW</TableHead>
+                  <TableHead className="text-right min-w-[130px]">PoW - Bayesian Calibrated</TableHead>
+                  <TableHead className="text-right min-w-[130px]">PoW - Original</TableHead>
                   <TableHead className="text-right min-w-[100px]">Days to Expiry</TableHead>
                   <TableHead className="text-right min-w-[130px]">Support Stability</TableHead>
                   <TableHead className="text-right min-w-[130px]">Days Since Break</TableHead>
@@ -285,7 +286,8 @@ export const SupportBasedOptionFinder = () => {
                     <TableCell className="text-right font-semibold text-green-700">
                       {option.premium.toFixed(0)} kr
                     </TableCell>
-                    <TableCell className="text-right">{(option.probOfWorthless * 100).toFixed(1)}%</TableCell>
+                    <TableCell className="text-right">{(option.powBayesianCalibrated * 100).toFixed(1)}%</TableCell>
+                    <TableCell className="text-right">{(option.powOriginal * 100).toFixed(1)}%</TableCell>
                     <TableCell className="text-right">{option.daysToExpiry}d</TableCell>
                     <TableCell className="text-right">{option.supportStability.toFixed(1)}%</TableCell>
                     <TableCell className="text-right">
