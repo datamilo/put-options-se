@@ -13,7 +13,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Target, Info } from 'lucide-react';
+import { Target, Info, ArrowUp, ArrowDown } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -27,7 +27,6 @@ import { calculateDefaultExpiryDate } from '@/lib/utils';
 
 export const SupportBasedOptionFinder = () => {
   usePageTitle('Support Level Options List');
-  const navigate = useNavigate();
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
   const { data: allOptionsData } = useEnrichedOptionsData();
 
@@ -37,6 +36,12 @@ export const SupportBasedOptionFinder = () => {
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
   const [percentBelow, setPercentBelow] = useState<string>('5');
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string | null>(null);
+
+  // Sorting state
+  type SortField = keyof SupportBasedOption;
+  type SortDirection = 'asc' | 'desc';
+  const [sortField, setSortField] = useState<SortField>('premium');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   // Navigation handlers - open in new tab
   const handleOptionClick = (optionName: string) => {
     window.open(`/option/${encodeURIComponent(optionName)}`, '_blank');
@@ -57,6 +62,18 @@ export const SupportBasedOptionFinder = () => {
     }
   }, [allOptionsData, selectedExpiryDate]);
 
+  // Sorting function
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      // Toggle direction if same field is clicked
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      // New field: default to descending
+      setSortField(field);
+      setSortDirection('desc');
+    }
+  };
+
   // Find options based on current criteria
   const supportBasedResults = useMemo(() => {
     const criteria: FilterCriteria = {
@@ -72,7 +89,31 @@ export const SupportBasedOptionFinder = () => {
       expiryDate: selectedExpiryDate || undefined,
     };
 
-    return findOptions(criteria);
+    const results = findOptions(criteria);
+
+    // Sort results
+    const sorted = [...results].sort((a, b) => {
+      let aValue = a[sortField];
+      let bValue = b[sortField];
+
+      // Handle null values
+      if (aValue === null) aValue = -Infinity;
+      if (bValue === null) bValue = -Infinity;
+
+      // Numeric comparison
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
+      }
+
+      // String comparison
+      const aStr = String(aValue).toLowerCase();
+      const bStr = String(bValue).toLowerCase();
+      return sortDirection === 'asc'
+        ? aStr.localeCompare(bStr)
+        : bStr.localeCompare(aStr);
+    });
+
+    return sorted;
   }, [
     rollingPeriod,
     minDaysSinceBreak,
@@ -80,8 +121,40 @@ export const SupportBasedOptionFinder = () => {
     percentBelow,
     selectedExpiryDate,
     findOptions,
+    sortField,
+    sortDirection,
   ]);
 
+
+  // Helper component for sortable headers
+  const SortableHeader = ({
+    field,
+    label,
+    align = 'left'
+  }: {
+    field: SortField;
+    label: string;
+    align?: 'left' | 'right'
+  }) => {
+    const isActive = sortField === field;
+    const isSupportAnalysis = field === 'numBreaks'; // Support Analysis column is non-sortable
+
+    return (
+      <TableHead
+        className={`min-w-[100px] cursor-pointer hover:bg-muted/50 transition-colors ${align === 'right' ? 'text-right' : ''}`}
+        onClick={() => !isSupportAnalysis && handleSort(field)}
+      >
+        <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
+          <span>{label}</span>
+          {isActive && (
+            sortDirection === 'asc' ?
+              <ArrowUp className="h-4 w-4" /> :
+              <ArrowDown className="h-4 w-4" />
+          )}
+        </div>
+      </TableHead>
+    );
+  };
 
   if (isLoading) {
     return (
@@ -225,21 +298,29 @@ export const SupportBasedOptionFinder = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="min-w-[100px]">Stock</TableHead>
-                  <TableHead className="min-w-[150px]">Option</TableHead>
-                  <TableHead className="text-right min-w-[120px]">Current Price</TableHead>
-                  <TableHead className="text-right min-w-[100px]">Strike</TableHead>
-                  <TableHead className="text-right min-w-[120px]">Support ({rollingPeriod}d)</TableHead>
-                  <TableHead className="text-right min-w-[140px]">Distance to Support</TableHead>
-                  <TableHead className="text-right min-w-[140px]">Strike vs Support</TableHead>
-                  <TableHead className="text-right min-w-[140px]">Median Drop/Break</TableHead>
-                  <TableHead className="text-right min-w-[100px]">Premium</TableHead>
-                  <TableHead className="text-right min-w-[130px]">PoW - Bayesian Calibrated</TableHead>
-                  <TableHead className="text-right min-w-[130px]">PoW - Original</TableHead>
-                  <TableHead className="text-right min-w-[100px]">Days to Expiry</TableHead>
-                  <TableHead className="text-right min-w-[130px]">
+                  <SortableHeader field="stockName" label="Stock" />
+                  <SortableHeader field="optionName" label="Option" />
+                  <SortableHeader field="currentPrice" label="Current Price" align="right" />
+                  <SortableHeader field="strikePrice" label="Strike" align="right" />
+                  <SortableHeader field="rollingLow" label={`Support (${rollingPeriod}d)`} align="right" />
+                  <SortableHeader field="distanceToSupport" label="Distance to Support" align="right" />
+                  <SortableHeader field="strikeVsSupport" label="Strike vs Support" align="right" />
+                  <SortableHeader field="medianDropPerBreak" label="Median Drop/Break" align="right" />
+                  <SortableHeader field="premium" label="Premium" align="right" />
+                  <SortableHeader field="powBayesianCalibrated" label="PoW - Bayesian Calibrated" align="right" />
+                  <SortableHeader field="powOriginal" label="PoW - Original" align="right" />
+                  <SortableHeader field="daysToExpiry" label="Days to Expiry" align="right" />
+                  <TableHead
+                    className="text-right min-w-[130px] cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => handleSort('supportStability')}
+                  >
                     <div className="flex items-center justify-end gap-1">
                       <span>Support Stability</span>
+                      {sortField === 'supportStability' && (
+                        sortDirection === 'asc' ?
+                          <ArrowUp className="h-4 w-4" /> :
+                          <ArrowDown className="h-4 w-4" />
+                      )}
                       <TooltipProvider>
                         <Tooltip delayDuration={300}>
                           <TooltipTrigger asChild>
@@ -252,7 +333,7 @@ export const SupportBasedOptionFinder = () => {
                       </TooltipProvider>
                     </div>
                   </TableHead>
-                  <TableHead className="text-right min-w-[130px]">Days Since Break</TableHead>
+                  <SortableHeader field="daysSinceLastBreak" label="Days Since Break" align="right" />
                   <TableHead className="min-w-[100px]">Support Analysis</TableHead>
                 </TableRow>
               </TableHeader>
@@ -282,7 +363,13 @@ export const SupportBasedOptionFinder = () => {
                     </TableCell>
                     <TableCell className="text-right">
                       {option.distanceToSupport !== null ? (
-                        <span className={option.distanceToSupport < 5 ? 'text-orange-600 font-semibold' : ''}>
+                        <span className={
+                          option.distanceToSupport < 5
+                            ? 'text-red-600 font-semibold'
+                            : option.distanceToSupport < 10
+                            ? 'text-orange-600 font-semibold'
+                            : ''
+                        }>
                           {option.distanceToSupport.toFixed(1)}%
                         </span>
                       ) : '-'}
