@@ -33,8 +33,6 @@ export const SupportBasedOptionFinder = () => {
   // Filter state
   const [rollingPeriod, setRollingPeriod] = useState<string>('90');
   const [minDaysSinceBreak, setMinDaysSinceBreak] = useState<string>('30');
-  const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
-  const [percentBelow, setPercentBelow] = useState<string>('5');
   const [selectedExpiryDate, setSelectedExpiryDate] = useState<string | null>(null);
 
   // Sorting state
@@ -79,8 +77,7 @@ export const SupportBasedOptionFinder = () => {
     const criteria: FilterCriteria = {
       rollingPeriod: parseInt(rollingPeriod),
       minDaysSinceBreak: parseInt(minDaysSinceBreak),
-      strikePosition: strikePosition as FilterCriteria['strikePosition'],
-      percentBelow: strikePosition === 'percent_below' ? parseFloat(percentBelow) : undefined,
+      strikePosition: 'any',
       minProbOfWorthless: 0,
       maxDaysToExpiry: 999,
       minPremium: 0,
@@ -93,8 +90,6 @@ export const SupportBasedOptionFinder = () => {
   }, [
     rollingPeriod,
     minDaysSinceBreak,
-    strikePosition,
-    percentBelow,
     selectedExpiryDate,
     findOptions,
   ]);
@@ -240,45 +235,6 @@ export const SupportBasedOptionFinder = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                </div>
-              </div>
-
-              {/* Strike Position */}
-              <div>
-                <h3 className="text-sm font-semibold mb-3 text-gray-700">Strike Position</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="strike-position" className="text-sm">
-                      Position Strategy
-                    </Label>
-                    <Select value={strikePosition} onValueChange={setStrikePosition}>
-                      <SelectTrigger id="strike-position">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="at_support">At Support Level</SelectItem>
-                        <SelectItem value="below_median_drop">At Median Drop Below Support</SelectItem>
-                        <SelectItem value="percent_below">Custom % Below Support</SelectItem>
-                        <SelectItem value="any">Any Position</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  {strikePosition === 'percent_below' && (
-                    <div className="flex flex-col space-y-2">
-                      <Label htmlFor="percent-below" className="text-sm">
-                        Percent Below Support
-                      </Label>
-                      <Input
-                        id="percent-below"
-                        type="number"
-                        value={percentBelow}
-                        onChange={(e) => setPercentBelow(e.target.value)}
-                        min="0"
-                        max="50"
-                        step="1"
-                      />
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
