@@ -22,6 +22,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 
 export const SupportBasedOptionFinder = () => {
@@ -237,91 +238,98 @@ export const SupportBasedOptionFinder = () => {
 
         {/* Results Table */}
         {supportBasedResults.length > 0 ? (
-          <Card>
-            <CardContent className="pt-6">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-blue-50">
-                      <TableHead className="text-blue-900">Stock</TableHead>
-                      <TableHead className="text-blue-900">Option</TableHead>
-                      <TableHead className="text-blue-900 text-right">Current Price</TableHead>
-                      <TableHead className="text-blue-900 text-right">Strike</TableHead>
-                      <TableHead className="text-blue-900 text-right">Support ({rollingPeriod}d)</TableHead>
-                      <TableHead className="text-blue-900 text-right">Distance to Support</TableHead>
-                      <TableHead className="text-blue-900 text-right">Strike vs Support</TableHead>
-                      <TableHead className="text-blue-900 text-right">Median Drop/Break</TableHead>
-                      <TableHead className="text-blue-900 text-right">Premium</TableHead>
-                      <TableHead className="text-blue-900 text-right">PoW</TableHead>
-                      <TableHead className="text-blue-900 text-right">Days to Expiry</TableHead>
-                      <TableHead className="text-blue-900 text-right">Support Stability</TableHead>
-                      <TableHead className="text-blue-900 text-right">Days Since Break</TableHead>
-                      <TableHead className="text-blue-900">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {supportBasedResults.map((option, idx) => (
-                      <TableRow key={idx} className="hover:bg-blue-50">
-                        <TableCell className="font-medium cursor-pointer hover:text-blue-600" onClick={() => handleStockClick(option.stockName)}>
-                          {option.stockName}
-                        </TableCell>
-                        <TableCell className="font-mono text-xs cursor-pointer hover:text-blue-600" onClick={() => handleOptionClick(option.optionName)}>
-                          {option.optionName}
-                        </TableCell>
-                        <TableCell className="text-right">{option.currentPrice.toFixed(2)} kr</TableCell>
-                        <TableCell className="text-right font-semibold">{option.strikePrice.toFixed(2)} kr</TableCell>
-                        <TableCell className="text-right">
-                          {option.rollingLow ? `${option.rollingLow.toFixed(2)} kr` : '-'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {option.distanceToSupport !== null ? (
-                            <span className={option.distanceToSupport < 5 ? 'text-orange-600 font-semibold' : ''}>
-                              {option.distanceToSupport.toFixed(1)}%
-                            </span>
-                          ) : '-'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {option.strikeVsSupport !== null ? (
-                            <span className={option.strikeVsSupport < 0 ? 'text-green-600 font-semibold' : ''}>
-                              {option.strikeVsSupport.toFixed(1)}%
-                            </span>
-                          ) : '-'}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          {option.medianDropPerBreak !== null ? `${option.medianDropPerBreak.toFixed(2)}%` : '-'}
-                        </TableCell>
-                        <TableCell className="text-right font-semibold text-green-700">
-                          {option.premium.toFixed(0)} kr
-                        </TableCell>
-                        <TableCell className="text-right">{(option.probOfWorthless * 100).toFixed(1)}%</TableCell>
-                        <TableCell className="text-right">{option.daysToExpiry}d</TableCell>
-                        <TableCell className="text-right">{option.supportStability.toFixed(1)}%</TableCell>
-                        <TableCell className="text-right">
-                          {option.daysSinceLastBreak !== null ? `${option.daysSinceLastBreak}d` : 'N/A'}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex gap-2 text-xs">
-                            <button
-                              onClick={() => handleOptionClick(option.optionName)}
-                              className="text-blue-600 hover:underline cursor-pointer"
-                            >
-                              View
-                            </button>
-                            <button
-                              onClick={() => navigate(`/consecutive-breaks?stock=${option.stockName}`)}
-                              className="text-blue-600 hover:underline cursor-pointer"
-                            >
-                              Support
-                            </button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
+          <ScrollArea className="w-full rounded-md border">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="min-w-[100px]">Stock</TableHead>
+                  <TableHead className="min-w-[150px]">Option</TableHead>
+                  <TableHead className="text-right min-w-[120px]">Current Price</TableHead>
+                  <TableHead className="text-right min-w-[100px]">Strike</TableHead>
+                  <TableHead className="text-right min-w-[120px]">Support ({rollingPeriod}d)</TableHead>
+                  <TableHead className="text-right min-w-[140px]">Distance to Support</TableHead>
+                  <TableHead className="text-right min-w-[140px]">Strike vs Support</TableHead>
+                  <TableHead className="text-right min-w-[140px]">Median Drop/Break</TableHead>
+                  <TableHead className="text-right min-w-[100px]">Premium</TableHead>
+                  <TableHead className="text-right min-w-[80px]">PoW</TableHead>
+                  <TableHead className="text-right min-w-[100px]">Days to Expiry</TableHead>
+                  <TableHead className="text-right min-w-[130px]">Support Stability</TableHead>
+                  <TableHead className="text-right min-w-[130px]">Days Since Break</TableHead>
+                  <TableHead className="min-w-[100px]">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {supportBasedResults.map((option, idx) => (
+                  <TableRow key={idx} className="hover:bg-muted/50">
+                    <TableCell
+                      className="font-medium cursor-pointer hover:bg-accent/50 transition-colors"
+                      onClick={() => handleStockClick(option.stockName)}
+                    >
+                      <span className="text-secondary-foreground hover:text-primary transition-colors">
+                        {option.stockName}
+                      </span>
+                    </TableCell>
+                    <TableCell
+                      className="font-mono text-xs cursor-pointer hover:bg-accent/50 transition-colors"
+                      onClick={() => handleOptionClick(option.optionName)}
+                    >
+                      <span className="font-medium text-primary hover:opacity-80 transition-all">
+                        {option.optionName}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right">{option.currentPrice.toFixed(2)} kr</TableCell>
+                    <TableCell className="text-right font-semibold">{option.strikePrice.toFixed(2)} kr</TableCell>
+                    <TableCell className="text-right">
+                      {option.rollingLow ? `${option.rollingLow.toFixed(2)} kr` : '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {option.distanceToSupport !== null ? (
+                        <span className={option.distanceToSupport < 5 ? 'text-orange-600 font-semibold' : ''}>
+                          {option.distanceToSupport.toFixed(1)}%
+                        </span>
+                      ) : '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {option.strikeVsSupport !== null ? (
+                        <span className={option.strikeVsSupport < 0 ? 'text-green-600 font-semibold' : ''}>
+                          {option.strikeVsSupport.toFixed(1)}%
+                        </span>
+                      ) : '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {option.medianDropPerBreak !== null ? `${option.medianDropPerBreak.toFixed(2)}%` : '-'}
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-green-700">
+                      {option.premium.toFixed(0)} kr
+                    </TableCell>
+                    <TableCell className="text-right">{(option.probOfWorthless * 100).toFixed(1)}%</TableCell>
+                    <TableCell className="text-right">{option.daysToExpiry}d</TableCell>
+                    <TableCell className="text-right">{option.supportStability.toFixed(1)}%</TableCell>
+                    <TableCell className="text-right">
+                      {option.daysSinceLastBreak !== null ? `${option.daysSinceLastBreak}d` : 'N/A'}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2 text-xs">
+                        <button
+                          onClick={() => handleOptionClick(option.optionName)}
+                          className="text-primary hover:underline cursor-pointer"
+                        >
+                          View
+                        </button>
+                        <button
+                          onClick={() => navigate(`/consecutive-breaks?stock=${option.stockName}`)}
+                          className="text-primary hover:underline cursor-pointer"
+                        >
+                          Support
+                        </button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
         ) : (
           <Card>
             <CardContent className="pt-6">
