@@ -113,10 +113,9 @@ All columns (except Support Analysis) are clickable to sort the table by that fi
 - **Current Price**: Latest stock price (sortable)
 - **Strike**: Put option strike price (sortable)
 - **Support (Xd)**: Rolling low support level for selected period (sortable)
-- **Distance to Support**: % distance from current price to support (sortable)
-  - **RED (<5%)**: Critical - stock is very close to support
-  - **ORANGE (5-10%)**: Warning - stock approaching support
-  - **Normal text (>10%)**: Stock has distance from support
+- **Distance to Support**: Negative % showing how much stock needs to fall to reach support (sortable)
+  - **Example: -5.2%** means stock needs to fall 5.2% to reach the rolling low support level
+  - More negative value = closer to support (higher risk if support breaks)
 - **Strike vs Support**: % position of strike relative to support (sortable)
   - Negative (GREEN): Strike below support
   - Positive: Strike above support
