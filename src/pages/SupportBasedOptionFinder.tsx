@@ -290,11 +290,156 @@ export const SupportBasedOptionFinder = () => {
                     </div>
                   </TableHead>
                   <SortableHeader field="daysSinceLastBreak" label="Days Since Break" align="right" />
-                  <SortableHeader field="supportStrengthScore" label="Support Strength" align="right" />
-                  <SortableHeader field="patternType" label="Pattern" />
-                  <SortableHeader field="stabilityTrend" label="Trend" />
-                  <SortableHeader field="maxConsecutiveBreaks" label="Max Consecutive" align="right" />
-                  <SortableHeader field="currentConsecutiveBreaks" label="Current Consecutive" align="right" />
+                  <TableHead
+                    className="text-right min-w-[130px] cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => handleSort('supportStrengthScore')}
+                  >
+                    <div className="flex items-center justify-end gap-1">
+                      <span>Support Strength</span>
+                      {sortField === 'supportStrengthScore' && (
+                        sortDirection === 'asc' ?
+                          <ArrowUp className="h-4 w-4" /> :
+                          <ArrowDown className="h-4 w-4" />
+                      )}
+                      <TooltipProvider>
+                        <Tooltip delayDuration={300}>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs bg-background border">
+                            <p className="font-semibold mb-1">Support Strength Score (0-100)</p>
+                            <p className="mb-2">Composite score combining: Stability (30%), Days Since Break (25%), Break Frequency (25%), Drop Consistency (20%)</p>
+                            <p className="text-xs">
+                              <span className="text-green-600">80-100: Exceptional</span> |
+                              <span className="text-green-600"> 70-79: Strong</span> |
+                              <span className="text-yellow-600"> 60-69: Good</span> |
+                              <span className="text-yellow-600"> 50-59: Moderate</span> |
+                              <span className="text-red-600"> &lt;50: Weak</span>
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableHead>
+                  <TableHead
+                    className="text-left min-w-[150px] cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => handleSort('patternType')}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span>Pattern</span>
+                      {sortField === 'patternType' && (
+                        sortDirection === 'asc' ?
+                          <ArrowUp className="h-4 w-4" /> :
+                          <ArrowDown className="h-4 w-4" />
+                      )}
+                      <TooltipProvider>
+                        <Tooltip delayDuration={300}>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-md bg-background border">
+                            <p className="font-semibold mb-1">Pattern Classification</p>
+                            <div className="text-xs space-y-1">
+                              <p><span className="text-green-600 font-semibold">never_breaks:</span> 99.5%+ stability - safest</p>
+                              <p><span className="text-blue-600 font-semibold">exhausted_cascade:</span> Near max breaks - rebound candidate</p>
+                              <p><span className="text-green-600 font-semibold">shallow_breaker:</span> &lt;2% drops - low downside</p>
+                              <p><span className="text-red-600 font-semibold">volatile:</span> Frequent + large drops - high risk</p>
+                              <p><span className="text-green-600">stable:</span> 85%+ stability - reliable</p>
+                              <p><span className="text-gray-600">predictable_cycles:</span> Regular patterns - time entries</p>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableHead>
+                  <TableHead
+                    className="text-left min-w-[110px] cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => handleSort('stabilityTrend')}
+                  >
+                    <div className="flex items-center gap-1">
+                      <span>Trend</span>
+                      {sortField === 'stabilityTrend' && (
+                        sortDirection === 'asc' ?
+                          <ArrowUp className="h-4 w-4" /> :
+                          <ArrowDown className="h-4 w-4" />
+                      )}
+                      <TooltipProvider>
+                        <Tooltip delayDuration={300}>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs bg-background border">
+                            <p className="font-semibold mb-1">Stability Trend</p>
+                            <p className="mb-2">Compares first half vs second half of rolling period.</p>
+                            <div className="text-xs space-y-1">
+                              <p><span className="text-green-600">↑ improving:</span> Support strengthening - increasingly safe</p>
+                              <p><span className="text-gray-600">→ stable:</span> Consistent behavior - predictable</p>
+                              <p><span className="text-red-600">↓ weakening:</span> Support deteriorating - increasing risk</p>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableHead>
+                  <TableHead
+                    className="text-right min-w-[130px] cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => handleSort('maxConsecutiveBreaks')}
+                  >
+                    <div className="flex items-center justify-end gap-1">
+                      <span>Max Consecutive</span>
+                      {sortField === 'maxConsecutiveBreaks' && (
+                        sortDirection === 'asc' ?
+                          <ArrowUp className="h-4 w-4" /> :
+                          <ArrowDown className="h-4 w-4" />
+                      )}
+                      <TooltipProvider>
+                        <Tooltip delayDuration={300}>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs bg-background border">
+                            <p className="font-semibold mb-1">Max Consecutive Breaks</p>
+                            <p className="mb-2">Historical maximum number of consecutive support breaks in any cluster (breaks ≤30 days apart).</p>
+                            <div className="text-xs">
+                              <p>0-2: Low cascade risk | 3-5: Normal | 6-10: Elevated | 11+: High risk</p>
+                              <p className="mt-1">Shows worst-case scenario if stock starts breaking support.</p>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableHead>
+                  <TableHead
+                    className="text-right min-w-[150px] cursor-pointer hover:bg-muted/50 transition-colors"
+                    onClick={() => handleSort('currentConsecutiveBreaks')}
+                  >
+                    <div className="flex items-center justify-end gap-1">
+                      <span>Current Consecutive</span>
+                      {sortField === 'currentConsecutiveBreaks' && (
+                        sortDirection === 'asc' ?
+                          <ArrowUp className="h-4 w-4" /> :
+                          <ArrowDown className="h-4 w-4" />
+                      )}
+                      <TooltipProvider>
+                        <Tooltip delayDuration={300}>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs bg-background border">
+                            <p className="font-semibold mb-1">Current Consecutive Breaks</p>
+                            <p className="mb-2">Number of breaks in most recent active cluster (if ended ≤30 days ago).</p>
+                            <div className="text-xs space-y-1">
+                              <p><strong>0:</strong> Support holding normally - safe to write</p>
+                              <p><strong>1-2:</strong> Minor activity - watch</p>
+                              <p><strong>3-5:</strong> Active cascade - caution</p>
+                              <p><strong>6+:</strong> Major cascade - high risk</p>
+                              <p className="mt-1 text-blue-600">If Current ≥ 80% of Max: likely rebound candidate!</p>
+                            </div>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableHead>
                   <TableHead className="min-w-[100px]">Support Analysis</TableHead>
                 </TableRow>
               </TableHeader>
