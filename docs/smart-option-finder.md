@@ -42,8 +42,8 @@ Automatically finds put options strategically positioned relative to support lev
 ### Data Flow
 
 1. For each stock in the dataset:
-   - Calculate rolling low using selected period
-   - Analyze support breaks and clusters
+   - Calculate rolling low as the minimum intraday low price within the selected period (same as "Strike Price Below" filter)
+   - Analyze support breaks and clusters using the same period
    - Calculate support stability (% of days without breaks)
    - Calculate median drop per break from historical clusters
 
@@ -57,7 +57,7 @@ Automatically finds put options strategically positioned relative to support lev
 ## Filter Criteria Explained
 
 ### Rolling Low Period (dropdown)
-Determines which timeframe is used to calculate the support level. The rolling low is the minimum price within the selected period.
+Determines which timeframe is used to calculate the support level. The rolling low is the **minimum intraday low price** from the stock's historical data within the selected period. This uses the same calculation as the "Strike Price Below" filter on the main Options Dashboard for consistency.
 
 ### Support Stability (%)
 Percentage of trading days where the rolling low held without being broken.

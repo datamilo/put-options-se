@@ -52,7 +52,7 @@ export interface FilterCriteria {
 export const useSupportBasedOptionFinder = () => {
   const { data: optionsData, isLoading: optionsLoading } = useEnrichedOptionsData();
   const { uniqueStocks, analyzeStock } = useConsecutiveBreaksAnalysis();
-  const { allStockData } = useStockData();
+  const { allStockData, getLowPriceForPeriod } = useStockData();
 
   // Calculate support metrics for a specific rolling period
   const calculateSupportMetrics = useCallback((rollingPeriod: number): Map<string, SupportMetrics> => {
@@ -70,7 +70,10 @@ export const useSupportBasedOptionFinder = () => {
 
       const currentPrice = stockDataForStock[0].close;
 
-      // Analyze with specified rolling period
+      // Get rolling low using the same method as Strike Price Below filter
+      const rollingLow = getLowPriceForPeriod(stockName, rollingPeriod);
+
+      // Analyze with specified rolling period for break statistics
       const analysis = analyzeStock(stockName, {
         dateFrom: null,
         dateTo: null,
@@ -78,10 +81,7 @@ export const useSupportBasedOptionFinder = () => {
         maxGapDays: 30,
       });
 
-      if (!analysis || analysis.data.length === 0) return;
-
-      const latestData = analysis.data[analysis.data.length - 1];
-      const rollingLow = latestData.rolling_low;
+      if (!analysis) return;
 
       // Calculate median drop per break from clusters
       let medianDropPerBreak = null;
@@ -111,7 +111,7 @@ export const useSupportBasedOptionFinder = () => {
     });
 
     return metrics;
-  }, [uniqueStocks, analyzeStock, allStockData]);
+  }, [uniqueStocks, analyzeStock, allStockData, getLowPriceForPeriod]);
 
   // Filter and rank options based on criteria
   const findOptions = (criteria: FilterCriteria): SupportBasedOption[] => {
