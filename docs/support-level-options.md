@@ -94,6 +94,16 @@ Minimum number of days required since the support level was last broken. Helps i
 - No strike position filtering
 - Shows all matching options regardless of strike placement
 
+### Support Stability (in Results Table)
+The Support Stability field in the results table shows the percentage of trading days within the **selected rolling period** where the rolling low did not decrease (support held without breaking). This is calculated based ONLY on the rolling period you selected (e.g., last 365 days for 1-year period), not on all historical data.
+
+- **100%** = Perfect support (never broke during the rolling period)
+- **85-99%** = Strong support (broke on 1-15% of the days)
+- **50-84%** = Moderate support (broke on 16-50% of the days)
+- **<50%** = Weak support (broke frequently)
+
+**Important:** If "Days Since Break" shows 1467 days and you selected a 365-day rolling period, Support Stability will be 100% because there were no breaks in that recent period.
+
 ## Results Table Columns
 
 All columns (except Support Analysis) are clickable to sort the table by that field. Click again to reverse sort direction. An arrow indicator shows the current sort field and direction.
