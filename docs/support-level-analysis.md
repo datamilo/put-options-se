@@ -49,11 +49,11 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 - **Performance**: Uses efficient sliding window algorithm for large period selections
 - **Visualization**: Charts use Plotly for native financial charting capabilities
 
-## Integration with Smart Option Finder
+## Integration with Support Level Options List
 
-The Support Level Analysis data is the foundation for the **Smart Option Finder** page (`/smart-option-finder`). That page automatically finds put options strategically positioned relative to support levels using the same rolling low calculations and metrics available here.
+The Support Level Analysis data is the foundation for the **Support Level Options List** page (`/support-level-options`). That page filters put options based on support levels using the same rolling low calculations and metrics available here.
 
-Key metrics from this analysis used by Smart Option Finder:
+Key metrics from this analysis used by Support Level Options List:
 - Rolling low for each stock
 - Support stability percentage
 - Days since last break

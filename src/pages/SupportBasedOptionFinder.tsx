@@ -26,7 +26,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 
 export const SupportBasedOptionFinder = () => {
-  usePageTitle('Smart Option Finder');
+  usePageTitle('Support Level Options List');
   const navigate = useNavigate();
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
   const { data: allOptionsData } = useEnrichedOptionsData();
@@ -105,10 +105,10 @@ export const SupportBasedOptionFinder = () => {
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
             <Target className="h-8 w-8" />
-            Smart Option Finder
+            Support Level Options List
           </h1>
           <p className="text-muted-foreground">
-            Find put options strategically positioned relative to support levels
+            Filter put options by support levels and analyze positioning relative to support
           </p>
         </div>
 

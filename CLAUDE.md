@@ -43,7 +43,7 @@ Detailed documentation for each page is in the `/docs` folder:
 | Monthly Analysis | `/monthly-analysis` | [docs/monthly-analysis.md](docs/monthly-analysis.md) | Historical performance and seasonality |
 | Stock Analysis | `/stock-analysis`, `/stock/:stockName` | [docs/stock-analysis.md](docs/stock-analysis.md) | Individual stock performance metrics |
 | Support Level Analysis | `/consecutive-breaks` | [docs/support-level-analysis.md](docs/support-level-analysis.md) | Rolling low and support break detection |
-| Smart Option Finder | `/smart-option-finder` | [docs/smart-option-finder.md](docs/smart-option-finder.md) | Find options positioned relative to support levels |
+| Support Level Options List | `/support-level-options` | [docs/support-level-options.md](docs/support-level-options.md) | Filter options by support levels |
 | Probability Analysis | `/probability-analysis` | [docs/probability-analysis.md](docs/probability-analysis.md) | Probability method validation and recovery |
 | Lower Bound Analysis | `/lower-bound-analysis` | [docs/lower-bound-analysis.md](docs/lower-bound-analysis.md) | IV-based prediction validation |
 | Volatility Analysis | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Financial reporting volatility |

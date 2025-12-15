@@ -67,11 +67,11 @@ export const NavigationMenu = () => {
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => navigate('/smart-option-finder')}
+            onClick={() => navigate('/support-level-options')}
             className="cursor-pointer"
           >
             <Target className="mr-2 h-4 w-4" />
-            Smart Option Finder
+            Support Level Options List
           </DropdownMenuItem>
 
           <DropdownMenuItem

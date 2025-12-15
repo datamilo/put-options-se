@@ -1,10 +1,10 @@
-# Smart Option Finder
+# Support Level Options List
 
-Route: `/smart-option-finder`
+Route: `/support-level-options`
 
 ## Overview
 
-Automatically finds put options strategically positioned relative to support levels. Users can filter options based on support stability and break history, then position strikes at different levels relative to the rolling low support.
+Filter and analyze put options based on support levels. Users can browse options filtered by support stability, rolling low periods, and other support-related metrics to find options positioned relative to support levels.
 
 ## Key Features
 

@@ -92,7 +92,7 @@ const App = () => {
                     <Route path="/monthly-analysis" element={<ProtectedRoute><MonthlyAnalysis /></ProtectedRoute>} />
                     <Route path="/volatility-analysis" element={<ProtectedRoute><VolatilityAnalysis /></ProtectedRoute>} />
                     <Route path="/consecutive-breaks" element={<ProtectedRoute><ConsecutiveBreaksAnalysis /></ProtectedRoute>} />
-                    <Route path="/smart-option-finder" element={<ProtectedRoute><SupportBasedOptionFinder /></ProtectedRoute>} />
+                    <Route path="/support-level-options" element={<ProtectedRoute><SupportBasedOptionFinder /></ProtectedRoute>} />
                     <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />
                     <Route path="/stock/:stockName" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
                     <Route path="/stock-analysis" element={<ProtectedRoute><StockDetailsPage /></ProtectedRoute>} />
