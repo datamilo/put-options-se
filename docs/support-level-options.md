@@ -42,6 +42,7 @@ Filter and analyze put options based on support levels. Users can browse options
    - **Any Position**: No position filtering
 
 5. **Review Results**: Table shows matching options with support metrics and links for further analysis
+   - All links open in new browser tabs, keeping the Support Level Options List available for continued browsing
 
 ### Data Flow
 
@@ -95,8 +96,8 @@ Minimum number of days required since the support level was last broken. Helps i
 
 ## Results Table Columns
 
-- **Stock**: Company name
-- **Option**: Option identifier
+- **Stock**: Company name (clickable - opens stock analysis in new tab)
+- **Option**: Option identifier (clickable - opens option details in new tab)
 - **Current Price**: Latest stock price
 - **Strike**: Put option strike price
 - **Support (Xd)**: Rolling low support level for selected period
@@ -114,7 +115,7 @@ Minimum number of days required since the support level was last broken. Helps i
 - **Days to Expiry**: Days until option expiration
 - **Support Stability**: Percentage of trading days within the rolling period where the rolling low held without being broken. A tooltip (info icon) provides detailed explanation of this metric
 - **Days Since Break**: Days since last support break
-- **Support Analysis**: Link to view detailed support level analysis for the stock, including rolling low chart, break history, and stability metrics
+- **Support Analysis**: Link to view detailed support level analysis for the stock, including rolling low chart, break history, and stability metrics (opens in new tab)
 
 ## Configuration Examples
 
