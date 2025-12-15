@@ -60,10 +60,16 @@ Filter and analyze put options based on support levels. Users can browse options
 Determines which timeframe is used to calculate the support level. The rolling low is the **minimum intraday low price** from the stock's historical data within the selected period. This uses the same calculation as the "Strike Price Below" filter on the main Options Dashboard for consistency.
 
 ### Days Since Last Break (number)
-Minimum number of days required since the support level was last broken. Helps identify if support is currently holding.
-- 0 days = Recently broken support (risky)
-- 30 days = Support holding for a month
-- 90+ days = Well-established support
+Days elapsed since the rolling low support level was last broken **within the selected rolling period**. This measures the same period as Support Stability, ensuring both metrics are consistent.
+
+- **Empty/N/A** = No breaks occurred in the selected rolling period (100% stability)
+- **0-14 days** = Recently broken support (risky - support is unstable)
+- **15-60 days** = Support holding but with recent activity
+- **60+ days** = Support is well-established and holding
+
+**Important:** Both Support Stability and Days Since Break metrics are calculated for the rolling period you selected. If you select a 3-month (90-day) period:
+- Support Stability = % of days with no rolling low decrease in past 90 days
+- Days Since Break = Days since last break in past 90 days (or N/A if no breaks)
 
 ### Support Stability (in Results Table)
 The Support Stability field in the results table shows the percentage of trading days within the **selected rolling period** where the rolling low did not decrease (support held without breaking). This is calculated based ONLY on the rolling period you selected (e.g., last 365 days for 1-year period), not on all historical data.
@@ -97,7 +103,7 @@ All columns (except Support Analysis) are clickable to sort the table by that fi
 - **PoW - Original**: Probability of worthless using original Black-Scholes method (sortable)
 - **Days to Expiry**: Days until option expiration (sortable)
 - **Support Stability**: Percentage of trading days within the rolling period where the rolling low held without being broken. A tooltip (info icon) provides detailed explanation of this metric (sortable)
-- **Days Since Break**: Days since last support break (sortable)
+- **Days Since Break**: Days since the rolling low was last broken **within your selected rolling period**. Shows N/A if no breaks occurred in the period (sortable)
 - **Support Analysis**: Link to view detailed support level analysis for the stock, including rolling low chart, break history, and stability metrics (opens in new tab)
 
 ## Configuration Examples
