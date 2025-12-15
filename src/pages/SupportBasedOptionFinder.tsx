@@ -362,17 +362,7 @@ export const SupportBasedOptionFinder = () => {
                       {option.rollingLow ? `${option.rollingLow.toFixed(2)} kr` : '-'}
                     </TableCell>
                     <TableCell className="text-right">
-                      {option.distanceToSupport !== null ? (
-                        <span className={
-                          option.distanceToSupport < 5
-                            ? 'text-red-600 font-semibold'
-                            : option.distanceToSupport < 10
-                            ? 'text-orange-600 font-semibold'
-                            : ''
-                        }>
-                          {option.distanceToSupport.toFixed(1)}%
-                        </span>
-                      ) : '-'}
+                      {option.distanceToSupport !== null ? `${option.distanceToSupport.toFixed(1)}%` : '-'}
                     </TableCell>
                     <TableCell className="text-right">
                       {option.strikeVsSupport !== null ? (

@@ -189,7 +189,10 @@ export const useSupportBasedOptionFinder = () => {
       if (bidAskSpread > criteria.maxBidAskSpread) return;
 
       // Calculate distances
-      const distanceToSupport = ((metrics.currentPrice - metrics.rollingLow) / metrics.currentPrice) * 100;
+      // Distance to Support: negative percentage showing how much stock needs to fall to reach support
+      const distanceToSupport = metrics.currentPrice > 0
+        ? ((metrics.rollingLow - metrics.currentPrice) / metrics.currentPrice) * 100
+        : null;
       const strikeVsSupport = metrics.rollingLow
         ? ((option.StrikePrice - metrics.rollingLow) / metrics.rollingLow) * 100
         : null;
