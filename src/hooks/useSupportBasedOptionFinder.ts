@@ -105,12 +105,28 @@ export const useSupportBasedOptionFinder = () => {
           avgDropPerBreak = allAvgDrops.reduce((a, b) => a + b, 0) / allAvgDrops.length;
         }
 
+        // Calculate stability based only on the rolling period, not all historical data
+        // Count breaks that occurred within the rolling period window
+        const now = new Date();
+        const rollingPeriodStart = new Date(now);
+        rollingPeriodStart.setDate(rollingPeriodStart.getDate() - rollingPeriod);
+
+        const breaksInPeriod = analysis.breaks.filter(b => {
+          const breakDate = new Date(b.date);
+          return breakDate >= rollingPeriodStart;
+        });
+
+        // Support stability should be 100% if no breaks in the period
+        const supportStabilityForPeriod = analysis.data.length > 0
+          ? ((analysis.data.length - breaksInPeriod.length) / analysis.data.length) * 100
+          : 100;
+
         metrics.set(stockName, {
           stockName,
           currentPrice,
           rollingLow,
           daysSinceLastBreak: analysis.stats?.daysSinceLastBreak ?? null,
-          supportStability: analysis.stats?.stability ?? 0,
+          supportStability: supportStabilityForPeriod,
           numBreaks: analysis.breaks.length,
           medianDropPerBreak,
           avgDropPerBreak,
