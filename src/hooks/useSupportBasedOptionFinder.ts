@@ -151,6 +151,9 @@ export const useSupportBasedOptionFinder = () => {
       // Filter: Rolling low must exist
       if (metrics.rollingLow === null) return;
 
+      // Filter: Strike must be at or below rolling low
+      if (option.StrikePrice > metrics.rollingLow) return;
+
       // Filter: Probability of worthless
       const pow = option['1_2_3_ProbOfWorthless_Weighted'] ?? 0;
       if (pow < criteria.minProbOfWorthless) return;
