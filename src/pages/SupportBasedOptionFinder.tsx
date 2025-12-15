@@ -74,8 +74,8 @@ export const SupportBasedOptionFinder = () => {
     }
   };
 
-  // Find options based on current criteria
-  const supportBasedResults = useMemo(() => {
+  // Find options based on current criteria (only recalculate when filters change)
+  const filteredResults = useMemo(() => {
     const criteria: FilterCriteria = {
       rollingPeriod: parseInt(rollingPeriod),
       minDaysSinceBreak: parseInt(minDaysSinceBreak),
@@ -89,10 +89,19 @@ export const SupportBasedOptionFinder = () => {
       expiryDate: selectedExpiryDate || undefined,
     };
 
-    const results = findOptions(criteria);
+    return findOptions(criteria);
+  }, [
+    rollingPeriod,
+    minDaysSinceBreak,
+    strikePosition,
+    percentBelow,
+    selectedExpiryDate,
+    findOptions,
+  ]);
 
-    // Sort results
-    const sorted = [...results].sort((a, b) => {
+  // Sort filtered results (only recalculate sorting, not filtering)
+  const supportBasedResults = useMemo(() => {
+    const sorted = [...filteredResults].sort((a, b) => {
       let aValue = a[sortField];
       let bValue = b[sortField];
 
@@ -114,16 +123,7 @@ export const SupportBasedOptionFinder = () => {
     });
 
     return sorted;
-  }, [
-    rollingPeriod,
-    minDaysSinceBreak,
-    strikePosition,
-    percentBelow,
-    selectedExpiryDate,
-    findOptions,
-    sortField,
-    sortDirection,
-  ]);
+  }, [filteredResults, sortField, sortDirection]);
 
 
   // Helper component for sortable headers
