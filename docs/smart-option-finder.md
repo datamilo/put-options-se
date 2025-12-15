@@ -9,6 +9,7 @@ Automatically finds put options strategically positioned relative to support lev
 ## Key Features
 
 - **Rolling Low Period Selection**: Choose support timeframe (30, 90, 180, 270, or 365 days)
+- **Expiry Date Filtering**: Filter options by expiration date with smart default (third Friday of next month)
 - **Support-Based Filtering**: Filter by support stability and days since last support break
 - **Strike Position Strategies**: Position strikes at support, at median drop below support, custom % below support, or any position
 - **Real-time Results**: Instantly see matching options in results table
@@ -27,17 +28,21 @@ Automatically finds put options strategically positioned relative to support lev
    - 270 days: Long-term support
    - 365 days: Annual support
 
-2. **Configure Support Filters**:
+2. **Select Expiry Date**: Choose the option expiration date
+   - Defaults to third Friday of next month (same as main dashboard)
+   - Can select any available expiry date
+
+3. **Configure Support Filters**:
    - **Min Support Stability (%)**: Percentage of days support has held (0-100%)
    - **Min Days Since Last Break**: Minimum days elapsed since support was last broken
 
-3. **Select Strike Position Strategy**:
+4. **Select Strike Position Strategy**:
    - **At Support Level**: Strike within 2% of current rolling low
    - **At Median Drop Below Support**: Strike positioned at historical median drop percentage below support
    - **Custom % Below Support**: Strike at specific percentage below support
    - **Any Position**: No position filtering
 
-4. **Review Results**: Table shows matching options with support metrics and links for further analysis
+5. **Review Results**: Table shows matching options with support metrics and links for further analysis
 
 ### Data Flow
 

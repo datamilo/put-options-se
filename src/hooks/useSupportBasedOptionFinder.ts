@@ -47,6 +47,7 @@ export interface FilterCriteria {
   minPremium: number;
   requireStrikeBelowLowerAtAcc: boolean;
   maxBidAskSpread: number;
+  expiryDate?: string;
 }
 
 export const useSupportBasedOptionFinder = () => {
@@ -125,6 +126,9 @@ export const useSupportBasedOptionFinder = () => {
     optionsData.forEach(option => {
       const metrics = supportMetrics.get(option.StockName);
       if (!metrics) return;
+
+      // Filter: Expiry date
+      if (criteria.expiryDate && option.ExpiryDate !== criteria.expiryDate) return;
 
       // Filter: Support stability
       if (metrics.supportStability < criteria.minSupportStability) return;

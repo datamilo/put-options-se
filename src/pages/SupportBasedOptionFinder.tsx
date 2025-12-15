@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useSupportBasedOptionFinder, FilterCriteria } from '@/hooks/useSupportBasedOptionFinder';
+import { useEnrichedOptionsData } from '@/hooks/useEnrichedOptionsData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -21,10 +22,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Link } from 'react-router-dom';
+import { calculateDefaultExpiryDate } from '@/lib/utils';
 
 export const SupportBasedOptionFinder = () => {
   usePageTitle('Smart Option Finder');
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
+  const { data: allOptionsData } = useEnrichedOptionsData();
 
   // Filter state
   const [rollingPeriod, setRollingPeriod] = useState<string>('90');
@@ -32,6 +35,18 @@ export const SupportBasedOptionFinder = () => {
   const [minDaysSinceBreak, setMinDaysSinceBreak] = useState<string>('30');
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
   const [percentBelow, setPercentBelow] = useState<string>('5');
+  const [selectedExpiryDate, setSelectedExpiryDate] = useState<string | null>(null);
+
+  // Initialize default expiry date on load
+  useEffect(() => {
+    if (selectedExpiryDate === null && allOptionsData.length > 0) {
+      const availableExpiryDates = [...new Set(allOptionsData.map(option => option.ExpiryDate))].sort();
+      const defaultDate = calculateDefaultExpiryDate(availableExpiryDates);
+      if (defaultDate) {
+        setSelectedExpiryDate(defaultDate);
+      }
+    }
+  }, [allOptionsData, selectedExpiryDate]);
 
   // Find options based on current criteria
   const results = useMemo(() => {
@@ -46,6 +61,7 @@ export const SupportBasedOptionFinder = () => {
       minPremium: 0,
       requireStrikeBelowLowerAtAcc: false,
       maxBidAskSpread: 999,
+      expiryDate: selectedExpiryDate || undefined,
     };
 
     return findOptions(criteria);
@@ -55,6 +71,7 @@ export const SupportBasedOptionFinder = () => {
     minDaysSinceBreak,
     strikePosition,
     percentBelow,
+    selectedExpiryDate,
     findOptions,
   ]);
 
@@ -94,7 +111,7 @@ export const SupportBasedOptionFinder = () => {
               {/* Support Analysis Parameters */}
               <div>
                 <h3 className="text-sm font-semibold mb-3 text-gray-700">Support Analysis</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="rolling-period" className="text-sm">
                       Rolling Low Period
@@ -138,6 +155,23 @@ export const SupportBasedOptionFinder = () => {
                       min="0"
                       step="5"
                     />
+                  </div>
+                  <div className="flex flex-col space-y-2">
+                    <Label htmlFor="expiry-date" className="text-sm">
+                      Expiry Date
+                    </Label>
+                    <Select value={selectedExpiryDate || ''} onValueChange={setSelectedExpiryDate}>
+                      <SelectTrigger id="expiry-date">
+                        <SelectValue placeholder="Select expiry date" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[...new Set(allOptionsData.map(option => option.ExpiryDate))].sort().map(date => (
+                          <SelectItem key={date} value={date}>
+                            {date}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>
