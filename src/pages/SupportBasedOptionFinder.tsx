@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Target } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Target, Info } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -237,9 +238,23 @@ export const SupportBasedOptionFinder = () => {
                   <TableHead className="text-right min-w-[130px]">PoW - Bayesian Calibrated</TableHead>
                   <TableHead className="text-right min-w-[130px]">PoW - Original</TableHead>
                   <TableHead className="text-right min-w-[100px]">Days to Expiry</TableHead>
-                  <TableHead className="text-right min-w-[130px]">Support Stability</TableHead>
+                  <TableHead className="text-right min-w-[130px]">
+                    <div className="flex items-center justify-end gap-1">
+                      <span>Support Stability</span>
+                      <TooltipProvider>
+                        <Tooltip delayDuration={300}>
+                          <TooltipTrigger asChild>
+                            <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+                          </TooltipTrigger>
+                          <TooltipContent className="max-w-xs bg-background border">
+                            <p>Percentage of trading days within the rolling period where the rolling low held without being broken. Higher percentage indicates more stable support. For example, 85% means the support level held on 85% of days and was broken on 15% of days.</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </TableHead>
                   <TableHead className="text-right min-w-[130px]">Days Since Break</TableHead>
-                  <TableHead className="min-w-[100px]">Actions</TableHead>
+                  <TableHead className="min-w-[100px]">Support Analysis</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -294,20 +309,12 @@ export const SupportBasedOptionFinder = () => {
                       {option.daysSinceLastBreak !== null ? `${option.daysSinceLastBreak}d` : 'N/A'}
                     </TableCell>
                     <TableCell>
-                      <div className="flex gap-2 text-xs">
-                        <button
-                          onClick={() => handleOptionClick(option.optionName)}
-                          className="text-primary hover:underline cursor-pointer"
-                        >
-                          View
-                        </button>
-                        <button
-                          onClick={() => navigate(`/consecutive-breaks?stock=${option.stockName}`)}
-                          className="text-primary hover:underline cursor-pointer"
-                        >
-                          Support
-                        </button>
-                      </div>
+                      <button
+                        onClick={() => navigate(`/consecutive-breaks?stock=${option.stockName}`)}
+                        className="text-primary hover:underline cursor-pointer text-xs"
+                      >
+                        View Analysis
+                      </button>
                     </TableCell>
                   </TableRow>
                 ))}
