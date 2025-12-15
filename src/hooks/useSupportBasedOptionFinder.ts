@@ -38,7 +38,6 @@ export interface SupportBasedOption {
 
 export interface FilterCriteria {
   rollingPeriod: number;
-  minSupportStability: number;
   minDaysSinceBreak: number;
   strikePosition: 'at_support' | 'below_median_drop' | 'percent_below' | 'any';
   percentBelow?: number;
@@ -140,9 +139,6 @@ export const useSupportBasedOptionFinder = () => {
 
       // Filter: Expiry date
       if (criteria.expiryDate && option.ExpiryDate !== criteria.expiryDate) return;
-
-      // Filter: Support stability
-      if (metrics.supportStability < criteria.minSupportStability) return;
 
       // Filter: Days since last break
       if (metrics.daysSinceLastBreak !== null &&

@@ -10,10 +10,10 @@ Filter and analyze put options based on support levels. Users can browse options
 
 - **Rolling Low Period Selection**: Choose support timeframe (30, 90, 180, 270, or 365 days)
 - **Expiry Date Filtering**: Filter options by expiration date with smart default (third Friday of next month)
-- **Support-Based Filtering**: Filter by support stability and days since last support break
+- **Support Break Filtering**: Filter by days since last support break
 - **Strike Position Strategies**: Position strikes at support, at median drop below support, custom % below support, or any position
 - **Real-time Results**: Instantly see matching options in results table
-- **Support Metrics**: Display current stock price, rolling low, and distance to support
+- **Support Metrics**: Display current stock price, rolling low, distance to support, and days since break
 - **Median Drop Integration**: Shows historical median drop per break for risk assessment
 - **Quick Navigation**: Links to detailed option analysis and support level analysis for each result
 
@@ -33,7 +33,6 @@ Filter and analyze put options based on support levels. Users can browse options
    - Can select any available expiry date
 
 3. **Configure Support Filters**:
-   - **Min Support Stability (%)**: Percentage of days support has held (0-100%)
    - **Min Days Since Last Break**: Minimum days elapsed since support was last broken
 
 4. **Select Strike Position Strategy**:

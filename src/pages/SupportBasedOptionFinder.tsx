@@ -33,7 +33,6 @@ export const SupportBasedOptionFinder = () => {
 
   // Filter state
   const [rollingPeriod, setRollingPeriod] = useState<string>('90');
-  const [minSupportStability, setMinSupportStability] = useState<string>('85');
   const [minDaysSinceBreak, setMinDaysSinceBreak] = useState<string>('30');
   const [strikePosition, setStrikePosition] = useState<string>('below_median_drop');
   const [percentBelow, setPercentBelow] = useState<string>('5');
@@ -62,7 +61,6 @@ export const SupportBasedOptionFinder = () => {
   const supportBasedResults = useMemo(() => {
     const criteria: FilterCriteria = {
       rollingPeriod: parseInt(rollingPeriod),
-      minSupportStability: parseFloat(minSupportStability),
       minDaysSinceBreak: parseInt(minDaysSinceBreak),
       strikePosition: strikePosition as FilterCriteria['strikePosition'],
       percentBelow: strikePosition === 'percent_below' ? parseFloat(percentBelow) : undefined,
@@ -77,7 +75,6 @@ export const SupportBasedOptionFinder = () => {
     return findOptions(criteria);
   }, [
     rollingPeriod,
-    minSupportStability,
     minDaysSinceBreak,
     strikePosition,
     percentBelow,
@@ -122,7 +119,7 @@ export const SupportBasedOptionFinder = () => {
               {/* Support Analysis Parameters */}
               <div>
                 <h3 className="text-sm font-semibold mb-3 text-gray-700">Support Analysis</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="rolling-period" className="text-sm">
                       Rolling Low Period
@@ -139,20 +136,6 @@ export const SupportBasedOptionFinder = () => {
                         <SelectItem value="365">1-Year (365 days)</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
-                  <div className="flex flex-col space-y-2">
-                    <Label htmlFor="support-stability" className="text-sm">
-                      Min Support Stability (%)
-                    </Label>
-                    <Input
-                      id="support-stability"
-                      type="number"
-                      value={minSupportStability}
-                      onChange={(e) => setMinSupportStability(e.target.value)}
-                      min="0"
-                      max="100"
-                      step="5"
-                    />
                   </div>
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="days-since-break" className="text-sm">
