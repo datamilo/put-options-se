@@ -290,6 +290,11 @@ export const SupportBasedOptionFinder = () => {
                     </div>
                   </TableHead>
                   <SortableHeader field="daysSinceLastBreak" label="Days Since Break" align="right" />
+                  <SortableHeader field="supportStrengthScore" label="Support Strength" align="right" />
+                  <SortableHeader field="patternType" label="Pattern" />
+                  <SortableHeader field="stabilityTrend" label="Trend" />
+                  <SortableHeader field="maxConsecutiveBreaks" label="Max Consecutive" align="right" />
+                  <SortableHeader field="currentConsecutiveBreaks" label="Current Consecutive" align="right" />
                   <TableHead className="min-w-[100px]">Support Analysis</TableHead>
                 </TableRow>
               </TableHeader>
@@ -339,6 +344,43 @@ export const SupportBasedOptionFinder = () => {
                     <TableCell className="text-right">{option.supportStability.toFixed(1)}%</TableCell>
                     <TableCell className="text-right">
                       {option.daysSinceLastBreak !== null ? `${option.daysSinceLastBreak}d` : 'N/A'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <span className={
+                        option.supportStrengthScore && option.supportStrengthScore >= 70 ? 'text-green-600 font-semibold' :
+                        option.supportStrengthScore && option.supportStrengthScore >= 50 ? 'text-yellow-600' :
+                        'text-red-600'
+                      }>
+                        {option.supportStrengthScore?.toFixed(1) ?? '-'}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className={
+                        option.patternType === 'never_breaks' ? 'text-green-700 font-semibold' :
+                        option.patternType === 'exhausted_cascade' ? 'text-blue-600 font-semibold' :
+                        option.patternType === 'shallow_breaker' ? 'text-green-600' :
+                        option.patternType === 'volatile' ? 'text-red-600' :
+                        'text-gray-600'
+                      }>
+                        {option.patternType ? option.patternType.replace(/_/g, ' ') : '-'}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <span className={
+                        option.stabilityTrend === 'improving' ? 'text-green-600' :
+                        option.stabilityTrend === 'weakening' ? 'text-red-600' :
+                        'text-gray-600'
+                      }>
+                        {option.stabilityTrend === 'improving' ? '↑' : option.stabilityTrend === 'weakening' ? '↓' : '→'} {option.stabilityTrend ?? '-'}
+                      </span>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      {option.maxConsecutiveBreaks ?? '-'}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <span className={option.currentConsecutiveBreaks && option.currentConsecutiveBreaks > 0 ? 'text-orange-600 font-semibold' : ''}>
+                        {option.currentConsecutiveBreaks ?? '0'}
+                      </span>
                     </TableCell>
                     <TableCell>
                       <button
