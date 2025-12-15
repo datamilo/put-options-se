@@ -35,13 +35,7 @@ Filter and analyze put options based on support levels. Users can browse options
 3. **Configure Support Filters**:
    - **Min Days Since Last Break**: Minimum days elapsed since support was last broken
 
-4. **Select Strike Position Strategy**:
-   - **At Support Level**: Strike within 2% of current rolling low
-   - **At Median Drop Below Support**: Strike positioned at historical median drop percentage below support
-   - **Custom % Below Support**: Strike at specific percentage below support
-   - **Any Position**: No position filtering
-
-5. **Review Results**: Table shows matching options with support metrics and links for further analysis
+4. **Review Results**: Table shows matching options with support metrics and links for further analysis
    - All links open in new browser tabs, keeping the Support Level Options List available for continued browsing
 
 ### Data Flow
@@ -70,29 +64,6 @@ Minimum number of days required since the support level was last broken. Helps i
 - 0 days = Recently broken support (risky)
 - 30 days = Support holding for a month
 - 90+ days = Well-established support
-
-### Strike Position Strategies
-
-**At Support Level**
-- Strike price within 2% of rolling low
-- Risky: Stock is close to support
-- High probability of loss if support breaks
-- Good for high-conviction trades only
-
-**At Median Drop Below Support**
-- Strike positioned at support minus the historical median drop percentage
-- Based on actual historical break severity
-- If median drop is 5%, strike would be ~5% below support
-- Balances risk/reward based on history
-
-**Custom % Below Support**
-- Strike at specific percentage below support
-- Example: 10% below would be at support × 0.90
-- Flexible approach for custom strategies
-
-**Any Position**
-- No strike position filtering
-- Shows all matching options regardless of strike placement
 
 ### Support Stability (in Results Table)
 The Support Stability field in the results table shows the percentage of trading days within the **selected rolling period** where the rolling low did not decrease (support held without breaking). This is calculated based ONLY on the rolling period you selected (e.g., last 365 days for 1-year period), not on all historical data.
@@ -134,20 +105,17 @@ All columns (except Support Analysis) are clickable to sort the table by that fi
 ### Conservative Strategy (Strong Support)
 - Rolling Period: 180 days
 - Min Days Since Break: 60
-- Strike Position: At Median Drop Below Support
-- Result: Long-term support with recently-held levels; strikes positioned for worst-case historical scenarios
+- Result: Shows options with long-term support that has held for 60+ days
 
 ### Balanced Approach (Default)
 - Rolling Period: 90 days
 - Min Days Since Break: 30
-- Strike Position: At Median Drop Below Support
-- Result: Medium-term support with prudent strike positioning
+- Result: Shows options with medium-term support that has held for 30+ days
 
 ### Short-Term Support
 - Rolling Period: 30 days
 - Min Days Since Break: 14
-- Strike Position: Custom % Below Support (5-10%)
-- Result: Short-term support with flexibility in strike placement
+- Result: Shows options with short-term support that has held for 14+ days
 
 ## Technical Details
 
