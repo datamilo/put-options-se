@@ -105,7 +105,7 @@ export const useSupportBasedOptionFinder = () => {
           avgDropPerBreak = allAvgDrops.reduce((a, b) => a + b, 0) / allAvgDrops.length;
         }
 
-        // Calculate stability based only on the rolling period, not all historical data
+        // Calculate metrics based only on the rolling period, not all historical data
         // Count breaks that occurred within the rolling period window
         const now = new Date();
         const rollingPeriodStart = new Date(now);
@@ -121,16 +121,28 @@ export const useSupportBasedOptionFinder = () => {
           ? ((analysis.data.length - breaksInPeriod.length) / analysis.data.length) * 100
           : 100;
 
+        // Days since last break in this rolling period (only count breaks within period)
+        let daysSinceLastBreakInPeriod: number | null = null;
+        if (breaksInPeriod.length > 0) {
+          const lastBreakInPeriod = new Date(breaksInPeriod[breaksInPeriod.length - 1].date);
+          daysSinceLastBreakInPeriod = Math.floor((now.getTime() - lastBreakInPeriod.getTime()) / (1000 * 60 * 60 * 24));
+        }
+
+        // Get the last break date within the period (null if no breaks in period)
+        const lastBreakDateInPeriod = breaksInPeriod.length > 0
+          ? breaksInPeriod[breaksInPeriod.length - 1].date
+          : null;
+
         metrics.set(stockName, {
           stockName,
           currentPrice,
           rollingLow,
-          daysSinceLastBreak: analysis.stats?.daysSinceLastBreak ?? null,
+          daysSinceLastBreak: daysSinceLastBreakInPeriod,
           supportStability: supportStabilityForPeriod,
-          numBreaks: analysis.breaks.length,
+          numBreaks: breaksInPeriod.length,
           medianDropPerBreak,
           avgDropPerBreak,
-          lastBreakDate: analysis.breaks.length > 0 ? analysis.breaks[analysis.breaks.length - 1].date : null,
+          lastBreakDate: lastBreakDateInPeriod,
         });
       });
 
