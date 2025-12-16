@@ -114,9 +114,10 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
   const trendInfo = getTrendBreakdown();
 
   return (
-    <div className="bg-muted/30 p-6 space-y-6">
-      {/* Support Strength Score Breakdown */}
-      <Card>
+    <div className="bg-muted/30 p-6 flex justify-center">
+      <div className="max-w-2xl w-full space-y-6">
+        {/* Support Strength Score Breakdown */}
+        <Card>
         <CardHeader>
           <CardTitle className="text-lg">Support Strength Score: {metrics.support_strength_score.toFixed(1)}/100</CardTitle>
         </CardHeader>
@@ -417,6 +418,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
           </div>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 };
