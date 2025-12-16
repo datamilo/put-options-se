@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useSupportBasedOptionFinder, FilterCriteria, SupportBasedOption } from '@/hooks/useSupportBasedOptionFinder';
 import { useEnrichedOptionsData } from '@/hooks/useEnrichedOptionsData';
+import { useSupportLevelMetrics } from '@/hooks/useSupportLevelMetrics';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -13,7 +14,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Target, Info, ArrowUp, ArrowDown } from 'lucide-react';
+import { Target, Info, ArrowUp, ArrowDown, ChevronDown, ChevronUp } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -24,11 +25,13 @@ import {
 } from '@/components/ui/table';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
+import { SupportMetricsBreakdown } from '@/components/SupportMetricsBreakdown';
 
 export const SupportBasedOptionFinder = () => {
   usePageTitle('Support Level Options List');
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
   const { data: allOptionsData } = useEnrichedOptionsData();
+  const { getMetricsForStock } = useSupportLevelMetrics();
 
   // Filter state
   const [rollingPeriod, setRollingPeriod] = useState<string>('90');
@@ -40,6 +43,15 @@ export const SupportBasedOptionFinder = () => {
   type SortDirection = 'asc' | 'desc';
   const [sortField, setSortField] = useState<SortField>('premium');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+
+  // Expanded row state
+  const [expandedRow, setExpandedRow] = useState<number | null>(null);
+
+  // Toggle row expansion
+  const toggleRowExpansion = (idx: number) => {
+    setExpandedRow(expandedRow === idx ? null : idx);
+  };
+
   // Navigation handlers - open in new tab
   const handleOptionClick = (optionName: string) => {
     window.open(`/option/${encodeURIComponent(optionName)}`, '_blank');
@@ -254,6 +266,7 @@ export const SupportBasedOptionFinder = () => {
             <Table>
               <TableHeader>
                 <TableRow>
+                  <TableHead className="w-[50px]">Details</TableHead>
                   <SortableHeader field="stockName" label="Stock" />
                   <SortableHeader field="optionName" label="Option" />
                   <SortableHeader field="currentPrice" label="Current Price" align="right" />
@@ -444,16 +457,34 @@ export const SupportBasedOptionFinder = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {supportBasedResults.map((option, idx) => (
-                  <TableRow key={idx} className="hover:bg-muted/50">
-                    <TableCell
-                      className="font-medium cursor-pointer hover:bg-accent/50 transition-colors"
-                      onClick={() => handleStockClick(option.stockName)}
-                    >
-                      <span className="text-secondary-foreground hover:text-primary transition-colors">
-                        {option.stockName}
-                      </span>
-                    </TableCell>
+                {supportBasedResults.map((option, idx) => {
+                  const isExpanded = expandedRow === idx;
+                  const metrics = getMetricsForStock(option.stockName, parseInt(rollingPeriod));
+
+                  return (
+                    <React.Fragment key={idx}>
+                      <TableRow className="hover:bg-muted/50">
+                        <TableCell className="text-center">
+                          <button
+                            onClick={() => toggleRowExpansion(idx)}
+                            className="p-1 hover:bg-accent rounded transition-colors"
+                            aria-label={isExpanded ? "Collapse details" : "Expand details"}
+                          >
+                            {isExpanded ? (
+                              <ChevronUp className="h-4 w-4" />
+                            ) : (
+                              <ChevronDown className="h-4 w-4" />
+                            )}
+                          </button>
+                        </TableCell>
+                        <TableCell
+                          className="font-medium cursor-pointer hover:bg-accent/50 transition-colors"
+                          onClick={() => handleStockClick(option.stockName)}
+                        >
+                          <span className="text-secondary-foreground hover:text-primary transition-colors">
+                            {option.stockName}
+                          </span>
+                        </TableCell>
                     <TableCell
                       className="cursor-pointer hover:bg-accent/50 transition-colors"
                       onClick={() => handleOptionClick(option.optionName)}
@@ -536,7 +567,21 @@ export const SupportBasedOptionFinder = () => {
                       </button>
                     </TableCell>
                   </TableRow>
-                ))}
+
+                  {/* Expanded row showing metric breakdown */}
+                  {isExpanded && metrics && (
+                    <TableRow>
+                      <TableCell colSpan={20} className="p-0 bg-muted/20">
+                        <SupportMetricsBreakdown
+                          metrics={metrics}
+                          rollingPeriod={parseInt(rollingPeriod)}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </React.Fragment>
+              );
+            })}
               </TableBody>
             </Table>
             <ScrollBar orientation="horizontal" />

@@ -95,6 +95,37 @@ Option expiration date. Defaults to third Friday of next month.
 
 All columns (except Support Analysis) are clickable to sort. Click again to reverse sort direction. An arrow indicator shows the current sort field and direction.
 
+### Expandable Row Details
+
+Each row has an expandable details section (click the chevron in the first column) that provides comprehensive visualizations showing exactly how the support metrics are calculated from the actual data for that specific stock:
+
+1. **Support Strength Score Breakdown**: Visual progress bars showing the 4 components and their weighted contributions
+   - Support Stability (30% weight): Actual stability percentage and contribution
+   - Days Since Break (25% weight): Normalized days value and contribution
+   - Break Frequency (25% weight): Trading days per break, normalized against 200-day target
+   - Drop Consistency (20% weight): Inverse of standard deviation, showing predictability
+
+2. **Pattern Classification Logic**: Step-by-step rule evaluation showing:
+   - All 6 pattern types with their conditions
+   - Which conditions are met (✓) vs not met for this stock
+   - The actual values that led to the pattern assignment
+   - Clear indication of which rule matched first
+
+3. **Stability Trend Visualization**: Visual comparison showing:
+   - First half vs second half period stability represented as bar heights
+   - Color-coded direction (green for improving, red for weakening, blue for stable)
+   - Explanation of what the trend means for this stock
+
+4. **Consecutive Breaks Analysis**: Progress bars comparing:
+   - Historical maximum consecutive breaks (100% reference)
+   - Current consecutive breaks as percentage of max
+   - Special alert when current ≥ 80% of max (exhausted cascade pattern)
+   - Additional context: total breaks, clusters, average days between breaks
+
+5. **Data Summary**: Quick reference card with all key metrics for the selected rolling period
+
+**Use Case**: Before writing puts on any option, expand the row to see the complete calculation breakdown and verify the support metrics align with your risk tolerance.
+
 ### Basic Option Information
 
 #### Stock
@@ -689,7 +720,8 @@ The React frontend automatically loads the latest CSV from GitHub on page mount.
 
 ## File References
 
-- **Page Component**: `src/pages/SupportBasedOptionFinder.tsx`
+- **Page Component**: `src/pages/SupportBasedOptionFinder.tsx` (includes expandable row functionality)
+- **Metrics Breakdown Component**: `src/components/SupportMetricsBreakdown.tsx` (visualization component)
 - **Primary Hook**: `src/hooks/useSupportBasedOptionFinder.ts`
 - **Metrics Hook**: `src/hooks/useSupportLevelMetrics.ts`
 - **Python Script**: `generate_support_level_metrics.py`
