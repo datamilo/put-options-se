@@ -114,8 +114,8 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
   const trendInfo = getTrendBreakdown();
 
   return (
-    <div className="bg-muted/30 p-6 flex justify-center">
-      <div className="max-w-2xl w-full space-y-6">
+    <div className="bg-muted/30 p-6 flex justify-start">
+      <div className="max-w-2xl space-y-6">
         {/* Support Strength Score Breakdown */}
         <Card>
         <CardHeader>
