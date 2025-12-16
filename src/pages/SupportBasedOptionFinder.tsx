@@ -33,6 +33,13 @@ export const SupportBasedOptionFinder = () => {
   const { data: allOptionsData } = useEnrichedOptionsData();
   const { getMetricsForStock } = useSupportLevelMetrics();
 
+  // Construct the proper base URL for links (GitHub Pages vs other deployments)
+  const getFullPath = (path: string) => {
+    const isGitHubPages = window.location.hostname === 'datamilo.github.io';
+    const basename = isGitHubPages ? '/put-options-se' : '';
+    return basename + path;
+  };
+
   // Filter state
   const [rollingPeriod, setRollingPeriod] = useState<string>('90');
   const [minDaysSinceBreak, setMinDaysSinceBreak] = useState<string>('30');
@@ -54,11 +61,11 @@ export const SupportBasedOptionFinder = () => {
 
   // Navigation handlers - open in new tab
   const handleOptionClick = (optionName: string) => {
-    window.open(`/option/${encodeURIComponent(optionName)}`, '_blank');
+    window.open(getFullPath(`/option/${encodeURIComponent(optionName)}`), '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
-    window.open(`/stock/${encodeURIComponent(stockName)}`, '_blank');
+    window.open(getFullPath(`/stock/${encodeURIComponent(stockName)}`), '_blank');
   };
 
   // Initialize default expiry date on load
@@ -560,7 +567,7 @@ export const SupportBasedOptionFinder = () => {
                     </TableCell>
                     <TableCell>
                       <button
-                        onClick={() => window.open(`/consecutive-breaks?stock=${encodeURIComponent(option.stockName)}`, '_blank')}
+                        onClick={() => window.open(getFullPath(`/consecutive-breaks?stock=${encodeURIComponent(option.stockName)}`), '_blank')}
                         className="text-primary hover:underline cursor-pointer text-xs"
                       >
                         View Analysis
