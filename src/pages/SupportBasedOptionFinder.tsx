@@ -560,7 +560,7 @@ export const SupportBasedOptionFinder = () => {
                     </TableCell>
                     <TableCell>
                       <button
-                        onClick={() => window.open(`/consecutive-breaks?stock=${option.stockName}`, '_blank')}
+                        onClick={() => window.open(`/consecutive-breaks?stock=${encodeURIComponent(option.stockName)}`, '_blank')}
                         className="text-primary hover:underline cursor-pointer text-xs"
                       >
                         View Analysis

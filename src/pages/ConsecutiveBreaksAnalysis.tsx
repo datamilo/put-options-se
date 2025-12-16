@@ -1,6 +1,7 @@
 // Rolled back to remove broken chart implementations
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
+import { useSearchParams } from 'react-router-dom';
 import Plot from 'react-plotly.js';
 import { useConsecutiveBreaksAnalysis } from '@/hooks/useConsecutiveBreaksAnalysis';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -25,6 +26,7 @@ import {
 
 export const ConsecutiveBreaksAnalysis = () => {
   usePageTitle('Support Level Analysis');
+  const [searchParams] = useSearchParams();
   const { uniqueStocks, selectedStock, setSelectedStock, analyzeStock } =
     useConsecutiveBreaksAnalysis();
 
@@ -33,6 +35,14 @@ export const ConsecutiveBreaksAnalysis = () => {
   const [dateTo, setDateTo] = useState<string>('');
   const [period, setPeriod] = useState<string>('90');
   const [maxGap, setMaxGap] = useState<string>('30');
+
+  // Initialize stock from query parameter if provided
+  useEffect(() => {
+    const stockParam = searchParams.get('stock');
+    if (stockParam && uniqueStocks.includes(stockParam)) {
+      setSelectedStock(stockParam);
+    }
+  }, [searchParams, uniqueStocks, setSelectedStock]);
 
   // Perform analysis
   const analysis = useMemo(() => {
