@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: December 14, 2025
+**Last Updated**: December 19, 2025
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -13,7 +13,7 @@
 | [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Nov 25 |
 | [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Jun 2024 |
 | [Monthly Analysis](#monthly-analysis) | `/monthly-analysis` | ✅ Active | Nov 25 |
-| [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Nov 24 |
+| [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Dec 19 |
 | [Support Level Analysis](#support-level-analysis) | `/consecutive-breaks` | ✅ Active | Dec 14 |
 | [Support Level Options List](#support-level-options-list) | `/support-level-options` | ✅ Active | Dec 14 |
 | [Probability Analysis](#probability-analysis) | `/probability-analysis` | ✅ Active | Nov 28 |
@@ -64,12 +64,23 @@
 ### Stock Metrics and History
 **Route**: `/stock/:stockName`
 
+**Latest Changes** (Dec 19, 2025):
+- Added custom date range filtering with "From Date" and "To Date" inputs
+- Integrated date inputs directly into candlestick chart with preset time range buttons
+- Set default values: From Date = 6 months ago, To Date = today
+- Custom dates override preset buttons for flexible filtering
+
 **Features**:
 - Individual stock performance metrics
 - Detailed analytics
 - Historical data visualization
+- **OHLC Candlestick Chart** with:
+  - Preset time range buttons (1M, 3M, 6M, 1Y, ALL)
+  - Custom date range filtering with auto-populated defaults
+  - Optional volume overlay
+  - Green/red candles for bullish/bearish days
 
-**Status**: Fully functional
+**Status**: Fully functional with date filtering
 
 ---
 
@@ -212,6 +223,20 @@
 ## Recent Changes & Updates
 
 ### December 19, 2025 (Latest)
+✅ **Stock Metrics and History - Date Filtering Enhancement**
+- Added custom date range filtering to candlestick chart
+- Integrated "From Date" and "To Date" inputs in chart header alongside preset buttons
+- Implemented auto-initialization: From Date defaults to 6 months ago, To Date defaults to today
+- Custom dates override preset time range buttons when provided
+- Preset buttons now set both timeRange state and date input values
+- All filtering logic consolidated in CandlestickChart component
+- File: `src/components/stock/CandlestickChart.tsx` (lines 90-117)
+
+✅ **Documentation Updates**
+- Updated `docs/stock-analysis.md` with detailed date filtering documentation
+- Updated `docs/CURRENT_STATE.md` with latest changes and date filtering details
+- Added file references for CandlestickChart component
+
 ✅ **Navigation Redesign - Horizontal Layout with Categorized Dropdowns**
 - Restructured navigation from dropdown menu to horizontal navigation bar (desktop)
 - Desktop: Always-visible navigation with standalone buttons and categorized dropdowns
@@ -223,7 +248,7 @@
 - Renamed settings: "Settings" → "Calculation Settings"
 - Added visual separation in Calculation Settings modal with distinct sections for Underlying Stock Value and Transaction Cost
 
-✅ **Documentation Updates**
+✅ **Navigation Documentation Updates**
 - Updated CLAUDE.md with navigation structure documentation
 - Updated page table with corrected page names
 - Updated README.md with current page names

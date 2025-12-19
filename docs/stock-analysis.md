@@ -49,13 +49,19 @@ All period changes use the formula: `((Current Close - Baseline Close) / Baselin
 - **Range Ratio**: High/low ratio showing volatility relative to price
 
 ## Charts
-- **OHLC Candlestick Chart**: Interactive chart with time range filters (1M, 3M, 6M, 1Y, ALL)
-  - Green candles for bullish days, red for bearish days
-  - Optional volume overlay
+- **OHLC Candlestick Chart**: Interactive chart with flexible date range filtering
+  - **Preset Buttons**: Quick time range filters (1M, 3M, 6M, 1Y, ALL)
+  - **Custom Date Inputs**: "From Date" and "To Date" for precise date range selection
+    - Default values: From Date = 6 months ago, To Date = today
+    - Custom dates override preset buttons when provided
+  - **Visual Indicators**: Green candles for bullish days, red for bearish days
+  - **Optional Volume Overlay**: Toggle to show trading volume on right Y-axis
 - **Price Ranges Card**: Shows price ranges for different time periods (1W, 1M, 3M, 6M, 9M, 1Y)
 
 ## File References
 - **Page**: `src/pages/StockDetailsPage.tsx`
-- **Component**: `src/components/stock/StockDetails.tsx`
+- **Components**:
+  - `src/components/stock/StockDetails.tsx` - Performance metrics and layout
+  - `src/components/stock/CandlestickChart.tsx` - OHLC chart with date filtering (lines 90-117 for date filtering logic)
 - **Hook**: `src/hooks/useStockData.ts` (lines 137-169 for period calculations)
 - **Types**: `src/types/stock.ts`
