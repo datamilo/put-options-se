@@ -67,12 +67,12 @@ export const HorizontalNavigation = () => {
     icon: any;
     items: Array<{ path: string; label: string; icon: any }>;
   }) => {
-    const isActive = isGroupActive(items.map(i => i.path));
+    const isDropdownActive = isGroupActive(items.map(i => i.path));
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant={isActive ? "default" : "ghost"}
+            variant={isDropdownActive ? "default" : "ghost"}
             size="sm"
             className="flex items-center gap-1 whitespace-nowrap"
           >
