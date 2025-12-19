@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { StockData } from "@/types/stock";
 import {
   ComposedChart,
@@ -13,6 +13,8 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Activity, BarChart3 } from "lucide-react";
 
 interface CandlestickChartProps {
@@ -82,18 +84,54 @@ const transformDataForCandlestick = (data: StockData[]) => {
 export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => {
   const [timeRange, setTimeRange] = useState<'1M' | '3M' | '6M' | '1Y' | 'ALL'>('6M');
   const [showVolume, setShowVolume] = useState<boolean>(false);
+  const [dateFrom, setDateFrom] = useState<string>('');
+  const [dateTo, setDateTo] = useState<string>('');
 
-  const getFilteredData = () => {
-    if (timeRange === 'ALL') return data;
+  // Filter data by both time range and custom date range
+  const filteredData = useMemo(() => {
+    let filtered = data;
 
-    const now = new Date();
-    const monthsBack = timeRange === '1M' ? 1 : timeRange === '3M' ? 3 : timeRange === '6M' ? 6 : 12;
-    const cutoffDate = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
+    // Apply custom date filters if provided
+    if (dateFrom || dateTo) {
+      filtered = filtered.filter(d => {
+        const recordDate = new Date(d.date);
 
-    return data.filter(d => new Date(d.date) >= cutoffDate);
+        if (dateFrom && dateTo) {
+          return recordDate >= new Date(dateFrom) && recordDate <= new Date(dateTo);
+        } else if (dateFrom) {
+          return recordDate >= new Date(dateFrom);
+        } else if (dateTo) {
+          return recordDate <= new Date(dateTo);
+        }
+        return true;
+      });
+    } else if (timeRange !== 'ALL') {
+      // Apply preset time range only if no custom dates are set
+      const now = new Date();
+      const monthsBack = timeRange === '1M' ? 1 : timeRange === '3M' ? 3 : timeRange === '6M' ? 6 : 12;
+      const cutoffDate = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
+      filtered = filtered.filter(d => new Date(d.date) >= cutoffDate);
+    }
+
+    return filtered;
+  }, [data, timeRange, dateFrom, dateTo]);
+
+  // Handle preset button clicks - set dates instead of just timeRange
+  const handlePresetRange = (range: '1M' | '3M' | '6M' | '1Y' | 'ALL') => {
+    setTimeRange(range);
+
+    if (range === 'ALL') {
+      setDateFrom('');
+      setDateTo('');
+    } else {
+      const now = new Date();
+      const monthsBack = range === '1M' ? 1 : range === '3M' ? 3 : range === '6M' ? 6 : 12;
+      const cutoffDate = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
+
+      setDateFrom(cutoffDate.toISOString().split('T')[0]);
+      setDateTo(now.toISOString().split('T')[0]);
+    }
   };
-
-  const filteredData = getFilteredData();
 
   // Calculate dynamic Y-axis domain for better price visualization
   const getPriceDomain = () => {
@@ -275,18 +313,48 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
           {stockName} Candlestick Chart
         </CardTitle>
 
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-4 items-end">
+          {/* Preset time range buttons */}
           <div className="flex gap-1">
             {(['1M', '3M', '6M', '1Y', 'ALL'] as const).map(range => (
               <Button
                 key={range}
-                variant={timeRange === range ? "default" : "outline"}
+                variant={timeRange === range && !dateFrom && !dateTo ? "default" : "outline"}
                 size="sm"
-                onClick={() => setTimeRange(range)}
+                onClick={() => handlePresetRange(range)}
               >
                 {range}
               </Button>
             ))}
+          </div>
+
+          {/* Custom date inputs */}
+          <div className="flex gap-2 items-end">
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="chart-date-from" className="text-xs font-semibold">
+                From Date
+              </Label>
+              <Input
+                id="chart-date-from"
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="h-8 text-sm"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <Label htmlFor="chart-date-to" className="text-xs font-semibold">
+                To Date
+              </Label>
+              <Input
+                id="chart-date-to"
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="h-8 text-sm"
+              />
+            </div>
           </div>
 
           <Button
