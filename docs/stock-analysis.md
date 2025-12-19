@@ -54,13 +54,6 @@ All period changes use the formula: `((Current Close - Baseline Close) / Baselin
   - Optional volume overlay
 - **Price Ranges Card**: Shows price ranges for different time periods (1W, 1M, 3M, 6M, 9M, 1Y)
 
-## Date Filtering
-- **Date Range Inputs**: Custom date range selection with "From Date" and "To Date" native date inputs
-- **Preset Buttons**: Quick access buttons (1M, 3M, 6M, 1Y, ALL) to set common date ranges
-- **Auto-initialization**: Dates automatically set to the full available data range when a stock is selected
-- **Validation**: Soft validation shows a warning if "To Date" is before "From Date", but continues to display data
-- **Scope**: Date filters affect all components - summary metrics, price ranges, and candlestick chart
-
 ## File References
 - **Page**: `src/pages/StockDetailsPage.tsx`
 - **Component**: `src/components/stock/StockDetails.tsx`
