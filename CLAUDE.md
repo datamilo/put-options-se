@@ -41,12 +41,26 @@ Detailed documentation for each page is in the `/docs` folder:
 | Options Dashboard | `/` | [docs/index-page.md](docs/index-page.md) | Main options analysis with filterable table |
 | Portfolio Generator | `/portfolio-generator` | [docs/portfolio-generator.md](docs/portfolio-generator.md) | Portfolio optimization tools |
 | Monthly Analysis | `/monthly-analysis` | [docs/monthly-analysis.md](docs/monthly-analysis.md) | Historical performance and seasonality |
-| Stock Analysis | `/stock-analysis`, `/stock/:stockName` | [docs/stock-analysis.md](docs/stock-analysis.md) | Individual stock performance metrics |
-| Support Level Analysis | `/consecutive-breaks` | [docs/support-level-analysis.md](docs/support-level-analysis.md) | Rolling low and support break detection |
+| Stock Metrics and History | `/stock-analysis`, `/stock/:stockName` | [docs/stock-analysis.md](docs/stock-analysis.md) | Individual stock performance metrics |
+| Support Level Analysis | `/consecutive-breaks` | [docs/support-level-analysis.md](docs/support-level-analysis.md) | Rolling low and support level breaks |
 | Support Level Options List | `/support-level-options` | [docs/support-level-options.md](docs/support-level-options.md) | Filter options by support levels |
 | Probability Analysis | `/probability-analysis` | [docs/probability-analysis.md](docs/probability-analysis.md) | Probability method validation and recovery |
 | Lower Bound Analysis | `/lower-bound-analysis` | [docs/lower-bound-analysis.md](docs/lower-bound-analysis.md) | IV-based prediction validation |
-| Volatility Analysis | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Financial reporting volatility |
+| Financial Reporting Volatility | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Earnings and event volatility analysis |
+
+### Navigation Structure
+
+**Desktop Horizontal Navigation:**
+- **Standalone Buttons**: Portfolio Generator, Stock Metrics and History
+- **Dropdown Categories**:
+  - **Support Levels**: Support Level Analysis, Support Level Options List
+  - **Historical Performance and Volatility**: Monthly Analysis, Financial Reporting Volatility
+  - **Method Validation**: Probability Analysis, Lower Bound Analysis
+- **Utilities**: Calculation Settings, Theme Toggle, Sign Out
+
+**Mobile Navigation:** Hamburger menu with grouped sections
+
+All pages are accessible via the horizontal navigation bar (desktop) or expandable hamburger menu (mobile).
 
 ### Additional Documentation
 - [docs/FIELD_GUIDE.md](docs/FIELD_GUIDE.md) - Business-focused explanation of all 67 fields in data.csv for investors

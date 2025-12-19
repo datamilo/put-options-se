@@ -13,12 +13,12 @@
 | [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Nov 25 |
 | [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Jun 2024 |
 | [Monthly Analysis](#monthly-analysis) | `/monthly-analysis` | ✅ Active | Nov 25 |
-| [Stock Analysis](#stock-analysis) | `/stock/:stockName` | ✅ Active | Nov 24 |
+| [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Nov 24 |
 | [Support Level Analysis](#support-level-analysis) | `/consecutive-breaks` | ✅ Active | Dec 14 |
-| [Smart Option Finder](#smart-option-finder) | `/smart-option-finder` | ✅ Active | Dec 14 |
+| [Support Level Options List](#support-level-options-list) | `/support-level-options` | ✅ Active | Dec 14 |
 | [Probability Analysis](#probability-analysis) | `/probability-analysis` | ✅ Active | Nov 28 |
 | [Lower Bound Analysis](#lower-bound-analysis) | `/lower-bound-analysis` | ✅ Active | Nov 28 |
-| [Volatility Analysis](#volatility-analysis) | `/volatility-analysis` | ✅ Active | Oct 2024 |
+| [Financial Reporting Volatility](#financial-reporting-volatility) | `/volatility-analysis` | ✅ Active | Oct 2024 |
 
 ---
 
@@ -61,7 +61,7 @@
 
 ---
 
-### Stock Analysis
+### Stock Metrics and History
 **Route**: `/stock/:stockName`
 
 **Features**:
@@ -101,29 +101,21 @@
 
 ---
 
-### Smart Option Finder
-**Route**: `/smart-option-finder`
-
-**Latest Changes** (Dec 14, 2025):
-- 🆕 NEW PAGE: Automatic option finder based on support levels
-- Combines Support Level Analysis with option selection
-- Users can filter options positioned relative to any rolling low period
+### Support Level Options List
+**Route**: `/support-level-options`
 
 **Features**:
-- **Rolling Low Period Selection**: 30, 90, 180, 270, or 365-day support timeframes
-- **Support Filters**:
+- Filter and analyze put options by rolling low support levels
+- Rolling Low Period Selection: 30, 90, 180, 270, or 365-day support timeframes
+- Support Filters:
   - Min Support Stability: Filter by % of days support held without breaking
   - Min Days Since Last Break: Ensure support is recently stable
-- **Strike Position Strategies**:
+- Strike Position Strategies:
   - At Support Level: Strike within 2% of rolling low
   - At Median Drop Below Support: Strike positioned at historical worst-case scenario
   - Custom % Below Support: User-defined offset below support
   - Any Position: No strike filtering
-- **Results Table**:
-  - Shows matching options with support metrics
-  - Distance to support and strike vs support calculations
-  - Median drop per break for risk assessment
-  - Links to detailed option analysis and support level analysis
+- Results Table with support metrics, distance to support calculations, and median drop per break
 
 **Technical Details**:
 - Uses `useSupportBasedOptionFinder` hook
@@ -206,7 +198,7 @@
 
 ---
 
-### Volatility Analysis
+### Financial Reporting Volatility
 **Route**: `/volatility-analysis`
 
 **Features**:
@@ -219,26 +211,38 @@
 
 ## Recent Changes & Updates
 
-### December 14, 2025 (Latest)
-✅ **Smart Option Finder - NEW PAGE**
-- Launched new `/smart-option-finder` page for automated option selection based on support levels
+### December 19, 2025 (Latest)
+✅ **Navigation Redesign - Horizontal Layout with Categorized Dropdowns**
+- Restructured navigation from dropdown menu to horizontal navigation bar (desktop)
+- Desktop: Always-visible navigation with standalone buttons and categorized dropdowns
+  - **Standalone Buttons**: Portfolio Generator, Stock Metrics and History (right-aligned)
+  - **Dropdown Categories**: Support Levels, Historical Performance and Volatility, Method Validation
+  - **Utilities**: Calculation Settings, Theme Toggle, Sign Out
+- Mobile: Hamburger menu with grouped sections
+- Improved page name clarity: "Stock Analysis" → "Stock Metrics and History"
+- Renamed settings: "Settings" → "Calculation Settings"
+- Added visual separation in Calculation Settings modal with distinct sections for Underlying Stock Value and Transaction Cost
+
+✅ **Documentation Updates**
+- Updated CLAUDE.md with navigation structure documentation
+- Updated page table with corrected page names
+- Updated README.md with current page names
+- Updated CURRENT_STATE.md with page name changes and navigation groupings
+
+### December 14, 2025
+✅ **Support Level Options List Page**
+- Launched `/support-level-options` page for automated option selection based on support levels
 - Combines support level analysis with intelligent option filtering
 - **Key Features**:
   - Rolling Low Period selector (30, 90, 180, 270, 365 days)
   - Support stability and break history filters
   - Multiple strike positioning strategies (at support, at median drop, custom %, any)
   - Real-time results table with comprehensive support metrics
-  - Links to detailed option and support analysis
 
 ✅ **Support Level Analysis Enhancement**
 - Added "Median Drop per Break" metric to All Break Clusters display
 - Shows statistical median of support break percentages for each cluster
 - Helps identify historical worst-case scenarios for strike positioning
-
-✅ **Documentation Additions**
-- Created comprehensive `smart-option-finder.md` documentation
-- Updated `CLAUDE.md` page index with Smart Option Finder entry
-- Updated `CURRENT_STATE.md` with all new features and changes
 
 ### December 8, 2025
 ✅ **PoW Button Clarity Enhancement**
@@ -451,10 +455,11 @@ useConsecutiveBreaksAnalysis()
 
 ## Related Documentation
 
-- [smart-option-finder.md](smart-option-finder.md) - Smart Option Finder page documentation
+- [support-level-options.md](support-level-options.md) - Support Level Options List page documentation
 - [probability-analysis.md](probability-analysis.md) - Detailed Probability Analysis page docs
 - [support-level-analysis.md](support-level-analysis.md) - Support Level Analysis page docs
 - [lower-bound-analysis.md](lower-bound-analysis.md) - Lower Bound Analysis page docs
+- [stock-analysis.md](stock-analysis.md) - Stock Metrics and History page documentation
 - [FIELD_GUIDE.md](FIELD_GUIDE.md) - Complete field definitions for all 67+ data fields
 - [index-page.md](index-page.md) - Options Dashboard documentation
 - [portfolio-generator.md](portfolio-generator.md) - Portfolio Generator docs

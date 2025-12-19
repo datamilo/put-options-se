@@ -110,10 +110,10 @@ put-options-se-1/
 - **Support Level Options List** (`/support-level-options`) - Filter and analyze options by support levels
 - **Portfolio Generator** (`/portfolio-generator`) - Portfolio optimization tools
 - **Monthly Analysis** (`/monthly-analysis`) - Historical performance and seasonality
-- **Stock Analysis** (`/stock/:stockName`) - Individual stock performance metrics
+- **Stock Metrics and History** (`/stock/:stockName`) - Individual stock performance metrics
 - **Probability Analysis** (`/probability-analysis`) - Probability method validation and recovery
 - **Lower Bound Analysis** (`/lower-bound-analysis`) - IV-based prediction validation
-- **Volatility Analysis** (`/volatility-analysis`) - Financial reporting volatility tracking
+- **Financial Reporting Volatility** (`/volatility-analysis`) - Earnings and event volatility analysis
 
 ## Data
 
