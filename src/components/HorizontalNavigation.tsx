@@ -321,11 +321,12 @@ export const HorizontalNavigation = () => {
         <Button
           onClick={() => setSettingsOpen(true)}
           variant="ghost"
-          size="icon"
-          className="h-9 w-9"
-          title="Open settings"
+          size="sm"
+          className="flex items-center gap-2"
+          title="Option Calculation Settings"
         >
           <Settings className="h-4 w-4" />
+          <span className="hidden lg:inline text-sm">Option Calculation Settings</span>
         </Button>
 
         <Button

@@ -70,7 +70,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
       setUnderlyingValue(tempValue);
       setTransactionCost(tempTransactionCost);
       setIsOpen(false);
-      toast.success(`Settings updated: Underlying value ${tempValue.toLocaleString('sv-SE')}, Transaction cost ${tempTransactionCost}`);
+      toast.success(`Option Calculation Settings updated: Underlying value ${tempValue.toLocaleString('sv-SE')}, Transaction cost ${tempTransactionCost}`);
     } else {
       toast.error('Please enter a value between 10 000 and 1 000 000');
     }
@@ -91,8 +91,8 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {triggerButton && (
         <DialogTrigger asChild>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             size="sm"
             onClick={() => {
               setTempValue(underlyingValue);
@@ -102,25 +102,27 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
             }}
           >
             <Settings className="h-4 w-4 mr-2" />
-            Settings
+            Option Calculation Settings
           </Button>
         </DialogTrigger>
       )}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Calculation Settings</DialogTitle>
+          <DialogTitle>Option Calculation Settings</DialogTitle>
         </DialogHeader>
         <div className="space-y-6 py-4">
-          <div className="space-y-4">
+          {/* Section 1: Underlying Stock Value */}
+          <div className="border rounded-lg p-4 space-y-4">
+            <div className="border-b pb-3 mb-4">
+              <h3 className="font-semibold text-base">Underlying Stock Value for Premium Calculation</h3>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="underlying-value">
-                Underlying Stock Value for Premium Calculation
-              </Label>
               <p className="text-sm text-muted-foreground">
                 This value is used to calculate the number of contracts and Premium. Default is 100,000.
               </p>
             </div>
-            
+
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label>Current Value: {formatCurrency(tempValue)}</Label>
@@ -137,7 +139,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
                   <span>1 000 000</span>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="underlying-input">Or enter exact value:</Label>
                 <Input
@@ -152,16 +154,18 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
             </div>
           </div>
 
-          <div className="space-y-4">
+          {/* Section 2: Transaction Cost */}
+          <div className="border rounded-lg p-4 space-y-4">
+            <div className="border-b pb-3 mb-4">
+              <h3 className="font-semibold text-base">Transaction Cost</h3>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="transaction-cost">
-                Transaction Cost
-              </Label>
               <p className="text-sm text-muted-foreground">
                 The transaction cost that will be subtracted from the premium calculation. Default is 150.
               </p>
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="transaction-cost-input">Transaction Cost:</Label>
               <Input
@@ -173,7 +177,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
               />
             </div>
           </div>
-          
+
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" onClick={handleCancel}>
               Cancel
