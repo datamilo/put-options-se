@@ -305,6 +305,17 @@ export const HorizontalNavigation = () => {
       {/* Desktop Utilities (Settings, Theme, Logout) */}
       <div className="hidden md:flex items-center gap-1">
         <Button
+          onClick={() => setSettingsOpen(true)}
+          variant="ghost"
+          size="sm"
+          className="flex items-center gap-2"
+          title="Calculation Settings"
+        >
+          <Settings className="h-4 w-4" />
+          <span className="hidden lg:inline text-sm">Calculation Settings</span>
+        </Button>
+
+        <Button
           onClick={() => setTheme(theme === "light" ? "dark" : "light")}
           variant="ghost"
           size="icon"
@@ -316,17 +327,6 @@ export const HorizontalNavigation = () => {
           ) : (
             <Sun className="h-4 w-4" />
           )}
-        </Button>
-
-        <Button
-          onClick={() => setSettingsOpen(true)}
-          variant="ghost"
-          size="sm"
-          className="flex items-center gap-2"
-          title="Option Calculation Settings"
-        >
-          <Settings className="h-4 w-4" />
-          <span className="hidden lg:inline text-sm">Option Calculation Settings</span>
         </Button>
 
         <Button

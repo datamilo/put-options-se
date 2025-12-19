@@ -70,7 +70,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
       setUnderlyingValue(tempValue);
       setTransactionCost(tempTransactionCost);
       setIsOpen(false);
-      toast.success(`Option Calculation Settings updated: Underlying value ${tempValue.toLocaleString('sv-SE')}, Transaction cost ${tempTransactionCost}`);
+      toast.success(`Calculation Settings updated: Underlying value ${tempValue.toLocaleString('sv-SE')}, Transaction cost ${tempTransactionCost}`);
     } else {
       toast.error('Please enter a value between 10 000 and 1 000 000');
     }
@@ -102,13 +102,13 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
             }}
           >
             <Settings className="h-4 w-4 mr-2" />
-            Option Calculation Settings
+            Calculation Settings
           </Button>
         </DialogTrigger>
       )}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Option Calculation Settings</DialogTitle>
+          <DialogTitle>Calculation Settings</DialogTitle>
         </DialogHeader>
         <div className="space-y-6 py-4">
           {/* Section 1: Underlying Stock Value */}
