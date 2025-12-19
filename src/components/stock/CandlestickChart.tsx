@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { StockData } from "@/types/stock";
 import {
   ComposedChart,
@@ -86,6 +86,21 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
   const [showVolume, setShowVolume] = useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
+
+  // Initialize default date values on component mount
+  useEffect(() => {
+    if (!dateFrom && !dateTo) {
+      const today = new Date();
+      const todayStr = today.toISOString().split('T')[0];
+
+      // Calculate 6 months back
+      const sixMonthsBack = new Date(today.getFullYear(), today.getMonth() - 6, today.getDate());
+      const sixMonthsBackStr = sixMonthsBack.toISOString().split('T')[0];
+
+      setDateFrom(sixMonthsBackStr);
+      setDateTo(todayStr);
+    }
+  }, []);
 
   // Filter data by both time range and custom date range
   const filteredData = useMemo(() => {
