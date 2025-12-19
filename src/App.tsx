@@ -23,37 +23,43 @@ import { AuthProvider, useAuth } from "@/auth/AuthProvider";
 import ProtectedRoute from "@/auth/ProtectedRoute";
 import { Button } from "@/components/ui/button";
 import ErrorBoundary from "@/components/ErrorBoundary";
-import { NavigationMenu } from "@/components/NavigationMenu";
+import { HorizontalNavigation } from "@/components/HorizontalNavigation";
 import { Home } from "lucide-react";
 const queryClient = new QueryClient();
 
 const AppHeader = () => {
   const { session } = useAuth();
   return (
-    <header className="w-full flex items-center justify-between px-4 py-2 border-b">
-      <div className="flex items-center gap-3">
-        {session && (
-          <>
-            <Button
-              asChild
-              variant="ghost"
-              size="icon"
-              title="Go to home page"
-            >
-              <Link to="/">
-                <Home className="h-5 w-5" />
-              </Link>
+    <header className="w-full border-b">
+      <div className="flex items-center justify-between px-4 py-3 gap-4">
+        {/* Left: Home Button + Navigation */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {session && (
+            <>
+              <Button
+                asChild
+                variant="ghost"
+                size="icon"
+                title="Go to home page"
+              >
+                <Link to="/">
+                  <Home className="h-5 w-5" />
+                </Link>
+              </Button>
+              <div className="h-6 w-px bg-border hidden md:block" />
+              <HorizontalNavigation />
+            </>
+          )}
+        </div>
+
+        {/* Right: Sign In (if not authenticated) */}
+        <div>
+          {!session && (
+            <Button asChild>
+              <Link to="/auth">Sign in</Link>
             </Button>
-            <NavigationMenu />
-          </>
-        )}
-      </div>
-      <div>
-        {!session && (
-          <Button asChild>
-            <Link to="/auth">Sign in</Link>
-          </Button>
-        )}
+          )}
+        </div>
       </div>
     </header>
   );
