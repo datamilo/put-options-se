@@ -10,11 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 
 const StockDetailsPage = () => {
   const { stockName: paramStockName } = useParams<{ stockName: string }>();
@@ -26,8 +23,6 @@ const StockDetailsPage = () => {
 
   const [selectedStock, setSelectedStock] = useState<string>(decodedParamStockName);
   const [allStocks, setAllStocks] = useState<string[]>([]);
-  const [dateFrom, setDateFrom] = useState<string>('');
-  const [dateTo, setDateTo] = useState<string>('');
 
   // Load all available stocks
   useEffect(() => {
@@ -46,75 +41,10 @@ const StockDetailsPage = () => {
 
   const handleStockChange = (newStock: string) => {
     setSelectedStock(newStock);
-    // Reset dates when stock changes
-    setDateFrom('');
-    setDateTo('');
     // If accessed from /stock-analysis, update URL with new stock
     // If accessed from /stock/:stockName, navigate to new stock
     const encodedStock = encodeURIComponent(newStock);
     navigate(`/stock/${encodedStock}`);
-  };
-
-  // Get and filter stock data by date range
-  const stockData = getStockData(selectedStock);
-
-  const getFilteredStockData = useMemo(() => {
-    if (!stockData || stockData.length === 0) return [];
-    if (!dateFrom && !dateTo) return stockData;
-
-    return stockData.filter(d => {
-      const recordDate = new Date(d.date);
-
-      if (dateFrom && dateTo) {
-        return recordDate >= new Date(dateFrom) && recordDate <= new Date(dateTo);
-      } else if (dateFrom) {
-        return recordDate >= new Date(dateFrom);
-      } else if (dateTo) {
-        return recordDate <= new Date(dateTo);
-      }
-
-      return true;
-    });
-  }, [stockData, dateFrom, dateTo]);
-
-  // Auto-initialize dates to full data range when stock data loads
-  useEffect(() => {
-    if (stockData.length > 0 && !dateFrom && !dateTo) {
-      const sortedData = [...stockData].sort((a, b) =>
-        new Date(a.date).getTime() - new Date(b.date).getTime()
-      );
-
-      const firstDate = sortedData[0].date.split('T')[0];
-      const lastDate = sortedData[sortedData.length - 1].date.split('T')[0];
-
-      setDateFrom(firstDate);
-      setDateTo(lastDate);
-    }
-  }, [selectedStock, stockData, dateFrom, dateTo]);
-
-  // Handle preset date range buttons
-  const handlePresetRange = (range: '1M' | '3M' | '6M' | '1Y' | 'ALL') => {
-    const allData = getStockData(selectedStock);
-    if (allData.length === 0) return;
-
-    const sortedData = [...allData].sort((a, b) =>
-      new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-
-    const latestDate = sortedData[sortedData.length - 1].date.split('T')[0];
-
-    if (range === 'ALL') {
-      setDateFrom(sortedData[0].date.split('T')[0]);
-      setDateTo(latestDate);
-      return;
-    }
-
-    const now = new Date(latestDate);
-    const monthsBack = range === '1M' ? 1 : range === '3M' ? 3 : range === '6M' ? 6 : 12;
-    const cutoffDate = new Date(now.getFullYear(), now.getMonth() - monthsBack, now.getDate());
-
-    setDateFrom(cutoffDate.toISOString().split('T')[0]);
-    setDateTo(latestDate);
   };
 
   usePageTitle('Stock Metrics and History', selectedStock);
@@ -167,6 +97,7 @@ const StockDetailsPage = () => {
     );
   }
 
+  const stockData = getStockData(selectedStock);
   const stockSummary = getStockSummary(selectedStock);
 
   if (isLoading) {
@@ -292,63 +223,7 @@ const StockDetailsPage = () => {
         </Select>
       </div>
 
-      {/* Date Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Filter by Date Range</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {/* Preset Buttons */}
-          <div className="flex gap-1 mb-4 flex-wrap">
-            {(['1M', '3M', '6M', '1Y', 'ALL'] as const).map(range => (
-              <Button
-                key={range}
-                variant="outline"
-                size="sm"
-                onClick={() => handlePresetRange(range)}
-              >
-                {range}
-              </Button>
-            ))}
-          </div>
-
-          {/* Date Inputs */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex flex-col space-y-2">
-              <Label htmlFor="date-from" className="font-semibold">
-                From Date
-              </Label>
-              <Input
-                id="date-from"
-                type="date"
-                value={dateFrom}
-                onChange={(e) => setDateFrom(e.target.value)}
-              />
-            </div>
-
-            <div className="flex flex-col space-y-2">
-              <Label htmlFor="date-to" className="font-semibold">
-                To Date
-              </Label>
-              <Input
-                id="date-to"
-                type="date"
-                value={dateTo}
-                onChange={(e) => setDateTo(e.target.value)}
-              />
-            </div>
-          </div>
-
-          {/* Validation Warning */}
-          {dateFrom && dateTo && new Date(dateTo) < new Date(dateFrom) && (
-            <p className="text-sm text-amber-600 mt-2">
-              Warning: "To Date" is before "From Date". Showing all available data.
-            </p>
-          )}
-        </CardContent>
-      </Card>
-
-      <StockDetails stockData={getFilteredStockData} stockSummary={stockSummary} />
+      <StockDetails stockData={stockData} stockSummary={stockSummary} />
     </div>
   );
 };
