@@ -82,19 +82,22 @@ export const HorizontalNavigation = () => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" className="w-56 bg-background border shadow-lg">
-          {items.map(item => (
-            <DropdownMenuItem
-              key={item.path}
-              onClick={() => navigate(item.path)}
-              className="cursor-pointer flex items-center gap-2"
-            >
-              <item.icon className="h-4 w-4" />
-              <span>{item.label}</span>
-              {isActive(item.path) && (
-                <span className="ml-auto text-primary">✓</span>
-              )}
-            </DropdownMenuItem>
-          ))}
+          {items.map(item => {
+            const ItemIcon = item.icon;
+            return (
+              <DropdownMenuItem
+                key={item.path}
+                onClick={() => navigate(item.path)}
+                className="cursor-pointer flex items-center gap-2"
+              >
+                <ItemIcon className="h-4 w-4" />
+                <span>{item.label}</span>
+                {isActive(item.path) && (
+                  <span className="ml-auto text-primary">✓</span>
+                )}
+              </DropdownMenuItem>
+            );
+          })}
         </DropdownMenuContent>
       </DropdownMenu>
     );
