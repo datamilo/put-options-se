@@ -106,10 +106,7 @@ export const HorizontalNavigation = () => {
   return (
     <>
       {/* Desktop Horizontal Navigation */}
-      <nav className="hidden md:flex items-center gap-1 flex-wrap">
-        {/* Stock Analysis */}
-        <NavButton path="/stock-analysis" icon={LineChart} label="Stock Analysis" />
-
+      <nav className="hidden md:flex items-center gap-1 flex-wrap flex-1">
         {/* Portfolio Generator */}
         <NavButton path="/portfolio-generator" icon={Bot} label="Portfolio Generator" />
 
@@ -131,9 +128,9 @@ export const HorizontalNavigation = () => {
           ]}
         />
 
-        {/* Portfolio Research Dropdown */}
+        {/* Historical Performance and Volatility Dropdown */}
         <NavDropdown
-          label="Portfolio Research"
+          label="Historical Performance and Volatility"
           icon={Calendar}
           items={[
             {
@@ -166,6 +163,12 @@ export const HorizontalNavigation = () => {
             },
           ]}
         />
+
+        {/* Spacer to push Stock Metrics to the right */}
+        <div className="flex-1" />
+
+        {/* Stock Metrics and History */}
+        <NavButton path="/stock-analysis" icon={LineChart} label="Stock Metrics and History" />
       </nav>
 
       {/* Mobile Hamburger Menu */}
@@ -181,7 +184,7 @@ export const HorizontalNavigation = () => {
             align="start"
             className="w-56 bg-background border shadow-lg z-50"
           >
-            {/* Stock Analysis */}
+            {/* Stock Metrics and History */}
             <DropdownMenuItem
               onClick={() => navigate("/stock-analysis")}
               className="cursor-pointer"
@@ -222,9 +225,9 @@ export const HorizontalNavigation = () => {
 
             <DropdownMenuSeparator />
 
-            {/* Portfolio Research Group */}
+            {/* Historical Performance and Volatility Group */}
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
-              Portfolio Research
+              Historical Performance and Volatility
             </div>
             <DropdownMenuItem
               onClick={() => navigate("/monthly-analysis")}
