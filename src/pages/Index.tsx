@@ -404,7 +404,10 @@ const Index = () => {
           <h1 className="text-3xl font-bold mb-1">Swedish Put Options</h1>
           <p className="text-muted-foreground">Analysis and insights for Swedish equity put options</p>
         </div>
-        <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} />
+        <div className="flex flex-col items-end gap-2">
+          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label="Options data" />
+          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label="Stock data" />
+        </div>
       </div>
 
       {data.length === 0 ? (

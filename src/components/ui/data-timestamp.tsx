@@ -49,7 +49,12 @@ export function DataTimestamp({
   }, [timestamp])
 
   if (!timestamp) {
-    return null
+    return (
+      <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
+        <Clock className="h-4 w-4" />
+        <span>{label}: <span className="font-medium">Loading...</span></span>
+      </div>
+    )
   }
 
   const date = timestamp instanceof Date ? timestamp : new Date(timestamp)

@@ -222,7 +222,7 @@ const StockDetailsPage = () => {
           <p className="text-muted-foreground">{selectedStock}</p>
         </div>
         <div className="flex items-center gap-2">
-          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} />
+          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label="Stock data" />
           {isFromStock && (
             <Button
               variant="outline"
