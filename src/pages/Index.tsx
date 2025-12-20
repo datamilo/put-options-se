@@ -19,10 +19,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info, TrendingUp, RotateCcw, DollarSign, AlertTriangle, Calendar } from "lucide-react";
+import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info, TrendingUp, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { KPICard } from "@/components/ui/kpi-card";
 import { DataTimestamp } from "@/components/ui/data-timestamp";
 import { ExportButton, exportToCSV } from "@/components/ui/export-button";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbPage } from "@/components/ui/breadcrumb";
@@ -391,17 +390,6 @@ const Index = () => {
     navigate(`/stock/${encodeURIComponent(stockName)}?${searchParams.toString()}`);
   };
 
-  // Calculate KPI metrics from filtered data
-  const kpiMetrics = useMemo(() => {
-    if (filteredData.length === 0) return null;
-
-    const avgROI = filteredData.reduce((sum, opt) => sum + (opt.ROI_Percent_Recalculated || 0), 0) / filteredData.length;
-    const highRiskCount = filteredData.filter(opt => getRiskLevel(opt) === 'High Risk').length;
-    const avgDaysToExpiry = filteredData.reduce((sum, opt) => sum + opt.DaysToExpiry, 0) / filteredData.length;
-
-    return { avgROI, highRiskCount, avgDaysToExpiry };
-  }, [filteredData]);
-
   const handleExportCSV = () => {
     exportToCSV(filteredData, `swedish-put-options-${new Date().toISOString().split('T')[0]}.csv`);
     toast.success("Data exported successfully");
@@ -464,44 +452,6 @@ const Index = () => {
         </Card>
       ) : (
         <div className="space-y-4">
-          {/* KPI Cards */}
-          {kpiMetrics && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <KPICard
-                title="Total Options"
-                value={filteredData.length}
-                subtitle={`From ${filteredStocks.length} stocks`}
-                icon={FileSpreadsheet}
-                variant="default"
-              />
-              <KPICard
-                title="Avg ROI%"
-                value={`${kpiMetrics.avgROI.toFixed(1)}%`}
-                subtitle="Potential return"
-                icon={TrendingUp}
-                variant="success"
-                trend={{
-                  value: kpiMetrics.avgROI > 30 ? "Above target" : "Below target",
-                  direction: kpiMetrics.avgROI > 30 ? "up" : "down"
-                }}
-              />
-              <KPICard
-                title="High Risk Options"
-                value={kpiMetrics.highRiskCount}
-                subtitle={`${((kpiMetrics.highRiskCount / filteredData.length) * 100).toFixed(1)}% of total`}
-                icon={AlertTriangle}
-                variant={kpiMetrics.highRiskCount > filteredData.length * 0.3 ? "warning" : "default"}
-              />
-              <KPICard
-                title="Avg Days to Expiry"
-                value={Math.round(kpiMetrics.avgDaysToExpiry)}
-                subtitle="Average time remaining"
-                icon={Calendar}
-                variant="info"
-              />
-            </div>
-          )}
-
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="space-y-1">
               <div className="flex items-center gap-2">

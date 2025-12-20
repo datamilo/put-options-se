@@ -53,6 +53,29 @@ const StockDetailsPage = () => {
 
   usePageTitle('Stock Metrics and History', selectedStock);
 
+  // Get stock data - must be called before any early returns (Rules of Hooks)
+  const stockData = selectedStock ? getStockData(selectedStock) : [];
+  const stockSummary = selectedStock ? getStockSummary(selectedStock) : null;
+
+  // Calculate KPI metrics from stock data - hook must be called unconditionally
+  const kpiMetrics = useMemo(() => {
+    if (!stockSummary || stockData.length === 0) return null;
+
+    const latestPrice = stockData[stockData.length - 1]?.close || 0;
+    const oldestPrice = stockData[0]?.close || latestPrice;
+    const priceChange = latestPrice - oldestPrice;
+    const priceChangePercent = oldestPrice > 0 ? (priceChange / oldestPrice) * 100 : 0;
+
+    return {
+      currentPrice: latestPrice,
+      priceChange,
+      priceChangePercent,
+      high: stockSummary.high,
+      low: stockSummary.low,
+      dataPoints: stockData.length,
+    };
+  }, [stockData, stockSummary, selectedStock]);
+
   if (!selectedStock && isLoading) {
     return (
       <div className="container mx-auto p-6 space-y-6">
@@ -100,28 +123,6 @@ const StockDetailsPage = () => {
       </div>
     );
   }
-
-  const stockData = getStockData(selectedStock);
-  const stockSummary = getStockSummary(selectedStock);
-
-  // Calculate KPI metrics from stock data
-  const kpiMetrics = useMemo(() => {
-    if (!stockSummary || stockData.length === 0) return null;
-
-    const latestPrice = stockData[stockData.length - 1]?.close || 0;
-    const oldestPrice = stockData[0]?.close || latestPrice;
-    const priceChange = latestPrice - oldestPrice;
-    const priceChangePercent = oldestPrice > 0 ? (priceChange / oldestPrice) * 100 : 0;
-
-    return {
-      currentPrice: latestPrice,
-      priceChange,
-      priceChangePercent,
-      high: stockSummary.high,
-      low: stockSummary.low,
-      dataPoints: stockData.length,
-    };
-  }, [stockData, stockSummary]);
 
   if (isLoading) {
     return (
