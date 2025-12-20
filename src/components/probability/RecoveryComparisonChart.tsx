@@ -240,8 +240,8 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                   align="center"
                   verticalAlign="bottom"
                 />
-                <Bar dataKey="Recovery Candidates" fill="#16a34a" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Baseline" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Recovery Candidates" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="Baseline" fill="hsl(var(--chart-3))" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

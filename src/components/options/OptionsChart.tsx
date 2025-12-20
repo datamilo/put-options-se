@@ -32,7 +32,13 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
     { value: '3_ProbOfWorthless_Historical_IV', label: 'PoW - Historical IV' },
   ];
 
-  const colors = ['#2563eb', '#dc2626', '#16a34a', '#ca8a04', '#9333ea'];
+  const colors = [
+    'hsl(var(--chart-1))', // Blue
+    'hsl(var(--chart-2))', // Green
+    'hsl(var(--chart-3))', // Purple
+    'hsl(var(--chart-4))', // Pink
+    'hsl(var(--chart-5))', // Orange
+  ];
   
   const scatterData = data.map(option => {
     const dataPoint: any = {
@@ -104,7 +110,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
             </div>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={500}>
               <ScatterChart
                 margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
               >
@@ -171,7 +177,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
             <CardTitle>Options Risk Distribution</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={400}>
+            <ResponsiveContainer width="100%" height={500}>
               <BarChart data={riskData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="risk" />

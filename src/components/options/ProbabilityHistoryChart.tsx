@@ -22,27 +22,27 @@ const PROBABILITY_LINES = [
   {
     key: '1_2_3_ProbOfWorthless_Weighted',
     name: 'PoW - Weighted Average',
-    color: '#2563eb'
+    color: 'hsl(var(--chart-1))' // Blue
   },
   {
     key: 'ProbWorthless_Bayesian_IsoCal',
     name: 'PoW - Bayesian Calibrated',
-    color: '#dc2626'
+    color: 'hsl(var(--chart-4))' // Pink/Red
   },
   {
     key: '1_ProbOfWorthless_Original',
     name: 'PoW - Original Black-Scholes',
-    color: '#16a34a'
+    color: 'hsl(var(--chart-2))' // Green
   },
   {
     key: '2_ProbOfWorthless_Calibrated',
     name: 'PoW - Bias Corrected',
-    color: '#ca8a04'
+    color: 'hsl(var(--chart-5))' // Orange
   },
   {
     key: '3_ProbOfWorthless_Historical_IV',
     name: 'PoW - Historical IV',
-    color: '#9333ea'
+    color: 'hsl(var(--chart-3))' // Purple
   }
 ];
 
