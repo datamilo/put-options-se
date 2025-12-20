@@ -272,40 +272,44 @@ const StockDetailsPage = () => {
       </div>
 
       {/* KPI Cards */}
-      {kpiMetrics && (
+      {kpiMetrics && kpiMetrics.currentPrice && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <KPICard
             title="Current Price"
-            value={kpiMetrics.currentPrice.toFixed(2)}
+            value={(kpiMetrics.currentPrice || 0).toFixed(2)}
             subtitle="Latest close"
             icon={BarChart2}
             variant="default"
           />
           <KPICard
             title="Price Change"
-            value={`${kpiMetrics.priceChangePercent >= 0 ? '+' : ''}${kpiMetrics.priceChangePercent.toFixed(2)}%`}
-            subtitle={`${kpiMetrics.priceChange >= 0 ? '+' : ''}${kpiMetrics.priceChange.toFixed(2)}`}
+            value={`${kpiMetrics.priceChangePercent >= 0 ? '+' : ''}${(kpiMetrics.priceChangePercent || 0).toFixed(2)}%`}
+            subtitle={`${kpiMetrics.priceChange >= 0 ? '+' : ''}${(kpiMetrics.priceChange || 0).toFixed(2)}`}
             icon={kpiMetrics.priceChangePercent >= 0 ? TrendingUp : TrendingDown}
             variant={kpiMetrics.priceChangePercent >= 0 ? "success" : "danger"}
             trend={{
-              value: `${Math.abs(kpiMetrics.priceChange).toFixed(2)}`,
+              value: `${Math.abs(kpiMetrics.priceChange || 0).toFixed(2)}`,
               direction: kpiMetrics.priceChangePercent >= 0 ? "up" : "down"
             }}
           />
-          <KPICard
-            title="Period High"
-            value={kpiMetrics.high.toFixed(2)}
-            subtitle="Maximum price"
-            icon={TrendingUp}
-            variant="info"
-          />
-          <KPICard
-            title="Period Low"
-            value={kpiMetrics.low.toFixed(2)}
-            subtitle="Minimum price"
-            icon={TrendingDown}
-            variant="warning"
-          />
+          {kpiMetrics.high !== undefined && (
+            <KPICard
+              title="Period High"
+              value={(kpiMetrics.high || 0).toFixed(2)}
+              subtitle="Maximum price"
+              icon={TrendingUp}
+              variant="info"
+            />
+          )}
+          {kpiMetrics.low !== undefined && (
+            <KPICard
+              title="Period Low"
+              value={(kpiMetrics.low || 0).toFixed(2)}
+              subtitle="Minimum price"
+              icon={TrendingDown}
+              variant="warning"
+            />
+          )}
         </div>
       )}
 

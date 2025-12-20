@@ -24,7 +24,6 @@ import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { DataTimestamp } from "@/components/ui/data-timestamp";
 import { ExportButton, exportToCSV } from "@/components/ui/export-button";
-import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbPage } from "@/components/ui/breadcrumb";
 
 const Index = () => {
   console.log('🏠 Index component rendering');
@@ -397,15 +396,6 @@ const Index = () => {
 
   return (
     <div className="container mx-auto p-4 space-y-4">
-      {/* Breadcrumbs */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbPage>Options Dashboard</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
       {/* Page Header */}
       <div className="flex items-start justify-between">
         <div>
