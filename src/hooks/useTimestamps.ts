@@ -39,13 +39,9 @@ export const useTimestamps = () => {
             console.log('[useTimestamps] Fetching from:', url);
             response = await fetch(url, {
               method: 'GET',
-              cache: 'no-cache',
-              headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
-              }
+              cache: 'no-cache'
             });
-            console.log('[useTimestamps] Response status:', response.status);
+            console.log('[useTimestamps] Response status:', response.status, 'OK:', response.ok);
 
             if (response.ok) {
               successUrl = url;
