@@ -12,14 +12,13 @@ interface TimestampData {
 }
 
 export const useTimestamps = () => {
-  console.log('📁 useTimestamps hook called');
   const [timestamps, setTimestamps] = useState<TimestampData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadTimestamps = async () => {
-      console.log('🕒 Loading timestamps from GitHub...');
-      
+      console.log('[useTimestamps] Starting to load timestamps...');
+
       try {
         // Add cache busting to ensure fresh data
         const cacheBuster = Date.now();
@@ -28,13 +27,16 @@ export const useTimestamps = () => {
           `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?cb=${cacheBuster}`,
           `${window.location.origin}${import.meta.env.BASE_URL}data/last_updated.json?cb=${cacheBuster}`
         ];
-        
+
+        console.log('[useTimestamps] Trying URLs:', urls);
+
         let lastError: Error | null = null;
         let response: Response | null = null;
-        
+        let successUrl = '';
+
         for (const url of urls) {
           try {
-            console.log('🔗 Trying timestamp URL:', url);
+            console.log('[useTimestamps] Fetching from:', url);
             response = await fetch(url, {
               method: 'GET',
               cache: 'no-cache',
@@ -43,34 +45,36 @@ export const useTimestamps = () => {
                 'Pragma': 'no-cache',
               }
             });
+            console.log('[useTimestamps] Response status:', response.status);
+
             if (response.ok) {
-              console.log('✅ Successfully loaded timestamps from:', url);
+              successUrl = url;
               break;
             }
           } catch (error) {
-            console.warn('❌ Failed to load from:', url, error);
+            console.warn('[useTimestamps] Fetch failed for', url, error);
             lastError = error as Error;
           }
         }
-        
+
         if (!response || !response.ok) {
           throw lastError || new Error('Failed to load timestamps from any URL');
         }
 
-        console.log('📨 Response status:', response.status);
-
         const text = await response.text();
-        console.log('📄 Raw response:', text);
-        
-        const data = JSON.parse(text);
-        console.log('✅ Parsed timestamps:', data);
-        
+        console.log('[useTimestamps] Response text:', text);
+
+        const data = JSON.parse(text) as TimestampData;
+        console.log('[useTimestamps] Parsed data:', data);
+
         setTimestamps(data);
+        console.log('[useTimestamps] Successfully set timestamps');
       } catch (error) {
-        console.error('❌ Error loading timestamps:', error);
+        console.error('[useTimestamps] Error loading timestamps:', error);
         setTimestamps(null);
       } finally {
         setIsLoading(false);
+        console.log('[useTimestamps] Loading complete');
       }
     };
 
