@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTimestamps } from '@/hooks/useTimestamps';
 import { useProbabilityRecoveryData } from '@/hooks/useProbabilityRecoveryData';
 import { useProbabilityValidationData } from '@/hooks/useProbabilityValidationData';
 import { RecoveryComparisonChart } from '@/components/probability/RecoveryComparisonChart';
@@ -16,6 +17,7 @@ import { Link } from 'react-router-dom';
 
 export const ProbabilityAnalysis: React.FC = () => {
   const navigate = useNavigate();
+  const { timestamps } = useTimestamps();
   const { isLoading: recoveryLoading, error: recoveryError, stocks, chartData, stockChartData } = useProbabilityRecoveryData();
   const { calibrationData, isLoading: validationLoading, error: validationError, getCalibrationPoints } = useProbabilityValidationData();
   const isLoading = recoveryLoading || validationLoading;
@@ -108,7 +110,7 @@ export const ProbabilityAnalysis: React.FC = () => {
           <p className="text-muted-foreground">Method validation and recovery opportunities</p>
         </div>
         <div className="flex items-center gap-2">
-          <DataTimestamp timestamp={new Date()} />
+          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} />
           <div className="flex items-center gap-2">
               {/* PoW Legend Info Button */}
               <Dialog>

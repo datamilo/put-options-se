@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useStockData } from "@/hooks/useStockData";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { useTimestamps } from "@/hooks/useTimestamps";
 import { StockDetails } from "@/components/stock/StockDetails";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,6 +21,7 @@ const StockDetailsPage = () => {
   const { stockName: paramStockName } = useParams<{ stockName: string }>();
   const navigate = useNavigate();
   const { getStockData, getStockSummary, isLoading, error, getAllStockNames } = useStockData();
+  const { timestamps } = useTimestamps();
 
   const isFromStock = paramStockName !== undefined;
   const decodedParamStockName = paramStockName ? decodeURIComponent(paramStockName) : '';
@@ -220,7 +222,7 @@ const StockDetailsPage = () => {
           <p className="text-muted-foreground">{selectedStock}</p>
         </div>
         <div className="flex items-center gap-2">
-          <DataTimestamp timestamp={new Date()} />
+          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} />
           {isFromStock && (
             <Button
               variant="outline"

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { useTimestamps } from "@/hooks/useTimestamps";
 import { OptionData } from "@/types/options";
 import { OptionsTable } from "@/components/options/OptionsTable";
 import { OptionsChart } from "@/components/options/OptionsChart";
@@ -36,6 +37,7 @@ const Index = () => {
   const { data, isLoading, error, loadMockData } = useEnrichedOptionsData();
   const { getStockSummary, getLowPriceForPeriod } = useStockData();
   const { settings: savedFilters, isLoading: isLoadingPreferences, saveSettings: saveFilterSettings } = useMainPagePreferences();
+  const { timestamps } = useTimestamps();
   
   // Initialize filter state - will be populated from preferences or URL
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
@@ -402,7 +404,7 @@ const Index = () => {
           <h1 className="text-3xl font-bold mb-1">Swedish Put Options</h1>
           <p className="text-muted-foreground">Analysis and insights for Swedish equity put options</p>
         </div>
-        <DataTimestamp timestamp={new Date()} />
+        <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} />
       </div>
 
       {data.length === 0 ? (
