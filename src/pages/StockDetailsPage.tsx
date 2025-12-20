@@ -10,8 +10,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart2 } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { KPICard } from "@/components/ui/kpi-card";
+import { DataTimestamp } from "@/components/ui/data-timestamp";
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 
 const StockDetailsPage = () => {
   const { stockName: paramStockName } = useParams<{ stockName: string }>();
@@ -99,6 +103,25 @@ const StockDetailsPage = () => {
 
   const stockData = getStockData(selectedStock);
   const stockSummary = getStockSummary(selectedStock);
+
+  // Calculate KPI metrics from stock data
+  const kpiMetrics = useMemo(() => {
+    if (!stockSummary || stockData.length === 0) return null;
+
+    const latestPrice = stockData[stockData.length - 1]?.close || 0;
+    const oldestPrice = stockData[0]?.close || latestPrice;
+    const priceChange = latestPrice - oldestPrice;
+    const priceChangePercent = oldestPrice > 0 ? (priceChange / oldestPrice) * 100 : 0;
+
+    return {
+      currentPrice: latestPrice,
+      priceChange,
+      priceChangePercent,
+      high: stockSummary.high,
+      low: stockSummary.low,
+      dataPoints: stockData.length,
+    };
+  }, [stockData, stockSummary]);
 
   if (isLoading) {
     return (
@@ -193,21 +216,45 @@ const StockDetailsPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between gap-4 flex-wrap">
-        <h1 className="text-3xl font-bold">Stock Metrics and History</h1>
-        {isFromStock && (
-          <Button
-            variant="outline"
-            onClick={handleBackClick}
-            className="flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Options
-          </Button>
-        )}
+    <div className="container mx-auto p-4 space-y-4">
+      {/* Breadcrumbs */}
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/">Options Dashboard</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Stock Metrics and History</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
+      {/* Page Header */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-1">Stock Metrics and History</h1>
+          <p className="text-muted-foreground">{selectedStock}</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <DataTimestamp timestamp={new Date()} />
+          {isFromStock && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleBackClick}
+              className="flex items-center gap-2"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back
+            </Button>
+          )}
+        </div>
       </div>
 
+      {/* Stock Selector */}
       <div className="w-full max-w-xs">
         <Select value={selectedStock} onValueChange={handleStockChange}>
           <SelectTrigger>
@@ -222,6 +269,44 @@ const StockDetailsPage = () => {
           </SelectContent>
         </Select>
       </div>
+
+      {/* KPI Cards */}
+      {kpiMetrics && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <KPICard
+            title="Current Price"
+            value={kpiMetrics.currentPrice.toFixed(2)}
+            subtitle="Latest close"
+            icon={BarChart2}
+            variant="default"
+          />
+          <KPICard
+            title="Price Change"
+            value={`${kpiMetrics.priceChangePercent >= 0 ? '+' : ''}${kpiMetrics.priceChangePercent.toFixed(2)}%`}
+            subtitle={`${kpiMetrics.priceChange >= 0 ? '+' : ''}${kpiMetrics.priceChange.toFixed(2)}`}
+            icon={kpiMetrics.priceChangePercent >= 0 ? TrendingUp : TrendingDown}
+            variant={kpiMetrics.priceChangePercent >= 0 ? "success" : "danger"}
+            trend={{
+              value: `${Math.abs(kpiMetrics.priceChange).toFixed(2)}`,
+              direction: kpiMetrics.priceChangePercent >= 0 ? "up" : "down"
+            }}
+          />
+          <KPICard
+            title="Period High"
+            value={kpiMetrics.high.toFixed(2)}
+            subtitle="Maximum price"
+            icon={TrendingUp}
+            variant="info"
+          />
+          <KPICard
+            title="Period Low"
+            value={kpiMetrics.low.toFixed(2)}
+            subtitle="Minimum price"
+            icon={TrendingDown}
+            variant="warning"
+          />
+        </div>
+      )}
 
       <StockDetails stockData={stockData} stockSummary={stockSummary} />
     </div>

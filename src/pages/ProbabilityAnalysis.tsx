@@ -8,7 +8,11 @@ import { MethodComparisonChart } from '@/components/probability/MethodComparison
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Loader2, ArrowLeft, LineChart, TrendingUp, Info } from 'lucide-react';
+import { Loader2, ArrowLeft, LineChart, TrendingUp, Info, Activity, Target, CheckCircle2 } from 'lucide-react';
+import { KPICard } from '@/components/ui/kpi-card';
+import { DataTimestamp } from '@/components/ui/data-timestamp';
+import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { Link } from 'react-router-dom';
 
 export const ProbabilityAnalysis: React.FC = () => {
   const navigate = useNavigate();
@@ -40,6 +44,24 @@ export const ProbabilityAnalysis: React.FC = () => {
     return Array.from(new Set(stocks)).sort();
   }, [calibrationData]);
 
+  // Calculate KPI metrics
+  const kpiMetrics = useMemo(() => {
+    if (!stocks.length || !calibrationData.length) return null;
+
+    const totalRecoveryCandidates = stocks.reduce((sum, stock) => sum + stock.RecoveryCandidates, 0);
+    const totalBaseline = stocks.reduce((sum, stock) => sum + stock.Baseline, 0);
+    const avgAccuracy = calibrationData
+      .filter(d => d.DataType === 'calibration_overall')
+      .reduce((sum, d, _, arr) => sum + (d.ActualRate / arr.length), 0);
+
+    return {
+      totalRecoveryCandidates,
+      totalBaseline,
+      avgAccuracy: avgAccuracy * 100,
+      stocksAnalyzed: stocks.length,
+    };
+  }, [stocks, calibrationData]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -63,28 +85,31 @@ export const ProbabilityAnalysis: React.FC = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="container mx-auto p-4 space-y-4">
+      {/* Breadcrumbs */}
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/">Options Dashboard</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Probability Analysis</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+
       {/* Page Header */}
-      <div className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => navigate(-1)}
-                className="h-10 w-10 p-0"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <div className="flex items-center gap-3">
-                <LineChart className="h-6 w-6 text-blue-600" />
-                <div>
-                  <h1 className="text-2xl font-bold">Probability Analysis</h1>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold mb-1">Probability Analysis</h1>
+          <p className="text-muted-foreground">Method validation and recovery opportunities</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <DataTimestamp timestamp={new Date()} />
+          <div className="flex items-center gap-2">
               {/* PoW Legend Info Button */}
               <Dialog>
                 <DialogTrigger asChild>
@@ -123,13 +148,46 @@ export const ProbabilityAnalysis: React.FC = () => {
                 </DialogContent>
               </Dialog>
               <TrendingUp className="h-6 w-6 text-muted-foreground" />
-            </div>
           </div>
         </div>
       </div>
 
+      {/* KPI Cards */}
+      {kpiMetrics && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <KPICard
+            title="Recovery Candidates"
+            value={kpiMetrics.totalRecoveryCandidates}
+            subtitle="High probability options"
+            icon={TrendingUp}
+            variant="success"
+          />
+          <KPICard
+            title="Baseline Options"
+            value={kpiMetrics.totalBaseline}
+            subtitle="Standard probability"
+            icon={Activity}
+            variant="default"
+          />
+          <KPICard
+            title="Avg Accuracy"
+            value={`${kpiMetrics.avgAccuracy.toFixed(1)}%`}
+            subtitle="Model calibration"
+            icon={Target}
+            variant="info"
+          />
+          <KPICard
+            title="Stocks Analyzed"
+            value={kpiMetrics.stocksAnalyzed}
+            subtitle="Unique securities"
+            icon={CheckCircle2}
+            variant="default"
+          />
+        </div>
+      )}
+
       {/* Main Content */}
-      <div className="flex-1 container mx-auto p-6 space-y-6">
+      <div className="space-y-6">
         {/* Executive Overview - Two Column Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Calibration Analysis Overview */}
