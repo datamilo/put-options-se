@@ -11,6 +11,14 @@ export interface DataTimestampProps {
   className?: string
 }
 
+// Helper function to parse timestamps in "YYYY-MM-DD HH:mm:ss" format
+const parseTimestamp = (ts: Date | string): Date => {
+  if (ts instanceof Date) return ts
+  // Convert "2025-12-19 20:59:59" to "2025-12-19T20:59:59" for proper parsing
+  const isoFormat = typeof ts === 'string' ? ts.replace(' ', 'T') : ts
+  return new Date(isoFormat)
+}
+
 export function DataTimestamp({
   timestamp,
   label = "Last updated",
@@ -23,7 +31,14 @@ export function DataTimestamp({
   React.useEffect(() => {
     if (!timestamp) return
 
-    const date = timestamp instanceof Date ? timestamp : new Date(timestamp)
+    const date = parseTimestamp(timestamp)
+
+    // Validate the date was parsed correctly
+    if (isNaN(date.getTime())) {
+      console.warn('Invalid timestamp format:', timestamp)
+      return
+    }
+
     const updateTimeAgo = () => {
       const now = new Date()
       const diff = now.getTime() - date.getTime()
@@ -57,8 +72,8 @@ export function DataTimestamp({
     )
   }
 
-  const date = timestamp instanceof Date ? timestamp : new Date(timestamp)
-  const formattedDate = date.toLocaleString()
+  const date = parseTimestamp(timestamp)
+  const formattedDate = isNaN(date.getTime()) ? "Invalid date" : date.toLocaleString()
 
   return (
     <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
