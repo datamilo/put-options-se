@@ -10,9 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowLeft, Loader2, TrendingUp, TrendingDown, Activity, BarChart2 } from "lucide-react";
-import { useState, useEffect, useMemo } from "react";
-import { KPICard } from "@/components/ui/kpi-card";
+import { ArrowLeft, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 import { DataTimestamp } from "@/components/ui/data-timestamp";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
@@ -53,28 +52,9 @@ const StockDetailsPage = () => {
 
   usePageTitle('Stock Metrics and History', selectedStock);
 
-  // Get stock data - must be called before any early returns (Rules of Hooks)
+  // Get stock data
   const stockData = selectedStock ? getStockData(selectedStock) : [];
   const stockSummary = selectedStock ? getStockSummary(selectedStock) : null;
-
-  // Calculate KPI metrics from stock data - hook must be called unconditionally
-  const kpiMetrics = useMemo(() => {
-    if (!stockSummary || stockData.length === 0) return null;
-
-    const latestPrice = stockData[stockData.length - 1]?.close || 0;
-    const oldestPrice = stockData[0]?.close || latestPrice;
-    const priceChange = latestPrice - oldestPrice;
-    const priceChangePercent = oldestPrice > 0 ? (priceChange / oldestPrice) * 100 : 0;
-
-    return {
-      currentPrice: latestPrice,
-      priceChange,
-      priceChangePercent,
-      high: stockSummary.high,
-      low: stockSummary.low,
-      dataPoints: stockData.length,
-    };
-  }, [stockData, stockSummary, selectedStock]);
 
   if (!selectedStock && isLoading) {
     return (
@@ -270,48 +250,6 @@ const StockDetailsPage = () => {
           </SelectContent>
         </Select>
       </div>
-
-      {/* KPI Cards */}
-      {kpiMetrics && kpiMetrics.currentPrice && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <KPICard
-            title="Current Price"
-            value={(kpiMetrics.currentPrice || 0).toFixed(2)}
-            subtitle="Latest close"
-            icon={BarChart2}
-            variant="default"
-          />
-          <KPICard
-            title="Price Change"
-            value={`${kpiMetrics.priceChangePercent >= 0 ? '+' : ''}${(kpiMetrics.priceChangePercent || 0).toFixed(2)}%`}
-            subtitle={`${kpiMetrics.priceChange >= 0 ? '+' : ''}${(kpiMetrics.priceChange || 0).toFixed(2)}`}
-            icon={kpiMetrics.priceChangePercent >= 0 ? TrendingUp : TrendingDown}
-            variant={kpiMetrics.priceChangePercent >= 0 ? "success" : "danger"}
-            trend={{
-              value: `${Math.abs(kpiMetrics.priceChange || 0).toFixed(2)}`,
-              direction: kpiMetrics.priceChangePercent >= 0 ? "up" : "down"
-            }}
-          />
-          {kpiMetrics.high !== undefined && (
-            <KPICard
-              title="Period High"
-              value={(kpiMetrics.high || 0).toFixed(2)}
-              subtitle="Maximum price"
-              icon={TrendingUp}
-              variant="info"
-            />
-          )}
-          {kpiMetrics.low !== undefined && (
-            <KPICard
-              title="Period Low"
-              value={(kpiMetrics.low || 0).toFixed(2)}
-              subtitle="Minimum price"
-              icon={TrendingDown}
-              variant="warning"
-            />
-          )}
-        </div>
-      )}
 
       <StockDetails stockData={stockData} stockSummary={stockSummary} />
     </div>
