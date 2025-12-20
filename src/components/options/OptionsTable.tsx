@@ -492,7 +492,7 @@ export const OptionsTable = ({
                             {formatValue(option[column as keyof OptionData], column)}
                           </span>
                         ) : column === 'StockName' ? (
-                          <span className="font-medium text-secondary-foreground hover:text-primary transition-colors">
+                          <span className="font-medium text-foreground hover:text-primary transition-colors">
                             {formatValue(option[column as keyof OptionData], column)}
                           </span>
                         ) : (
