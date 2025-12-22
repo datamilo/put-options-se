@@ -26,43 +26,6 @@ export function DataTimestamp({
   onRefresh,
   className,
 }: DataTimestampProps) {
-  const [timeAgo, setTimeAgo] = React.useState<string>("")
-
-  React.useEffect(() => {
-    if (!timestamp) return
-
-    const date = parseTimestamp(timestamp)
-
-    // Validate the date was parsed correctly
-    if (isNaN(date.getTime())) {
-      console.warn('Invalid timestamp format:', timestamp)
-      return
-    }
-
-    const updateTimeAgo = () => {
-      const now = new Date()
-      const diff = now.getTime() - date.getTime()
-      const minutes = Math.floor(diff / 60000)
-      const hours = Math.floor(diff / 3600000)
-      const days = Math.floor(diff / 86400000)
-
-      if (days > 0) {
-        setTimeAgo(`${days}d ago`)
-      } else if (hours > 0) {
-        setTimeAgo(`${hours}h ago`)
-      } else if (minutes > 0) {
-        setTimeAgo(`${minutes}m ago`)
-      } else {
-        setTimeAgo("Just now")
-      }
-    }
-
-    updateTimeAgo()
-    const interval = setInterval(updateTimeAgo, 60000) // Update every minute
-
-    return () => clearInterval(interval)
-  }, [timestamp])
-
   if (!timestamp) {
     return (
       <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
@@ -73,13 +36,30 @@ export function DataTimestamp({
   }
 
   const date = parseTimestamp(timestamp)
-  const formattedDate = isNaN(date.getTime()) ? "Invalid date" : date.toLocaleString()
+
+  if (isNaN(date.getTime())) {
+    console.warn('Invalid timestamp format:', timestamp)
+    return (
+      <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
+        <Clock className="h-4 w-4" />
+        <span>{label}: <span className="font-medium">Invalid date</span></span>
+      </div>
+    )
+  }
+
+  // Format as YYYY-MM-DD HH:MM
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const formattedTimestamp = `${year}-${month}-${day} ${hours}:${minutes}`
 
   return (
     <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
       <Clock className="h-4 w-4" />
-      <span title={formattedDate}>
-        {label}: <span className="font-medium">{timeAgo}</span>
+      <span>
+        {label}: <span className="font-medium">{formattedTimestamp}</span>
       </span>
       {showRefresh && onRefresh && (
         <Button
