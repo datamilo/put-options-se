@@ -14,6 +14,7 @@ import { useMonthlyStockData, MonthlyStockStats } from '@/hooks/useMonthlyStockD
 import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonalityHeatmap';
 import { MonthlyStatsTable } from '@/components/monthly/MonthlyStatsTable';
 import { TimelinePerformanceChart } from '@/components/monthly/TimelinePerformanceChart';
+import { DayOfMonthAnalysis } from '@/components/monthly/DayOfMonthAnalysis';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -335,6 +336,14 @@ export const MonthlyAnalysis = () => {
             <TimelinePerformanceChart data={monthlyData} selectedStock={selectedStock} />
           </CardContent>
         </Card>
+
+        {/* Day-of-Month Analysis Section */}
+        <DayOfMonthAnalysis
+          monthlyData={monthlyData}
+          selectedMonths={selectedMonths}
+          selectedStock={selectedStock}
+          minHistory={minHistory[0]}
+        />
 
         {/* Interactive Table */}
         <Card>
