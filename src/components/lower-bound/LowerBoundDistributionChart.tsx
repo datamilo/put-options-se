@@ -313,16 +313,17 @@ export const LowerBoundDistributionChart: React.FC<
       },
       yaxis: {
         title: 'Price (SEK)',
-        side: 'left',
+        side: 'right',
         domain: [0.40, 1], // Start from 0.40 to leave gap
       },
       yaxis2: {
         title: 'Breach Count',
-        side: 'right',
+        side: 'left',
         overlaying: 'y',
         showgrid: false,
         range: [0, Math.max(maxBreachCount * 3, 1)],
         domain: [0.40, 1],
+        showticklabels: false,
       },
 
       // ROW 2: Span percentage chart (bottom ~35% with top margin for spacing)
@@ -411,7 +412,7 @@ export const LowerBoundDistributionChart: React.FC<
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-red-500 mr-2"></span>
-          <strong>Red bars</strong> = Breach count per expiry date (right y-axis)
+          <strong>Red bars</strong> = Breach count per expiry date (left y-axis)
         </p>
         <p>
           <span className="inline-block w-3 h-3 mr-2" style={{ backgroundColor: 'rgb(76, 175, 80)' }}></span>
