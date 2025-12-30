@@ -75,19 +75,8 @@ export const ConsecutiveBreaksAnalysis = () => {
     }
   }, [analysis, dateFrom, dateTo]);
 
-  if (uniqueStocks.length === 0) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card>
-          <CardContent className="pt-6">
-            <p className="text-muted-foreground">Loading stock data...</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
   // Filter earnings dates for selected stock
+  // IMPORTANT: This must be before the early return to avoid React Hooks violation
   const earningsEvents = useMemo(() => {
     if (!selectedStock || !analysis) return [];
 
@@ -111,6 +100,18 @@ export const ConsecutiveBreaksAnalysis = () => {
       })
       .filter(Boolean);
   }, [selectedStock, analysis, volatilityData]);
+
+  if (uniqueStocks.length === 0) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card>
+          <CardContent className="pt-6">
+            <p className="text-muted-foreground">Loading stock data...</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   // Create Plotly traces
   const plotlyTraces = analysis
