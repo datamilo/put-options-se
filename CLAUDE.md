@@ -97,6 +97,25 @@ All pages are accessible via the horizontal navigation bar (desktop) or expandab
 - `Stock_Events_Volatility_Data.csv` - Earnings and financial event volatility data
 - `Stocks_Monthly_Data.csv` - Monthly aggregated stock performance data
 
+### Data Timestamps
+
+**Timestamp File**: `last_updated.json` - Tracks when data and analysis were last updated
+
+**Three Timestamp Fields**:
+- `optionsData.lastUpdated` - When put options price data was downloaded
+- `stockData.lastUpdated` - When stock price data was downloaded
+- `analysisCompleted.lastUpdated` - When calculations and analysis were completed
+
+**Implementation**:
+- **Hook**: `useTimestamps` (src/hooks/useTimestamps.ts) - Loads timestamp data with fallback URLs and cache busting
+- **Component**: `DataTimestamp` (src/components/ui/data-timestamp.tsx) - Displays formatted timestamps with clock icon
+- **Format**: Timestamps stored as `YYYY-MM-DD HH:mm:ss`, displayed as `YYYY-MM-DD HH:mm`
+
+**Pages Displaying Timestamps**:
+- **Index Page** (/) - Shows all three timestamps (options data, stock data, analysis updated)
+- **Stock Details Page** (/stock/:stockName) - Shows stock data and analysis updated timestamps
+- **Probability Analysis Page** (/probability-analysis) - Shows options data and analysis updated timestamps
+
 ---
 
 ## Settings Architecture
