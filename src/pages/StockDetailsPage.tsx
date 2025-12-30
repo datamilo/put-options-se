@@ -192,7 +192,7 @@ const StockDetailsPage = () => {
             <h1 className="text-3xl font-bold">Stock Metrics and History</h1>
           </div>
           <div className="w-full max-w-xs">
-            <Select value={selectedStock} onValueChange={handleStockChange}>
+            <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a stock..." />
               </SelectTrigger>
@@ -258,7 +258,7 @@ const StockDetailsPage = () => {
 
       {/* Stock Selector */}
       <div className="w-full max-w-xs">
-        <Select value={selectedStock} onValueChange={handleStockChange}>
+        <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
           <SelectTrigger>
             <SelectValue placeholder="Select a stock..." />
           </SelectTrigger>
