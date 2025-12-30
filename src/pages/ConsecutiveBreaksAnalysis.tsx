@@ -4,6 +4,7 @@ import { usePageTitle } from '@/hooks/usePageTitle';
 import { useSearchParams } from 'react-router-dom';
 import Plot from 'react-plotly.js';
 import { useConsecutiveBreaksAnalysis } from '@/hooks/useConsecutiveBreaksAnalysis';
+import { useVolatilityData } from '@/hooks/useVolatilityData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Select,
@@ -29,6 +30,7 @@ export const ConsecutiveBreaksAnalysis = () => {
   const [searchParams] = useSearchParams();
   const { uniqueStocks, selectedStock, setSelectedStock, analyzeStock } =
     useConsecutiveBreaksAnalysis();
+  const { volatilityData } = useVolatilityData();
 
   // Filter parameters
   const [dateFrom, setDateFrom] = useState<string>('');
@@ -85,6 +87,31 @@ export const ConsecutiveBreaksAnalysis = () => {
     );
   }
 
+  // Filter earnings dates for selected stock
+  const earningsEvents = useMemo(() => {
+    if (!selectedStock || !analysis) return [];
+
+    // Filter volatility data for the selected stock
+    const stockEvents = volatilityData.filter(
+      (event) => event.name === selectedStock
+    );
+
+    // Match earnings dates with price data to get y-values
+    return stockEvents
+      .map((event) => {
+        // Find the corresponding price data for this date
+        const priceData = analysis.data.find((d) => d.date.startsWith(event.date));
+        if (!priceData) return null;
+
+        return {
+          date: event.date,
+          price: priceData.high, // Position marker at the high of the day
+          type: event.type_of_event,
+        };
+      })
+      .filter(Boolean);
+  }, [selectedStock, analysis, volatilityData]);
+
   // Create Plotly traces
   const plotlyTraces = analysis
     ? [
@@ -123,6 +150,27 @@ export const ConsecutiveBreaksAnalysis = () => {
           hovertemplate:
             '<b>%{x}</b><br>Support: %{y:.2f} kr<br>%{text}<extra></extra>',
         },
+        // Earnings events trace
+        ...(earningsEvents.length > 0
+          ? [
+              {
+                type: 'scatter',
+                mode: 'markers',
+                x: earningsEvents.map((e) => e.date),
+                y: earningsEvents.map((e) => e.price),
+                name: 'Earnings',
+                marker: {
+                  color: '#9333EA',
+                  size: 8,
+                  symbol: 'diamond',
+                  line: { color: '#FFFFFF', width: 1 },
+                },
+                text: earningsEvents.map((e) => e.type),
+                hovertemplate:
+                  '<b>%{x|%Y-%m-%d}</b><br>Earnings Event<br>Type: %{text}<extra></extra>',
+              },
+            ]
+          : []),
       ]
     : [];
 

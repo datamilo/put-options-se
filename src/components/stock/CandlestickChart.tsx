@@ -9,8 +9,10 @@ import {
   Legend,
   ResponsiveContainer,
   Bar,
-  Line
+  Line,
+  Scatter
 } from "recharts";
+import { useVolatilityData } from "@/hooks/useVolatilityData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -86,6 +88,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
   const [showVolume, setShowVolume] = useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<string>('');
   const [dateTo, setDateTo] = useState<string>('');
+  const { volatilityData } = useVolatilityData();
 
   // Initialize default date values on component mount
   useEffect(() => {
@@ -131,6 +134,43 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
     return filtered;
   }, [data, timeRange, dateFrom, dateTo]);
 
+  // Filter earnings events for the selected stock and date range
+  const earningsEvents = useMemo(() => {
+    if (!stockName || !volatilityData.length) return [];
+
+    // Filter volatility data for the selected stock
+    const stockEvents = volatilityData.filter(
+      (event) => event.name === stockName
+    );
+
+    // Match earnings dates with filtered price data
+    return stockEvents
+      .map((event) => {
+        // Find the corresponding price data for this date
+        const priceData = filteredData.find((d) => d.date === event.date);
+        if (!priceData) return null;
+
+        return {
+          date: event.date,
+          earningsMarker: priceData.high * 1.02, // Position marker 2% above the high
+          type: event.type_of_event,
+        };
+      })
+      .filter(Boolean);
+  }, [stockName, volatilityData, filteredData]);
+
+  // Merge earnings events into chart data
+  const chartData = useMemo(() => {
+    return filteredData.map((d) => {
+      const earningsEvent = earningsEvents.find((e) => e.date === d.date);
+      return {
+        ...d,
+        earningsMarker: earningsEvent ? earningsEvent.earningsMarker : null,
+        earningsType: earningsEvent ? earningsEvent.type : null,
+      };
+    });
+  }, [filteredData, earningsEvents]);
+
   // Handle preset button clicks - set dates instead of just timeRange
   const handlePresetRange = (range: '1M' | '3M' | '6M' | '1Y' | 'ALL') => {
     setTimeRange(range);
@@ -150,13 +190,18 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
 
   // Calculate dynamic Y-axis domain for better price visualization
   const getPriceDomain = () => {
-    if (filteredData.length === 0) return ['auto', 'auto'];
+    if (chartData.length === 0) return ['auto', 'auto'];
 
-    const highs = filteredData.map(d => d.high);
-    const lows = filteredData.map(d => d.low);
+    const highs = chartData.map(d => d.high);
+    const lows = chartData.map(d => d.low);
+
+    // Include earnings markers in the domain calculation
+    const earningsMarkers = chartData
+      .map(d => d.earningsMarker)
+      .filter(Boolean) as number[];
 
     const minPrice = Math.min(...lows);
-    const maxPrice = Math.max(...highs);
+    const maxPrice = Math.max(...highs, ...earningsMarkers);
     const padding = (maxPrice - minPrice) * 0.1; // 10% padding
 
     return [Math.max(0, minPrice - padding), maxPrice + padding];
@@ -164,9 +209,9 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
 
   // Enhanced date formatting logic
   const getXAxisTicks = () => {
-    if (filteredData.length === 0) return [];
+    if (chartData.length === 0) return [];
 
-    const sortedData = [...filteredData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    const sortedData = [...chartData].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     let tickData = [];
 
@@ -210,6 +255,17 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
       return (
         <div className="bg-card border rounded-lg p-3 shadow-lg">
           <p className="font-semibold mb-2">{new Date(data.date).toLocaleDateString()}</p>
+          {data.earningsMarker && (
+            <div className="mb-2 pb-2 border-b">
+              <p className="flex items-center gap-2 text-sm font-semibold text-purple-600">
+                <span>💎</span>
+                <span>Earnings Event</span>
+              </p>
+              {data.earningsType && (
+                <p className="text-xs text-muted-foreground ml-6">{data.earningsType}</p>
+              )}
+            </div>
+          )}
           <div className="space-y-1 text-sm">
             <p className="flex justify-between gap-4">
               <span className="text-muted-foreground">Open:</span>
@@ -271,7 +327,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
   // Custom candlestick renderer using Bar component
   const renderCandlestick = (props: any) => {
     const { x, y, width, height, index } = props;
-    const dataPoint = filteredData[index];
+    const dataPoint = chartData[index];
 
     if (!dataPoint) return null;
 
@@ -386,7 +442,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
       <CardContent>
         <div className="h-96">
           <ResponsiveContainer width="100%" height="100%">
-            <ComposedChart data={filteredData}>
+            <ComposedChart data={chartData}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
               <XAxis
                 dataKey="date"
@@ -425,6 +481,14 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
                   name="Volume"
                 />
               )}
+              <Scatter
+                yAxisId="price"
+                dataKey="earningsMarker"
+                fill="#9333EA"
+                shape="diamond"
+                name="Earnings"
+                isAnimationActive={false}
+              />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
