@@ -12,6 +12,7 @@ import {
   Line,
   Scatter
 } from "recharts";
+import { FileText } from "lucide-react";
 import { useVolatilityData } from "@/hooks/useVolatilityData";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -81,6 +82,59 @@ const transformDataForCandlestick = (data: StockData[]) => {
     range: [d.low, d.high],
     body: [Math.min(d.open, d.close), Math.max(d.open, d.close)]
   }));
+};
+
+// Custom shape renderer for earnings markers using FileText icon
+const EarningsMarkerShape = (props: any) => {
+  const { cx, cy, fill } = props;
+
+  if (cx === undefined || cy === undefined) return null;
+
+  // Render a small document icon-like shape
+  const iconSize = 14;
+  const x = cx - iconSize / 2;
+  const y = cy - iconSize / 2;
+
+  return (
+    <g>
+      {/* Document body */}
+      <rect
+        x={x}
+        y={y}
+        width={iconSize - 2}
+        height={iconSize}
+        fill={fill || '#991B1B'}
+        stroke="#000000"
+        strokeWidth={1}
+        rx={1}
+      />
+      {/* Document lines */}
+      <line
+        x1={x + 2}
+        y1={y + 3}
+        x2={x + iconSize - 4}
+        y2={y + 3}
+        stroke="#000000"
+        strokeWidth={0.5}
+      />
+      <line
+        x1={x + 2}
+        y1={y + 6}
+        x2={x + iconSize - 4}
+        y2={y + 6}
+        stroke="#000000"
+        strokeWidth={0.5}
+      />
+      <line
+        x1={x + 2}
+        y1={y + 9}
+        x2={x + iconSize - 4}
+        y2={y + 9}
+        stroke="#000000"
+        strokeWidth={0.5}
+      />
+    </g>
+  );
 };
 
 export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => {
@@ -257,8 +311,8 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
           <p className="font-semibold mb-2">{new Date(data.date).toLocaleDateString()}</p>
           {data.earningsMarker && (
             <div className="mb-2 pb-2 border-b">
-              <p className="flex items-center gap-2 text-sm font-semibold text-purple-600">
-                <span>⭐</span>
+              <p className="flex items-center gap-2 text-sm font-semibold text-red-900">
+                <FileText size={16} />
                 <span>Earnings Event</span>
               </p>
             </div>
@@ -481,8 +535,8 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
               <Scatter
                 yAxisId="price"
                 dataKey="earningsMarker"
-                fill="#9333EA"
-                shape="star"
+                fill="#991B1B"
+                shape={<EarningsMarkerShape fill="#991B1B" />}
                 name="Earnings"
                 isAnimationActive={false}
               />
