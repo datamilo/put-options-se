@@ -210,7 +210,8 @@ export const useStockData = () => {
   };
 
   const getAllStockNames = (): string[] => {
-    const uniqueNames = Array.from(new Set(allStockData.map(d => d.name)));
+    const uniqueNames = Array.from(new Set(allStockData.map(d => d.name)))
+      .filter(name => name && name.trim() !== ''); // Filter out empty/whitespace names
     return uniqueNames.sort();
   };
 
