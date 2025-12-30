@@ -1,10 +1,14 @@
 {
   "optionsData": {
-    "lastUpdated": "2025-12-22 13:39:15",
+    "lastUpdated": "2025-12-29 17:30:00",
     "description": "Put options price data"
   },
   "stockData": {
-    "lastUpdated": "2025-12-22 13:36:37",
+    "lastUpdated": "2025-12-29 17:30:00",
     "description": "Stock price data"
+  },
+  "analysisCompleted": {
+    "lastUpdated": "2025-12-30 08:32:46",
+    "description": "Analysis and calculations completed"
   }
 }
