@@ -407,6 +407,7 @@ const Index = () => {
         <div className="flex flex-col items-end gap-2">
           <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label="Options data" />
           <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label="Stock data" />
+          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label="Analysis updated" />
         </div>
       </div>
 

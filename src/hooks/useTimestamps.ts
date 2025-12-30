@@ -9,6 +9,10 @@ interface TimestampData {
     lastUpdated: string;
     description: string;
   };
+  analysisCompleted: {
+    lastUpdated: string;
+    description: string;
+  };
 }
 
 export const useTimestamps = () => {

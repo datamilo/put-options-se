@@ -109,8 +109,9 @@ export const ProbabilityAnalysis: React.FC = () => {
           <h1 className="text-3xl font-bold mb-1">Probability Analysis</h1>
           <p className="text-muted-foreground">Method validation and recovery opportunities</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-end gap-2">
           <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label="Options data" />
+          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label="Analysis updated" />
           <div className="flex items-center gap-2">
               {/* PoW Legend Info Button */}
               <Dialog>

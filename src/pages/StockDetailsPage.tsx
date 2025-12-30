@@ -221,8 +221,9 @@ const StockDetailsPage = () => {
           <h1 className="text-3xl font-bold mb-1">Stock Metrics and History</h1>
           <p className="text-muted-foreground">{selectedStock}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col items-end gap-2">
           <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label="Stock data" />
+          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label="Analysis updated" />
           {isFromStock && (
             <Button
               variant="outline"
