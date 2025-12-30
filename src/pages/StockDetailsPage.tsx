@@ -98,9 +98,27 @@ const StockDetailsPage = () => {
             </Button>
           </div>
         )}
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">No Stock Selected</h1>
-          <p className="text-muted-foreground mt-2">Please select a stock to view.</p>
+        <div className="space-y-4">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold">No Stock Selected</h1>
+            <p className="text-muted-foreground mt-2">Please select a stock to view.</p>
+          </div>
+          {allStocks.length > 0 && (
+            <div className="w-full max-w-xs mx-auto">
+              <Select value={selectedStock || ''} onValueChange={handleStockChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a stock..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {allStocks.map((stock) => (
+                    <SelectItem key={stock} value={stock}>
+                      {stock}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
       </div>
     );
