@@ -258,12 +258,9 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
           {data.earningsMarker && (
             <div className="mb-2 pb-2 border-b">
               <p className="flex items-center gap-2 text-sm font-semibold text-purple-600">
-                <span>💎</span>
+                <span>⭐</span>
                 <span>Earnings Event</span>
               </p>
-              {data.earningsType && (
-                <p className="text-xs text-muted-foreground ml-6">{data.earningsType}</p>
-              )}
             </div>
           )}
           <div className="space-y-1 text-sm">
@@ -485,7 +482,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
                 yAxisId="price"
                 dataKey="earningsMarker"
                 fill="#9333EA"
-                shape="diamond"
+                shape="star"
                 name="Earnings"
                 isAnimationActive={false}
               />

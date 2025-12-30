@@ -162,13 +162,12 @@ export const ConsecutiveBreaksAnalysis = () => {
                 name: 'Earnings',
                 marker: {
                   color: '#9333EA',
-                  size: 8,
-                  symbol: 'diamond',
-                  line: { color: '#FFFFFF', width: 1 },
+                  size: 10,
+                  symbol: 'star',
+                  line: { color: '#FFFFFF', width: 1.5 },
                 },
-                text: earningsEvents.map((e) => e.type),
                 hovertemplate:
-                  '<b>%{x|%Y-%m-%d}</b><br>Earnings Event<br>Type: %{text}<extra></extra>',
+                  '<b>%{x|%Y-%m-%d}</b><br>Earnings Event<extra></extra>',
               },
             ]
           : []),
