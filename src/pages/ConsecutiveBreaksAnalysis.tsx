@@ -36,11 +36,16 @@ export const ConsecutiveBreaksAnalysis = () => {
   const [period, setPeriod] = useState<string>('90');
   const [maxGap, setMaxGap] = useState<string>('30');
 
-  // Initialize stock from query parameter if provided
+  // Initialize stock and period from query parameters if provided
   useEffect(() => {
     const stockParam = searchParams.get('stock');
     if (stockParam && uniqueStocks.includes(stockParam)) {
       setSelectedStock(stockParam);
+    }
+
+    const periodParam = searchParams.get('period');
+    if (periodParam && ['30', '90', '180', '270', '365'].includes(periodParam)) {
+      setPeriod(periodParam);
     }
   }, [searchParams, uniqueStocks, setSelectedStock]);
 

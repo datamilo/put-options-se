@@ -2,6 +2,12 @@
 
 Route: `/consecutive-breaks`
 
+**URL Parameters:**
+- `stock` - Pre-selects a specific stock
+- `period` - Pre-sets the rolling low period (30, 90, 180, 270, or 365 days)
+
+**Example:** `/consecutive-breaks?stock=VOLVO%20B&period=90`
+
 ## Overview
 Analyzes how well a stock's low is holding as a support level by detecting and clustering support breaks.
 
@@ -52,6 +58,11 @@ Analyzes how well a stock's low is holding as a support level by detecting and c
 ## Integration with Support Level Options List
 
 The Support Level Analysis data is the foundation for the **Support Level Options List** page (`/support-level-options`). That page filters put options based on support levels using the same rolling low calculations and metrics available here.
+
+**Navigation Integration:**
+- Links from Support Level Options List automatically preserve the selected rolling period
+- Clicking "View Analysis" on any option opens this page with both stock and period pre-selected
+- Ensures consistent analysis context across both pages
 
 Key metrics from this analysis used by Support Level Options List:
 - Rolling low for each stock

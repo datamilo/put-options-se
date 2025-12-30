@@ -426,12 +426,13 @@ Days since the rolling low was last broken **within your selected rolling period
 #### Support Analysis
 Link to view detailed support level analysis for the stock.
 
-**Opens:** `/consecutive-breaks?stock={stockName}` in new tab
+**Opens:** `/consecutive-breaks?stock={stockName}&period={rollingPeriod}` in new tab
 
 **Shows:**
 - Plotly chart with candlesticks, rolling low line, and break markers
 - Break cluster details with statistics
 - Full break history table
+- **Preserved rolling period from current selection** - ensures consistent analysis context
 - Configurable rolling period and max gap
 
 **Use:** Deep dive into support behavior for this stock before writing puts.
