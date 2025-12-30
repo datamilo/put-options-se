@@ -105,7 +105,7 @@ const StockDetailsPage = () => {
           </div>
           {allStocks.length > 0 && (
             <div className="w-full max-w-xs mx-auto">
-              <Select value={selectedStock || ''} onValueChange={handleStockChange}>
+              <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select a stock..." />
                 </SelectTrigger>
