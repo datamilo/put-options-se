@@ -376,7 +376,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                       <CardHeader className="pb-3">
                         <CardTitle className="text-base">
                           {emoji} Cluster #{cluster.id}: {cluster.num_breaks} {breakLabel} (
-                          {cluster.start_date} to {cluster.end_date})
+                          {cluster.start_date.split(' ')[0]} to {cluster.end_date.split(' ')[0]})
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
