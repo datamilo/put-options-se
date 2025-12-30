@@ -23,7 +23,7 @@ All colors MUST be HSL.
 
     /* Secondary: Copper/bronze accent for wealth */
     --secondary: 25 45% 45%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary-foreground: 215 25% 15%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215 16% 35%;
