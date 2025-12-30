@@ -134,7 +134,8 @@ export const ConsecutiveBreaksAnalysis = () => {
     },
     xaxis: {
       title: 'Date',
-      type: 'category',
+      type: 'date',
+      tickformat: '%Y-%m-%d',
       rangeslider: { visible: false },
       tickmode: 'auto',
       nticks: 10,
