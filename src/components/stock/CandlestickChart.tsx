@@ -225,6 +225,11 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
     });
   }, [filteredData, earningsEvents]);
 
+  // Create separate data array for earnings markers (only non-null values)
+  const earningsMarkerData = useMemo(() => {
+    return chartData.filter((d) => d.earningsMarker !== null);
+  }, [chartData]);
+
   // Handle preset button clicks - set dates instead of just timeRange
   const handlePresetRange = (range: '1M' | '3M' | '6M' | '1Y' | 'ALL') => {
     setTimeRange(range);
@@ -534,6 +539,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
               )}
               <Scatter
                 yAxisId="price"
+                data={earningsMarkerData}
                 dataKey="earningsMarker"
                 fill="#991B1B"
                 shape={<EarningsMarkerShape fill="#991B1B" />}
