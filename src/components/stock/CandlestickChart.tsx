@@ -86,9 +86,12 @@ const transformDataForCandlestick = (data: StockData[]) => {
 
 // Custom shape renderer for earnings markers using FileText icon
 const EarningsMarkerShape = (props: any) => {
-  const { cx, cy, fill } = props;
+  const { cx, cy, fill, payload } = props;
 
-  if (cx === undefined || cy === undefined) return null;
+  // Don't render if coordinates are missing or if there's no earnings marker in the payload
+  if (cx === undefined || cy === undefined || !payload || !payload.earningsMarker) {
+    return null;
+  }
 
   // Render a small document icon-like shape
   const iconSize = 14;
