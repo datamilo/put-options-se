@@ -106,8 +106,8 @@ const EarningsMarkerShape = (props: any) => {
         y={y}
         width={iconSize - 2}
         height={iconSize}
-        fill={fill || '#991B1B'}
-        stroke="#000000"
+        fill={fill || '#818cf8'}
+        stroke="#475569"
         strokeWidth={1}
         rx={1}
       />
@@ -117,7 +117,7 @@ const EarningsMarkerShape = (props: any) => {
         y1={y + 3}
         x2={x + iconSize - 4}
         y2={y + 3}
-        stroke="#000000"
+        stroke="#475569"
         strokeWidth={0.5}
       />
       <line
@@ -125,7 +125,7 @@ const EarningsMarkerShape = (props: any) => {
         y1={y + 6}
         x2={x + iconSize - 4}
         y2={y + 6}
-        stroke="#000000"
+        stroke="#475569"
         strokeWidth={0.5}
       />
       <line
@@ -133,7 +133,7 @@ const EarningsMarkerShape = (props: any) => {
         y1={y + 9}
         x2={x + iconSize - 4}
         y2={y + 9}
-        stroke="#000000"
+        stroke="#475569"
         strokeWidth={0.5}
       />
     </g>
@@ -314,7 +314,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
           <p className="font-semibold mb-2">{new Date(data.date).toLocaleDateString()}</p>
           {data.earningsMarker && (
             <div className="mb-2 pb-2 border-b">
-              <p className="flex items-center gap-2 text-sm font-semibold text-red-900">
+              <p className="flex items-center gap-2 text-sm font-semibold text-indigo-600">
                 <FileText size={16} />
                 <span>Earnings Event</span>
               </p>
@@ -538,8 +538,8 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
               <Scatter
                 yAxisId="price"
                 dataKey="earningsMarker"
-                fill="#991B1B"
-                shape={<EarningsMarkerShape fill="#991B1B" />}
+                fill="#818cf8"
+                shape={<EarningsMarkerShape fill="#818cf8" />}
                 name="Earnings"
                 isAnimationActive={false}
               />
