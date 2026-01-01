@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
+import { useAnalytics } from '@/hooks/useAnalytics';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -16,6 +17,7 @@ interface SettingsModalProps {
 
 export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerButton = true }: SettingsModalProps) => {
   const { underlyingValue, setUnderlyingValue, transactionCost, setTransactionCost } = useSettings();
+  const { trackInteraction } = useAnalytics();
   const [tempValue, setTempValue] = useState(underlyingValue);
   const [tempTransactionCost, setTempTransactionCost] = useState(transactionCost);
   const [inputValue, setInputValue] = useState(underlyingValue.toString());
@@ -67,6 +69,11 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
 
   const handleSave = () => {
     if (tempValue >= 10000 && tempValue <= 1000000) {
+      trackInteraction('settings_saved', {
+        element_type: 'button',
+        underlying_value: tempValue,
+        transaction_cost: tempTransactionCost,
+      });
       setUnderlyingValue(tempValue);
       setTransactionCost(tempTransactionCost);
       setIsOpen(false);
@@ -95,6 +102,10 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
             variant="outline"
             size="sm"
             onClick={() => {
+              trackInteraction('settings_opened', {
+                element_type: 'button',
+                element_text: 'Calculation Settings',
+              });
               setTempValue(underlyingValue);
               setTempTransactionCost(transactionCost);
               setInputValue(underlyingValue.toString());

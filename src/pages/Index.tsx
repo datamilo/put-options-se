@@ -11,6 +11,7 @@ import { useStockData } from "@/hooks/useStockData";
 import { TimestampDisplay } from "@/components/TimestampDisplay";
 import { SettingsModal } from "@/components/SettingsModal";
 import { useMainPagePreferences } from "@/hooks/useMainPagePreferences";
+import { useAnalytics } from "@/hooks/useAnalytics";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -38,6 +39,7 @@ const Index = () => {
   const { getStockSummary, getLowPriceForPeriod } = useStockData();
   const { settings: savedFilters, isLoading: isLoadingPreferences, saveSettings: saveFilterSettings } = useMainPagePreferences();
   const { timestamps } = useTimestamps();
+  const { trackFilterChange, trackExport } = useAnalytics();
   
   // Initialize filter state - will be populated from preferences or URL
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
@@ -392,6 +394,11 @@ const Index = () => {
   };
 
   const handleExportCSV = () => {
+    trackExport('export_csv_clicked', {
+      export_type: 'csv',
+      data_source: 'options_table',
+      row_count: filteredData.length,
+    });
     exportToCSV(filteredData, `swedish-put-options-${new Date().toISOString().split('T')[0]}.csv`);
     toast.success("Data exported successfully");
   };
@@ -487,13 +494,29 @@ const Index = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[200px] bg-background z-50">
-                    <DropdownMenuItem onClick={() => setStrikeBelowPeriod(null)}>
+                    <DropdownMenuItem onClick={() => {
+                      trackFilterChange('filter_strike_below_period_changed', {
+                        filter_type: 'strike_below_period',
+                        old_value: strikeBelowPeriod,
+                        new_value: null,
+                        page: 'index',
+                      });
+                      setStrikeBelowPeriod(null);
+                    }}>
                       Clear Filter
                     </DropdownMenuItem>
                     {timePeriodOptions.map(option => (
-                      <DropdownMenuItem 
+                      <DropdownMenuItem
                         key={option.days}
-                        onClick={() => setStrikeBelowPeriod(option.days)}
+                        onClick={() => {
+                          trackFilterChange('filter_strike_below_period_changed', {
+                            filter_type: 'strike_below_period',
+                            old_value: strikeBelowPeriod,
+                            new_value: option.days,
+                            page: 'index',
+                          });
+                          setStrikeBelowPeriod(option.days);
+                        }}
                       >
                         {option.label}
                       </DropdownMenuItem>
@@ -523,11 +546,14 @@ const Index = () => {
                           id="select-all-risk"
                           checked={selectedRiskLevels.length === riskLevelOptions.length}
                           onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSelectedRiskLevels(riskLevelOptions.map(r => r.value));
-                            } else {
-                              setSelectedRiskLevels([]);
-                            }
+                            const newValue = checked ? riskLevelOptions.map(r => r.value) : [];
+                            trackFilterChange('filter_risk_levels_changed', {
+                              filter_type: 'risk_levels',
+                              old_value: selectedRiskLevels,
+                              new_value: newValue,
+                              page: 'index',
+                            });
+                            setSelectedRiskLevels(newValue);
                           }}
                         />
                         <label htmlFor="select-all-risk" className="text-sm cursor-pointer font-medium">
@@ -540,11 +566,16 @@ const Index = () => {
                             id={`risk-${risk.value}`}
                             checked={selectedRiskLevels.includes(risk.value)}
                             onCheckedChange={(checked) => {
-                              if (checked) {
-                                setSelectedRiskLevels(prev => [...prev, risk.value]);
-                              } else {
-                                setSelectedRiskLevels(prev => prev.filter(r => r !== risk.value));
-                              }
+                              const newValue = checked
+                                ? [...selectedRiskLevels, risk.value]
+                                : selectedRiskLevels.filter(r => r !== risk.value);
+                              trackFilterChange('filter_risk_levels_changed', {
+                                filter_type: 'risk_levels',
+                                old_value: selectedRiskLevels,
+                                new_value: newValue,
+                                page: 'index',
+                              });
+                              setSelectedRiskLevels(newValue);
                             }}
                           />
                           <label htmlFor={`risk-${risk.value}`} className="text-sm cursor-pointer">
@@ -584,11 +615,14 @@ const Index = () => {
                           id="select-all-stocks"
                           checked={selectedStocks.length === filteredStocks.length && filteredStocks.length > 0}
                           onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSelectedStocks(filteredStocks);
-                            } else {
-                              setSelectedStocks([]);
-                            }
+                            const newValue = checked ? filteredStocks : [];
+                            trackFilterChange('filter_stocks_changed', {
+                              filter_type: 'stocks',
+                              old_value: selectedStocks,
+                              new_value: newValue,
+                              page: 'index',
+                            });
+                            setSelectedStocks(newValue);
                           }}
                         />
                         <label htmlFor="select-all-stocks" className="text-sm cursor-pointer font-medium">
@@ -601,11 +635,16 @@ const Index = () => {
                             id={`stock-${stock}`}
                             checked={selectedStocks.includes(stock)}
                             onCheckedChange={(checked) => {
-                              if (checked) {
-                                setSelectedStocks(prev => [...prev, stock]);
-                              } else {
-                                setSelectedStocks(prev => prev.filter(s => s !== stock));
-                              }
+                              const newValue = checked
+                                ? [...selectedStocks, stock]
+                                : selectedStocks.filter(s => s !== stock);
+                              trackFilterChange('filter_stocks_changed', {
+                                filter_type: 'stocks',
+                                old_value: selectedStocks,
+                                new_value: newValue,
+                                page: 'index',
+                              });
+                              setSelectedStocks(newValue);
                             }}
                           />
                           <label htmlFor={`stock-${stock}`} className="text-sm cursor-pointer">
@@ -645,11 +684,14 @@ const Index = () => {
                           id="select-all-expiry"
                           checked={selectedExpiryDates.length === filteredExpiryDates.length && filteredExpiryDates.length > 0}
                           onCheckedChange={(checked) => {
-                            if (checked) {
-                              setSelectedExpiryDates(filteredExpiryDates);
-                            } else {
-                              setSelectedExpiryDates([]);
-                            }
+                            const newValue = checked ? filteredExpiryDates : [];
+                            trackFilterChange('filter_expiry_changed', {
+                              filter_type: 'expiry_dates',
+                              old_value: selectedExpiryDates,
+                              new_value: newValue,
+                              page: 'index',
+                            });
+                            setSelectedExpiryDates(newValue);
                           }}
                         />
                         <label htmlFor="select-all-expiry" className="text-sm cursor-pointer font-medium">
@@ -662,11 +704,16 @@ const Index = () => {
                             id={`expiry-${date}`}
                             checked={selectedExpiryDates.includes(date)}
                             onCheckedChange={(checked) => {
-                              if (checked) {
-                                setSelectedExpiryDates(prev => [...prev, date]);
-                              } else {
-                                setSelectedExpiryDates(prev => prev.filter(d => d !== date));
-                              }
+                              const newValue = checked
+                                ? [...selectedExpiryDates, date]
+                                : selectedExpiryDates.filter(d => d !== date);
+                              trackFilterChange('filter_expiry_changed', {
+                                filter_type: 'expiry_dates',
+                                old_value: selectedExpiryDates,
+                                new_value: newValue,
+                                page: 'index',
+                              });
+                              setSelectedExpiryDates(newValue);
                             }}
                           />
                           <label htmlFor={`expiry-${date}`} className="text-sm cursor-pointer">

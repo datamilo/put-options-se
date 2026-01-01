@@ -14,6 +14,96 @@ export type Database = {
   }
   public: {
     Tables: {
+      user_analytics_events: {
+        Row: {
+          id: string
+          user_id: string
+          session_id: string
+          event_type: string
+          event_name: string
+          page_path: string | null
+          page_title: string | null
+          event_data: Json | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          session_id: string
+          event_type: string
+          event_name: string
+          page_path?: string | null
+          page_title?: string | null
+          event_data?: Json | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          session_id?: string
+          event_type?: string
+          event_name?: string
+          page_path?: string | null
+          page_title?: string | null
+          event_data?: Json | null
+          created_at?: string
+        }
+        Relationships: []
+      }
+      user_analytics_sessions: {
+        Row: {
+          id: string
+          session_id: string
+          user_id: string
+          started_at: string
+          ended_at: string | null
+          last_activity_at: string
+          pages_visited: number
+          interactions_count: number
+          session_duration_seconds: number | null
+          user_agent: string | null
+          referrer: string | null
+          entry_page: string | null
+          exit_page: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          session_id: string
+          user_id: string
+          started_at?: string
+          ended_at?: string | null
+          last_activity_at?: string
+          pages_visited?: number
+          interactions_count?: number
+          session_duration_seconds?: number | null
+          user_agent?: string | null
+          referrer?: string | null
+          entry_page?: string | null
+          exit_page?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          session_id?: string
+          user_id?: string
+          started_at?: string
+          ended_at?: string | null
+          last_activity_at?: string
+          pages_visited?: number
+          interactions_count?: number
+          session_duration_seconds?: number | null
+          user_agent?: string | null
+          referrer?: string | null
+          entry_page?: string | null
+          exit_page?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_preferences: {
         Row: {
           created_at: string
