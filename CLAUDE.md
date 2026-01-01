@@ -48,6 +48,20 @@ Detailed documentation for each page is in the `/docs` folder:
 | Lower Bound Analysis | `/lower-bound-analysis` | [docs/lower-bound-analysis.md](docs/lower-bound-analysis.md) | IV-based prediction validation |
 | Financial Reporting Volatility | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Earnings and event volatility analysis |
 
+## Analytics & User Tracking
+
+**System Architecture**: [docs/analytics.md](docs/analytics.md)
+
+The application includes a comprehensive usage analytics system that tracks authenticated user behavior with minimal storage impact (~1 MB/month for handful of users). Features include:
+
+- **Automatic page view tracking** across all routes
+- **Session management** with duration and activity tracking
+- **Manual event tracking** for filters, exports, and settings changes
+- **Row-level security** ensuring users only see their own data
+- **Efficient storage** using event batching and 90-day retention policy
+
+All analytics data is stored in Supabase with automatic cleanup and indexing for performance.
+
 ### Navigation Structure
 
 **Desktop Horizontal Navigation:**
@@ -63,6 +77,7 @@ Detailed documentation for each page is in the `/docs` folder:
 All pages are accessible via the horizontal navigation bar (desktop) or expandable hamburger menu (mobile).
 
 ### Additional Documentation
+- [docs/analytics.md](docs/analytics.md) - Usage analytics system for tracking authenticated users
 - [docs/FIELD_GUIDE.md](docs/FIELD_GUIDE.md) - Business-focused explanation of all 67 fields in data.csv for investors
 - [docs/README_Portfolio_Generator.md](docs/README_Portfolio_Generator.md) - Python script documentation for portfolio generation
 - [docs/PROBABILITY_FIELD_NAMES.md](docs/PROBABILITY_FIELD_NAMES.md) - Probability field name alignment and standardization across all pages
@@ -79,6 +94,14 @@ All pages are accessible via the horizontal navigation bar (desktop) or expandab
 - `/src/contexts` - React context providers
 - `/data` - Static CSV data files (source of truth)
 - `/docs` - Detailed page documentation
+- `/supabase/migrations` - Database schema migrations
+
+### Analytics System Files
+- **Hook**: `/src/hooks/useAnalytics.ts` - Core analytics tracking with batching and session management
+- **Provider**: `/src/components/AnalyticsProvider.tsx` - Router-level page view tracking
+- **Types**: `/src/types/analytics.ts` - TypeScript interfaces for analytics events
+- **Migration**: `/supabase/migrations/20260101000000_create_analytics_tables.sql` - Database schema and RLS policies
+- **Documentation**: `/docs/analytics.md` - Complete analytics system reference
 
 ### Data Files
 

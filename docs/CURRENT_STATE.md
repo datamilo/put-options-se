@@ -1,8 +1,19 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: December 19, 2025
+**Last Updated**: January 1, 2026
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
+
+---
+
+## System Status
+
+| System | Status | Last Updated | Details |
+|--------|--------|--------------|---------|
+| **Core Application** | ✅ Active | Jan 1, 2026 | All pages operational |
+| **Supabase Auth** | ✅ Active | Jun 2024 | User authentication and preferences |
+| **Analytics System** | ✅ Active | Jan 1, 2026 | Usage tracking for authenticated users |
+| **Data Files** | ✅ Active | Dec 19, 2025 | Stock and options data current |
 
 ---
 
@@ -10,7 +21,7 @@
 
 | Page | Route | Status | Last Modified |
 |------|-------|--------|---------------|
-| [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Nov 25 |
+| [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Jan 1, 2026 |
 | [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Jun 2024 |
 | [Monthly Analysis](#monthly-analysis) | `/monthly-analysis` | ✅ Active | Nov 25 |
 | [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Dec 19 |
@@ -478,8 +489,56 @@ useConsecutiveBreaksAnalysis()
 
 ---
 
+## Analytics System
+
+**Status**: ✅ Active and Operational
+**Added**: January 1, 2026
+**Database**: Supabase (user_analytics_events, user_analytics_sessions tables)
+
+### Overview
+Comprehensive usage analytics system tracking authenticated user behavior with minimal storage impact. Automatically captures page visits, filter changes, exports, and settings modifications.
+
+### Key Features
+- **Automatic page view tracking** across all routes
+- **Session management** with start/end times and duration tracking
+- **Filter change tracking** (stocks, expiry dates, risk levels, strike periods)
+- **Export action tracking** with row counts
+- **Settings change tracking** (open/save events)
+- **Event batching** (10 events or 5 seconds) for performance
+- **Row-level security** ensuring user data isolation
+- **90-day retention** policy with auto-cleanup
+
+### Storage Impact
+- **Estimated Usage**: ~1 MB/month for handful of users
+- **Free Tier Limit**: 500 MB total
+- **Usage Percentage**: <3% annually
+
+### Database Tables
+1. **user_analytics_events** - Individual event records with flexible JSONB payload
+2. **user_analytics_sessions** - Aggregated session summaries with metrics
+
+### Access
+Complete documentation: [analytics.md](analytics.md)
+
+### Querying Analytics Data
+Users can view their own analytics via Supabase dashboard:
+```sql
+-- Most visited pages
+SELECT page_path, COUNT(*) as views
+FROM user_analytics_events
+WHERE event_type = 'page_view'
+GROUP BY page_path;
+
+-- Session metrics
+SELECT AVG(pages_visited), AVG(session_duration_seconds/60.0)
+FROM user_analytics_sessions;
+```
+
+---
+
 ## Related Documentation
 
+- [analytics.md](analytics.md) - Usage analytics system documentation
 - [support-level-options.md](support-level-options.md) - Support Level Options List page documentation
 - [probability-analysis.md](probability-analysis.md) - Detailed Probability Analysis page docs
 - [support-level-analysis.md](support-level-analysis.md) - Support Level Analysis page docs
