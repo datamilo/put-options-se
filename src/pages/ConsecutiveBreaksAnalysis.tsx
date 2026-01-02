@@ -93,7 +93,7 @@ export const ConsecutiveBreaksAnalysis = () => {
         if (!priceData) return null;
 
         return {
-          date: event.date,
+          date: priceData.date, // Use the date from priceData to match the exact format in the chart
           price: priceData.high, // Position marker at the high of the day
           type: event.type_of_event,
         };
