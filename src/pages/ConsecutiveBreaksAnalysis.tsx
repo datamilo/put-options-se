@@ -113,13 +113,18 @@ export const ConsecutiveBreaksAnalysis = () => {
     );
   }
 
+  // Helper function to extract date part (YYYY-MM-DD) from datetime string
+  const extractDateOnly = (dateStr: string) => {
+    return dateStr.split(' ')[0]; // Extract the date part before the space
+  };
+
   // Create Plotly traces
   const plotlyTraces = analysis
     ? [
         // Candlestick trace
         {
           type: 'candlestick',
-          x: analysis.data.map((d) => d.date),
+          x: analysis.data.map((d) => extractDateOnly(d.date)),
           open: analysis.data.map((d) => d.open),
           high: analysis.data.map((d) => d.high),
           low: analysis.data.map((d) => d.low),
@@ -132,7 +137,7 @@ export const ConsecutiveBreaksAnalysis = () => {
         {
           type: 'scatter',
           mode: 'lines',
-          x: analysis.data.map((d) => d.date),
+          x: analysis.data.map((d) => extractDateOnly(d.date)),
           y: analysis.data.map((d) => d.rolling_low),
           name: 'Rolling Low',
           line: { color: '#4B5563', width: 2, dash: 'dash' },
@@ -143,7 +148,7 @@ export const ConsecutiveBreaksAnalysis = () => {
         {
           type: 'scatter',
           mode: 'markers',
-          x: analysis.breaks.map((b) => b.date),
+          x: analysis.breaks.map((b) => extractDateOnly(b.date)),
           y: analysis.breaks.map((b) => b.new_support),
           name: 'Support Broken',
           marker: { color: '#D97706', size: 5, symbol: 'circle' },
@@ -157,7 +162,7 @@ export const ConsecutiveBreaksAnalysis = () => {
               {
                 type: 'scatter',
                 mode: 'markers',
-                x: earningsEvents.map((e) => e.date),
+                x: earningsEvents.map((e) => extractDateOnly(e.date)),
                 y: earningsEvents.map((e) => e.price),
                 name: 'Earnings',
                 marker: {
@@ -167,7 +172,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                   line: { color: '#000000', width: 1.5 },
                 },
                 hovertemplate:
-                  '<b>%{x|%Y-%m-%d}</b><br>Earnings Event<extra></extra>',
+                  '<b>%{x}</b><br>Earnings Event<extra></extra>',
               },
             ]
           : []),
