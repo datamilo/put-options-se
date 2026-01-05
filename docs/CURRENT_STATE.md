@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: January 1, 2026
+**Last Updated**: January 5, 2026
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -13,7 +13,7 @@
 | **Core Application** | ✅ Active | Jan 1, 2026 | All pages operational |
 | **Supabase Auth** | ✅ Active | Jun 2024 | User authentication and preferences |
 | **Analytics System** | ✅ Active | Jan 1, 2026 | Usage tracking for authenticated users |
-| **Data Files** | ✅ Active | Dec 19, 2025 | Stock and options data current |
+| **Data Files** | ✅ Active | Jan 5, 2026 | Stock, options, and margin requirements data current |
 
 ---
 
@@ -21,7 +21,7 @@
 
 | Page | Route | Status | Last Modified |
 |------|-------|--------|---------------|
-| [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Jan 1, 2026 |
+| [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Jan 5, 2026 |
 | [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Jun 2024 |
 | [Monthly Analysis](#monthly-analysis) | `/monthly-analysis` | ✅ Active | Nov 25 |
 | [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Dec 19 |
@@ -38,25 +38,40 @@
 ### Options Dashboard
 **Route**: `/`
 
+**Latest Changes** (Jan 5, 2026):
+- Added margin requirements data integration from `margin_requirements.csv`
+- **New Column**: "Est. Total Margin" now displayed by default
+- 13 additional margin and capital fields available via column manager
+- **Important**: All margin figures are ESTIMATES using SRI methodology, not exact Nasdaq requirements
+
 **Features**:
-- Comprehensive options data table with 67+ fields
+- Comprehensive options data table with 80+ fields (67 from options data + 13 from margin requirements)
+- Margin and capital requirements analysis
 - Filterable by multiple criteria
 - Sortable columns
 - Real-time data from CSV files
+- Column visibility management
 
-**Status**: Fully functional
+**Status**: Fully functional with margin requirements integration
 
 ---
 
 ### Portfolio Generator
 **Route**: `/portfolio-generator`
 
+**Latest Changes** (Jan 5, 2026):
+- Added margin requirements data integration from `margin_requirements.csv`
+- **New Column**: "Est. Total Margin" now displayed in portfolio results
+- 13 additional margin and capital fields available via column manager
+
 **Features**:
-- Portfolio optimization tools
+- Portfolio optimization tools with margin analysis
+- Estimated total margin requirements for selected positions
 - Python script support
 - Settings persistence
+- Column visibility management
 
-**Status**: Fully functional
+**Status**: Fully functional with margin requirements integration
 
 ---
 
@@ -233,7 +248,25 @@
 
 ## Recent Changes & Updates
 
-### December 19, 2025 (Latest)
+### January 5, 2026 (Latest)
+✅ **Margin Requirements Integration**
+- Added `margin_requirements.csv` data integration to Options Dashboard and Portfolio Generator
+- New default column: "Est. Total Margin" shows estimated total margin capital required for each position
+- 13 additional margin and capital fields available via column manager:
+  - Est. Margin per Contract, Annualized Return on Margin %, Net Premium After Costs
+  - Synthetic Risk Interval (SRI) metrics: SRI Base, Event Buffer, Final SRI
+  - Historical and probability decline metrics
+  - OTM Amount, Margin floor calculations
+- **Investor Protection**: All margin fields clearly marked as ESTIMATES using SRI methodology, NOT exact Nasdaq requirements
+- LEFT JOIN pattern ensures options without margin data gracefully display as "-"
+- Updated documentation across CLAUDE.md, FIELD_GUIDE.md, and CURRENT_STATE.md
+- Updated column managers for both main dashboard and portfolio generator
+- File References:
+  - New Hook: `src/hooks/useMarginRequirementsData.ts`
+  - Modified Hooks: `src/hooks/useEnrichedOptionsData.ts` (includes margin LEFT JOIN)
+  - Modified Components: `src/components/options/OptionsTable.tsx`, `src/components/options/PortfolioOptionsTable.tsx`
+
+### December 19, 2025
 ✅ **Stock Metrics and History - Date Filtering Enhancement**
 - Added custom date range filtering to candlestick chart
 - Integrated "From Date" and "To Date" inputs in chart header alongside preset buttons
@@ -337,7 +370,8 @@
 
 ### Files Loaded
 - `stock_data.csv` - Historical OHLC stock data
-- `data.csv` - Main options data (67+ fields)
+- `data.csv` - Main options data (67 fields)
+- `margin_requirements.csv` - Margin and capital requirements (13 fields)
 - `recovery_report_data.csv` - Probability recovery opportunities
 - `validation_report_data.csv` - Probability method validation data
 - `hit_rate_trends_by_stock.csv` - Lower bound monthly trends
@@ -544,6 +578,6 @@ FROM user_analytics_sessions;
 - [support-level-analysis.md](support-level-analysis.md) - Support Level Analysis page docs
 - [lower-bound-analysis.md](lower-bound-analysis.md) - Lower Bound Analysis page docs
 - [stock-analysis.md](stock-analysis.md) - Stock Metrics and History page documentation
-- [FIELD_GUIDE.md](FIELD_GUIDE.md) - Complete field definitions for all 67+ data fields
+- [FIELD_GUIDE.md](FIELD_GUIDE.md) - Complete field definitions for all 80+ data fields (67 options + 13 margin)
 - [index-page.md](index-page.md) - Options Dashboard documentation
 - [portfolio-generator.md](portfolio-generator.md) - Portfolio Generator docs

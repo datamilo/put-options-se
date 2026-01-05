@@ -114,6 +114,9 @@ All pages are accessible via the horizontal navigation bar (desktop) or expandab
 - `all_stocks_daily_predictions.csv` - Lower bound daily predictions (115,000+ rows, includes future expirations)
 - `all_stocks_expiry_stats.csv` - Lower bound expiry statistics (2,681 rows, includes future expirations)
 
+**Margin & Capital Analysis**:
+- `margin_requirements.csv` - Estimated margin requirements with SRI methodology (13 fields)
+
 **Additional Data Files**:
 - `probability_history.csv` - Historical probability data for ProbabilityHistoryChart component
 - `IV_PotentialDecline.csv` - Implied volatility-based decline predictions
@@ -139,6 +142,41 @@ All pages are accessible via the horizontal navigation bar (desktop) or expandab
 - **Stock Details Page** (/stock/:stockName) - Shows stock data and analysis updated timestamps
 - **Probability Analysis Page** (/probability-analysis) - Shows options data and analysis updated timestamps
 
+### Margin Requirements System
+
+**Purpose**: Provides estimated margin requirements based on Synthetic Risk Interval (SRI) methodology
+
+**Critical**: All margin fields are ESTIMATES using conservative SRI-based calculations. These are NOT exact Nasdaq Stockholm margin requirements.
+
+**Implementation**:
+- **Hook**: `useMarginRequirementsData` (src/hooks/useMarginRequirementsData.ts) - Loads margin_requirements.csv with singleton pattern
+- **Data Integration**: LEFT JOIN with options data in `useEnrichedOptionsData` hook
+- **Calculated Field**: `EstTotalMargin` = `Est_Margin_SEK` × `NumberOfContractsBasedOnLimit`
+- **Default Display**: "Est. Total Margin" column visible by default in main and portfolio tables
+- **Optional Fields**: 13 margin fields available via column manager
+
+**The 13 Margin Fields**:
+1. `EstTotalMargin` (calculated) - Total margin for full position
+2. `Est_Margin_SEK` - Margin per single contract
+3. `Final_SRI` - Final Safety-Risk Index
+4. `Annualized_ROM_Pct` - Return on margin percentage (annualized)
+5. `Net_Premium_After_Costs` - Premium minus transaction costs
+6. `SRI_Base` - Base Safety-Risk Index before adjustments
+7. `Event_Buffer` - Additional margin for earnings/dividend events
+8. `OTM_Amount` - Out-of-the-money distance in SEK
+9. `Margin_A_Broker_Proxy` - Broker-style calculation approach
+10. `Margin_B_Historical_Floor` - Historical stress test approach
+11. `Margin_Floor_15pct` - Swedish regulatory 15% minimum
+12. `Prob_Normal_2SD_Decline_Pct` - Statistical 2SD decline probability
+13. `Hist_Worst_Decline_Pct` - Historical worst decline percentage
+
+**Number Formatting**:
+- Margin amounts (SEK): Display without decimals (e.g., "12,345 SEK")
+- Risk indices and percentages: Display as percentage with 2 decimals (e.g., "25.50%")
+- Missing data: Display as "-"
+
+**Field Documentation**: All margin fields documented in `fieldInfo.ts` with disclaimers that these are estimates, not exact institutional requirements
+
 ---
 
 ## Settings Architecture
@@ -163,9 +201,11 @@ Both use localStorage fallback for guest users.
 ## Important Development Patterns
 
 ### Data Patterns
-- Use `useEnrichedOptionsData` for options table data (already includes recalculations)
+- Use `useEnrichedOptionsData` for options table data (already includes recalculations, margin data, and IV data)
+- **Margin Data**: Automatically enriched via LEFT JOIN in `useEnrichedOptionsData`; use `EstTotalMargin` for total margin requirement (calculated field)
 - **OHLC Data**: Use `low` field for period lows, `high`/`low` for ranges (not close prices)
 - **Stock Period Changes**: Calculate using previous period's closing price as baseline
+- **Missing Margin Data**: Fields gracefully show "-" if margin data not available for an option (LEFT JOIN behavior)
 
 ### Chart Patterns
 - **Plotly**: Use for financial charts (candlesticks, violins) - native support not in Recharts

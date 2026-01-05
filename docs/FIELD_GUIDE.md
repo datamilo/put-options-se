@@ -1,11 +1,11 @@
 # Put Options Analysis - Field Guide for Investors
 
-**Last Updated**: December 8, 2025
-**Purpose**: Business-focused explanation of all 67 fields in `data.csv`
+**Last Updated**: January 5, 2026
+**Purpose**: Business-focused explanation of all 80+ fields (67 from `data.csv` + 13 margin fields from `margin_requirements.csv`)
 
 This guide explains what each field means for your investment decisions, without technical jargon.
 
-**Note**: On the website, probability fields are displayed with "PoW - " prefix (e.g., "PoW - Weighted Average") to clarify that PoW = Probability of Worthless.
+**Note**: On the website, probability fields are displayed with "PoW - " prefix (e.g., "PoW - Weighted Average") to clarify that PoW = Probability of Worthless. Margin fields include a disclaimer that these are estimates, not exact institutional requirements.
 
 ---
 
@@ -19,6 +19,7 @@ This guide explains what each field means for your investment decisions, without
 | **[Risk Protection](#risk-protection-fields)** | 12, 25-27, 49-50 | How low can the stock go before you lose money |
 | **[Loss Scenarios](#loss-scenario-fields)** | 13-14, 22-23, 33, 41-42, 54-55, 60-67 | What you could lose in market downturns |
 | **[Profit Ratios](#profit-ratios)** | 32, 43-45 | Premium earned vs potential loss |
+| **[Margin & Capital](#margin--capital-requirements-fields)** | Est. Total Margin, ROM %, SRI, Event Buffer, etc. | Estimated margin requirements and capital efficiency |
 | **[Volatility](#volatility-fields)** | 34, 46-48, 56 | How much the stock price swings |
 | **[Position Sizing](#position-sizing)** | 30, 38-40, 57-59 | How many contracts for 100k SEK |
 | **[Market Timing](#timing-fields)** | 2-3, 24, 36 | Important dates and prediction accuracy |
@@ -446,6 +447,68 @@ Look for:
 
 ---
 
+## Margin & Capital Requirements Fields
+
+⚠️ **IMPORTANT DISCLAIMER**: All margin fields are **ESTIMATES ONLY** using Synthetic Risk Interval (SRI) methodology. These are **NOT** the exact margin requirements that Nasdaq Stockholm or your broker will demand. Your actual margin requirements may be different. Always check with your broker for exact requirements.
+
+### Est. Total Margin
+**What it is**: Estimated total margin capital you must have available to hold this put option position
+**Calculation**: Est. Margin per Contract (SEK) × Number of Contracts
+**Unit**: SEK
+**Example**: "50,000 SEK" estimate means you need ~50,000 SEK in buying power
+**Why it matters**:
+- Shows how much capital is "tied up" in this position
+- Higher margin = less capital efficiency
+- Use ROM (Return on Margin) to evaluate if premium justifies the capital requirement
+
+### Est. Margin per Contract (SEK)
+**What it is**: Estimated margin requirement for a single option contract (100 shares) based on SRI calculation
+**Unit**: SEK per contract
+**Calculation basis**: Combines OTM buffer, volatility (2SD and historical), and event risk
+**Why it matters**: Understanding margin per contract helps scale positions appropriately
+
+### Annualized Return on Margin (ROM %)
+**What it is**: What your premium would annualize to as a percentage of the margin requirement
+**Calculation**: Premium / Est. Total Margin × 365 days / Days to Expiry
+**Example**: "25%" means if you repeated this trade 4 times per year (every 90 days), you'd earn ~100% annual return on the margin (theoretical, assumes consistent results)
+**Why it matters**:
+- Key metric for capital efficiency
+- Higher ROM = better use of your capital
+- Compare across different options to find best capital allocation
+
+### Premium After Costs
+**What it is**: Premium minus transaction costs (brokerage fees, bid-ask spread, commissions)
+**Unit**: SEK
+**Why it matters**:
+- Your actual profit if the option expires worthless
+- More realistic than gross premium
+- Use this for ROI calculations instead of raw premium
+
+### Risk Metrics (SRI, 2SD Decline, Historical Worst)
+**What it is**: Components of the margin calculation showing different risk approaches
+**SRI Components**:
+- **SRI Base**: Starting risk index (higher of 2SD and historical worst decline)
+- **Event Buffer**: Extra margin if earnings/dividend occurs before expiry
+- **Final SRI**: Total risk index (SRI Base + Event Buffer)
+
+**Decline Metrics**:
+- **2SD Decline %**: Statistical probability of decline (from implied volatility)
+- **Historical Worst %**: Actual worst decline from this stock's history
+
+**Why it matters**: Understanding what goes into margin helps you manage risk
+- Higher decline estimates = more conservative margin = safer but more capital needed
+- Event buffer increases if earnings coming = temporary margin increase
+
+### OTM Amount
+**What it is**: How far out-of-the-money is the strike (Stock Price - Strike Price)
+**Unit**: SEK
+**Example**: Stock 100, Strike 90 = 10 SEK OTM
+**Why it matters**:
+- Larger OTM = more safety buffer = may reduce margin requirements
+- But also lower probability of profit if stock rallies too much
+
+---
+
 ## Field Priorities by Experience Level
 
 ### Beginner (Start Here)
@@ -456,21 +519,27 @@ Look for:
 5. **DaysToExpiry** - Time horizon
 
 ### Intermediate (Add These)
-6. **ProfitLossPctLeastBad** - Risk/reward ratio
-7. **Mean_Accuracy** - Prediction reliability
-8. **Lower_Bound_at_Accuracy** - Safety threshold
-9. **ImpliedVolatility** - Market sentiment
-10. **FinancialReport** & **X-Day** - Event risks
+6. **Est. Total Margin** - Capital requirement for position
+7. **Annualized ROM %** - Capital efficiency metric
+8. **ProfitLossPctLeastBad** - Risk/reward ratio
+9. **Mean_Accuracy** - Prediction reliability
+10. **Lower_Bound_at_Accuracy** - Safety threshold
+11. **ImpliedVolatility** - Market sentiment
+12. **FinancialReport** & **X-Day** - Event risks
 
 ### Advanced (Full Picture)
-11. **PoW_Stats_*** - Historical outcomes
-12. **Multiple loss scenarios** - Stress testing
-13. **IV_AllMedianIV_*_Ratio** - Relative volatility
-14. **Lower bound variations** - Different methodologies
-15. **All probability variations** - Model comparison
+13. **Est. Margin per Contract** - Per-unit margin analysis
+14. **Premium After Costs** - True profit potential
+15. **SRI Components** (Base, Event Buffer, Final SRI) - Margin calculation deep dive
+16. **2SD Decline & Historical Worst** - Risk assessment methods
+17. **PoW_Stats_*** - Historical outcomes
+18. **Multiple loss scenarios** - Stress testing
+19. **IV_AllMedianIV_*_Ratio** - Relative volatility
+20. **Lower bound variations** - Different methodologies
+21. **All probability variations** - Model comparison
 
 ---
 
 **For technical implementation details, see `FIELD_DOCUMENTATION.md` in the docs folder.**
 
-**Last Updated**: October 15, 2025
+**Last Updated**: January 5, 2026 (Added Margin Requirements fields)

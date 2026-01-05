@@ -6,9 +6,12 @@ Route: `/portfolio-generator`
 Portfolio optimization tools with independent settings for generating optimized put options portfolios.
 
 ## Key Components
-- **PortfolioOptionsTable** - Results table with clickable stock/option names
+- **PortfolioOptionsTable** - Results table with clickable stock/option names and margin analysis
+- **ColumnManager** - Column visibility management including margin fields
 
 ## Data Hooks
+- **useEnrichedOptionsData** - Main hook combining options data with user calculations and margin requirements
+- **useMarginRequirementsData** - Loads margin requirements data from CSV (via LEFT JOIN in enrichment)
 - **usePortfolioGeneratorPreferences** - Independent settings for portfolio generator page
   - **Critical**: Uses `hasLoadedFromSupabase` flag to prevent continuous reloading and value reversion
 
