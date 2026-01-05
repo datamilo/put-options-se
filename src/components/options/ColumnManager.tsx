@@ -61,8 +61,29 @@ const SortableColumnItem: React.FC<{
       '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV'
     };
 
+    // Margin requirements field mappings
+    const marginMappings: { [key: string]: string } = {
+      'EstTotalMargin': 'Est. Total Margin',
+      'Est_Margin_SEK': 'Est. Margin per Contract',
+      'Prob_Normal_2SD_Decline_Pct': 'Probability Normal 2SD Decline %',
+      'Hist_Worst_Decline_Pct': 'Historical Worst Decline %',
+      'SRI_Base': 'SRI Base',
+      'Event_Buffer': 'Event Buffer',
+      'Final_SRI': 'Final Safety-Risk Index',
+      'OTM_Amount': 'OTM Amount',
+      'Margin_A_Broker_Proxy': 'Margin A Broker Proxy',
+      'Margin_B_Historical_Floor': 'Margin B Historical Floor',
+      'Margin_Floor_15pct': 'Margin Floor 15%',
+      'Net_Premium_After_Costs': 'Net Premium After Costs',
+      'Annualized_ROM_Pct': 'Annualized Return on Margin %'
+    };
+
     if (probabilityMappings[key]) {
       return probabilityMappings[key];
+    }
+
+    if (marginMappings[key]) {
+      return marginMappings[key];
     }
 
     return key
@@ -121,7 +142,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   // Initialize default columns if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
     'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
-    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
+    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted', 'EstTotalMargin'
   ];
 
   // Get all available columns from OptionData type
@@ -146,7 +167,11 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
       'Historical50DaysWorstDecline', '2008_100DaysWorstDecline', '2008_50DaysWorstDecline', 'IV_ClosestToStrike',
       'IV_UntilExpiryClosestToStrike', 'LowerBoundClosestToStrike', 'LowerBoundDistanceFromCurrentPrice',
       'LowerBoundDistanceFromStrike', 'ImpliedDownPct', 'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike',
-      'ProbAssignment', 'SafetyCategory', 'CushionMinusIVPct', 'PotentialLossAtLowerBound'
+      'ProbAssignment', 'SafetyCategory', 'CushionMinusIVPct', 'PotentialLossAtLowerBound',
+      // Margin requirements fields
+      'EstTotalMargin', 'Est_Margin_SEK', 'Prob_Normal_2SD_Decline_Pct', 'Hist_Worst_Decline_Pct',
+      'SRI_Base', 'Event_Buffer', 'Final_SRI', 'OTM_Amount', 'Margin_A_Broker_Proxy',
+      'Margin_B_Historical_Floor', 'Margin_Floor_15pct', 'Net_Premium_After_Costs', 'Annualized_ROM_Pct'
     ];
   };
 
