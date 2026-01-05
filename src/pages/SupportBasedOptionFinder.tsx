@@ -276,6 +276,7 @@ export const SupportBasedOptionFinder = () => {
                   <TableHead className="w-[50px]">Details</TableHead>
                   <SortableHeader field="stockName" label="Stock" />
                   <SortableHeader field="optionName" label="Option" />
+                  <TableHead className="min-w-[100px]">Support Analysis</TableHead>
                   <SortableHeader field="currentPrice" label="Current Price" align="right" />
                   <SortableHeader field="strikePrice" label="Strike" align="right" />
                   <SortableHeader field="rollingLow" label={`Support (${rollingPeriod}d)`} align="right" />
@@ -460,7 +461,6 @@ export const SupportBasedOptionFinder = () => {
                       </TooltipProvider>
                     </div>
                   </TableHead>
-                  <TableHead className="min-w-[100px]">Support Analysis</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -499,6 +499,14 @@ export const SupportBasedOptionFinder = () => {
                       <span className="font-medium text-primary hover:opacity-80 transition-all">
                         {option.optionName}
                       </span>
+                    </TableCell>
+                    <TableCell>
+                      <button
+                        onClick={() => window.open(getFullPath(`/consecutive-breaks?stock=${encodeURIComponent(option.stockName)}&period=${rollingPeriod}`), '_blank')}
+                        className="text-primary hover:underline cursor-pointer text-xs"
+                      >
+                        View Analysis
+                      </button>
                     </TableCell>
                     <TableCell className="text-right">{option.currentPrice.toFixed(2)} kr</TableCell>
                     <TableCell className="text-right font-semibold">{option.strikePrice.toFixed(2)} kr</TableCell>
@@ -564,14 +572,6 @@ export const SupportBasedOptionFinder = () => {
                       <span className={option.currentConsecutiveBreaks && option.currentConsecutiveBreaks > 0 ? 'text-orange-600 font-semibold' : ''}>
                         {option.currentConsecutiveBreaks ?? '0'}
                       </span>
-                    </TableCell>
-                    <TableCell>
-                      <button
-                        onClick={() => window.open(getFullPath(`/consecutive-breaks?stock=${encodeURIComponent(option.stockName)}&period=${rollingPeriod}`), '_blank')}
-                        className="text-primary hover:underline cursor-pointer text-xs"
-                      >
-                        View Analysis
-                      </button>
                     </TableCell>
                   </TableRow>
 

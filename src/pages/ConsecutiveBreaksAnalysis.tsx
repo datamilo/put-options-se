@@ -67,9 +67,13 @@ export const ConsecutiveBreaksAnalysis = () => {
   React.useEffect(() => {
     if (analysis && !dateFrom && !dateTo) {
       if (analysis.data.length > 0) {
-        const firstDate = analysis.data[0].date.split('T')[0];
         const lastDate = analysis.data[analysis.data.length - 1].date.split('T')[0];
-        setDateFrom(firstDate);
+        // Calculate date one year back from the last date
+        const lastDateObj = new Date(lastDate);
+        const oneYearBack = new Date(lastDateObj);
+        oneYearBack.setFullYear(oneYearBack.getFullYear() - 1);
+        const oneYearBackStr = oneYearBack.toISOString().split('T')[0];
+        setDateFrom(oneYearBackStr);
         setDateTo(lastDate);
       }
     }
