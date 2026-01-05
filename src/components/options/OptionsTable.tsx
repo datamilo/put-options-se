@@ -62,7 +62,8 @@ export const OptionsTable = ({
   // Default columns if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
     'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
-    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
+    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted',
+    'EstTotalMargin'
   ];
   
   // Initialize visible columns from user preferences or defaults
@@ -115,6 +116,19 @@ export const OptionsTable = ({
       'SafetyCategory': 'Safety Category',
       'CushionMinusIVPct': 'Cushion Minus IV %',
       'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound',
+      'EstTotalMargin': 'Est. Total Margin',
+      'Est_Margin_SEK': 'Est. Margin per Contract',
+      'Prob_Normal_2SD_Decline_Pct': 'Probability Normal 2SD Decline %',
+      'Hist_Worst_Decline_Pct': 'Historical Worst Decline %',
+      'SRI_Base': 'SRI Base',
+      'Event_Buffer': 'Event Buffer',
+      'Final_SRI': 'Final Safety-Risk Index',
+      'OTM_Amount': 'OTM Amount',
+      'Margin_A_Broker_Proxy': 'Margin A Broker Proxy',
+      'Margin_B_Historical_Floor': 'Margin B Historical Floor',
+      'Margin_Floor_15pct': 'Margin Floor 15%',
+      'Net_Premium_After_Costs': 'Net Premium After Costs',
+      'Annualized_ROM_Pct': 'Annualized Return on Margin %',
       '1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
       'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
       '1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',

@@ -81,6 +81,21 @@ export interface OptionData {
   CushionMinusIVPct?: number;
   // Calculated field
   PotentialLossAtLowerBound?: number | null;
+  // Margin Requirements fields
+  Est_Margin_SEK?: number;
+  Prob_Normal_2SD_Decline_Pct?: number;
+  Hist_Worst_Decline_Pct?: number;
+  SRI_Base?: number;
+  Event_Buffer?: number;
+  Final_SRI?: number;
+  OTM_Amount?: number;
+  Margin_A_Broker_Proxy?: number;
+  Margin_B_Historical_Floor?: number;
+  Margin_Floor_15pct?: number;
+  Net_Premium_After_Costs?: number;
+  Annualized_ROM_Pct?: number;
+  // Calculated margin field
+  EstTotalMargin?: number | null;
 }
 
 export interface OptionsFilter {
