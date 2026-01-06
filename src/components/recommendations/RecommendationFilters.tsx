@@ -125,7 +125,7 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
         <div className="space-y-2">
           <Label htmlFor="peak-threshold">Historical Peak Threshold</Label>
           <Select
-            value={filters.historicalPeakThreshold.toString()}
+            value={filters.historicalPeakThreshold.toFixed(2)}
             onValueChange={(value) =>
               updateFilter('historicalPeakThreshold', parseFloat(value))
             }

@@ -223,12 +223,13 @@ export const useAutomatedRecommendations = () => {
 
         let recoveryAdvantage: number | null = null;
         try {
+          const thresholdKey = filters.historicalPeakThreshold.toFixed(2);
           const recoveryPoint =
-            recoveryData[filters.historicalPeakThreshold]?.[filters.probabilityMethod]?.[
+            recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[
               probBin
             ]?.[dteBin];
-          if (recoveryPoint) {
-            recoveryAdvantage = recoveryPoint.advantage_pp;
+          if (recoveryPoint && recoveryPoint.advantage) {
+            recoveryAdvantage = recoveryPoint.advantage;
           }
         } catch (e) {
           // Recovery data not available for this combination
