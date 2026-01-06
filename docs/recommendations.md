@@ -65,11 +65,19 @@ The system will:
 - **Premium, Composite Score** - Option value and final recommendation score (color-coded)
 
 **Expandable Details:**
-Click chevron to see score breakdown showing:
-- Raw values for each factor
-- Normalized scores (0-100)
-- Weighted contributions to composite score
-- Visual progress bars
+Click chevron to expand and see two panels side-by-side:
+
+1. **Score Breakdown (Left Panel)**
+   - Raw values for each factor
+   - Normalized scores (0-100)
+   - Weighted contributions to composite score
+   - Visual progress bars for each factor
+
+2. **Why This Option Was Recommended (Right Panel)**
+   - Personalized narrative explanation of the recommendation rationale
+   - Detailed context for all 6 scoring factors in readable narrative form
+   - Shows how each factor (support level, recovery opportunity, seasonality, etc.) contributed to the recommendation
+   - Helps investors understand the "why" behind the automated analysis
 
 ---
 
@@ -208,7 +216,98 @@ Example:
 | `/src/types/recommendations.ts` | TypeScript interfaces for filters, weights, and results |
 | `/src/components/recommendations/RecommendationFilters.tsx` | Filter dropdown and number input controls |
 | `/src/components/recommendations/RecommendationsTable.tsx` | Sortable results table with expandable rows |
-| `/src/components/recommendations/ScoreBreakdown.tsx` | Expandable detail view showing per-factor breakdown |
+| `/src/components/recommendations/ScoreBreakdown.tsx` | Expandable detail view showing per-factor numeric breakdown |
+| `/src/components/recommendations/OptionExplanation.tsx` | **NEW** - Generates personalized narrative explanation for each option |
+
+---
+
+## Option Explanation Feature
+
+The **"Why This Option Was Recommended"** panel provides a detailed, personalized narrative explanation for each recommended option. When you expand a row by clicking the chevron, the right panel generates a comprehensive narrative structured around the 6 scoring factors.
+
+### What the Explanation Includes
+
+The narrative is standardized but personalized with each option's specific values and context:
+
+1. **Support Level Discovery**
+   - Strike price position relative to rolling low support
+   - Distance to support percentage and current price
+   - How the rolling low period (30/90/180/270/365 days) establishes support
+
+2. **Support Robustness**
+   - Days since last support break vs minimum threshold
+   - Support strength score (0-100) with interpretation
+   - Commentary on stability period (brief vs extended)
+
+3. **Probability History & Recovery**
+   - Historical peak probability found (with specific percentages)
+   - Whether peak exceeds the selected threshold (80%/90%/95%)
+   - Current probability and magnitude of decline from peak
+   - Identification of recovery opportunity if applicable
+
+4. **Recovery Advantage**
+   - Historical worthless rate (%) for similar recovery candidates
+   - Context: probability bin and days-to-expiry bin used for lookup
+   - Interpretation of the rate (high/moderate/low)
+
+5. **Monthly Seasonality**
+   - Percentage of positive months during current calendar month
+   - Typical monthly low day compared to current date
+   - Average historical return for the month
+   - Note if current date is near typical low day
+
+6. **Current Performance**
+   - Current month performance vs historical average
+   - Whether stock is underperforming or outperforming
+   - Commentary on potential for recovery/consolidation
+
+7. **Composite Score Conclusion**
+   - Overall score (0-100) with interpretation (strong/moderate/weak)
+   - Summary of how multiple factors aligned
+
+8. **Final Recommendation**
+   - Strike price, premium, and expiry summary
+   - Overall recommendation strength
+   - Actionable guidance for investor decision-making
+
+### Implementation
+
+**Component:** `OptionExplanation.tsx` (React functional component)
+
+**Props:**
+```typescript
+interface OptionExplanationProps {
+  option: RecommendedOption;           // Full option data with all metrics
+  filters: {
+    rollingPeriod: number;             // 30/90/180/270/365
+    minDaysSinceBreak: number;         // Minimum stability threshold
+    probabilityMethod: string;         // Selected probability method
+    historicalPeakThreshold: number;   // 0.80/0.90/0.95
+  };
+}
+```
+
+**Behavior:**
+- Generates narrative sections dynamically based on available data
+- Uses null-coalescing to handle missing metrics gracefully
+- Converts numeric values to readable percentages and text
+- Applies conditional logic to provide context-appropriate commentary
+- Renders with bold headers for section titles
+
+**Integration:**
+- Displayed alongside ScoreBreakdown in 2-column grid (1-column on mobile)
+- Only visible when user expands row
+- Updates automatically if row data changes
+
+### User Experience
+
+When user clicks chevron to expand recommendation:
+- **Left side:** Score Breakdown (numeric, factor-by-factor)
+- **Right side:** Option Explanation (narrative, context-rich story)
+- Both panels update with the same option data
+- Mobile view stacks panels vertically for readability
+
+This design helps investors understand not just the "what" (the score) but the "why" (the narrative explanation).
 
 ---
 
@@ -560,10 +659,16 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining days:
 
 **Expandable Rows**:
 - [ ] Click chevron to expand row
-- [ ] Score breakdown shows all 6 factors
-- [ ] Each factor shows raw value, normalized (0-100), and weighted contribution
+- [ ] Two panels appear side-by-side:
+  - [ ] Left panel: Score breakdown shows all 6 factors
+  - [ ] Right panel: "Why This Option Was Recommended" explanation appears
+- [ ] Score breakdown shows raw value, normalized (0-100), and weighted contribution for each factor
 - [ ] Progress bars represent normalized scores
-- [ ] Click again to collapse
+- [ ] Explanation panel shows personalized narrative text
+- [ ] Explanation includes all 8 sections (Support Level, Robustness, History, Recovery, Seasonality, Performance, Score, Recommendation)
+- [ ] Explanation uses option's specific values (strike, distance %, recovery %, etc.)
+- [ ] On mobile, panels stack vertically (1-column layout)
+- [ ] Click chevron again to collapse both panels
 
 **KPI Cards**:
 - [ ] "Total Recommendations" shows count of results
