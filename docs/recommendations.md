@@ -6,6 +6,54 @@
 
 ---
 
+## CURRENT STATUS (As of Implementation)
+
+### ✅ Working Features
+- **Filter Panel** - All filters functional (Expiry Date, Rolling Period, Min Days Since Break, Probability Method, Historical Peak Threshold)
+- **Score Weights Configuration** - Collapsible panel with adjustable sliders for 6 factors
+- **Options Filtering** - Correctly filters options by expiry date, rolling period, days since break, and strike price vs rolling low
+- **Composite Scoring** - Calculates and ranks options by composite score
+- **Peak PoW Column** - Now populating correctly with historical probability peaks from `probability_history.csv`
+- **Table Sorting** - All columns sortable
+- **Expandable Row Details** - Score breakdown showing individual factor contributions
+- **Summary KPI Cards** - Total recommendations, average score, top score
+- **Data Timestamp Display** - Shows when data was last updated
+
+### ⚠️ Partially Working
+- **Recovery Advantage Column** - Shows "-" on all rows (data structure exists but lookups failing)
+
+### 🐛 Known Issues
+
+#### Issue: Recovery Advantage Always Shows "-"
+**Status:** Debugging in progress
+**Root Cause:** TBD - investigation ongoing
+**Symptoms:**
+- Recovery data loads successfully (confirmed in console)
+- Thresholds exist: 0.80, 0.85, 0.90, 0.95
+- Methods exist: 5 probability methods available
+- BUT: No recovery points are being found during lookups
+- Console shows NO "🎯 Found recovery point for" messages
+
+**Debug Information Needed:**
+When user checks console after running analysis, look for:
+1. `🔎 Method data:` - Should show "Found X prob bins" (where X > 0)
+2. `📊 Available prob bins:` - Lists actual bin names (e.g., "50-60%", "<50%", etc.)
+3. `🔍 Looking for:` - Shows what prob bin we're searching for
+4. `⚠️ Prob bin 'XXX' not found` or `⚠️ DTE bin 'YYY' not found` - Identifies mismatch
+
+**Likely Causes:**
+- Probability bin calculation (`getProbabilityBin()`) may be returning values that don't match recovery data keys
+- DTE bin calculation (`getDTEBin()`) may be returning values that don't match recovery data keys
+- Formatting mismatch between how bins are named in data vs how we calculate them
+
+**Next Steps:**
+1. User provides console output showing available prob bins and what we're looking for
+2. Identify the mismatch (e.g., data has "50-60%" but we're looking for "0.5-0.6" or similar)
+3. Fix the binning functions to match data format
+4. Remove debug logging once issue is resolved
+
+---
+
 ## Overview
 
 The Option Recommendations page automates the investor workflow by combining six analysis factors into a single composite score. This feature helps identify optimal put option writing opportunities by integrating:
@@ -218,11 +266,43 @@ Example:
 | File | Purpose |
 |------|---------|
 | `/src/pages/AutomatedRecommendations.tsx` | Main page component |
-| `/src/hooks/useAutomatedRecommendations.ts` | Orchestration hook with scoring logic |
+| `/src/hooks/useAutomatedRecommendations.ts` | **Orchestration hook with scoring logic + recovery data lookup** |
+| `/src/hooks/useProbabilityRecoveryData.ts` | Loads recovery_report_data.csv, builds data structure |
+| `/src/hooks/useProbabilityHistory.ts` | Loads probability_history.csv for peak detection |
 | `/src/types/recommendations.ts` | TypeScript interfaces |
 | `/src/components/recommendations/RecommendationFilters.tsx` | Filter controls |
 | `/src/components/recommendations/RecommendationsTable.tsx` | Results table with sorting |
 | `/src/components/recommendations/ScoreBreakdown.tsx` | Expandable score details |
+
+---
+
+## Recent Bug Fixes (Session History)
+
+### Bug #1: TypeError - Cannot read properties of undefined (reading 'forEach')
+**Fixed:** Added safety checks for undefined arrays before calling `.forEach()` and `.filter()`
+**Files:** `useAutomatedRecommendations.ts`
+**Location:** Lines 140, 156-159
+
+### Bug #2: Historical Peak Threshold Dropdown Not Displaying Selection
+**Root Cause:** Value formatting mismatch - `.toString()` converts 0.90 → "0.9", didn't match SelectItem values
+**Fixed:** Changed to `.toFixed(2)` for consistent formatting
+**Files:** `RecommendationFilters.tsx` line 128, `useProbabilityRecoveryData.ts` line 32
+
+### Bug #3: Probability History Not Loading (Peak PoW Always "-")
+**Root Cause:** CRITICAL - Wrong destructuring! Hook returns `allData`, but code tried to destructure `data`
+**Fixed:** Changed `{ data: probabilityHistory }` to `{ allData: probabilityHistory }`
+**Files:** `useAutomatedRecommendations.ts` line 121
+**Impact:** This was preventing ALL probability history from loading
+
+### Current Issue (In Progress)
+**Bug #4: Recovery Advantage Always Shows "-"**
+**Status:** Debugging - console logging added
+**Likely Cause:** Probability bin or DTE bin value mismatch during data lookup
+**Debug Logging Added:**
+- Shows available probability bins in recovery data
+- Shows what bins we're calculating and looking for
+- Identifies if bins don't exist in data
+**Location:** `useAutomatedRecommendations.ts` lines 244-277
 
 ---
 
@@ -261,6 +341,83 @@ By combining all factors into a composite score, investors can:
 - **Reduce Bias:** Systematic scoring vs subjective judgment
 - **Compare Options:** Rank all candidates on consistent scale
 - **Customize:** Adjust weights to match risk tolerance
+
+---
+
+## Debug Console Log Guide
+
+When debugging the Recovery Advantage issue, the following console logs will appear:
+
+### Data Loading Phase (on page load)
+```
+📥 Starting to load probability history...
+📍 Trying URLs: [...]
+✅ Successfully loaded CSV from: ...
+✅ Probability history CSV parsed successfully!
+📊 Total rows loaded: [number]
+First row sample: {...}
+
+📥 Loading Recovery CSV: recovery_report_data.csv
+🔗 Trying URL: ...
+✅ Successfully loaded Recovery CSV from: ...
+✅ Parsed [number] recovery records
+✅ Built chart data structure:
+🔑 Aggregated thresholds: ['0.80', '0.85', '0.90', '0.95']
+📊 Methods for threshold 0.90: ['PoW - Weighted Average', 'PoW - Bayesian Calibrated', ...]
+```
+
+### Analysis Phase (when clicking "Analyze")
+```
+🔍 Building probabilityPeaksMap...
+probabilityHistory type: object
+probabilityHistory is array: true
+probabilityHistory length: [number]
+✅ Built probabilityPeaksMap with [number] entries
+
+🔍 Recovery data structure keys: ['0.80', '0.85', '0.90', '0.95']
+📊 Looking for threshold: 0.90
+✅ Threshold found! Methods: [...]
+
+🔎 Method data: Found X prob bins
+📊 Available prob bins: [IMPORTANT - shows actual bin names in data]
+
+🔍 Looking for: STOCKNAME - Prob: [BIN] (current: XX.X%), DTE: [BIN] (days: XX)
+[Either finds recovery point OR shows warning about missing bin]
+```
+
+### Expected vs Actual
+
+If Recovery Advantage is to work:
+1. ✅ Recovery data should load (confirmed working)
+2. ✅ Peak PoW should populate (confirmed working)
+3. ❌ Recovery points should be found (NOT working - no "🎯 Found recovery point" messages)
+
+The issue is almost certainly a **bin name mismatch** between:
+- What `getProbabilityBin()` calculates and returns (e.g., "50-60%")
+- What's actually in the recovery data (e.g., "50-60%", "0.5-0.6", or something different)
+
+---
+
+## How to Continue Debugging
+
+### When User Returns with Console Output:
+1. Look at `📊 Available prob bins:` - note the exact format
+2. Compare with what the first few `🔍 Looking for:` logs show
+3. If they don't match exactly, the `getProbabilityBin()` function needs updating
+4. Similarly check `DTE` bins against actual bin names in data
+
+### If User Provides Logs:
+- Ask specifically for lines containing:
+  - `📊 Available prob bins:` (exact bin names in recovery data)
+  - First 3 lines with `🔍 Looking for:` (what we're calculating)
+  - Any warning messages about missing bins
+
+### To Fix Once Root Cause Is Found:
+1. Update `getProbabilityBin()` function in `useAutomatedRecommendations.ts` (around line 17-24) to match data format
+2. Update `getDTEBin()` function if DTE format is also mismatched (around line 26-33)
+3. Remove all debug logging (lines 140-161, 244-277)
+4. Rebuild and test
+5. Commit with message: "Fix recovery advantage lookup - corrected bin formatting"
 
 ---
 
