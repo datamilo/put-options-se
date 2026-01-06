@@ -240,9 +240,16 @@ export const useAutomatedRecommendations = () => {
         try {
           const thresholdKey = filters.historicalPeakThreshold.toFixed(2);
 
-          // Debug: Log recovery data structure keys
-          if (!recoveryData || Object.keys(recoveryData).length === 0) {
-            console.warn('⚠️ Recovery data is empty or undefined');
+          // Debug: Log recovery data structure
+          if (idx === 0) {
+            console.log('🔍 Recovery data structure keys:', Object.keys(recoveryData));
+            console.log('📊 Looking for threshold:', thresholdKey);
+            console.log('🔎 Available thresholds:', Object.keys(recoveryData));
+            if (recoveryData[thresholdKey]) {
+              console.log('✅ Threshold found! Methods:', Object.keys(recoveryData[thresholdKey]));
+            } else {
+              console.warn('⚠️ Threshold NOT found:', thresholdKey);
+            }
           }
 
           const recoveryPoint =
@@ -250,8 +257,11 @@ export const useAutomatedRecommendations = () => {
               probBin
             ]?.[dteBin];
 
-          if (recoveryPoint && recoveryPoint.advantage) {
-            recoveryAdvantage = recoveryPoint.advantage;
+          if (recoveryPoint) {
+            console.log(`🎯 Found recovery point for ${option.OptionName}: ${probBin} / ${dteBin}`, recoveryPoint);
+            if (recoveryPoint.advantage !== undefined && recoveryPoint.advantage !== null) {
+              recoveryAdvantage = recoveryPoint.advantage;
+            }
           }
         } catch (e) {
           // Recovery data not available for this combination

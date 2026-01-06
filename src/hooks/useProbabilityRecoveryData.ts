@@ -66,6 +66,12 @@ export const useProbabilityRecoveryData = () => {
       }
     }
 
+    console.log('✅ Built chart data structure:');
+    console.log('🔑 Aggregated thresholds:', Object.keys(aggregatedChart));
+    if (Object.keys(aggregatedChart).length > 0) {
+      const firstThreshold = Object.keys(aggregatedChart)[0];
+      console.log(`📊 Methods for threshold ${firstThreshold}:`, Object.keys(aggregatedChart[firstThreshold]));
+    }
     return { aggregatedChart, stockChart, uniqueStocks: Array.from(uniqueStocks).sort() };
   }, []);
 
