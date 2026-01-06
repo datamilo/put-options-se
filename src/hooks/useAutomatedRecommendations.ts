@@ -137,23 +137,27 @@ export const useAutomatedRecommendations = () => {
   // Pre-build lookup maps for O(1) access
   const probabilityPeaksMap = useMemo(() => {
     const map = new Map<string, number>();
-    probabilityHistory.forEach((p) => {
-      const key = p.OptionName;
-      const existing = map.get(key);
-      const bayesianValue = p.ProbWorthless_Bayesian_IsoCal;
-      if (!existing || bayesianValue > existing) {
-        map.set(key, bayesianValue);
-      }
-    });
+    if (probabilityHistory && Array.isArray(probabilityHistory)) {
+      probabilityHistory.forEach((p) => {
+        const key = p.OptionName;
+        const existing = map.get(key);
+        const bayesianValue = p.ProbWorthless_Bayesian_IsoCal;
+        if (!existing || bayesianValue > existing) {
+          map.set(key, bayesianValue);
+        }
+      });
+    }
     return map;
   }, [probabilityHistory]);
 
   const monthlyStatsMap = useMemo(() => {
     const map = new Map<string, any>();
     const currentMonth = new Date().getMonth() + 1;
-    monthlyStats
-      .filter((s) => s.month === currentMonth)
-      .forEach((s) => map.set(s.name, s));
+    if (monthlyStats && Array.isArray(monthlyStats)) {
+      monthlyStats
+        .filter((s) => s.month === currentMonth)
+        .forEach((s) => map.set(s.name, s));
+    }
     return map;
   }, [monthlyStats]);
 
