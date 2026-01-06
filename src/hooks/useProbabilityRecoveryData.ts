@@ -29,7 +29,7 @@ export const useProbabilityRecoveryData = () => {
     const uniqueStocks = new Set<string>();
 
     for (const row of rows) {
-      const threshold = row.HistoricalPeakThreshold.toString();
+      const threshold = row.HistoricalPeakThreshold.toFixed(2);
       const method = row.ProbMethod;
       const probBin = row.CurrentProb_Bin;
       const dte = row.DTE_Bin;
