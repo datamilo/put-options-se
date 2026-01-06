@@ -224,15 +224,23 @@ export const useAutomatedRecommendations = () => {
         let recoveryAdvantage: number | null = null;
         try {
           const thresholdKey = filters.historicalPeakThreshold.toFixed(2);
+
+          // Debug: Log recovery data structure keys
+          if (!recoveryData || Object.keys(recoveryData).length === 0) {
+            console.warn('⚠️ Recovery data is empty or undefined');
+          }
+
           const recoveryPoint =
             recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[
               probBin
             ]?.[dteBin];
+
           if (recoveryPoint && recoveryPoint.advantage) {
             recoveryAdvantage = recoveryPoint.advantage;
           }
         } catch (e) {
           // Recovery data not available for this combination
+          console.warn('Error looking up recovery data:', e);
         }
 
         // Get monthly stats
