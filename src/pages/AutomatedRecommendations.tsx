@@ -289,6 +289,7 @@ export const AutomatedRecommendations = () => {
               <RecommendationsTable
                 recommendations={recommendations}
                 getFullPath={getFullPath}
+                filters={filters}
               />
             </CardContent>
           </Card>

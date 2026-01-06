@@ -10,16 +10,19 @@ import {
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { ChevronDown, ChevronUp, ArrowUp, ArrowDown } from 'lucide-react';
 import { ScoreBreakdownComponent } from './ScoreBreakdown';
-import type { RecommendedOption } from '@/types/recommendations';
+import { OptionExplanation } from './OptionExplanation';
+import type { RecommendedOption, RecommendationFilters } from '@/types/recommendations';
 
 interface RecommendationsTableProps {
   recommendations: RecommendedOption[];
   getFullPath: (path: string) => string;
+  filters: RecommendationFilters;
 }
 
 export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
   recommendations,
   getFullPath,
+  filters,
 }) => {
   type SortField = keyof RecommendedOption;
   type SortDirection = 'asc' | 'desc';
@@ -220,11 +223,22 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                   {expandedRow === idx && (
                     <TableRow>
                       <TableCell colSpan={17} className="bg-muted/30">
-                        <div className="p-4">
-                          <ScoreBreakdownComponent
-                            breakdown={rec.scoreBreakdown}
-                            compositeScore={rec.compositeScore}
-                          />
+                        <div className="p-4 space-y-4">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <ScoreBreakdownComponent
+                              breakdown={rec.scoreBreakdown}
+                              compositeScore={rec.compositeScore}
+                            />
+                            <OptionExplanation
+                              option={rec}
+                              filters={{
+                                rollingPeriod: filters.rollingPeriod,
+                                minDaysSinceBreak: filters.minDaysSinceBreak,
+                                probabilityMethod: filters.probabilityMethod,
+                                historicalPeakThreshold: filters.historicalPeakThreshold,
+                              }}
+                            />
+                          </div>
                         </div>
                       </TableCell>
                     </TableRow>
