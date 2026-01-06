@@ -199,7 +199,7 @@ export const useAutomatedRecommendations = () => {
       });
 
       // Score each filtered option
-      filteredOptions.forEach((option) => {
+      filteredOptions.forEach((option, idx) => {
         const supportMetric = getMetricsForStock(option.StockName, filters.rollingPeriod);
         if (!supportMetric) return;
 
@@ -216,6 +216,14 @@ export const useAutomatedRecommendations = () => {
 
         // Get historical peak
         const historicalPeakProbability = probabilityPeaksMap.get(option.OptionName) || null;
+
+        // Debug: Log if we're finding probability peaks
+        if (!historicalPeakProbability && idx === 0) {
+          console.warn(`⚠️ Probability peaks map has ${probabilityPeaksMap.size} entries`);
+          if (probabilityPeaksMap.size === 0) {
+            console.warn('⚠️ probabilityPeaksMap is empty - probability history may not have loaded');
+          }
+        }
 
         // Get recovery advantage
         const probBin = getProbabilityBin(currentProbability);
