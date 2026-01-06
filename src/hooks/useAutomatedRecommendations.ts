@@ -118,7 +118,7 @@ export const useAutomatedRecommendations = () => {
     isLoading: supportLoading,
     getMetricsForStock,
   } = useSupportLevelMetrics();
-  const { data: probabilityHistory, isLoading: probHistoryLoading } =
+  const { allData: probabilityHistory, isLoading: probHistoryLoading } =
     useProbabilityHistory();
   const { chartData: recoveryData, isLoading: recoveryLoading } =
     useProbabilityRecoveryData();

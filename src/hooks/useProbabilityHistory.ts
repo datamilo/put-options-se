@@ -22,14 +22,16 @@ export const useProbabilityHistory = (optionName?: string) => {
 
   const loadProbabilityHistory = async () => {
     try {
+      console.log('📥 Starting to load probability history...');
       setIsLoading(true);
       setError(null);
-      
+
       // Try multiple fallback URLs for better reliability on GitHub Pages
       const urls = [
         `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/probability_history.csv?${Date.now()}`,
         `${window.location.origin}${import.meta.env.BASE_URL}data/probability_history.csv?${Date.now()}`
       ];
+      console.log('📍 Trying URLs:', urls);
       
       let lastError: Error | null = null;
       let response: Response | null = null;
@@ -41,6 +43,8 @@ export const useProbabilityHistory = (optionName?: string) => {
           if (response.ok) {
             console.log('✅ Successfully loaded CSV from:', url);
             break;
+          } else {
+            console.warn('⚠️ HTTP error for URL:', url, 'Status:', response.status);
           }
         } catch (error) {
           console.warn('❌ Failed to load from:', url, error);
@@ -75,12 +79,17 @@ export const useProbabilityHistory = (optionName?: string) => {
           return value;
         },
         complete: (results) => {
-          console.log('Probability history data loaded:', results.data.length, 'rows');
+          console.log('✅ Probability history CSV parsed successfully!');
+          console.log('📊 Total rows loaded:', results.data.length);
+          console.log('First row sample:', results.data[0]);
+          if (results.errors.length > 0) {
+            console.warn('⚠️ CSV parsing errors:', results.errors);
+          }
           setAllData(results.data as ProbabilityHistoryData[]);
           setIsLoading(false);
         },
         error: (error) => {
-          console.error('Error parsing probability history CSV:', error);
+          console.error('❌ Error parsing probability history CSV:', error);
           setError('Failed to parse probability history data');
           setIsLoading(false);
         }
