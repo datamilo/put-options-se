@@ -15,6 +15,7 @@ import {
   Target,
   ChevronDown,
   Sparkles,
+  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
@@ -108,9 +109,6 @@ export const HorizontalNavigation = () => {
     <>
       {/* Desktop Horizontal Navigation */}
       <nav className="hidden md:flex items-center gap-1 flex-wrap flex-1">
-        {/* Portfolio Generator */}
-        <NavButton path="/portfolio-generator" icon={Bot} label="Portfolio Generator" />
-
         {/* Support Levels Dropdown */}
         <NavDropdown
           label="Support Levels"
@@ -120,11 +118,6 @@ export const HorizontalNavigation = () => {
               path: "/consecutive-breaks",
               label: "Support Level Analysis",
               icon: ChartNetwork,
-            },
-            {
-              path: "/support-level-options",
-              label: "Support Level Options List",
-              icon: Target,
             },
           ]}
         />
@@ -175,6 +168,29 @@ export const HorizontalNavigation = () => {
 
         {/* Stock Metrics and History */}
         <NavButton path="/stock-analysis" icon={LineChart} label="Stock Metrics and History" />
+
+        {/* Automated Analysis Dropdown */}
+        <NavDropdown
+          label="Automated Analysis"
+          icon={Zap}
+          items={[
+            {
+              path: "/",
+              label: "Automated Put Option Recommendations",
+              icon: Bot,
+            },
+            {
+              path: "/portfolio-generator",
+              label: "Automatic Portfolio Generator",
+              icon: Bot,
+            },
+            {
+              path: "/support-level-options",
+              label: "Support Level Options List",
+              icon: Target,
+            },
+          ]}
+        />
       </nav>
 
       {/* Mobile Hamburger Menu */}
@@ -199,15 +215,6 @@ export const HorizontalNavigation = () => {
               Stock Metrics and History
             </DropdownMenuItem>
 
-            {/* Portfolio Generator */}
-            <DropdownMenuItem
-              onClick={() => navigate("/portfolio-generator")}
-              className="cursor-pointer"
-            >
-              <Bot className="mr-2 h-4 w-4" />
-              Portfolio Generator
-            </DropdownMenuItem>
-
             <DropdownMenuSeparator />
 
             {/* Support Levels Group */}
@@ -220,6 +227,27 @@ export const HorizontalNavigation = () => {
             >
               <ChartNetwork className="mr-2 h-4 w-4" />
               Support Level Analysis
+            </DropdownMenuItem>
+
+            <DropdownMenuSeparator />
+
+            {/* Automated Analysis Group */}
+            <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
+              Automated Analysis
+            </div>
+            <DropdownMenuItem
+              onClick={() => navigate("/")}
+              className="cursor-pointer ml-2"
+            >
+              <Bot className="mr-2 h-4 w-4" />
+              Automated Put Option Recommendations
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate("/portfolio-generator")}
+              className="cursor-pointer ml-2"
+            >
+              <Bot className="mr-2 h-4 w-4" />
+              Automatic Portfolio Generator
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigate("/support-level-options")}
