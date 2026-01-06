@@ -20,7 +20,9 @@ const getProbabilityBin = (prob: number): string => {
   if (prob < 0.7) return '60-70%';
   if (prob < 0.8) return '70-80%';
   if (prob < 0.9) return '80-90%';
-  return '90%+';
+  // Cap at 80-90% because recovery data doesn't have 90%+ bin
+  // Options with 90%+ probability will be looked up as 80-90%
+  return '80-90%';
 };
 
 const getDTEBin = (daysToExpiry: number): string => {
