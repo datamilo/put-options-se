@@ -115,7 +115,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
               <SortableHeader field="daysSinceLastBreak" label="Days Since" align="right" />
               <SortableHeader field="currentProbability" label="Current PoW" align="right" />
               <SortableHeader field="historicalPeakProbability" label="Peak PoW" align="right" />
-              <SortableHeader field="recoveryAdvantage" label="Recovery Adv" align="right" />
+              <SortableHeader field="recoveryAdvantage" label="Recovery Rate %" align="right" />
               <SortableHeader field="monthlyPositiveRate" label="Monthly %" align="right" />
               <SortableHeader field="currentMonthPerformance" label="Curr Month" align="right" />
               <SortableHeader field="supportStrengthScore" label="Strength" align="right" />
@@ -201,7 +201,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                     </TableCell>
                     <TableCell className="text-right">
                       {rec.recoveryAdvantage !== null
-                        ? `${rec.recoveryAdvantage.toFixed(1)}pp`
+                        ? `${(rec.recoveryAdvantage * 100).toFixed(1)}%`
                         : '-'}
                     </TableCell>
                     <TableCell className="text-right">

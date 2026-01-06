@@ -15,7 +15,7 @@ export const ScoreBreakdownComponent: React.FC<ScoreBreakdownProps> = ({
     {
       name: 'Recovery Advantage',
       key: 'recoveryAdvantage' as keyof ScoreBreakdown,
-      description: 'Statistical advantage from probability recovery analysis',
+      description: 'Historical worthless rate for similar recovery candidates',
     },
     {
       name: 'Support Strength',

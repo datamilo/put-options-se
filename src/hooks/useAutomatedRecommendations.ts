@@ -60,11 +60,12 @@ const normalizeDaysSinceBreak = (
   return Math.min(100, Math.max(0, ratio * 50));
 };
 
-const normalizeRecoveryAdvantage = (advantagePp: number | null): number => {
-  if (advantagePp === null) return 50; // No data = neutral
-  // Advantage_pp typically ranges from -10 to +50
-  // 0pp = 50 score, +30pp = 100 score, -10pp = 0 score
-  return Math.min(100, Math.max(0, 50 + advantagePp * 1.67));
+const normalizeRecoveryAdvantage = (recoveryRate: number | null): number => {
+  if (recoveryRate === null) return 50; // No data = neutral
+  // Recovery rate is 0-1 (e.g., 0.785 = 78.5% worthless rate)
+  // Higher worthless rate = better recovery candidate = higher score
+  // 0.5 (50%) = 50 score, 0.8+ (80%+) = 100 score
+  return Math.min(100, Math.max(0, recoveryRate * 100));
 };
 
 const normalizeHistoricalPeak = (
@@ -288,8 +289,9 @@ export const useAutomatedRecommendations = () => {
 
           if (recoveryPoint) {
             console.log(`🎯 Found recovery point for ${option.OptionName}: ${probBin} / ${dteBin}`, recoveryPoint);
-            if (recoveryPoint.advantage !== undefined && recoveryPoint.advantage !== null) {
-              recoveryAdvantage = recoveryPoint.advantage;
+            // Use recovery_candidate_rate (historical worthless rate for recovery candidates)
+            if (recoveryPoint.recovery_candidate_rate !== undefined && recoveryPoint.recovery_candidate_rate !== null) {
+              recoveryAdvantage = recoveryPoint.recovery_candidate_rate;
             }
           }
         } catch (e) {
