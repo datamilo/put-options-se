@@ -257,6 +257,8 @@ export const useAutomatedRecommendations = () => {
           if (idx === 0) {
             console.log('🔍 Recovery data structure keys:', Object.keys(recoveryData));
             console.log('📊 Looking for threshold:', thresholdKey);
+            console.log('🔑 Probability method (field):', filters.probabilityMethod);
+            console.log('🔄 Mapped method (recovery):', recoveryMethod);
             if (recoveryData[thresholdKey]) {
               console.log('✅ Threshold found! Methods:', Object.keys(recoveryData[thresholdKey]));
               const methodData = recoveryData[thresholdKey]?.[recoveryMethod];
