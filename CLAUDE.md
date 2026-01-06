@@ -47,6 +47,7 @@ Detailed documentation for each page is in the `/docs` folder:
 | Probability Analysis | `/probability-analysis` | [docs/probability-analysis.md](docs/probability-analysis.md) | Probability method validation and recovery |
 | Lower Bound Analysis | `/lower-bound-analysis` | [docs/lower-bound-analysis.md](docs/lower-bound-analysis.md) | IV-based prediction validation |
 | Financial Reporting Volatility | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Earnings and event volatility analysis |
+| Option Recommendations | `/recommendations` | [docs/recommendations.md](docs/recommendations.md) | Automated put option recommendations with weighted scoring |
 
 ## Analytics & User Tracking
 
@@ -65,17 +66,28 @@ All analytics data is stored in Supabase with automatic cleanup and indexing for
 ### Navigation Structure
 
 **Desktop Horizontal Navigation:**
+
+Pages are organized into logical groups based on their purpose and data flow:
+
 - **Dropdown Categories**:
   - **Support Levels**: Support Level Analysis
+    - Analyzes rolling low support levels and identifies break patterns
   - **Historical Performance and Volatility**: Monthly Analysis, Financial Reporting Volatility
+    - Historical analysis pages examining seasonality and event-driven volatility
   - **Method Validation**: Probability Analysis, Lower Bound Analysis
-  - **Automated Analysis**: Automated Put Option Recommendations, Automatic Portfolio Generator, Support Level Options List
+    - Validation pages that test prediction method accuracy
+  - **Automated Analysis**: Option Recommendations, Automatic Portfolio Generator, Support Level Options List
+    - Automated list generation pages that combine multiple analyses into filtered recommendations based on user preferences and settings
 - **Standalone Buttons**: Stock Metrics and History
+  - Deep-dive analysis of individual stocks
 - **Utilities**: Calculation Settings, Theme Toggle, Sign Out
 
-**Mobile Navigation:** Hamburger menu with grouped sections
+**Mobile Navigation:** Hamburger menu with identical grouping structure
 
-All pages are accessible via the horizontal navigation bar (desktop) or expandable hamburger menu (mobile).
+**Navigation Details:**
+- All pages accessible via horizontal navigation bar (desktop) or expandable hamburger menu (mobile)
+- Active page highlighted with checkmark in dropdown and bold button appearance
+- "Automated Analysis" group consolidates pages that automatically generate filtered lists based on user-configured weights and thresholds (Option Recommendations uses weighted scoring, Portfolio Generator uses custom rules, Support Level Options List uses support level filters)
 
 ### Additional Documentation
 - [docs/analytics.md](docs/analytics.md) - Usage analytics system for tracking authenticated users

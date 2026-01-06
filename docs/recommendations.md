@@ -44,6 +44,8 @@ Click "Score Weights Configuration" to customize factor importance:
 
 Total must equal 100%.
 
+**Note on Zero Weights:** If you set any factor's weight to 0%, that factor will be visually marked as "Not Included" with a red badge in the Score Breakdown panel (shown when you expand a result row). Factors with 0% weight are grayed out and appear with a dashed border, making it very clear they are not contributing to the scoring calculation. This is useful for testing how recommendations change when excluding specific factors from consideration.
+
 ### 3. Click "Analyze"
 
 The system will:
@@ -643,6 +645,10 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining days:
 - [ ] All 6 weight sliders visible and functional
 - [ ] Sum of weights displays and updates
 - [ ] Rerunning analysis with different weights changes results
+- [ ] Set one factor's weight to 0%
+- [ ] In expanded Score Breakdown, see "Not Included" badge (red with alert icon) for that factor
+- [ ] Disabled factor shows grayed-out background and dashed border
+- [ ] Disabled factor contributes 0 points to composite score
 
 **Table Features**:
 - [ ] All columns render correctly
