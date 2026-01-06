@@ -32,6 +32,18 @@ const getDTEBin = (daysToExpiry: number): string => {
   return '36+';
 };
 
+// Map probability method field names to recovery data method names
+const mapProbabilityMethodToRecoveryMethod = (fieldName: string): string => {
+  const methodMap: Record<string, string> = {
+    'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
+    '1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
+    '1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',
+    '2_ProbOfWorthless_Calibrated': 'PoW - Bias Corrected',
+    '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV',
+  };
+  return methodMap[fieldName] || fieldName;
+};
+
 // Score normalization functions (all return 0-100)
 const normalizeSupportStrength = (score: number | null): number => {
   if (score === null) return 50;
@@ -239,39 +251,35 @@ export const useAutomatedRecommendations = () => {
         let recoveryAdvantage: number | null = null;
         try {
           const thresholdKey = filters.historicalPeakThreshold.toFixed(2);
+          const recoveryMethod = mapProbabilityMethodToRecoveryMethod(filters.probabilityMethod);
 
-          // Debug: Log recovery data structure
+          // Debug: Log recovery data structure (only for first option)
           if (idx === 0) {
             console.log('🔍 Recovery data structure keys:', Object.keys(recoveryData));
             console.log('📊 Looking for threshold:', thresholdKey);
-            console.log('🔎 Available thresholds:', Object.keys(recoveryData));
             if (recoveryData[thresholdKey]) {
               console.log('✅ Threshold found! Methods:', Object.keys(recoveryData[thresholdKey]));
+              const methodData = recoveryData[thresholdKey]?.[recoveryMethod];
+              console.log(`🔎 Method data:`, methodData ? `Found ${Object.keys(methodData).length} prob bins` : 'NOT found');
+              if (methodData) {
+                console.log('📊 Available prob bins:', Object.keys(methodData));
+              }
             } else {
               console.warn('⚠️ Threshold NOT found:', thresholdKey);
             }
           }
 
-          // Debug the nested lookup
-          if (idx === 0) {
-            const methodData = recoveryData[thresholdKey]?.[filters.probabilityMethod];
-            console.log(`🔎 Method data:`, methodData ? `Found ${Object.keys(methodData).length} prob bins` : 'NOT found');
-            if (methodData) {
-              console.log('📊 Available prob bins:', Object.keys(methodData));
-            }
-          }
-
           const recoveryPoint =
-            recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[
+            recoveryData[thresholdKey]?.[recoveryMethod]?.[
               probBin
             ]?.[dteBin];
 
           // Log every lookup attempt for first few options
           if (idx < 3) {
             console.log(`🔍 Looking for: ${option.OptionName} - Prob: ${probBin} (current: ${(currentProbability * 100).toFixed(1)}%), DTE: ${dteBin} (days: ${daysToExpiry})`);
-            if (!recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[probBin]) {
+            if (!recoveryData[thresholdKey]?.[recoveryMethod]?.[probBin]) {
               console.warn(`⚠️ Prob bin '${probBin}' not found in recovery data`);
-            } else if (!recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[probBin]?.[dteBin]) {
+            } else if (!recoveryData[thresholdKey]?.[recoveryMethod]?.[probBin]?.[dteBin]) {
               console.warn(`⚠️ DTE bin '${dteBin}' not found for prob bin '${probBin}'`);
             }
           }
