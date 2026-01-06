@@ -14,6 +14,7 @@ import {
   ArrowDown10,
   Target,
   ChevronDown,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SettingsModal } from "@/components/SettingsModal";
@@ -161,6 +162,11 @@ export const HorizontalNavigation = () => {
               label: "Lower Bound Analysis",
               icon: ArrowDown10,
             },
+            {
+              path: "/recommendations",
+              label: "Option Recommendations",
+              icon: Sparkles,
+            },
           ]}
         />
 
@@ -263,6 +269,13 @@ export const HorizontalNavigation = () => {
             >
               <ArrowDown10 className="mr-2 h-4 w-4" />
               Lower Bound Analysis
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate("/recommendations")}
+              className="cursor-pointer ml-2"
+            >
+              <Sparkles className="mr-2 h-4 w-4" />
+              Option Recommendations
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
