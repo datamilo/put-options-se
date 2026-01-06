@@ -252,10 +252,29 @@ export const useAutomatedRecommendations = () => {
             }
           }
 
+          // Debug the nested lookup
+          if (idx === 0) {
+            const methodData = recoveryData[thresholdKey]?.[filters.probabilityMethod];
+            console.log(`🔎 Method data:`, methodData ? `Found ${Object.keys(methodData).length} prob bins` : 'NOT found');
+            if (methodData) {
+              console.log('📊 Available prob bins:', Object.keys(methodData));
+            }
+          }
+
           const recoveryPoint =
             recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[
               probBin
             ]?.[dteBin];
+
+          // Log every lookup attempt for first few options
+          if (idx < 3) {
+            console.log(`🔍 Looking for: ${option.OptionName} - Prob: ${probBin} (current: ${(currentProbability * 100).toFixed(1)}%), DTE: ${dteBin} (days: ${daysToExpiry})`);
+            if (!recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[probBin]) {
+              console.warn(`⚠️ Prob bin '${probBin}' not found in recovery data`);
+            } else if (!recoveryData[thresholdKey]?.[filters.probabilityMethod]?.[probBin]?.[dteBin]) {
+              console.warn(`⚠️ DTE bin '${dteBin}' not found for prob bin '${probBin}'`);
+            }
+          }
 
           if (recoveryPoint) {
             console.log(`🎯 Found recovery point for ${option.OptionName}: ${probBin} / ${dteBin}`, recoveryPoint);
