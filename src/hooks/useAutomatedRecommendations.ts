@@ -137,6 +137,12 @@ export const useAutomatedRecommendations = () => {
   // Pre-build lookup maps for O(1) access
   const probabilityPeaksMap = useMemo(() => {
     const map = new Map<string, number>();
+    console.log('🔍 Building probabilityPeaksMap...');
+    console.log('probabilityHistory type:', typeof probabilityHistory);
+    console.log('probabilityHistory is array:', Array.isArray(probabilityHistory));
+    console.log('probabilityHistory length:', probabilityHistory?.length);
+    console.log('probabilityHistory value:', probabilityHistory);
+
     if (probabilityHistory && Array.isArray(probabilityHistory)) {
       probabilityHistory.forEach((p) => {
         const key = p.OptionName;
@@ -147,6 +153,7 @@ export const useAutomatedRecommendations = () => {
         }
       });
     }
+    console.log(`✅ Built probabilityPeaksMap with ${map.size} entries`);
     return map;
   }, [probabilityHistory]);
 
