@@ -90,14 +90,6 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
     return 'text-red-600 dark:text-red-400';
   };
 
-  const getPatternColor = (pattern: string | null): string => {
-    if (!pattern) return '';
-    if (pattern === 'never_breaks') return 'bg-green-100 dark:bg-green-900';
-    if (pattern === 'exhausted_cascade') return 'bg-blue-100 dark:bg-blue-900';
-    if (pattern === 'volatile') return 'bg-red-100 dark:bg-red-900';
-    return 'bg-gray-100 dark:bg-gray-800';
-  };
-
   return (
     <div className="space-y-4">
       <ScrollArea className="w-full">
@@ -119,7 +111,6 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
               <SortableHeader field="monthlyPositiveRate" label="Monthly %" align="right" />
               <SortableHeader field="currentMonthPerformance" label="Curr Month" align="right" />
               <SortableHeader field="supportStrengthScore" label="Strength" align="right" />
-              <SortableHeader field="patternType" label="Pattern" />
               <SortableHeader field="premium" label="Premium" align="right" />
               <SortableHeader field="compositeScore" label="Score" align="right" />
             </TableRow>
@@ -127,7 +118,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
           <TableBody>
             {sortedRecommendations.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={18} className="text-center text-muted-foreground py-8">
+                <TableCell colSpan={17} className="text-center text-muted-foreground py-8">
                   No recommendations found. Try adjusting your filters or click Analyze.
                 </TableCell>
               </TableRow>
@@ -219,17 +210,6 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                         ? rec.supportStrengthScore.toFixed(0)
                         : '-'}
                     </TableCell>
-                    <TableCell>
-                      {rec.patternType && (
-                        <span
-                          className={`px-2 py-1 rounded text-xs ${getPatternColor(
-                            rec.patternType
-                          )}`}
-                        >
-                          {rec.patternType}
-                        </span>
-                      )}
-                    </TableCell>
                     <TableCell className="text-right text-green-600 dark:text-green-400 font-semibold">
                       {rec.premium.toLocaleString()}
                     </TableCell>
@@ -239,7 +219,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                   </TableRow>
                   {expandedRow === idx && (
                     <TableRow>
-                      <TableCell colSpan={18} className="bg-muted/30">
+                      <TableCell colSpan={17} className="bg-muted/30">
                         <div className="p-4">
                           <ScoreBreakdownComponent
                             breakdown={rec.scoreBreakdown}
