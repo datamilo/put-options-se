@@ -290,6 +290,7 @@ export const AutomatedRecommendations = () => {
                 recommendations={recommendations}
                 getFullPath={getFullPath}
                 filters={filters}
+                weights={weights}
               />
             </CardContent>
           </Card>

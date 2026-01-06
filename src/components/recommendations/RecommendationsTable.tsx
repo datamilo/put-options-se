@@ -11,18 +11,20 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { ChevronDown, ChevronUp, ArrowUp, ArrowDown } from 'lucide-react';
 import { ScoreBreakdownComponent } from './ScoreBreakdown';
 import { OptionExplanation } from './OptionExplanation';
-import type { RecommendedOption, RecommendationFilters } from '@/types/recommendations';
+import type { RecommendedOption, RecommendationFilters, ScoreWeights } from '@/types/recommendations';
 
 interface RecommendationsTableProps {
   recommendations: RecommendedOption[];
   getFullPath: (path: string) => string;
   filters: RecommendationFilters;
+  weights: ScoreWeights;
 }
 
 export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
   recommendations,
   getFullPath,
   filters,
+  weights,
 }) => {
   type SortField = keyof RecommendedOption;
   type SortDirection = 'asc' | 'desc';
@@ -228,6 +230,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                             <ScoreBreakdownComponent
                               breakdown={rec.scoreBreakdown}
                               compositeScore={rec.compositeScore}
+                              weights={weights}
                             />
                             <OptionExplanation
                               option={rec}
