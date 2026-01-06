@@ -421,6 +421,438 @@ The issue is almost certainly a **bin name mismatch** between:
 
 ---
 
+## Binning Reference
+
+### Probability Binning
+
+The `getProbabilityBin(prob)` function categorizes probability values (0-1 range) into discrete bins:
+
+| Probability Range | Bin Name | Covers |
+|-------------------|----------|--------|
+| 0.00 - 0.49 | `<50%` | Less than 50% probability |
+| 0.50 - 0.59 | `50-60%` | 50% to 59.9% probability |
+| 0.60 - 0.69 | `60-70%` | 60% to 69.9% probability |
+| 0.70 - 0.79 | `70-80%` | 70% to 79.9% probability |
+| 0.80 - 0.89 | `80-90%` | 80% to 89.9% probability |
+| 0.90 - 1.00 | `90%+` | 90% and above |
+
+**Implementation** (`useAutomatedRecommendations.ts` lines 17-24):
+```typescript
+const getProbabilityBin = (prob: number): string => {
+  if (prob < 0.5) return '<50%';
+  if (prob < 0.6) return '50-60%';
+  if (prob < 0.7) return '60-70%';
+  if (prob < 0.8) return '70-80%';
+  if (prob < 0.9) return '80-90%';
+  return '90%+';
+};
+```
+
+### Days to Expiry (DTE) Binning
+
+The `getDTEBin(daysToExpiry)` function categorizes remaining days into discrete bins:
+
+| Days Range | Bin Name | Covers |
+|------------|----------|--------|
+| 1 - 7 | `0-7` | Less than 1 week |
+| 8 - 14 | `8-14` | 1-2 weeks |
+| 15 - 21 | `15-21` | 2-3 weeks |
+| 22 - 28 | `22-28` | 3-4 weeks |
+| 29 - 35 | `29-35` | 4-5 weeks |
+| 36+ | `36+` | 5+ weeks |
+
+**Implementation** (`useAutomatedRecommendations.ts` lines 26-33):
+```typescript
+const getDTEBin = (daysToExpiry: number): string => {
+  if (daysToExpiry <= 7) return '0-7';
+  if (daysToExpiry <= 14) return '8-14';
+  if (daysToExpiry <= 21) return '15-21';
+  if (daysToExpiry <= 28) return '22-28';
+  if (daysToExpiry <= 35) return '29-35';
+  return '36+';
+};
+```
+
+---
+
+## Probability Method Field Mapping
+
+The five probability calculation methods available in the dropdown map to CSV column names:
+
+| Dropdown Label | Field Name in Code/CSV | Source | Description |
+|---|---|---|---|
+| PoW - Bayesian Calibrated | `ProbWorthless_Bayesian_IsoCal` | `probability_history.csv` | Primary method (default), uses Bayesian with isotonic calibration |
+| PoW - Weighted Average | `1_2_3_ProbOfWorthless_Weighted` | `probability_history.csv` | Weighted average of 3 methods |
+| PoW - Original Black-Scholes | `1_ProbOfWorthless_Original` | `probability_history.csv` | Original Black-Scholes probability calculation |
+| PoW - Bias Corrected | `2_ProbOfWorthless_Calibrated` | `probability_history.csv` | Bias-corrected probability estimate |
+| PoW - Historical IV | `3_ProbOfWorthless_Historical_IV` | `probability_history.csv` | Using historical implied volatility |
+
+**Selection in Code**: `filters.probabilityMethod` - string value must exactly match field name
+**Used for**:
+- Filtering probability_history.csv for peak probabilities
+- Accessing recovery data nested structure (recovery_data[threshold][method])
+
+---
+
+## API Reference
+
+### Main Hook: `useAutomatedRecommendations`
+
+**Location**: `/src/hooks/useAutomatedRecommendations.ts`
+
+**Returns**:
+```typescript
+{
+  analyzeOptions: (filters: RecommendationFilters, weights: ScoreWeights) => RecommendedOption[],
+  isLoading: boolean
+}
+```
+
+**Parameters**:
+- `filters: RecommendationFilters` - User-selected filter criteria
+- `weights: ScoreWeights` - Scoring weights (must sum to 100)
+
+**Data Sources Composed**:
+1. `useEnrichedOptionsData()` - Options with margin and IV
+2. `useSupportLevelMetrics()` - Support level analysis
+3. `useProbabilityHistory()` - Historical probability data
+4. `useProbabilityRecoveryData()` - Recovery advantage statistics
+5. `useMonthlyStockData()` - Monthly seasonality patterns
+6. `useStockData()` - Current stock performance
+
+### Component: `RecommendationFilters`
+
+**Location**: `/src/components/recommendations/RecommendationFilters.tsx`
+
+**Props**:
+```typescript
+interface RecommendationFiltersProps {
+  filters: RecommendationFilters;
+  onFiltersChange: (filters: RecommendationFilters) => void;
+  onAnalyze: () => void;
+  availableExpiryDates: string[];
+  isAnalyzing: boolean;
+}
+```
+
+**Rendered Controls**:
+- Expiry Date (Select - dropdown of available dates)
+- Rolling Low Period (Select - 30, 90, 180, 270, 365)
+- Min Days Since Last Break (Input - number field)
+- Probability Method (Select - 5 methods)
+- Historical Peak Threshold (Select - 80%, 90%, 95%)
+- Analyze Button (disabled if no expiry date or analyzing)
+
+### Component: `RecommendationsTable`
+
+**Location**: `/src/components/recommendations/RecommendationsTable.tsx`
+
+**Props**:
+```typescript
+interface RecommendationsTableProps {
+  recommendations: RecommendedOption[];
+  isLoading: boolean;
+}
+```
+
+**Features**:
+- Sortable columns (click header to sort)
+- Expandable rows (click chevron for score breakdown)
+- Color-coded composite scores (green ≥70, yellow 50-69, red <50)
+- Clickable stock/option names (opens detail pages in new tab)
+
+**Columns** (18+ total):
+Rank, Stock, Option, Strike, Current Price, Support Level, Distance %, Days Since Break, Current PoW, Peak PoW, Recovery Advantage, Monthly % Positive, Monthly Avg Return, Current Month %, Support Strength, Pattern Type, Premium, Composite Score
+
+### Component: `ScoreBreakdown`
+
+**Location**: `/src/components/recommendations/ScoreBreakdown.tsx`
+
+**Props**:
+```typescript
+interface ScoreBreakdownProps {
+  scoreBreakdown: ScoreBreakdown;
+}
+```
+
+**Displays for each of 6 factors**:
+- Raw value
+- Normalized score (0-100)
+- Weighted contribution
+- Visual progress bar
+
+---
+
+## Data Structure Reference
+
+### TypeScript Interfaces
+
+**RecommendationFilters** (user input):
+```typescript
+interface RecommendationFilters {
+  expiryDate: string;                      // ISO date (e.g., "2025-01-17")
+  rollingPeriod: number;                   // 30 | 90 | 180 | 270 | 365
+  minDaysSinceBreak: number;               // days (default: 10)
+  probabilityMethod: string;               // Field name from probability_history.csv
+  historicalPeakThreshold: number;         // 0.80 | 0.90 | 0.95
+}
+```
+
+**ScoreWeights** (default: 100 total):
+```typescript
+interface ScoreWeights {
+  supportStrength: number;          // 20 (%)
+  daysSinceBreak: number;           // 15 (%)
+  recoveryAdvantage: number;        // 25 (%)
+  historicalPeak: number;           // 15 (%)
+  monthlySeasonality: number;       // 15 (%)
+  currentPerformance: number;       // 10 (%)
+}
+```
+
+**RecommendedOption** (output):
+```typescript
+interface RecommendedOption {
+  // Ranking
+  rank: number;
+
+  // Option/Stock identity
+  optionName: string;
+  stockName: string;
+  strikePrice: number;
+  expiryDate: string;
+  daysToExpiry: number;
+
+  // Pricing
+  currentPrice: number;
+  premium: number;
+
+  // Support metrics
+  rollingLow: number | null;
+  distanceToSupportPct: number | null;
+  daysSinceLastBreak: number | null;
+  supportStrengthScore: number | null;
+  patternType: string | null;
+
+  // Probability metrics
+  currentProbability: number;
+  historicalPeakProbability: number | null;
+  currentProbBin: string;    // Calculated bin for lookup
+  dteBin: string;            // Calculated bin for lookup
+
+  // Recovery analysis
+  recoveryAdvantage: number | null;
+
+  // Monthly analysis
+  monthlyPositiveRate: number | null;
+  monthlyAvgReturn: number | null;
+  typicalLowDay: number | null;
+  currentMonthPerformance: number | null;
+
+  // Scoring
+  compositeScore: number;
+  scoreBreakdown: ScoreBreakdown;
+}
+```
+
+**ScoreBreakdown** (per-factor detail):
+```typescript
+interface ScoreBreakdown {
+  supportStrength: ScoreComponent;
+  daysSinceBreak: ScoreComponent;
+  recoveryAdvantage: ScoreComponent;
+  historicalPeak: ScoreComponent;
+  monthlySeasonality: ScoreComponent;
+  currentPerformance: ScoreComponent;
+}
+
+interface ScoreComponent {
+  raw: number | null;          // Original value
+  normalized: number;          // 0-100 normalized
+  weighted: number;            // normalized * weight%
+}
+```
+
+### Recovery Data Structure
+
+Built in `useProbabilityRecoveryData.ts`, organized as:
+
+```
+chartData = {
+  "0.80": {                              // Historical Peak Threshold
+    "PoW - Bayesian Calibrated": {      // Probability Method
+      "50-60%": {                        // Probability Bin
+        "0-7": {                         // DTE Bin
+          recovery_candidate_n: 45,
+          recovery_candidate_rate: 78.5,
+          baseline_n: 120,
+          baseline_rate: 55.2,
+          advantage: 23.3                // ← This is what we extract
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## Edge Cases & Limitations
+
+### Data Availability
+
+| Situation | Behavior | Display |
+|-----------|----------|---------|
+| No options match filters | Empty table with "No recommendations found" message | "-" |
+| Probability history missing for option | Peak PoW shows "-" | Falls back to neutral score (50) |
+| Recovery data missing for bin | Recovery Adv shows "-" | Falls back to neutral score (50) |
+| Monthly stats missing for stock | Monthly % shows "-" | Falls back to neutral score (50) |
+| Current stock data unavailable | Current Performance shows "-" | Falls back to neutral score (50) |
+| Support metrics not calculated | Support Strength shows "-" | Option filtered out (not included in results) |
+
+### Constraints
+
+1. **One Expiry Date Per Analysis** - Must select exactly one expiry date to analyze
+2. **Strike Must Be At/Below Rolling Low** - Options with strike > rolling low are filtered out (per investor logic)
+3. **Days Since Break Filter** - Options with fewer days since break than minimum are excluded
+4. **Weight Total** - Score weights must sum to exactly 100% (enforced by slider validation)
+5. **Historical Peak Threshold** - Only affects which recovery data is queried, not filtering
+6. **Probability Method** - Single method per analysis (not compared across methods)
+
+### Missing Data Handling
+
+- **Graceful Fallback**: Any missing metric scores as neutral (50 normalized)
+- **No Option Exclusion**: Missing data doesn't exclude options (unless support metrics missing)
+- **Display Consistency**: "-" indicates unavailable data in all columns
+- **Weighting Impact**: If factor data missing, its weighted contribution still applied but normalized to 50
+
+### Performance Limits
+
+- **Dataset Size**: Designed for 500-2000 options per expiry (typical for SE market)
+- **Real-Time Updates**: Analysis is on-demand (not live); data refreshes based on CSV update frequency
+- **Browser Memory**: All analysis done client-side in React hooks
+- **Rendering**: Table virtualization not implemented; may slow with 500+ rows on slower devices
+
+---
+
+## Testing Checklist
+
+### Manual Feature Verification
+
+**Setup** (before testing):
+- [ ] Navigate to `/recommendations` page
+- [ ] Confirm page loads without errors
+- [ ] Verify "Option Recommendations" appears in navigation (Method Validation → Option Recommendations)
+
+**Filters**:
+- [ ] Expiry Date dropdown shows available dates
+- [ ] Rolling Low Period has all 5 options (30, 90, 180, 270, 365)
+- [ ] Min Days Since Break accepts numeric input
+- [ ] Probability Method dropdown shows all 5 methods
+- [ ] Historical Peak Threshold shows 80%, 90%, 95%
+- [ ] Analyze button disabled until expiry date selected
+- [ ] Analyze button disabled while analyzing
+
+**Data Loading**:
+- [ ] Open browser console (F12)
+- [ ] Confirm no errors on page load
+- [ ] Confirm "Option Recommendations" renders without crashing
+
+**Analysis Execution**:
+- [ ] Select expiry date
+- [ ] Click "Analyze"
+- [ ] Table populates with results (should see 20-100 options)
+- [ ] Results are ranked by Composite Score (highest first)
+- [ ] Loading state shows while analyzing
+
+**Score Weights**:
+- [ ] Click "Score Weights Configuration" to expand
+- [ ] All 6 weight sliders visible and draggable
+- [ ] Weights display current values
+- [ ] Sum of weights shows in real-time
+- [ ] Rerunning analysis uses new weights (results change)
+
+**Results Table**:
+- [ ] All 18+ columns render
+- [ ] Data displays in all columns (or "-" for missing)
+- [ ] Stock and Option names are clickable links (blue text)
+- [ ] Links open in new tab
+- [ ] Composite Score column has color coding:
+  - [ ] Green for scores ≥ 70
+  - [ ] Yellow for scores 50-69
+  - [ ] Red for scores < 50
+
+**Sorting**:
+- [ ] Click any column header to sort
+- [ ] Click again to reverse sort direction
+- [ ] Rank numbers update after sort (stay 1, 2, 3...)
+- [ ] Multiple sorts work correctly (doesn't break)
+
+**Expandable Rows** (Score Breakdown):
+- [ ] Click chevron icon to expand row
+- [ ] Score breakdown appears below row
+- [ ] Shows 6 factor boxes with:
+  - [ ] Factor name
+  - [ ] Raw value (or "-")
+  - [ ] Normalized score (0-100)
+  - [ ] Weighted contribution
+  - [ ] Progress bar visualization
+- [ ] Click again to collapse
+- [ ] Multiple rows can be expanded
+
+**Summary KPIs**:
+- [ ] "Total Recommendations" card shows result count
+- [ ] "Average Score" shows weighted average
+- [ ] "Top Score" shows highest composite score
+- [ ] KPI values update after rerunning analysis with different filters
+
+**Data Timestamps**:
+- [ ] "Data last updated" shows in format "YYYY-MM-DD HH:mm"
+- [ ] Timestamp matches actual data update time
+- [ ] Timestamp updates when data refreshed
+
+### Recovery Advantage Debugging (When Fixing Bug #4)
+
+**Before Running Fix**:
+- [ ] Open browser console (F12 → Console tab)
+- [ ] Clear console history
+- [ ] Select filters and click Analyze
+
+**Check Initial Data Loading**:
+- [ ] Look for "✅ Built chart data structure:" message
+- [ ] Look for "🔑 Aggregated thresholds: ['0.80', '0.85', '0.90', '0.95']"
+- [ ] Note the exact format of available thresholds
+
+**Check Analysis Phase**:
+- [ ] Look for "🔎 Method data: Found X prob bins" (X should be > 0)
+- [ ] Look for "📊 Available prob bins:" line
+- [ ] **CRITICAL**: Copy the exact bin names shown (these are the truth)
+- [ ] Look for first 3-5 "🔍 Looking for:" messages
+- [ ] Compare the prob bins in "Looking for" with "Available prob bins"
+- [ ] Note any exact matches or differences
+
+**If Bug #4 Still Occurs**:
+- [ ] Look for "🎯 Found recovery point for" messages
+- [ ] If none found, look for "⚠️ Prob bin 'XXX' not found" or "⚠️ DTE bin 'YYY' not found"
+- [ ] These warnings identify the mismatch
+
+**After Fixing**:
+- [ ] Clear console and rerun analysis
+- [ ] Should see "🎯 Found recovery point for [OPTION]" messages
+- [ ] Recovery Adv column should show numeric values (not "-")
+- [ ] Remove all console.log statements from `useAutomatedRecommendations.ts`
+
+### Edge Case Testing
+
+- [ ] No options match filters → Shows "No recommendations found"
+- [ ] Select different rolling periods → Results change appropriately
+- [ ] Increase min days since break → Fewer results (more strict)
+- [ ] Change probability method → Results may change (different peaks loaded)
+- [ ] Adjust individual weight to 0% → That factor's contribution becomes 0
+- [ ] All weight to one factor → Only that factor matters for ranking
+
+---
+
 ## Future Enhancements
 
 Potential improvements:
