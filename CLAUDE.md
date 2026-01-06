@@ -65,11 +65,12 @@ All analytics data is stored in Supabase with automatic cleanup and indexing for
 ### Navigation Structure
 
 **Desktop Horizontal Navigation:**
-- **Standalone Buttons**: Portfolio Generator, Stock Metrics and History
 - **Dropdown Categories**:
-  - **Support Levels**: Support Level Analysis, Support Level Options List
+  - **Support Levels**: Support Level Analysis
   - **Historical Performance and Volatility**: Monthly Analysis, Financial Reporting Volatility
   - **Method Validation**: Probability Analysis, Lower Bound Analysis
+  - **Automated Analysis**: Automated Put Option Recommendations, Automatic Portfolio Generator, Support Level Options List
+- **Standalone Buttons**: Stock Metrics and History
 - **Utilities**: Calculation Settings, Theme Toggle, Sign Out
 
 **Mobile Navigation:** Hamburger menu with grouped sections
