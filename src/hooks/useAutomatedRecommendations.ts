@@ -71,8 +71,12 @@ const normalizeRecoveryAdvantage = (recoveryRate: number | null): number => {
 const normalizeHistoricalPeak = (
   currentProb: number,
   peakProb: number | null,
-  threshold: number
+  threshold: number,
+  weight: number
 ): number => {
+  // If weight is 0%, the threshold is irrelevant - return neutral score
+  if (weight === 0) return 50;
+
   if (peakProb === null) return 50;
 
   // Score higher if peak was >= threshold AND current is notably lower
@@ -321,7 +325,8 @@ export const useAutomatedRecommendations = () => {
         const historicalPeakNorm = normalizeHistoricalPeak(
           currentProbability,
           historicalPeakProbability,
-          filters.historicalPeakThreshold
+          filters.historicalPeakThreshold,
+          weights.historicalPeak
         );
         const seasonalityNorm = normalizeSeasonality(
           monthlyPositiveRate,
