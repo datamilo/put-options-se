@@ -42,7 +42,7 @@ Click "Score Weights Configuration" to customize factor importance:
 | Monthly Seasonality | 15% | Historical % of positive months |
 | Current Performance | 10% | Month-to-date underperformance vs historical average (lower weight reflects that it's a recent/short-term indicator compared to the longer-term factors) |
 
-Total must equal 100%.
+**Weight Normalization**: Weights are automatically normalized to 100% when you run the analysis, so you can focus on setting the **relative importance** of each factor without needing to manually balance them. For example, if you set weights to 20/20/20/10/10/10 (total 90%) or 30/25/20/15/10/5 (total 105%), the system will proportionally scale them to 100% behind the scenes.
 
 **Note on Current Performance Weight**: This factor has the lowest default weight (10%) because it's based on only days/weeks of performance in the current month, making it a short-term indicator. The other factors (support stability, historical patterns, recovery data) represent longer time periods and are weighted more heavily. However, you can increase this weight if you believe mean reversion is particularly important for your strategy.
 

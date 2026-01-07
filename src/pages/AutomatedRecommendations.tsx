@@ -62,7 +62,18 @@ export const AutomatedRecommendations = () => {
     if (!filters.expiryDate) return;
     setIsAnalyzing(true);
     setTimeout(() => {
-      const results = analyzeOptions(filters, weights);
+      // Auto-normalize weights to 100% for consistent scoring
+      const totalWeight = Object.values(weights).reduce((sum, w) => sum + w, 0);
+      const normalizedWeights = totalWeight > 0
+        ? Object.fromEntries(
+            Object.entries(weights).map(([key, value]) => [
+              key,
+              (value / totalWeight) * 100
+            ])
+          ) as ScoreWeights
+        : weights; // If all weights are 0, use as-is (will result in all neutral scores)
+
+      const results = analyzeOptions(filters, normalizedWeights);
       setRecommendations(results);
       setIsAnalyzing(false);
     }, 100);
@@ -142,11 +153,7 @@ export const AutomatedRecommendations = () => {
                       Score Weights Configuration
                     </CardTitle>
                     <div className="flex items-center gap-2">
-                      <span
-                        className={`text-sm ${
-                          totalWeight === 100 ? 'text-green-600' : 'text-red-600'
-                        }`}
-                      >
+                      <span className="text-sm text-muted-foreground">
                         Total: {totalWeight}%
                       </span>
                       <Button
@@ -220,11 +227,9 @@ export const AutomatedRecommendations = () => {
                       />
                     </div>
                   ))}
-                  {totalWeight !== 100 && (
-                    <div className="mt-4 p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg text-sm">
-                      Warning: Total weight should be 100% for accurate scoring.
-                    </div>
-                  )}
+                  <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg text-sm text-muted-foreground">
+                    <strong>Note:</strong> Adjust sliders to set relative importance between factors. Weights are automatically normalized to 100% when analyzing, so you don't need to manually balance them.
+                  </div>
                 </CardContent>
               </CollapsibleContent>
             </Card>
