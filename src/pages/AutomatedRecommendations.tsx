@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Target, BarChart3, RotateCcw } from 'lucide-react';
+import { Sparkles, TrendingUp, Target, BarChart3, RotateCcw, ChevronDown } from 'lucide-react';
 import { RecommendationFiltersComponent } from '@/components/recommendations/RecommendationFilters';
 import { RecommendationsTable } from '@/components/recommendations/RecommendationsTable';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
@@ -89,9 +89,6 @@ export const AutomatedRecommendations = () => {
     setWeights(DEFAULT_WEIGHTS);
   };
 
-  // Calculate total weight
-  const totalWeight = Object.values(weights).reduce((sum, w) => sum + w, 0);
-
   // Summary stats
   const avgScore = useMemo(() => {
     if (recommendations.length === 0) return 0;
@@ -147,32 +144,35 @@ export const AutomatedRecommendations = () => {
           <Collapsible open={weightsOpen} onOpenChange={setWeightsOpen}>
             <Card>
               <CardHeader>
-                <CollapsibleTrigger className="w-full">
+                <CollapsibleTrigger className="w-full hover:opacity-80 transition-opacity">
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">
-                      Score Weights Configuration
-                    </CardTitle>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm text-muted-foreground">
-                        Total: {totalWeight}%
-                      </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          resetWeights();
-                        }}
-                      >
-                        <RotateCcw className="h-4 w-4 mr-1" />
-                        Reset
-                      </Button>
+                      <CardTitle className="text-lg">
+                        Score Weights Configuration
+                      </CardTitle>
+                      <ChevronDown
+                        className={`h-5 w-5 transition-transform ${weightsOpen ? 'rotate-180' : ''}`}
+                      />
                     </div>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        resetWeights();
+                      }}
+                    >
+                      <RotateCcw className="h-4 w-4 mr-1" />
+                      Reset
+                    </Button>
                   </div>
                 </CollapsibleTrigger>
               </CardHeader>
               <CollapsibleContent>
                 <CardContent className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Adjust sliders to set relative importance between factors.
+                  </p>
                   {(
                     [
                       {
@@ -227,9 +227,6 @@ export const AutomatedRecommendations = () => {
                       />
                     </div>
                   ))}
-                  <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-950 rounded-lg text-sm text-muted-foreground">
-                    <strong>Note:</strong> Adjust sliders to set relative importance between factors. Weights are automatically normalized to 100% when analyzing, so you don't need to manually balance them.
-                  </div>
                 </CardContent>
               </CollapsibleContent>
             </Card>
