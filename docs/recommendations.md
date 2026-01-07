@@ -271,6 +271,47 @@ Example:
 
 ---
 
+## Recovery Candidates & Research Foundation
+
+### What is a Recovery Candidate?
+
+A **recovery candidate** is an option that meets two conditions:
+1. **Historical Peak:** The probability of worthlessness previously reached or exceeded the selected threshold (80%, 90%, or 95%)
+2. **Probability Decline:** The current probability of worthlessness is lower than the historical peak
+
+**Example:** An option that previously hit 85% probability of worthlessness but is now trading at 65% probability would be a recovery candidate with an 80% threshold.
+
+### The Research Finding
+
+Extensive analysis of historical options data (available on the Probability Analysis → "Probability Recovery Analysis" page) reveals that **recovery candidates expire worthless at significantly higher rates than their current probability suggests**.
+
+#### Key Research Results
+
+Options that meet the recovery candidate criteria show:
+- **13-41 percentage points higher worthless rates** compared to baseline options with the same current probability
+- **Consistency across probability methods:** The pattern holds for all five probability calculation methods (Bayesian Calibrated, Weighted Average, Original Black-Scholes, Bias Corrected, Historical IV)
+- **Stronger advantage with longer time to expiry:** Options with 36+ days to expiration show up to 41pp higher worthless rates; near-expiry options show more modest advantages (13pp)
+
+#### Why This Matters
+
+This research suggests the market systematically **underestimates the true probability of worthlessness for recovery candidates**. For example:
+- Historical data shows 78% of similar recovery candidates expire worthless
+- But the option is currently priced with only 65% probability of worthlessness
+- This 13 percentage point discrepancy represents potential value for put writers
+
+#### Accessing the Research
+
+For detailed analysis and to explore recovery data by:
+- Stock
+- Probability method
+- Historical peak threshold
+- Current probability bin
+- Days to expiration
+
+Visit: **Probability Analysis page → "Probability Recovery Analysis" section**
+
+---
+
 ## Features
 
 ### Filtering
@@ -331,16 +372,19 @@ The narrative is standardized but personalized with each option's specific value
    - Support strength score (0-100) with interpretation
    - Commentary on stability period (brief vs extended)
 
-3. **Probability History & Recovery**
+3. **Probability History & Recovery Research**
    - Historical peak probability found (with specific percentages)
    - Whether peak exceeds the selected threshold (80%/90%/95%)
-   - Current probability and magnitude of decline from peak
-   - Identification of recovery opportunity if applicable
+   - **If qualifies as recovery candidate:** References the Probability Analysis research finding that such options expire worthless significantly more often than their current probability suggests (market underestimation hypothesis)
+   - Link to detailed research on the Probability Analysis page
+   - **If not a recovery candidate:** Simply states the peak and current probability values
 
-4. **Recovery Advantage**
-   - Historical worthless rate (%) for similar recovery candidates
-   - Context: probability bin and days-to-expiry bin used for lookup
-   - Interpretation of the rate (high/moderate/low)
+4. **Historical Worthless Rate (Recovery Candidates Only)**
+   - Historical worthless rate (%) for similar recovery candidates with matching probability bin and days-to-expiry
+   - Compares historical rate to current probability to highlight the discrepancy
+   - Explains that the discrepancy indicates a potential market inefficiency
+   - References the research data: "For recovery candidates like this option (XX% current probability with YY days to expiry that previously peaked above ZZ%), historical data shows MM% have expired worthless"
+   - **Research Foundation:** Based on Probability Recovery Analysis showing that options with high historical peaks that have since declined expire worthless at rates 13-41 percentage points higher than baseline options with the same current probability
 
 5. **Monthly Seasonality**
    - Percentage of positive months during current calendar month

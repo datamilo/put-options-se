@@ -69,45 +69,48 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
     );
   }
 
-  // 4. Probability History & Recovery
+  // 4. Probability History - Recovery Candidate Identification
   if (option.historicalPeakProbability !== null && option.currentProbability) {
     const peakPct = (option.historicalPeakProbability * 100).toFixed(1);
     const currentPct = (option.currentProbability * 100).toFixed(1);
     const thresholdPct = (filters.historicalPeakThreshold * 100).toFixed(0);
     const drop = ((option.historicalPeakProbability - option.currentProbability) * 100).toFixed(1);
 
-    sections.push(
-      `**Probability History:** The ${methodName} probability has previously peaked at ${peakPct}%, ` +
-      `${option.historicalPeakProbability >= filters.historicalPeakThreshold
-        ? `which is above the ${thresholdPct}% historical peak threshold. `
-        : `which is below the ${thresholdPct}% threshold. `}` +
-      `The current probability is ${currentPct}%` +
-      `${option.historicalPeakProbability > option.currentProbability
-        ? `, representing a ${drop} percentage point decline from the peak. This indicates a potential recovery opportunity.`
-        : `, which is near or at its historical peak.`}`
-    );
+    if (option.historicalPeakProbability >= filters.historicalPeakThreshold &&
+        option.historicalPeakProbability > option.currentProbability) {
+      // Recovery candidate: peaked above threshold and has since declined
+      sections.push(
+        `**Probability History & Recovery Research:** This option qualifies as a "recovery candidate"—it previously reached a ${peakPct}% probability peak (above the ${thresholdPct}% threshold) but has since declined to ${currentPct}%. ` +
+        `Research from the Probability Analysis page shows that options with this pattern—high historical peaks followed by probability declines—expire worthless significantly more often than their current probability suggests. ` +
+        `The market appears to systematically underestimate the worthlessness probability for such recovery candidates. Visit the Probability Analysis page → "Probability Recovery Analysis" section to see detailed research on how often similar recovery candidates expire worthless.`
+      );
+    } else {
+      // Not a recovery candidate or near peak
+      sections.push(
+        `**Probability History:** The ${methodName} probability has previously peaked at ${peakPct}%, ` +
+        `${option.historicalPeakProbability >= filters.historicalPeakThreshold
+          ? `which is above the ${thresholdPct}% threshold. The current probability is ${currentPct}%.`
+          : `which is below the ${thresholdPct}% threshold, so this is not classified as a recovery candidate. The current probability is ${currentPct}%.`}`
+      );
+    }
   }
 
-  // 5. Recovery Advantage
+  // 5. Historical Worthless Rate for Recovery Candidates
   if (option.recoveryAdvantage !== null && option.currentProbBin && option.dteBin) {
     const recoveryRatePct = (option.recoveryAdvantage * 100).toFixed(1);
 
     sections.push(
-      `**Recovery Advantage:** Based on historical analysis of similar recovery candidates ` +
-      `(options in the ${option.currentProbBin} probability bin with ${option.dteBin} days to expiry ` +
+      `**Historical Worthless Rate:** For recovery candidates like this option (${option.currentProbBin} current probability with ${option.dteBin} days to expiry ` +
       `that previously peaked above ${(filters.historicalPeakThreshold * 100).toFixed(0)}%), ` +
-      `the historical worthless rate is ${recoveryRatePct}%. ` +
-      `${parseFloat(recoveryRatePct) >= 70
-        ? 'This high worthless rate suggests the current probability may be understating the actual risk/reward.'
-        : parseFloat(recoveryRatePct) >= 50
-        ? 'This moderate worthless rate provides some support for the option\'s viability.'
-        : 'This lower worthless rate suggests caution may be warranted.'}`
+      `historical data shows ${recoveryRatePct}% have expired worthless. ` +
+      `This is substantially higher than the current ${(option.currentProbability * 100).toFixed(1)}% probability would suggest. ` +
+      `The discrepancy indicates the market undervalues the probability that this option expires worthless, potentially making it an attractive opportunity for put sellers.`
     );
   } else if (option.currentProbability >= 0.9) {
     sections.push(
-      `**Recovery Advantage:** The current probability of ${(option.currentProbability * 100).toFixed(1)}% ` +
+      `**Historical Worthless Rate:** The current probability of ${(option.currentProbability * 100).toFixed(1)}% ` +
       `is very high (≥90%), which means historical recovery data is not available for this probability bin. ` +
-      `Options with such high current probabilities have limited historical comparison data.`
+      `Options with such high current probabilities have limited historical comparison data for analysis.`
     );
   }
 
