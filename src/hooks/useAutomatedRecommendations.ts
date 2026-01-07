@@ -357,6 +357,8 @@ export const useAutomatedRecommendations = () => {
         const monthlyPositiveRate = monthlyStats?.pct_pos_return_months || null;
         const monthlyAvgReturn = monthlyStats?.return_month_mean_pct_return_month || null;
         const typicalLowDay = getTypicalLowDay(monthlyStats);
+        const monthsInHistoricalData = monthlyStats?.number_of_months_available || null;
+        const worstMonthDrawdown = monthlyStats?.open_to_low_max_pct_return_month || null;
 
         // Get current stock performance
         const stockSummary = getStockSummary(option.StockName);
@@ -461,6 +463,8 @@ export const useAutomatedRecommendations = () => {
           monthlyAvgReturn,
           typicalLowDay,
           currentMonthPerformance,
+          monthsInHistoricalData,
+          worstMonthDrawdown,
           compositeScore,
           scoreBreakdown,
         });

@@ -116,11 +116,15 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
 
   // 6. Monthly Seasonality
   if (option.monthlyPositiveRate !== null) {
-    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const currentMonthIndex = new Date().getMonth();
+    const currentMonth = monthNames[currentMonthIndex];
     const monthlyPct = option.monthlyPositiveRate.toFixed(1);
 
     let seasonalityText = `**Monthly Seasonality:** Historical data shows that ${option.stockName} has ` +
-      `had positive performance during ${monthlyPct}% of all ${currentMonth} months in the dataset. `;
+      `had positive performance during ${monthlyPct}% of all ${currentMonth} months in the dataset ` +
+      `(${option.monthsInHistoricalData || 'multiple'} months of historical data). `;
 
     if (option.typicalLowDay !== null) {
       const currentDay = new Date().getDate();
@@ -140,21 +144,30 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
 
   // 7. Current Performance Context
   if (option.currentMonthPerformance !== null && option.monthlyAvgReturn !== null) {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
+                       'July', 'August', 'September', 'October', 'November', 'December'];
+    const currentMonthIndex = new Date().getMonth();
+    const currentMonth = monthNames[currentMonthIndex];
     const currentPerf = option.currentMonthPerformance;
     const avgReturn = option.monthlyAvgReturn;
     const underperformance = avgReturn - currentPerf;
-    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
 
-    sections.push(
-      `**Current Performance:** ${option.stockName}'s current performance for ${currentMonth} is ` +
+    let performanceText = `**Current Performance:** ${option.stockName}'s current performance for ${currentMonth} is ` +
       `${currentPerf >= 0 ? '+' : ''}${currentPerf.toFixed(2)}%, while the historical average for this month is ` +
       `${avgReturn >= 0 ? '+' : ''}${avgReturn.toFixed(2)}%. ` +
       `${underperformance > 0
         ? `The stock is currently underperforming by ${underperformance.toFixed(2)} percentage points, which could suggest potential for a bounce back.`
         : underperformance < 0
         ? `The stock is currently outperforming the historical average by ${Math.abs(underperformance).toFixed(2)} percentage points.`
-        : 'The stock is performing in line with historical averages.'}`
-    );
+        : 'The stock is performing in line with historical averages.'}`;
+
+    // Add worst historical performance context
+    if (option.worstMonthDrawdown !== null) {
+      performanceText += ` Historically, the worst intra-month drawdown for ${currentMonth} has been ` +
+        `${option.worstMonthDrawdown.toFixed(2)}%, providing context for potential downside risk.`;
+    }
+
+    sections.push(performanceText);
   }
 
   // 8. Composite Score Conclusion

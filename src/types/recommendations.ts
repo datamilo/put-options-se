@@ -61,6 +61,8 @@ export interface RecommendedOption {
   monthlyAvgReturn: number | null;
   typicalLowDay: number | null;
   currentMonthPerformance: number | null;
+  monthsInHistoricalData: number | null;        // Number of historical months for this stock-month combo
+  worstMonthDrawdown: number | null;            // Worst historical intra-month drawdown (open-to-low)
 
   // Scoring
   compositeScore: number;
