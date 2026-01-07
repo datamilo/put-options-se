@@ -52,11 +52,19 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
 
   // 3. Support Robustness
   if (option.daysSinceLastBreak !== null && option.supportStrengthScore !== null) {
+    const strengthInterpretation = option.supportStrengthScore >= 70 ? 'strong' :
+                                   option.supportStrengthScore >= 50 ? 'moderate' : 'weak';
+    const strengthExplanation = option.supportStrengthScore >= 70 ?
+      'historically held reliably with few breaks' :
+      option.supportStrengthScore >= 50 ?
+      'held reasonably well with occasional breaks' :
+      'broken frequently or inconsistently';
+
     sections.push(
       `**Support Robustness:** The support level has not been broken for ${option.daysSinceLastBreak} days, ` +
       `which is ${option.daysSinceLastBreak >= filters.minDaysSinceBreak ? 'above' : 'below'} the minimum threshold ` +
       `of ${filters.minDaysSinceBreak} days. The support strength score is ${option.supportStrengthScore.toFixed(0)}/100, ` +
-      `indicating ${option.supportStrengthScore >= 70 ? 'strong' : option.supportStrengthScore >= 50 ? 'moderate' : 'weak'} support robustness. ` +
+      `indicating ${strengthInterpretation} support robustness—this means the support level has ${strengthExplanation}. ` +
       `${option.daysSinceLastBreak > 20 ? 'The extended period since the last break makes this support level more reliable.' : ''}`
     );
   }

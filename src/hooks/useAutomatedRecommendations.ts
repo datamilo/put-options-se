@@ -45,6 +45,28 @@ const mapProbabilityMethodToRecoveryMethod = (fieldName: string): string => {
 };
 
 // Score normalization functions (all return 0-100)
+
+/**
+ * Support Strength Score (0-100 scale)
+ *
+ * Pre-calculated composite metric from support_level_metrics.csv measuring
+ * how reliably the support level has held historically.
+ *
+ * COMPONENTS (weighted average):
+ * - Support Stability (30%): % of days support held
+ * - Days Since Last Break (25%): Recency of breaks
+ * - Break Frequency (25%): Predictability of breaks
+ * - Drop Consistency (20%): Consistency of drop sizes
+ *
+ * INTERPRETATION:
+ * - 80-100: Exceptional (very reliable, few breaks)
+ * - 70-79: Strong (reliable, occasional breaks)
+ * - 50-69: Moderate (reasonably reliable, some breaks)
+ * - 40-49: Weak (frequent breaks)
+ * - <40: Very Weak (unreliable)
+ *
+ * NO TRANSFORMATION NEEDED: Already 0-100 scale from CSV
+ */
 const normalizeSupportStrength = (score: number | null): number => {
   if (score === null) return 50;
   return Math.min(100, Math.max(0, score));

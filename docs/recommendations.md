@@ -92,9 +92,56 @@ Click chevron to expand and see two panels side-by-side:
 Each factor is normalized before weighting:
 
 #### 1. Support Strength (Already 0-100)
-- Source: `support_strength_score` from `support_level_metrics.csv`
-- Used directly without transformation
-- Higher score = more robust support level
+
+**Definition**: Composite metric measuring how reliably the support level has held historically.
+
+**Source**: `support_strength_score` from `support_level_metrics.csv` (pre-calculated offline)
+- Pre-calculated by Python analysis script for all stocks and rolling periods
+- No real-time calculation in frontend
+- 0-100 scale with no transformation needed
+
+**How It's Calculated** (4 weighted components):
+```
+Support Strength Score =
+  (Support Stability × 0.30) +
+  (Days Since Break × 0.25) +
+  (Break Frequency × 0.25) +
+  (Drop Consistency × 0.20)
+```
+
+- **Support Stability (30%)**: Percentage of days support held without breaking
+  - Formula: `((total_days - break_days) / total_days) × 100`
+  - Higher % = more reliable support
+
+- **Days Since Last Break (25%)**: How long support has been intact
+  - Normalized against typical gap frequency
+  - Recent breaks lower the score
+
+- **Break Frequency (25%)**: Average trading days between breaks
+  - Fewer breaks = more predictable support
+  - Normalized against 200-day baseline
+
+- **Drop Consistency (20%)**: Predictability of drop sizes when breaks occur
+  - Lower variance = higher consistency = higher score
+  - Helps estimate risk if support does break
+
+**Interpretation Guidelines**:
+
+| Score Range | Interpretation | Practical Meaning | Risk Assessment |
+|---|---|---|---|
+| **80-100** | Exceptional | Support held reliably with very few breaks | Very low risk |
+| **70-79** | Strong | Support held reliably with occasional breaks | Low risk |
+| **60-69** | Good | Support held well, some breaks occur | Moderate risk |
+| **50-59** | Moderate | Support held reasonably, breaks somewhat common | Acceptable risk |
+| **40-49** | Weak | Support broken frequently or inconsistently | Elevated risk |
+| **<40** | Very Weak | Support unreliable, frequent/unpredictable breaks | High risk |
+
+**Usage in Narrative**:
+- Score ≥ 70 → "strong support robustness—historically held reliably with few breaks"
+- Score 50-69 → "moderate support robustness—held reasonably well with occasional breaks"
+- Score < 50 → "weak support robustness—broken frequently or inconsistently"
+
+**Weight**: 20% (second-highest weight, reflecting importance of support reliability)
 
 #### 2. Days Since Break
 ```
