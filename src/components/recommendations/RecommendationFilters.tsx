@@ -79,12 +79,22 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
           <Label htmlFor="min-days-since-break">Min Days Since Last Break</Label>
           <Input
             id="min-days-since-break"
-            type="number"
-            min="0"
+            type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={filters.minDaysSinceBreak}
             onChange={(e) => {
               const value = e.target.value.trim();
-              const parsed = value === '' ? 0 : parseInt(value, 10);
+              // Allow empty string temporarily while typing
+              if (value === '') {
+                updateFilter('minDaysSinceBreak', 0);
+                return;
+              }
+              // Only allow numeric characters
+              if (!/^\d+$/.test(value)) {
+                return; // Ignore non-numeric input
+              }
+              const parsed = parseInt(value, 10);
               if (!isNaN(parsed) && parsed >= 0) {
                 updateFilter('minDaysSinceBreak', parsed);
               }
