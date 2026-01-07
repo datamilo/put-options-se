@@ -39,9 +39,10 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
 
   // 2. Support Level Analysis
   if (option.rollingLow !== null && option.distanceToSupportPct !== null) {
+    const strikeVsRollingLow = option.strikePrice <= option.rollingLow ? 'below' : 'above';
     sections.push(
       `**Support Level Discovery:** The option has a strike price of ${option.strikePrice.toFixed(2)} kr, which is ` +
-      `${option.distanceToSupportPct >= 0 ? 'at or below' : 'above'} the ${rollingPeriodText} rolling low support level ` +
+      `${strikeVsRollingLow} the ${rollingPeriodText} rolling low support level ` +
       `of ${option.rollingLow.toFixed(2)} kr (${Math.abs(option.distanceToSupportPct).toFixed(1)}% distance from current price ` +
       `of ${option.currentPrice.toFixed(2)} kr). This ${rollingPeriodText} low can act as a strong support level for the stock.`
     );
