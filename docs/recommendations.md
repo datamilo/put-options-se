@@ -8,14 +8,17 @@
 
 ## Overview
 
-The Option Recommendations page automates the investor workflow by combining six analysis factors into a single composite score. This feature helps identify optimal put option writing opportunities by integrating:
+The **Automated Put Option Recommendations** page evaluates 6 weighted analysis factors—support strength, support stability, recovery potential, historical peaks, monthly seasonality, and current performance—to identify optimal put writing opportunities.
 
-1. **Support Level Analysis** - Rolling low support levels and break patterns
-2. **Probability Recovery** - Historical worthless rate for recovery candidates
-3. **Monthly Seasonality** - Historical performance patterns
-4. **Current Performance Context** - Underperformance vs historical averages
-5. **Support Strength** - Pre-calculated robustness metrics
-6. **Days Since Last Break** - Support level stability
+Rather than manually analyzing multiple factors, this tool combines them into a single composite score (0-100), ranking all available options by recommendation strength. Each of the 6 factors is individually weighted (adjustable by user), normalized to 0-100, and then combined into the final score.
+
+**The 6 Analysis Factors:**
+1. **Support Strength** - Pre-calculated robustness of the support level (0-100 score)
+2. **Days Since Last Break** - Time since support was last broken (normalized stability measure)
+3. **Recovery Potential** - Historical worthless rate for recovery candidates
+4. **Historical Peaks** - Recovery candidate identification based on past probability highs
+5. **Monthly Seasonality** - Historical % of positive months for the current calendar month
+6. **Current Performance** - Month-to-date underperformance vs historical average
 
 ---
 
@@ -23,15 +26,23 @@ The Option Recommendations page automates the investor workflow by combining six
 
 ### 1. Configure Filters
 
-**Expiry Date** - Select option expiration date
-**Rolling Low Period** - 30, 90, 180, 270, or 365 days
-**Min Days Since Last Break** - Minimum stability threshold (default: 10)
-**Probability Method** - Which probability calculation to use (default: Bayesian Calibrated)
-**Historical Peak Threshold** - 80%, 90%, or 95% for recovery analysis (determines which recovery data is queried)
+**Expiry Date** - Select option expiration date (required for analysis)
+**Rolling Low Period** - Select rolling low window: 30, 90, 180, 270, or 365 days (default: 365)
+**Min Days Since Last Break** - Enter any positive integer for minimum stability threshold (default: 10). This filters out options where the support level was broken recently. Accept any value without manual 100% balancing.
+**Probability Method** - Select probability calculation method (default: Bayesian Calibrated)
+  - PoW - Bayesian Calibrated
+  - PoW - Weighted Average
+  - PoW - Original Black-Scholes
+  - PoW - Bias Corrected
+  - PoW - Historical IV
+**Historical Peak Threshold** - Select threshold for recovery candidate identification (default: 90%)
+  - 80%, 90%, or 95%
+  - Determines which historical probability peaks qualify as "recovery candidates"
+  - Lower threshold captures more recovery opportunities, higher threshold is more selective
 
 ### 2. Adjust Score Weights (Optional)
 
-Click "Score Weights Configuration" to customize factor importance:
+Click "Score Weights Configuration" (marked with a chevron icon to indicate it's expandable) to customize factor importance. A simple instruction appears at the top: "Adjust sliders to set relative importance between factors."
 
 | Factor | Default Weight | Description |
 |--------|----------------|-------------|
@@ -342,15 +353,15 @@ Visit: **Probability Analysis page → "Probability Recovery Analysis" section**
 
 | File | Purpose |
 |------|---------|
-| `/src/pages/AutomatedRecommendations.tsx` | Main page component with filters, weights, table, and KPI cards |
-| `/src/hooks/useAutomatedRecommendations.ts` | Orchestration hook with all scoring logic and data composition |
+| `/src/pages/AutomatedRecommendations.tsx` | Main page component with filters, weights, table, and KPI cards; includes Score Weights Configuration with collapsible panel and chevron indicator |
+| `/src/hooks/useAutomatedRecommendations.ts` | Orchestration hook with scoring logic, data composition, and weight auto-normalization implementation |
 | `/src/hooks/useProbabilityRecoveryData.ts` | Loads recovery_report_data.csv and builds hierarchical data structure |
 | `/src/hooks/useProbabilityHistory.ts` | Loads probability_history.csv for peak detection |
-| `/src/types/recommendations.ts` | TypeScript interfaces for filters, weights, and results |
-| `/src/components/recommendations/RecommendationFilters.tsx` | Filter dropdown and number input controls |
+| `/src/types/recommendations.ts` | TypeScript interfaces for filters, weights, and results; includes monthsInHistoricalData and worstMonthDrawdown fields |
+| `/src/components/recommendations/RecommendationFilters.tsx` | Filter dropdown and input controls; includes Min Days Since Break as text input with numeric validation |
 | `/src/components/recommendations/RecommendationsTable.tsx` | Sortable results table with expandable rows |
 | `/src/components/recommendations/ScoreBreakdown.tsx` | Expandable detail view showing per-factor numeric breakdown |
-| `/src/components/recommendations/OptionExplanation.tsx` | **NEW** - Generates personalized narrative explanation for each option |
+| `/src/components/recommendations/OptionExplanation.tsx` | Generates personalized narrative explanation with consolidated recovery sections and historical context |
 
 ---
 
@@ -363,14 +374,18 @@ The **"Why This Option Was Recommended"** panel provides a detailed, personalize
 The narrative is standardized but personalized with each option's specific values and context:
 
 1. **Support Level Discovery**
-   - Strike price position relative to rolling low support
-   - Distance to support percentage and current price
+   - Strike price position relative to rolling low support (clearly states "below" or "above")
+   - Current price position vs rolling low with percentage distance
+   - Example: "The current price (136.40 kr) is 1.6% above the rolling low" (clear directional language)
    - How the rolling low period (30/90/180/270/365 days) establishes support
 
 2. **Support Robustness**
    - Days since last support break vs minimum threshold
-   - Support strength score (0-100) with interpretation
-   - Commentary on stability period (brief vs extended)
+   - Support strength score (0-100) with clear interpretation:
+     - Score ≥70: "strong support robustness—historically held reliably with few breaks"
+     - Score 50-69: "moderate support robustness—held reasonably well with occasional breaks"
+     - Score <50: "weak support robustness—broken frequently or inconsistently"
+   - Commentary on stability period (brief vs extended periods since last break)
 
 3. **Recovery Candidate Analysis** (combined probability history and historical data)
    - **If recovery candidate with data:** Single cohesive narrative that combines:
@@ -384,16 +399,20 @@ The narrative is standardized but personalized with each option's specific value
    - **Advantage:** Eliminates repetition between probability history and historical data sections, creating one clear narrative
 
 4. **Monthly Seasonality**
-   - Percentage of positive months during current calendar month
+   - Month name in English (never Swedish) with percentage of positive months
+   - **Number of historical months available** for this stock-month combination (helps assess data reliability)
+   - Example: "Historical data shows that Betsson AB has had positive performance during 72.0% of all January months in the dataset (15 months of historical data)"
    - Typical monthly low day compared to current date
    - Average historical return for the month
    - Note if current date is near typical low day
 
 5. **Current Performance**
-   - Current month performance vs historical average for this calendar month
+   - Month name in English with current month performance vs historical average
    - Shows the specific percentage difference (e.g., "underperforming by 2.5 percentage points")
    - Whether stock is significantly underperforming (bounce potential) or outperforming (overbought risk)
-   - Worst historical intra-month drawdown for risk context
+   - **Worst historical intra-month drawdown** for risk context
+     - Example: "Historically, the worst intra-month drawdown for January has been -8.25%, providing context for potential downside risk"
+     - Helps investors understand if current decline is within historical norms or unusual
    - Commentary explaining what this means for the put option opportunity:
      - Underperformance → Suggests potential mean reversion/bounce opportunity
      - Neutral performance → Stock behaving normally
@@ -446,6 +465,37 @@ When user clicks chevron to expand recommendation:
 - Mobile view stacks panels vertically for readability
 
 This design helps investors understand not just the "what" (the score) but the "why" (the narrative explanation).
+
+### Technical Implementation Notes
+
+**Weight Auto-Normalization** (`useAutomatedRecommendations.ts`, lines 65-74):
+```typescript
+const totalWeight = Object.values(weights).reduce((sum, w) => sum + w, 0);
+const normalizedWeights = totalWeight > 0
+  ? Object.fromEntries(
+      Object.entries(weights).map(([key, value]) => [
+        key,
+        (value / totalWeight) * 100
+      ])
+    ) as ScoreWeights
+  : weights;
+```
+This ensures weights are automatically proportionally scaled to 100% when analyzing, regardless of user input values. Users can set any values (e.g., 20/20/20/10/10/10 totaling 90%) and the system will scale them proportionally.
+
+**Min Days Since Break Input Field** (`RecommendationFilters.tsx`):
+- Implemented as `type="text"` with `inputMode="numeric"` and `pattern="[0-9]*"`
+- Manual validation: `/^\d+$/.test(value)` to ensure only numeric input
+- Handles empty string by defaulting to 0
+- Avoids browser native number input behavior (auto-adding zeros, converting "3" to "03")
+
+**New Historical Data Fields** (extracted in `useAutomatedRecommendations.ts`):
+- `monthsInHistoricalData` - Count of months available for seasonality analysis
+- `worstMonthDrawdown` - Worst intra-month drawdown percentage for risk context
+
+**Narrative Consolidation**:
+- "Recovery Candidate Analysis" section combines probability history and historical worthless data
+- Eliminates repetition by showing single cohesive narrative: peak → decline → advantage → implication
+- Uses concrete percentage point calculations (e.g., "85.4% vs 70.2% = 15.2pp edge")
 
 ---
 
@@ -684,7 +734,7 @@ Rank, Stock, Option, Strike, Current Price, Support Level, Distance %, Days Sinc
 1. **One Expiry Date Per Analysis** - Must select exactly one expiry date to analyze
 2. **Strike Must Be At/Below Rolling Low** - Options with strike > rolling low are filtered out
 3. **Days Since Break Filter** - Options with fewer days since break than minimum are excluded
-4. **Weight Total** - Score weights must sum to exactly 100% (enforced by UI)
+4. **Weight Auto-Normalization** - Weights are automatically normalized to 100% when analysis runs, so you can set any values without manual balancing
 5. **Historical Peak Threshold** - Only affects which recovery data is queried, not filtering
 6. **Probability Method** - Single method per analysis (not compared across methods)
 
@@ -765,7 +815,10 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining days:
 **Filters**:
 - [ ] Expiry Date dropdown shows available dates
 - [ ] Rolling Low Period shows all 5 options
-- [ ] Min Days Since Break accepts numeric input
+- [ ] Min Days Since Break accepts numeric input without auto-adding zeros
+  - [ ] Type "3" and it displays as "3" (not "03")
+  - [ ] Clear field and type new number works smoothly
+  - [ ] Accepts any positive integer value
 - [ ] Probability Method shows all 5 methods
 - [ ] Historical Peak Threshold shows 80%, 90%, 95%
 - [ ] Analyze button disabled until expiry date selected
@@ -777,10 +830,12 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining days:
 - [ ] Loading state appears while analyzing
 
 **Score Weights**:
-- [ ] Click "Score Weights Configuration" to expand
-- [ ] All 6 weight sliders visible and functional
-- [ ] Sum of weights displays and updates
+- [ ] Click "Score Weights Configuration" to expand (chevron icon indicates expandability)
+- [ ] All 6 weight sliders visible and functional (0-50% range each)
+- [ ] Instructions display at top: "Adjust sliders to set relative importance between factors"
+- [ ] Weights update in real-time as sliders move
 - [ ] Rerunning analysis with different weights changes results
+- [ ] Weights don't need to sum to 100% - system auto-normalizes when analyzing
 - [ ] Set one factor's weight to 0%
 - [ ] In expanded Score Breakdown, see "Not Included" badge (red with alert icon) for that factor
 - [ ] Disabled factor shows grayed-out background and dashed border
