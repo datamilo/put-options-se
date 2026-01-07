@@ -99,8 +99,7 @@ export const AutomatedRecommendations = () => {
           <h1 className="text-3xl font-bold">Automated Put Option Recommendations</h1>
         </div>
         <p className="text-muted-foreground">
-          Combines 6 analysis factors (support levels, probability recovery, monthly
-          seasonality) into a composite score to identify optimal put writing opportunities.
+          Evaluates 6 weighted analysis factors—support strength, support stability, recovery potential, historical peaks, monthly seasonality, and current performance—to identify optimal put writing opportunities.
         </p>
       </div>
 
