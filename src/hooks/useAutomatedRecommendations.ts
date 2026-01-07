@@ -106,16 +106,43 @@ const normalizeSeasonality = (
   return Math.min(100, score);
 };
 
+/**
+ * Normalizes current month performance relative to historical averages.
+ *
+ * RATIONALE: Stocks underperforming their seasonal/historical average may offer
+ * better put writing opportunities because:
+ * 1. Mean reversion - Markets tend to correct extreme underperformance
+ * 2. Valuation opportunity - Underperforming stocks may be oversold
+ * 3. Lower support risk - Further downside may be limited after significant decline
+ *
+ * CALCULATION:
+ * - Current Month Performance: Price change from last trading day of previous month
+ *   to today (includes most of current month)
+ * - Historical Average: Average return for this calendar month across all historical data
+ * - Underperformance: Historical Avg - Current Performance
+ * - Normalized Score: 50 + (Underperformance × 10), capped at 0-100
+ *
+ * EXAMPLES:
+ * - If historical average for January is +2.5% and current Jan perf is -2.5%:
+ *   Underperformance = 2.5 - (-2.5) = 5%
+ *   Score = 50 + (5 × 10) = 100 (best case - strong underperformance)
+ *
+ * - If current perf matches historical average (+2.5%):
+ *   Underperformance = 0%
+ *   Score = 50 (neutral - performing as expected)
+ *
+ * - If current perf exceeds historical average by 5% or more:
+ *   Underperformance = -5% or worse
+ *   Score = 0 (worst case - outperforming/overvalued)
+ */
 const normalizeCurrentPerformance = (
   currentMonthPct: number | null,
   avgMonthPct: number | null
 ): number => {
   if (currentMonthPct === null || avgMonthPct === null) return 50;
 
-  // Score higher if underperforming (potential bounce opportunity)
   const underperformance = avgMonthPct - currentMonthPct;
 
-  // If underperforming by 5%+, score 100; if outperforming by 5%+, score 0
   return Math.min(100, Math.max(0, 50 + underperformance * 10));
 };
 

@@ -40,9 +40,11 @@ Click "Score Weights Configuration" to customize factor importance:
 | Days Since Break | 15% | Time since support was last broken |
 | Historical Peak | 15% | Recovery candidate indicator |
 | Monthly Seasonality | 15% | Historical % of positive months |
-| Current Performance | 10% | Underperformance suggests bounce potential |
+| Current Performance | 10% | Month-to-date underperformance vs historical average (lower weight reflects that it's a recent/short-term indicator compared to the longer-term factors) |
 
 Total must equal 100%.
+
+**Note on Current Performance Weight**: This factor has the lowest default weight (10%) because it's based on only days/weeks of performance in the current month, making it a short-term indicator. The other factors (support stability, historical patterns, recovery data) represent longer time periods and are weighted more heavily. However, you can increase this weight if you believe mean reversion is particularly important for your strategy.
 
 **Note on Zero Weights:** If you set any factor's weight to 0%, that factor will be visually marked as "Not Included" with a red badge in the Score Breakdown panel (shown when you expand a result row). Factors with 0% weight are grayed out and appear with a dashed border, making it very clear they are not contributing to the scoring calculation. This is useful for testing how recommendations change when excluding specific factors from consideration.
 
@@ -134,9 +136,50 @@ if (currentDay near typicalLowDay): normalized += 10
 underperformance = avgMonth - currentMonth
 normalized = min(100, max(0, 50 + (underperformance * 10)))
 ```
-- Higher score if stock is underperforming (potential bounce)
-- 5%+ underperformance = 100 score
-- 5%+ outperformance = 0 score
+
+**Definition**: Compares the stock's month-to-date price performance against the historical average return for that calendar month.
+
+**Calculation**:
+- **Current Month Performance**: Price change from the last trading day of the previous month to today's closing price
+  - Formula: `((todayClose - previousMonthLastClose) / previousMonthLastClose) × 100`
+  - Example: If January 31 close was 100 kr and today (Jan 15) is 98 kr, current month perf = -2%
+- **Historical Average**: Average return for this calendar month across all historical data in the dataset
+  - Example: Historically, January has averaged +2.5% returns
+- **Underperformance**: Historical Average - Current Month Performance
+  - Example: 2.5% - (-2%) = 4.5% underperformance
+
+**Rationale - Why Underperformance Matters for Put Options**:
+
+1. **Mean Reversion**: Markets tend to correct when stocks significantly deviate from their seasonal norms. A stock underperforming its historical January average may be due for a bounce back toward normal levels.
+
+2. **Valuation Opportunity**: Underperformance often indicates the stock is trading below its typical value for that time of year, potentially creating an oversold condition. This reduces the risk of further sharp declines.
+
+3. **Lower Downside Risk**: If a stock has already fallen significantly below its seasonal average, the downside remaining is likely limited. This increases the probability of a put option expiring worthless (better for put writers).
+
+4. **Negative Carry Risk Reduction**: Stocks trending sharply downward early in their seasonal cycle have less room to fall before hitting support levels.
+
+**Scoring Examples**:
+- **5%+ Underperformance** → Score = 100 (strongest opportunity)
+  - Historical avg: +3%, Current: -2% → Score = 50 + (5 × 10) = 100
+  - Interpretation: Stock is significantly weaker than normal for this month
+
+- **2.5% Underperformance** → Score = 75 (good opportunity)
+  - Historical avg: +3%, Current: +0.5% → Score = 50 + (2.5 × 10) = 75
+  - Interpretation: Stock is moderately weaker than normal
+
+- **0% Underperformance (Neutral)** → Score = 50
+  - Historical avg: +3%, Current: +3% → Score = 50
+  - Interpretation: Stock is performing exactly as expected historically
+
+- **5%+ Outperformance** → Score = 0 (weakest opportunity)
+  - Historical avg: +3%, Current: +8% → Score = 50 + (-5 × 10) = 0
+  - Interpretation: Stock is significantly stronger than normal; may be overvalued
+
+**Data Sources**:
+- **Current Month Performance**: From `useStockData` hook - calculates price change from previous month's close
+- **Historical Average**: From `Stocks_Monthly_Data.csv` - field `return_month_mean_pct_return_month` filtered by current calendar month
+
+**Weight**: 10% (lowest of all factors - contributes 0-10 points to composite score of 0-100)
 
 ### Composite Score Calculation
 
@@ -259,9 +302,13 @@ The narrative is standardized but personalized with each option's specific value
    - Note if current date is near typical low day
 
 6. **Current Performance**
-   - Current month performance vs historical average
-   - Whether stock is underperforming or outperforming
-   - Commentary on potential for recovery/consolidation
+   - Current month performance vs historical average for this calendar month
+   - Shows the specific percentage difference (e.g., "underperforming by 2.5 percentage points")
+   - Whether stock is significantly underperforming (bounce potential) or outperforming (overbought risk)
+   - Commentary explaining what this means for the put option opportunity:
+     - Underperformance → Suggests potential mean reversion/bounce opportunity
+     - Neutral performance → Stock behaving normally
+     - Outperformance → Stock may be overvalued, less attractive for put writing
 
 7. **Composite Score Conclusion**
    - Overall score (0-100) with interpretation (strong/moderate/weak)
