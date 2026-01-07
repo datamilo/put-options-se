@@ -81,11 +81,14 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
             id="min-days-since-break"
             type="number"
             min="0"
-            step="5"
             value={filters.minDaysSinceBreak}
-            onChange={(e) =>
-              updateFilter('minDaysSinceBreak', parseInt(e.target.value) || 0)
-            }
+            onChange={(e) => {
+              const value = e.target.value.trim();
+              const parsed = value === '' ? 0 : parseInt(value, 10);
+              if (!isNaN(parsed) && parsed >= 0) {
+                updateFilter('minDaysSinceBreak', parsed);
+              }
+            }}
           />
         </div>
       </div>
