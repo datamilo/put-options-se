@@ -69,7 +69,7 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
     );
   }
 
-  // 4. Probability History - Recovery Candidate Identification
+  // 4. Recovery Candidate Analysis (combined probability history and historical data)
   if (option.historicalPeakProbability !== null && option.currentProbability) {
     const peakPct = (option.historicalPeakProbability * 100).toFixed(1);
     const currentPct = (option.currentProbability * 100).toFixed(1);
@@ -77,44 +77,43 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
     const drop = ((option.historicalPeakProbability - option.currentProbability) * 100).toFixed(1);
 
     if (option.historicalPeakProbability >= filters.historicalPeakThreshold &&
-        option.historicalPeakProbability > option.currentProbability) {
-      // Recovery candidate: peaked above threshold and has since declined
+        option.historicalPeakProbability > option.currentProbability &&
+        option.recoveryAdvantage !== null && option.currentProbBin && option.dteBin) {
+      // Recovery candidate with historical data available
+      const recoveryRatePct = (option.recoveryAdvantage * 100).toFixed(1);
+
       sections.push(
-        `**Probability History & Recovery Research:** This option qualifies as a "recovery candidate"—it previously reached a ${peakPct}% probability peak (above the ${thresholdPct}% threshold) but has since declined to ${currentPct}%. ` +
-        `Research from the Probability Analysis page shows that options with this pattern—high historical peaks followed by probability declines—expire worthless significantly more often than their current probability suggests. ` +
-        `The market appears to systematically underestimate the worthlessness probability for such recovery candidates. Visit the Probability Analysis page → "Probability Recovery Analysis" section to see detailed research on how often similar recovery candidates expire worthless.`
+        `**Recovery Candidate Analysis:** This option previously reached a ${peakPct}% probability peak but has declined to ${currentPct}%—qualifying as a "recovery candidate." ` +
+        `Historical research shows that similar options (${option.currentProbBin} probability with ${option.dteBin} days to expiry that previously peaked above ${thresholdPct}%) ` +
+        `expired worthless ${recoveryRatePct}% of the time. This is substantially higher than the current ${currentPct}% probability, indicating the market systematically underestimates these opportunities. ` +
+        `For put sellers, this ${(parseFloat(recoveryRatePct) - parseFloat(currentPct)).toFixed(1)} percentage point advantage represents a statistical edge. ` +
+        `See the Probability Analysis page → "Probability Recovery Analysis" for detailed research.`
+      );
+    } else if (option.historicalPeakProbability >= filters.historicalPeakThreshold &&
+               option.historicalPeakProbability > option.currentProbability) {
+      // Recovery candidate but no historical data
+      sections.push(
+        `**Recovery Candidate:** This option previously reached a ${peakPct}% probability peak but has declined to ${currentPct}%, qualifying as a "recovery candidate." ` +
+        `Research shows such options typically expire worthless more often than their current probability suggests, though specific historical data for this probability/DTE combination is limited.`
       );
     } else {
-      // Not a recovery candidate or near peak
+      // Not a recovery candidate
       sections.push(
-        `**Probability History:** The ${methodName} probability has previously peaked at ${peakPct}%, ` +
+        `**Probability History:** The ${methodName} probability previously peaked at ${peakPct}%, ` +
         `${option.historicalPeakProbability >= filters.historicalPeakThreshold
           ? `which is above the ${thresholdPct}% threshold. The current probability is ${currentPct}%.`
           : `which is below the ${thresholdPct}% threshold, so this is not classified as a recovery candidate. The current probability is ${currentPct}%.`}`
       );
     }
-  }
-
-  // 5. Historical Worthless Rate for Recovery Candidates
-  if (option.recoveryAdvantage !== null && option.currentProbBin && option.dteBin) {
-    const recoveryRatePct = (option.recoveryAdvantage * 100).toFixed(1);
-
+  } else if (option.currentProbability >= 0.9 && option.recoveryAdvantage === null) {
+    // Very high probability with no recovery data
     sections.push(
-      `**Historical Worthless Rate:** For recovery candidates like this option (${option.currentProbBin} current probability with ${option.dteBin} days to expiry ` +
-      `that previously peaked above ${(filters.historicalPeakThreshold * 100).toFixed(0)}%), ` +
-      `historical data shows ${recoveryRatePct}% have expired worthless. ` +
-      `This is substantially higher than the current ${(option.currentProbability * 100).toFixed(1)}% probability would suggest. ` +
-      `The discrepancy indicates the market undervalues the probability that this option expires worthless, potentially making it an attractive opportunity for put sellers.`
-    );
-  } else if (option.currentProbability >= 0.9) {
-    sections.push(
-      `**Historical Worthless Rate:** The current probability of ${(option.currentProbability * 100).toFixed(1)}% ` +
-      `is very high (≥90%), which means historical recovery data is not available for this probability bin. ` +
-      `Options with such high current probabilities have limited historical comparison data for analysis.`
+      `**Probability Analysis:** The current probability of ${(option.currentProbability * 100).toFixed(1)}% is very high (≥90%). ` +
+      `Historical recovery data is not available for this probability bin, limiting comparative analysis.`
     );
   }
 
-  // 6. Monthly Seasonality
+  // 5. Monthly Seasonality
   if (option.monthlyPositiveRate !== null) {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December'];
@@ -142,7 +141,7 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
     sections.push(seasonalityText);
   }
 
-  // 7. Current Performance Context
+  // 6. Current Performance Context
   if (option.currentMonthPerformance !== null && option.monthlyAvgReturn !== null) {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
                        'July', 'August', 'September', 'October', 'November', 'December'];
@@ -170,7 +169,7 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
     sections.push(performanceText);
   }
 
-  // 8. Composite Score Conclusion
+  // 7. Composite Score Conclusion
   const scoreColor = option.compositeScore >= 70 ? 'strong' : option.compositeScore >= 50 ? 'moderate' : 'weak';
   sections.push(
     `**Composite Score:** Based on all these factors combined with customized weights, this option received ` +
@@ -182,7 +181,7 @@ export const OptionExplanation: React.FC<OptionExplanationProps> = ({ option, fi
       : 'This lower score suggests caution - review individual factors to understand potential concerns.'}`
   );
 
-  // 9. Final Recommendation
+  // 8. Final Recommendation
   sections.push(
     `**Recommendation:** ${option.stockName} option ${option.optionName} with strike ${option.strikePrice.toFixed(2)} kr ` +
     `and expiry ${option.expiryDate} (${option.daysToExpiry} days) offers a premium of ${option.premium.toLocaleString()} kr. ` +

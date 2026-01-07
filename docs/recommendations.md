@@ -372,40 +372,38 @@ The narrative is standardized but personalized with each option's specific value
    - Support strength score (0-100) with interpretation
    - Commentary on stability period (brief vs extended)
 
-3. **Probability History & Recovery Research**
-   - Historical peak probability found (with specific percentages)
-   - Whether peak exceeds the selected threshold (80%/90%/95%)
-   - **If qualifies as recovery candidate:** References the Probability Analysis research finding that such options expire worthless significantly more often than their current probability suggests (market underestimation hypothesis)
-   - Link to detailed research on the Probability Analysis page
-   - **If not a recovery candidate:** Simply states the peak and current probability values
+3. **Recovery Candidate Analysis** (combined probability history and historical data)
+   - **If recovery candidate with data:** Single cohesive narrative that combines:
+     - Historical peak probability → current probability decline (e.g., 93.5% → 70.2%)
+     - Historical worthless rate for similar options (e.g., 85.4%) with specific bins (probability range, DTE)
+     - Concrete comparison showing the advantage (e.g., 85.4% vs 70.2% = 15.2 percentage point edge)
+     - Investment implication for put sellers (statistical edge/market inefficiency)
+     - Link to Probability Analysis page for detailed research
+   - **If recovery candidate without specific data:** Brief explanation of recovery status and general research finding
+   - **If not recovery candidate:** Simply states peak and current probability without recovery analysis
+   - **Advantage:** Eliminates repetition between probability history and historical data sections, creating one clear narrative
 
-4. **Historical Worthless Rate (Recovery Candidates Only)**
-   - Historical worthless rate (%) for similar recovery candidates with matching probability bin and days-to-expiry
-   - Compares historical rate to current probability to highlight the discrepancy
-   - Explains that the discrepancy indicates a potential market inefficiency
-   - References the research data: "For recovery candidates like this option (XX% current probability with YY days to expiry that previously peaked above ZZ%), historical data shows MM% have expired worthless"
-   - **Research Foundation:** Based on Probability Recovery Analysis showing that options with high historical peaks that have since declined expire worthless at rates 13-41 percentage points higher than baseline options with the same current probability
-
-5. **Monthly Seasonality**
+4. **Monthly Seasonality**
    - Percentage of positive months during current calendar month
    - Typical monthly low day compared to current date
    - Average historical return for the month
    - Note if current date is near typical low day
 
-6. **Current Performance**
+5. **Current Performance**
    - Current month performance vs historical average for this calendar month
    - Shows the specific percentage difference (e.g., "underperforming by 2.5 percentage points")
    - Whether stock is significantly underperforming (bounce potential) or outperforming (overbought risk)
+   - Worst historical intra-month drawdown for risk context
    - Commentary explaining what this means for the put option opportunity:
      - Underperformance → Suggests potential mean reversion/bounce opportunity
      - Neutral performance → Stock behaving normally
      - Outperformance → Stock may be overvalued, less attractive for put writing
 
-7. **Composite Score Conclusion**
+6. **Composite Score Conclusion**
    - Overall score (0-100) with interpretation (strong/moderate/weak)
    - Summary of how multiple factors aligned
 
-8. **Final Recommendation**
+7. **Final Recommendation**
    - Strike price, premium, and expiry summary
    - Overall recommendation strength
    - Actionable guidance for investor decision-making
