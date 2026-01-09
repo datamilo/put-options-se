@@ -44,7 +44,13 @@ const mapProbabilityMethodToRecoveryMethod = (fieldName: string): string => {
   return methodMap[fieldName] || fieldName;
 };
 
-// Score normalization functions (all return 0-100)
+// Score normalization functions (all return object with normalized score and hasData flag)
+
+interface NormalizationResult {
+  normalized: number;
+  hasData: boolean;
+  dataStatus: 'available' | 'insufficient' | 'unavailable';
+}
 
 /**
  * Support Strength Score (0-100 scale)
@@ -67,27 +73,45 @@ const mapProbabilityMethodToRecoveryMethod = (fieldName: string): string => {
  *
  * NO TRANSFORMATION NEEDED: Already 0-100 scale from CSV
  */
-const normalizeSupportStrength = (score: number | null): number => {
-  if (score === null) return 50;
-  return Math.min(100, Math.max(0, score));
+const normalizeSupportStrength = (score: number | null): NormalizationResult => {
+  if (score === null) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
+  return {
+    normalized: Math.min(100, Math.max(0, score)),
+    hasData: true,
+    dataStatus: 'available',
+  };
 };
 
 const normalizeDaysSinceBreak = (
   days: number | null,
   avgDaysBetween: number | null
-): number => {
-  if (days === null) return 50; // No data = neutral
+): NormalizationResult => {
+  if (days === null) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
   const avgGap = avgDaysBetween || 30; // default 30 if no avg
   const ratio = days / avgGap;
-  return Math.min(100, Math.max(0, ratio * 50));
+  return {
+    normalized: Math.min(100, Math.max(0, ratio * 50)),
+    hasData: true,
+    dataStatus: 'available',
+  };
 };
 
-const normalizeRecoveryAdvantage = (recoveryRate: number | null): number => {
-  if (recoveryRate === null) return 50; // No data = neutral
+const normalizeRecoveryAdvantage = (recoveryRate: number | null): NormalizationResult => {
+  if (recoveryRate === null) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
   // Recovery rate is 0-1 (e.g., 0.785 = 78.5% worthless rate)
   // Higher worthless rate = better recovery candidate = higher score
   // 0.5 (50%) = 50 score, 0.8+ (80%+) = 100 score
-  return Math.min(100, Math.max(0, recoveryRate * 100));
+  return {
+    normalized: Math.min(100, Math.max(0, recoveryRate * 100)),
+    hasData: true,
+    dataStatus: 'available',
+  };
 };
 
 const normalizeHistoricalPeak = (
@@ -95,26 +119,38 @@ const normalizeHistoricalPeak = (
   peakProb: number | null,
   threshold: number,
   weight: number
-): number => {
-  // If weight is 0%, the threshold is irrelevant - return neutral score
-  if (weight === 0) return 50;
+): NormalizationResult => {
+  // If weight is 0%, the factor is disabled
+  if (weight === 0) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
 
-  if (peakProb === null) return 50;
+  if (peakProb === null) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
 
   // Score higher if peak was >= threshold AND current is notably lower
-  if (peakProb < threshold) return 30; // Not a recovery candidate
+  if (peakProb < threshold) {
+    return { normalized: 30, hasData: true, dataStatus: 'available' };
+  }
 
   const drop = peakProb - currentProb;
   // If drop is 10%+ from a 90%+ peak, good recovery candidate
-  return Math.min(100, 50 + drop * 200);
+  return {
+    normalized: Math.min(100, 50 + drop * 200),
+    hasData: true,
+    dataStatus: 'available',
+  };
 };
 
 const normalizeSeasonality = (
   positiveRate: number | null,
   currentDay: number,
   typicalLowDay: number | null
-): number => {
-  if (positiveRate === null) return 50;
+): NormalizationResult => {
+  if (positiveRate === null) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
 
   // Base score from positive rate (0-100 already in %)
   let score = positiveRate;
@@ -125,7 +161,11 @@ const normalizeSeasonality = (
     if (dayDiff <= 3) score += 10; // Near typical low
   }
 
-  return Math.min(100, score);
+  return {
+    normalized: Math.min(100, score),
+    hasData: true,
+    dataStatus: 'available',
+  };
 };
 
 /**
@@ -160,12 +200,18 @@ const normalizeSeasonality = (
 const normalizeCurrentPerformance = (
   currentMonthPct: number | null,
   avgMonthPct: number | null
-): number => {
-  if (currentMonthPct === null || avgMonthPct === null) return 50;
+): NormalizationResult => {
+  if (currentMonthPct === null || avgMonthPct === null) {
+    return { normalized: 0, hasData: false, dataStatus: 'unavailable' };
+  }
 
   const underperformance = avgMonthPct - currentMonthPct;
 
-  return Math.min(100, Math.max(0, 50 + underperformance * 10));
+  return {
+    normalized: Math.min(100, Math.max(0, 50 + underperformance * 10)),
+    hasData: true,
+    dataStatus: 'available',
+  };
 };
 
 // Calculate typical low day (mode) from monthly stats
@@ -365,26 +411,26 @@ export const useAutomatedRecommendations = () => {
         const currentMonthPerformance = stockSummary?.priceChangePercentMonth || null;
 
         // Calculate normalized scores
-        const supportStrengthNorm = normalizeSupportStrength(
+        const supportStrengthResult = normalizeSupportStrength(
           supportMetric.support_strength_score
         );
-        const daysSinceBreakNorm = normalizeDaysSinceBreak(
+        const daysSinceBreakResult = normalizeDaysSinceBreak(
           supportMetric.days_since_last_break,
           supportMetric.trading_days_per_break
         );
-        const recoveryAdvantageNorm = normalizeRecoveryAdvantage(recoveryAdvantage);
-        const historicalPeakNorm = normalizeHistoricalPeak(
+        const recoveryAdvantageResult = normalizeRecoveryAdvantage(recoveryAdvantage);
+        const historicalPeakResult = normalizeHistoricalPeak(
           currentProbability,
           historicalPeakProbability,
           filters.historicalPeakThreshold,
           weights.historicalPeak
         );
-        const seasonalityNorm = normalizeSeasonality(
+        const seasonalityResult = normalizeSeasonality(
           monthlyPositiveRate,
           currentDay,
           typicalLowDay
         );
-        const currentPerformanceNorm = normalizeCurrentPerformance(
+        const currentPerformanceResult = normalizeCurrentPerformance(
           currentMonthPerformance,
           monthlyAvgReturn
         );
@@ -393,33 +439,45 @@ export const useAutomatedRecommendations = () => {
         const scoreBreakdown: ScoreBreakdown = {
           supportStrength: {
             raw: supportMetric.support_strength_score,
-            normalized: supportStrengthNorm,
-            weighted: supportStrengthNorm * (weights.supportStrength / 100),
+            normalized: supportStrengthResult.normalized,
+            weighted: supportStrengthResult.normalized * (weights.supportStrength / 100),
+            hasData: supportStrengthResult.hasData,
+            dataStatus: supportStrengthResult.dataStatus,
           },
           daysSinceBreak: {
             raw: supportMetric.days_since_last_break,
-            normalized: daysSinceBreakNorm,
-            weighted: daysSinceBreakNorm * (weights.daysSinceBreak / 100),
+            normalized: daysSinceBreakResult.normalized,
+            weighted: daysSinceBreakResult.normalized * (weights.daysSinceBreak / 100),
+            hasData: daysSinceBreakResult.hasData,
+            dataStatus: daysSinceBreakResult.dataStatus,
           },
           recoveryAdvantage: {
             raw: recoveryAdvantage,
-            normalized: recoveryAdvantageNorm,
-            weighted: recoveryAdvantageNorm * (weights.recoveryAdvantage / 100),
+            normalized: recoveryAdvantageResult.normalized,
+            weighted: recoveryAdvantageResult.normalized * (weights.recoveryAdvantage / 100),
+            hasData: recoveryAdvantageResult.hasData,
+            dataStatus: recoveryAdvantageResult.dataStatus,
           },
           historicalPeak: {
             raw: historicalPeakProbability,
-            normalized: historicalPeakNorm,
-            weighted: historicalPeakNorm * (weights.historicalPeak / 100),
+            normalized: historicalPeakResult.normalized,
+            weighted: historicalPeakResult.normalized * (weights.historicalPeak / 100),
+            hasData: historicalPeakResult.hasData,
+            dataStatus: historicalPeakResult.dataStatus,
           },
           monthlySeasonality: {
             raw: monthlyPositiveRate,
-            normalized: seasonalityNorm,
-            weighted: seasonalityNorm * (weights.monthlySeasonality / 100),
+            normalized: seasonalityResult.normalized,
+            weighted: seasonalityResult.normalized * (weights.monthlySeasonality / 100),
+            hasData: seasonalityResult.hasData,
+            dataStatus: seasonalityResult.dataStatus,
           },
           currentPerformance: {
             raw: currentMonthPerformance,
-            normalized: currentPerformanceNorm,
-            weighted: currentPerformanceNorm * (weights.currentPerformance / 100),
+            normalized: currentPerformanceResult.normalized,
+            weighted: currentPerformanceResult.normalized * (weights.currentPerformance / 100),
+            hasData: currentPerformanceResult.hasData,
+            dataStatus: currentPerformanceResult.dataStatus,
           },
         };
 

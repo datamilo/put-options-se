@@ -19,6 +19,8 @@ export interface ScoreComponent {
   raw: number | null;
   normalized: number;
   weighted: number;
+  hasData: boolean;
+  dataStatus: 'available' | 'insufficient' | 'unavailable'; // Track severity of data issue
 }
 
 export interface ScoreBreakdown {
