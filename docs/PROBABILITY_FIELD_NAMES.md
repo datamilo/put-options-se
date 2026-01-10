@@ -1,7 +1,9 @@
 # Probability Field Name Alignment
 
-**Date**: December 7-8, 2025
-**Summary**: Standardized all probability method display names across the website to use canonical names with "PoW" prefix for clarity that they represent Probability of Worthless calculation methods.
+**Last Updated**: January 10, 2026
+**Date**: December 7-8, 2025 (Initial alignment) + January 10, 2026 (CSV format update)
+
+**Summary**: Standardized all probability method display names across the website to use canonical names with "PoW" prefix. As of January 10, 2026, CSV files now use normalized format while maintaining backward compatibility through automatic normalization layer.
 
 ## Important: Understanding "PoW"
 

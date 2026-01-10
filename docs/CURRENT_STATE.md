@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: January 5, 2026
+**Last Updated**: January 10, 2026
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -27,7 +27,7 @@
 | [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Dec 19 |
 | [Support Level Analysis](#support-level-analysis) | `/consecutive-breaks` | ✅ Active | Dec 14 |
 | [Support Level Options List](#support-level-options-list) | `/support-level-options` | ✅ Active | Dec 14 |
-| [Probability Analysis](#probability-analysis) | `/probability-analysis` | ✅ Active | Nov 28 |
+| [Probability Analysis](#probability-analysis) | `/probability-analysis` | ✅ Active | Jan 10 |
 | [Lower Bound Analysis](#lower-bound-analysis) | `/lower-bound-analysis` | ✅ Active | Nov 28 |
 | [Financial Reporting Volatility](#financial-reporting-volatility) | `/volatility-analysis` | ✅ Active | Oct 2024 |
 
@@ -167,7 +167,14 @@
 ### Probability Analysis
 **Route**: `/probability-analysis`
 
-**Latest Changes** (Nov 28, 2025):
+**Latest Changes** (Jan 10, 2026):
+- Fixed CSV format handling for normalized method names (Jan 2026 format)
+- Fixed MethodComparisonChart to correctly use pre-aggregated "All DTE" records
+- Fixed KPI metrics calculation using scenarios data
+- All probability method names now work with normalized format internally
+- UI display unchanged - users continue to see "PoW - " prefix
+
+**Previous Changes** (Nov 28, 2025):
 - **NEW**: Added "Stock Performance by Method" section (second of three sections)
 - Converted Calibration Analysis chart from Recharts to Plotly for precise hover detection
 - Added Probability Method filter to Calibration Analysis chart
@@ -248,7 +255,28 @@
 
 ## Recent Changes & Updates
 
-### January 5, 2026 (Latest)
+### January 10, 2026 (Latest)
+✅ **CSV Format Change & Normalization Layer**
+- **Breaking Change**: `validation_report_data.csv` and `recovery_report_data.csv` now use normalized method names
+  - Old format: `"PoW - Weighted Average"` → New format: `"Weighted Average"`
+- **Backward Compatibility**: Created automatic normalization layer in `src/utils/probabilityMethods.ts`
+  - `normalizeProbMethod()`: Converts both old and new format to normalized format
+  - `getDisplayProbMethod()`: Adds "PoW - " prefix for UI display
+  - Seamless handling of both CSV formats
+- **UI Consistency**: Users continue to see "PoW - " prefix in all interfaces
+- **Updated Components**: CalibrationChart, MethodComparisonChart, RecoveryComparisonChart all use normalized names internally
+- **Fixed Data Issues**:
+  - Fixed MethodComparisonChart to correctly use pre-aggregated "All DTE" records
+  - Fixed KPI metrics calculation in ProbabilityAnalysis page
+  - Fixed chart color mappings to work with normalized method names
+- **Affected Files**:
+  - New: `src/utils/probabilityMethods.ts` (normalization utility)
+  - Modified: `useProbabilityValidationData.ts`, `useProbabilityRecoveryData.ts` (CSV parsing)
+  - Modified: All Probability Analysis page components (internal use of normalized names)
+- **Documentation**: Updated CLAUDE.md, PROBABILITY_FIELD_NAMES.md, probability-analysis.md
+- **External Reference**: See [DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md](../DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md)
+
+### January 5, 2026
 ✅ **Margin Requirements Integration**
 - Added `margin_requirements.csv` data integration to Options Dashboard and Portfolio Generator
 - New default column: "Est. Total Margin" shows estimated total margin capital required for each position
