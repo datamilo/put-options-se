@@ -251,51 +251,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
         </Card>
       ) : (
       <Card>
-        <CardContent className="space-y-6">
-        {/* Heatmap */}
-        <div className="overflow-x-auto">
-          <div className="min-w-max border rounded-lg">
-            <div className="flex">
-              {/* Stock names column */}
-              <div className="flex flex-col border-r bg-gray-50 dark:bg-slate-900 min-w-fit">
-                <div className="h-12 flex items-center px-3 font-semibold text-sm border-b">Stock</div>
-                {tableData.map(row => (
-                  <div key={row.stock} className="h-10 flex items-center px-3 text-sm border-b">
-                    {row.stock}
-                  </div>
-                ))}
-              </div>
-
-              {/* Method columns */}
-              {METHODS.map(method => (
-                <div key={method} className="flex flex-col border-r">
-                  <div
-                    className="h-12 flex items-center justify-center px-3 font-semibold text-xs border-b"
-                    style={{ backgroundColor: COLORS[method as keyof typeof COLORS], color: 'white' }}
-                  >
-                    {getDisplayName(method)}
-                  </div>
-                  {tableData.map(row => {
-                    const value = typeof row[method] === 'number' ? (row[method] as number) : 0;
-                    return (
-                      <div
-                        key={`${row.stock}-${method}`}
-                        className={`h-10 flex items-center justify-center px-3 text-xs font-medium border-b ${getCellColor(value)}`}
-                        title={`${row.stock} - ${getDisplayName(method)}: ${formatNumber(value)}%`}
-                      >
-                        {formatNumber(value)}%
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Data Table */}
-        <div className="space-y-2">
-          <h3 className="font-semibold text-sm">Data Table</h3>
+        <CardContent className="pt-6">
           <div className="overflow-x-auto border rounded-lg">
             <table className="w-full text-sm">
               <thead className="bg-gray-50 dark:bg-slate-900 border-b">
@@ -353,14 +309,13 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
               </tbody>
             </table>
           </div>
-        </div>
 
-        <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg text-sm">
-          <p className="text-blue-900 dark:text-blue-300">
-            <strong>Interpretation:</strong> Positive values indicate the method is conservative (predicts lower probabilities than actual), negative values indicate overconfidence. Values are weighted by sample size to emphasize results with more data.
-          </p>
-        </div>
-      </CardContent>
+          <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg text-sm mt-4">
+            <p className="text-blue-900 dark:text-blue-300">
+              <strong>Interpretation:</strong> Positive values indicate the method is conservative (predicts lower probabilities than actual), negative values indicate overconfidence. Values are weighted by sample size to emphasize results with more data.
+            </p>
+          </div>
+        </CardContent>
       </Card>
       )}
     </div>
