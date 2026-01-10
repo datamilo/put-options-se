@@ -7,6 +7,7 @@ import {
   MethodPerformance,
   CalibrationPoint
 } from '@/types/probabilityValidation';
+import { normalizeProbMethod } from '@/utils/probabilityMethods';
 
 export const useProbabilityValidationData = () => {
   const [data, setData] = useState<ProbabilityValidationData[]>([]);
@@ -66,6 +67,12 @@ export const useProbabilityValidationData = () => {
                 const num = parseFloat(value);
                 return isNaN(num) ? 0 : num;
               }
+
+              // Normalize ProbMethod to handle both old and new formats
+              if (field === 'ProbMethod') {
+                return normalizeProbMethod(value);
+              }
+
               return value;
             },
             complete: (results) => {

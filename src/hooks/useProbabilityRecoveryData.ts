@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import Papa from 'papaparse';
 import { ProbabilityRecoveryData, RecoveryScenario, RecoveryStockData } from '@/types/probabilityRecovery';
+import { normalizeProbMethod } from '@/utils/probabilityMethods';
 
 interface ChartDataPoint {
   recovery_candidate_n: number;
@@ -130,6 +131,12 @@ export const useProbabilityRecoveryData = () => {
                 const num = parseFloat(value);
                 return isNaN(num) ? 0 : num;
               }
+
+              // Normalize ProbMethod to handle both old and new formats
+              if (field === 'ProbMethod') {
+                return normalizeProbMethod(value);
+              }
+
               return value;
             },
             complete: (results) => {
