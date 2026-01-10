@@ -121,11 +121,18 @@ Pages are organized into logical groups based on their purpose and data flow:
 **Primary Data Files**:
 - `stock_data.csv` - OHLC format stock data
 - `data.csv` - Options data (67+ fields)
-- `recovery_report_data.csv` - Probability recovery analysis
-- `validation_report_data.csv` - Probability validation
+- `recovery_report_data.csv` - Probability recovery analysis (normalized method names as of Jan 2026)
+- `validation_report_data.csv` - Probability validation (normalized method names as of Jan 2026)
 - `hit_rate_trends_by_stock.csv` - Lower bound monthly trends (1,071 rows)
 - `all_stocks_daily_predictions.csv` - Lower bound daily predictions (115,000+ rows, includes future expirations)
 - `all_stocks_expiry_stats.csv` - Lower bound expiry statistics (2,681 rows, includes future expirations)
+
+**CSV Format Change (January 2026)**:
+- `recovery_report_data.csv` and `validation_report_data.csv` now use normalized method names in `ProbMethod` column
+- Old format: `"PoW - Weighted Average"` → New format: `"Weighted Average"`
+- Application includes automatic normalization layer in `src/utils/probabilityMethods.ts`
+- See [DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md](DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md) for details
+- See [docs/PROBABILITY_FIELD_NAMES.md](docs/PROBABILITY_FIELD_NAMES.md) for impact on components
 
 **Margin & Capital Analysis**:
 - `margin_requirements.csv` - Estimated margin requirements with SRI methodology (13 fields)
@@ -219,6 +226,10 @@ Both use localStorage fallback for guest users.
 - **OHLC Data**: Use `low` field for period lows, `high`/`low` for ranges (not close prices)
 - **Stock Period Changes**: Calculate using previous period's closing price as baseline
 - **Missing Margin Data**: Fields gracefully show "-" if margin data not available for an option (LEFT JOIN behavior)
+- **Probability Method Names**: Use normalization utility `normalizeProbMethod()` from `src/utils/probabilityMethods.ts` when processing CSV data containing probability methods
+  - Automatically converts old "PoW - Method Name" format to new "Method Name" format
+  - Ensures compatibility with both old and new CSV formats
+  - Use `getDisplayProbMethod()` for UI display to add "PoW - " prefix for users
 
 ### Chart Patterns
 - **Plotly**: Use for financial charts (candlesticks, violins) - native support not in Recharts

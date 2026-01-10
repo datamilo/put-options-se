@@ -217,28 +217,14 @@ const probabilityFields = [
 
 ---
 
-### 10. Data Files Updated
+### 10. Data Files & CSV Format Change (January 2026)
 **Files**:
 - `data/recovery_report_data.csv`
 - `data/validation_report_data.csv`
 
-**Change Type**: Updated all probability method names in the CSV data files
+**Important Change**: As of January 10, 2026, the CSV files now use **normalized method names** (without "PoW - " prefix) in the `ProbMethod` column.
 
-**Changes**:
-- All occurrences of method names in the `ProbMethod` column updated with "PoW - " prefix
-- Ensures charts and analyses display consistent method names from data
-
-**Before**:
-```
-ProbMethod|...
-Weighted Average|...
-Bayesian Calibrated|...
-Original Black-Scholes|...
-Bias Corrected|...
-Historical IV|...
-```
-
-**After**:
+**Previous Format** (December 2025 and earlier):
 ```
 ProbMethod|...
 PoW - Weighted Average|...
@@ -248,7 +234,22 @@ PoW - Bias Corrected|...
 PoW - Historical IV|...
 ```
 
-**Affected Areas**: All Probability Analysis page charts and data displays
+**Current Format** (January 2026 onwards):
+```
+ProbMethod|...
+Weighted Average|...
+Bayesian Calibrated|...
+Original Black-Scholes|...
+Bias Corrected|...
+Historical IV|...
+```
+
+**Normalization Layer**: The website includes a normalization layer (`src/utils/probabilityMethods.ts`) that:
+- Converts old "PoW - " format CSV data to new normalized format on load
+- Ensures backward compatibility with older CSV files
+- Maintains "PoW - " prefix display to users for consistency
+
+**Affected Areas**: All Probability Analysis page charts and data displays continue showing "PoW - " to users while internally using normalized names
 
 ---
 
@@ -290,10 +291,17 @@ Multiple commits created for this alignment:
 
 ## Backward Compatibility
 
+### CSV Format Handling (January 2026)
+- **Automatic Normalization**: The application includes a normalization layer that automatically converts between old and new CSV formats
+- **Forward Compatible**: Works seamlessly with both old "PoW - " format and new normalized format CSV files
+- **No User Impact**: Users see the same "PoW - " display names regardless of CSV format
+- **Transparent Conversion**: Data loading hooks automatically normalize method names on CSV parse
+
+### Component Changes
 - **No breaking changes**: All changes are display-only; underlying data field names remain unchanged
-- **CSV updates preserved**: Data files have been updated to include "PoW - " prefix in method names to ensure consistency
 - **No database migrations needed**: All field names in stored preferences are unchanged
 - **User settings preserved**: Existing column preferences reference field names (not labels), so they continue working
+- **Charts Updated**: All chart components internally use normalized method names with "PoW - " display prefix
 
 ---
 

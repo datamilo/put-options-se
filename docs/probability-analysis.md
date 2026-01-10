@@ -76,7 +76,10 @@ Comprehensive probability method validation and recovery opportunity analysis fo
   - Structure: Pipe-delimited CSV with calibration data at 4 granularity levels
   - Records: metrics (5), calibration_aggregated (44), calibration_by_stock (2,350), calibration_by_stock_and_dte (15,334)
   - Fields: DataType, Stock, DTE_Bin, ProbMethod, Bin, PredictedProb, ActualRate, Count, CalibrationError, Brier_Score, AUC_ROC, Log_Loss, Expected_Calibration_Error
+  - **ProbMethod Format**: Uses normalized method names (e.g., "Weighted Average" without "PoW - " prefix) as of January 2026
+  - **Note**: Application automatically handles both old and new CSV formats via normalization layer
 - `recovery_report_data.csv` - Recovery analysis scenario data
+  - **ProbMethod Format**: Uses normalized method names (e.g., "Weighted Average" without "PoW - " prefix) as of January 2026
 
 ## File References
 - **Page**: `src/pages/ProbabilityAnalysis.tsx`
@@ -91,25 +94,37 @@ Comprehensive probability method validation and recovery opportunity analysis fo
 
 ## Technical Implementation Notes
 
+### CSV Format Handling (January 2026)
+- **Data Loading**: `useProbabilityValidationData.ts` and `useProbabilityRecoveryData.ts` automatically normalize `ProbMethod` column
+- **Normalization Function**: `normalizeProbMethod()` in `src/utils/probabilityMethods.ts` converts between formats:
+  - Old format: `"PoW - Weighted Average"` → New format: `"Weighted Average"`
+  - Handles both formats transparently
+- **Display**: `getDisplayProbMethod()` adds "PoW - " prefix for user display
+- **Backward Compatibility**: Works with both old and new CSV formats without code changes
+
 ### Calibration Analysis (CalibrationChart.tsx)
 - Uses Plotly with `hovermode: 'closest'` for precise dot-only hover detection
 - Lines drawn with `activeDot={false}` to prevent line hover
 - Scatter dots trigger tooltips only on direct hover
 - Supports 4 data aggregation levels: aggregated, by_stock, by_dte, by_stock_and_dte
 - Dynamic aggregation when specific DTE is selected (weighted average calculation)
+- Methods stored internally in normalized format, displayed with "PoW - " prefix
 
 ### Stock Performance by Method (MethodComparisonChart.tsx)
-- Data aggregation: Filters to `calibration_by_stock_and_dte` records only
+- Data aggregation: Filters to `calibration_by_stock_and_dte` records with DTE_Bin = 'All DTE' for "All DTE" filter
+- For specific DTE bins, filters directly to that DTE_Bin value
 - Weighted calculation: `sum(count × calibrationError) / sum(count)` per stock-method pair
 - 25th percentile filtering applied to sample counts
 - Heatmap color-coded with automatic scaling
 - Table sortable by any column (stock name or any method)
 - All stocks always displayed for comparison
+- Method names stored in normalized format, displayed with "PoW - " prefix
 
 ### Data Flow
 1. Hook loads CSV from GitHub raw content
 2. Data parsed with pipe delimiter (`|`)
-3. Split into metrics vs calibration data
-4. Passed to components as `calibrationPoints` array
-5. Components filter and aggregate based on user selections
-6. UI updates reactively as selections change
+3. **Normalization**: `ProbMethod` column values are normalized during parsing
+4. Split into metrics vs calibration data
+5. Passed to components as `calibrationPoints` array (with normalized method names)
+6. Components convert to display format when rendering
+7. UI updates reactively as selections change
