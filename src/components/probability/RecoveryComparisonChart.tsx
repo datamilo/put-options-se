@@ -72,8 +72,9 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
   }, [chartData, stockChartData]);
 
   // Initialize with first available values
+  // Methods are now normalized (without "PoW - " prefix)
   const [threshold, setThreshold] = React.useState(availableOptions.thresholds[0] || '0.8');
-  const [method, setMethod] = React.useState(availableOptions.methods[0] || 'PoW - Weighted Average');
+  const [method, setMethod] = React.useState(availableOptions.methods[0] || 'Weighted Average');
   const [probBin, setProbBin] = React.useState(availableOptions.probBins[0] || '50-60%');
   const [stock, setStock] = React.useState('All Stocks');
 
@@ -141,9 +142,10 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
   };
 
   const thresholdPct = Math.round(parseFloat(threshold) * 100);
+  const displayMethod = `PoW - ${method}`;
   const title = stock === 'All Stocks'
-    ? `Recovery Candidates (${thresholdPct}%+ peak) vs Baseline - ${method} (${probBin})`
-    : `${stock} - ${method} (${probBin}) - Peak Threshold: ${thresholdPct}%+`;
+    ? `Recovery Candidates (${thresholdPct}%+ peak) vs Baseline - ${displayMethod} (${probBin})`
+    : `${stock} - ${displayMethod} (${probBin}) - Peak Threshold: ${thresholdPct}%+`;
 
   return (
     <Card>
@@ -174,7 +176,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
               <SelectContent>
                 {availableOptions.methods.map(m => (
                   <SelectItem key={m} value={m}>
-                    {m}
+                    PoW - {m}
                   </SelectItem>
                 ))}
               </SelectContent>

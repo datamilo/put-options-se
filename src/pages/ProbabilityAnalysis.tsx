@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 export const ProbabilityAnalysis: React.FC = () => {
   const navigate = useNavigate();
   const { timestamps } = useTimestamps();
-  const { isLoading: recoveryLoading, error: recoveryError, stocks, chartData, stockChartData } = useProbabilityRecoveryData();
+  const { isLoading: recoveryLoading, error: recoveryError, stocks, scenarios, chartData, stockChartData } = useProbabilityRecoveryData();
   const { calibrationData, isLoading: validationLoading, error: validationError, getCalibrationPoints } = useProbabilityValidationData();
   const isLoading = recoveryLoading || validationLoading;
   const error = recoveryError || validationError;
@@ -46,23 +46,26 @@ export const ProbabilityAnalysis: React.FC = () => {
     return Array.from(new Set(stocks)).sort();
   }, [calibrationData]);
 
-  // Calculate KPI metrics
+  // Calculate KPI metrics from recovery scenarios
   const kpiMetrics = useMemo(() => {
-    if (!stocks.length || !calibrationData.length) return null;
+    if (!scenarios || !scenarios.length || !calibrationData.length) return null;
 
-    const totalRecoveryCandidates = stocks.reduce((sum, stock) => sum + stock.RecoveryCandidates, 0);
-    const totalBaseline = stocks.reduce((sum, stock) => sum + stock.Baseline, 0);
-    const avgAccuracy = calibrationData
-      .filter(d => d.DataType === 'calibration_overall')
-      .reduce((sum, d, _, arr) => sum + (d.ActualRate / arr.length), 0);
+    // Sum recovery candidates and baseline from all scenarios
+    const totalRecoveryCandidates = scenarios.reduce((sum, s) => sum + s.RecoveryCandidate_N, 0);
+    const totalBaseline = scenarios.reduce((sum, s) => sum + s.Baseline_N, 0);
+
+    // Calculate average accuracy from calibration data
+    const avgAccuracy = calibrationData.length > 0
+      ? (calibrationData.reduce((sum, d) => sum + d.ActualRate, 0) / calibrationData.length) * 100
+      : 0;
 
     return {
       totalRecoveryCandidates,
       totalBaseline,
-      avgAccuracy: avgAccuracy * 100,
+      avgAccuracy,
       stocksAnalyzed: stocks.length,
     };
-  }, [stocks, calibrationData]);
+  }, [scenarios, stocks, calibrationData]);
 
   if (isLoading) {
     return (
