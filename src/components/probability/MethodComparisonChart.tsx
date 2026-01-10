@@ -71,10 +71,10 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
       const dteRecords = allRecords.filter(r => r.DTE_Bin === 'All DTE');
 
       // Apply 25th percentile filter
-      const counts = dteRecords.map(r => r.Count).sort((a, b) => a - b);
+      const counts = dteRecords.map(r => r.count).sort((a, b) => a - b);
       const percentile25Index = Math.floor(counts.length * 0.25);
       const countThreshold = counts.length > 0 ? counts[percentile25Index] : 0;
-      const filteredRecords = dteRecords.filter(r => r.Count >= countThreshold);
+      const filteredRecords = dteRecords.filter(r => r.count >= countThreshold);
 
       // Group and aggregate
       const byStockMethod: Record<string, Record<string, { totalError: number; totalCount: number }>> = {};
@@ -88,8 +88,8 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
         }
 
         const calibrationError = record.actual - record.predicted;
-        byStockMethod[record.Stock][record.method].totalError += record.Count * calibrationError;
-        byStockMethod[record.Stock][record.method].totalCount += record.Count;
+        byStockMethod[record.Stock][record.method].totalError += record.count * calibrationError;
+        byStockMethod[record.Stock][record.method].totalCount += record.count;
       });
 
       Object.entries(byStockMethod).forEach(([stock, methodData]) => {
@@ -103,10 +103,10 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
       const dteRecords = allRecords.filter(r => r.DTE_Bin === selectedDTE);
 
       // Apply 25th percentile filter
-      const counts = dteRecords.map(r => r.Count).sort((a, b) => a - b);
+      const counts = dteRecords.map(r => r.count).sort((a, b) => a - b);
       const percentile25Index = Math.floor(counts.length * 0.25);
       const countThreshold = counts.length > 0 ? counts[percentile25Index] : 0;
-      const filteredRecords = dteRecords.filter(r => r.Count >= countThreshold);
+      const filteredRecords = dteRecords.filter(r => r.count >= countThreshold);
 
       // Group and aggregate
       const byStockMethod: Record<string, Record<string, { totalError: number; totalCount: number }>> = {};
@@ -120,8 +120,8 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
         }
 
         const calibrationError = record.actual - record.predicted;
-        byStockMethod[record.Stock][record.method].totalError += record.Count * calibrationError;
-        byStockMethod[record.Stock][record.method].totalCount += record.Count;
+        byStockMethod[record.Stock][record.method].totalError += record.count * calibrationError;
+        byStockMethod[record.Stock][record.method].totalCount += record.count;
       });
 
       Object.entries(byStockMethod).forEach(([stock, methodData]) => {
