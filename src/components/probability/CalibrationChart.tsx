@@ -22,14 +22,23 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
 
   const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
-  const METHODS = ['All Methods', 'PoW - Weighted Average', 'PoW - Bayesian Calibrated', 'PoW - Original Black-Scholes', 'PoW - Bias Corrected', 'PoW - Historical IV'];
+  // Methods now stored in normalized format (without "PoW - " prefix) from CSV
+  const METHODS_NORMALIZED = ['Weighted Average', 'Bayesian Calibrated', 'Original Black-Scholes', 'Bias Corrected', 'Historical IV'];
+  const METHODS = ['All Methods', ...METHODS_NORMALIZED];
 
+  // Color mappings for normalized method names
   const COLORS: Record<string, string> = {
-    'PoW - Weighted Average': '#3b82f6',
-    'PoW - Bayesian Calibrated': '#10b981',
-    'PoW - Original Black-Scholes': '#f59e0b',
-    'PoW - Bias Corrected': '#ef4444',
-    'PoW - Historical IV': '#8b5cf6'
+    'Weighted Average': '#3b82f6',
+    'Bayesian Calibrated': '#10b981',
+    'Original Black-Scholes': '#f59e0b',
+    'Bias Corrected': '#ef4444',
+    'Historical IV': '#8b5cf6'
+  };
+
+  // Display names with "PoW - " prefix for UI
+  const getDisplayName = (method: string): string => {
+    if (method === 'All Methods') return method;
+    return `PoW - ${method}`;
   };
 
   // Filter and group data by method
@@ -161,12 +170,13 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       }
 
       const color = COLORS[method] || '#999';
+      const displayName = getDisplayName(method);
 
       traces.push({
         x: points.map(p => p.predicted),
         y: points.map(p => p.actual),
         mode: 'lines+markers',
-        name: method,
+        name: displayName,
         line: {
           color: color,
           width: 2
@@ -180,7 +190,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
           }
         },
         hovertemplate:
-          '<b>' + method + '</b><br>' +
+          '<b>' + displayName + '</b><br>' +
           'Predicted: %{x:.1%}<br>' +
           'Actual: %{y:.1%}<br>' +
           'n=%{text}<extra></extra>',
@@ -271,7 +281,7 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
                 <SelectContent>
                   {METHODS.map(method => (
                     <SelectItem key={method} value={method}>
-                      {method}
+                      {getDisplayName(method)}
                     </SelectItem>
                   ))}
                 </SelectContent>

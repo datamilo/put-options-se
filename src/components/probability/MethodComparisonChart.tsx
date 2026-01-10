@@ -23,15 +23,23 @@ interface StockRow {
   [method: string]: number | string;
 }
 
-const METHODS = ['PoW - Weighted Average', 'PoW - Bayesian Calibrated', 'PoW - Original Black-Scholes', 'PoW - Bias Corrected', 'PoW - Historical IV'];
+// Methods stored in normalized format (without "PoW - " prefix) from CSV
+const METHODS_NORMALIZED = ['Weighted Average', 'Bayesian Calibrated', 'Original Black-Scholes', 'Bias Corrected', 'Historical IV'];
+const METHODS = METHODS_NORMALIZED;
 const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
 
+// Color mappings for normalized method names
 const COLORS = {
-  'PoW - Weighted Average': '#3b82f6',
-  'PoW - Bayesian Calibrated': '#10b981',
-  'PoW - Original Black-Scholes': '#f59e0b',
-  'PoW - Bias Corrected': '#ef4444',
-  'PoW - Historical IV': '#8b5cf6'
+  'Weighted Average': '#3b82f6',
+  'Bayesian Calibrated': '#10b981',
+  'Original Black-Scholes': '#f59e0b',
+  'Bias Corrected': '#ef4444',
+  'Historical IV': '#8b5cf6'
+};
+
+// Display names with "PoW - " prefix
+const getDisplayName = (method: string): string => {
+  return `PoW - ${method}`;
 };
 
 export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
@@ -256,7 +264,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
                     className="h-12 flex items-center justify-center px-3 font-semibold text-xs border-b"
                     style={{ backgroundColor: COLORS[method as keyof typeof COLORS], color: 'white' }}
                   >
-                    {method}
+                    {getDisplayName(method)}
                   </div>
                   {tableData.map(row => {
                     const value = typeof row[method] === 'number' ? (row[method] as number) : 0;
@@ -264,7 +272,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
                       <div
                         key={`${row.stock}-${method}`}
                         className={`h-10 flex items-center justify-center px-3 text-xs font-medium border-b ${getCellColor(value)}`}
-                        title={`${row.stock} - ${method}: ${formatNumber(value)}%`}
+                        title={`${row.stock} - ${getDisplayName(method)}: ${formatNumber(value)}%`}
                       >
                         {formatNumber(value)}%
                       </div>
@@ -301,7 +309,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
                       }}
                     >
                       <div className="flex items-center justify-between gap-1">
-                        {method}
+                        {getDisplayName(method)}
                         <SortIcon column={method} />
                       </div>
                     </th>
