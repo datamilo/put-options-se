@@ -30,6 +30,13 @@ const trendStyles = {
   neutral: "text-muted-foreground",
 }
 
+const formatValue = (value: string | number): string => {
+  if (typeof value === 'string') return value;
+
+  // Format numbers with thousand separators
+  return value.toLocaleString('en-US');
+}
+
 export function KPICard({
   title,
   value,
@@ -45,7 +52,7 @@ export function KPICard({
         <div className="flex items-start justify-between">
           <div className="space-y-1 flex-1">
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
-            <p className="text-2xl font-bold font-mono tracking-tight">{value}</p>
+            <p className="text-2xl font-bold font-mono tracking-tight">{formatValue(value)}</p>
             {subtitle && (
               <p className="text-xs text-muted-foreground">{subtitle}</p>
             )}
