@@ -8,10 +8,10 @@ export interface ProbabilityRecoveryData {
   RecoveryCandidate_N: number;
   RecoveryCandidate_WorthlessCount: number;
   RecoveryCandidate_WorthlessRate_pct: number;
-  Baseline_N: number;
-  Baseline_WorthlessCount: number;
-  Baseline_WorthlessRate_pct: number;
-  Advantage_pp: number;
+  AllOptions_N: number;
+  AllOptions_WorthlessCount: number;
+  AllOptions_WorthlessRate_pct: number;
+  RecoveryAdvantage_pp: number;
 }
 
 export interface RecoveryScenario extends ProbabilityRecoveryData {

@@ -55,7 +55,7 @@ export const RecoveryScenarioTable: React.FC<RecoveryScenarioTableProps> = ({
                   <TableCell>{scenario.CurrentProb_Bin}</TableCell>
                   <TableCell>{scenario.DTE_Bin}</TableCell>
                   <TableCell className="text-right font-semibold text-green-600 dark:text-green-400">
-                    {formatNumber(scenario.Advantage_pp, 2)}
+                    {formatNumber(scenario.RecoveryAdvantage_pp, 2)}
                   </TableCell>
                   <TableCell className="text-right">
                     {scenario.RecoveryCandidate_N.toLocaleString()}

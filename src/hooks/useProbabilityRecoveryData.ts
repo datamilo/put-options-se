@@ -38,16 +38,16 @@ export const useProbabilityRecoveryData = () => {
 
       // Convert percentage values (0-100) to decimal format (0-1) for chart
       const recovery_candidate_rate = row.RecoveryCandidate_WorthlessRate_pct / 100;
-      const baseline_rate = row.Baseline_N > 0 && row.Baseline_WorthlessRate_pct !== undefined
-        ? row.Baseline_WorthlessRate_pct / 100
+      const all_options_rate = row.AllOptions_N > 0 && row.AllOptions_WorthlessRate_pct !== undefined
+        ? row.AllOptions_WorthlessRate_pct / 100
         : null;
 
       const dataPoint: ChartDataPoint = {
         recovery_candidate_n: row.RecoveryCandidate_N,
         recovery_candidate_rate,
-        baseline_n: row.Baseline_N,
-        baseline_rate,
-        advantage: row.Advantage_pp
+        baseline_n: row.AllOptions_N,
+        baseline_rate: all_options_rate,
+        advantage: row.RecoveryAdvantage_pp
       };
 
       if (row.DataType === 'scenario' || stock === '') {
@@ -117,10 +117,10 @@ export const useProbabilityRecoveryData = () => {
                 'RecoveryCandidate_N',
                 'RecoveryCandidate_WorthlessCount',
                 'RecoveryCandidate_WorthlessRate_pct',
-                'Baseline_N',
-                'Baseline_WorthlessCount',
-                'Baseline_WorthlessRate_pct',
-                'Advantage_pp'
+                'AllOptions_N',
+                'AllOptions_WorthlessCount',
+                'AllOptions_WorthlessRate_pct',
+                'RecoveryAdvantage_pp'
               ];
 
               if (typeof field === 'string' && numericFields.includes(field)) {
