@@ -1,46 +1,46 @@
 DataType|Stock|DTE_Bin|ProbMethod|Bin|PredictedProb|ActualRate|Count|CalibrationError|Brier_Score|AUC_ROC|Log_Loss|Expected_Calibration_Error
-metrics|||Weighted Average||||1302302||0.1302879596251709|0.7991369960205706|0.4134933171179206|0.0455728903953243
-metrics|||Bayesian Calibrated||||1299734||0.1293534453112693|0.7952514200288295|0.4179756899060746|0.0236901955399772
-metrics|||Original Black-Scholes||||1302302||0.1416715723871161|0.756406806490428|0.443940079285898|0.0560980784994087
-metrics|||Bias Corrected||||1302302||0.1301660410841724|0.7963289398222906|0.4128870174119993|0.0399771558363574
-metrics|||Historical IV||||1270973||0.1345831480747427|0.7736532580097337|0.4268304836082914|0.0472468935217349
+metrics|||Weighted Average||||1303445||0.1305451720577647|0.7984252521658493|0.4140720483293942|0.0451428903364848
+metrics|||Bayesian Calibrated||||1300868||0.129498102990424|0.7947120173862317|0.4183064443586869|0.0240233065533588
+metrics|||Original Black-Scholes||||1303445||0.1417122056027576|0.7561071108547625|0.4440340983235166|0.0563878407981901
+metrics|||Bias Corrected||||1303445||0.1303718519722734|0.795721820024359|0.4133799671134866|0.0404096329342626
+metrics|||Historical IV||||1272116||0.135102747911354|0.7728692757445715|0.428203792610552|0.04794732084181
 calibration_aggregated|||Weighted Average|0-10%|0.0886151307973112|0.0396039603960396|101|-0.0490111704012716||||
-calibration_aggregated|||Weighted Average|10-20%|0.169734016218224|0.2059086839749328|1117|0.0361746677567088||||
-calibration_aggregated|||Weighted Average|20-30%|0.2535685714492846|0.2376570161886209|14887|-0.0159115552606636||||
-calibration_aggregated|||Weighted Average|30-40%|0.3548314502399181|0.3390496189142946|25716|-0.0157818313256235||||
-calibration_aggregated|||Weighted Average|40-50%|0.4592317401741708|0.4553990610328638|55806|-0.0038326791413069||||
-calibration_aggregated|||Weighted Average|50-60%|0.5542422300046824|0.5700937014233237|115153|0.0158514714186412||||
-calibration_aggregated|||Weighted Average|60-70%|0.654216592435232|0.6846393712223148|187284|0.0304227787870827||||
-calibration_aggregated|||Weighted Average|70-80%|0.7526219200270993|0.8017569122229588|262506|0.0491349921958594||||
+calibration_aggregated|||Weighted Average|10-20%|0.1698732524955676|0.2425277540563621|1171|0.0726545015607944||||
+calibration_aggregated|||Weighted Average|20-30%|0.253661191958023|0.2550705612077453|15235|0.0014093692497223||||
+calibration_aggregated|||Weighted Average|30-40%|0.3548571609549681|0.3476628352490421|26100|-0.007194325705926||||
+calibration_aggregated|||Weighted Average|40-50%|0.4591306784603152|0.457984241862455|56098|-0.0011464365978601||||
+calibration_aggregated|||Weighted Average|50-60%|0.5542269620299737|0.5703138561955352|115212|0.0160868941655615||||
+calibration_aggregated|||Weighted Average|60-70%|0.6542165900745031|0.684644422730889|187287|0.0304278326563859||||
+calibration_aggregated|||Weighted Average|70-80%|0.7526213511755925|0.8017591777805714|262509|0.0491378266049788||||
 calibration_aggregated|||Weighted Average|80-90%|0.8530494583222306|0.9198802266615256|409774|0.066830768339295||||
 calibration_aggregated|||Weighted Average|90-100%|0.9336969534942968|0.9799702554379496|229958|0.0462733019436526||||
 calibration_aggregated|||Bayesian Calibrated|0-10%|0.05673582536703|0.058252427184466|103|0.0015166018174359||||
-calibration_aggregated|||Bayesian Calibrated|10-20%|0.1730019010704083|0.1644891122278056|5970|-0.0085127888426026||||
-calibration_aggregated|||Bayesian Calibrated|20-30%|0.2577747940157979|0.2846064756533562|19859|0.0268316816375582||||
-calibration_aggregated|||Bayesian Calibrated|30-40%|0.3534909273552543|0.4153775863194308|30642|0.0618866589641765||||
-calibration_aggregated|||Bayesian Calibrated|40-50%|0.4576022947279308|0.4798643254689579|53363|0.022262030741027||||
-calibration_aggregated|||Bayesian Calibrated|50-60%|0.5563850961384819|0.586083750936006|104166|0.029698654797524||||
-calibration_aggregated|||Bayesian Calibrated|60-70%|0.6541175927365367|0.6757791856553989|160841|0.0216615929188621||||
-calibration_aggregated|||Bayesian Calibrated|70-80%|0.7523608963080505|0.7749260512553539|211295|0.0225651549473033||||
-calibration_aggregated|||Bayesian Calibrated|80-90%|0.853960979967435|0.8803837303735788|295520|0.0264227504061437||||
-calibration_aggregated|||Bayesian Calibrated|90-100%|0.9465953538426708|0.9656606256355044|417975|0.0190652717928335||||
-calibration_aggregated|||Original Black-Scholes|50-60%|0.5514833515928154|0.5810621627649831|210721|0.0295788111721677||||
-calibration_aggregated|||Original Black-Scholes|60-70%|0.651166892562117|0.6982904337930111|239008|0.0471235412308941||||
-calibration_aggregated|||Original Black-Scholes|70-80%|0.7519278161576264|0.8192748018531991|287287|0.0673469856955727||||
-calibration_aggregated|||Original Black-Scholes|80-90%|0.8520011384626274|0.9240565338650786|371105|0.0720553954024512||||
-calibration_aggregated|||Original Black-Scholes|90-100%|0.9258954354158344|0.975383230838458|166675|0.0494877954226236||||
-calibration_aggregated|||Bias Corrected|0-10%|0.0418670212765957|0.2039007092198581|564|0.1620336879432624||||
-calibration_aggregated|||Bias Corrected|10-20%|0.1732958801498127|0.1994789122292786|6141|0.0261830320794659||||
-calibration_aggregated|||Bias Corrected|20-30%|0.2577080833877769|0.2577062422046683|16837|-1.841183108586275e-06||||
-calibration_aggregated|||Bias Corrected|30-40%|0.3518334412155486|0.388750723946445|29353|0.0369172827308963||||
-calibration_aggregated|||Bias Corrected|40-50%|0.4580243558065655|0.4872337922108483|59493|0.0292094364042828||||
-calibration_aggregated|||Bias Corrected|50-60%|0.5535454385810871|0.592378610940381|113890|0.0388331723592939||||
-calibration_aggregated|||Bias Corrected|60-70%|0.6550634917884107|0.6878325217059772|173109|0.0327690299175664||||
-calibration_aggregated|||Bias Corrected|70-80%|0.7525747699548798|0.7912028375758704|236258|0.0386280676209905||||
-calibration_aggregated|||Bias Corrected|80-90%|0.85467683733182|0.9093420566551914|373558|0.0546652193233714||||
-calibration_aggregated|||Bias Corrected|90-100%|0.941512635662353|0.9734014786812648|293099|0.0318888430189117||||
-calibration_aggregated|||Historical IV|0-10%|0.0347512301804264|0.3362493165664297|1829|0.3014980863860033||||
-calibration_aggregated|||Historical IV|10-20%|0.1765771568627451|0.3745098039215686|10200|0.1979326470588235||||
+calibration_aggregated|||Bayesian Calibrated|10-20%|0.173016738125829|0.1751281627253183|6047|0.0021114245994892||||
+calibration_aggregated|||Bayesian Calibrated|20-30%|0.2577236995398898|0.2855059344196339|19884|0.0277822348797441||||
+calibration_aggregated|||Bayesian Calibrated|30-40%|0.3535047641297517|0.4156064461407973|30654|0.0621016820110455||||
+calibration_aggregated|||Bayesian Calibrated|40-50%|0.4572165942840613|0.4847743489945325|53955|0.0275577547104711||||
+calibration_aggregated|||Bayesian Calibrated|50-60%|0.5563769048419|0.5872921672042959|104471|0.0309152623623958||||
+calibration_aggregated|||Bayesian Calibrated|60-70%|0.6541155089927401|0.6759504368467495|160926|0.0218349278540094||||
+calibration_aggregated|||Bayesian Calibrated|70-80%|0.7523615196684232|0.774940963233937|211309|0.0225794435655137||||
+calibration_aggregated|||Bayesian Calibrated|80-90%|0.8539603891564438|0.8803918251336537|295540|0.0264314359772098||||
+calibration_aggregated|||Bayesian Calibrated|90-100%|0.9465955969615468|0.9656609542584677|417979|0.0190653572969208||||
+calibration_aggregated|||Original Black-Scholes|50-60%|0.551482256895216|0.5813859752280874|210884|0.0299037183328714||||
+calibration_aggregated|||Original Black-Scholes|60-70%|0.6511684727960938|0.6985099213151491|239182|0.0473414485190553||||
+calibration_aggregated|||Original Black-Scholes|70-80%|0.7519276553434185|0.8194074393560998|287498|0.0674797840126812||||
+calibration_aggregated|||Original Black-Scholes|80-90%|0.8519990619218802|0.924090898072308|371273|0.0720918361504276||||
+calibration_aggregated|||Original Black-Scholes|90-100%|0.9258939356643242|0.9753861843486608|166695|0.0494922486843365||||
+calibration_aggregated|||Bias Corrected|0-10%|0.0433882352941176|0.2453781512605042|595|0.2019899159663865||||
+calibration_aggregated|||Bias Corrected|10-20%|0.1729467180227893|0.2110415663617396|6231|0.0380948483389503||||
+calibration_aggregated|||Bias Corrected|20-30%|0.2577092858826302|0.2636106528399717|16972|0.0059013669573415||||
+calibration_aggregated|||Bias Corrected|30-40%|0.3518004731328151|0.393646502196688|29590|0.0418460290638729||||
+calibration_aggregated|||Bias Corrected|40-50%|0.4580343567741503|0.4887376818395119|59668|0.0307033250653616||||
+calibration_aggregated|||Bias Corrected|50-60%|0.5535181796692377|0.5934723036919656|114221|0.0399541240227279||||
+calibration_aggregated|||Bias Corrected|60-70%|0.6550579810539806|0.6879102228841592|173229|0.0328522418301785||||
+calibration_aggregated|||Bias Corrected|70-80%|0.752572670481479|0.7911771178980158|236272|0.0386044474165367||||
+calibration_aggregated|||Bias Corrected|80-90%|0.8546768229187579|0.909343270077604|373563|0.0546664471588461||||
+calibration_aggregated|||Bias Corrected|90-100%|0.9415131830340084|0.973401932419892|293104|0.0318887493858833||||
+calibration_aggregated|||Historical IV|0-10%|0.036730166503428|0.3844270323212537|2042|0.3476968658178256||||
+calibration_aggregated|||Historical IV|10-20%|0.17471841868823|0.4267744833782569|11130|0.2520560646900269||||
 calibration_aggregated|||Historical IV|20-30%|0.2478586244942993|0.2907686649503494|13595|0.04291004045605||||
 calibration_aggregated|||Historical IV|30-40%|0.3564553323150433|0.3822112560216191|25533|0.0257559237065758||||
 calibration_aggregated|||Historical IV|40-50%|0.4550807243707796|0.504638155651047|58644|0.0495574312802673||||
@@ -707,40 +707,40 @@ calibration_by_stock|Elekta AB ser. B||Historical IV|70-80%|0.7460653992395437|0
 calibration_by_stock|Elekta AB ser. B||Historical IV|80-90%|0.8325314009661835|0.8389694041867954|621|0.006438003220611943||||
 calibration_by_stock|Elekta AB ser. B||Historical IV|90-100%|0.9206213592233009|0.7961165048543689|103|-0.124504854368932||||
 calibration_by_stock|Embracer Group AB ser. B||Weighted Average|0-10%|0.096832509386585|0.16666666666666666|6|0.06983415728008166||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|10-20%|0.1621630260448948|0.337468982630273|403|0.17530595658537818||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|20-30%|0.2508724674692286|0.4663939216832262|1711|0.2155214542139976||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|30-40%|0.3524276624338853|0.6899458157736303|1661|0.33751815333974505||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|40-50%|0.4313038956179848|0.8342245989304813|935|0.40292070331249646||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|50-60%|0.5290606637249643|0.9662921348314607|89|0.4372314711064964||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|60-70%|0.6524723728743218|0.925|40|0.27252762712567824||||
-calibration_by_stock|Embracer Group AB ser. B||Weighted Average|70-80%|0.7326240302792363|0.6666666666666666|6|-0.06595736361256965||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|10-20%|0.16341440274101976|0.41575492341356673|457|0.252340520672547||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|20-30%|0.2520134668066203|0.5565808644973288|2059|0.3045673976907085||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|30-40%|0.3532071754804976|0.7339853300733497|2045|0.380778154592852||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|40-50%|0.4333296255173612|0.8622656886715566|1227|0.4289360631541954||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|50-60%|0.5272137617544396|0.9797297297297297|148|0.45251596797529015||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|60-70%|0.6525837804287724|0.9302325581395349|43|0.27764877771076246||||
+calibration_by_stock|Embracer Group AB ser. B||Weighted Average|70-80%|0.722697922398681|0.7777777777777778|9|0.055079855379096765||||
 calibration_by_stock|Embracer Group AB ser. B||Weighted Average|80-90%|0.8138037868595761|1.0|5|0.1861962131404239||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|10-20%|0.1636559037431131|0.405|200|0.24134409625688694||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|20-30%|0.23404359673260414|0.46402877697841727|278|0.22998518024581313||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|30-40%|0.3174363998663064|0.5472972972972973|148|0.22986089743099086||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|40-50%|0.41727564047140947|0.5418739635157546|2412|0.1245983230443451||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|50-60%|0.5508499581103347|0.7456258411843876|1486|0.1947758830740529||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|60-70%|0.6542034924986894|0.8470588235294118|170|0.1928553310307224||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|70-80%|0.7515148827506237|0.8252427184466019|103|0.07372783569597818||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|80-90%|0.849706583616674|1.0|49|0.15029341638332605||||
-calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|90-100%|0.9591571428571427|1.0|5|0.04084285714285729||||
-calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|50-60%|0.5474930761596664|0.4822848879248012|1383|-0.06520818823486518||||
-calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|60-70%|0.6465979027338871|0.7777777777777778|1125|0.13117987504389073||||
-calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|70-80%|0.7424099815179104|0.8503649635036497|548|0.10795498198573927||||
-calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|80-90%|0.8428932624156892|1.0|226|0.15710673758431082||||
-calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|90-100%|0.9148929085488149|1.0|11|0.08510709145118511||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|0-10%|0.08408928571428571|0.5892857142857143|56|0.5051964285714285||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|10-20%|0.14650918635170607|0.5013123359580053|381|0.3548031496062992||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|20-30%|0.26846299212598423|0.4330708661417323|635|0.16460787401574806||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|30-40%|0.34046963319302465|0.5051112447384245|1663|0.16464161154539986||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|40-50%|0.45858359621451106|0.7528916929547844|951|0.29430809674027336||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|50-60%|0.5377703141928494|0.8028169014084507|923|0.26504658721560137||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|60-70%|0.6442321428571428|0.8095238095238095|168|0.16529166666666673||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|70-80%|0.7271481481481481|0.3333333333333333|27|-0.3938148148148148||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|80-90%|0.8470526315789473|1.0|19|0.15294736842105272||||
-calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|90-100%|0.9749999999999999|1.0|33|0.025000000000000133||||
-calibration_by_stock|Embracer Group AB ser. B||Historical IV|0-10%|0.0345353366722315|0.33889816360601|1797|0.3043628269337785||||
-calibration_by_stock|Embracer Group AB ser. B||Historical IV|10-20%|0.16777762982689745|0.7802929427430093|3004|0.6125153129161118||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|10-20%|0.16657778630026396|0.5703971119133574|277|0.4038193256130934||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|20-30%|0.23264860456469338|0.5082508250825083|303|0.2756022205178149||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|30-40%|0.3227914424620032|0.58125|160|0.25845855753799685||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|40-50%|0.4182952516135142|0.6178428761651131|3004|0.1995476245515989||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|50-60%|0.5513147622160773|0.7889447236180904|1791|0.2376299614020131||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|60-70%|0.652859845306563|0.8980392156862745|255|0.2451793703797115||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|70-80%|0.7527419412705005|0.8461538461538461|117|0.09341190488334561||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|80-90%|0.848409187191863|1.0|69|0.15159081280813702||||
+calibration_by_stock|Embracer Group AB ser. B||Bayesian Calibrated|90-100%|0.9648650793650793|1.0|9|0.03513492063492074||||
+calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|50-60%|0.5477644608214095|0.536869340232859|1546|-0.010895120588550467||||
+calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|60-70%|0.6475008802189995|0.8075442648190916|1299|0.16004338460009204||||
+calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|70-80%|0.7449950004189367|0.8919631093544137|759|0.14696810893547696||||
+calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|80-90%|0.8448200635911377|1.0|394|0.1551799364088623||||
+calibration_by_stock|Embracer Group AB ser. B||Original Black-Scholes|90-100%|0.9139267620755857|1.0|31|0.08607323792441435||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|0-10%|0.07944827586206897|0.735632183908046|87|0.656183908045977||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|10-20%|0.14700849256900214|0.5966029723991507|471|0.44959447983014855||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|20-30%|0.2666038961038961|0.5324675324675324|770|0.2658636363636363||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|30-40%|0.3413736842105263|0.5668421052631579|1900|0.22546842105263165||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|40-50%|0.45902664298401424|0.7912966252220248|1126|0.3322699822380106||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|50-60%|0.539451355661882|0.84688995215311|1254|0.30743859649122807||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|60-70%|0.6454305555555556|0.8055555555555556|288|0.16012499999999996||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|70-80%|0.723731707317073|0.34146341463414637|41|-0.38226829268292667||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|80-90%|0.8484166666666667|1.0|24|0.1515833333333333||||
+calibration_by_stock|Embracer Group AB ser. B||Bias Corrected|90-100%|0.9748157894736842|1.0|38|0.02518421052631581||||
+calibration_by_stock|Embracer Group AB ser. B||Historical IV|0-10%|0.036568656716417916|0.3875621890547264|2010|0.3509935323383085||||
+calibration_by_stock|Embracer Group AB ser. B||Historical IV|10-20%|0.16459913573970514|0.8322318251143874|3934|0.6676326893746822||||
 calibration_by_stock|Embracer Group AB ser. B||Historical IV|20-30%|0.2099090909090909|0.7878787878787878|33|0.5779696969696969||||
 calibration_by_stock|Epiroc AB ser. A||Weighted Average|40-50%|0.47992988032168243|0.46924603174603174|1008|-0.01068384857565069||||
 calibration_by_stock|Epiroc AB ser. A||Weighted Average|50-60%|0.5433639391242916|0.5746373420683201|2137|0.03127340294402847||||
@@ -2467,42 +2467,42 @@ calibration_by_stock|Volvo, AB ser. B||Historical IV|70-80%|0.7582502022653722|0
 calibration_by_stock|Volvo, AB ser. B||Historical IV|80-90%|0.8437719619095666|0.9091253074352021|15857|0.06535334552563554||||
 calibration_by_stock|Volvo, AB ser. B||Historical IV|90-100%|0.9260421545667448|0.8934426229508197|854|-0.032599531615925104||||
 calibration_by_stock|All Stocks||Weighted Average|0-10%|0.0886151307973112|0.0396039603960396|101|-0.0490111704012716||||
-calibration_by_stock|All Stocks||Weighted Average|10-20%|0.169734016218224|0.2059086839749328|1117|0.0361746677567088||||
-calibration_by_stock|All Stocks||Weighted Average|20-30%|0.2535685714492846|0.2376570161886209|14887|-0.0159115552606636||||
-calibration_by_stock|All Stocks||Weighted Average|30-40%|0.3548314502399181|0.3390496189142946|25716|-0.0157818313256235||||
-calibration_by_stock|All Stocks||Weighted Average|40-50%|0.4592317401741708|0.4553990610328638|55806|-0.0038326791413069||||
-calibration_by_stock|All Stocks||Weighted Average|50-60%|0.5542422300046824|0.5700937014233237|115153|0.0158514714186412||||
-calibration_by_stock|All Stocks||Weighted Average|60-70%|0.654216592435232|0.6846393712223148|187284|0.0304227787870827||||
-calibration_by_stock|All Stocks||Weighted Average|70-80%|0.7526219200270993|0.8017569122229588|262506|0.0491349921958594||||
+calibration_by_stock|All Stocks||Weighted Average|10-20%|0.1698732524955676|0.2425277540563621|1171|0.0726545015607944||||
+calibration_by_stock|All Stocks||Weighted Average|20-30%|0.253661191958023|0.2550705612077453|15235|0.0014093692497223||||
+calibration_by_stock|All Stocks||Weighted Average|30-40%|0.3548571609549681|0.3476628352490421|26100|-0.007194325705926||||
+calibration_by_stock|All Stocks||Weighted Average|40-50%|0.4591306784603152|0.457984241862455|56098|-0.0011464365978601||||
+calibration_by_stock|All Stocks||Weighted Average|50-60%|0.5542269620299737|0.5703138561955352|115212|0.0160868941655615||||
+calibration_by_stock|All Stocks||Weighted Average|60-70%|0.6542165900745031|0.684644422730889|187287|0.0304278326563859||||
+calibration_by_stock|All Stocks||Weighted Average|70-80%|0.7526213511755925|0.8017591777805714|262509|0.0491378266049788||||
 calibration_by_stock|All Stocks||Weighted Average|80-90%|0.8530494583222306|0.9198802266615256|409774|0.066830768339295||||
 calibration_by_stock|All Stocks||Weighted Average|90-100%|0.9336969534942968|0.9799702554379496|229958|0.0462733019436526||||
 calibration_by_stock|All Stocks||Bayesian Calibrated|0-10%|0.05673582536703|0.058252427184466|103|0.0015166018174359||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|10-20%|0.1730019010704083|0.1644891122278056|5970|-0.0085127888426026||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|20-30%|0.2577747940157979|0.2846064756533562|19859|0.0268316816375582||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|30-40%|0.3534909273552543|0.4153775863194308|30642|0.0618866589641765||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|40-50%|0.4576022947279308|0.4798643254689579|53363|0.022262030741027||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|50-60%|0.5563850961384819|0.586083750936006|104166|0.029698654797524||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|60-70%|0.6541175927365367|0.6757791856553989|160841|0.0216615929188621||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|70-80%|0.7523608963080505|0.7749260512553539|211295|0.0225651549473033||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|80-90%|0.853960979967435|0.8803837303735788|295520|0.0264227504061437||||
-calibration_by_stock|All Stocks||Bayesian Calibrated|90-100%|0.9465953538426708|0.9656606256355044|417975|0.0190652717928335||||
-calibration_by_stock|All Stocks||Original Black-Scholes|50-60%|0.5514833515928154|0.5810621627649831|210721|0.0295788111721677||||
-calibration_by_stock|All Stocks||Original Black-Scholes|60-70%|0.651166892562117|0.6982904337930111|239008|0.0471235412308941||||
-calibration_by_stock|All Stocks||Original Black-Scholes|70-80%|0.7519278161576264|0.8192748018531991|287287|0.0673469856955727||||
-calibration_by_stock|All Stocks||Original Black-Scholes|80-90%|0.8520011384626274|0.9240565338650786|371105|0.0720553954024512||||
-calibration_by_stock|All Stocks||Original Black-Scholes|90-100%|0.9258954354158344|0.975383230838458|166675|0.0494877954226236||||
-calibration_by_stock|All Stocks||Bias Corrected|0-10%|0.0418670212765957|0.2039007092198581|564|0.1620336879432624||||
-calibration_by_stock|All Stocks||Bias Corrected|10-20%|0.1732958801498127|0.1994789122292786|6141|0.0261830320794659||||
-calibration_by_stock|All Stocks||Bias Corrected|20-30%|0.2577080833877769|0.2577062422046683|16837|-1.841183108586275e-06||||
-calibration_by_stock|All Stocks||Bias Corrected|30-40%|0.3518334412155486|0.388750723946445|29353|0.0369172827308963||||
-calibration_by_stock|All Stocks||Bias Corrected|40-50%|0.4580243558065655|0.4872337922108483|59493|0.0292094364042828||||
-calibration_by_stock|All Stocks||Bias Corrected|50-60%|0.5535454385810871|0.592378610940381|113890|0.0388331723592939||||
-calibration_by_stock|All Stocks||Bias Corrected|60-70%|0.6550634917884107|0.6878325217059772|173109|0.0327690299175664||||
-calibration_by_stock|All Stocks||Bias Corrected|70-80%|0.7525747699548798|0.7912028375758704|236258|0.0386280676209905||||
-calibration_by_stock|All Stocks||Bias Corrected|80-90%|0.85467683733182|0.9093420566551914|373558|0.0546652193233714||||
-calibration_by_stock|All Stocks||Bias Corrected|90-100%|0.941512635662353|0.9734014786812648|293099|0.0318888430189117||||
-calibration_by_stock|All Stocks||Historical IV|0-10%|0.0347512301804264|0.3362493165664297|1829|0.3014980863860033||||
-calibration_by_stock|All Stocks||Historical IV|10-20%|0.1765771568627451|0.3745098039215686|10200|0.1979326470588235||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|10-20%|0.173016738125829|0.1751281627253183|6047|0.0021114245994892||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|20-30%|0.2577236995398898|0.2855059344196339|19884|0.0277822348797441||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|30-40%|0.3535047641297517|0.4156064461407973|30654|0.0621016820110455||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|40-50%|0.4572165942840613|0.4847743489945325|53955|0.0275577547104711||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|50-60%|0.5563769048419|0.5872921672042959|104471|0.0309152623623958||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|60-70%|0.6541155089927401|0.6759504368467495|160926|0.0218349278540094||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|70-80%|0.7523615196684232|0.774940963233937|211309|0.0225794435655137||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|80-90%|0.8539603891564438|0.8803918251336537|295540|0.0264314359772098||||
+calibration_by_stock|All Stocks||Bayesian Calibrated|90-100%|0.9465955969615468|0.9656609542584677|417979|0.0190653572969208||||
+calibration_by_stock|All Stocks||Original Black-Scholes|50-60%|0.551482256895216|0.5813859752280874|210884|0.0299037183328714||||
+calibration_by_stock|All Stocks||Original Black-Scholes|60-70%|0.6511684727960938|0.6985099213151491|239182|0.0473414485190553||||
+calibration_by_stock|All Stocks||Original Black-Scholes|70-80%|0.7519276553434185|0.8194074393560998|287498|0.0674797840126812||||
+calibration_by_stock|All Stocks||Original Black-Scholes|80-90%|0.8519990619218802|0.924090898072308|371273|0.0720918361504276||||
+calibration_by_stock|All Stocks||Original Black-Scholes|90-100%|0.9258939356643242|0.9753861843486608|166695|0.0494922486843365||||
+calibration_by_stock|All Stocks||Bias Corrected|0-10%|0.0433882352941176|0.2453781512605042|595|0.2019899159663865||||
+calibration_by_stock|All Stocks||Bias Corrected|10-20%|0.1729467180227893|0.2110415663617396|6231|0.0380948483389503||||
+calibration_by_stock|All Stocks||Bias Corrected|20-30%|0.2577092858826302|0.2636106528399717|16972|0.0059013669573415||||
+calibration_by_stock|All Stocks||Bias Corrected|30-40%|0.3518004731328151|0.393646502196688|29590|0.0418460290638729||||
+calibration_by_stock|All Stocks||Bias Corrected|40-50%|0.4580343567741503|0.4887376818395119|59668|0.0307033250653616||||
+calibration_by_stock|All Stocks||Bias Corrected|50-60%|0.5535181796692377|0.5934723036919656|114221|0.0399541240227279||||
+calibration_by_stock|All Stocks||Bias Corrected|60-70%|0.6550579810539806|0.6879102228841592|173229|0.0328522418301785||||
+calibration_by_stock|All Stocks||Bias Corrected|70-80%|0.752572670481479|0.7911771178980158|236272|0.0386044474165367||||
+calibration_by_stock|All Stocks||Bias Corrected|80-90%|0.8546768229187579|0.909343270077604|373563|0.0546664471588461||||
+calibration_by_stock|All Stocks||Bias Corrected|90-100%|0.9415131830340084|0.973401932419892|293104|0.0318887493858833||||
+calibration_by_stock|All Stocks||Historical IV|0-10%|0.036730166503428|0.3844270323212537|2042|0.3476968658178256||||
+calibration_by_stock|All Stocks||Historical IV|10-20%|0.17471841868823|0.4267744833782569|11130|0.2520560646900269||||
 calibration_by_stock|All Stocks||Historical IV|20-30%|0.2478586244942993|0.2907686649503494|13595|0.04291004045605||||
 calibration_by_stock|All Stocks||Historical IV|30-40%|0.3564553323150433|0.3822112560216191|25533|0.0257559237065758||||
 calibration_by_stock|All Stocks||Historical IV|40-50%|0.4550807243707796|0.504638155651047|58644|0.0495574312802673||||
@@ -6364,33 +6364,34 @@ calibration_by_stock_and_dte|Embracer Group AB ser. B|4-7 days|Bias Corrected|90
 calibration_by_stock_and_dte|Embracer Group AB ser. B|4-7 days|Historical IV|0-10%|0.047000000000000014|0.6|15|0.5529999999999999||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|4-7 days|Historical IV|10-20%|0.11455555555555558|1.0|9|0.8854444444444445||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|10-20%|0.15491781323054862|0.21428571428571427|14|0.05936790105516565||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|20-30%|0.2599213415150629|1.0|4|0.740078658484937||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|30-40%|0.3543139606436042|0.4|10|0.04568603935639581||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|40-50%|0.43068918930371547|1.0|5|0.5693108106962845||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|50-60%|0.5764858959638061|1.0|6|0.42351410403619394||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|60-70%|0.6657685558633559|1.0|16|0.3342314441366441||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|70-80%|0.7127891338453338|1.0|1|0.2872108661546662||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|20-30%|0.2681329788222505|1.0|8|0.7318670211777495||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|30-40%|0.351684898552887|0.5714285714285714|14|0.21974367287568441||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|40-50%|0.4512401606036975|1.0|14|0.5487598393963025||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|50-60%|0.5768199903782935|1.0|10|0.42318000962170654||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|60-70%|0.6623536840001867|1.0|17|0.3376463159998133||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Weighted Average|70-80%|0.7053315634395113|1.0|4|0.2946684365604887||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|10-20%|0.189|0.0|2|-0.189||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|40-50%|0.42100000000000004|0.09090909090909091|11|-0.3300909090909091||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|50-60%|0.5268246753246753|0.5454545454545454|11|0.018629870129870163||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|60-70%|0.6869999999999999|1.0|4|0.31300000000000006||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|70-80%|0.754111111111111|1.0|9|0.24588888888888905||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|80-90%|0.8439687499999999|1.0|16|0.15603125000000007||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|90-100%|0.972|1.0|2|0.028000000000000025||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|60-70%|0.6808354129530599|1.0|9|0.31916458704694006||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|70-80%|0.7481249999999999|1.0|12|0.25187500000000007||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|80-90%|0.8440714285714285|1.0|27|0.15592857142857153||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bayesian Calibrated|90-100%|0.9719999999999999|1.0|6|0.028000000000000136||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|50-60%|0.5475696629682827|0.3125|16|-0.2350696629682827||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|60-70%|0.6596615372249547|1.0|9|0.3403384627750453||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|70-80%|0.7504175735875046|1.0|13|0.2495824264124954||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|80-90%|0.8286858212988837|1.0|8|0.17131417870111632||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|90-100%|0.925160983059489|1.0|3|0.07483901694051098||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|70-80%|0.7536826581574426|1.0|18|0.24631734184255738||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|80-90%|0.8476472235963677|1.0|20|0.15235277640363232||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Original Black-Scholes|90-100%|0.9242341157607409|1.0|11|0.07576588423925912||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|10-20%|0.1600909090909091|0.18181818181818182|11|0.021727272727272734||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|20-30%|0.21100000000000002|0.7142857142857143|7|0.5032857142857143||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|40-50%|0.47783333333333333|0.3333333333333333|6|-0.14450000000000002||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|50-60%|0.5355000000000001|0.75|8|0.2144999999999999||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|60-70%|0.602|1.0|1|0.398||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|80-90%|0.8488333333333333|1.0|6|0.15116666666666667||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|90-100%|0.9782941176470589|1.0|17|0.02170588235294113||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Historical IV|0-10%|0.04181081081081082|0.5405405405405406|37|0.49872972972972973||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Historical IV|10-20%|0.13522222222222222|1.0|18|0.8647777777777778||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|20-30%|0.21254545454545457|0.8181818181818182|11|0.6056363636363636||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|30-40%|0.368|1.0|2|0.632||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|40-50%|0.45925|0.5|8|0.04075000000000001||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|50-60%|0.5487272727272727|0.8181818181818182|11|0.2694545454545455||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|60-70%|0.6258571428571429|1.0|7|0.3741428571428571||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|80-90%|0.8509999999999999|1.0|11|0.14900000000000013||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Bias Corrected|90-100%|0.98155|1.0|20|0.018449999999999966||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Historical IV|0-10%|0.05267272727272726|0.6909090909090909|55|0.6382363636363637||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Historical IV|10-20%|0.13964|1.0|25|0.86036||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|8-14 days|Historical IV|20-30%|0.21|1.0|1|0.79||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|15-21 days|Weighted Average|10-20%|0.16312690566536575|0.375|24|0.21187309433463425||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|15-21 days|Weighted Average|20-30%|0.24583071458269767|0.18181818181818182|11|-0.06401253276451585||||
@@ -6443,51 +6444,55 @@ calibration_by_stock_and_dte|Embracer Group AB ser. B|22-28 days|Bias Corrected|
 calibration_by_stock_and_dte|Embracer Group AB ser. B|22-28 days|Bias Corrected|90-100%|0.9506666666666667|1.0|3|0.04933333333333334||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|22-28 days|Historical IV|0-10%|0.049054545454545455|0.33636363636363636|110|0.2873090909090909||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|22-28 days|Historical IV|10-20%|0.12428571428571429|0.0|7|-0.12428571428571429||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Weighted Average|10-20%|0.17186737991304105|0.3235294117647059|34|0.15166203185166485||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Weighted Average|20-30%|0.24250042770643276|0.2962962962962963|108|0.053795868589863516||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Weighted Average|10-20%|0.1732827015973002|0.4523809523809524|42|0.2790982507836522||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Weighted Average|20-30%|0.24232252936531404|0.42857142857142855|133|0.1862488992061145||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|10-20%|0.119298245614035|0.0|2|-0.119298245614035||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|20-30%|0.21960874151656457|0.3157894736842105|57|0.09618073216764594||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|40-50%|0.4565875942682129|0.3230769230769231|65|-0.1335106711912898||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|50-60%|0.5204406673061714|0.2222222222222222|18|-0.29821844508394924||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|50-60%|0.5516214980074515|0.24|50|-0.31162149800745154||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|60-70%|0.6418023884283012|0.34146341463414637|41|-0.3003389737941548||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|70-80%|0.7245343621682866|0.18181818181818182|11|-0.5427161803501048||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|0-10%|0.09866666666666668|0.3333333333333333|3|0.23466666666666663||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|10-20%|0.14708163265306123|0.30612244897959184|49|0.1590408163265306||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|20-30%|0.28688888888888886|0.2777777777777778|18|-0.00911111111111107||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|30-40%|0.3325416666666666|0.3055555555555556|72|-0.026986111111111044||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Historical IV|0-10%|0.044601562500000004|0.296875|128|0.2522734375||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|20-30%|0.22106899609124805|0.43478260869565216|69|0.2137136126044041||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|40-50%|0.45753024129838826|0.37142857142857144|70|-0.08610166986981682||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|50-60%|0.52757710143899|0.391304347826087|23|-0.13627275361290297||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bayesian Calibrated|60-70%|0.6345607936151341|1.0|11|0.36543920638486593||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|50-60%|0.5512508076712938|0.2962962962962963|54|-0.2549545113749975||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|60-70%|0.642809634821382|0.4|45|-0.24280963482138196||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|70-80%|0.7358135412556794|0.4|15|-0.3358135412556794||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Original Black-Scholes|80-90%|0.8587427462072188|1.0|11|0.1412572537927812||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|0-10%|0.09625|0.5|4|0.40375||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|10-20%|0.1472923076923077|0.47692307692307695|65|0.3296307692307693||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|20-30%|0.2808333333333333|0.4583333333333333|24|0.1775||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Bias Corrected|30-40%|0.3342073170731708|0.3902439024390244|82|0.0560365853658536||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Historical IV|0-10%|0.05116149068322982|0.4409937888198758|161|0.38983229813664594||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|29-35 days|Historical IV|10-20%|0.12128571428571426|0.35714285714285715|14|0.23585714285714288||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|0-10%|0.096832509386585|0.16666666666666666|6|0.06983415728008166||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|10-20%|0.1610315166332211|0.34185303514376997|313|0.18082151851054887||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|20-30%|0.2520065806795885|0.49434464404524286|1503|0.2423380633656544||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|30-40%|0.3523742694706226|0.6929181929181929|1638|0.3405439234475703||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|40-50%|0.43090261099285154|0.8306010928961749|915|0.39969848190332335||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|50-60%|0.5190587146727803|1.0|70|0.4809412853272197||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|10-20%|0.16359064050203379|0.4072164948453608|194|0.24362585434332704||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|20-30%|0.2397295055888205|0.5434782608695652|184|0.3037487552807447||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|30-40%|0.3174363998663064|0.5472972972972973|148|0.22986089743099086||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|40-50%|0.41473555298828696|0.560458958517211|2266|0.145723405528924||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|50-60%|0.5518802097687641|0.768033946251768|1414|0.21615373648300396||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|60-70%|0.6518751037478862|0.8461538461538461|156|0.19427874240596||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|70-80%|0.7512398271490344|0.7972972972972973|74|0.04605747014826289||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|80-90%|0.8436938960806994|1.0|8|0.15630610391930055||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|10-20%|0.16238764543929918|0.42618384401114207|359|0.2637961985718429||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|20-30%|0.2531693734350125|0.5828759604829857|1822|0.32970658704797323||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|30-40%|0.3531887665879632|0.736372646184341|2018|0.38318387959637773||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|40-50%|0.4328366284336498|0.8589315525876461|1198|0.4260949241539963||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|50-60%|0.5197285053378381|1.0|125|0.4802714946621619||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Weighted Average|60-70%|0.6772459546374272|1.0|2|0.3227540453625728||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|10-20%|0.16659575761603337|0.5756457564575646|271|0.40904999884153115||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|20-30%|0.2375765170351735|0.5736040609137056|197|0.3360275438785322||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|30-40%|0.3227914424620032|0.58125|160|0.25845855753799685||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|40-50%|0.41623972339220544|0.6358219418156327|2853|0.21958221842342723||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|50-60%|0.5521785161426394|0.808634772462077|1714|0.2564562563194377||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|60-70%|0.6515444247409894|0.8933333333333333|225|0.24178890859234392||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|70-80%|0.7537178989925043|0.8235294117647058|85|0.06981151277220154||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|80-90%|0.8451608186022682|1.0|17|0.15483918139773178||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bayesian Calibrated|90-100%|0.9335|1.0|1|0.0665||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|50-60%|0.5475729573123859|0.5048154093097913|1246|-0.04275754800259457||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|60-70%|0.6466558340234796|0.8079150579150579|1036|0.16125922389157832||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|70-80%|0.7420705810462576|0.8765182186234818|494|0.13444763757722422||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|80-90%|0.844308341810912|1.0|196|0.15569165818908803||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|90-100%|0.9058754314477634|1.0|6|0.09412456855223661||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|0-10%|0.08262745098039215|0.6274509803921569|51|0.5448235294117647||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|10-20%|0.14392673992673993|0.5897435897435898|273|0.4458168498168498||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|20-30%|0.26891938250428815|0.4425385934819897|583|0.17361921097770155||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|30-40%|0.3411981687377372|0.5251798561151079|1529|0.1839816873773707||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|40-50%|0.45834185303514374|0.7582534611288605|939|0.29991160809371675||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|50-60%|0.5375897435897437|0.8049052396878483|897|0.2673154960981047||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|60-70%|0.6459671052631579|0.8092105263157895|152|0.16324342105263157||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|70-80%|0.7214761904761906|0.23809523809523808|21|-0.4833809523809525||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Historical IV|0-10%|0.0320089224433768|0.3287577213452299|1457|0.29674879890185313||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Historical IV|10-20%|0.16846109607577808|0.7821380243572396|2956|0.6136769282814615||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|50-60%|0.5478650307462178|0.5608540925266904|1405|0.012989061780472544||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|60-70%|0.6475985996979937|0.8349917081260365|1206|0.1873931084280428||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|70-80%|0.7447057729279148|0.9123563218390804|696|0.1676505489111656||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|80-90%|0.8448094857304562|1.0|341|0.15519051426954378||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Original Black-Scholes|90-100%|0.9062259941557276|1.0|18|0.09377400584427242||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|0-10%|0.07812345679012346|0.7654320987654321|81|0.6873086419753086||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|10-20%|0.1450893371757925|0.6772334293948127|347|0.5321440922190201||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|20-30%|0.26716666666666666|0.5409604519774012|708|0.2737937853107345||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|30-40%|0.3420199543899658|0.5860889395667047|1754|0.24406898517673892||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|40-50%|0.4589271582733813|0.795863309352518|1112|0.3369361510791367||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|50-60%|0.5392457142857143|0.8489795918367347|1225|0.30973387755102033||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|60-70%|0.6468458646616543|0.8007518796992481|266|0.15390601503759382||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|70-80%|0.719742857142857|0.2857142857142857|35|-0.4340285714285713||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Bias Corrected|90-100%|0.9339999999999999|1.0|2|0.06600000000000006||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Historical IV|0-10%|0.03347869054972205|0.36936380481778874|1619|0.33588511426806666||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Historical IV|10-20%|0.16510518174787317|0.8339778293374581|3879|0.668872647589585||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|35+ days|Historical IV|20-30%|0.20990625|0.78125|32|0.57134375||||
 calibration_by_stock_and_dte|Epiroc AB ser. A|0-3 days|Weighted Average|40-50%|0.4980444409751659|1.0|1|0.5019555590248341||||
 calibration_by_stock_and_dte|Epiroc AB ser. A|0-3 days|Weighted Average|50-60%|0.5575482598433028|0.5|40|-0.05754825984330281||||
@@ -16782,40 +16787,40 @@ calibration_by_stock_and_dte|Elekta AB ser. B|All DTE|Historical IV|70-80%|0.746
 calibration_by_stock_and_dte|Elekta AB ser. B|All DTE|Historical IV|80-90%|0.8325314009661835|0.8389694041867954|621|0.006438003220611943||||
 calibration_by_stock_and_dte|Elekta AB ser. B|All DTE|Historical IV|90-100%|0.9206213592233009|0.7961165048543689|103|-0.124504854368932||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|0-10%|0.096832509386585|0.16666666666666666|6|0.06983415728008166||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|10-20%|0.1621630260448948|0.337468982630273|403|0.17530595658537818||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|20-30%|0.2508724674692286|0.4663939216832262|1711|0.2155214542139976||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|30-40%|0.3524276624338853|0.6899458157736303|1661|0.33751815333974505||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|40-50%|0.4313038956179848|0.8342245989304813|935|0.40292070331249646||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|50-60%|0.5290606637249643|0.9662921348314607|89|0.4372314711064964||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|60-70%|0.6524723728743218|0.925|40|0.27252762712567824||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|70-80%|0.7326240302792363|0.6666666666666666|6|-0.06595736361256965||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|10-20%|0.16341440274101976|0.41575492341356673|457|0.252340520672547||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|20-30%|0.2520134668066203|0.5565808644973288|2059|0.3045673976907085||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|30-40%|0.3532071754804976|0.7339853300733497|2045|0.380778154592852||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|40-50%|0.4333296255173612|0.8622656886715566|1227|0.4289360631541954||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|50-60%|0.5272137617544396|0.9797297297297297|148|0.45251596797529015||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|60-70%|0.6525837804287724|0.9302325581395349|43|0.27764877771076246||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|70-80%|0.722697922398681|0.7777777777777778|9|0.055079855379096765||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Weighted Average|80-90%|0.8138037868595761|1.0|5|0.1861962131404239||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|10-20%|0.1636559037431131|0.405|200|0.24134409625688694||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|20-30%|0.23404359673260414|0.46402877697841727|278|0.22998518024581313||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|30-40%|0.3174363998663064|0.5472972972972973|148|0.22986089743099086||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|40-50%|0.41727564047140947|0.5418739635157546|2412|0.1245983230443451||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|50-60%|0.5508499581103347|0.7456258411843876|1486|0.1947758830740529||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|60-70%|0.6542034924986894|0.8470588235294118|170|0.1928553310307224||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|70-80%|0.7515148827506237|0.8252427184466019|103|0.07372783569597818||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|80-90%|0.849706583616674|1.0|49|0.15029341638332605||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|90-100%|0.9591571428571427|1.0|5|0.04084285714285729||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|50-60%|0.5474930761596664|0.4822848879248012|1383|-0.06520818823486518||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|60-70%|0.6465979027338871|0.7777777777777778|1125|0.13117987504389073||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|70-80%|0.7424099815179104|0.8503649635036497|548|0.10795498198573927||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|80-90%|0.8428932624156892|1.0|226|0.15710673758431082||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|90-100%|0.9148929085488149|1.0|11|0.08510709145118511||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|0-10%|0.08408928571428571|0.5892857142857143|56|0.5051964285714285||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|10-20%|0.14650918635170607|0.5013123359580053|381|0.3548031496062992||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|20-30%|0.26846299212598423|0.4330708661417323|635|0.16460787401574806||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|30-40%|0.34046963319302465|0.5051112447384245|1663|0.16464161154539986||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|40-50%|0.45858359621451106|0.7528916929547844|951|0.29430809674027336||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|50-60%|0.5377703141928494|0.8028169014084507|923|0.26504658721560137||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|60-70%|0.6442321428571428|0.8095238095238095|168|0.16529166666666673||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|70-80%|0.7271481481481481|0.3333333333333333|27|-0.3938148148148148||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|80-90%|0.8470526315789473|1.0|19|0.15294736842105272||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|90-100%|0.9749999999999999|1.0|33|0.025000000000000133||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Historical IV|0-10%|0.0345353366722315|0.33889816360601|1797|0.3043628269337785||||
-calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Historical IV|10-20%|0.16777762982689745|0.7802929427430093|3004|0.6125153129161118||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|10-20%|0.16657778630026396|0.5703971119133574|277|0.4038193256130934||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|20-30%|0.23264860456469338|0.5082508250825083|303|0.2756022205178149||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|30-40%|0.3227914424620032|0.58125|160|0.25845855753799685||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|40-50%|0.4182952516135142|0.6178428761651131|3004|0.1995476245515989||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|50-60%|0.5513147622160773|0.7889447236180904|1791|0.2376299614020131||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|60-70%|0.652859845306563|0.8980392156862745|255|0.2451793703797115||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|70-80%|0.7527419412705005|0.8461538461538461|117|0.09341190488334561||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|80-90%|0.848409187191863|1.0|69|0.15159081280813702||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bayesian Calibrated|90-100%|0.9648650793650793|1.0|9|0.03513492063492074||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|50-60%|0.5477644608214095|0.536869340232859|1546|-0.010895120588550467||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|60-70%|0.6475008802189995|0.8075442648190916|1299|0.16004338460009204||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|70-80%|0.7449950004189367|0.8919631093544137|759|0.14696810893547696||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|80-90%|0.8448200635911377|1.0|394|0.1551799364088623||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Original Black-Scholes|90-100%|0.9139267620755857|1.0|31|0.08607323792441435||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|0-10%|0.07944827586206897|0.735632183908046|87|0.656183908045977||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|10-20%|0.14700849256900214|0.5966029723991507|471|0.44959447983014855||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|20-30%|0.2666038961038961|0.5324675324675324|770|0.2658636363636363||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|30-40%|0.3413736842105263|0.5668421052631579|1900|0.22546842105263165||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|40-50%|0.45902664298401424|0.7912966252220248|1126|0.3322699822380106||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|50-60%|0.539451355661882|0.84688995215311|1254|0.30743859649122807||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|60-70%|0.6454305555555556|0.8055555555555556|288|0.16012499999999996||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|70-80%|0.723731707317073|0.34146341463414637|41|-0.38226829268292667||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|80-90%|0.8484166666666667|1.0|24|0.1515833333333333||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Bias Corrected|90-100%|0.9748157894736842|1.0|38|0.02518421052631581||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Historical IV|0-10%|0.036568656716417916|0.3875621890547264|2010|0.3509935323383085||||
+calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Historical IV|10-20%|0.16459913573970514|0.8322318251143874|3934|0.6676326893746822||||
 calibration_by_stock_and_dte|Embracer Group AB ser. B|All DTE|Historical IV|20-30%|0.2099090909090909|0.7878787878787878|33|0.5779696969696969||||
 calibration_by_stock_and_dte|Epiroc AB ser. A|All DTE|Weighted Average|40-50%|0.47992988032168243|0.46924603174603174|1008|-0.01068384857565069||||
 calibration_by_stock_and_dte|Epiroc AB ser. A|All DTE|Weighted Average|50-60%|0.5433639391242916|0.5746373420683201|2137|0.03127340294402847||||
@@ -18612,12 +18617,12 @@ calibration_by_stock_and_dte|All Stocks|4-7 days|Historical IV|80-90%|0.84788297
 calibration_by_stock_and_dte|All Stocks|4-7 days|Historical IV|90-100%|0.9393031505829819|0.9327710245596627|4031|-0.006532126023319207||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|0-10%|0.08739756479900146|0.0|19|-0.08739756479900146||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|10-20%|0.14544331926716994|0.07272727272727272|55|-0.07271604653989722||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|20-30%|0.2493730528600382|0.3829787234042553|47|0.13360567054421713||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|30-40%|0.38132131084989956|0.35772357723577236|246|-0.023597733614127203||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|40-50%|0.4648399801344108|0.4116809116809117|2106|-0.0531590684534991||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|50-60%|0.5570001237521685|0.5339538819547281|9454|-0.023046241797440303||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|60-70%|0.6536473134262221|0.6464094206708022|19022|-0.007237892755419861||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|70-80%|0.7521581225074822|0.757975564228746|23572|0.005817441721263861||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|20-30%|0.25148846958704996|0.43137254901960786|51|0.1798840794325579||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|30-40%|0.38074196576951863|0.368|250|-0.012741965769518637||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|40-50%|0.4648306924184408|0.41418439716312055|2115|-0.05064629525532027||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|50-60%|0.5570087179616198|0.5341509832945655|9458|-0.02285773466705432||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|60-70%|0.653644898897534|0.6464280082005993|19023|-0.0072168906969346525||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|70-80%|0.75215184733261|0.7580063626723224|23575|0.005854515339712374||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|80-90%|0.8529171178295502|0.8742574565359376|32153|0.021340338706387407||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Weighted Average|90-100%|0.926946063818652|0.9480570354120965|12764|0.02111097159344455||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|10-20%|0.18900000000000003|0.0|15|-0.18900000000000003||||
@@ -18625,27 +18630,27 @@ calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|20-30%|0.2
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|30-40%|0.3537789574154493|0.4444444444444444|711|0.09066548702899513||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|40-50%|0.46536183923282975|0.44609297725024727|3033|-0.019268861982582486||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|50-60%|0.5575068673924238|0.5430758092874134|9669|-0.014431058105010441||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|60-70%|0.6557929971556997|0.6499723807770208|16293|-0.005820616378678922||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|70-80%|0.752358942780686|0.7431505082297095|19381|-0.00920843455097653||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|80-90%|0.8518035850954785|0.8415837706587296|25534|-0.010219814436748909||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|90-100%|0.9493673640940212|0.9334100151994413|24343|-0.015957348894579892||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|60-70%|0.6557991668532577|0.6500797643882685|16298|-0.005719402464989143||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|70-80%|0.7523555081527278|0.7431902600082543|19384|-0.009165248144473503||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|80-90%|0.8518003198433892|0.8416519866901546|25545|-0.010148333153234601||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bayesian Calibrated|90-100%|0.9493710824389353|0.9334209553538424|24347|-0.015950127085092913||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|50-60%|0.5511412659337757|0.5781319661168078|17944|0.02699070018303218||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|60-70%|0.651248555748823|0.6787684284424832|19942|0.027519872693660186||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|70-80%|0.7516478289061976|0.7803418803418803|23400|0.02869405143568271||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|80-90%|0.8503157190563038|0.8900861265426345|26821|0.03977040748633076||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|90-100%|0.9260745252065942|0.9612319197087474|10163|0.03515739450215327||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|70-80%|0.75165007715425|0.7803888058107242|23405|0.0287387286564742||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|80-90%|0.8503201788361592|0.8901352811836172|26833|0.039815102347458||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Original Black-Scholes|90-100%|0.9260728042472525|0.9612624127421099|10171|0.035189608494857416||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|0-10%|0.014411764705882353|0.1323529411764706|68|0.11794117647058824||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|10-20%|0.1644181818181818|0.23636363636363636|55|0.07194545454545456||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|20-30%|0.2611111111111111|0.375|72|0.11388888888888887||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|30-40%|0.3716131147540984|0.3836065573770492|610|0.011993442622950767||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|40-50%|0.4685620873939013|0.4517447343602641|3181|-0.01681735303363724||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|50-60%|0.5574716913521262|0.5437171524128046|8372|-0.013754538939321548||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|60-70%|0.654657251996759|0.6411042944785276|17278|-0.013552957518231379||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|20-30%|0.2586973684210527|0.40789473684210525|76|0.14919736842105258||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|30-40%|0.3716013071895425|0.38562091503267976|612|0.014019607843137272||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|40-50%|0.46852120640904804|0.45208922400251333|3183|-0.016431982406534706||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|50-60%|0.5574811940298509|0.5438805970149254|8375|-0.013600597014925442||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|60-70%|0.6546486345753298|0.6412288822031937|17284|-0.013419752372136107||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|70-80%|0.7525512061308021|0.7498476008011844|22966|-0.0027036053296176643||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|80-90%|0.851441570976868|0.8637044433349975|30045|0.012262872358129506||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|90-100%|0.9351514501816449|0.945685188493836|16791|0.010533738312191065||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|0-10%|0.04294|0.4|50|0.35706000000000004||||
-calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|10-20%|0.16480952380952382|0.4523809523809524|42|0.2875714285714286||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|80-90%|0.8514419301164726|0.8637271214642263|30050|0.012285191347753632||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Bias Corrected|90-100%|0.9351630344170537|0.9456948910325116|16794|0.010531856615457857||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|0-10%|0.051426470588235296|0.5588235294117647|68|0.5073970588235295||||
+calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|10-20%|0.16283673469387758|0.5306122448979592|49|0.3677755102040816||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|20-30%|0.26375|0.5|4|0.23625000000000002||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|30-40%|0.3814299516908212|0.4492753623188406|207|0.06784541062801935||||
 calibration_by_stock_and_dte|All Stocks|8-14 days|Historical IV|40-50%|0.4454230401529637|0.44789674952198855|2092|0.002473709369024857||||
@@ -18743,8 +18748,8 @@ calibration_by_stock_and_dte|All Stocks|22-28 days|Historical IV|70-80%|0.753622
 calibration_by_stock_and_dte|All Stocks|22-28 days|Historical IV|80-90%|0.8472050792496287|0.8898990817347031|32997|0.04269400248507438||||
 calibration_by_stock_and_dte|All Stocks|22-28 days|Historical IV|90-100%|0.9424325997762028|0.9430809399477806|13405|0.000648340171577888||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|0-10%|0.09234544114767107|0.0|3|-0.09234544114767107||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|10-20%|0.1648432907192112|0.2682926829268293|41|0.10344939220761809||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|20-30%|0.25769340686083736|0.30303030303030304|231|0.04533689616946568||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|10-20%|0.16720321366389532|0.3877551020408163|49|0.220551888376921||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|20-30%|0.2561172937427557|0.37109375|256|0.11497645625724429||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|30-40%|0.3566523475936297|0.3479349186483104|799|-0.008717428945319294||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|40-50%|0.46651851527710886|0.4773454157782516|3752|0.010826900501142767||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|50-60%|0.5524324536333338|0.571795218154802|7403|0.019362764521468234||||
@@ -18753,30 +18758,30 @@ calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|70-80%|0.753
 calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|80-90%|0.8526358921143603|0.9117436380772855|26525|0.05910774596292523||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Weighted Average|90-100%|0.932879790773788|0.9757679981239741|12793|0.04288820735018606||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|10-20%|0.18286315789473684|0.2|20|0.017136842105263173||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|20-30%|0.26596136445935203|0.46357615894039733|604|0.1976147944810453||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|20-30%|0.26522195876185156|0.474025974025974|616|0.20880401526412246||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|30-40%|0.3535261131500225|0.4628175519630485|2165|0.109291438813026||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|40-50%|0.45997257857797824|0.5201499531396439|3201|0.06017737456166561||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|50-60%|0.5586067289990033|0.5866028708133971|7315|0.027996141814393805||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|60-70%|0.6538126069277505|0.6832038834951456|10300|0.029391276567395153||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|40-50%|0.45998788125126683|0.5208983156581409|3206|0.0609104344068741||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|50-60%|0.5586030825067343|0.5868852459016394|7320|0.02828216339490508||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|60-70%|0.6537920686728345|0.6835418485112986|10311|0.029749779838464163||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|70-80%|0.7534710698018457|0.7757961783439491|14130|0.022325108542103345||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|80-90%|0.8527859248940266|0.8792173864710133|17991|0.026431461576986726||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bayesian Calibrated|90-100%|0.9531584028742282|0.9527679234386601|24242|-0.0003904794355680252||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|50-60%|0.5517123732489834|0.593654863002724|12482|0.0419424897537406||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|60-70%|0.6512930245563544|0.6914736323311976|14203|0.040180607774843224||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|70-80%|0.7522901873633638|0.8042720886401279|17509|0.05198190127676405||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|80-90%|0.852443351069342|0.9081335616438356|23360|0.05569021057449364||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|50-60%|0.5517107409584885|0.5937850392439532|12486|0.04207429828546472||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|60-70%|0.6512935428602311|0.6915604983458858|14207|0.04026695548565473||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|70-80%|0.7522935085753509|0.8043167932393079|17513|0.052023284663957||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|80-90%|0.8524463159979506|0.9081768003080741|23371|0.05573048431012351||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Original Black-Scholes|90-100%|0.9266643045410604|0.9720641489912054|11598|0.045399844450145||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|0-10%|0.06657894736842106|0.21052631578947367|57|0.1439473684210526||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|10-20%|0.1503533333333333|0.42|150|0.2696466666666667||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|20-30%|0.2594157894736842|0.3473684210526316|190|0.0879526315789474||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|30-40%|0.35474087591240877|0.3677007299270073|1096|0.012959854014598537||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|0-10%|0.06696551724137931|0.22413793103448276|58|0.15717241379310345||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|10-20%|0.15012048192771085|0.4759036144578313|166|0.3257831325301205||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|20-30%|0.259515306122449|0.3673469387755102|196|0.10783163265306123||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|30-40%|0.3546636528028933|0.37341772151898733|1106|0.01875406871609403||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|40-50%|0.46173745084432105|0.5033541522091141|4323|0.04161670136479301||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|50-60%|0.5515313688212928|0.5873166757197176|7364|0.03578530689842474||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|60-70%|0.6546118025937854|0.6824788928540343|11489|0.027867090260248917||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|70-80%|0.753705752619004|0.7921337989340195|16323|0.03842804631501551||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|80-90%|0.8512843451944241|0.9012289068231841|21808|0.04994456162876004||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Bias Corrected|90-100%|0.9439918787532171|0.9714612525021447|17485|0.02746937374892755||||
-calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|0-10%|0.044601562500000004|0.296875|128|0.2522734375||||
+calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|0-10%|0.05116149068322982|0.4409937888198758|161|0.38983229813664594||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|10-20%|0.12128571428571426|0.35714285714285715|14|0.23585714285714288||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|30-40%|0.36708309248554916|0.3988439306358382|1384|0.03176083815028902||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|40-50%|0.45839456366237474|0.4892703862660944|3495|0.030875822603719683||||
@@ -18786,42 +18791,42 @@ calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|70-80%|0.753926
 calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|80-90%|0.8480536092615012|0.9045096852300242|26432|0.05645607596852298||||
 calibration_by_stock_and_dte|All Stocks|29-35 days|Historical IV|90-100%|0.9413524897680765|0.9557469304229195|11728|0.014394440654842966||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|0-10%|0.09036365497841227|0.07142857142857142|56|-0.018935083549840845||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|10-20%|0.17437040826191108|0.2157303370786517|890|0.04135992881674061||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|20-30%|0.2535208160861732|0.23670082967301123|14343|-0.016819986413161986||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|30-40%|0.3539826933341128|0.3386411433967123|23299|-0.0153415499374005||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|40-50%|0.45696388816946865|0.4598195600613868|43006|0.0028556718919181545||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|50-60%|0.5540335003941739|0.5813123628186311|74263|0.027278862424457206||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|60-70%|0.6550185345728133|0.6990297170877602|115018|0.044011182514946845||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|10-20%|0.17423500358932806|0.25427350427350426|936|0.0800385006841762||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|20-30%|0.25363236753247537|0.2533078706861274|14662|-0.0003244968463479436||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|30-40%|0.3540262954336385|0.34802989991131383|23679|-0.005996395522324671||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|40-50%|0.4568470365779117|0.463027558964171|43289|0.006180522386259324||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|50-60%|0.5540087434122644|0.5816222180360074|74318|0.027613474623743084||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|60-70%|0.6550189210694238|0.6990349504434011|115020|0.044016029373977306||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|70-80%|0.7525984588089168|0.8182170912824431|167524|0.06561863247352628||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|80-90%|0.8532586771883652|0.9346050956589119|271015|0.08134641847054669||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Weighted Average|90-100%|0.9348868025018852|0.9858845707996207|170806|0.0509977682977355||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|0-10%|0.05673582536703001|0.05825242718446602|103|0.001516601817436014||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|10-20%|0.17265466477005117|0.16555612506406972|5853|-0.007098539705981455||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|20-30%|0.2563950632772459|0.2725156570415119|18043|0.016120593764266||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|30-40%|0.3532719660044417|0.40753241407697055|24295|0.05426044807252883||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|40-50%|0.4547977067302272|0.4814575526553818|38695|0.026659845925154635||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|50-60%|0.5561485908702712|0.601490093581482|66573|0.045341502711210735||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|60-70%|0.6538296457649465|0.6876572792075635|99743|0.03382763344261697||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|70-80%|0.7519911792417895|0.7870202415015293|131759|0.035029062259739785||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|80-90%|0.8546401596735925|0.8933214942601636|189204|0.03868133458657108||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|10-20%|0.17267430336520406|0.1763912310286678|5930|0.003716927663463737||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|20-30%|0.25635957418802247|0.2730394328754984|18056|0.016679858687475957||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|30-40%|0.35328952391046287|0.4078249064055622|24307|0.054535382495099316||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|40-50%|0.4543082946309416|0.48811160327885544|39282|0.033803308647913866||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|50-60%|0.5561370882129114|0.6032778550386554|66873|0.047140766825743974||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|60-70%|0.6538275491615748|0.6878732016190438|99812|0.03404565245746893||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|70-80%|0.7519927150331963|0.7870380207938074|131770|0.035045305760611045||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|80-90%|0.8546397708066041|0.8933265684704539|189213|0.03868679766384975||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Bayesian Calibrated|90-100%|0.9453813539272828|0.9737195460260868|304599|0.02833819209880395||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|50-60%|0.5516158857536959|0.5804586198516062|139898|0.028842734097910272||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|60-70%|0.6511347296992881|0.7059773422724331|159151|0.054842612573145044||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|70-80%|0.7519351571996851|0.8330526897472122|191821|0.08111753254752718||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|80-90%|0.8522439434118844|0.935952380952381|252000|0.08370843754049662||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|90-100%|0.925411597957401|0.9806917204216831|114873|0.055280122464282044||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|0-10%|0.0483986013986014|0.2517482517482518|286|0.20334965034965036||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|10-20%|0.17461324041811846|0.1926829268292683|5740|0.018069686411149838||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|20-30%|0.25755639281994724|0.25626416712614103|16323|-0.0012922256938062149||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|30-40%|0.350764763547957|0.3913810681515175|25502|0.04061630460356053||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|40-50%|0.4553355531145589|0.494027186598929|43698|0.0386916334843701||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|50-60%|0.5531275548024992|0.6086386741501641|75544|0.05551111934766495||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|60-70%|0.6555873670770288|0.7054636581926287|104948|0.04987629111559988||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|70-80%|0.752168853576746|0.8062184312688717|143734|0.054049577692125705||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|50-60%|0.5516142259834049|0.5809349050743626|140057|0.029320679090957702||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|60-70%|0.6511370869725829|0.7062910727399401|159321|0.055153985767357194||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|70-80%|0.751934331513005|0.8332283111918884|192023|0.08129397967888341||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|80-90%|0.8522400576629876|0.9359892125562672|252145|0.08374915489327961||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Original Black-Scholes|90-100%|0.9254096122859087|0.9806937372154764|114885|0.05528412492956769||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|0-10%|0.05049367088607595|0.3227848101265823|316|0.2722911392405063||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|10-20%|0.1742920536635707|0.20295837633298933|5814|0.028666322669418626||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|20-30%|0.25756730301556424|0.2619163424124514|16448|0.004349039396887133||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|30-40%|0.3507371244218137|0.39670385198429664|25727|0.045966727562482934||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|40-50%|0.4553622438512913|0.4960224293952725|43871|0.04066018554398121||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|50-60%|0.5530871204133277|0.6101987557992409|75872|0.05711163538591313||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|60-70%|0.6555791532618834|0.7055548152519465|105062|0.04997566199006309||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|70-80%|0.7521654423018059|0.8061746946044467|143748|0.05400925230264075||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|80-90%|0.8563021443348187|0.9237547740292807|251360|0.06745262969446209||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|90-100%|0.9423371565337776|0.978778421756576|213085|0.03644126522279845||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|0-10%|0.0320089224433768|0.3287577213452299|1457|0.29674879890185313||||
-calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|10-20%|0.17684478825746305|0.3744917187345036|10083|0.19764693047704054||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Bias Corrected|90-100%|0.9423370782825795|0.9787786209388654|213087|0.03644154265628585||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|0-10%|0.03347869054972205|0.36936380481778874|1619|0.33588511426806666||||
+calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|10-20%|0.1749589314919135|0.42694893694348535|11006|0.25199000545157185||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|20-30%|0.24781723756906082|0.2905340699815838|13575|0.042716832412523||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|30-40%|0.3548201943349528|0.3800531671097259|21818|0.0252329727747731||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|40-50%|0.45514488746814125|0.5155514277074603|46298|0.06040654023931907||||
@@ -18831,42 +18836,42 @@ calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|70-80%|0.76149787
 calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|80-90%|0.8480987834836947|0.918290725063944|237317|0.07019194158024933||||
 calibration_by_stock_and_dte|All Stocks|35+ days|Historical IV|90-100%|0.9587423071693337|0.9787645358289339|169151|0.020022228659600128||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|0-10%|0.0886151307973112|0.0396039603960396|101|-0.0490111704012716||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|10-20%|0.169734016218224|0.2059086839749328|1117|0.0361746677567088||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|20-30%|0.2535685714492846|0.2376570161886209|14887|-0.0159115552606636||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|30-40%|0.3548314502399181|0.3390496189142946|25716|-0.0157818313256235||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|40-50%|0.4592317401741708|0.4553990610328638|55806|-0.0038326791413069||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|50-60%|0.5542422300046824|0.5700937014233237|115153|0.0158514714186412||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|60-70%|0.654216592435232|0.6846393712223148|187284|0.0304227787870827||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|70-80%|0.7526219200270993|0.8017569122229588|262506|0.0491349921958594||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|10-20%|0.1698732524955676|0.2425277540563621|1171|0.0726545015607944||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|20-30%|0.253661191958023|0.2550705612077453|15235|0.0014093692497223||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|30-40%|0.3548571609549681|0.3476628352490421|26100|-0.007194325705926||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|40-50%|0.4591306784603152|0.457984241862455|56098|-0.0011464365978601||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|50-60%|0.5542269620299737|0.5703138561955352|115212|0.0160868941655615||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|60-70%|0.6542165900745031|0.684644422730889|187287|0.0304278326563859||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|70-80%|0.7526213511755925|0.8017591777805714|262509|0.0491378266049788||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|80-90%|0.8530494583222306|0.9198802266615256|409774|0.066830768339295||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Weighted Average|90-100%|0.9336969534942968|0.9799702554379496|229958|0.0462733019436526||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|0-10%|0.05673582536703|0.058252427184466|103|0.0015166018174359||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|10-20%|0.1730019010704083|0.1644891122278056|5970|-0.0085127888426026||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|20-30%|0.2577747940157979|0.2846064756533562|19859|0.0268316816375582||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|30-40%|0.3534909273552543|0.4153775863194308|30642|0.0618866589641765||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|40-50%|0.4576022947279308|0.4798643254689579|53363|0.022262030741027||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|50-60%|0.5563850961384819|0.586083750936006|104166|0.029698654797524||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|60-70%|0.6541175927365367|0.6757791856553989|160841|0.0216615929188621||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|70-80%|0.7523608963080505|0.7749260512553539|211295|0.0225651549473033||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|80-90%|0.853960979967435|0.8803837303735788|295520|0.0264227504061437||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|90-100%|0.9465953538426708|0.9656606256355044|417975|0.0190652717928335||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|50-60%|0.5514833515928154|0.5810621627649831|210721|0.0295788111721677||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|60-70%|0.651166892562117|0.6982904337930111|239008|0.0471235412308941||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|70-80%|0.7519278161576264|0.8192748018531991|287287|0.0673469856955727||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|80-90%|0.8520011384626274|0.9240565338650786|371105|0.0720553954024512||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|90-100%|0.9258954354158344|0.975383230838458|166675|0.0494877954226236||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|0-10%|0.0418670212765957|0.2039007092198581|564|0.1620336879432624||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|10-20%|0.1732958801498127|0.1994789122292786|6141|0.0261830320794659||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|20-30%|0.2577080833877769|0.2577062422046683|16837|-1.841183108586275e-06||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|30-40%|0.3518334412155486|0.388750723946445|29353|0.0369172827308963||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|40-50%|0.4580243558065655|0.4872337922108483|59493|0.0292094364042828||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|50-60%|0.5535454385810871|0.592378610940381|113890|0.0388331723592939||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|60-70%|0.6550634917884107|0.6878325217059772|173109|0.0327690299175664||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|70-80%|0.7525747699548798|0.7912028375758704|236258|0.0386280676209905||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|80-90%|0.85467683733182|0.9093420566551914|373558|0.0546652193233714||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|90-100%|0.941512635662353|0.9734014786812648|293099|0.0318888430189117||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|0-10%|0.0347512301804264|0.3362493165664297|1829|0.3014980863860033||||
-calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|10-20%|0.1765771568627451|0.3745098039215686|10200|0.1979326470588235||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|10-20%|0.173016738125829|0.1751281627253183|6047|0.0021114245994892||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|20-30%|0.2577236995398898|0.2855059344196339|19884|0.0277822348797441||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|30-40%|0.3535047641297517|0.4156064461407973|30654|0.0621016820110455||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|40-50%|0.4572165942840613|0.4847743489945325|53955|0.0275577547104711||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|50-60%|0.5563769048419|0.5872921672042959|104471|0.0309152623623958||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|60-70%|0.6541155089927401|0.6759504368467495|160926|0.0218349278540094||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|70-80%|0.7523615196684232|0.774940963233937|211309|0.0225794435655137||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|80-90%|0.8539603891564438|0.8803918251336537|295540|0.0264314359772098||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bayesian Calibrated|90-100%|0.9465955969615468|0.9656609542584677|417979|0.0190653572969208||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|50-60%|0.551482256895216|0.5813859752280874|210884|0.0299037183328714||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|60-70%|0.6511684727960938|0.6985099213151491|239182|0.0473414485190553||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|70-80%|0.7519276553434185|0.8194074393560998|287498|0.0674797840126812||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|80-90%|0.8519990619218802|0.924090898072308|371273|0.0720918361504276||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Original Black-Scholes|90-100%|0.9258939356643242|0.9753861843486608|166695|0.0494922486843365||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|0-10%|0.0433882352941176|0.2453781512605042|595|0.2019899159663865||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|10-20%|0.1729467180227893|0.2110415663617396|6231|0.0380948483389503||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|20-30%|0.2577092858826302|0.2636106528399717|16972|0.0059013669573415||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|30-40%|0.3518004731328151|0.393646502196688|29590|0.0418460290638729||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|40-50%|0.4580343567741503|0.4887376818395119|59668|0.0307033250653616||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|50-60%|0.5535181796692377|0.5934723036919656|114221|0.0399541240227279||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|60-70%|0.6550579810539806|0.6879102228841592|173229|0.0328522418301785||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|70-80%|0.752572670481479|0.7911771178980158|236272|0.0386044474165367||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|80-90%|0.8546768229187579|0.909343270077604|373563|0.0546664471588461||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Bias Corrected|90-100%|0.9415131830340084|0.973401932419892|293104|0.0318887493858833||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|0-10%|0.036730166503428|0.3844270323212537|2042|0.3476968658178256||||
+calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|10-20%|0.17471841868823|0.4267744833782569|11130|0.2520560646900269||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|20-30%|0.2478586244942993|0.2907686649503494|13595|0.04291004045605||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|30-40%|0.3564553323150433|0.3822112560216191|25533|0.0257559237065758||||
 calibration_by_stock_and_dte|All Stocks|All DTE|Historical IV|40-50%|0.4550807243707796|0.504638155651047|58644|0.0495574312802673||||
