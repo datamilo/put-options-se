@@ -36,10 +36,10 @@ export const useProbabilityRecoveryData = () => {
       const dte = row.DTE_Bin;
       const stock = row.Stock || '';
 
-      // Use worthless rates directly (chart displays "Worthless Rate (%)")
-      const recovery_candidate_rate = row.RecoveryCandidate_WorthlessRate_pct;
+      // Convert percentage values (0-100) to decimal format (0-1) for chart
+      const recovery_candidate_rate = row.RecoveryCandidate_WorthlessRate_pct / 100;
       const baseline_rate = row.Baseline_N > 0 && row.Baseline_WorthlessRate_pct !== undefined
-        ? row.Baseline_WorthlessRate_pct
+        ? row.Baseline_WorthlessRate_pct / 100
         : null;
 
       const dataPoint: ChartDataPoint = {
