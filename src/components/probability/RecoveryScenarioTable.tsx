@@ -45,7 +45,6 @@ export const RecoveryScenarioTable: React.FC<RecoveryScenarioTableProps> = ({
                 <TableHead className="text-right">Advantage (pp)</TableHead>
                 <TableHead className="text-right">Candidates</TableHead>
                 <TableHead className="text-right">Worthless Rate</TableHead>
-                <TableHead className="text-right">Avg Premium (pp)</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -62,10 +61,7 @@ export const RecoveryScenarioTable: React.FC<RecoveryScenarioTableProps> = ({
                     {scenario.RecoveryCandidate_N.toLocaleString()}
                   </TableCell>
                   <TableCell className="text-right">
-                    {formatPercent(scenario.RecoveryCandidate_WorthlessRate)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatNumber(scenario.RecoveryCandidate_Premium_pp, 2)}
+                    {formatPercent(scenario.RecoveryCandidate_WorthlessRate_pct / 100)}
                   </TableCell>
                 </TableRow>
               ))}

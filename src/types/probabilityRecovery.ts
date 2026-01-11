@@ -6,15 +6,11 @@ export interface ProbabilityRecoveryData {
   CurrentProb_Bin: string;
   DTE_Bin: string;
   RecoveryCandidate_N: number;
-  RecoveryCandidate_WorthlessRate: number;
-  RecoveryCandidate_AvgCurrentProb: number;
-  RecoveryCandidate_AvgPeakProb: number;
-  RecoveryCandidate_Premium_pp: number;
+  RecoveryCandidate_WorthlessCount: number;
+  RecoveryCandidate_WorthlessRate_pct: number;
   Baseline_N: number;
-  Baseline_WorthlessRate: number;
-  Baseline_AvgCurrentProb: number;
-  Baseline_AvgPeakProb: number;
-  Baseline_Premium_pp: number;
+  Baseline_WorthlessCount: number;
+  Baseline_WorthlessRate_pct: number;
   Advantage_pp: number;
 }
 

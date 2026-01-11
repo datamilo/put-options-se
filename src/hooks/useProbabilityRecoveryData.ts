@@ -37,9 +37,9 @@ export const useProbabilityRecoveryData = () => {
       const stock = row.Stock || '';
 
       // Use worthless rates directly (chart displays "Worthless Rate (%)")
-      const recovery_candidate_rate = row.RecoveryCandidate_WorthlessRate;
-      const baseline_rate = row.Baseline_N > 0 && row.Baseline_WorthlessRate !== undefined
-        ? row.Baseline_WorthlessRate
+      const recovery_candidate_rate = row.RecoveryCandidate_WorthlessRate_pct;
+      const baseline_rate = row.Baseline_N > 0 && row.Baseline_WorthlessRate_pct !== undefined
+        ? row.Baseline_WorthlessRate_pct
         : null;
 
       const dataPoint: ChartDataPoint = {
@@ -115,15 +115,11 @@ export const useProbabilityRecoveryData = () => {
               const numericFields = [
                 'HistoricalPeakThreshold',
                 'RecoveryCandidate_N',
-                'RecoveryCandidate_WorthlessRate',
-                'RecoveryCandidate_AvgCurrentProb',
-                'RecoveryCandidate_AvgPeakProb',
-                'RecoveryCandidate_Premium_pp',
+                'RecoveryCandidate_WorthlessCount',
+                'RecoveryCandidate_WorthlessRate_pct',
                 'Baseline_N',
-                'Baseline_WorthlessRate',
-                'Baseline_AvgCurrentProb',
-                'Baseline_AvgPeakProb',
-                'Baseline_Premium_pp',
+                'Baseline_WorthlessCount',
+                'Baseline_WorthlessRate_pct',
                 'Advantage_pp'
               ];
 
