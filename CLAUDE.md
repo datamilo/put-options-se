@@ -235,6 +235,46 @@ Both use localStorage fallback for guest users.
 - **Hover Date Format**: Always use `%{x|%Y-%m-%d}` in Plotly hovertemplates
 - **Violin Plots**: Use `hovertemplate` with single entry to avoid duplicate statistical breakdowns
 
+### Number Formatting Patterns (CRITICAL - Nordic/European Standard)
+
+**IMPORTANT**: This is a Nordic application. ALL numbers must use Nordic/European formatting:
+- **Thousand separator**: Space (not comma) - e.g., "1 234 567"
+- **Decimal separator**: Comma (not dot) - e.g., "87,66"
+
+**Never use American formatting** (commas for thousands, dots for decimals) in the UI.
+
+**How to Format Numbers**:
+- Use utilities from `src/utils/numberFormatting.ts`:
+  - `formatNordicNumber(value, decimals)` - General numbers: `1 234 567,89`
+  - `formatNordicDecimal(value, decimals)` - Decimals: `87,66`
+  - `formatNordicPercentage(value, decimals)` - Percentages: `87,66%`
+  - `formatNordicPercentagePoints(value, decimals)` - Percentage points: `+24,55 pp`
+  - `formatNordicCurrency(value, decimals)` - SEK currency: `1 234 567 kr`
+
+**Examples**:
+```javascript
+// ❌ WRONG - American formatting
+"87.66% worthless"
+"1,336,736 options"
+"+24.55 pp advantage"
+
+// ✅ CORRECT - Nordic formatting
+formatNordicDecimal(87.66, 2) + "% worthless" → "87,66% worthless"
+formatNordicNumber(1336736) → "1 336 736"
+formatNordicPercentagePoints(24.55, 2) → "+24,55 pp"
+```
+
+**Where to Apply**:
+- All numeric displays in components and pages
+- KPI cards, charts, tables, lists
+- Any calculated values shown to users
+- Statistics, metrics, percentages, currency
+
+**Note**: Do NOT apply Nordic formatting to:
+- Data in CSV files or APIs (use standard formats there)
+- Internal calculations or TypeScript numbers
+- Only format when displaying to users in the UI
+
 ### Settings Patterns
 - Never mix Main Page and Portfolio Generator settings
 - Use `hasLoadedFromSupabase` flag to prevent continuous reloading in preference hooks

@@ -14,6 +14,7 @@ import { KPICard } from '@/components/ui/kpi-card';
 import { DataTimestamp } from '@/components/ui/data-timestamp';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { Link } from 'react-router-dom';
+import { formatNordicDecimal, formatNordicPercentagePoints } from '@/utils/numberFormatting';
 
 export const ProbabilityAnalysis: React.FC = () => {
   const navigate = useNavigate();
@@ -330,15 +331,15 @@ export const ProbabilityAnalysis: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted-foreground">Recovery candidates:</p>
-                    <p className="font-bold text-base">87.66% worthless</p>
+                    <p className="font-bold text-base">{formatNordicDecimal(87.66, 2)}% worthless</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">All options:</p>
-                    <p className="font-bold text-base">63.11% worthless</p>
+                    <p className="font-bold text-base">{formatNordicDecimal(63.11, 2)}% worthless</p>
                   </div>
                 </div>
-                <p className="text-sm font-semibold text-green-700 dark:text-green-300">+24.55 pp advantage (statistically significant, p &lt; 0.001)</p>
-                <p className="text-xs text-muted-foreground">Based on 1.16M expired options analyzed across all probability methods and thresholds</p>
+                <p className="text-sm font-semibold text-green-700 dark:text-green-300">{formatNordicPercentagePoints(24.55, 2)} advantage (statistically significant, p &lt; 0,001)</p>
+                <p className="text-xs text-muted-foreground">Based on 1,16M expired options analyzed across all probability methods and thresholds</p>
               </div>
             </CardContent>
           </Card>
@@ -352,7 +353,7 @@ export const ProbabilityAnalysis: React.FC = () => {
                   Recovery candidates are options that previously peaked at high probability (80%+, 85%+, 90%+, or 95%+) but have since declined to lower probability levels. Analysis shows these options expire worthless significantly more often than the probability model predicts—revealing systematic mispricing.
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  <strong>Why this matters:</strong> The probability model underestimates their true worthless rates by 18.18 pp on average, while it overestimates for all options by 8.37 pp. This 26.55 pp gap proves recovery candidates are genuine opportunities, not just statistical noise.
+                  <strong>Why this matters:</strong> The probability model underestimates their true worthless rates by {formatNordicPercentagePoints(18.18, 2)} on average, while it overestimates for all options by {formatNordicPercentagePoints(-8.37, 2)}. This {formatNordicPercentagePoints(26.55, 2)} gap proves recovery candidates are genuine opportunities, not just statistical noise.
                 </p>
 
                 <h3 className="text-lg font-semibold mb-3 pt-2">How to Read the Chart</h3>
@@ -362,9 +363,9 @@ export const ProbabilityAnalysis: React.FC = () => {
 
                 <h3 className="text-base font-semibold mb-2">Best Opportunities:</h3>
                 <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-                  <li><strong>DTE:</strong> 36+ days show +37.47 pp advantage (vs +10.52 pp for 0-7 days)</li>
-                  <li><strong>Probability Bin:</strong> 50-60% show +34.12 pp advantage (vs +14.83 pp for 80-90%)</li>
-                  <li><strong>Method:</strong> Bayesian Calibrated shows +31.81 pp advantage (best for identifying recovery opportunities)</li>
+                  <li><strong>DTE:</strong> 36+ days show {formatNordicPercentagePoints(37.47, 2)} advantage (vs {formatNordicPercentagePoints(10.52, 2)} for 0-7 days)</li>
+                  <li><strong>Probability Bin:</strong> 50-60% show {formatNordicPercentagePoints(34.12, 2)} advantage (vs {formatNordicPercentagePoints(14.83, 2)} for 80-90%)</li>
+                  <li><strong>Method:</strong> Bayesian Calibrated shows {formatNordicPercentagePoints(31.81, 2)} advantage (best for identifying recovery opportunities)</li>
                 </ul>
                 <p className="text-sm text-muted-foreground mt-4">
                   Use the filters to explore which probability thresholds, methods, and current probability ranges show the strongest recovery advantages on specific stocks.

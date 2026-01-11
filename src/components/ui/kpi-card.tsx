@@ -1,6 +1,7 @@
 import * as React from "react"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { formatNordicNumber } from "@/utils/numberFormatting"
 import { Card, CardContent } from "./card"
 
 export interface KPICardProps {
@@ -33,8 +34,8 @@ const trendStyles = {
 const formatValue = (value: string | number): string => {
   if (typeof value === 'string') return value;
 
-  // Format numbers with thousand separators
-  return value.toLocaleString('en-US');
+  // Format numbers using Nordic standard (space for thousands, comma for decimals)
+  return formatNordicNumber(value);
 }
 
 export function KPICard({
