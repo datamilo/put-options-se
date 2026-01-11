@@ -9,7 +9,7 @@ import { MethodComparisonChart } from '@/components/probability/MethodComparison
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Loader2, ArrowLeft, LineChart, TrendingUp, Info, Activity, Target, CheckCircle2 } from 'lucide-react';
+import { Loader2, ArrowLeft, LineChart, TrendingUp, Info, Activity, Target, CheckCircle2, ChevronDown, ChevronUp } from 'lucide-react';
 import { KPICard } from '@/components/ui/kpi-card';
 import { DataTimestamp } from '@/components/ui/data-timestamp';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 
 export const ProbabilityAnalysis: React.FC = () => {
   const navigate = useNavigate();
+  const [isStockPerformanceExpanded, setIsStockPerformanceExpanded] = React.useState(false);
   const { timestamps } = useTimestamps();
   const { isLoading: recoveryLoading, error: recoveryError, stocks, scenarios, chartData, stockChartData } = useProbabilityRecoveryData();
   const { calibrationData, isLoading: validationLoading, error: validationError, getCalibrationPoints } = useProbabilityValidationData();
@@ -50,9 +51,9 @@ export const ProbabilityAnalysis: React.FC = () => {
   const kpiMetrics = useMemo(() => {
     if (!scenarios || !scenarios.length || !calibrationData.length) return null;
 
-    // Sum recovery candidates and baseline from all scenarios
+    // Sum recovery candidates and all options from all scenarios
     const totalRecoveryCandidates = scenarios.reduce((sum, s) => sum + s.RecoveryCandidate_N, 0);
-    const totalBaseline = scenarios.reduce((sum, s) => sum + s.Baseline_N, 0);
+    const totalAllOptions = scenarios.reduce((sum, s) => sum + s.AllOptions_N, 0);
 
     // Calculate average accuracy from calibration data
     const avgAccuracy = calibrationData.length > 0
@@ -61,7 +62,7 @@ export const ProbabilityAnalysis: React.FC = () => {
 
     return {
       totalRecoveryCandidates,
-      totalBaseline,
+      totalAllOptions,
       avgAccuracy,
       stocksAnalyzed: stocks.length,
     };
@@ -169,9 +170,9 @@ export const ProbabilityAnalysis: React.FC = () => {
             variant="success"
           />
           <KPICard
-            title="Baseline Options"
-            value={kpiMetrics.totalBaseline}
-            subtitle="Standard probability"
+            title="All Options (Ground Truth)"
+            value={kpiMetrics.totalAllOptions}
+            subtitle="Total options analyzed"
             icon={Activity}
             variant="default"
           />
@@ -263,37 +264,49 @@ export const ProbabilityAnalysis: React.FC = () => {
         {/* Section Separator */}
         <div className="border-t-2 border-border my-8" />
 
-        {/* Stock Performance Comparison Section */}
+        {/* Stock Performance Comparison Section - Collapsible */}
         <div className="space-y-4 pt-4">
-          <div className="flex items-center gap-3">
+          <div
+            className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => setIsStockPerformanceExpanded(!isStockPerformanceExpanded)}
+          >
             <LineChart className="h-6 w-6 text-purple-600" />
-            <div>
+            <div className="flex-1">
               <h2 className="text-2xl font-bold">Stock Performance by Method</h2>
               <p className="text-sm text-muted-foreground">Compare Method Accuracy Across All Stocks</p>
             </div>
+            {isStockPerformanceExpanded ? (
+              <ChevronUp className="h-6 w-6 text-muted-foreground" />
+            ) : (
+              <ChevronDown className="h-6 w-6 text-muted-foreground" />
+            )}
           </div>
 
-          {/* How to Read the Stock Comparison */}
-          <Card className="border-l-4 border-l-purple-500">
-            <CardContent className="pt-6 space-y-4">
-              <div>
-                <h3 className="text-lg font-semibold mb-3">How to Read the Chart</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  This analysis compares how each probability method performs across different stocks. Each cell shows the average calibration error—how much the method's predictions deviate from actual outcomes. Positive values (green) indicate the method is conservative, predicting lower probabilities than actual results. Negative values (red) indicate overconfidence, predicting higher probabilities than actual results.
-                </p>
-                <p className="text-sm text-muted-foreground">
-                  Use the DTE selector to see how method performance changes as options approach expiration. Sort by any column to identify which methods work best for specific stocks.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+          {isStockPerformanceExpanded && (
+            <>
+              {/* How to Read the Stock Comparison */}
+              <Card className="border-l-4 border-l-purple-500">
+                <CardContent className="pt-6 space-y-4">
+                  <div>
+                    <h3 className="text-lg font-semibold mb-3">How to Read the Chart</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      This analysis compares how each probability method performs across different stocks. Each cell shows the average calibration error—how much the method's predictions deviate from actual outcomes. Positive values (green) indicate the method is conservative, predicting lower probabilities than actual results. Negative values (red) indicate overconfidence, predicting higher probabilities than actual results.
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Use the DTE selector to see how method performance changes as options approach expiration. Sort by any column to identify which methods work best for specific stocks.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
 
-          {/* Stock Performance Chart */}
-          <Card>
-            <CardContent className="pt-6">
-              <MethodComparisonChart calibrationPoints={calibrationPoints} />
-            </CardContent>
-          </Card>
+              {/* Stock Performance Chart */}
+              <Card>
+                <CardContent className="pt-6">
+                  <MethodComparisonChart calibrationPoints={calibrationPoints} />
+                </CardContent>
+              </Card>
+            </>
+          )}
         </div>
 
         {/* Section Separator */}
