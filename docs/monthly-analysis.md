@@ -13,7 +13,7 @@ Shows percentage of positive return months for each stock by calendar month. Ide
 ### 2. Timeline Performance Chart
 Historical monthly returns over time for selected stock. Visualizes when good/bad months occurred and identifies trends.
 
-### 3. Day-of-Month Analysis (NEW)
+### 3. Day-of-Month Analysis
 Analyzes timing patterns for when stocks hit their monthly lows and highs. Three complementary visualizations with auto-generated insights.
 
 ### 4. Detailed Statistics Table

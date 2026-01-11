@@ -127,12 +127,11 @@ Pages are organized into logical groups based on their purpose and data flow:
 - `all_stocks_daily_predictions.csv` - Lower bound daily predictions (115,000+ rows, includes future expirations)
 - `all_stocks_expiry_stats.csv` - Lower bound expiry statistics (2,681 rows, includes future expirations)
 
-**CSV Format Change (January 2026)**:
-- `recovery_report_data.csv` and `validation_report_data.csv` now use normalized method names in `ProbMethod` column
-- Old format: `"PoW - Weighted Average"` → New format: `"Weighted Average"`
+**CSV Format (January 2026 Onwards)**:
+- `recovery_report_data.csv` and `validation_report_data.csv` use normalized method names in `ProbMethod` column
+- Format: `"Weighted Average"` (without "PoW - " prefix)
 - Application includes automatic normalization layer in `src/utils/probabilityMethods.ts`
-- See [DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md](DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md) for details
-- See [docs/PROBABILITY_FIELD_NAMES.md](docs/PROBABILITY_FIELD_NAMES.md) for impact on components
+- See [docs/PROBABILITY_FIELD_NAMES.md](docs/PROBABILITY_FIELD_NAMES.md) for implementation details
 
 **Margin & Capital Analysis**:
 - `margin_requirements.csv` - Estimated margin requirements with SRI methodology (13 fields)

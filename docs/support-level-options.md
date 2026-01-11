@@ -268,7 +268,7 @@ Days since the rolling low was last broken **within your selected rolling period
 
 **Why it matters:** Longer duration since break = support is stronger and more reliable.
 
-### Advanced Strategic Metrics (NEW)
+### Advanced Strategic Metrics
 
 #### Support Strength Score
 **Composite score from 0-100** combining multiple factors to predict how likely support will hold.

@@ -113,14 +113,11 @@
 ### Support Level Analysis
 **Route**: `/consecutive-breaks`
 
-**Latest Changes** (Dec 14, 2025):
-- Added "Median Drop per Break" metric to All Break Clusters section
+**Current Features**:
+- "Median Drop per Break" metric in All Break Clusters section
 - Shows statistical median of support break percentages for each cluster
 - Helps users position strikes at historically realistic worst-case levels
-
-**Earlier Changes** (Nov 28, 2025):
-- Renamed "Last Break" label to "Running Low Date" in hover tooltip
-- Clarifies that the date shown is the lowest price point during the selected period, not necessarily a break event
+- "Running Low Date" label in hover tooltip shows the lowest price point during the selected period
 
 **Features**:
 - Rolling low calculation (30, 90, 180, 270, 365 days)
@@ -174,12 +171,6 @@
 - All probability method names now work with normalized format internally
 - UI display unchanged - users continue to see "PoW - " prefix
 
-**Previous Changes** (Nov 28, 2025):
-- **NEW**: Added "Stock Performance by Method" section (second of three sections)
-- Converted Calibration Analysis chart from Recharts to Plotly for precise hover detection
-- Added Probability Method filter to Calibration Analysis chart
-- Renamed tooltip fields for clarity
-
 **Three Main Sections**:
 
 #### 1. Calibration Analysis
@@ -193,7 +184,7 @@
 - **Hover**: Shows method name, P% (predicted), A% (actual), n= (sample count)
 - **Key Insight**: Points above diagonal = conservative, below = overconfident
 
-#### 2. Stock Performance by Method (NEW)
+#### 2. Stock Performance by Method
 - **Purpose**: Compare how each of 5 probability methods performs across all ~76 stocks
 - **Display**:
   - Heatmap (visual color-coding)
@@ -253,146 +244,6 @@
 
 ---
 
-## Recent Changes & Updates
-
-### January 10, 2026 (Latest)
-✅ **CSV Format Change & Normalization Layer**
-- **Breaking Change**: `validation_report_data.csv` and `recovery_report_data.csv` now use normalized method names
-  - Old format: `"PoW - Weighted Average"` → New format: `"Weighted Average"`
-- **Backward Compatibility**: Created automatic normalization layer in `src/utils/probabilityMethods.ts`
-  - `normalizeProbMethod()`: Converts both old and new format to normalized format
-  - `getDisplayProbMethod()`: Adds "PoW - " prefix for UI display
-  - Seamless handling of both CSV formats
-- **UI Consistency**: Users continue to see "PoW - " prefix in all interfaces
-- **Updated Components**: CalibrationChart, MethodComparisonChart, RecoveryComparisonChart all use normalized names internally
-- **Fixed Data Issues**:
-  - Fixed MethodComparisonChart to correctly use pre-aggregated "All DTE" records
-  - Fixed KPI metrics calculation in ProbabilityAnalysis page
-  - Fixed chart color mappings to work with normalized method names
-- **Affected Files**:
-  - New: `src/utils/probabilityMethods.ts` (normalization utility)
-  - Modified: `useProbabilityValidationData.ts`, `useProbabilityRecoveryData.ts` (CSV parsing)
-  - Modified: All Probability Analysis page components (internal use of normalized names)
-- **Documentation**: Updated CLAUDE.md, PROBABILITY_FIELD_NAMES.md, probability-analysis.md
-- **External Reference**: See [DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md](../DOWNSTREAM_TEAM_NOTIFICATION_PROBMETHOD_LABEL_CHANGE.md)
-
-### January 5, 2026
-✅ **Margin Requirements Integration**
-- Added `margin_requirements.csv` data integration to Options Dashboard and Portfolio Generator
-- New default column: "Est. Total Margin" shows estimated total margin capital required for each position
-- 13 additional margin and capital fields available via column manager:
-  - Est. Margin per Contract, Annualized Return on Margin %, Net Premium After Costs
-  - Synthetic Risk Interval (SRI) metrics: SRI Base, Event Buffer, Final SRI
-  - Historical and probability decline metrics
-  - OTM Amount, Margin floor calculations
-- **Investor Protection**: All margin fields clearly marked as ESTIMATES using SRI methodology, NOT exact Nasdaq requirements
-- LEFT JOIN pattern ensures options without margin data gracefully display as "-"
-- Updated documentation across CLAUDE.md, FIELD_GUIDE.md, and CURRENT_STATE.md
-- Updated column managers for both main dashboard and portfolio generator
-- File References:
-  - New Hook: `src/hooks/useMarginRequirementsData.ts`
-  - Modified Hooks: `src/hooks/useEnrichedOptionsData.ts` (includes margin LEFT JOIN)
-  - Modified Components: `src/components/options/OptionsTable.tsx`, `src/components/options/PortfolioOptionsTable.tsx`
-
-### December 19, 2025
-✅ **Stock Metrics and History - Date Filtering Enhancement**
-- Added custom date range filtering to candlestick chart
-- Integrated "From Date" and "To Date" inputs in chart header alongside preset buttons
-- Implemented auto-initialization: From Date defaults to 6 months ago, To Date defaults to today
-- Custom dates override preset time range buttons when provided
-- Preset buttons now set both timeRange state and date input values
-- All filtering logic consolidated in CandlestickChart component
-- File: `src/components/stock/CandlestickChart.tsx` (lines 90-117)
-
-✅ **Documentation Updates**
-- Updated `docs/stock-analysis.md` with detailed date filtering documentation
-- Updated `docs/CURRENT_STATE.md` with latest changes and date filtering details
-- Added file references for CandlestickChart component
-
-✅ **Navigation Redesign - Horizontal Layout with Categorized Dropdowns**
-- Restructured navigation from dropdown menu to horizontal navigation bar (desktop)
-- Desktop: Always-visible navigation with standalone buttons and categorized dropdowns
-  - **Standalone Buttons**: Portfolio Generator, Stock Metrics and History (right-aligned)
-  - **Dropdown Categories**: Support Levels, Historical Performance and Volatility, Method Validation
-  - **Utilities**: Calculation Settings, Theme Toggle, Sign Out
-- Mobile: Hamburger menu with grouped sections
-- Improved page name clarity: "Stock Analysis" → "Stock Metrics and History"
-- Renamed settings: "Settings" → "Calculation Settings"
-- Added visual separation in Calculation Settings modal with distinct sections for Underlying Stock Value and Transaction Cost
-
-✅ **Navigation Documentation Updates**
-- Updated CLAUDE.md with navigation structure documentation
-- Updated page table with corrected page names
-- Updated README.md with current page names
-- Updated CURRENT_STATE.md with page name changes and navigation groupings
-
-### December 14, 2025
-✅ **Support Level Options List Page**
-- Launched `/support-level-options` page for automated option selection based on support levels
-- Combines support level analysis with intelligent option filtering
-- **Key Features**:
-  - Rolling Low Period selector (30, 90, 180, 270, 365 days)
-  - Support stability and break history filters
-  - Multiple strike positioning strategies (at support, at median drop, custom %, any)
-  - Real-time results table with comprehensive support metrics
-
-✅ **Support Level Analysis Enhancement**
-- Added "Median Drop per Break" metric to All Break Clusters display
-- Shows statistical median of support break percentages for each cluster
-- Helps identify historical worst-case scenarios for strike positioning
-
-### December 8, 2025
-✅ **PoW Button Clarity Enhancement**
-- Improved "PoW ?" info buttons on all three pages
-- Added visible text "PoW ?" alongside info icon instead of icon-only approach
-- Makes it immediately clear users can click to learn what "PoW" means
-- Better discoverability than hidden tooltip on icon-only buttons
-- Applied to: Dashboard (toolbar), Probability Analysis (header), Portfolio Generator (header)
-
-### December 8, 2025
-✅ **Probability Field Naming Standardization**
-- Added "PoW - " prefix to all probability method display names across entire website
-- Updated all component field mappings (OptionsTable, ColumnManager, PortfolioColumnManager, OptionsChart, ProbabilityHistoryChart, CalibrationChart, MethodComparisonChart, RecoveryComparisonChart)
-- Updated CSV data files (recovery_report_data.csv, validation_report_data.csv) to use new method names
-
-✅ **PoW Legend Implementation**
-- Added "PoW ?" info buttons to main dashboard toolbar (next to Export and Columns buttons) - opens dialog explaining "PoW = Probability of Worthless"
-- Added "PoW ?" info button to Probability Analysis page header - provides context for analysis methods
-- Added "PoW ?" info button to Portfolio Generator page header - explains selection options
-- All dialogs list the 5 probability calculation methods with brief descriptions
-- Buttons are discreet and only visible when needed, improving page design and clarity
-
-✅ **Documentation Updates**
-- Updated probability-analysis.md to reference "PoW - " prefixed method names
-- Updated CURRENT_STATE.md with latest changes and PoW information
-- Created comprehensive PROBABILITY_FIELD_NAMES.md documenting all changes
-
-### November 28, 2025
-✅ **Probability Analysis Enhancement - Stock Performance Section**
-- Created new `MethodComparisonChart.tsx` component
-- Added heatmap + table visualization showing method performance across all stocks
-- Implemented weighted average calibration error calculation
-- Added DTE-based filtering
-- Integrated into Probability Analysis page as middle section
-
-✅ **Calibration Analysis Chart Conversion**
-- Converted from Recharts to Plotly for better hover precision
-- Implemented `hovermode: 'closest'` to detect only dot hovers
-- Added Probability Method dropdown filter
-- Fixed tooltip to only show on direct dot hover (not on lines)
-
-✅ **Tooltip Label Updates**
-- Support Level Analysis: "Last Break" → "Running Low Date" (clarifies it shows lowest price, not necessarily a break)
-
-### November 27, 2025
-- Updated Lower Bound Analysis data (hit rate trends, expiry stats)
-
-### Earlier Dates
-- Lower Bound daily predictions updated
-- Stock Analysis features enhanced
-- Reporting day volatility data updated
-
----
 
 ## Data Sources
 
@@ -457,7 +308,7 @@
   - Precise hover detection (dots only)
   - Perfect calibration reference line
 
-- **MethodComparisonChart.tsx** (NEW) - Heatmap + table for cross-stock comparison
+- **MethodComparisonChart.tsx** - Heatmap + table for cross-stock comparison
   - Weighted average calculations
   - Sortable table
   - Color-coded heatmap

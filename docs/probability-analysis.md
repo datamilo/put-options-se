@@ -23,7 +23,7 @@ Comprehensive probability method validation and recovery opportunity analysis fo
   - Sample count (n=X)
 - **Key Insight**: Points above diagonal = conservative (safer than predicted), below = overconfident (riskier than predicted)
 
-### 2. Stock Performance by Method Section (NEW)
+### 2. Stock Performance by Method Section
 - **Purpose**: Compare how each probability method performs across ALL stocks to identify which methods are consistently over/under-confident
 - **Display Format**: Heatmap (visual) + Sortable Data Table (precise values)
 - **Metric**: Weighted average calibration error (actual - predicted) per stock-method pair
@@ -61,7 +61,7 @@ Comprehensive probability method validation and recovery opportunity analysis fo
    - Explanation card ("How to Read the Chart")
    - Interactive Calibration chart with filters
 4. Section Separator
-5. **Stock Performance by Method Section** (NEW)
+5. **Stock Performance by Method Section**
    - Explanation card
    - DTE selector
    - Heatmap visualization with all stocks
@@ -88,7 +88,7 @@ Comprehensive probability method validation and recovery opportunity analysis fo
   - `useProbabilityRecoveryData.ts` - Loads recovery_report_data.csv
 - **Components**:
   - `CalibrationChart.tsx` - Plotly chart for predicted vs actual validation
-  - `MethodComparisonChart.tsx` (NEW) - Heatmap + table for stock-method cross-comparison
+  - `MethodComparisonChart.tsx` - Heatmap + table for stock-method cross-comparison
   - `RecoveryComparisonChart.tsx` - Bar chart for recovery analysis
 - **Types**: `probabilityValidation.ts`, `probabilityRecovery.ts`
 

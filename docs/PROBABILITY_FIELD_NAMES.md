@@ -1,9 +1,8 @@
 # Probability Field Name Alignment
 
 **Last Updated**: January 10, 2026
-**Date**: December 7-8, 2025 (Initial alignment) + January 10, 2026 (CSV format update)
 
-**Summary**: Standardized all probability method display names across the website to use canonical names with "PoW" prefix. As of January 10, 2026, CSV files now use normalized format while maintaining backward compatibility through automatic normalization layer.
+**Summary**: All probability method display names use the "PoW - " prefix across the website (e.g., "PoW - Weighted Average") to clearly indicate these are Probability of Worthless calculations. Internally, data uses normalized names without the prefix. An automatic normalization layer maintains backward compatibility with older CSV formats.
 
 ## Important: Understanding "PoW"
 
@@ -34,19 +33,9 @@ All probability methods now display with the "PoW - " prefix to clarify they are
 **Lines**: 117-121
 **Change Type**: Updated field name mappings in `formatColumnName()` function
 
-**Changes**:
-- All 5 probability field mappings updated with "PoW - " prefix
+**Current Field Mappings** (January 2026):
+- All 5 probability field mappings display with "PoW - " prefix
 
-**Before**:
-```javascript
-'1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
-'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
-'1_ProbOfWorthless_Original': 'Original Black-Scholes',
-'2_ProbOfWorthless_Calibrated': 'Bias Corrected',
-'3_ProbOfWorthless_Historical_IV': 'Historical IV'
-```
-
-**After**:
 ```javascript
 '1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
 'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
@@ -88,21 +77,9 @@ All probability methods now display with the "PoW - " prefix to clarify they are
 **Lines**: 109-113
 **Change Type**: Updated `probabilityFieldOptions` array labels
 
-**Changes**:
-- All 5 probability method dropdown labels updated with "PoW - " prefix
+**Current Field Configuration** (January 2026):
+- All 5 probability method dropdown labels display with "PoW - " prefix
 
-**Before**:
-```javascript
-const probabilityFieldOptions = [
-  { value: "ProbWorthless_Bayesian_IsoCal", label: "Bayesian Calibrated" },
-  { value: "1_2_3_ProbOfWorthless_Weighted", label: "Weighted Average" },
-  { value: "1_ProbOfWorthless_Original", label: "Original Black-Scholes" },
-  { value: "2_ProbOfWorthless_Calibrated", label: "Bias Corrected" },
-  { value: "3_ProbOfWorthless_Historical_IV", label: "Historical IV" },
-];
-```
-
-**After**:
 ```javascript
 const probabilityFieldOptions = [
   { value: "ProbWorthless_Bayesian_IsoCal", label: "PoW - Bayesian Calibrated" },
@@ -122,21 +99,9 @@ const probabilityFieldOptions = [
 **Lines**: 28-32
 **Change Type**: Updated `probabilityFields` array labels
 
-**Changes**:
-- All 5 probability fields updated from raw field names to "PoW - " prefixed display names
+**Current Configuration** (January 2026):
+- All 5 probability fields display with "PoW - " prefixed labels
 
-**Before**:
-```javascript
-const probabilityFields = [
-  { value: '1_2_3_ProbOfWorthless_Weighted', label: 'Weighted Average' },
-  { value: 'ProbWorthless_Bayesian_IsoCal', label: 'Bayesian Calibrated' },
-  { value: '1_ProbOfWorthless_Original', label: 'Original Black-Scholes' },
-  { value: '2_ProbOfWorthless_Calibrated', label: 'Bias Corrected' },
-  { value: '3_ProbOfWorthless_Historical_IV', label: 'Historical IV' },
-];
-```
-
-**After**:
 ```javascript
 const probabilityFields = [
   { value: '1_2_3_ProbOfWorthless_Weighted', label: 'PoW - Weighted Average' },
@@ -156,19 +121,9 @@ const probabilityFields = [
 **Lines**: 24, 29, 34, 39, 44
 **Change Type**: Updated `PROBABILITY_LINES` constant display names
 
-**Changes**:
-- All 5 probability method names updated with "PoW - " prefix in the legend
+**Current Configuration** (January 2026):
+- All 5 probability method names display with "PoW - " prefix in the legend
 
-**Before**:
-```javascript
-{ key: '1_2_3_ProbOfWorthless_Weighted', name: 'Weighted Average', ... },
-{ key: 'ProbWorthless_Bayesian_IsoCal', name: 'Bayesian Calibrated', ... },
-{ key: '1_ProbOfWorthless_Original', name: 'Original Black-Scholes', ... },
-{ key: '2_ProbOfWorthless_Calibrated', name: 'Bias Corrected', ... },
-{ key: '3_ProbOfWorthless_Historical_IV', name: 'Historical IV', ... }
-```
-
-**After**:
 ```javascript
 { key: '1_2_3_ProbOfWorthless_Weighted', name: 'PoW - Weighted Average', ... },
 { key: 'ProbWorthless_Bayesian_IsoCal', name: 'PoW - Bayesian Calibrated', ... },
@@ -224,19 +179,8 @@ const probabilityFields = [
 - `data/recovery_report_data.csv`
 - `data/validation_report_data.csv`
 
-**Important Change**: As of January 10, 2026, the CSV files now use **normalized method names** (without "PoW - " prefix) in the `ProbMethod` column.
+**CSV Format (January 2026 Onwards)**: The CSV files use **normalized method names** (without "PoW - " prefix) in the `ProbMethod` column:
 
-**Previous Format** (December 2025 and earlier):
-```
-ProbMethod|...
-PoW - Weighted Average|...
-PoW - Bayesian Calibrated|...
-PoW - Original Black-Scholes|...
-PoW - Bias Corrected|...
-PoW - Historical IV|...
-```
-
-**Current Format** (January 2026 onwards):
 ```
 ProbMethod|...
 Weighted Average|...
@@ -246,10 +190,10 @@ Bias Corrected|...
 Historical IV|...
 ```
 
-**Normalization Layer**: The website includes a normalization layer (`src/utils/probabilityMethods.ts`) that:
-- Converts old "PoW - " format CSV data to new normalized format on load
-- Ensures backward compatibility with older CSV files
-- Maintains "PoW - " prefix display to users for consistency
+**Backward Compatibility**: The website includes a normalization layer (`src/utils/probabilityMethods.ts`) that automatically handles both current and legacy CSV formats. This ensures:
+- Seamless compatibility if older CSV files are loaded
+- Consistent internal data representation
+- Consistent "PoW - " prefix display to users
 
 **Affected Areas**: All Probability Analysis page charts and data displays continue showing "PoW - " to users while internally using normalized names
 
