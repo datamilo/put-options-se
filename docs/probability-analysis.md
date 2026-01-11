@@ -44,15 +44,27 @@ Comprehensive probability method validation and recovery opportunity analysis fo
   - Dark Green (> +0.20): Significantly conservative
 
 ### 3. Probability Recovery Analysis Section
-- **Purpose**: Identifies recovery opportunities where market underestimates probability of success
-- **Scenario**: Finds options that previously had high ITM probability (80%+) but have since declined in probability
-- **Chart**: Bar comparison showing worthless rate for recovery candidates vs baseline
-- **Hypothesis**: If green bars > red bars, recovery candidates are statistically safer (market overestimated risk)
-- **Filters** (left to right):
-  - Stock selector (optional, defaults to "All Stocks")
-  - Probability Method selector
-  - Historical Peak Threshold selector (0.5-0.95)
-  - Current Probability Bin selector (30-40%, 40-50%, 50-60%, etc.)
+- **Purpose**: Identifies recovery opportunities where options that peaked at high probability have since declined—and expire worthless MORE often than the probability model predicts
+- **Definition**: Recovery candidates = options that previously reached high probability levels (80%+, 85%+, 90%+, 95%+) but have since dropped to lower probability levels
+- **Key Finding**: Recovery candidates expire worthless **87.66%** of the time vs **63.11%** for all options—a **+24.55 percentage point advantage** that is statistically significant (p < 0.001)
+- **Why It Matters**: The probability model systematically underestimates worthless rates for recovery candidates by **18.18 pp**, proving they represent true mispricing exploitable by put sellers
+- **Chart**: Bar comparison showing worthless rate for recovery candidates (green) vs all options in same bin (red)
+  - Green bars > Red bars = Recovery candidates are statistically safer
+  - Green bar height shows actual worthlessness rate (higher = more likely to expire worthless = better for put sellers)
+  - Difference = Recovery advantage for that scenario
+
+**When to Use Recovery Analysis:**
+- **Best conditions**: 36+ days to expiry, 50-70% current probability, Bayesian Calibrated method (+30-37 pp advantage)
+- **Good conditions**: 22-35 days to expiry, 60-80% current probability (+23-32 pp advantage)
+- **Weak conditions**: 0-14 days to expiry, 80-90% current probability (+10-15 pp advantage)
+
+**Filters** (left to right):
+  - Stock selector (optional, defaults to "All Stocks")—identify best-performing individual stocks
+  - Probability Method selector—Bayesian Calibrated shows strongest opportunities
+  - Historical Peak Threshold selector (80%, 85%, 90%, 95%)—all show strong opportunities
+  - Current Probability Bin selector—lower bins (50-70%) show larger advantages
+
+**See Also**: [Recovery Analysis Findings](recovery-analysis-findings.md) for detailed statistical validation and opportunity prioritization
 
 ## Page Layout & Flow
 1. Page Header with back button and Probability Analysis title
