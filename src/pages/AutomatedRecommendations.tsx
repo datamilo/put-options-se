@@ -6,9 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Target, BarChart3, RotateCcw, ChevronDown } from 'lucide-react';
+import { Sparkles, TrendingUp, Target, BarChart3, RotateCcw, ChevronDown, Building2 } from 'lucide-react';
 import { RecommendationFiltersComponent } from '@/components/recommendations/RecommendationFilters';
 import { RecommendationsTable } from '@/components/recommendations/RecommendationsTable';
+import { StockFilter } from '@/components/recommendations/StockFilter';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 import {
   DEFAULT_FILTERS,
@@ -33,6 +34,7 @@ export const AutomatedRecommendations = () => {
   const [recommendations, setRecommendations] = useState<RecommendedOption[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [weightsOpen, setWeightsOpen] = useState(false);
+  const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
 
   // Get available expiry dates
   const availableExpiryDates = useMemo(() => {
@@ -89,14 +91,26 @@ export const AutomatedRecommendations = () => {
     setWeights(DEFAULT_WEIGHTS);
   };
 
+  // Get unique stocks count
+  const uniqueStocksCount = useMemo(() => {
+    if (recommendations.length === 0) return 0;
+    return new Set(recommendations.map((r) => r.stockName)).size;
+  }, [recommendations]);
+
+  // Filter recommendations by selected stocks
+  const filteredRecommendations = useMemo(() => {
+    if (selectedStocks.length === 0) return recommendations;
+    return recommendations.filter((rec) => selectedStocks.includes(rec.stockName));
+  }, [recommendations, selectedStocks]);
+
   // Summary stats
   const avgScore = useMemo(() => {
-    if (recommendations.length === 0) return 0;
+    if (filteredRecommendations.length === 0) return 0;
     return (
-      recommendations.reduce((sum, r) => sum + r.compositeScore, 0) /
-      recommendations.length
+      filteredRecommendations.reduce((sum, r) => sum + r.compositeScore, 0) /
+      filteredRecommendations.length
     );
-  }, [recommendations]);
+  }, [filteredRecommendations]);
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -139,6 +153,22 @@ export const AutomatedRecommendations = () => {
               />
             </CardContent>
           </Card>
+
+          {/* Stock Filter */}
+          {recommendations.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Filter by Stock</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <StockFilter
+                  recommendations={recommendations}
+                  selectedStocks={selectedStocks}
+                  onSelectedStocksChange={setSelectedStocks}
+                />
+              </CardContent>
+            </Card>
+          )}
 
           {/* Score Weights Panel */}
           <Collapsible open={weightsOpen} onOpenChange={setWeightsOpen}>
@@ -234,7 +264,23 @@ export const AutomatedRecommendations = () => {
 
           {/* Summary KPIs */}
           {recommendations.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">
+                    Unique Stocks
+                  </CardTitle>
+                  <Building2 className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">{uniqueStocksCount}</div>
+                  <p className="text-xs text-muted-foreground">
+                    {selectedStocks.length > 0 && selectedStocks.length < uniqueStocksCount
+                      ? `${selectedStocks.length} selected`
+                      : 'Available stocks'}
+                  </p>
+                </CardContent>
+              </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
@@ -243,9 +289,9 @@ export const AutomatedRecommendations = () => {
                   <Target className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold">{recommendations.length}</div>
+                  <div className="text-2xl font-bold">{filteredRecommendations.length}</div>
                   <p className="text-xs text-muted-foreground">
-                    Matching filter criteria
+                    {selectedStocks.length > 0 ? 'After filtering' : 'Matching criteria'}
                   </p>
                 </CardContent>
               </Card>
@@ -258,7 +304,7 @@ export const AutomatedRecommendations = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{avgScore.toFixed(1)}</div>
-                  <p className="text-xs text-muted-foreground">Across all options</p>
+                  <p className="text-xs text-muted-foreground">Across options</p>
                 </CardContent>
               </Card>
               <Card>
@@ -268,10 +314,10 @@ export const AutomatedRecommendations = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
-                    {recommendations[0]?.compositeScore.toFixed(1) || '-'}
+                    {filteredRecommendations[0]?.compositeScore.toFixed(1) || '-'}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    {recommendations[0]?.stockName || 'N/A'}
+                    {filteredRecommendations[0]?.stockName || 'N/A'}
                   </p>
                 </CardContent>
               </Card>
@@ -283,12 +329,12 @@ export const AutomatedRecommendations = () => {
             <CardHeader>
               <CardTitle>
                 Recommendations{' '}
-                {recommendations.length > 0 && `(${recommendations.length})`}
+                {filteredRecommendations.length > 0 && `(${filteredRecommendations.length})`}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <RecommendationsTable
-                recommendations={recommendations}
+                recommendations={filteredRecommendations}
                 getFullPath={getFullPath}
                 filters={filters}
                 weights={weights}
