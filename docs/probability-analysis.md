@@ -46,23 +46,23 @@ Comprehensive probability method validation and recovery opportunity analysis fo
 ### 3. Probability Recovery Analysis Section
 - **Purpose**: Identifies recovery opportunities where options that peaked at high probability have since declined—and expire worthless MORE often than the probability model predicts
 - **Definition**: Recovery candidates = options that previously reached high probability levels (80%+, 85%+, 90%+, 95%+) but have since dropped to lower probability levels
-- **Key Finding**: Recovery candidates expire worthless **87.66%** of the time vs **63.11%** for all options—a **+24.55 percentage point advantage** that is statistically significant (p < 0.001)
-- **Why It Matters**: The probability model systematically underestimates worthless rates for recovery candidates by **18.18 pp**, proving they represent true mispricing exploitable by put sellers
+- **Key Finding**: Recovery candidates expire worthless **87.59%** of the time vs **74.88%** for all options—a **+12.71 percentage point advantage** that is statistically significant (p < 0.001)
+- **Why It Matters**: The probability model systematically underestimates worthless rates for recovery candidates by **17.18 pp** (vs **3.01 pp** for all options), a **14.18 pp gap** proving they represent true mispricing exploitable by put sellers
 - **Chart**: Bar comparison showing worthless rate for recovery candidates (green) vs all options in same bin (red)
   - Green bars > Red bars = Recovery candidates are statistically safer
   - Green bar height shows actual worthlessness rate (higher = more likely to expire worthless = better for put sellers)
   - Difference = Recovery advantage for that scenario
 
 **When to Use Recovery Analysis:**
-- **Best conditions**: 36+ days to expiry, 50-70% current probability, Bayesian Calibrated method (+30-37 pp advantage)
-- **Good conditions**: 22-35 days to expiry, 60-80% current probability (+23-32 pp advantage)
-- **Weak conditions**: 0-14 days to expiry, 80-90% current probability (+10-15 pp advantage)
+- **Best conditions**: 36+ days to expiry, 50-60% current probability, Weighted Average or Original Black-Scholes method (+35-40 pp advantage)
+- **Good conditions**: 8-35 days to expiry, 60-80% current probability, Weighted Average method (+15-25 pp advantage)
+- **Weak conditions**: 0-7 days to expiry, 80-90% current probability, Historical IV method (+0-8 pp advantage)
 
 **Filters** (left to right):
   - Stock selector (optional, defaults to "All Stocks")—identify best-performing individual stocks
-  - Probability Method selector—Bayesian Calibrated shows strongest opportunities
+  - Probability Method selector—Weighted Average shows strongest opportunities (16.06 pp advantage)
   - Historical Peak Threshold selector (80%, 85%, 90%, 95%)—all show strong opportunities
-  - Current Probability Bin selector—lower bins (50-70%) show larger advantages
+  - Current Probability Bin selector—lower bins (50-60%) show larger advantages
 
 **See Also**: [Recovery Analysis Findings](recovery-analysis-findings.md) for detailed statistical validation and opportunity prioritization
 

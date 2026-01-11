@@ -327,18 +327,18 @@ export const ProbabilityAnalysis: React.FC = () => {
           <Card className="border-l-4 border-l-green-600 bg-green-50 dark:bg-green-950/30">
             <CardContent className="pt-6 space-y-3">
               <div className="space-y-2">
-                <h3 className="font-semibold text-green-900 dark:text-green-100">Validated Finding: Recovery Candidates Expire Worthless 1.39x More Often</h3>
+                <h3 className="font-semibold text-green-900 dark:text-green-100">Validated Finding: Recovery Candidates Expire Worthless 1.17x More Often</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted-foreground">Recovery candidates:</p>
-                    <p className="font-bold text-base">{formatNordicDecimal(87.66, 2)}% worthless</p>
+                    <p className="font-bold text-base">{formatNordicDecimal(87.59, 2)}% worthless</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">All options:</p>
-                    <p className="font-bold text-base">{formatNordicDecimal(63.11, 2)}% worthless</p>
+                    <p className="font-bold text-base">{formatNordicDecimal(74.88, 2)}% worthless</p>
                   </div>
                 </div>
-                <p className="text-sm font-semibold text-green-700 dark:text-green-300">{formatNordicPercentagePoints(24.55, 2)} advantage (statistically significant, p &lt; 0,001)</p>
+                <p className="text-sm font-semibold text-green-700 dark:text-green-300">{formatNordicPercentagePoints(12.71, 2)} advantage (statistically significant, p &lt; 0,001)</p>
                 <p className="text-xs text-muted-foreground">Based on 1,16M expired options analyzed across all probability methods and thresholds</p>
               </div>
             </CardContent>
@@ -353,7 +353,7 @@ export const ProbabilityAnalysis: React.FC = () => {
                   Recovery candidates are options that previously peaked at high probability (80%+, 85%+, 90%+, or 95%+) but have since declined to lower probability levels. Analysis shows these options expire worthless significantly more often than the probability model predicts—revealing systematic mispricing.
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  <strong>Why this matters:</strong> The probability model underestimates their true worthless rates by {formatNordicPercentagePoints(18.18, 2)} on average, while it overestimates for all options by {formatNordicPercentagePoints(-8.37, 2)}. This {formatNordicPercentagePoints(26.55, 2)} gap proves recovery candidates are genuine opportunities, not just statistical noise.
+                  <strong>Why this matters:</strong> The probability model underestimates their true worthless rates by {formatNordicPercentagePoints(17.18, 2)} on average, while it underestimates for all options by only {formatNordicPercentagePoints(3.01, 2)}. This {formatNordicPercentagePoints(14.18, 2)} gap proves recovery candidates are systematically mispriced, not just statistical noise.
                 </p>
 
                 <h3 className="text-lg font-semibold mb-3 pt-2">How to Read the Chart</h3>
@@ -363,9 +363,9 @@ export const ProbabilityAnalysis: React.FC = () => {
 
                 <h3 className="text-base font-semibold mb-2">Best Opportunities:</h3>
                 <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-                  <li><strong>DTE:</strong> 36+ days show {formatNordicPercentagePoints(37.47, 2)} advantage (vs {formatNordicPercentagePoints(10.52, 2)} for 0-7 days)</li>
-                  <li><strong>Probability Bin:</strong> 50-60% show {formatNordicPercentagePoints(34.12, 2)} advantage (vs {formatNordicPercentagePoints(14.83, 2)} for 80-90%)</li>
-                  <li><strong>Method:</strong> Bayesian Calibrated shows {formatNordicPercentagePoints(31.81, 2)} advantage (best for identifying recovery opportunities)</li>
+                  <li><strong>DTE:</strong> 36+ days show {formatNordicPercentagePoints(15.21, 2)} advantage (vs {formatNordicPercentagePoints(7.94, 2)} for 0-7 days)</li>
+                  <li><strong>Probability Bin:</strong> 50-60% show {formatNordicPercentagePoints(23.61, 2)} advantage (vs {formatNordicPercentagePoints(4.46, 2)} for 80-90%)</li>
+                  <li><strong>Method:</strong> Weighted Average shows {formatNordicPercentagePoints(16.06, 2)} advantage (best for identifying recovery opportunities)</li>
                 </ul>
                 <p className="text-sm text-muted-foreground mt-4">
                   Use the filters to explore which probability thresholds, methods, and current probability ranges show the strongest recovery advantages on specific stocks.
