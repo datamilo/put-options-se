@@ -371,8 +371,9 @@ This guide explains what each field means for your investment decisions, without
 ## Timing Fields
 
 ### 36. DaysToExpiry
-**What it is**: Calendar days until option expires
-**Why it matters**: More days = more premium but more time for things to go wrong. Sweet spot often 30-90 days
+**What it is**: Business days (weekdays only, excluding weekends and Swedish holidays) until option expires. Calculated between Update_date and ExpiryDate from the data.csv file.
+**Why it matters**: More days = more premium but more time for things to go wrong. Sweet spot often 30-90 business days (≈ 50-150 calendar days). Note: 8 business days ≈ 14 calendar days.
+**Example**: If DaysToExpiry shows "5", that's 5 trading days (likely 1 calendar week)
 
 ### 24. Mean_Accuracy
 **What it is**: Historical accuracy of implied volatility predictions for this stock/timeframe
@@ -469,12 +470,13 @@ Look for:
 
 ### Annualized Return on Margin (ROM %)
 **What it is**: What your premium would annualize to as a percentage of the margin requirement
-**Calculation**: Premium / Est. Total Margin × 365 days / Days to Expiry
-**Example**: "25%" means if you repeated this trade 4 times per year (every 90 days), you'd earn ~100% annual return on the margin (theoretical, assumes consistent results)
+**Calculation**: Premium / Est. Total Margin × ~252 trading days / Days to Expiry (where Days to Expiry is in business days)
+**Example**: "25%" means if you repeated this trade 4 times per year (every ~60 business days), you'd earn ~100% annual return on the margin (theoretical, assumes consistent results)
 **Why it matters**:
 - Key metric for capital efficiency
 - Higher ROM = better use of your capital
 - Compare across different options to find best capital allocation
+- Note: Uses business days (~252/year) not calendar days (365/year) for accurate trading day annualization
 
 ### Premium After Costs
 **What it is**: Premium minus transaction costs (brokerage fees, bid-ask spread, commissions)
