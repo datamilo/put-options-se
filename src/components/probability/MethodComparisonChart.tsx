@@ -216,7 +216,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
           <CardTitle>Stock Performance by Method</CardTitle>
           <div className="mt-4 space-y-4">
             <div className="max-w-xs">
-              <Label>Days to Expiry (calendar days)</Label>
+              <Label>Days to Expiry (business days)</Label>
               <Select value={selectedDTE} onValueChange={setSelectedDTE}>
                 <SelectTrigger>
                   <SelectValue />

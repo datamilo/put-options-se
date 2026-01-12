@@ -15,7 +15,7 @@ Comprehensive probability method validation and recovery opportunity analysis fo
 - **Perfect Calibration Reference**: Diagonal line (y=x) shown as visual reference
 - **Filters**:
   - Stock selector (optional, defaults to "All Stocks")
-  - Days to Expiry selector (All DTE, 0-3 days, 4-7 days, 8-14 days, 15-21 days, 22-28 days, 29-35 days, 35+ days) — **calendar days**
+  - Days to Expiry selector (All DTE, 0-3 days, 4-7 days, 8-14 days, 15-21 days, 22-28 days, 29-35 days, 35+ days) — **business days**
   - Probability Method selector (All Methods or individual method)
 - **Interactive Tooltips**:
   - Method name with color indicator
@@ -34,7 +34,7 @@ Comprehensive probability method validation and recovery opportunity analysis fo
   - Rows = Individual stocks (all ~76 stocks visible)
   - Columns = The 5 probability methods + Average Error
 - **Filters**:
-  - Days to Expiry selector (same DTE bins as Calibration Analysis) — **calendar days**
+  - Days to Expiry selector (same DTE bins as Calibration Analysis) — **business days**
 - **Sorting**: Click any column header to sort by that method or metric
 - **Data Quality**: Uses 25th percentile sample size filtering to exclude low-sample outliers
 - **Color Scale**:

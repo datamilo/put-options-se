@@ -28,7 +28,7 @@ Rather than manually analyzing multiple factors, this tool combines them into a 
 
 **Expiry Date** - Select option expiration date (required for analysis)
 **Rolling Low Period** - Select rolling low window: 30, 90, 180, 270, or 365 days (default: 365)
-**Min Days Since Last Break** - Enter any positive integer for minimum stability threshold (default: 10). **Uses business days (trading days only), not calendar days.** This filters out options where the support level was broken recently. Accept any value without manual 100% balancing.
+**Min Days Since Last Break** - Enter any positive integer for minimum stability threshold (default: 10). **Uses business days only (weekdays, excluding Swedish holidays).** This filters out options where the support level was broken recently. Accept any value without manual 100% balancing. Example: A support break on Friday will show as "1 business day" by the following Monday (3 calendar days).
 **Probability Method** - Select probability calculation method (default: Bayesian Calibrated)
   - PoW - Bayesian Calibrated
   - PoW - Weighted Average
@@ -789,9 +789,9 @@ The `getProbabilityBin(prob)` function categorizes probability values (0-1 range
 
 ### Days to Expiry (DTE) Binning
 
-The `getDTEBin(daysToExpiry)` function categorizes remaining **calendar days** (all 365 days):
+The `getDTEBin(daysToExpiry)` function categorizes remaining **business days**:
 
-| Calendar Days Range | Bin Name | Used For |
+| Business Days Range | Bin Name | Used For |
 |------------|----------|----------|
 | 1 - 7 | `0-7` | Recovery lookup |
 | 8 - 14 | `8-14` | Recovery lookup |
@@ -800,7 +800,7 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining **calendar days** (
 | 29 - 35 | `29-35` | Recovery lookup |
 | 36+ | `36+` | Recovery lookup |
 
-**Important Note:** DTE uses **calendar days**, while "Days Since Last Break" uses **business days** (trading days only). These are two different metrics calculated differently.
+**Important:** All DTE values use **business days only** (weekdays, excluding weekends and Swedish holidays). For example, 8 business days equals approximately 14 calendar days. This applies to DaysToExpiry in data.csv, DTE_Bin in recovery_report_data.csv, and all probability-related binning.
 
 ---
 

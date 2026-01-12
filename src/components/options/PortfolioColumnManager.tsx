@@ -64,7 +64,7 @@ const SortableColumnItem: React.FC<{
 
     // Timing field mappings
     const timingMappings: { [key: string]: string } = {
-      'DaysToExpiry': 'Days to Expiry (calendar days)',
+      'DaysToExpiry': 'Days to Expiry (business days)',
     };
 
     // Margin requirements field mappings
