@@ -109,7 +109,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
               <SortableHeader field="currentPrice" label="Current" align="right" />
               <SortableHeader field="rollingLow" label="Support" align="right" />
               <SortableHeader field="distanceToSupportPct" label="Distance %" align="right" />
-              <SortableHeader field="daysSinceLastBreak" label="Days Since" align="right" />
+              <SortableHeader field="daysSinceLastBreak" label="Days Since (biz days)" align="right" />
               <SortableHeader field="currentProbability" label="Current PoW" align="right" />
               <SortableHeader field="historicalPeakProbability" label="Peak PoW" align="right" />
               <SortableHeader field="recoveryAdvantage" label="Recovery Rate %" align="right" />

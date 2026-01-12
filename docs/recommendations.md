@@ -28,7 +28,7 @@ Rather than manually analyzing multiple factors, this tool combines them into a 
 
 **Expiry Date** - Select option expiration date (required for analysis)
 **Rolling Low Period** - Select rolling low window: 30, 90, 180, 270, or 365 days (default: 365)
-**Min Days Since Last Break** - Enter any positive integer for minimum stability threshold (default: 10). This filters out options where the support level was broken recently. Accept any value without manual 100% balancing.
+**Min Days Since Last Break** - Enter any positive integer for minimum stability threshold (default: 10). **Uses business days (trading days only), not calendar days.** This filters out options where the support level was broken recently. Accept any value without manual 100% balancing.
 **Probability Method** - Select probability calculation method (default: Bayesian Calibrated)
   - PoW - Bayesian Calibrated
   - PoW - Weighted Average
@@ -789,7 +789,7 @@ The `getProbabilityBin(prob)` function categorizes probability values (0-1 range
 
 ### Days to Expiry (DTE) Binning
 
-The `getDTEBin(daysToExpiry)` function categorizes remaining **calendar days**:
+The `getDTEBin(daysToExpiry)` function categorizes remaining **calendar days** (all 365 days):
 
 | Calendar Days Range | Bin Name | Used For |
 |------------|----------|----------|
@@ -800,7 +800,7 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining **calendar days**:
 | 29 - 35 | `29-35` | Recovery lookup |
 | 36+ | `36+` | Recovery lookup |
 
-Note: All DTE calculations throughout the application use **calendar days**, not business days.
+**Important Note:** DTE uses **calendar days**, while "Days Since Last Break" uses **business days** (trading days only). These are two different metrics calculated differently.
 
 ---
 

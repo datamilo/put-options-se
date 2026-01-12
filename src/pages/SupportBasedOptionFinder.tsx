@@ -226,7 +226,7 @@ export const SupportBasedOptionFinder = () => {
                   </div>
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="days-since-break" className="text-sm">
-                      Min Days Since Last Break (calendar days)
+                      Min Days Since Last Break (business days)
                     </Label>
                     <Input
                       id="days-since-break"
@@ -310,7 +310,7 @@ export const SupportBasedOptionFinder = () => {
                       </TooltipProvider>
                     </div>
                   </TableHead>
-                  <SortableHeader field="daysSinceLastBreak" label="Days Since Break" align="right" />
+                  <SortableHeader field="daysSinceLastBreak" label="Days Since Break (biz days)" align="right" />
                   <TableHead
                     className="text-right min-w-[130px] cursor-pointer hover:bg-muted/50 transition-colors"
                     onClick={() => handleSort('supportStrengthScore')}
