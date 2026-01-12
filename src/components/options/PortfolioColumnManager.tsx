@@ -62,6 +62,11 @@ const SortableColumnItem: React.FC<{
       '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV'
     };
 
+    // Timing field mappings
+    const timingMappings: { [key: string]: string } = {
+      'DaysToExpiry': 'Days to Expiry (calendar days)',
+    };
+
     // Margin requirements field mappings
     const marginMappings: { [key: string]: string } = {
       'EstTotalMargin': 'Est. Total Margin',
@@ -81,6 +86,10 @@ const SortableColumnItem: React.FC<{
 
     if (probabilityMappings[key]) {
       return probabilityMappings[key];
+    }
+
+    if (timingMappings[key]) {
+      return timingMappings[key];
     }
 
     if (marginMappings[key]) {

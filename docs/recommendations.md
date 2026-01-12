@@ -789,9 +789,9 @@ The `getProbabilityBin(prob)` function categorizes probability values (0-1 range
 
 ### Days to Expiry (DTE) Binning
 
-The `getDTEBin(daysToExpiry)` function categorizes remaining days:
+The `getDTEBin(daysToExpiry)` function categorizes remaining **calendar days**:
 
-| Days Range | Bin Name | Used For |
+| Calendar Days Range | Bin Name | Used For |
 |------------|----------|----------|
 | 1 - 7 | `0-7` | Recovery lookup |
 | 8 - 14 | `8-14` | Recovery lookup |
@@ -799,6 +799,8 @@ The `getDTEBin(daysToExpiry)` function categorizes remaining days:
 | 22 - 28 | `22-28` | Recovery lookup |
 | 29 - 35 | `29-35` | Recovery lookup |
 | 36+ | `36+` | Recovery lookup |
+
+Note: All DTE calculations throughout the application use **calendar days**, not business days.
 
 ---
 

@@ -75,16 +75,16 @@ Determines which timeframe is used to calculate the support level. The rolling l
 
 **Why it matters:** Longer periods identify major support levels that have held for years, while shorter periods track recent support zones.
 
-### Days Since Last Break (number input)
-Days elapsed since the rolling low support level was last broken **within the selected rolling period**.
+### Days Since Last Break (number input) - Calendar Days
+Calendar days elapsed since the rolling low support level was last broken **within the selected rolling period**.
 
 **Investment Interpretation:**
 - **Empty/N/A** = No breaks occurred in the selected rolling period (100% stability) - **SAFEST**
-- **0-14 days** = Recently broken support (risky - support is unstable) - **AVOID**
-- **15-60 days** = Support holding but with recent activity - **MODERATE RISK**
-- **60+ days** = Support is well-established and holding - **SAFE**
+- **0-14 calendar days** = Recently broken support (risky - support is unstable) - **AVOID**
+- **15-60 calendar days** = Support holding but with recent activity - **MODERATE RISK**
+- **60+ calendar days** = Support is well-established and holding - **SAFE**
 
-**Important:** This metric is period-specific. If you select a 90-day period and see "Days Since Break: N/A", it means support never broke in the last 90 days (even if it broke 2 years ago).
+**Important:** This metric is period-specific and uses **calendar days**, not business days. If you select a 90-day period and see "Days Since Break: N/A", it means support never broke in the last 90 days (even if it broke 2 years ago).
 
 ### Expiry Date (dropdown)
 Option expiration date. Defaults to third Friday of next month.
@@ -227,8 +227,8 @@ Probability of worthless using original Black-Scholes method (uncalibrated).
 
 **Why shown:** For comparison with Bayesian Calibrated model.
 
-#### Days to Expiry
-Days remaining until option expiration.
+#### Days to Expiry (calendar days)
+Calendar days remaining until option expiration.
 
 **Why it matters:** More days = more time for stock to move against you, but also justifies higher premium.
 
@@ -251,22 +251,22 @@ Days remaining until option expiration.
 
 **Tooltip Available:** Hover over the info icon for detailed explanation.
 
-#### Days Since Break
-Days since the rolling low was last broken **within your selected rolling period**.
+#### Days Since Break (calendar days)
+Calendar days since the rolling low was last broken **within your selected rolling period**.
 
 **Display:**
 - **N/A**: No breaks occurred in the selected rolling period (implies 100% stability)
-- **Number + d**: Days elapsed since most recent break (e.g., "73d")
+- **Number + d**: Calendar days elapsed since most recent break (e.g., "73d")
 
 **Investment Interpretation:**
 - **N/A**: Perfect stability - **SAFEST CHOICE**
-- **100+ days**: Long-established support - **VERY SAFE**
-- **60-99 days**: Well-established support - **SAFE**
-- **30-59 days**: Support holding - **MODERATE**
-- **15-29 days**: Recent break activity - **CAUTION**
-- **0-14 days**: Just broke - **HIGH RISK**
+- **100+ calendar days**: Long-established support - **VERY SAFE**
+- **60-99 calendar days**: Well-established support - **SAFE**
+- **30-59 calendar days**: Support holding - **MODERATE**
+- **15-29 calendar days**: Recent break activity - **CAUTION**
+- **0-14 calendar days**: Just broke - **HIGH RISK**
 
-**Why it matters:** Longer duration since break = support is stronger and more reliable.
+**Why it matters:** Longer duration since break = support is stronger and more reliable. Note: Uses **calendar days**, not business days.
 
 ### Advanced Strategic Metrics
 

@@ -76,7 +76,7 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
 
         {/* Min Days Since Last Break */}
         <div className="space-y-2">
-          <Label htmlFor="min-days-since-break">Min Days Since Last Break</Label>
+          <Label htmlFor="min-days-since-break">Min Days Since Last Break (calendar days)</Label>
           <Input
             id="min-days-since-break"
             type="text"

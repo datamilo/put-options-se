@@ -226,7 +226,7 @@ export const SupportBasedOptionFinder = () => {
                   </div>
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="days-since-break" className="text-sm">
-                      Min Days Since Last Break
+                      Min Days Since Last Break (calendar days)
                     </Label>
                     <Input
                       id="days-since-break"
