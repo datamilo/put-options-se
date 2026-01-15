@@ -33,13 +33,14 @@ const getDTEBin = (daysToExpiry: number): string => {
 };
 
 // Map probability method field names to recovery data method names
+// Note: Recovery data uses normalized method names (without "PoW - " prefix) as of Jan 2026
 const mapProbabilityMethodToRecoveryMethod = (fieldName: string): string => {
   const methodMap: Record<string, string> = {
-    'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
-    '1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
-    '1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',
-    '2_ProbOfWorthless_Calibrated': 'PoW - Bias Corrected',
-    '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV',
+    'ProbWorthless_Bayesian_IsoCal': 'Bayesian Calibrated',
+    '1_2_3_ProbOfWorthless_Weighted': 'Weighted Average',
+    '1_ProbOfWorthless_Original': 'Original Black-Scholes',
+    '2_ProbOfWorthless_Calibrated': 'Bias Corrected',
+    '3_ProbOfWorthless_Historical_IV': 'Historical IV',
   };
   return methodMap[fieldName] || fieldName;
 };
