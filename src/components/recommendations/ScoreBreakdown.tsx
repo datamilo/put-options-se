@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertCircle, CheckCircle2, XCircle } from 'lucide-react';
+import { AlertCircle, XCircle } from 'lucide-react';
 import type { ScoreBreakdown, ScoreWeights } from '@/types/recommendations';
 
 interface ScoreBreakdownProps {
@@ -146,12 +146,6 @@ export const ScoreBreakdownComponent: React.FC<ScoreBreakdownProps> = ({
                           Not Included
                         </div>
                       )}
-                      {!isDisabled && hasData && (
-                        <div className="flex items-center gap-1 bg-green-100 dark:bg-green-950 text-green-700 dark:text-green-400 px-2 py-0.5 rounded text-xs font-semibold">
-                          <CheckCircle2 className="h-3 w-3" />
-                          Has Data
-                        </div>
-                      )}
                       {!isDisabled && !hasData && (
                         <div className="flex items-center gap-1 bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400 px-2 py-0.5 rounded text-xs font-semibold">
                           <XCircle className="h-3 w-3" />
@@ -215,9 +209,6 @@ export const ScoreBreakdownComponent: React.FC<ScoreBreakdownProps> = ({
           <p>
             <strong>Missing Data:</strong> If a factor has no historical data for this stock, it contributes 0 points
             to the composite score, regardless of its weight setting.
-          </p>
-          <p>
-            <strong>Green "Has Data" badge:</strong> This factor has reliable historical data backing the score.
           </p>
           <p>
             <strong>Red "No Data" badge:</strong> This stock lacks the historical data needed for this factor, so it
