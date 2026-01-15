@@ -66,6 +66,10 @@ export interface RecommendedOption {
   monthsInHistoricalData: number | null;        // Number of historical months for this stock-month combo
   worstMonthDrawdown: number | null;            // Worst historical intra-month drawdown (open-to-low)
 
+  // Event flags
+  financialReport: string | null;               // 'Y' if financial report before expiry
+  xDay: string | null;                          // 'Y' if ex-dividend date before expiry
+
   // Scoring
   compositeScore: number;
   scoreBreakdown: ScoreBreakdown;

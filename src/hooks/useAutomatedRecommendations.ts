@@ -524,6 +524,8 @@ export const useAutomatedRecommendations = () => {
           currentMonthPerformance,
           monthsInHistoricalData,
           worstMonthDrawdown,
+          financialReport: option.FinancialReport || null,
+          xDay: option['X-Day'] || null,
           compositeScore,
           scoreBreakdown,
         });

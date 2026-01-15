@@ -95,6 +95,15 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
     return 'text-red-600 dark:text-red-400';
   };
 
+  const getOptionNameColor = (rec: RecommendedOption): string => {
+    // Financial report (earnings) takes priority - orange
+    if (rec.financialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
+    // Ex-dividend date - red
+    if (rec.xDay && String(rec.xDay).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
+    // Default - primary color
+    return 'text-primary';
+  };
+
   return (
     <div className="space-y-4">
       <ScrollArea className="w-full">
@@ -165,7 +174,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                             '_blank'
                           )
                         }
-                        className="text-primary hover:underline cursor-pointer"
+                        className={`font-medium hover:opacity-80 transition-all cursor-pointer ${getOptionNameColor(rec)}`}
                       >
                         {rec.optionName}
                       </button>
