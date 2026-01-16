@@ -1101,62 +1101,490 @@ class OptionScoringEngine:
 
 
 # ============================================================================
-# EXAMPLE USAGE
+# BATCH TESTING AND CONFIGURATION MANAGEMENT
+# ============================================================================
+
+import argparse
+import json
+from itertools import product
+
+
+def _create_weight_variations(weights_config: Dict[str, List[float]]) -> List[Dict[str, float]]:
+    """Create all combinations of weight variations from config"""
+    if not weights_config:
+        return [ScoreWeights().to_dict()]
+
+    keys = list(weights_config.keys())
+    values = [weights_config[key] for key in keys]
+
+    variations = []
+    for combo in product(*values):
+        variations.append(dict(zip(keys, combo)))
+
+    return variations
+
+
+class ConfigManager:
+    """Load and manage test configurations"""
+
+    @staticmethod
+    def load_from_json(filepath: str) -> Dict[str, Any]:
+        """Load configuration from JSON file"""
+        print(f"📁 Loading config from {filepath}...")
+        with open(filepath, 'r') as f:
+            config = json.load(f)
+        print(f"✅ Loaded configuration\n")
+        return config
+
+    @staticmethod
+    def create_example_config(filepath: str = 'config_example.json') -> None:
+        """Create an example configuration file"""
+        example_config = {
+            "data_dir": "./data",
+            "results_dir": "./results",
+
+            "expiry_dates": ["2025-01-17", "2025-02-21"],
+            "rolling_periods": [365],
+            "min_days_since_break": [10],
+            "probability_methods": ["ProbWorthless_Bayesian_IsoCal"],
+            "historical_peak_thresholds": [0.90],
+
+            "weights": {
+                "supportStrength": [20],
+                "daysSinceBreak": [15],
+                "recoveryAdvantage": [25],
+                "historicalPeak": [15],
+                "monthlySeasonality": [15],
+                "currentPerformance": [10]
+            }
+        }
+
+        with open(filepath, 'w') as f:
+            json.dump(example_config, f, indent=2)
+
+        print(f"✅ Created example config: {filepath}")
+
+
+class BatchAnalyzer:
+    """Run analysis with multiple parameter combinations"""
+
+    def __init__(self, engine: OptionScoringEngine):
+        self.engine = engine
+        self.all_results: List[Tuple[RecommendationFilters, ScoreWeights, List[RecommendedOption]]] = []
+
+    def run_all_combinations(
+        self,
+        expiry_dates: List[str],
+        rolling_periods: List[int],
+        min_days_since_break: List[int],
+        probability_methods: List[str],
+        historical_peak_thresholds: List[float],
+        weight_variations: List[Dict[str, float]]
+    ) -> None:
+        """
+        Run analysis for all combinations of parameters.
+
+        This replicates how users can change parameters on the website.
+        """
+        print("\n" + "="*70)
+        print("BATCH ANALYSIS - RUNNING ALL PARAMETER COMBINATIONS")
+        print("="*70 + "\n")
+
+        total_combinations = (
+            len(expiry_dates) *
+            len(rolling_periods) *
+            len(min_days_since_break) *
+            len(probability_methods) *
+            len(historical_peak_thresholds) *
+            len(weight_variations)
+        )
+
+        print(f"📊 Total combinations to run: {total_combinations}\n")
+
+        combination_num = 0
+
+        for expiry_date in expiry_dates:
+            for rolling_period in rolling_periods:
+                for min_days in min_days_since_break:
+                    for prob_method in probability_methods:
+                        for threshold in historical_peak_thresholds:
+                            for weights_dict in weight_variations:
+                                combination_num += 1
+
+                                print(f"Running combination {combination_num}/{total_combinations}:")
+                                print(f"  Expiry: {expiry_date}")
+                                print(f"  Rolling Period: {rolling_period} days")
+                                print(f"  Min Days Since Break: {min_days}")
+                                print(f"  Probability Method: {prob_method}")
+                                print(f"  Peak Threshold: {threshold:.2f}")
+
+                                # Create filters
+                                filters = RecommendationFilters(
+                                    expiryDate=expiry_date,
+                                    rollingPeriod=rolling_period,
+                                    minDaysSinceBreak=min_days,
+                                    probabilityMethod=prob_method,
+                                    historicalPeakThreshold=threshold
+                                )
+
+                                # Create weights
+                                weights = ScoreWeights(
+                                    supportStrength=weights_dict.get('supportStrength', 20),
+                                    daysSinceBreak=weights_dict.get('daysSinceBreak', 15),
+                                    recoveryAdvantage=weights_dict.get('recoveryAdvantage', 25),
+                                    historicalPeak=weights_dict.get('historicalPeak', 15),
+                                    monthlySeasonality=weights_dict.get('monthlySeasonality', 15),
+                                    currentPerformance=weights_dict.get('currentPerformance', 10),
+                                )
+
+                                # Run analysis
+                                results = self.engine.analyze_options(filters, weights)
+
+                                # Store results
+                                self.all_results.append((filters, weights, results))
+
+                                print(f"  ✅ Results: {len(results)} options\n")
+
+        print(f"\n✅ Completed all {combination_num} combinations\n")
+
+    def save_results_to_csv(self, filepath: str = 'results.csv') -> None:
+        """Save all results to CSV file"""
+        print(f"💾 Saving results to {filepath}...")
+
+        with open(filepath, 'w', newline='') as f:
+            writer = csv.writer(f)
+
+            # Write header
+            writer.writerow([
+                'Rank',
+                'ExpiryDate',
+                'RollingPeriod',
+                'MinDaysSinceBreak',
+                'ProbabilityMethod',
+                'PeakThreshold',
+                'OptionName',
+                'StockName',
+                'StrikePrice',
+                'CurrentPrice',
+                'Premium',
+                'CompositeScore',
+                'SupportStrengthNorm',
+                'DaysSinceBreakNorm',
+                'RecoveryAdvantageNorm',
+                'HistoricalPeakNorm',
+                'MonthlySeasonalityNorm',
+                'CurrentPerformanceNorm',
+            ])
+
+            # Write results
+            for filters, weights, results in self.all_results:
+                for result in results:
+                    writer.writerow([
+                        result.rank,
+                        filters.expiryDate,
+                        filters.rollingPeriod,
+                        filters.minDaysSinceBreak,
+                        filters.probabilityMethod,
+                        f"{filters.historicalPeakThreshold:.2f}",
+                        result.optionName,
+                        result.stockName,
+                        f"{result.strikePrice:.2f}",
+                        f"{result.currentPrice:.2f}",
+                        f"{result.premium:.2f}",
+                        f"{result.compositeScore:.2f}",
+                        f"{result.scoreBreakdown.supportStrength.normalized:.2f}",
+                        f"{result.scoreBreakdown.daysSinceBreak.normalized:.2f}",
+                        f"{result.scoreBreakdown.recoveryAdvantage.normalized:.2f}",
+                        f"{result.scoreBreakdown.historicalPeak.normalized:.2f}",
+                        f"{result.scoreBreakdown.monthlySeasonality.normalized:.2f}",
+                        f"{result.scoreBreakdown.currentPerformance.normalized:.2f}",
+                    ])
+
+        print(f"✅ Saved {sum(len(r[2]) for r in self.all_results)} results to {filepath}\n")
+
+    def save_results_to_json(self, filepath: str = 'results.json') -> None:
+        """Save all results to JSON file"""
+        print(f"💾 Saving results to {filepath}...")
+
+        all_results_dict = []
+
+        for filters, weights, results in self.all_results:
+            for result in results:
+                all_results_dict.append({
+                    'rank': result.rank,
+                    'filters': {
+                        'expiryDate': filters.expiryDate,
+                        'rollingPeriod': filters.rollingPeriod,
+                        'minDaysSinceBreak': filters.minDaysSinceBreak,
+                        'probabilityMethod': filters.probabilityMethod,
+                        'historicalPeakThreshold': filters.historicalPeakThreshold,
+                    },
+                    'option': {
+                        'optionName': result.optionName,
+                        'stockName': result.stockName,
+                        'strikePrice': result.strikePrice,
+                        'currentPrice': result.currentPrice,
+                        'expiryDate': result.expiryDate,
+                        'daysToExpiry': result.daysToExpiry,
+                        'premium': result.premium,
+                    },
+                    'scores': {
+                        'composite': result.compositeScore,
+                        'supportStrength': result.scoreBreakdown.supportStrength.normalized,
+                        'daysSinceBreak': result.scoreBreakdown.daysSinceBreak.normalized,
+                        'recoveryAdvantage': result.scoreBreakdown.recoveryAdvantage.normalized,
+                        'historicalPeak': result.scoreBreakdown.historicalPeak.normalized,
+                        'monthlySeasonality': result.scoreBreakdown.monthlySeasonality.normalized,
+                        'currentPerformance': result.scoreBreakdown.currentPerformance.normalized,
+                    }
+                })
+
+        with open(filepath, 'w') as f:
+            json.dump(all_results_dict, f, indent=2)
+
+        print(f"✅ Saved {len(all_results_dict)} results to {filepath}\n")
+
+    def print_summary(self) -> None:
+        """Print summary of all results"""
+        print("\n" + "="*70)
+        print("BATCH ANALYSIS SUMMARY")
+        print("="*70 + "\n")
+
+        total_results = sum(len(r[2]) for r in self.all_results)
+        print(f"Total combinations run: {len(self.all_results)}")
+        print(f"Total results: {total_results}")
+        print()
+
+        if self.all_results:
+            # Find best result overall
+            all_options = [(filters, weights, result) for filters, weights, results in self.all_results for result in results]
+            best = max(all_options, key=lambda x: x[2].compositeScore)
+            filters, weights, result = best
+
+            print(f"Best result overall:")
+            print(f"  Option: {result.optionName} ({result.stockName})")
+            print(f"  Score: {result.compositeScore:.2f}")
+            print(f"  Expiry: {filters.expiryDate}")
+            print(f"  Rolling Period: {filters.rollingPeriod} days")
+            print(f"  Probability Method: {filters.probabilityMethod}")
+            print(f"  Peak Threshold: {filters.historicalPeakThreshold:.2f}")
+
+
+# ============================================================================
+# COMMAND-LINE INTERFACE
 # ============================================================================
 
 if __name__ == '__main__':
-    # Initialize
+    parser = argparse.ArgumentParser(
+        description='Automated Put Option Recommendations - Backtesting Tool'
+    )
+
+    parser.add_argument(
+        '--data-dir',
+        default='./data',
+        help='Directory containing CSV data files (default: ./data)'
+    )
+
+    parser.add_argument(
+        '--config',
+        help='JSON config file for batch testing (overrides other parameters)'
+    )
+
+    parser.add_argument(
+        '--expiry',
+        default='2025-01-17',
+        help='Expiry date (YYYY-MM-DD, default: 2025-01-17)'
+    )
+
+    parser.add_argument(
+        '--rolling-period',
+        type=int,
+        default=365,
+        choices=[30, 90, 180, 270, 365],
+        help='Rolling period in days (default: 365)'
+    )
+
+    parser.add_argument(
+        '--min-days-break',
+        type=int,
+        default=10,
+        help='Minimum days since break (default: 10)'
+    )
+
+    parser.add_argument(
+        '--prob-method',
+        default='ProbWorthless_Bayesian_IsoCal',
+        choices=[
+            'ProbWorthless_Bayesian_IsoCal',
+            '1_2_3_ProbOfWorthless_Weighted',
+            '1_ProbOfWorthless_Original',
+            '2_ProbOfWorthless_Calibrated',
+            '3_ProbOfWorthless_Historical_IV',
+        ],
+        help='Probability method (default: ProbWorthless_Bayesian_IsoCal)'
+    )
+
+    parser.add_argument(
+        '--peak-threshold',
+        type=float,
+        default=0.90,
+        choices=[0.80, 0.90, 0.95],
+        help='Historical peak threshold (default: 0.90)'
+    )
+
+    parser.add_argument(
+        '--support-weight',
+        type=float,
+        default=20,
+        help='Weight for support strength (default: 20)'
+    )
+
+    parser.add_argument(
+        '--days-weight',
+        type=float,
+        default=15,
+        help='Weight for days since break (default: 15)'
+    )
+
+    parser.add_argument(
+        '--recovery-weight',
+        type=float,
+        default=25,
+        help='Weight for recovery advantage (default: 25)'
+    )
+
+    parser.add_argument(
+        '--peak-weight',
+        type=float,
+        default=15,
+        help='Weight for historical peak (default: 15)'
+    )
+
+    parser.add_argument(
+        '--seasonality-weight',
+        type=float,
+        default=15,
+        help='Weight for monthly seasonality (default: 15)'
+    )
+
+    parser.add_argument(
+        '--performance-weight',
+        type=float,
+        default=10,
+        help='Weight for current performance (default: 10)'
+    )
+
+    parser.add_argument(
+        '--create-example-config',
+        action='store_true',
+        help='Create an example config file and exit'
+    )
+
+    parser.add_argument(
+        '--output-csv',
+        help='Save results to CSV file'
+    )
+
+    parser.add_argument(
+        '--output-json',
+        help='Save results to JSON file'
+    )
+
+    parser.add_argument(
+        '--top-n',
+        type=int,
+        default=10,
+        help='Display top N results (default: 10)'
+    )
+
+    args = parser.parse_args()
+
+    # Create example config if requested
+    if args.create_example_config:
+        ConfigManager.create_example_config()
+        exit(0)
+
+    # Initialize engine and loader
+    print("\n" + "="*70)
+    print("AUTOMATED PUT OPTION RECOMMENDATIONS")
+    print("="*70 + "\n")
+
     engine = OptionScoringEngine()
     loader = DataLoader()
 
-    # Load data from CSV files in ./data directory
-    # Adjust the path if your data is in a different location
-    loader.load_all_data(data_dir='./data')
-
-    # Build data structures
+    # Load data
+    loader.load_all_data(data_dir=args.data_dir)
     engine.load_data(loader)
 
-    # Define filters
-    filters = RecommendationFilters(
-        expiryDate='2025-01-17',
-        rollingPeriod=365,
-        minDaysSinceBreak=10,
-        probabilityMethod='ProbWorthless_Bayesian_IsoCal',
-        historicalPeakThreshold=0.90
-    )
+    # Determine if running batch or single analysis
+    if args.config:
+        # BATCH MODE: Load from config file
+        config = ConfigManager.load_from_json(args.config)
 
-    # Define weights (will be normalized to 100%)
-    weights = ScoreWeights(
-        supportStrength=20,
-        daysSinceBreak=15,
-        recoveryAdvantage=25,
-        historicalPeak=15,
-        monthlySeasonality=15,
-        currentPerformance=10,
-    )
+        analyzer = BatchAnalyzer(engine)
+        analyzer.run_all_combinations(
+            expiry_dates=config.get('expiry_dates', [args.expiry]),
+            rolling_periods=config.get('rolling_periods', [args.rolling_period]),
+            min_days_since_break=config.get('min_days_since_break', [args.min_days_break]),
+            probability_methods=config.get('probability_methods', [args.prob_method]),
+            historical_peak_thresholds=config.get('historical_peak_thresholds', [args.peak_threshold]),
+            weight_variations=_create_weight_variations(config.get('weights', {}))
+        )
 
-    # Analyze
-    results = engine.analyze_options(filters, weights)
+        analyzer.print_summary()
 
-    # Display results
-    engine.get_results_summary(results)
+        if args.output_csv:
+            analyzer.save_results_to_csv(args.output_csv)
 
-    # Access individual results
-    if results:
-        top_result = results[0]
-        print("\n" + "="*70)
-        print(f"TOP RECOMMENDATION: {top_result.optionName}")
-        print("="*70)
-        print(f"Stock: {top_result.stockName}")
-        print(f"Strike: {top_result.strikePrice}")
-        print(f"Expiry: {top_result.expiryDate}")
-        print(f"Premium: {top_result.premium}")
-        print(f"Composite Score: {top_result.compositeScore:.2f}")
-        print()
-        print("Score Breakdown:")
-        print(f"  Support Strength: {top_result.scoreBreakdown.supportStrength.normalized:.2f} (weight: {top_result.scoreBreakdown.supportStrength.weighted:.2f})")
-        print(f"  Days Since Break: {top_result.scoreBreakdown.daysSinceBreak.normalized:.2f} (weight: {top_result.scoreBreakdown.daysSinceBreak.weighted:.2f})")
-        print(f"  Recovery Advantage: {top_result.scoreBreakdown.recoveryAdvantage.normalized:.2f} (weight: {top_result.scoreBreakdown.recoveryAdvantage.weighted:.2f})")
-        print(f"  Historical Peak: {top_result.scoreBreakdown.historicalPeak.normalized:.2f} (weight: {top_result.scoreBreakdown.historicalPeak.weighted:.2f})")
-        print(f"  Monthly Seasonality: {top_result.scoreBreakdown.monthlySeasonality.normalized:.2f} (weight: {top_result.scoreBreakdown.monthlySeasonality.weighted:.2f})")
-        print(f"  Current Performance: {top_result.scoreBreakdown.currentPerformance.normalized:.2f} (weight: {top_result.scoreBreakdown.currentPerformance.weighted:.2f})")
+        if args.output_json:
+            analyzer.save_results_to_json(args.output_json)
+
+    else:
+        # SINGLE MODE: Run with specified parameters
+        filters = RecommendationFilters(
+            expiryDate=args.expiry,
+            rollingPeriod=args.rolling_period,
+            minDaysSinceBreak=args.min_days_break,
+            probabilityMethod=args.prob_method,
+            historicalPeakThreshold=args.peak_threshold
+        )
+
+        weights = ScoreWeights(
+            supportStrength=args.support_weight,
+            daysSinceBreak=args.days_weight,
+            recoveryAdvantage=args.recovery_weight,
+            historicalPeak=args.peak_weight,
+            monthlySeasonality=args.seasonality_weight,
+            currentPerformance=args.performance_weight,
+        )
+
+        results = engine.analyze_options(filters, weights)
+
+        engine.get_results_summary(results)
+
+        # Display top N results
+        print(f"\nTop {args.top_n} recommendations:")
+        for result in results[:args.top_n]:
+            print(
+                f"  {result.rank}. {result.optionName} ({result.stockName}) "
+                f"- Score: {result.compositeScore:.2f}"
+            )
+
+        if results:
+            top_result = results[0]
+            print("\n" + "="*70)
+            print(f"TOP RECOMMENDATION: {top_result.optionName}")
+            print("="*70)
+            print(f"Stock: {top_result.stockName}")
+            print(f"Strike: {top_result.strikePrice}")
+            print(f"Expiry: {top_result.expiryDate}")
+            print(f"Premium: {top_result.premium}")
+            print(f"Composite Score: {top_result.compositeScore:.2f}")
+            print()
+            print("Score Breakdown:")
+            print(f"  Support Strength: {top_result.scoreBreakdown.supportStrength.normalized:.2f} (weighted: {top_result.scoreBreakdown.supportStrength.weighted:.2f})")
+            print(f"  Days Since Break: {top_result.scoreBreakdown.daysSinceBreak.normalized:.2f} (weighted: {top_result.scoreBreakdown.daysSinceBreak.weighted:.2f})")
+            print(f"  Recovery Advantage: {top_result.scoreBreakdown.recoveryAdvantage.normalized:.2f} (weighted: {top_result.scoreBreakdown.recoveryAdvantage.weighted:.2f})")
+            print(f"  Historical Peak: {top_result.scoreBreakdown.historicalPeak.normalized:.2f} (weighted: {top_result.scoreBreakdown.historicalPeak.weighted:.2f})")
+            print(f"  Monthly Seasonality: {top_result.scoreBreakdown.monthlySeasonality.normalized:.2f} (weighted: {top_result.scoreBreakdown.monthlySeasonality.weighted:.2f})")
+            print(f"  Current Performance: {top_result.scoreBreakdown.currentPerformance.normalized:.2f} (weighted: {top_result.scoreBreakdown.currentPerformance.weighted:.2f})")
