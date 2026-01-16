@@ -247,28 +247,8 @@ export const useAutomatedRecommendations = () => {
     monthlyLoading ||
     stockLoading;
 
-  // Pre-build lookup maps for O(1) access
-  const probabilityPeaksMap = useMemo(() => {
-    const map = new Map<string, number>();
-    console.log('🔍 Building probabilityPeaksMap...');
-    console.log('probabilityHistory type:', typeof probabilityHistory);
-    console.log('probabilityHistory is array:', Array.isArray(probabilityHistory));
-    console.log('probabilityHistory length:', probabilityHistory?.length);
-    console.log('probabilityHistory value:', probabilityHistory);
-
-    if (probabilityHistory && Array.isArray(probabilityHistory)) {
-      probabilityHistory.forEach((p) => {
-        const key = p.OptionName;
-        const existing = map.get(key);
-        const bayesianValue = p.ProbWorthless_Bayesian_IsoCal;
-        if (!existing || bayesianValue > existing) {
-          map.set(key, bayesianValue);
-        }
-      });
-    }
-    console.log(`✅ Built probabilityPeaksMap with ${map.size} entries`);
-    return map;
-  }, [probabilityHistory]);
+  // Pre-build lookup map for monthly stats (O(1) access)
+  // Note: probabilityPeaksMap is now built inside analyzeOptions so it uses the selected probability method
 
   const monthlyStatsMap = useMemo(() => {
     const map = new Map<string, any>();
@@ -289,6 +269,23 @@ export const useAutomatedRecommendations = () => {
 
       const currentDay = new Date().getDate();
       const results: RecommendedOption[] = [];
+
+      // Build probability peaks map using the selected probability method
+      // This ensures Historical Peak factor uses the same method as current probability
+      const probabilityPeaksMap = new Map<string, number>();
+      if (probabilityHistory && Array.isArray(probabilityHistory)) {
+        probabilityHistory.forEach((p) => {
+          const key = p.OptionName;
+          const existing = probabilityPeaksMap.get(key);
+          // Use the selected probability method field (e.g., 1_2_3_ProbOfWorthless_Weighted for "Weighted Average")
+          const methodValue = p[filters.probabilityMethod as keyof typeof p] as number | undefined;
+          if (methodValue && (typeof methodValue === 'number')) {
+            if (!existing || methodValue > existing) {
+              probabilityPeaksMap.set(key, methodValue);
+            }
+          }
+        });
+      }
 
       // Filter options first
       const filteredOptions = optionsData.filter((option) => {
@@ -544,7 +541,7 @@ export const useAutomatedRecommendations = () => {
       optionsData,
       supportMetrics,
       getMetricsForStock,
-      probabilityPeaksMap,
+      probabilityHistory,
       monthlyStatsMap,
       recoveryData,
       getStockSummary,
