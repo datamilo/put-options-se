@@ -1,6 +1,6 @@
 # Excel Export Field Specification - Automated Put Option Recommendations
 
-**Last Updated**: January 17, 2026
+**Last Updated**: January 17, 2026 - Updated probability export format
 **Total Fields**: 51 (27 Base Fields + 24 Score Breakdown Fields)
 **File Format**: XLSX with Nordic number formatting
 
@@ -40,8 +40,8 @@
 
 | # | Field Name | Data Type | Description |
 |---|---|---|---|
-| 14 | Current Probability | Decimal (1 decimal) | Current probability (PoW %) that option expires worthless - selected method |
-| 15 | Historical Peak Probability | Decimal (1 decimal) | Highest historical probability this option has reached (%) |
+| 14 | Current Probability | Decimal (3 decimals) | Current probability (0-1 scale) that option expires worthless - selected method (e.g., 0.995) |
+| 15 | Historical Peak Probability | Decimal (3 decimals) | Highest historical probability this option has reached (0-1 scale, e.g., 0.987) |
 | 16 | Recovery Advantage | Decimal (1 decimal) | % advantage from probability recovery potential |
 | 17 | Current Prob Bin | Text | Probability bucket: <50%, 50-60%, 60-70%, 70-80%, 80-90%, 90%+ |
 | 18 | DTE Bin | Text | Days to Expiry bucket: 0-7, 8-14, 15-21, 22-28, 29-35, 36+ |
@@ -145,8 +145,9 @@ Each of the 6 scoring factors is exported with 4 sub-fields: raw, normalized, we
 - Examples: 1, 45, 365
 
 ### Decimal Fields
-- **1 decimal**: Distance To Support Pct, Current Probability, Historical Peak Probability, Recovery Advantage, Monthly Positive Rate
+- **1 decimal**: Distance To Support Pct, Recovery Advantage, Monthly Positive Rate
 - **2 decimals**: Strike Price, Current Price, Monthly Avg Return, Current Month Performance, Worst Month Drawdown, all Score Breakdown fields
+- **3 decimals**: Current Probability, Historical Peak Probability (0-1 scale decimal format)
 - Empty cells are truly blank (displayed as blank cells, not zero)
 - Uses period (.) as decimal separator in Excel
 
