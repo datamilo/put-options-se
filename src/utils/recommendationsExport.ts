@@ -147,7 +147,12 @@ export const exportRecommendationsToExcel = ({ filename, data }: ExportOptions) 
         return parseFloat(value.toFixed(1));
       }
 
-      // Probability fields that are 0-1 scale and need conversion to percentage
+      // Current Probability and Historical Peak Probability - keep as decimal (0-1 scale)
+      if (columnName === 'Current Probability' || columnName === 'Historical Peak Probability') {
+        return parseFloat(value.toFixed(3));
+      }
+
+      // Other probability fields that are 0-1 scale and need conversion to percentage
       if (columnName.includes('Probability') || columnName === 'Recovery Rate %') {
         return parseFloat((value * 100).toFixed(1));
       }
