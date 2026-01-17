@@ -131,9 +131,10 @@ export const exportRecommendationsToExcel = ({ filename, data }: ExportOptions) 
   const allColumns = [...baseColumns, ...scoreBreakdownColumns];
 
   // Format value for Excel display
-  const formatValue = (value: any, columnName: string): string | number => {
-    if (value === null || value === undefined) {
-      return '-';
+  const formatValue = (value: any, columnName: string): string | number | null => {
+    // Handle null, undefined, and NaN
+    if (value === null || value === undefined || Number.isNaN(value)) {
+      return null;
     }
 
     if (typeof value === 'boolean') {
@@ -141,32 +142,53 @@ export const exportRecommendationsToExcel = ({ filename, data }: ExportOptions) 
     }
 
     if (typeof value === 'number') {
-      // Normalize percentage fields
-      if (columnName.includes('Pct') || columnName.includes('Percentage') || columnName.includes('Rate')) {
-        return parseFloat(formatNordicPercentage(value, 2).replace('%', '').replace(',', '.'));
+      // Distance To Support Pct - already in 1-100 scale
+      if (columnName === 'Distance To Support Pct') {
+        return parseFloat(value.toFixed(1));
+      }
+
+      // Probability fields that are 0-1 scale and need conversion to percentage
+      if (columnName.includes('Probability') || columnName === 'Recovery Rate %') {
+        return parseFloat((value * 100).toFixed(1));
+      }
+
+      // Monthly Positive Rate - already in 0-100 scale
+      if (columnName === 'Monthly Positive Rate') {
+        return parseFloat(value.toFixed(1));
+      }
+
+      // Current Month Performance - already in percentage scale
+      if (columnName === 'Current Month Performance') {
+        return parseFloat(value.toFixed(2));
+      }
+
+      // Support Strength Score - no decimals
+      if (columnName === 'Support Strength Score') {
+        return Math.round(value);
       }
 
       // Raw values from score breakdown (0-1 scale probabilities)
       if (columnName.includes('_raw') && value >= 0 && value <= 1) {
-        return parseFloat(formatNordicDecimal(value * 100, 2).replace(',', '.'));
+        return parseFloat((value * 100).toFixed(2));
       }
 
       // Normalized and weighted scores
       if (columnName.includes('_normalized') || columnName.includes('_weighted')) {
-        return parseFloat(formatNordicDecimal(value, 2).replace(',', '.'));
+        return parseFloat(value.toFixed(2));
       }
 
-      // Price values
-      if (columnName.includes('Price') || columnName.includes('Premium') || columnName.includes('Strike')) {
-        return parseFloat(formatNordicDecimal(value, 2).replace(',', '.'));
+      // Price and Strike values
+      if (columnName.includes('Price') || columnName.includes('Strike') || columnName === 'Rolling Low') {
+        return parseFloat(value.toFixed(2));
       }
 
-      // General numbers
-      if (Number.isInteger(value)) {
-        return value;
+      // General decimal numbers
+      if (!Number.isInteger(value)) {
+        return parseFloat(value.toFixed(2));
       }
 
-      return parseFloat(formatNordicDecimal(value, 2).replace(',', '.'));
+      // Integer values
+      return value;
     }
 
     return String(value);
@@ -179,7 +201,7 @@ export const exportRecommendationsToExcel = ({ filename, data }: ExportOptions) 
     // Data rows
     ...data.map((option) => {
       const flattened = flattenRecommendation(option);
-      return allColumns.map((col) => formatValue(flattened[col], col));
+      return allColumns.map((col) => formatValue(flattened[col], formatColumnName(col)));
     }),
   ];
 
