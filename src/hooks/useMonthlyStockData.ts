@@ -159,7 +159,7 @@ export const useMonthlyStockData = () => {
         number_of_months_available: totalMonths,
         number_of_months_positive_return: positiveReturns,
         pct_pos_return_months: (positiveReturns / totalMonths) * 100,
-        return_month_mean_pct_return_month: meanReturn,
+        return_month_mean_pct_return_month: meanReturn * 100,
         open_to_low_mean_pct_return_month: meanOpenToLow,
         open_to_low_min_pct_return_month: minOpenToLow,
         open_to_low_max_pct_return_month: maxOpenToLow,
