@@ -2,11 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useAutomatedRecommendations } from '@/hooks/useAutomatedRecommendations';
 import { useEnrichedOptionsData } from '@/hooks/useEnrichedOptionsData';
+import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Button } from '@/components/ui/button';
-import { Sparkles, TrendingUp, Target, BarChart3, RotateCcw, ChevronDown, Building2 } from 'lucide-react';
+import { Sparkles, TrendingUp, Target, BarChart3, RotateCcw, ChevronDown, Building2, Download } from 'lucide-react';
+import { exportRecommendationsToExcel } from '@/utils/recommendationsExport';
 import { RecommendationFiltersComponent } from '@/components/recommendations/RecommendationFilters';
 import { RecommendationsTable } from '@/components/recommendations/RecommendationsTable';
 import { StockFilter } from '@/components/recommendations/StockFilter';
@@ -28,6 +30,7 @@ export const AutomatedRecommendations = () => {
   usePageTitle('Option Recommendations');
   const { analyzeOptions, isLoading } = useAutomatedRecommendations();
   const { data: allOptionsData } = useEnrichedOptionsData();
+  const { toast } = useToast();
 
   const [filters, setFilters] = useState<RecommendationFilters>(DEFAULT_FILTERS);
   const [weights, setWeights] = useState<ScoreWeights>(DEFAULT_WEIGHTS);
@@ -89,6 +92,18 @@ export const AutomatedRecommendations = () => {
   // Reset weights to defaults
   const resetWeights = () => {
     setWeights(DEFAULT_WEIGHTS);
+  };
+
+  // Handle Excel export
+  const handleExport = () => {
+    exportRecommendationsToExcel({
+      filename: 'option-recommendations',
+      data: filteredRecommendations
+    });
+    toast({
+      title: "Export successful",
+      description: `Exported ${filteredRecommendations.length} recommendations to Excel`,
+    });
   };
 
   // Get unique stocks count
@@ -327,10 +342,22 @@ export const AutomatedRecommendations = () => {
           {/* Results Table */}
           <Card>
             <CardHeader>
-              <CardTitle>
-                Recommendations{' '}
-                {filteredRecommendations.length > 0 && `(${filteredRecommendations.length})`}
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle>
+                  Recommendations{' '}
+                  {filteredRecommendations.length > 0 && `(${filteredRecommendations.length})`}
+                </CardTitle>
+                {filteredRecommendations.length > 0 && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleExport}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    Export to Excel
+                  </Button>
+                )}
+              </div>
             </CardHeader>
             <CardContent>
               <RecommendationsTable
