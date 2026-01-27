@@ -175,6 +175,11 @@ export const HorizontalNavigation = () => {
               icon: Sparkles,
             },
             {
+              path: "/scored-options",
+              label: "Scored Options",
+              icon: Target,
+            },
+            {
               path: "/portfolio-generator",
               label: "Automatic Portfolio Generator",
               icon: Bot,
@@ -236,6 +241,13 @@ export const HorizontalNavigation = () => {
             >
               <Sparkles className="mr-2 h-4 w-4" />
               Automated Put Option Recommendations
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate("/scored-options")}
+              className="cursor-pointer ml-2"
+            >
+              <Target className="mr-2 h-4 w-4" />
+              Scored Options
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => navigate("/portfolio-generator")}

@@ -16,6 +16,7 @@ import StockDetailsPage from "./pages/StockDetailsPage";
 import { ProbabilityAnalysis } from "./pages/ProbabilityAnalysis";
 import { LowerBoundAnalysis } from "./pages/LowerBoundAnalysis";
 import AutomatedRecommendations from "./pages/AutomatedRecommendations";
+import { ScoredOptions } from "./pages/ScoredOptions";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
@@ -108,6 +109,7 @@ const App = () => {
                       <Route path="/probability-analysis" element={<ProtectedRoute><ProbabilityAnalysis /></ProtectedRoute>} />
                       <Route path="/lower-bound-analysis" element={<ProtectedRoute><LowerBoundAnalysis /></ProtectedRoute>} />
                       <Route path="/recommendations" element={<ProtectedRoute><AutomatedRecommendations /></ProtectedRoute>} />
+                      <Route path="/scored-options" element={<ProtectedRoute><ScoredOptions /></ProtectedRoute>} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </AnalyticsProvider>
