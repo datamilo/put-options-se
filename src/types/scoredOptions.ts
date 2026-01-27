@@ -49,8 +49,8 @@ export interface ScoredOptionsFilters {
   stockNames: string[];
   agreement: 'all' | 'agree' | 'disagree';
   minScore: number;
-  minDaysToExpiry: number;
-  maxDaysToExpiry: number;
+  minV21Score: number;
+  minTAProb: number;
 }
 
 export interface ScoredOptionsSummary {

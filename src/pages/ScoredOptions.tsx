@@ -22,8 +22,8 @@ export const ScoredOptions = () => {
     stockNames: [],
     agreement: 'all',
     minScore: 70,
-    minDaysToExpiry: 0,
-    maxDaysToExpiry: 999,
+    minV21Score: 0,
+    minTAProb: 0,
   }));
 
   // Get available expiry dates from data
@@ -69,16 +69,18 @@ export const ScoredOptions = () => {
         return false;
       }
 
-      // Min score filter
+      // Min combined score filter
       if (option.combined_score < filters.minScore) {
         return false;
       }
 
-      // Days to expiry filter
-      if (option.days_to_expiry < filters.minDaysToExpiry) {
+      // Min V2.1 score filter
+      if (option.v21_score < filters.minV21Score) {
         return false;
       }
-      if (option.days_to_expiry > filters.maxDaysToExpiry) {
+
+      // Min TA probability filter (convert to 0-100 scale)
+      if (option.ta_probability * 100 < filters.minTAProb) {
         return false;
       }
 
@@ -129,19 +131,9 @@ export const ScoredOptions = () => {
     <div className="container mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="space-y-2">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Target className="h-8 w-8 text-primary" />
-            <h1 className="text-3xl font-bold">Scored Options Recommendations</h1>
-          </div>
-          <Button
-            onClick={handleExport}
-            disabled={filteredData.length === 0}
-            className="gap-2"
-          >
-            <Download className="h-4 w-4" />
-            Export
-          </Button>
+        <div className="flex items-center gap-2">
+          <Target className="h-8 w-8 text-primary" />
+          <h1 className="text-3xl font-bold">Scored Options Recommendations</h1>
         </div>
         <p className="text-muted-foreground">
           Dual-model analysis combining V2.1 probability predictions with technical analysis indicators. Identifies high-probability put writing opportunities with model agreement validation.
@@ -252,6 +244,20 @@ export const ScoredOptions = () => {
             availableStocks={availableStocks}
             availableExpiryDates={availableExpiryDates}
           />
+
+          {/* Export Button */}
+          {filteredData.length > 0 && (
+            <div className="flex justify-end">
+              <Button
+                onClick={handleExport}
+                variant="outline"
+                className="gap-2"
+              >
+                <Download className="h-4 w-4" />
+                Export to Excel
+              </Button>
+            </div>
+          )}
 
           {/* Table */}
           {filteredData.length === 0 ? (

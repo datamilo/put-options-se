@@ -65,19 +65,17 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
     });
   };
 
-  const handleMinDTEChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 0;
+  const handleMinV21ScoreChange = (value: number[]) => {
     onFiltersChange({
       ...filters,
-      minDaysToExpiry: value,
+      minV21Score: value[0],
     });
   };
 
-  const handleMaxDTEChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10) || 999;
+  const handleMinTAProbChange = (value: number[]) => {
     onFiltersChange({
       ...filters,
-      maxDaysToExpiry: value,
+      minTAProb: value[0],
     });
   };
 
@@ -158,31 +156,29 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
             />
           </div>
 
-          {/* Min Days to Expiry */}
+          {/* Min V2.1 Score */}
           <div className="space-y-2">
-            <Label htmlFor="minDte">Min Days to Expiry</Label>
-            <Input
-              id="minDte"
-              type="number"
-              min="0"
-              max="365"
-              value={filters.minDaysToExpiry}
-              onChange={handleMinDTEChange}
-              placeholder="0"
+            <Label>Min V2.1 Score: {filters.minV21Score}</Label>
+            <Slider
+              value={[filters.minV21Score]}
+              onValueChange={handleMinV21ScoreChange}
+              min={0}
+              max={100}
+              step={1}
+              className="mt-2"
             />
           </div>
 
-          {/* Max Days to Expiry */}
+          {/* Min TA Probability */}
           <div className="space-y-2">
-            <Label htmlFor="maxDte">Max Days to Expiry</Label>
-            <Input
-              id="maxDte"
-              type="number"
-              min="0"
-              max="999"
-              value={filters.maxDaysToExpiry}
-              onChange={handleMaxDTEChange}
-              placeholder="999"
+            <Label>Min TA Prob: {filters.minTAProb}%</Label>
+            <Slider
+              value={[filters.minTAProb]}
+              onValueChange={handleMinTAProbChange}
+              min={0}
+              max={100}
+              step={1}
+              className="mt-2"
             />
           </div>
         </div>
