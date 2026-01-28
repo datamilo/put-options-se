@@ -59,11 +59,13 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
         return false;
       }
 
-      // Days to expiry filter
-      if (option.days_to_expiry < filters.minDaysToExpiry) {
+      // Min V2.1 score filter (exclude null/undefined values)
+      if (option.v21_score == null || option.v21_score < filters.minV21Score) {
         return false;
       }
-      if (option.days_to_expiry > filters.maxDaysToExpiry) {
+
+      // Min TA probability filter (exclude null/undefined values, convert to 0-100 scale)
+      if (option.ta_probability == null || option.ta_probability * 100 < filters.minTAProb) {
         return false;
       }
 

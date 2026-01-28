@@ -16,23 +16,23 @@ export interface ScoredOptionData {
   current_probability: number;
 
   // V2.1 Model
-  v21_score: number;
+  v21_score: number | null;
   v21_bucket: string;
-  v21_historical_peak: number;
-  v21_support_strength: number;
+  v21_historical_peak: number | null;
+  v21_support_strength: number | null;
 
   // TA Model
-  ta_probability: number;
+  ta_probability: number | null;
   ta_bucket: string;
-  RSI_14: number;
-  RSI_Slope: number;
-  MACD_Hist: number;
-  MACD_Slope: number;
-  BB_Position: number;
-  Dist_SMA50: number;
-  Vol_Ratio: number;
-  Sigma_Distance: number;
-  HV_annual: number;
+  RSI_14: number | null;
+  RSI_Slope: number | null;
+  MACD_Hist: number | null;
+  MACD_Slope: number | null;
+  BB_Position: number | null;
+  Dist_SMA50: number | null;
+  Vol_Ratio: number | null;
+  Sigma_Distance: number | null;
+  HV_annual: number | null;
 
   // Agreement Analysis
   models_agree: boolean;

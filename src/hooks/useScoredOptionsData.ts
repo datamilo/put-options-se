@@ -17,6 +17,12 @@ export const useScoredOptionsData = () => {
 
   const { data: enrichedData } = useEnrichedOptionsData();
 
+  // Helper to parse float and convert NaN to null
+  const safeParseFloat = (value: string): number | null => {
+    const parsed = parseFloat(value);
+    return isNaN(parsed) ? null : parsed;
+  };
+
   // Load CSV data
   useEffect(() => {
     const loadData = async () => {
@@ -51,28 +57,28 @@ export const useScoredOptionsData = () => {
             date: row.date,
             stock_name: row.stock_name,
             option_name: row.option_name,
-            strike_price: parseFloat(row.strike_price),
+            strike_price: safeParseFloat(row.strike_price) || 0,
             expiry_date: row.expiry_date,
             days_to_expiry: parseInt(row.days_to_expiry, 10),
-            current_probability: parseFloat(row.current_probability),
-            v21_score: parseFloat(row.v21_score),
+            current_probability: safeParseFloat(row.current_probability) || 0,
+            v21_score: safeParseFloat(row.v21_score),
             v21_bucket: row.v21_bucket,
-            v21_historical_peak: parseFloat(row.v21_historical_peak),
-            v21_support_strength: parseFloat(row.v21_support_strength),
-            ta_probability: parseFloat(row.ta_probability),
+            v21_historical_peak: safeParseFloat(row.v21_historical_peak),
+            v21_support_strength: safeParseFloat(row.v21_support_strength),
+            ta_probability: safeParseFloat(row.ta_probability),
             ta_bucket: row.ta_bucket,
-            RSI_14: parseFloat(row.RSI_14),
-            RSI_Slope: parseFloat(row.RSI_Slope),
-            MACD_Hist: parseFloat(row.MACD_Hist),
-            MACD_Slope: parseFloat(row.MACD_Slope),
-            BB_Position: parseFloat(row.BB_Position),
-            Dist_SMA50: parseFloat(row.Dist_SMA50),
-            Vol_Ratio: parseFloat(row.Vol_Ratio),
-            Sigma_Distance: parseFloat(row.Sigma_Distance),
-            HV_annual: parseFloat(row.HV_annual),
+            RSI_14: safeParseFloat(row.RSI_14),
+            RSI_Slope: safeParseFloat(row.RSI_Slope),
+            MACD_Hist: safeParseFloat(row.MACD_Hist),
+            MACD_Slope: safeParseFloat(row.MACD_Slope),
+            BB_Position: safeParseFloat(row.BB_Position),
+            Dist_SMA50: safeParseFloat(row.Dist_SMA50),
+            Vol_Ratio: safeParseFloat(row.Vol_Ratio),
+            Sigma_Distance: safeParseFloat(row.Sigma_Distance),
+            HV_annual: safeParseFloat(row.HV_annual),
             models_agree: row.models_agree === 'True',
             agreement_strength: row.agreement_strength as 'Strong' | 'Moderate' | 'Weak',
-            combined_score: parseFloat(row.combined_score),
+            combined_score: safeParseFloat(row.combined_score) || 0,
             premium: 0, // Will be enriched below
           };
         });
