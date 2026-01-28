@@ -48,6 +48,7 @@ Detailed documentation for each page is in the `/docs` folder:
 | Lower Bound Analysis | `/lower-bound-analysis` | [docs/lower-bound-analysis.md](docs/lower-bound-analysis.md) | IV-based prediction validation |
 | Financial Reporting Volatility | `/volatility-analysis` | [docs/volatility-analysis.md](docs/volatility-analysis.md) | Earnings and event volatility analysis |
 | Option Recommendations | `/recommendations` | [docs/recommendations.md](docs/recommendations.md) | Automated put option recommendations with weighted scoring |
+| Scored Options Recommendations | `/scored-options` | [docs/scored-options.md](docs/scored-options.md) | Dual-model analysis combining V2.1 probability and technical analysis scores |
 
 ## Analytics & User Tracking
 
@@ -76,7 +77,7 @@ Pages are organized into logical groups based on their purpose and data flow:
     - Historical analysis pages examining seasonality and event-driven volatility
   - **Method Validation**: Probability Analysis, Lower Bound Analysis
     - Validation pages that test prediction method accuracy
-  - **Automated Analysis**: Option Recommendations, Automatic Portfolio Generator, Support Level Options List
+  - **Automated Analysis**: Option Recommendations, Scored Options Recommendations, Automatic Portfolio Generator, Support Level Options List
     - Automated list generation pages that combine multiple analyses into filtered recommendations based on user preferences and settings
 - **Standalone Buttons**: Stock Metrics and History
   - Deep-dive analysis of individual stocks

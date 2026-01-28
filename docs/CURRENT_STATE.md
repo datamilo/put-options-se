@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: January 10, 2026
+**Last Updated**: January 28, 2026
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -30,6 +30,7 @@
 | [Probability Analysis](#probability-analysis) | `/probability-analysis` | ✅ Active | Jan 10 |
 | [Lower Bound Analysis](#lower-bound-analysis) | `/lower-bound-analysis` | ✅ Active | Nov 28 |
 | [Financial Reporting Volatility](#financial-reporting-volatility) | `/volatility-analysis` | ✅ Active | Oct 2024 |
+| [Scored Options Recommendations](#scored-options-recommendations) | `/scored-options` | ✅ Active | Jan 28 |
 
 ---
 
@@ -244,6 +245,41 @@
 
 ---
 
+### Scored Options Recommendations
+**Route**: `/scored-options`
+
+**Latest Changes** (Jan 28, 2026):
+- Fixed null/NaN handling in CSV parsing for missing V2.1 Score and TA Probability values
+- Rows with missing scores now properly excluded by minimum threshold filters
+- Null values now sort to bottom when clicking column headers
+- All filtering and sorting now work correctly with missing data
+
+**Features**:
+- Dual-model analysis combining V2.1 probability predictions with technical analysis indicators
+- Model agreement validation between two independent scoring approaches
+- Summary metrics: Total Options, Models Agree %, Strong Agreement %, Currently Showing
+- Filters:
+  - Expiry Date (required)
+  - Stocks (multi-select)
+  - Model Agreement (All / Agree / Disagree)
+  - Min Combined Score (0-100, default 70)
+  - Min V2.1 Score (0-100, default 0) - excludes null values
+  - Min TA Probability (0-100%, default 0%) - excludes null values
+- Expandable rows showing:
+  - V2.1 score breakdown (score, bucket, historical peak, support strength)
+  - TA score breakdown (RSI, MACD, Bollinger Bands, SMA, volume, volatility metrics)
+  - Agreement analysis (models agree, agreement strength, explanation)
+- Excel export functionality
+- Column sorting (with null values sorting to bottom)
+
+**Data Notes**:
+- V2.1 Score and TA Probability fields may contain "-" (null values)
+- When minimum threshold filters are applied, options with null scores are automatically excluded
+- Sorting by these columns places null values at the bottom
+
+**Status**: Fully functional with corrected null value handling
+
+---
 
 ## Data Sources
 
@@ -251,6 +287,7 @@
 - `stock_data.csv` - Historical OHLC stock data
 - `data.csv` - Main options data (67 fields)
 - `margin_requirements.csv` - Margin and capital requirements (13 fields)
+- `current_options_scored.csv` - Dual-model V2.1 and TA analysis scores
 - `recovery_report_data.csv` - Probability recovery opportunities
 - `validation_report_data.csv` - Probability method validation data
 - `hit_rate_trends_by_stock.csv` - Lower bound monthly trends
@@ -452,6 +489,8 @@ FROM user_analytics_sessions;
 ## Related Documentation
 
 - [analytics.md](analytics.md) - Usage analytics system documentation
+- [scored-options.md](scored-options.md) - Scored Options Recommendations page documentation
+- [recommendations.md](recommendations.md) - Option Recommendations page documentation
 - [support-level-options.md](support-level-options.md) - Support Level Options List page documentation
 - [probability-analysis.md](probability-analysis.md) - Detailed Probability Analysis page docs
 - [support-level-analysis.md](support-level-analysis.md) - Support Level Analysis page docs
