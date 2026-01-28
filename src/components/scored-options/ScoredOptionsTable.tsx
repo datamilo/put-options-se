@@ -79,6 +79,14 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
       const aValue = a[sortField as keyof ScoredOptionData];
       const bValue = b[sortField as keyof ScoredOptionData];
 
+      // Handle null/undefined values - always put them at the bottom
+      const aIsNull = aValue == null;
+      const bIsNull = bValue == null;
+
+      if (aIsNull && bIsNull) return 0;
+      if (aIsNull) return 1; // a goes to bottom
+      if (bIsNull) return -1; // b goes to bottom
+
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortDirection === 'asc' ? aValue - bValue : bValue - aValue;
       }
@@ -230,11 +238,11 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
                     <TableCell className="text-right text-green-600 dark:text-green-400 font-semibold">
                       {formatNordicCurrency(option.premium, 0)}
                     </TableCell>
-                    <TableCell className={`text-right font-semibold ${getScoreColor(option.v21_score)}`}>
-                      {formatNordicDecimal(option.v21_score, 1)}
+                    <TableCell className={`text-right font-semibold ${option.v21_score != null ? getScoreColor(option.v21_score) : ''}`}>
+                      {option.v21_score != null ? formatNordicDecimal(option.v21_score, 1) : '-'}
                     </TableCell>
-                    <TableCell className={`text-right font-semibold ${getScoreColor(option.ta_probability * 100)}`}>
-                      {formatNordicDecimal(option.ta_probability * 100, 0)}
+                    <TableCell className={`text-right font-semibold ${option.ta_probability != null ? getScoreColor(option.ta_probability * 100) : ''}`}>
+                      {option.ta_probability != null ? formatNordicDecimal(option.ta_probability * 100, 0) : '-'}
                     </TableCell>
                     <TableCell
                       className={`text-right font-bold text-lg ${getScoreColor(option.combined_score)}`}

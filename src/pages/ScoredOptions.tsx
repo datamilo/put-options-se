@@ -74,13 +74,13 @@ export const ScoredOptions = () => {
         return false;
       }
 
-      // Min V2.1 score filter
-      if (option.v21_score < filters.minV21Score) {
+      // Min V2.1 score filter (exclude null/undefined values)
+      if (option.v21_score == null || option.v21_score < filters.minV21Score) {
         return false;
       }
 
-      // Min TA probability filter (convert to 0-100 scale)
-      if (option.ta_probability * 100 < filters.minTAProb) {
+      // Min TA probability filter (exclude null/undefined values, convert to 0-100 scale)
+      if (option.ta_probability == null || option.ta_probability * 100 < filters.minTAProb) {
         return false;
       }
 
