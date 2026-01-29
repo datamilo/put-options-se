@@ -42,6 +42,7 @@ Four key metrics provide an at-a-glance overview:
 **Stocks** (Optional)
 - Multi-select dropdown for individual stock filtering
 - "All stocks" shows results across all available stocks
+- When stocks are selected, a "Clear all stocks" button appears in the dropdown for quick reset to "All stocks"
 - Dynamically populated from available data
 
 **Model Agreement** (Optional)
@@ -51,7 +52,9 @@ Four key metrics provide an at-a-glance overview:
 
 **Min Combined Score** (0-100, default: 70)
 - Slider filter for overall combined score threshold
-- Filters by average of V2.1 and TA scores
+- Combined score is calculated as average of V2.1 and TA scores
+- When set to 0: Includes options with missing combined scores
+- When set > 0: Excludes options with missing combined scores
 - Value range: 0-100
 - Default filters to "good" quality recommendations
 
@@ -111,25 +114,26 @@ Four key metrics provide an at-a-glance overview:
 ### V2.1 Breakdown Section
 
 Detailed V2.1 model calculations:
-- **V2.1 Score** - Overall probability score
+- **V2.1 Score** - Overall probability score (displayed as percentage, e.g., "85,5%")
 - **V2.1 Bucket** - Risk categorization (e.g., "High", "Medium", "Low")
-- **Historical Peak** - Highest historical probability for this option
-- **Support Strength** - 52-week support level robustness score
+- **Current Probability** - Current probability of value decay (displayed as percentage, e.g., "85,50%")
+- **Historical Peak** - Highest historical probability for this option (displayed as percentage, e.g., "85,50%")
+- **Support Strength** - 52-week support level robustness score (displayed as percentage, e.g., "85,50%" with visual progress bar)
 
 ### TA Breakdown Section
 
-Detailed technical analysis metrics:
-- **TA Probability** - Overall TA recommendation strength
+Detailed technical analysis metrics with status indicators (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable):
+- **TA Probability** - Overall TA recommendation strength (displayed as percentage, e.g., "85%")
 - **TA Bucket** - Risk categorization
-- **RSI 14** - 14-period Relative Strength Index (momentum indicator)
-- **RSI Slope** - Trend of RSI (positive = strengthening, negative = weakening)
-- **MACD Histogram** - Difference between MACD and signal line
-- **MACD Slope** - Direction of MACD momentum
-- **Bollinger Band Position** - Price position relative to upper/lower bands
-- **Distance from SMA50** - Distance from 50-day moving average
-- **Volume Ratio** - Current volume relative to average
-- **Sigma Distance** - Statistical deviation from mean
-- **HV Annual** - Annualized historical volatility percentage
+- **RSI 14** - 14-period Relative Strength Index (0-100 scale, momentum indicator, displayed as decimal)
+- **RSI Slope** - Trend of RSI (positive = strengthening, negative = weakening, displayed as decimal)
+- **MACD Histogram** - Difference between MACD and signal line (displayed as decimal)
+- **MACD Slope** - Direction of MACD momentum (displayed as decimal)
+- **Bollinger Band Position** - Price position relative to upper/lower bands (-1 to 1 scale, displayed as decimal)
+- **Distance from SMA50** - Distance from 50-day moving average (displayed as decimal)
+- **Volume Ratio** - Current volume relative to average (displayed as decimal)
+- **Sigma Distance** - Statistical deviation from mean (displayed as decimal)
+- **HV Annual** - Annualized historical volatility (displayed as percentage, e.g., "45,67%")
 
 ### Agreement Analysis Section
 
@@ -236,14 +240,30 @@ Summary of model consensus:
 
 ## Version History
 
-**January 2026 (Latest):**
-- Fixed missing value filter logic: options with missing V2.1 Score or TA Probability values are now included when filters are set to 0
-- Previously: Missing values were always excluded regardless of filter setting
-- Now: Missing values only excluded when minimum threshold is set to a value greater than 0
-- Null values continue to sort to bottom when clicking column headers
-- Display continues to show "-" consistently for missing values
+**January 2026 (Latest - Complete Filtering & Formatting Fix):**
 
-**January 2026 (Earlier):**
-- Fixed null/NaN handling in filtering and sorting
-- Null values now consistently sort to bottom when clicking column headers
-- Updated display to show "-" consistently for missing values
+**Filtering Improvements:**
+- Fixed critical issue: Options with missing values are now correctly included when all filter minimums are set to 0
+- Min V2.1 Score: Now includes missing values when set to 0, excludes only when > 0
+- Min TA Prob: Now includes missing values when set to 0%, excludes only when > 0%
+- Min Combined Score: Now includes missing values when set to 0, excludes only when > 0
+  - Combined score is calculated from available V2.1 or TA scores if missing from CSV
+  - Example: Options with only TA score use TA score as combined score
+- Resolved discrepancy between KPI count and displayed table rows
+- Removed duplicate filtering logic that was causing inconsistent behavior
+
+**Formatting Standardization:**
+- V2.1 Score: Now displays as percentage (e.g., "85,5%") to match TA Probability format
+- Historical Peak: Changed from decimal to percentage format (e.g., "85,50%") for consistency with Current Probability
+- Support Strength: Changed from decimal to percentage format (e.g., "85,50%") to reflect 0-1 scale
+- HV Annual: Changed from decimal to percentage format (e.g., "45,67%")
+- Technical indicators (RSI, MACD, Bollinger Bands, etc.): Remain as decimals (appropriate for their scales)
+
+**UI/UX Improvements:**
+- Added "Clear all stocks" button to Stocks filter dropdown for easy reset to "All stocks"
+- Stocks filter now shows option name next to selected count for clarity
+
+**Previous Changes (January 2026):**
+- Initial null/NaN handling in filtering and sorting
+- Null values sort to bottom when clicking column headers
+- Display shows "-" for missing values
