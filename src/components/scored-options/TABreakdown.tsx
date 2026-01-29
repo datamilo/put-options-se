@@ -90,6 +90,15 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
     }
   };
 
+  const getIndicatorFormat = (key: string, value: number): string => {
+    // HV_annual should be displayed as percentage
+    if (key === 'HV_annual') {
+      return formatNordicPercentage(value, 2);
+    }
+    // All other indicators display as decimal
+    return formatNordicDecimal(value, 2);
+  };
+
   const indicators = [
     { key: 'RSI_14' as const, label: 'RSI (14)', value: option.RSI_14 },
     { key: 'RSI_Slope' as const, label: 'RSI Slope', value: option.RSI_Slope },
@@ -128,7 +137,7 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
                     {indicator.label}
                   </span>
                   <span className="text-sm font-semibold">
-                    {formatNordicDecimal(indicator.value, 2)}
+                    {getIndicatorFormat(indicator.key, indicator.value)}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
