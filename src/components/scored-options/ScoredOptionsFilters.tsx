@@ -15,6 +15,7 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { ScoredOptionsFilters } from '@/types/scoredOptions';
@@ -48,6 +49,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
     onFiltersChange({
       ...filters,
       stockNames: newStocks,
+    });
+  };
+
+  const handleClearAllStocks = () => {
+    onFiltersChange({
+      ...filters,
+      stockNames: [],
     });
   };
 
@@ -115,6 +123,17 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-56 max-h-64 overflow-y-auto">
+                {filters.stockNames.length > 0 && (
+                  <>
+                    <button
+                      onClick={handleClearAllStocks}
+                      className="w-full px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground rounded-sm"
+                    >
+                      Clear all stocks
+                    </button>
+                    <DropdownMenuSeparator />
+                  </>
+                )}
                 {availableStocks.map((stock) => (
                   <DropdownMenuCheckboxItem
                     key={stock}
