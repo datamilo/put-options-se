@@ -23,6 +23,23 @@ export const useScoredOptionsData = () => {
     return isNaN(parsed) ? null : parsed;
   };
 
+  // Helper to calculate combined score from V2.1 and TA scores
+  const calculateCombinedScore = (v21Score: number | null, taProb: number | null): number | null => {
+    // If both scores are present, average them (convert taProb from 0-1 to 0-100 scale)
+    if (v21Score != null && taProb != null) {
+      return (v21Score + taProb * 100) / 2;
+    }
+    // If only one score is present, use it
+    if (v21Score != null) {
+      return v21Score;
+    }
+    if (taProb != null) {
+      return taProb * 100;
+    }
+    // If both are missing, combined score is null
+    return null;
+  };
+
   // Load CSV data
   useEffect(() => {
     const loadData = async () => {
@@ -53,6 +70,13 @@ export const useScoredOptionsData = () => {
             headers.map((header, index) => [header, values[index]])
           ) as unknown as RawScoredOptionRow;
 
+          const v21Score = safeParseFloat(row.v21_score);
+          const taProb = safeParseFloat(row.ta_probability);
+          const csvCombinedScore = safeParseFloat(row.combined_score);
+
+          // Use CSV combined_score if available, otherwise calculate from V2.1 and TA scores
+          const finalCombinedScore = csvCombinedScore ?? calculateCombinedScore(v21Score, taProb);
+
           return {
             date: row.date,
             stock_name: row.stock_name,
@@ -61,11 +85,11 @@ export const useScoredOptionsData = () => {
             expiry_date: row.expiry_date,
             days_to_expiry: parseInt(row.days_to_expiry, 10),
             current_probability: safeParseFloat(row.current_probability) || 0,
-            v21_score: safeParseFloat(row.v21_score),
+            v21_score: v21Score,
             v21_bucket: row.v21_bucket,
             v21_historical_peak: safeParseFloat(row.v21_historical_peak),
             v21_support_strength: safeParseFloat(row.v21_support_strength),
-            ta_probability: safeParseFloat(row.ta_probability),
+            ta_probability: taProb,
             ta_bucket: row.ta_bucket,
             RSI_14: safeParseFloat(row.RSI_14),
             RSI_Slope: safeParseFloat(row.RSI_Slope),
@@ -78,7 +102,7 @@ export const useScoredOptionsData = () => {
             HV_annual: safeParseFloat(row.HV_annual),
             models_agree: row.models_agree === 'True',
             agreement_strength: row.agreement_strength as 'Strong' | 'Moderate' | 'Weak',
-            combined_score: safeParseFloat(row.combined_score) || 0,
+            combined_score: finalCombinedScore ?? 0,
             premium: 0, // Will be enriched below
           };
         });

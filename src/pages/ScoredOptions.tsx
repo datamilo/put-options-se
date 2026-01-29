@@ -69,8 +69,12 @@ export const ScoredOptions = () => {
         return false;
       }
 
-      // Min combined score filter
-      if (option.combined_score < filters.minScore) {
+      // Min combined score filter - only exclude null values if minimum > 0
+      if (option.combined_score == null) {
+        if (filters.minScore > 0) {
+          return false;
+        }
+      } else if (option.combined_score < filters.minScore) {
         return false;
       }
 
