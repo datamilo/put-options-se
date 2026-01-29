@@ -102,7 +102,7 @@ export const useScoredOptionsData = () => {
             HV_annual: safeParseFloat(row.HV_annual),
             models_agree: row.models_agree === 'True',
             agreement_strength: row.agreement_strength as 'Strong' | 'Moderate' | 'Weak',
-            combined_score: finalCombinedScore ?? 0,
+            combined_score: finalCombinedScore,
             premium: 0, // Will be enriched below
           };
         });

@@ -37,7 +37,7 @@ export interface ScoredOptionData {
   // Agreement Analysis
   models_agree: boolean;
   agreement_strength: 'Strong' | 'Moderate' | 'Weak';
-  combined_score: number;
+  combined_score: number | null;
 
   // Enriched from website (NOT from CSV)
   // Premium comes from useEnrichedOptionsData, NOT from CSV
