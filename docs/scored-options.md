@@ -57,12 +57,14 @@ Four key metrics provide an at-a-glance overview:
 
 **Min V2.1 Score** (0-100, default: 0)
 - Slider filter for V2.1 probability model score minimum
-- Excludes options with missing V2.1 Score values
+- When set to 0: Includes options with missing V2.1 Score values
+- When set > 0: Excludes options with missing V2.1 Score values
 - Use to focus on probability-model-favored options
 
 **Min TA Prob** (0-100%, default: 0%)
 - Slider filter for Technical Analysis probability minimum
-- Excludes options with missing TA Probability values
+- When set to 0%: Includes options with missing TA Probability values
+- When set > 0%: Excludes options with missing TA Probability values
 - Use to focus on technically-favored options
 
 ---
@@ -97,8 +99,8 @@ Four key metrics provide an at-a-glance overview:
 
 **Critical:** V2.1 Score and TA Probability columns may display "-" for options without calculated values.
 
-- Options with missing V2.1 Score values are **excluded** when using "Min V2.1 Score" filter (even if filter is set to 0)
-- Options with missing TA Probability values are **excluded** when using "Min TA Prob" filter (even if filter is set to 0%)
+- Options with missing V2.1 Score values are **included** when "Min V2.1 Score" is set to 0, and **excluded** when set above 0
+- Options with missing TA Probability values are **included** when "Min TA Prob" is set to 0%, and **excluded** when set above 0%
 - When sorting by these columns, rows with missing values sort to the bottom (after all numeric values)
 - The "-" placeholder ensures data consistency and accurate filtering/sorting
 
@@ -210,7 +212,8 @@ Summary of model consensus:
 - String values sort alphabetically
 
 **Filtering Logic:**
-- Minimum score filters exclude rows with null values
+- Minimum score filters only exclude rows with null values when the filter is set to a value greater than 0
+- Example: "Min V2.1 Score: 0" includes rows where v21_score is null or >= 0
 - Example: "Min V2.1 Score: 27" excludes any row where v21_score is null or < 27
 - Combined Score filter is applied regardless of null values (has default 0 fallback)
 
@@ -233,8 +236,14 @@ Summary of model consensus:
 
 ## Version History
 
-**January 2026:**
+**January 2026 (Latest):**
+- Fixed missing value filter logic: options with missing V2.1 Score or TA Probability values are now included when filters are set to 0
+- Previously: Missing values were always excluded regardless of filter setting
+- Now: Missing values only excluded when minimum threshold is set to a value greater than 0
+- Null values continue to sort to bottom when clicking column headers
+- Display continues to show "-" consistently for missing values
+
+**January 2026 (Earlier):**
 - Fixed null/NaN handling in filtering and sorting
-- Rows with missing V2.1 Score or TA Probability values now properly excluded by minimum threshold filters
 - Null values now consistently sort to bottom when clicking column headers
 - Updated display to show "-" consistently for missing values
