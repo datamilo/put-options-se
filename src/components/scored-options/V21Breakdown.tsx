@@ -2,6 +2,8 @@ import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScoredOptionData } from '@/types/scoredOptions';
 import { formatNordicDecimal, formatNordicPercentage } from '@/utils/numberFormatting';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
+import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 interface V21BreakdownProps {
   option: ScoredOptionData;
@@ -54,8 +56,15 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
       <CardContent className="space-y-4">
         {/* Current Probability */}
         <div>
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-2 mb-2">
             <span className="text-sm font-medium">Current Probability</span>
+            <InfoIconTooltip
+              title={scoredOptionsTooltips.v21Details.currentProbability.title}
+              content={scoredOptionsTooltips.v21Details.currentProbability.content}
+              side="top"
+            />
+          </div>
+          <div className="flex justify-between items-center mb-2">
             <span className="font-semibold">{option.current_probability != null ? formatNordicPercentage(option.current_probability, 2) : '-'}</span>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -71,8 +80,15 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
 
         {/* Historical Peak */}
         <div>
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-2 mb-2">
             <span className="text-sm font-medium">Historical Peak</span>
+            <InfoIconTooltip
+              title={scoredOptionsTooltips.v21Details.historicalPeak.title}
+              content={scoredOptionsTooltips.v21Details.historicalPeak.content}
+              side="top"
+            />
+          </div>
+          <div className="flex justify-between items-center mb-2">
             <span className="font-semibold">{option.v21_historical_peak != null ? formatNordicPercentage(option.v21_historical_peak, 2) : '-'}</span>
           </div>
           <p className="text-xs text-muted-foreground">
@@ -82,8 +98,15 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
 
         {/* Support Strength */}
         <div>
-          <div className="flex justify-between items-center mb-2">
+          <div className="flex items-center gap-2 mb-2">
             <span className="text-sm font-medium">Support Strength</span>
+            <InfoIconTooltip
+              title={scoredOptionsTooltips.v21Details.supportStrength.title}
+              content={scoredOptionsTooltips.v21Details.supportStrength.content}
+              side="top"
+            />
+          </div>
+          <div className="flex justify-between items-center mb-2">
             <span className="font-semibold">{option.v21_support_strength != null ? `${formatNordicDecimal(option.v21_support_strength, 2)}%` : '-'}</span>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
