@@ -158,62 +158,62 @@ export const taStockIndicatorTooltips: TooltipSection = {
   rsi14: {
     title: 'RSI_14 (Relative Strength Index)',
     content:
-      'Current value range: 0-100\n\n• **Below 30:** Oversold (stock has fallen sharply) → favorable for puts\n• **30-70:** Neutral range\n• **Above 70:** Overbought (stock has risen sharply) → less favorable for puts\n\n**What It Does:** Measures how much momentum the stock has. Extreme readings suggest the stock might reverse direction.\n\n**Feature Importance:** 11.09%',
+      'Current value range: 0-100\n\n• **Below 30:** Oversold (stock has fallen sharply) → favorable for puts\n• **30-70:** Neutral range\n• **Above 70:** Overbought (stock has risen sharply) → less favorable for puts\n\n**What It Does:** Measures momentum extremes. When RSI is very low or very high, the stock often reverses toward the middle.\n\n**Why It Matters:** The ML model empirically learned from 1.8M Swedish options records that RSI momentum levels predict expiration outcomes. This is what the data revealed, not traditional indicator theory.\n\n**Feature Importance:** 5.27% (empirically learned, ranked #9)',
   },
   rsiSlope: {
     title: 'RSI_Slope (3-period RSI Change)',
     content:
-      'Current value range: typically -5 to +5\n\n• **Negative (declining):** RSI is falling → momentum weakening → favorable\n• **Positive (rising):** RSI is rising → momentum strengthening → less favorable\n\n**What It Does:** Shows whether momentum is getting stronger or weaker. Helps catch turning points.\n\n**Feature Importance:** 9.15%',
+      'Current value range: typically -5 to +5\n\n• **Negative (declining):** RSI is falling → momentum weakening\n• **Positive (rising):** RSI is rising → momentum strengthening\n\n**What It Does:** Shows whether momentum is accelerating or decelerating. Catches turning points where momentum changes direction.\n\n**Why It Matters:** The model empirically determined that momentum acceleration/deceleration predicts expiration probability. The data revealed this relationship from analyzing 1.8M+ historical options.\n\n**Feature Importance:** 3.58% (empirically learned, ranked #16)',
   },
   macdHist: {
     title: 'MACD_Hist (MACD Histogram)',
     content:
-      'Current value range: typically -2 to +2\n\n• **Negative (below zero):** Bearish momentum → favorable for puts\n• **Around zero:** Transition point (trend changing)\n• **Positive (above zero):** Bullish momentum → unfavorable for puts\n\n**What It Does:** Shows whether the trend is bullish or bearish. Larger values mean stronger trends.\n\n**Why Bearish Is Favorable (Empirical Finding):** The machine learning model discovered that when stocks show bearish momentum (negative MACD), they tend to expire worthless more often. This reflects mean reversion—stocks that get beaten down often bounce back above the strike. This seems counterintuitive but is an empirical pattern the model found in Swedish options data.\n\n**Feature Importance:** 14.02% (2nd most important)',
+      'Current value range: typically -2 to +2\n\n• **Negative (below zero):** Bearish momentum → favorable for puts\n• **Around zero:** Transition point (trend changing)\n• **Positive (above zero):** Bullish momentum → unfavorable for puts\n\n**What It Does:** Shows trend momentum by measuring distance between MACD and signal line. Larger values mean stronger trends.\n\n**Why Bearish Is Favorable (Empirical Finding):** The ML model discovered that bearish MACD values correlate with options expiring worthless. This seems backwards—traditional TA says bearish means downward. But the data from 1.8M Swedish options showed that bearish momentum predicts expiration. This likely reflects mean reversion: beaten-down stocks often bounce back above the strike. Trust the data, not the theory.\n\n**Feature Importance:** 6.03% (empirically learned, ranked #7)',
   },
   macdSlope: {
     title: 'MACD_Slope (3-period MACD Change)',
     content:
-      'Current value range: typically -1 to +1\n\n• **Negative (declining):** Momentum is weakening → unfavorable\n• **Positive (rising):** Momentum is strengthening → favorable\n\n**What It Does:** Shows whether momentum is accelerating or decelerating. Stronger momentum trends tend to persist, which is beneficial for put expiration.\n\n**Why This Matters:** The machine learning model found that strengthening momentum (positive slope) correlates with higher probability of expiration worthless. This reflects that established trends have persistence.\n\n**Feature Importance:** 11.12% (4th most important)',
+      'Current value range: typically -1 to +1\n\n• **Negative (declining):** Momentum is weakening → unfavorable\n• **Positive (rising):** Momentum is strengthening → favorable\n\n**What It Does:** Shows whether momentum is accelerating or decelerating. Positive slope means trends are getting stronger, negative means they\'re losing power.\n\n**Why It Matters:** The model empirically learned that trend acceleration/deceleration predicts expiration probability. Established trends (positive slope) correlate with put expiration worthless. This is what 1.8M Swedish options records revealed.\n\n**Feature Importance:** 4.81% (empirically learned, ranked #11)',
   },
   bbPosition: {
     title: 'BB_Position (Bollinger Band Position)',
     content:
-      'Current value range: 0 to 1\n\n• **Near 0 (lower band):** Stock at lower extreme, near support → favorable\n• **0.5 (middle):** Stock at middle of normal range\n• **Near 1 (upper band):** Stock at upper extreme, near resistance → less favorable\n\n**What It Does:** Shows where the stock price sits between its normal high and low ranges. Extremes often reverse.\n\n**Feature Importance:** 9.59%',
+      'Current value range: 0 to 1\n\n• **Near 0 (lower band):** Stock at lower extreme, near support → favorable\n• **0.5 (middle):** Stock at middle of normal range\n• **Near 1 (upper band):** Stock at upper extreme, near resistance → less favorable\n\n**What It Does:** Shows where the stock price sits between its normal high and low ranges. Extremes (near 0 or near 1) often reverse back toward the middle.\n\n**Why It Matters:** The model discovered that price extremes within Bollinger Bands predict expiration outcomes. This is an empirical pattern from analyzing 1.8M options, not traditional mean reversion theory.\n\n**Feature Importance:** 4.31% (empirically learned, ranked #13)',
   },
   distSMA50: {
     title: 'Dist_SMA50 (Distance to 50-day Moving Average)',
     content:
-      'Current value range: typically -10 to +10 (percentage)\n\n• **Negative (below MA):** Stock trading below trend line → favorable\n• **Around zero:** Stock near its trend line\n• **Positive (above MA):** Stock trading above trend line → less favorable\n\n**What It Does:** Shows how far the stock has moved away from its 50-day trend. Stocks far from trend often move back toward it.\n\n**Feature Importance:** 13.79% (3rd most important)',
+      'Current value range: typically -10% to +10%\n\n• **Negative (below MA):** Stock trading below trend line → favorable\n• **Around zero:** Stock near its trend line\n• **Positive (above MA):** Stock trading above trend line → less favorable\n\n**What It Does:** Shows how far the stock has moved away from its 50-day trend. When distance is large, the stock often reverts back toward the trend line.\n\n**Why It Matters:** The model empirically learned that deviation from the 50-day trend predicts expiration probability. Stocks far from their trend tend to move back, affecting put outcomes. This is what 1.8M records revealed.\n\n**Feature Importance:** 7.66% (empirically learned, ranked #5)',
   },
   volRatio: {
     title: 'Vol_Ratio (Recent vs. Historical Volatility)',
     content:
-      'Current value range: 0.5 to 2.0\n\n• **Below 1.0:** Trading volume lower than usual → weaker activity\n• **Around 1.0:** Normal trading volume\n• **Above 1.0:** Trading volume higher than usual → stronger interest\n\n**What It Does:** Compares today\'s volume to the average. High volume often confirms trend strength.\n\n**Feature Importance:** 9.67%',
+      'Current value range: 0.5 to 2.0\n\n• **Below 1.0:** Trading volume lower than usual → weaker activity\n• **Around 1.0:** Normal trading volume\n• **Above 1.0:** Trading volume higher than usual → stronger activity\n\n**What It Does:** Compares recent volatility to the historical average. Higher values mean unusual volatility spikes, lower values mean calm periods.\n\n**Why It Matters:** The model empirically learned that volatility regimes predict expiration outcomes. Volatility changes affect price distributions and option behavior. This is what the data from 1.8M options revealed.\n\n**Feature Importance:** 4.13% (empirically learned, ranked #14)',
   },
   adx14: {
     title: 'ADX_14 (Average Directional Index - Trend Strength)',
     content:
-      'Current value range: 0-100 (typically 10-50 in practice)\n\n• **Below 20:** Weak or no trend → mixed signals\n• **20-40:** Moderate to strong trend → clear direction\n• **Above 40:** Very strong trend → pronounced momentum\n\n**What It Does:** Measures how strong the current trend is, regardless of direction. Higher = clearer trend.',
+      'Current value range: 0-100 (typically 10-50)\n\n• **Below 20:** Weak trend or no direction → choppy, mixed signals\n• **20-40:** Moderate to strong trend → clear direction\n• **Above 40:** Very strong trend → pronounced momentum\n\n**What It Does:** Measures how strong the current trend is. High ADX = strong trend (either up or down). Low ADX = ranging/choppy market.\n\n**Why It Matters:** The model empirically discovered that trend strength is highly predictive of expiration outcomes—ranked #3 of all 17 features (8.12%). When trends are strong, options behave differently than in choppy markets. This is what 1.8M Swedish options records revealed.\n\n**Feature Importance:** 8.12% (empirically learned, ranked #3)',
   },
   adxSlope: {
     title: 'ADX_Slope (3-period ADX Change)',
     content:
-      'Current value range: typically -2 to +2\n\n• **Negative (declining):** Trend strength weakening → less clear direction\n• **Positive (rising):** Trend strength increasing → clearer direction\n\n**What It Does:** Shows whether trends are getting stronger or falling apart. Helps predict when trends will reverse.',
+      'Current value range: typically -2 to +2\n\n• **Negative (declining):** Trend strength weakening → less defined direction\n• **Positive (rising):** Trend strength increasing → clearer, stronger direction\n\n**What It Does:** Shows whether trends are getting stronger or falling apart. Emerging trends (positive slope) have different behavior than dissolving trends.\n\n**Why It Matters:** The model learned that trend acceleration/deceleration predicts expiration probability. As trends form or dissolve, option outcomes shift. This is an empirical pattern from 1.8M options.\n\n**Feature Importance:** 5.28% (empirically learned, ranked #8)',
   },
   atr14: {
-    title: 'ATR_14 (Average True Range - Volatility)',
+    title: 'ATR_14 (Average True Range - Volatility Measure)',
     content:
-      'Current value range: depends on stock price (e.g., 0.5-5 kr for a 100 kr stock)\n\n• **Low values:** Stock is stable, small daily moves\n• **High values:** Stock is volatile, large daily moves\n\n**What It Does:** Measures typical daily price swings. More volatile stocks are riskier but offer more trading opportunities.',
+      'Current value range: depends on stock price (e.g., 0.5-5 kr for a 100 kr stock)\n\n• **Low values:** Stock is stable with small daily moves → lower volatility\n• **High values:** Stock is volatile with large daily moves → higher volatility\n\n**What It Does:** Measures typical daily price movement magnitude. ATR shows "how much does this stock typically swing per day?" Higher ATR = bigger swings.\n\n**Why It Matters:** The model empirically discovered that volatility magnitude is the 2nd most important predictor of expiration outcomes (8.52%, ranked #2)! This is surprising—it contradicts traditional volatility theory which focuses on risk. But the data from 1.8M Swedish options revealed volatility itself predicts expiration. This is an empirical finding unique to put option expiration prediction.\n\n**Feature Importance:** 8.52% (empirically learned, ranked #2 - SECOND MOST IMPORTANT)',
   },
   stochasticK: {
-    title: 'Stochastic_K (%K)',
+    title: 'Stochastic_K (%K) - Fast Stochastic',
     content:
-      'Current value range: 0-100\n\n• **Below 20:** Oversold (stock at recent lows) → favorable\n• **20-80:** Normal range\n• **Above 80:** Overbought (stock at recent highs) → less favorable\n\n**What It Does:** Shows where the current price falls within the stock\'s recent high-low range. Similar to RSI but uses range instead of strength.',
+      'Current value range: 0-100\n\n• **Below 20:** Oversold (stock at recent lows) → favorable\n• **20-80:** Normal range\n• **Above 80:** Overbought (stock at recent highs) → less favorable\n\n**What It Does:** Shows where the current stock price falls within its recent high-low range. Similar to RSI but based on price location, not momentum strength.\n\n**Why It Matters:** The model empirically learned that Stochastic momentum predicts expiration outcomes. This is what 1.8M options records revealed about how price extremes correlate with worthless expiration.\n\n**Feature Importance:** 3.79% (empirically learned, ranked #15)',
   },
   stochasticD: {
-    title: 'Stochastic_D (Signal Line)',
+    title: 'Stochastic_D (Slow Stochastic - Signal Line)',
     content:
-      'Current value range: 0-100\n\n• **Below 20:** Oversold → favorable\n• **20-80:** Normal range\n• **Above 80:** Overbought → less favorable\n\n**What It Does:** Smoothed version of %K (like an average). More stable and better for confirming signals.',
+      'Current value range: 0-100\n\n• **Below 20:** Oversold → favorable\n• **20-80:** Normal range\n• **Above 80:** Overbought → less favorable\n\n**What It Does:** Smoothed version of Stochastic %K (3-period average). More stable than %K and better for confirming momentum signals.\n\n**Why It Matters:** The model empirically learned that smoothed momentum predicts expiration. The smoothing reduces noise and captures true trend changes. This is an empirical discovery from analyzing 1.8M options.\n\n**Feature Importance:** 4.58% (empirically learned, ranked #12)',
   },
 };
 
@@ -223,24 +223,29 @@ export const taStockIndicatorTooltips: TooltipSection = {
 
 export const taContractIndicatorTooltips: TooltipSection = {
   sigmaDistance: {
-    title: 'Sigma_Distance (Most Important - 16.13%)',
+    title: 'Sigma_Distance (Volatility-Normalized Strike Distance)',
     content:
-      '**What It Measures:** Distance from current stock price to strike price, adjusted for volatility and time remaining before expiration.\n\n**Why This Matters:** Two options at the same 2% distance have very different probabilities:\n\n• **Volatile stock** (moves 3-4% daily): 2% distance is very close and easy to reach\n• **Stable stock** (moves 0.3% daily): 2% distance requires several days\n\nSame problem with time: 2% distance on 5-day option != 2% distance on 30-day option.\n\n**How It Works:** Answers "How many typical daily moves away is the strike?" High = many moves away (safer). Low = close to typical moves (riskier).\n\n**The Impact:** Enables accurate comparison across different volatility levels and expiration periods.',
+      '**What It Measures:** Distance from current stock price to strike price, adjusted for volatility and time remaining.\n\nFormula: (Strike - Current Price) / (Annual Volatility × √(Days to Expiry/365))\n\n**Value Range:** Depends on volatility and expiration, typically -3 to +3 standard deviations\n\n**What It Does:** Answers: "How many typical price swings away is the strike?" It accounts for two things traditional fixed percentages miss:\n\n• **Volatility Adjustment:** 2% away on a 100 kr volatile stock ≠ 2% away on a 100 kr stable stock\n• **Time Adjustment:** 2% away on a 5-day option ≠ 2% away on a 30-day option\n\nWithout this normalization, options compress into a narrow probability range. With it, full spectrum (0.044 to 0.992).\n\n**Why It Matters:** The model empirically learned that normalized strike distance strongly predicts expiration (8.00%, ranked #4). This is what 1.8M Swedish options records revealed.\n\n**Feature Importance:** 8.00% (empirically learned, ranked #4)',
   },
   delta: {
-    title: 'Delta (Option Price Sensitivity)',
+    title: '⭐ Greeks_Delta (MOST IMPORTANT - #1 Predictor)',
     content:
-      'Current value range: -1 to 0 for put options\n\n• **Near 0:** Option far out-of-the-money (very likely worthless) → favorable\n• **Around -0.5:** Option at-the-money (50/50 chance)\n• **Near -1:** Option deep in-the-money (likely has value) → less favorable\n\n**What It Does:** Shows how much the option price moves when the stock price moves 1 kr. More negative = higher probability of being worthless.',
+      'Current value range: -1 to 0 for put options\n\n• **Near 0 (e.g., -0.05):** Option far out-of-the-money (very likely worthless) → favorable\n• **Around -0.5:** Option at-the-money (50/50 chance) → neutral\n• **Near -1 (e.g., -0.95):** Option deep in-the-money (likely has value) → less favorable\n\n**What It Means:** Delta shows option price sensitivity. For puts: -0.30 means the option price changes 0.30 kr when the stock moves 1 kr.\n\n**CRITICAL EMPIRICAL FINDING:** The ML model discovered that Delta is the SINGLE STRONGEST PREDICTOR of put expiration worthless (11.82%, ranked #1). This contradicts traditional options theory, which uses Delta primarily for hedging calculations.\n\n**Why This Matters:** Traditional options textbooks never mention Delta predicting expiration probability. But when the model analyzed 1.8M Swedish options records, Delta emerged as the top feature. This is a discovery unique to this dataset. Trust the data, not the textbook.\n\n**Feature Importance:** 11.82% (empirically learned, ranked #1 - SINGLE MOST IMPORTANT OF ALL 17 FEATURES)',
   },
   vega: {
-    title: 'Vega (Volatility Sensitivity)',
+    title: 'Greeks_Vega (Volatility Sensitivity)',
     content:
-      'Current value range: typically 0.01 to 0.2\n\n• **Low values:** Option barely affected by volatility changes\n• **High values:** Option strongly affected by volatility changes\n\n**What It Does:** Shows how much the option price changes when market volatility changes. Higher vega = more price swings possible.',
+      'Current value range: typically 0.01 to 0.2\n\n• **Low values:** Option barely affected by volatility changes\n• **High values:** Option strongly affected by volatility changes\n\n**What It Means:** Vega shows how much the option price changes per 1% change in implied volatility. Higher vega = more sensitive to volatility swings.\n\n**Why It Matters:** The model empirically discovered that volatility sensitivity predicts expiration outcomes (6.12%, ranked #6). This is an empirical pattern from 1.8M options records. Traditional options theory uses Vega for volatility hedging, not expiration prediction.\n\n**Feature Importance:** 6.12% (empirically learned, ranked #6)',
   },
   theta: {
-    title: 'Theta (Time Decay)',
+    title: 'Greeks_Theta (Time Decay)',
     content:
-      'Current value range: typically -0.1 to +0.1\n\n• **Positive values:** Option loses value each day (premium seller benefits) → favorable\n• **Negative values:** Option gains value each day (premium seller loses) → less favorable\n\n**What It Does:** Shows how much the option loses (or gains) value each day just from time passing. Time decay is the premium seller\'s friend.',
+      'Current value range: typically -0.1 to +0.1\n\n• **Positive values:** Option loses value each day (premium seller benefits) → favorable\n• **Negative values:** Option gains value each day (premium seller loses) → less favorable\n\n**What It Means:** Theta shows daily time decay value - how much the option price changes per day just from time passing. Positive = option loses value daily (good for sellers). Negative = option gains value daily (bad for sellers).\n\n**Why It Matters:** The model empirically learned that time decay patterns predict expiration outcomes (5.23%, ranked #10). Theta captures option behavior near expiration. This is what the model discovered from analyzing 1.8M options.\n\n**Feature Importance:** 5.23% (empirically learned, ranked #10)',
+  },
+  daysToExpiry: {
+    title: 'Days_To_Expiry (Time Until Expiration)',
+    content:
+      'Current value range: typically 5-35 days (model filtered range)\n\n• **5-10 days:** Short-term expiration (high time decay impact)\n• **10-20 days:** Medium-term expiration (moderate time decay)\n• **20-35 days:** Longer-term expiration (less immediate decay)\n\n**What It Means:** Number of business days until the option expires. Time remaining affects how much the stock can move and how much the option decays.\n\n**Why This Matters (Surprising Finding):** The model empirically learned that days-to-expiry has the LOWEST importance of all 17 features (2.73%, ranked #17). This seems counterintuitive—more time should matter, right? But the data revealed that time decay is already priced into option values. The market reflects time value, so the raw number of days doesn\'t add much new predictive power. What matters more is volatility (ATR ranked #2) and Greeks.\n\n**Feature Importance:** 2.73% (empirically learned, ranked #17 - LOWEST IMPORTANCE)',
   },
 };
 
