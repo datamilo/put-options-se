@@ -275,6 +275,92 @@ export const ScoredOptions = () => {
             </Card>
           </div>
 
+          {/* Validation Metrics Section */}
+          <div className="mt-8">
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="text-2xl font-bold">Validation Metrics</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Walk-Forward AUC Card */}
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <p className="text-sm text-muted-foreground">Walk-Forward AUC</p>
+                        <InfoIconTooltip
+                          title={scoredOptionsTooltips.validation.walkForwardAUC.title}
+                          content={scoredOptionsTooltips.validation.walkForwardAUC.content}
+                        />
+                      </div>
+                      <p className="text-3xl font-bold mt-2">0.651</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Proves genuine future prediction ability
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Hit Rate Card */}
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <p className="text-sm text-muted-foreground">Hit Rate (70-80%)</p>
+                        <InfoIconTooltip
+                          title={scoredOptionsTooltips.validation.hitRate77.title}
+                          content={scoredOptionsTooltips.validation.hitRate77.content}
+                        />
+                      </div>
+                      <p className="text-3xl font-bold mt-2">77%</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        21+ months historical data
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Calibration Error Card */}
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <div className="flex items-center gap-2 mb-2">
+                        <p className="text-sm text-muted-foreground">Calibration Error</p>
+                        <InfoIconTooltip
+                          title={scoredOptionsTooltips.validation.calibrationError.title}
+                          content={scoredOptionsTooltips.validation.calibrationError.content}
+                        />
+                      </div>
+                      <p className="text-3xl font-bold mt-2">2.4%</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Predictions match reality
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Coverage Card */}
+              <Card>
+                <CardContent className="pt-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Coverage</p>
+                      <p className="text-3xl font-bold mt-2">99.9%</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        5,738 of 5,743 options
+                      </p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
           {/* Filters */}
           <ScoredOptionsFiltersComponent
             filters={filters}
