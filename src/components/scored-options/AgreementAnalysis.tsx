@@ -3,6 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScoredOptionData } from '@/types/scoredOptions';
 import { formatNordicDecimal } from '@/utils/numberFormatting';
 import { CheckCircle, XCircle } from 'lucide-react';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
+import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 interface AgreementAnalysisProps {
   option: ScoredOptionData;
@@ -81,6 +83,40 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
           <div className="flex-1">
             <div className="font-semibold text-sm">{agreement.title}</div>
             <div className="text-xs mt-0.5 opacity-90">{option.agreement_strength} Agreement</div>
+          </div>
+        </div>
+
+        {/* Models Agree Field */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-sm font-medium">Models Agree</span>
+            <InfoIconTooltip
+              title={scoredOptionsTooltips.agreement.modelsAgreeField.title}
+              content={scoredOptionsTooltips.agreement.modelsAgreeField.content}
+              side="top"
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-semibold">
+              {option.models_agree ? 'Yes' : 'No'}
+            </span>
+          </div>
+        </div>
+
+        {/* Agreement Strength Field */}
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-sm font-medium">Agreement Strength</span>
+            <InfoIconTooltip
+              title={scoredOptionsTooltips.agreement.agreementStrengthField.title}
+              content={scoredOptionsTooltips.agreement.agreementStrengthField.content}
+              side="top"
+            />
+          </div>
+          <div className="flex justify-between items-center">
+            <span className="text-sm font-semibold">
+              {option.agreement_strength}
+            </span>
           </div>
         </div>
 
