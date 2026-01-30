@@ -168,12 +168,12 @@ export const taStockIndicatorTooltips: TooltipSection = {
   macdHist: {
     title: 'MACD_Hist (MACD Histogram)',
     content:
-      'Current value range: typically -2 to +2\n\n• **Negative (below zero):** Bearish momentum → favorable for puts\n• **Around zero:** Transition point (trend changing)\n• **Positive (above zero):** Bullish momentum → less favorable for puts\n\n**What It Does:** Shows whether the trend is bullish or bearish. Larger values mean stronger trends.\n\n**Feature Importance:** 14.02% (2nd most important)',
+      'Current value range: typically -2 to +2\n\n• **Negative (below zero):** Bearish momentum → favorable for puts\n• **Around zero:** Transition point (trend changing)\n• **Positive (above zero):** Bullish momentum → unfavorable for puts\n\n**What It Does:** Shows whether the trend is bullish or bearish. Larger values mean stronger trends.\n\n**Why Bearish Is Favorable (Empirical Finding):** The machine learning model discovered that when stocks show bearish momentum (negative MACD), they tend to expire worthless more often. This reflects mean reversion—stocks that get beaten down often bounce back above the strike. This seems counterintuitive but is an empirical pattern the model found in Swedish options data.\n\n**Feature Importance:** 14.02% (2nd most important)',
   },
   macdSlope: {
     title: 'MACD_Slope (3-period MACD Change)',
     content:
-      'Current value range: typically -1 to +1\n\n• **Negative (declining):** Momentum is weakening → favorable\n• **Positive (rising):** Momentum is strengthening → less favorable\n\n**What It Does:** Shows whether momentum is accelerating or decelerating. Helps identify when trends are about to change.\n\n**Feature Importance:** 11.12% (4th most important)',
+      'Current value range: typically -1 to +1\n\n• **Negative (declining):** Momentum is weakening → unfavorable\n• **Positive (rising):** Momentum is strengthening → favorable\n\n**What It Does:** Shows whether momentum is accelerating or decelerating. Stronger momentum trends tend to persist, which is beneficial for put expiration.\n\n**Why This Matters:** The machine learning model found that strengthening momentum (positive slope) correlates with higher probability of expiration worthless. This reflects that established trends have persistence.\n\n**Feature Importance:** 11.12% (4th most important)',
   },
   bbPosition: {
     title: 'BB_Position (Bollinger Band Position)',
