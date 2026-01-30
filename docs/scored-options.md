@@ -12,7 +12,7 @@ The **Scored Options Recommendations** page provides dual-model analysis combini
 
 **Key Concept:** Two independent models score each option:
 - **V2.1 Model** - Probability-based scoring using 52-week historical support, current probability, and statistical metrics
-- **TA Model** - Technical analysis indicators including RSI, MACD, Bollinger Bands, and price momentum
+- **TA Model (V3)** - Machine learning classifier using 17 technical indicators: RSI, MACD, Bollinger Bands, ADX, ATR, Stochastic, and option Greeks (Delta, Vega, Theta)
 
 The page emphasizes **model agreement** - when both models independently recommend an option, confidence is higher.
 
@@ -122,18 +122,29 @@ Detailed V2.1 model calculations:
 
 ### TA Breakdown Section
 
-Detailed technical analysis metrics with status indicators (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable):
+Detailed technical analysis metrics organized into two sections with status indicators (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable):
+
+**Stock-Level Technical Indicators** (12 indicators analyzing stock price action):
 - **TA Probability** - Overall TA recommendation strength (displayed as percentage, e.g., "85%")
 - **TA Bucket** - Risk categorization
-- **RSI 14** - 14-period Relative Strength Index (0-100 scale, momentum indicator, displayed as decimal)
-- **RSI Slope** - Trend of RSI (positive = strengthening, negative = weakening, displayed as decimal)
-- **MACD Histogram** - Difference between MACD and signal line (displayed as decimal)
-- **MACD Slope** - Direction of MACD momentum (displayed as decimal)
-- **Bollinger Band Position** - Price position relative to upper/lower bands (-1 to 1 scale, displayed as decimal)
-- **Distance from SMA50** - Distance from 50-day moving average (displayed as decimal)
-- **Volume Ratio** - Current volume relative to average (displayed as decimal)
-- **Sigma Distance** - Statistical deviation from mean (displayed as decimal)
-- **HV Annual** - Annualized historical volatility (displayed as percentage, e.g., "45,67%")
+- **RSI 14** - 14-period Relative Strength Index (momentum indicator, 0-100 scale)
+- **RSI Slope** - Trend direction of RSI (positive = strengthening, negative = weakening)
+- **MACD Histogram** - Difference between MACD and signal line
+- **MACD Slope** - Direction and strength of MACD momentum
+- **Bollinger Band Position** - Price position relative to upper/lower bands (-1 to 1 scale)
+- **Distance from SMA50** - Distance from 50-day moving average
+- **Volume Ratio** - Current volume relative to average
+- **ADX 14** - Average Directional Index (trend strength: >25 = strong, <20 = weak)
+- **ADX Slope** - Trend of ADX (positive = strengthening trend, negative = weakening)
+- **ATR 14** - Average True Range (volatility measure)
+- **Stochastic K** - Stochastic K line (0-100 scale, <20 = oversold, >80 = overbought)
+- **Stochastic D** - Stochastic D signal line (smoothed K)
+
+**Contract-Level Indicators** (4 indicators analyzing specific option characteristics):
+- **Sigma Distance** - Statistical deviation from mean (contract positioning)
+- **Delta (Greeks)** - Sensitivity to stock price changes (-1 to 0 for puts, more negative = higher ITM risk)
+- **Vega (Greeks)** - Sensitivity to volatility changes (positive = benefits from IV increase)
+- **Theta (Greeks)** - Time decay per day (positive = benefits seller)
 
 ### Agreement Analysis Section
 
@@ -149,7 +160,7 @@ Summary of model consensus:
 **CSV File:** `current_options_scored.csv`
 **Location:** `/data/current_options_scored.csv`
 **Format:** Pipe-delimited (`|`) text file
-**Columns:** 25+ fields including stock name, expiry date, V2.1 scores, TA indicators, and agreement metrics
+**Columns:** 33 fields including stock name, expiry date, V2.1 scores, 17 TA indicators (12 stock-level + 4 contract-level + sigma distance), and agreement metrics
 
 **Enrichment:**
 - Premium values are enriched from live website data (not CSV data)
@@ -240,7 +251,19 @@ Summary of model consensus:
 
 ## Version History
 
-**January 2026 (Latest - Complete Filtering & Formatting Fix):**
+**January 30, 2026 (Latest - TA Model V3 Integration with Full 17-Feature Set):**
+
+**TA Model Enhancements:**
+- Integrated TA Model V3 with expanded 17-feature set as per DOWNSTREAM_TEAM_TA_MODEL_INTEGRATION_GUIDE.md
+- Added 5 new stock-level technical indicators: ADX (14), ADX Slope, ATR (14), Stochastic K, Stochastic D
+- Added 3 new contract-level Greeks indicators: Delta, Vega, Theta
+- Organized TA breakdown into two sections: Stock-Level Indicators and Contract-Level Indicators
+- Removed HV Annual field (replaced by expanded TA feature set)
+- Added status interpretation (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable) for all indicators
+- Updated data parsing to handle new CSV fields with proper null safety
+- Updated Excel export to include all new indicators (33 total fields)
+
+**Previous Changes (January 2026 - Complete Filtering & Formatting Fix):**
 
 **Filtering Improvements:**
 - Fixed critical issue: Options with missing values are now correctly included when all filter minimums are set to 0
