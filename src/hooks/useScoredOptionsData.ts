@@ -23,23 +23,6 @@ export const useScoredOptionsData = () => {
     return isNaN(parsed) ? null : parsed;
   };
 
-  // Helper to calculate combined score from V2.1 and TA scores
-  const calculateCombinedScore = (v21Score: number | null, taProb: number | null): number | null => {
-    // If both scores are present, average them (convert taProb from 0-1 to 0-100 scale)
-    if (v21Score != null && taProb != null) {
-      return (v21Score + taProb * 100) / 2;
-    }
-    // If only one score is present, use it
-    if (v21Score != null) {
-      return v21Score;
-    }
-    if (taProb != null) {
-      return taProb * 100;
-    }
-    // If both are missing, combined score is null
-    return null;
-  };
-
   // Load CSV data
   useEffect(() => {
     const loadData = async () => {
@@ -74,8 +57,8 @@ export const useScoredOptionsData = () => {
           const taProb = safeParseFloat(row.ta_probability);
           const csvCombinedScore = safeParseFloat(row.combined_score);
 
-          // Use CSV combined_score if available, otherwise calculate from V2.1 and TA scores
-          const finalCombinedScore = csvCombinedScore ?? calculateCombinedScore(v21Score, taProb);
+          // Use ONLY the CSV combined_score value - never calculate
+          const finalCombinedScore = csvCombinedScore;
 
           return {
             date: row.date,
