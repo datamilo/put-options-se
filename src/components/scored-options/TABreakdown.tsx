@@ -79,11 +79,53 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
         if (Math.abs(value) > 1) return { emoji: '🟡', label: 'Significant', assessment: 'Notable move' };
         return { emoji: '🔴', label: 'Normal', assessment: 'Within normal range' };
 
-      case 'HV_annual':
-        // Historical Volatility (annual): higher is better for options
-        if (value > 40) return { emoji: '🟢', label: 'High', assessment: 'Elevated volatility' };
-        if (value > 25) return { emoji: '🟡', label: 'Moderate', assessment: 'Normal volatility' };
+      case 'ADX_14':
+        // ADX (Average Directional Index): > 25 = strong trend, < 20 = weak trend
+        if (value > 25) return { emoji: '🟢', label: 'Strong Trend', assessment: 'Pronounced directional momentum' };
+        if (value > 20) return { emoji: '🟡', label: 'Moderate Trend', assessment: 'Established direction' };
+        return { emoji: '🔴', label: 'Weak Trend', assessment: 'Weak directional signal' };
+
+      case 'ADX_Slope':
+        // ADX Slope: positive = strengthening trend, negative = weakening trend
+        if (value > 0.5) return { emoji: '🟢', label: 'Strengthening', assessment: 'Trend momentum increasing' };
+        if (value < -0.5) return { emoji: '🔴', label: 'Weakening', assessment: 'Trend momentum decreasing' };
+        return { emoji: '🟡', label: 'Stable', assessment: 'Trend momentum steady' };
+
+      case 'ATR_14':
+        // ATR (Average True Range): higher = more volatility
+        if (value > 2) return { emoji: '🟢', label: 'High', assessment: 'Elevated volatility' };
+        if (value > 1) return { emoji: '🟡', label: 'Moderate', assessment: 'Normal volatility' };
         return { emoji: '🔴', label: 'Low', assessment: 'Low volatility' };
+
+      case 'Stochastic_K':
+        // Stochastic K: < 20 = oversold, 20-80 = normal, > 80 = overbought
+        if (value < 20) return { emoji: '🟢', label: 'Oversold', assessment: 'Strong bullish signal' };
+        if (value > 80) return { emoji: '🔴', label: 'Overbought', assessment: 'Weak bullish signal' };
+        return { emoji: '🟡', label: 'Neutral', assessment: 'Normal momentum' };
+
+      case 'Stochastic_D':
+        // Stochastic D (signal line): same interpretation as K
+        if (value < 20) return { emoji: '🟢', label: 'Oversold', assessment: 'Strong bullish signal' };
+        if (value > 80) return { emoji: '🔴', label: 'Overbought', assessment: 'Weak bullish signal' };
+        return { emoji: '🟡', label: 'Neutral', assessment: 'Normal momentum' };
+
+      case 'Greeks_Delta':
+        // Delta: -1 to 0 for puts. More negative = higher probability of ITM
+        if (value < -0.5) return { emoji: '🟢', label: 'High ITM Risk', assessment: 'Option likely ITM' };
+        if (value < -0.25) return { emoji: '🟡', label: 'Moderate ITM Risk', assessment: 'Moderate ITM probability' };
+        return { emoji: '🔴', label: 'Low ITM Risk', assessment: 'Low ITM probability' };
+
+      case 'Greeks_Vega':
+        // Vega: sensitivity to volatility changes. Positive = option benefits from higher IV
+        if (value > 0.05) return { emoji: '🟢', label: 'High IV Sensitivity', assessment: 'Benefits from volatility increase' };
+        if (value > 0.01) return { emoji: '🟡', label: 'Moderate IV Sensitivity', assessment: 'Normal IV exposure' };
+        return { emoji: '🔴', label: 'Low IV Sensitivity', assessment: 'Minimal IV exposure' };
+
+      case 'Greeks_Theta':
+        // Theta: time decay. Positive = option benefits from time decay (good for sellers)
+        if (value > 0.01) return { emoji: '🟢', label: 'Favorable Decay', assessment: 'Time decay benefits seller' };
+        if (value > -0.01) return { emoji: '🟡', label: 'Neutral Decay', assessment: 'Minimal time decay impact' };
+        return { emoji: '🔴', label: 'Unfavorable Decay', assessment: 'Decay works against seller' };
 
       default:
         return { emoji: '⚪', label: 'Unknown', assessment: 'Unable to assess' };
@@ -91,15 +133,20 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
   };
 
   const getIndicatorFormat = (key: string, value: number): string => {
-    // HV_annual should be displayed as percentage
-    if (key === 'HV_annual') {
-      return formatNordicPercentage(value, 2);
+    // Stochastic K and D are already on 0-100 scale
+    if (key === 'Stochastic_K' || key === 'Stochastic_D') {
+      return formatNordicDecimal(value, 1);
+    }
+    // Greeks (Delta, Vega, Theta) display as small decimals
+    if (key === 'Greeks_Delta' || key === 'Greeks_Vega' || key === 'Greeks_Theta') {
+      return formatNordicDecimal(value, 4);
     }
     // All other indicators display as decimal
     return formatNordicDecimal(value, 2);
   };
 
-  const indicators = [
+  // Stock-level technical indicators
+  const stockIndicators = [
     { key: 'RSI_14' as const, label: 'RSI (14)', value: option.RSI_14 },
     { key: 'RSI_Slope' as const, label: 'RSI Slope', value: option.RSI_Slope },
     { key: 'MACD_Hist' as const, label: 'MACD Histogram', value: option.MACD_Hist },
@@ -107,8 +154,19 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
     { key: 'BB_Position' as const, label: 'Bollinger Band Position', value: option.BB_Position },
     { key: 'Dist_SMA50' as const, label: 'Distance to SMA50', value: option.Dist_SMA50 },
     { key: 'Vol_Ratio' as const, label: 'Volume Ratio', value: option.Vol_Ratio },
+    { key: 'ADX_14' as const, label: 'ADX (14)', value: option.ADX_14 },
+    { key: 'ADX_Slope' as const, label: 'ADX Slope', value: option.ADX_Slope },
+    { key: 'ATR_14' as const, label: 'ATR (14)', value: option.ATR_14 },
+    { key: 'Stochastic_K' as const, label: 'Stochastic K', value: option.Stochastic_K },
+    { key: 'Stochastic_D' as const, label: 'Stochastic D', value: option.Stochastic_D },
+  ];
+
+  // Contract-level indicators
+  const contractIndicators = [
     { key: 'Sigma_Distance' as const, label: 'Sigma Distance', value: option.Sigma_Distance },
-    { key: 'HV_annual' as const, label: 'Historical Volatility (Annual)', value: option.HV_annual },
+    { key: 'Greeks_Delta' as const, label: 'Delta (Greeks)', value: option.Greeks_Delta },
+    { key: 'Greeks_Vega' as const, label: 'Vega (Greeks)', value: option.Greeks_Vega },
+    { key: 'Greeks_Theta' as const, label: 'Theta (Greeks)', value: option.Greeks_Theta },
   ];
 
   return (
@@ -125,9 +183,12 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Indicators */}
+        {/* Stock-Level Technical Indicators */}
         <div className="space-y-3">
-          {indicators.map((indicator) => {
+          <div className="text-sm font-semibold text-muted-foreground border-b pb-2">
+            Stock-Level Indicators
+          </div>
+          {stockIndicators.map((indicator) => {
             const status = getIndicatorStatus(indicator.value, indicator.key);
             return (
               <div key={indicator.key} className="border-l-4 border-gray-200 pl-3">
@@ -137,7 +198,33 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
                     {indicator.label}
                   </span>
                   <span className="text-sm font-semibold">
-                    {getIndicatorFormat(indicator.key, indicator.value)}
+                    {indicator.value != null ? getIndicatorFormat(indicator.key, indicator.value) : '-'}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {status.label} - {status.assessment}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Contract-Level Indicators */}
+        <div className="space-y-3">
+          <div className="text-sm font-semibold text-muted-foreground border-b pb-2">
+            Contract-Level Indicators
+          </div>
+          {contractIndicators.map((indicator) => {
+            const status = getIndicatorStatus(indicator.value, indicator.key);
+            return (
+              <div key={indicator.key} className="border-l-4 border-gray-200 pl-3">
+                <div className="flex items-center justify-between mb-1">
+                  <span className="text-sm font-medium flex items-center gap-2">
+                    <span className="text-lg">{status.emoji}</span>
+                    {indicator.label}
+                  </span>
+                  <span className="text-sm font-semibold">
+                    {indicator.value != null ? getIndicatorFormat(indicator.key, indicator.value) : '-'}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">

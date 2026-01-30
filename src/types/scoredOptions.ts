@@ -24,6 +24,7 @@ export interface ScoredOptionData {
   // TA Model
   ta_probability: number | null;
   ta_bucket: string;
+  // Stock-level technical indicators
   RSI_14: number | null;
   RSI_Slope: number | null;
   MACD_Hist: number | null;
@@ -31,8 +32,16 @@ export interface ScoredOptionData {
   BB_Position: number | null;
   Dist_SMA50: number | null;
   Vol_Ratio: number | null;
+  ADX_14: number | null;
+  ADX_Slope: number | null;
+  ATR_14: number | null;
+  Stochastic_K: number | null;
+  Stochastic_D: number | null;
+  // Contract-level indicators
   Sigma_Distance: number | null;
-  HV_annual: number | null;
+  Greeks_Delta: number | null;
+  Greeks_Vega: number | null;
+  Greeks_Theta: number | null;
 
   // Agreement Analysis
   models_agree: boolean;
@@ -69,7 +78,6 @@ export interface RawScoredOptionRow {
   option_name: string;
   strike_price: string;
   expiry_date: string;
-  days_to_expiry: string;
   premium: string; // IGNORED - we use website premium instead
   current_probability: string;
   v21_score: string;
@@ -85,8 +93,16 @@ export interface RawScoredOptionRow {
   BB_Position: string;
   Dist_SMA50: string;
   Vol_Ratio: string;
+  ADX_14: string;
+  ADX_Slope: string;
+  ATR_14: string;
+  Stochastic_K: string;
+  Stochastic_D: string;
   Sigma_Distance: string;
-  HV_annual: string;
+  Days_To_Expiry: string;
+  Greeks_Delta: string;
+  Greeks_Vega: string;
+  Greeks_Theta: string;
   models_agree: string; // 'True' or 'False'
   agreement_strength: string;
   combined_score: string;
