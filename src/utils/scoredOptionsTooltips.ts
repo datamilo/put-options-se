@@ -158,62 +158,62 @@ export const taStockIndicatorTooltips: TooltipSection = {
   rsi14: {
     title: 'RSI_14 (Relative Strength Index)',
     content:
-      'Overbought/oversold momentum indicator (0-100 scale).\n\n**What It Does:** Captures momentum extremes. Values above 70 suggest overbought, below 30 suggest oversold.\n\n**Why It\'s Used:** Momentum extremes often precede reversions to mean, affecting option expiration probabilities.\n\n**Feature Importance:** 11.09% (5th most important among 9 features)',
+      'Current value range: 0-100\n\n• **Below 30:** Oversold (stock has fallen sharply) → favorable for puts\n• **30-70:** Neutral range\n• **Above 70:** Overbought (stock has risen sharply) → less favorable for puts\n\n**What It Does:** Measures how much momentum the stock has. Extreme readings suggest the stock might reverse direction.\n\n**Feature Importance:** 11.09%',
   },
   rsiSlope: {
     title: 'RSI_Slope (3-period RSI Change)',
     content:
-      'Momentum direction and acceleration measured as 3-period RSI change.\n\n**What It Does:** Detects inflection points where momentum shifts direction. Positive slope = accelerating momentum up, negative slope = decelerating or reversing.\n\n**Business Insight:** Rate of momentum change predicts short-term reversals relevant to option expiration.\n\n**Feature Importance:** 9.15% (8th most important)',
+      'Current value range: typically -5 to +5\n\n• **Negative (declining):** RSI is falling → momentum weakening → favorable\n• **Positive (rising):** RSI is rising → momentum strengthening → less favorable\n\n**What It Does:** Shows whether momentum is getting stronger or weaker. Helps catch turning points.\n\n**Feature Importance:** 9.15%',
   },
   macdHist: {
     title: 'MACD_Hist (MACD Histogram)',
     content:
-      'Trend momentum measured as distance between MACD line and signal line.\n\n**What It Does:** Captures trend momentum and strength. Positive histogram = uptrend, negative = downtrend.\n\n**Why It Matters:** Distance between fast and slow moving averages predicts trend persistence, affecting expiration probabilities.\n\n**Feature Importance:** 14.02% (2nd most important - very strong predictor)',
+      'Current value range: typically -2 to +2\n\n• **Negative (below zero):** Bearish momentum → favorable for puts\n• **Around zero:** Transition point (trend changing)\n• **Positive (above zero):** Bullish momentum → less favorable for puts\n\n**What It Does:** Shows whether the trend is bullish or bearish. Larger values mean stronger trends.\n\n**Feature Importance:** 14.02% (2nd most important)',
   },
   macdSlope: {
     title: 'MACD_Slope (3-period MACD Change)',
     content:
-      'Trend acceleration/deceleration measured as 3-period MACD change.\n\n**What It Does:** Detects whether trend is accelerating or weakening. Positive = strengthening trend, negative = weakening.\n\n**Business Insight:** Inflection points where trends reverse significantly impact option outcomes.\n\n**Feature Importance:** 11.12% (4th most important)',
+      'Current value range: typically -1 to +1\n\n• **Negative (declining):** Momentum is weakening → favorable\n• **Positive (rising):** Momentum is strengthening → less favorable\n\n**What It Does:** Shows whether momentum is accelerating or decelerating. Helps identify when trends are about to change.\n\n**Feature Importance:** 11.12% (4th most important)',
   },
   bbPosition: {
     title: 'BB_Position (Bollinger Band Position)',
     content:
-      'Location within Bollinger Bands normalized to 0-1 range.\n\n**What It Does:** Identifies price extremes and mean reversion signals. 1.0 = at upper band (overbought), 0.0 = at lower band (oversold), 0.5 = middle.\n\n**Why It Matters:** Extreme positions often revert to mean, affecting probability of staying above strike.\n\n**Feature Importance:** 9.59% (7th most important)',
+      'Current value range: 0 to 1\n\n• **Near 0 (lower band):** Stock at lower extreme, near support → favorable\n• **0.5 (middle):** Stock at middle of normal range\n• **Near 1 (upper band):** Stock at upper extreme, near resistance → less favorable\n\n**What It Does:** Shows where the stock price sits between its normal high and low ranges. Extremes often reverse.\n\n**Feature Importance:** 9.59%',
   },
   distSMA50: {
     title: 'Dist_SMA50 (Distance to 50-day Moving Average)',
     content:
-      'Normalized distance from 50-day trend line.\n\n**What It Does:** Captures deviation from trend. Large distances suggest potential mean reversion back to trend.\n\n**Business Insight:** Stocks far from trend line often mean-revert, affecting expiration probabilities.\n\n**Feature Importance:** 13.79% (3rd most important - very strong predictor)',
+      'Current value range: typically -10 to +10 (percentage)\n\n• **Negative (below MA):** Stock trading below trend line → favorable\n• **Around zero:** Stock near its trend line\n• **Positive (above MA):** Stock trading above trend line → less favorable\n\n**What It Does:** Shows how far the stock has moved away from its 50-day trend. Stocks far from trend often move back toward it.\n\n**Feature Importance:** 13.79% (3rd most important)',
   },
   volRatio: {
     title: 'Vol_Ratio (Recent vs. Historical Volatility)',
     content:
-      'Recent volatility divided by historical average volatility.\n\n**What It Does:** Detects volatility regime changes. >1.0 = elevated volatility, <1.0 = suppressed volatility.\n\n**Why It Matters:** Volatility changes affect option pricing and probability distributions. Regime shifts impact prediction accuracy.\n\n**Feature Importance:** 9.67% (6th most important)',
+      'Current value range: 0.5 to 2.0\n\n• **Below 1.0:** Trading volume lower than usual → weaker activity\n• **Around 1.0:** Normal trading volume\n• **Above 1.0:** Trading volume higher than usual → stronger interest\n\n**What It Does:** Compares today\'s volume to the average. High volume often confirms trend strength.\n\n**Feature Importance:** 9.67%',
   },
   adx14: {
-    title: 'ADX_14 (Average Directional Index)',
+    title: 'ADX_14 (Average Directional Index - Trend Strength)',
     content:
-      'Trend strength indicator (0-100 scale, though typically 0-60 in practice).\n\n**What It Does:** Measures trend strength independent of direction. High ADX = strong trend (up or down), low ADX = ranging/weak trend.\n\n**Business Insight:** Strong trends persist, affecting whether stocks stay above strike through expiration.',
+      'Current value range: 0-100 (typically 10-50 in practice)\n\n• **Below 20:** Weak or no trend → mixed signals\n• **20-40:** Moderate to strong trend → clear direction\n• **Above 40:** Very strong trend → pronounced momentum\n\n**What It Does:** Measures how strong the current trend is, regardless of direction. Higher = clearer trend.',
   },
   adxSlope: {
     title: 'ADX_Slope (3-period ADX Change)',
     content:
-      'Trend strength acceleration/deceleration measured as 3-period ADX change.\n\n**What It Does:** Detects whether trends are strengthening or weakening. Positive = trend strengthening, negative = trend weakening.\n\n**Business Insight:** Emerging or dissolving trends affect option expiration probabilities.',
+      'Current value range: typically -2 to +2\n\n• **Negative (declining):** Trend strength weakening → less clear direction\n• **Positive (rising):** Trend strength increasing → clearer direction\n\n**What It Does:** Shows whether trends are getting stronger or falling apart. Helps predict when trends will reverse.',
   },
   atr14: {
-    title: 'ATR_14 (Average True Range)',
+    title: 'ATR_14 (Average True Range - Volatility)',
     content:
-      'Average volatility (absolute price movement) over 14 periods.\n\n**What It Does:** Measures typical price movement magnitude. Higher ATR = larger typical moves, lower ATR = smaller typical moves.\n\n**Business Insight:** Highly volatile stocks have different expiration dynamics than stable stocks.',
+      'Current value range: depends on stock price (e.g., 0.5-5 kr for a 100 kr stock)\n\n• **Low values:** Stock is stable, small daily moves\n• **High values:** Stock is volatile, large daily moves\n\n**What It Does:** Measures typical daily price swings. More volatile stocks are riskier but offer more trading opportunities.',
   },
   stochasticK: {
-    title: 'Stochastic_K (Stochastic %K)',
+    title: 'Stochastic_K (%K)',
     content:
-      'Momentum oscillator (0-100 scale) measuring current price position within recent range.\n\n**What It Does:** Similar to RSI but uses range position. >80 = overbought, <20 = oversold.\n\n**Business Insight:** Captures short-term momentum extremes predicting mean reversion to strike.',
+      'Current value range: 0-100\n\n• **Below 20:** Oversold (stock at recent lows) → favorable\n• **20-80:** Normal range\n• **Above 80:** Overbought (stock at recent highs) → less favorable\n\n**What It Does:** Shows where the current price falls within the stock\'s recent high-low range. Similar to RSI but uses range instead of strength.',
   },
   stochasticD: {
-    title: 'Stochastic_D (Stochastic %D / Signal Line)',
+    title: 'Stochastic_D (Signal Line)',
     content:
-      'Smoothed version of Stochastic %K (3-period moving average).\n\n**What It Does:** Signal line for confirming %K signals. More stable than %K. Crossovers signal momentum shifts.\n\n**Business Insight:** Smoother momentum confirmation reduces false signals affecting option predictions.',
+      'Current value range: 0-100\n\n• **Below 20:** Oversold → favorable\n• **20-80:** Normal range\n• **Above 80:** Overbought → less favorable\n\n**What It Does:** Smoothed version of %K (like an average). More stable and better for confirming signals.',
   },
 };
 
@@ -228,19 +228,19 @@ export const taContractIndicatorTooltips: TooltipSection = {
       '**What It Measures:** Distance from current stock price to strike price, adjusted for volatility and time remaining before expiration.\n\n**Why This Matters:** Two options at the same 2% distance have very different probabilities:\n\n• **Volatile stock** (moves 3-4% daily): 2% distance is very close and easy to reach\n• **Stable stock** (moves 0.3% daily): 2% distance requires several days\n\nSame problem with time: 2% distance on 5-day option != 2% distance on 30-day option.\n\n**How It Works:** Answers "How many typical daily moves away is the strike?" High = many moves away (safer). Low = close to typical moves (riskier).\n\n**The Impact:** Enables accurate comparison across different volatility levels and expiration periods.',
   },
   delta: {
-    title: 'Delta (Option Sensitivity to Stock Moves)',
+    title: 'Delta (Option Price Sensitivity)',
     content:
-      'Rate of change in option price per 1 SEK move in underlying stock.\n\n**Interpretation:** Delta 0.30 = option price changes 0.30 SEK for each 1 SEK stock move.\n\nFor put options expiring worthless: Higher delta (more negative) = further OTM = more likely worthless.',
+      'Current value range: -1 to 0 for put options\n\n• **Near 0:** Option far out-of-the-money (very likely worthless) → favorable\n• **Around -0.5:** Option at-the-money (50/50 chance)\n• **Near -1:** Option deep in-the-money (likely has value) → less favorable\n\n**What It Does:** Shows how much the option price moves when the stock price moves 1 kr. More negative = higher probability of being worthless.',
   },
   vega: {
-    title: 'Vega (Option Sensitivity to Volatility)',
+    title: 'Vega (Volatility Sensitivity)',
     content:
-      'Rate of change in option price per 1% change in implied volatility.\n\n**Business Insight:** High volatility increases option premiums but also increases uncertainty about expiration.\n\nVega sensitivity matters for predicting probability changes as volatility regimes shift.',
+      'Current value range: typically 0.01 to 0.2\n\n• **Low values:** Option barely affected by volatility changes\n• **High values:** Option strongly affected by volatility changes\n\n**What It Does:** Shows how much the option price changes when market volatility changes. Higher vega = more price swings possible.',
   },
   theta: {
     title: 'Theta (Time Decay)',
     content:
-      'Rate of daily time decay in option price (how much value is lost per day).\n\n**Business Insight:** Premium seller\'s friend - time decay works in favor of options expiring worthless.\n\nHigher theta = faster premium decay = beneficial for premium collection strategy.\n\nMarket already prices in time decay (reflected in Current Probability), so days-to-expiry alone has no predictive power.',
+      'Current value range: typically -0.1 to +0.1\n\n• **Positive values:** Option loses value each day (premium seller benefits) → favorable\n• **Negative values:** Option gains value each day (premium seller loses) → less favorable\n\n**What It Does:** Shows how much the option loses (or gains) value each day just from time passing. Time decay is the premium seller\'s friend.',
   },
 };
 
