@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import { ScoredOptionData } from '@/types/scoredOptions';
 import { formatNordicDecimal, formatNordicPercentage } from '@/utils/numberFormatting';
+import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 interface TABreakdownProps {
   option: ScoredOptionData;
@@ -190,12 +192,39 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
           </div>
           {stockIndicators.map((indicator) => {
             const status = getIndicatorStatus(indicator.value, indicator.key);
+            // Map indicator keys to tooltip paths
+            const tooltipMap: Record<string, keyof typeof scoredOptionsTooltips.taStockIndicators> = {
+              'RSI_14': 'rsi14',
+              'RSI_Slope': 'rsiSlope',
+              'MACD_Hist': 'macdHist',
+              'MACD_Slope': 'macdSlope',
+              'BB_Position': 'bbPosition',
+              'Dist_SMA50': 'distSMA50',
+              'Vol_Ratio': 'volRatio',
+              'ADX_14': 'adx14',
+              'ADX_Slope': 'adxSlope',
+              'ATR_14': 'atr14',
+              'Stochastic_K': 'stochasticK',
+              'Stochastic_D': 'stochasticD',
+            };
+            const tooltipKey = tooltipMap[indicator.key];
+            const tooltip = tooltipKey ? scoredOptionsTooltips.taStockIndicators[tooltipKey] : null;
+
             return (
               <div key={indicator.key} className="border-l-4 border-gray-200 pl-3">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium flex items-center gap-2">
                     <span className="text-lg">{status.emoji}</span>
-                    {indicator.label}
+                    <span className="flex items-center gap-1">
+                      {indicator.label}
+                      {tooltip && (
+                        <InfoIconTooltip
+                          title={tooltip.title}
+                          content={tooltip.content}
+                          side="top"
+                        />
+                      )}
+                    </span>
                   </span>
                   <span className="text-sm font-semibold">
                     {indicator.value != null ? getIndicatorFormat(indicator.key, indicator.value) : '-'}
@@ -216,12 +245,31 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
           </div>
           {contractIndicators.map((indicator) => {
             const status = getIndicatorStatus(indicator.value, indicator.key);
+            // Map indicator keys to tooltip paths
+            const tooltipMap: Record<string, keyof typeof scoredOptionsTooltips.taContractIndicators> = {
+              'Sigma_Distance': 'sigmaDistance',
+              'Greeks_Delta': 'delta',
+              'Greeks_Vega': 'vega',
+              'Greeks_Theta': 'theta',
+            };
+            const tooltipKey = tooltipMap[indicator.key];
+            const tooltip = tooltipKey ? scoredOptionsTooltips.taContractIndicators[tooltipKey] : null;
+
             return (
               <div key={indicator.key} className="border-l-4 border-gray-200 pl-3">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium flex items-center gap-2">
                     <span className="text-lg">{status.emoji}</span>
-                    {indicator.label}
+                    <span className="flex items-center gap-1">
+                      {indicator.label}
+                      {tooltip && (
+                        <InfoIconTooltip
+                          title={tooltip.title}
+                          content={tooltip.content}
+                          side="top"
+                        />
+                      )}
+                    </span>
                   </span>
                   <span className="text-sm font-semibold">
                     {indicator.value != null ? getIndicatorFormat(indicator.key, indicator.value) : '-'}
