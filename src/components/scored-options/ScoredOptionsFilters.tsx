@@ -20,6 +20,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { ScoredOptionsFilters } from '@/types/scoredOptions';
 import { ChevronDown } from 'lucide-react';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
+import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 interface ScoredOptionsFiltersComponentProps {
   filters: ScoredOptionsFilters;
@@ -93,7 +95,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Expiry Date */}
           <div className="space-y-2">
-            <Label htmlFor="expiry">Expiry Date</Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="expiry">Expiry Date</Label>
+              <InfoIconTooltip
+                content={scoredOptionsTooltips.filters.expiryDate.content}
+                side="bottom"
+              />
+            </div>
             <Select value={filters.expiryDate} onValueChange={handleExpiryChange}>
               <SelectTrigger id="expiry">
                 <SelectValue placeholder="Select expiry date" />
@@ -110,7 +118,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
 
           {/* Stock Names */}
           <div className="space-y-2">
-            <Label>Stocks</Label>
+            <div className="flex items-center gap-2">
+              <Label>Stocks</Label>
+              <InfoIconTooltip
+                content={scoredOptionsTooltips.filters.stocks.content}
+                side="bottom"
+              />
+            </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-full justify-between">
@@ -149,7 +163,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
 
           {/* Agreement Filter */}
           <div className="space-y-2">
-            <Label htmlFor="agreement">Model Agreement</Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="agreement">Model Agreement</Label>
+              <InfoIconTooltip
+                content={scoredOptionsTooltips.filters.modelAgreement.content}
+                side="bottom"
+              />
+            </div>
             <Select value={filters.agreement} onValueChange={handleAgreementChange}>
               <SelectTrigger id="agreement">
                 <SelectValue />
@@ -164,7 +184,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
 
           {/* Min Combined Score */}
           <div className="space-y-2">
-            <Label>Min Combined Score: {filters.minScore}</Label>
+            <div className="flex items-center gap-2">
+              <Label>Min Combined Score: {filters.minScore}</Label>
+              <InfoIconTooltip
+                content={scoredOptionsTooltips.filters.minCombinedScore.content}
+                side="bottom"
+              />
+            </div>
             <Slider
               value={[filters.minScore]}
               onValueChange={handleMinScoreChange}
@@ -177,7 +203,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
 
           {/* Min V2.1 Score */}
           <div className="space-y-2">
-            <Label>Min V2.1 Score: {filters.minV21Score}</Label>
+            <div className="flex items-center gap-2">
+              <Label>Min V2.1 Score: {filters.minV21Score}</Label>
+              <InfoIconTooltip
+                content={scoredOptionsTooltips.filters.minV21Score.content}
+                side="bottom"
+              />
+            </div>
             <Slider
               value={[filters.minV21Score]}
               onValueChange={handleMinV21ScoreChange}
@@ -190,7 +222,13 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
 
           {/* Min TA Probability */}
           <div className="space-y-2">
-            <Label>Min TA Prob: {filters.minTAProb}%</Label>
+            <div className="flex items-center gap-2">
+              <Label>Min TA Prob: {filters.minTAProb}%</Label>
+              <InfoIconTooltip
+                content={scoredOptionsTooltips.filters.minTAProb.content}
+                side="bottom"
+              />
+            </div>
             <Slider
               value={[filters.minTAProb]}
               onValueChange={handleMinTAProbChange}
