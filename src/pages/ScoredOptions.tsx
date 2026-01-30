@@ -10,6 +10,8 @@ import { exportScoredOptionsToExcel } from '@/utils/scoredOptionsExport';
 import { ScoredOptionsFiltersComponent } from '@/components/scored-options/ScoredOptionsFilters';
 import { ScoredOptionsTable } from '@/components/scored-options/ScoredOptionsTable';
 import { ScoredOptionsFilters } from '@/types/scoredOptions';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
+import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 export const ScoredOptions = () => {
   usePageTitle('Scored Options Recommendations');
@@ -182,8 +184,14 @@ export const ScoredOptions = () => {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Total Options</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <p className="text-sm text-muted-foreground">Total Options</p>
+                      <InfoIconTooltip
+                        title={scoredOptionsTooltips.kpi.totalOptions.title}
+                        content={scoredOptionsTooltips.kpi.totalOptions.content}
+                      />
+                    </div>
                     <p className="text-3xl font-bold mt-2">{summary.totalOptions}</p>
                   </div>
                   <TrendingUp className="h-8 w-8 text-blue-600" />
@@ -195,8 +203,14 @@ export const ScoredOptions = () => {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Models Agree</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <p className="text-sm text-muted-foreground">Models Agree</p>
+                      <InfoIconTooltip
+                        title={scoredOptionsTooltips.kpi.modelsAgree.title}
+                        content={scoredOptionsTooltips.kpi.modelsAgree.content}
+                      />
+                    </div>
                     <p className="text-3xl font-bold mt-2">{summary.bothAgreeCount}</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {summary.totalOptions > 0
@@ -214,8 +228,14 @@ export const ScoredOptions = () => {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Strong Agreement</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <p className="text-sm text-muted-foreground">Strong Agreement</p>
+                      <InfoIconTooltip
+                        title={scoredOptionsTooltips.kpi.strongAgreement.title}
+                        content={scoredOptionsTooltips.kpi.strongAgreement.content}
+                      />
+                    </div>
                     <p className="text-3xl font-bold mt-2">{summary.strongAgreementCount}</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {summary.bothAgreeCount > 0
@@ -233,8 +253,14 @@ export const ScoredOptions = () => {
             <Card>
               <CardContent className="pt-6">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Showing</p>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <p className="text-sm text-muted-foreground">Showing</p>
+                      <InfoIconTooltip
+                        title={scoredOptionsTooltips.kpi.showing.title}
+                        content={scoredOptionsTooltips.kpi.showing.content}
+                      />
+                    </div>
                     <p className="text-3xl font-bold mt-2">{summary.currentlyShowing}</p>
                     <p className="text-xs text-muted-foreground mt-1">
                       {summary.totalOptions > 0
