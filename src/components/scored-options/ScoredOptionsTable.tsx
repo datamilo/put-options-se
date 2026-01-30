@@ -14,6 +14,8 @@ import { V21Breakdown } from './V21Breakdown';
 import { TABreakdown } from './TABreakdown';
 import { AgreementAnalysis } from './AgreementAnalysis';
 import { formatNordicNumber, formatNordicDecimal, formatNordicCurrency } from '@/utils/numberFormatting';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
+import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 interface ScoredOptionsTableProps {
   data: ScoredOptionData[];
@@ -128,10 +130,14 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
     field,
     label,
     align = 'left',
+    tooltipTitle,
+    tooltipContent,
   }: {
     field: SortField;
     label: string;
     align?: 'left' | 'right' | 'center';
+    tooltipTitle?: string;
+    tooltipContent?: string;
   }) => (
     <TableHead
       className={`cursor-pointer hover:bg-muted/50 ${
@@ -139,7 +145,7 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
       }`}
       onClick={() => handleSort(field)}
     >
-      <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
+      <div className={`flex items-center gap-1.5 ${align === 'right' ? 'justify-end' : align === 'center' ? 'justify-center' : ''}`}>
         <span>{label}</span>
         {sortField === field &&
           (sortDirection === 'asc' ? (
@@ -147,6 +153,13 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
           ) : (
             <ArrowDown className="h-3 w-3" />
           ))}
+        {tooltipContent && (
+          <InfoIconTooltip
+            title={tooltipTitle}
+            content={tooltipContent}
+            side="bottom"
+          />
+        )}
       </div>
     </TableHead>
   );
@@ -184,11 +197,40 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
               <SortableHeader field="expiry_date" label="Expiry" />
               <SortableHeader field="days_to_expiry" label="DTE" align="right" />
               <SortableHeader field="premium" label="Premium" align="right" />
-              <SortableHeader field="v21_score" label="V2.1 Score" align="right" />
-              <SortableHeader field="ta_probability" label="TA Prob" align="right" />
-              <SortableHeader field="combined_score" label="Combined" align="right" />
-              <SortableHeader field="models_agree" label="Agree" align="center" />
-              <SortableHeader field="agreement_strength" label="Strength" />
+              <SortableHeader
+                field="v21_score"
+                label="V2.1 Score"
+                align="right"
+                tooltipTitle={scoredOptionsTooltips.columns.v21Score.title}
+                tooltipContent={scoredOptionsTooltips.columns.v21Score.content}
+              />
+              <SortableHeader
+                field="ta_probability"
+                label="TA Prob"
+                align="right"
+                tooltipTitle={scoredOptionsTooltips.columns.taProbability.title}
+                tooltipContent={scoredOptionsTooltips.columns.taProbability.content}
+              />
+              <SortableHeader
+                field="combined_score"
+                label="Combined"
+                align="right"
+                tooltipTitle={scoredOptionsTooltips.columns.combined.title}
+                tooltipContent={scoredOptionsTooltips.columns.combined.content}
+              />
+              <SortableHeader
+                field="models_agree"
+                label="Agree"
+                align="center"
+                tooltipTitle={scoredOptionsTooltips.columns.agree.title}
+                tooltipContent={scoredOptionsTooltips.columns.agree.content}
+              />
+              <SortableHeader
+                field="agreement_strength"
+                label="Strength"
+                tooltipTitle={scoredOptionsTooltips.columns.strength.title}
+                tooltipContent={scoredOptionsTooltips.columns.strength.content}
+              />
             </TableRow>
           </TableHeader>
           <TableBody>
