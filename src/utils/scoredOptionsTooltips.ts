@@ -92,7 +92,7 @@ export const filterTooltips: TooltipSection = {
   },
   minTAProb: {
     title: 'Minimum TA Probability',
-    content: 'Filter by TA Model V2 probability only. TA Model is independent validation using machine learning technical analysis.',
+    content: 'Filter by TA Model V3 probability only. TA Model is independent validation using machine learning technical analysis.',
   },
 };
 
@@ -107,9 +107,9 @@ export const columnTooltips: TooltipSection = {
       'Weighted composite score (0-100) combining three factors:\n\n• **Current Probability** (60% weight): Market-derived probability of expiration worthless\n• **Historical Peak** (30% weight): Maximum probability achieved during option lifetime\n• **Support Strength** (10% weight): Structural support level robustness\n\n**Formula:** (Current * 0.60) + (Peak * 0.30) + (Support * 0.10)',
   },
   taProbability: {
-    title: 'TA Model V2 Probability',
+    title: 'TA Model V3 Probability',
     content:
-      'Machine learning prediction (0-100) using calibrated Random Forest with 9 technical indicators. Independent validation model using stock-level technical signals and contract-level features.\n\n**Test AUC:** 0.8447\n**Walk-Forward AUC:** 0.651\n**Brier Score:** 0.1608 (well-calibrated)',
+      'Machine learning prediction (0-100) using calibrated Random Forest with 17 features combining technical indicators, volatility measures, and options Greeks. Independent validation model using stock-level technical signals and contract-level features.\n\n**Test AUC:** 0.8615\n**Walk-Forward AUC:** 0.6511 ± 0.040\n**Brier Score:** 0.1519 (well-calibrated)',
   },
   combined: {
     title: 'Combined Score / Agreement',
@@ -119,7 +119,7 @@ export const columnTooltips: TooltipSection = {
   agree: {
     title: 'Models Agree',
     content:
-      'Boolean flag indicating whether both V2.1 and TA Model V2 predict >=70% probability.\n\nYes = Both models bullish (15%+ premium opportunities)\nNo = Models diverge (mixed signals, human review needed)',
+      'Boolean flag indicating whether both V2.1 and TA Model V3 predict >=70% probability.\n\nYes = Both models bullish (15%+ premium opportunities)\nNo = Models diverge (mixed signals, human review needed)',
   },
   strength: {
     title: 'Agreement Strength',
@@ -257,7 +257,7 @@ export const agreementTooltips: TooltipSection = {
   modelsAgreeField: {
     title: 'Models Agree (Boolean Field)',
     content:
-      'Both V2.1 >=70% AND TA Model V2 >=70% = True\nOtherwise = False\n\n**Business Value:** Represents 12-18% of all options (highest-confidence tier). These represent the strongest trading opportunities.\n\n**Expected Hit Rate:** 75%+\n\n**Statistical Principle:** Combining independent predictors reduces variance and improves robustness.',
+      'Both V2.1 >=70% AND TA Model V3 >=70% = True\nOtherwise = False\n\n**Business Value:** Represents 12-18% of all options (highest-confidence tier). These represent the strongest trading opportunities.\n\n**Expected Hit Rate:** 75%+\n\n**Statistical Principle:** Combining independent predictors reduces variance and improves robustness.',
   },
   agreementStrengthField: {
     title: 'Agreement Strength Classification',
@@ -277,9 +277,9 @@ export const validationTooltips: TooltipSection = {
       'Empirically observed outcome: Approximately 77% of options in the 70-80% score range expire worthless (out-of-the-money).\n\n**21-Month Consistency:** Stable 76-78% across April 2024 - January 2026\n\n**Interpretation:** 77% success rate means 23% failure rate. Premium gains offset by occasional losses.\n\n**Risk Management:** Position sizing must account for 23% failure rate. Average loss when wrong = strike distance.\n\n**Premium Level:** 5-10x higher than conservative 80%+ range (which has 90%+ hit rate but minimal premiums)',
   },
   walkForwardAUC: {
-    title: 'Walk-Forward AUC: 0.651',
+    title: 'Walk-Forward AUC (TA Model V3): 0.6511 ± 0.040',
     content:
-      'Primary validation metric proving genuine predictive ability on **future unseen data**.\n\n**Methodology:** Train on 6-month periods, test on subsequent month, retrain including new data (repeat through Jan 2026)\n\n**Interpretation:** Model correctly orders option pairs 65.1% of the time on future data.\n\n**Why This Matters:** Walk-Forward is TRUE validation (Test AUC can be misleading). Models with Test AUC 0.96 but Walk-Forward 0.52 are worse than useless—they fit past but can\'t predict future.\n\n**Our Performance:** 0.651 represents genuine predictive ability, not overfitting artifact',
+      'Primary validation metric proving genuine predictive ability on **future unseen data**.\n\n**Methodology:** Train on 6-month periods, test on subsequent month, retrain including new data (repeat through Jan 2026)\n\n**Interpretation:** Model correctly orders option pairs 65.11% of the time on future data, with consistency (±0.040 standard error).\n\n**Why This Matters:** Walk-Forward is TRUE validation (Test AUC can be misleading). Models with Test AUC 0.96 but Walk-Forward 0.52 are worse than useless—they fit past but can\'t predict future.\n\n**Our Performance:** 0.6511 ± 0.040 represents genuine predictive ability, not overfitting artifact',
   },
   calibrationError: {
     title: 'Calibration Error: 2.4% (ECE)',
