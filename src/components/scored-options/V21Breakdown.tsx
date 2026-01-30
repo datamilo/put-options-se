@@ -28,15 +28,15 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
     const score = option.v21_score;
 
     if (score >= 90) {
-      return 'Very strong put option. High probability of value decay. Excellent entry point.';
+      return 'Very strong put option. High probability of expiration worthless. Excellent entry point.';
     } else if (score >= 80) {
-      return 'Strong put option. Good probability of value decay. Solid opportunity.';
+      return 'Strong put option. Good probability of expiration worthless. Solid opportunity.';
     } else if (score >= 70) {
-      return 'Moderate put option. Reasonable probability of value decay. Acceptable risk/reward.';
+      return 'Moderate put option. Reasonable probability of expiration worthless. Acceptable risk/reward.';
     } else if (score >= 60) {
-      return 'Weak put option. Lower probability of value decay. Marginal opportunity.';
+      return 'Weak put option. Lower probability of expiration worthless. Marginal opportunity.';
     } else {
-      return 'Very weak put option. Low probability of value decay. Avoid.';
+      return 'Very weak put option. Low probability of expiration worthless. Avoid.';
     }
   };
 
@@ -74,7 +74,7 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
             />
           </div>
           <p className="text-xs text-muted-foreground mt-1">
-            Probability of option value decay
+            Probability of expiration worthless
           </p>
         </div>
 
