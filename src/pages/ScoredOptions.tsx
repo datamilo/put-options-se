@@ -400,6 +400,69 @@ export const ScoredOptions = () => {
               getFullPath={getFullPath}
             />
           )}
+
+          {/* Critical Disclaimers Section */}
+          <div className="mt-12 p-6 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg space-y-4">
+            <div className="flex items-start gap-3">
+              <span className="text-2xl">⚠️</span>
+              <div className="flex-1">
+                <h3 className="font-semibold text-amber-900 dark:text-amber-50 mb-3">
+                  Critical Disclaimers & Risk Factors
+                </h3>
+
+                {/* Disclaimer 1: Hit Rate Reality */}
+                <div className="mb-4 p-3 bg-white dark:bg-amber-900/30 rounded">
+                  <div className="flex items-start gap-2 mb-2">
+                    <span className="font-semibold text-amber-900 dark:text-amber-50">
+                      77% Hit Rate ≠ No Losses
+                    </span>
+                    <InfoIconTooltip
+                      title={scoredOptionsTooltips.disclaimers.riskHitRate.title}
+                      content={scoredOptionsTooltips.disclaimers.riskHitRate.content}
+                      side="left"
+                    />
+                  </div>
+                  <p className="text-sm text-amber-800 dark:text-amber-100">
+                    23% of options in the 70-80% range will expire in-the-money. Position sizing must account for expected losses.
+                  </p>
+                </div>
+
+                {/* Disclaimer 2: Market Regime Risk */}
+                <div className="mb-4 p-3 bg-white dark:bg-amber-900/30 rounded">
+                  <div className="flex items-start gap-2 mb-2">
+                    <span className="font-semibold text-amber-900 dark:text-amber-50">
+                      Market Regime Changes
+                    </span>
+                    <InfoIconTooltip
+                      title={scoredOptionsTooltips.disclaimers.marketRegimeRisk.title}
+                      content={scoredOptionsTooltips.disclaimers.marketRegimeRisk.content}
+                      side="left"
+                    />
+                  </div>
+                  <p className="text-sm text-amber-800 dark:text-amber-100">
+                    Models trained on 21+ months of data. Extreme market shocks (geopolitical, rate changes) may reduce pattern relevance. Monitor monthly performance.
+                  </p>
+                </div>
+
+                {/* Disclaimer 3: No Guarantees */}
+                <div className="p-3 bg-white dark:bg-amber-900/30 rounded">
+                  <div className="flex items-start gap-2 mb-2">
+                    <span className="font-semibold text-amber-900 dark:text-amber-50">
+                      No Future Guarantees
+                    </span>
+                    <InfoIconTooltip
+                      title={scoredOptionsTooltips.disclaimers.noGuarantees.title}
+                      content={scoredOptionsTooltips.disclaimers.noGuarantees.content}
+                      side="left"
+                    />
+                  </div>
+                  <p className="text-sm text-amber-800 dark:text-amber-100">
+                    Past walk-forward validation (0.651 AUC) does NOT guarantee future results. Use as screening tool component, not sole decision-maker.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </div>
