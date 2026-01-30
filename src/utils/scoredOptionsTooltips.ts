@@ -225,7 +225,7 @@ export const taContractIndicatorTooltips: TooltipSection = {
   sigmaDistance: {
     title: 'Sigma_Distance (Most Important - 16.13%)',
     content:
-      'Strike distance normalized by both volatility and time: (Strike - Current_Price) / (Annual_HV * sqrt(DTE/365))\n\n**What It Does:** Controls for mixed volatility regimes and expiration periods. A 2% OTM strike on volatile tech stock != 2% OTM on utility stock. Same distance on 5-day expiry != 30-day expiry.\n\n**Why This Innovation Matters:** Enables strike-level and expiration-level differentiation. Without it, probabilities compress to narrow range. With it, full spectrum (0.044 to 0.992).\n\n**Feature Importance:** 16.13% (single most important feature)',
+      '**What It Measures:** Distance from current stock price to strike price, adjusted for volatility and time remaining before expiration.\n\n**Why This Matters:** Two options at the same 2% distance have very different probabilities:\n\n• **Volatile stock** (moves 3-4% daily): 2% distance is very close and easy to reach\n• **Stable stock** (moves 0.3% daily): 2% distance requires several days\n\nSame problem with time: 2% distance on 5-day option != 2% distance on 30-day option.\n\n**How It Works:** Answers "How many typical daily moves away is the strike?" High = many moves away (safer). Low = close to typical moves (riskier).\n\n**The Impact:** Enables accurate comparison across different volatility levels and expiration periods.',
   },
   delta: {
     title: 'Delta (Option Sensitivity to Stock Moves)',
