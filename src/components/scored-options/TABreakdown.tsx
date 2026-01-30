@@ -51,9 +51,9 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
         return { emoji: '🟡', label: 'Neutral', assessment: 'Momentum at crossover' };
 
       case 'MACD_Slope':
-        // MACD Slope: negative = declining, positive = rising
-        if (value < -0.1) return { emoji: '🟢', label: 'Declining', assessment: 'Momentum weakening' };
-        if (value > 0.1) return { emoji: '🔴', label: 'Rising', assessment: 'Momentum strengthening' };
+        // MACD Slope: positive = rising (strengthening trend, favorable), negative = declining (weakening, unfavorable)
+        if (value > 0.1) return { emoji: '🟢', label: 'Rising', assessment: 'Momentum strengthening' };
+        if (value < -0.1) return { emoji: '🔴', label: 'Declining', assessment: 'Momentum weakening' };
         return { emoji: '🟡', label: 'Flat', assessment: 'Momentum stable' };
 
       case 'BB_Position':
