@@ -44,7 +44,7 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">V2.1 Model</CardTitle>
           <div className={`text-3xl font-bold ${getScoreColor(option.v21_score)}`}>
-            {formatNordicPercentage(option.v21_score, 1)}
+            {option.v21_score != null ? `${formatNordicDecimal(option.v21_score, 1)}%` : '-'}
           </div>
         </div>
         <div className="text-sm text-muted-foreground mt-2">
@@ -56,12 +56,12 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
         <div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium">Current Probability</span>
-            <span className="font-semibold">{formatNordicPercentage(option.current_probability, 2)}</span>
+            <span className="font-semibold">{option.current_probability != null ? formatNordicPercentage(option.current_probability, 2) : '-'}</span>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
               className="h-full bg-blue-500"
-              style={{ width: `${Math.min(option.current_probability * 100, 100)}%` }}
+              style={{ width: `${Math.min((option.current_probability || 0) * 100, 100)}%` }}
             />
           </div>
           <p className="text-xs text-muted-foreground mt-1">
@@ -73,7 +73,7 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
         <div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium">Historical Peak</span>
-            <span className="font-semibold">{formatNordicPercentage(option.v21_historical_peak, 2)}</span>
+            <span className="font-semibold">{option.v21_historical_peak != null ? formatNordicPercentage(option.v21_historical_peak, 2) : '-'}</span>
           </div>
           <p className="text-xs text-muted-foreground">
             Highest probability this stock has shown historically
@@ -84,12 +84,12 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
         <div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium">Support Strength</span>
-            <span className="font-semibold">{formatNordicPercentage(option.v21_support_strength, 2)}</span>
+            <span className="font-semibold">{option.v21_support_strength != null ? `${formatNordicDecimal(option.v21_support_strength, 2)}%` : '-'}</span>
           </div>
           <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
             <div
               className="h-full bg-purple-500"
-              style={{ width: `${Math.min(option.v21_support_strength * 100, 100)}%` }}
+              style={{ width: `${Math.min(option.v21_support_strength || 0, 100)}%` }}
             />
           </div>
           <p className="text-xs text-muted-foreground mt-1">
