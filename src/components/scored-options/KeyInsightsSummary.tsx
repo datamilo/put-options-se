@@ -10,53 +10,51 @@ export const KeyInsightsSummary: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Model Convergence:</strong> Both the Probability Optimization Model and TA ML Model
-            independently predict a <strong>77% hit rate</strong> at the 70-80% prediction range. This dual
-            confirmation from two different methodologies validates the prediction accuracy at the premium zone.
+            <strong>Two Independent Models:</strong> The system uses two separate analytical approaches:
+            Probability Optimization Model (67% hit rate at 70-80% range) and TA ML Model (77.1% hit rate at 70-80% range).
+            Both provide independent estimates for comparison.
           </p>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Risk-Return Optimization:</strong> The 70-80% range is optimal because it balances
-            acceptable hit rate (77%) with significantly higher premiums (5-10x multiplier) compared to
-            conservative ranges (80%+ with 1x premiums).
+            <strong>Data-Driven Metrics:</strong> The 70-80% prediction range shows different actual outcomes by model.
+            Use the tables below to review hit rates and sample sizes across all prediction ranges.
+            Users can sort and filter to identify patterns relevant to their investment criteria.
           </p>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Confidence Intervals:</strong> At 70-80%, the confidence intervals are tight
-            ([77.0% - 77.2%] for the TA ML Model with 583K+ samples), indicating high statistical precision. This
-            narrow range reflects robust prediction stability across diverse market conditions.
+            <strong>Statistical Precision:</strong> Large sample sizes (583K+ for TA ML Model, 99K+ for Probability Model at 70-80%)
+            provide high confidence in the estimates. Confidence intervals show the range where true hit rates likely fall.
           </p>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Expected Value Calculation:</strong> Expected Return = (77% × Premium Multiplier) -
-            (23% × Loss). The 77% hit rate provides sufficient win rate to overcome the 23% loss rate while
-            benefiting from higher premiums.
+            <strong>Risk Assessment:</strong> Hit rate indicates percentage of options predicted to expire worthless
+            that actually do. Lower hit rates reflect higher risk. Users should evaluate their own risk tolerance
+            when selecting prediction ranges to trade.
           </p>
         </div>
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded p-3 space-y-2">
-        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Understanding These Tables:</p>
+        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">How to Interpret the Data:</p>
         <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1 list-disc list-inside">
           <li>
             <strong>Hit Rate:</strong> Percentage of options in each prediction range that actually expired worthless
           </li>
           <li>
-            <strong>Sample Size:</strong> Number of predictions used to calculate the hit rate (larger = more reliable)
+            <strong>Sample Size:</strong> Number of options analyzed to calculate hit rate (larger samples provide more reliable estimates)
           </li>
           <li>
-            <strong>95% CI (Confidence Interval):</strong> Range where the true hit rate is 95% likely to fall. Tight
-            CIs indicate precise, reliable estimates.
+            <strong>95% CI (Confidence Interval):</strong> Range where the true hit rate is 95% likely to fall. Narrow
+            intervals indicate more precise estimates.
           </li>
           <li>
-            <strong>Color Coding:</strong> Green (80%+ hit rate) = Conservative, Amber (70-80%) = Optimal Premium Zone,
-            Red (&lt;70%) = Elevated Risk
+            <strong>Avg Premium:</strong> Average option premium (where available) for reference only
           </li>
         </ul>
       </div>
