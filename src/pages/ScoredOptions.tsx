@@ -150,7 +150,7 @@ export const ScoredOptions = () => {
           <h1 className="text-3xl font-bold">Scored Options Recommendations</h1>
         </div>
         <p className="text-muted-foreground">
-          Dual-model analysis combining V2.1 probability predictions with technical analysis indicators. Identifies high-probability put writing opportunities with model agreement validation.
+          Dual-model analysis combining Probability Optimization Score with TA ML Model technical analysis indicators. Identifies high-probability put writing opportunities with model agreement validation.
         </p>
       </div>
 

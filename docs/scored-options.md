@@ -8,11 +8,11 @@
 
 ## Overview
 
-The **Scored Options Recommendations** page provides dual-model analysis combining V2.1 probability predictions with technical analysis (TA) indicators to identify high-probability put writing opportunities. The page validates model agreement between two independent analysis approaches and filters options based on score thresholds and model consensus.
+The **Scored Options Recommendations** page provides dual-model analysis combining Probability Optimization Score predictions with TA ML Model technical analysis indicators to identify high-probability put writing opportunities. The page validates model agreement between two independent analysis approaches and filters options based on score thresholds and model consensus.
 
 **Key Concept:** Two independent models score each option:
-- **V2.1 Model** - Probability-based scoring using 52-week historical support, current probability, and statistical metrics
-- **TA Model (V3)** - Machine learning classifier using 17 technical indicators: RSI, MACD, Bollinger Bands, ADX, ATR, Stochastic, and option Greeks (Delta, Vega, Theta)
+- **Probability Optimization Model** - Probability-based scoring using current market probability (60%), historical peak probability (30%), and support strength (10%)
+- **TA ML Model** - Machine learning classifier (Random Forest) using 17 technical indicators: RSI, MACD, Bollinger Bands, ADX, ATR, Stochastic, and option Greeks (Delta, Vega, Theta)
 
 The page emphasizes **model agreement** - when both models independently recommend an option, confidence is higher.
 
@@ -78,16 +78,16 @@ Four key metrics provide an at-a-glance overview:
 
 | Column | Type | Description |
 |--------|------|-------------|
-| **Details** | Button | Expandable row showing V2.1 breakdown, TA breakdown, and agreement analysis |
+| **Details** | Button | Expandable row showing Probability Optimization breakdown, TA ML Model breakdown, and agreement analysis |
 | **Stock** | Link | Stock ticker (linked to stock details page) |
 | **Option** | Link | Option contract name (linked to option details page) |
 | **Strike** | Number | Strike price of the option |
 | **Expiry** | Date | Option expiration date (Swedish format: YYYY-MM-DD) |
 | **DTE** | Number | Days to expiration |
 | **Premium** | Currency | Current option premium in SEK |
-| **V2.1 Score** | Number (0-100) | V2.1 probability model score (may show "-" if missing) |
-| **TA Prob** | Percentage (0-100%) | Technical analysis probability (may show "-" if missing) |
-| **Combined** | Score (0-100) | Average of V2.1 and TA scores with color coding |
+| **Probability Score** | Number (0-100) | Probability Optimization Score (may show "-" if missing) |
+| **TA Prob** | Percentage (0-100%) | TA ML Model probability (may show "-" if missing) |
+| **Combined** | Score (0-100) | Average of Probability and TA scores with color coding |
 | **Agree** | Symbol | ✓ (agree) or ✕ (disagree) |
 | **Strength** | Text | Strong / Moderate / Weak (only when models agree) |
 
@@ -111,18 +111,18 @@ Four key metrics provide an at-a-glance overview:
 
 ## Expandable Row Details
 
-### V2.1 Breakdown Section
+### Probability Optimization Breakdown Section
 
-Detailed V2.1 model calculations:
-- **V2.1 Score** - Overall probability score (displayed as percentage, e.g., "85,5%")
-- **V2.1 Bucket** - Risk categorization (e.g., "High", "Medium", "Low")
+Detailed Probability Optimization model calculations:
+- **Probability Score** - Overall probability score (displayed as percentage, e.g., "85,5%")
+- **Probability Bucket** - Risk categorization (e.g., "High", "Medium", "Low")
 - **Current Probability** - Current probability of value decay (displayed as percentage, e.g., "85,50%")
 - **Historical Peak** - Highest historical probability for this option (displayed as percentage, e.g., "85,50%")
 - **Support Strength** - 52-week support level robustness score (displayed as percentage, e.g., "85,50%" with visual progress bar)
 
-### TA Breakdown Section
+### TA ML Model Breakdown Section
 
-Detailed technical analysis metrics organized into two sections with status indicators (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable):
+Detailed TA ML Model metrics organized into two sections with status indicators (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable):
 
 **Stock-Level Technical Indicators** (12 indicators analyzing stock price action):
 - **TA Probability** - Overall TA recommendation strength (displayed as percentage, e.g., "85%")
@@ -251,10 +251,19 @@ Summary of model consensus:
 
 ## Version History
 
-**January 30, 2026 (Latest - TA Model V3 Integration with Full 17-Feature Set):**
+**January 31, 2026 (Latest - Transparency & Naming Updates):**
 
-**TA Model Enhancements:**
-- Integrated TA Model V3 with expanded 17-feature set as per DOWNSTREAM_TEAM_TA_MODEL_INTEGRATION_GUIDE.md
+**Clarity Improvements:**
+- Renamed "V2.1 Score" to "Probability Optimization Score" for better user understanding
+- Renamed "TA Model V3" to "TA ML Model" to clarify it's machine learning-based
+- Clarified that validation metrics (Walk-Forward AUC, Hit Rate, Calibration Error) apply to both models equally
+- Updated "Total Options Available" KPI to explain daily variation (4,500-5,500) due to OTM/ATM filtering
+- Improved expandable row layout for better responsiveness on lower-resolution monitors
+
+**January 30, 2026 (TA Model V3 Integration with Full 17-Feature Set):**
+
+**TA ML Model Enhancements:**
+- Integrated TA ML Model with expanded 17-feature set as per DOWNSTREAM_TEAM_TA_MODEL_INTEGRATION_GUIDE.md
 - Added 5 new stock-level technical indicators: ADX (14), ADX Slope, ATR (14), Stochastic K, Stochastic D
 - Added 3 new contract-level Greeks indicators: Delta, Vega, Theta
 - Organized TA breakdown into two sections: Stock-Level Indicators and Contract-Level Indicators

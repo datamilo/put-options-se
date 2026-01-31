@@ -175,7 +175,7 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
     <Card className={`${getProbabilityBgColor(option.ta_probability)}`}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">TA Model</CardTitle>
+          <CardTitle className="text-lg">TA ML Model</CardTitle>
           <div className={`text-3xl font-bold ${getProbabilityColor(option.ta_probability)}`}>
             {formatNordicPercentage(option.ta_probability, 0)}
           </div>

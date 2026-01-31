@@ -199,7 +199,7 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
               <SortableHeader field="premium" label="Premium" align="right" />
               <SortableHeader
                 field="v21_score"
-                label="V2.1 Score"
+                label="Probability Score"
                 align="right"
                 tooltipTitle={scoredOptionsTooltips.columns.v21Score.title}
                 tooltipContent={scoredOptionsTooltips.columns.v21Score.content}
@@ -317,8 +317,8 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
                   {expandedRow === idx && (
                     <TableRow>
                       <TableCell colSpan={12} className="bg-muted/30 p-0">
-                        <div className="p-6">
-                          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div className="p-6 overflow-x-auto">
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 min-w-full">
                             <V21Breakdown option={option} />
                             <TABreakdown option={option} />
                             <AgreementAnalysis option={option} />

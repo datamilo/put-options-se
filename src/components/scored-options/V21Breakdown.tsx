@@ -44,7 +44,7 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
     <Card className={`${getScoreBgColor(option.v21_score)}`}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">V2.1 Model</CardTitle>
+          <CardTitle className="text-lg">Probability Optimization Model</CardTitle>
           <div className={`text-3xl font-bold ${getScoreColor(option.v21_score)}`}>
             {option.v21_score != null ? `${formatNordicDecimal(option.v21_score, 1)}%` : '-'}
           </div>
