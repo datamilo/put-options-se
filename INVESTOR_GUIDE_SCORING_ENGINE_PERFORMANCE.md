@@ -36,11 +36,11 @@ Previous systems optimized for maximum prediction accuracy (90%+ hit rate), but 
 
 | Probability Range | Hit Rate | Avg Premium | Risk-Return Profile |
 |------------------|----------|------------|-------------------|
-| 80-100% | 80%+ | $2,477 | Conservative, very safe |
-| **70-80%** | **67%** | **$2,459** | **OPTIMAL** ✅ |
-| 60-70% | 59% | $2,552 | Moderate risk, reasonable premium |
-| 50-60% | 51% | $2,706 | High risk, higher premium |
-| <50% | 23% | $2,719 | Unacceptable hit rate |
+| 80-100% | 80%+ | 2,477 kr | Conservative, very safe |
+| **70-80%** | **67%** | **2,459 kr** | **OPTIMAL** ✅ |
+| 60-70% | 59% | 2,552 kr | Moderate risk, reasonable premium |
+| 50-60% | 51% | 2,706 kr | High risk, higher premium |
+| <50% | 23% | 2,719 kr | Unacceptable hit rate |
 
 *Data: 1.86M historical options from comprehensive_premium_zone_analysis.csv*
 
@@ -121,13 +121,13 @@ V2.1 shifts the strategy to the "sweet spot" where premiums exceed accuracy:
 Premium-Optimized Strategy (V2.1):
 - Target Range: 70-80% probability
 - Hit Rate: 67% (balanced, not perfect)
-- Premium Level: $2,459 avg (modest but consistent)
+- Premium Level: 2,459 kr avg (modest but consistent)
 - Return on Capital: Optimized for risk-adjusted returns
 ```
 
 **The Business Trade-Off:**
 - Sacrifice 15-20% accuracy (90% → 67%)
-- Gain more consistent premium collection ($2,459 vs $2,336 at 90%+)
+- Gain more consistent premium collection (2,459 kr vs 2,336 kr at 90%+)
 - Avoid extremes: Lower probability has huge variance, 90%+ has minimal premium
 - Net result: Optimal operating point for risk-adjusted returns
 
@@ -136,10 +136,10 @@ Premium-Optimized Strategy (V2.1):
 Expected Return = (Hit Rate × Premium Collected) - (Loss Rate × Loss Amount)
 
 90%+ accuracy with minimal premium:
-  = (0.97 × $2,336) - (0.03 × Strike Distance) = Limited upside
+  = (0.97 × 2,336 kr) - (0.03 × Strike Distance) = Limited upside
 
 67% accuracy with balanced premium:
-  = (0.67 × $2,459) - (0.33 × Strike Distance) = Better risk-reward
+  = (0.67 × 2,459 kr) - (0.33 × Strike Distance) = Better risk-reward
 
 Data source: 1.86M options analyzed from April 2024 - January 2026
 ```
@@ -255,15 +255,15 @@ The principle: **Only include factors that empirically improve predictive accura
 
 | Score Range | # Options | Hit Rate | Avg Premium | Recommendation |
 |-------------|-----------|----------|-------------|----------------|
-| 80-100 | 181,303+ | 80%+ | $2,477 | Conservative, very safe |
-| **70-80** | **99,107** | **67%** | **$2,459** | **PRIMARY TARGET** ✅ |
-| 60-70 | 76,873 | 59% | $2,552 | Secondary with caution |
-| 50-60 | 70,432 | 51% | $2,706 | High risk |
-| <50 | 435,190 | 23% | $2,719 | Unacceptable |
+| 80-100 | 181,303+ | 80%+ | 2,477 kr | Conservative, very safe |
+| **70-80** | **99,107** | **67%** | **2,459 kr** | **PRIMARY TARGET** ✅ |
+| 60-70 | 76,873 | 59% | 2,552 kr | Secondary with caution |
+| 50-60 | 70,432 | 51% | 2,706 kr | High risk |
+| <50 | 435,190 | 23% | 2,719 kr | Unacceptable |
 
 **Data Source:** 1.86M historical options (comprehensive_premium_zone_analysis.csv - all probability zones, premium-zone filtered)
 
-**Key Observation:** The 70-80% range delivers the optimal risk-return profile: 67% hit rate with balanced premium collection ($2,459), neither the highest nor lowest premium but with the best hit rate among lower-probability ranges.
+**Key Observation:** The 70-80% range delivers the optimal risk-return profile: 67% hit rate with balanced premium collection (2,459 kr), neither the highest nor lowest premium but with the best hit rate among lower-probability ranges.
 
 ### Calibration Validation
 
@@ -1041,20 +1041,20 @@ Each month includes:
 
 | Score Range | Options | Hit Rate | Premium Relative | Net Expected Return |
 |-------------|---------|----------|-----------------|-------------------|
-| 90-100 | 890+ | 80%+ | $2,477 | Conservative, safe |
-| 80-90 | 181,303 | 80% | $2,477 | Conservative |
-| **70-80** | **99,107** | **67%** | **$2,459** | **Optimal** ✅ |
-| 60-70 | 76,873 | 59% | $2,552 | Moderate risk |
-| 50-60 | 70,432 | 51% | $2,706 | High risk |
+| 90-100 | 890+ | 80%+ | 2,477 kr | Conservative, safe |
+| 80-90 | 181,303 | 80% | 2,477 kr | Conservative |
+| **70-80** | **99,107** | **67%** | **2,459 kr** | **Optimal** ✅ |
+| 60-70 | 76,873 | 59% | 2,552 kr | Moderate risk |
+| 50-60 | 70,432 | 51% | 2,706 kr | High risk |
 
 *Data: 1.86M options from comprehensive_premium_zone_analysis.csv*
-| <50 | 435,190 | 23% | $2,719 | Unacceptable |
+| <50 | 435,190 | 23% | 2,719 kr | Unacceptable |
 
 **Risk-Adjusted Return Interpretation:**
 
 The 70-80% range is optimal because:
 - Hit Rate of 67% is balanced (between 90%+ safety and <50% variance)
-- Premium Collected: $2,459 avg (consistent, practical amounts)
+- Premium Collected: 2,459 kr avg (consistent, practical amounts)
 - Avoids extremes: Low-probability ranges have huge variance; 90%+ has minimal premium
 - Risk-reward ratio: Best overall opportunity set
 
@@ -1062,8 +1062,8 @@ The 70-80% range is optimal because:
 ```
 Expected Return = (Hit Rate × Premium Collected) - (Loss Rate × Loss Amount)
 
-70-80% range: (0.67 × $2,459) - (0.33 × Strike Distance) = $1,648 avg - losses
-90%+ range:   (0.97 × $2,336) - (0.03 × Strike Distance) = $2,266 avg - minimal losses
+70-80% range: (0.67 × 2,459 kr) - (0.33 × Strike Distance) = $1,648 avg - losses
+90%+ range:   (0.97 × 2,336 kr) - (0.03 × Strike Distance) = $2,266 avg - minimal losses
 
 Data source: 1.86M options analyzed, April 2024 - January 2026
 ```

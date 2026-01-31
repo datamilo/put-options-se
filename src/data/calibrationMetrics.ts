@@ -52,7 +52,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 99107,
       confidenceIntervalLower: 0.66,
       confidenceIntervalUpper: 0.68,
-      expectedNote: 'Hit Rate: 67% | Avg Premium: $2,459',
+      expectedNote: 'Hit Rate: 67% | Avg Premium: 2 459 kr',
     },
     {
       rangeLabel: '80-100%',
@@ -62,7 +62,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 200000,
       confidenceIntervalLower: 0.79,
       confidenceIntervalUpper: 0.81,
-      expectedNote: 'Hit Rate: 80%+ | Avg Premium: $2,477',
+      expectedNote: 'Hit Rate: 80%+ | Avg Premium: 2 477 kr',
     },
   ],
 
