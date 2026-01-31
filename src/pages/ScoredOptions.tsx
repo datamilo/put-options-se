@@ -277,15 +277,8 @@ export const ScoredOptions = () => {
           </div>
 
           {/* Model Calibration & Accuracy Section */}
-          <div className="mt-8 space-y-6">
-            <div className="flex items-center gap-2">
-              <h2 className="text-2xl font-bold">Model Calibration & Accuracy</h2>
-            </div>
-            <Card>
-              <CardContent className="pt-6">
-                <CalibrationMetrics />
-              </CardContent>
-            </Card>
+          <div className="mt-8">
+            <CalibrationMetrics />
           </div>
 
           {/* Filters */}

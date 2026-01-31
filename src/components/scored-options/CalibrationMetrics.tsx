@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import { calibrationMetricsData } from '@/data/calibrationMetrics';
 import { BucketCalibrationTable } from './BucketCalibrationTable';
 import { TemporalStabilitySection } from './TemporalStabilitySection';
@@ -8,9 +9,35 @@ type ActiveTab = 'v21' | 'v3';
 
 export const CalibrationMetrics: React.FC = () => {
   const [activeTab, setActiveTab] = useState<ActiveTab>('v21');
+  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="space-y-6">
+    <div className="border rounded-lg">
+      {/* Accordion Header */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full flex items-center justify-between p-4 hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+      >
+        <div className="flex items-center gap-3 text-left">
+          <div>
+            <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+              Model Calibration & Accuracy
+            </h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Both models independently confirm 77% hit rate at 70-80% prediction range
+            </p>
+          </div>
+        </div>
+        {isExpanded ? (
+          <ChevronUp className="h-5 w-5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
+        ) : (
+          <ChevronDown className="h-5 w-5 text-gray-600 dark:text-gray-400 flex-shrink-0" />
+        )}
+      </button>
+
+      {/* Accordion Content */}
+      {isExpanded && (
+        <div className="border-t border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900 space-y-6">
       {/* Key Insights Summary */}
       <KeyInsightsSummary />
 
@@ -82,29 +109,31 @@ export const CalibrationMetrics: React.FC = () => {
         </div>
       )}
 
-      {/* Trust Indicators */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="bg-green-50 dark:bg-green-950 rounded p-3 space-y-2">
-          <p className="font-semibold text-green-900 dark:text-green-100 text-sm">✓ Dual-Model Validation</p>
-          <p className="text-xs text-green-800 dark:text-green-200">
-            Two independent models converge on 77% hit rate at 70-80% range
-          </p>
+        {/* Trust Indicators */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="bg-green-50 dark:bg-green-950 rounded p-3 space-y-2">
+            <p className="font-semibold text-green-900 dark:text-green-100 text-sm">✓ Dual-Model Validation</p>
+            <p className="text-xs text-green-800 dark:text-green-200">
+              Two independent models converge on 77% hit rate at 70-80% range
+            </p>
+          </div>
+          <div className="bg-blue-50 dark:bg-blue-950 rounded p-3 space-y-2">
+            <p className="font-semibold text-blue-900 dark:text-blue-100 text-sm">✓ Walk-Forward Tested</p>
+            <p className="text-xs text-blue-800 dark:text-blue-200">
+              1.59M predictions on future data the models never trained on
+            </p>
+          </div>
+          <div className="bg-amber-50 dark:bg-amber-950 rounded p-3 space-y-2">
+            <p className="font-semibold text-amber-900 dark:text-amber-100 text-sm">✓ Calibration Accuracy</p>
+            <p className="text-xs text-amber-800 dark:text-amber-200">2.4% average error between predicted & actual</p>
+          </div>
+          <div className="bg-purple-50 dark:bg-purple-950 rounded p-3 space-y-2">
+            <p className="font-semibold text-purple-900 dark:text-purple-100 text-sm">✓ Large Sample Sizes</p>
+            <p className="text-xs text-purple-800 dark:text-purple-200">583K+ samples at 70-80% range (high precision)</p>
+          </div>
         </div>
-        <div className="bg-blue-50 dark:bg-blue-950 rounded p-3 space-y-2">
-          <p className="font-semibold text-blue-900 dark:text-blue-100 text-sm">✓ Walk-Forward Tested</p>
-          <p className="text-xs text-blue-800 dark:text-blue-200">
-            1.59M predictions on future data the models never trained on
-          </p>
         </div>
-        <div className="bg-amber-50 dark:bg-amber-950 rounded p-3 space-y-2">
-          <p className="font-semibold text-amber-900 dark:text-amber-100 text-sm">✓ Calibration Accuracy</p>
-          <p className="text-xs text-amber-800 dark:text-amber-200">2.4% average error between predicted & actual</p>
-        </div>
-        <div className="bg-purple-50 dark:bg-purple-950 rounded p-3 space-y-2">
-          <p className="font-semibold text-purple-900 dark:text-purple-100 text-sm">✓ Large Sample Sizes</p>
-          <p className="text-xs text-purple-800 dark:text-purple-200">583K+ samples at 70-80% range (high precision)</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
