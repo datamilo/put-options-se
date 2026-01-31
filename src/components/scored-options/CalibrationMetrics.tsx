@@ -51,7 +51,7 @@ export const CalibrationMetrics: React.FC = () => {
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
           }`}
         >
-          Probability Optimization Model (V2.1)
+          Probability Optimization Model
         </button>
         <button
           onClick={() => setActiveTab('v3')}
@@ -61,7 +61,7 @@ export const CalibrationMetrics: React.FC = () => {
               : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
           }`}
         >
-          TA Model V3 (Technical + ML)
+          TA ML Model
         </button>
       </div>
 
@@ -88,7 +88,7 @@ export const CalibrationMetrics: React.FC = () => {
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-900 rounded p-4 space-y-3">
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              The TA Model V3 uses machine learning with 17 empirically-learned features: 12 stock-level technical
+              The TA ML Model uses machine learning with 17 empirically-learned features: 12 stock-level technical
               indicators and 5 contract-level features including Options Greeks. This calibration table shows results
               from 1.59M walk-forward out-of-sample predictions, meaning the model never saw this data during training.
             </p>
@@ -99,7 +99,7 @@ export const CalibrationMetrics: React.FC = () => {
             </p>
           </div>
           <BucketCalibrationTable
-            title="TA Model V3 - Hit Rates by Predicted Range (Walk-Forward Validated)"
+            title="TA ML Model - Hit Rates by Predicted Range (Walk-Forward Validated)"
             buckets={calibrationMetricsData.v3Buckets}
             modelType="v3"
           />

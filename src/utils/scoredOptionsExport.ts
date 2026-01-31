@@ -33,12 +33,12 @@ export const exportScoredOptionsToExcel = ({ filename, data }: ExportOptions) =>
     days_to_expiry: formatValue(option.days_to_expiry),
     premium: formatValue(option.premium),
     current_probability: formatValue(option.current_probability),
-    // V2.1 Model
+    // Probability Optimization Model
     v21_score: formatValue(option.v21_score),
     v21_bucket: formatValue(option.v21_bucket),
     v21_historical_peak: formatValue(option.v21_historical_peak),
     v21_support_strength: formatValue(option.v21_support_strength),
-    // TA Model
+    // TA ML Model
     ta_probability: formatValue(option.ta_probability),
     ta_bucket: formatValue(option.ta_bucket),
     // Stock-level technical indicators

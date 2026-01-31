@@ -10,7 +10,7 @@ export const KeyInsightsSummary: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Model Convergence:</strong> Both the Probability Optimization Model and TA Model V3
+            <strong>Model Convergence:</strong> Both the Probability Optimization Model and TA ML Model
             independently predict a <strong>77% hit rate</strong> at the 70-80% prediction range. This dual
             confirmation from two different methodologies validates the prediction accuracy at the premium zone.
           </p>
@@ -27,7 +27,7 @@ export const KeyInsightsSummary: React.FC = () => {
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
             <strong>Confidence Intervals:</strong> At 70-80%, the confidence intervals are tight
-            ([77.0% - 77.2%] for TA V3 with 583K+ samples), indicating high statistical precision. This
+            ([77.0% - 77.2%] for the TA ML Model with 583K+ samples), indicating high statistical precision. This
             narrow range reflects robust prediction stability across diverse market conditions.
           </p>
         </div>

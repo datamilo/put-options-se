@@ -41,8 +41,8 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
         title: 'Models Disagree',
         icon: <XCircle className="w-5 h-5" />,
         description: v21Higher
-          ? `V2.1 model (${formatNordicDecimal(option.v21_score, 1)}) is bullish, but TA model (${formatNordicDecimal(option.ta_probability * 100, 1)}) is bearish. Difference: ${formatNordicDecimal(diff, 1)} points.`
-          : `TA model (${formatNordicDecimal(option.ta_probability * 100, 1)}) is bullish, but V2.1 model (${formatNordicDecimal(option.v21_score, 1)}) is bearish. Difference: ${formatNordicDecimal(diff, 1)} points.`,
+          ? `Probability Optimization Model (${formatNordicDecimal(option.v21_score, 1)}) is bullish, but TA ML Model (${formatNordicDecimal(option.ta_probability * 100, 1)}) is bearish. Difference: ${formatNordicDecimal(diff, 1)} points.`
+          : `TA ML Model (${formatNordicDecimal(option.ta_probability * 100, 1)}) is bullish, but Probability Optimization Model (${formatNordicDecimal(option.v21_score, 1)}) is bearish. Difference: ${formatNordicDecimal(diff, 1)} points.`,
         recommendation: 'Use with caution. Mixed signals suggest elevated uncertainty. Consider additional confirmation.',
       };
     }
@@ -55,8 +55,8 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
       icon: <CheckCircle className="w-5 h-5" />,
       description:
         option.agreement_strength === 'Strong'
-          ? `Both models strongly bullish. V2.1: ${formatNordicDecimal(option.v21_score, 1)}, TA: ${formatNordicDecimal(option.ta_probability * 100, 1)}. Difference: ${formatNordicDecimal(diff, 1)} points.`
-          : `Both models aligned with moderate conviction. V2.1: ${formatNordicDecimal(option.v21_score, 1)}, TA: ${formatNordicDecimal(option.ta_probability * 100, 1)}. Difference: ${formatNordicDecimal(diff, 1)} points.`,
+          ? `Both models strongly bullish. Probability Optimization: ${formatNordicDecimal(option.v21_score, 1)}, TA ML: ${formatNordicDecimal(option.ta_probability * 100, 1)}. Difference: ${formatNordicDecimal(diff, 1)} points.`
+          : `Both models aligned with moderate conviction. Probability Optimization: ${formatNordicDecimal(option.v21_score, 1)}, TA ML: ${formatNordicDecimal(option.ta_probability * 100, 1)}. Difference: ${formatNordicDecimal(diff, 1)} points.`,
       recommendation:
         option.agreement_strength === 'Strong'
           ? 'High confidence signal. Both models strongly support this position.'
@@ -124,9 +124,9 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
         <div className="space-y-2">
           <div className="text-sm font-medium">Model Scores</div>
           <div className="space-y-2">
-            {/* V2.1 Score */}
+            {/* Probability Optimization Score */}
             <div className="flex items-center justify-between">
-              <span className="text-sm">V2.1 Model</span>
+              <span className="text-sm">Probability Optimization Model</span>
               <div className="flex items-center gap-2">
                 <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div

@@ -1,5 +1,5 @@
 /**
- * Calibration metrics data for Probability Optimization Model and TA Model V3
+ * Calibration metrics data for Probability Optimization Model and TA ML Model
  * Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (January 31, 2026)
  *
  * This data shows actual hit rates (percentage of options that expired worthless)
@@ -112,7 +112,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 583229,
       confidenceIntervalLower: 0.770,
       confidenceIntervalUpper: 0.772,
-      expectedNote: 'OPTIMAL: Converges with V2.1 at 77% hit rate',
+      expectedNote: 'OPTIMAL: Converges with Probability Optimization Model at 77% hit rate',
       isPremiumZone: true,
     },
     {
@@ -177,7 +177,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
 };
 
 /**
- * Get hit rate for a specific score range in V2.1 model
+ * Get hit rate for a specific score range in Probability Optimization Model
  */
 export const getV21HitRate = (score: number): number | null => {
   const bucket = calibrationMetricsData.v21Buckets.find(
@@ -187,7 +187,7 @@ export const getV21HitRate = (score: number): number | null => {
 };
 
 /**
- * Get hit rate for a specific score range in TA Model V3
+ * Get hit rate for a specific score range in TA ML Model
  */
 export const getV3HitRate = (score: number): number | null => {
   const bucket = calibrationMetricsData.v3Buckets.find(

@@ -1,6 +1,6 @@
 /**
  * Type definitions for calibration metrics
- * Represents bucket-based calibration data for both Probability Optimization and TA Model V3
+ * Represents bucket-based calibration data for both Probability Optimization and TA ML Model
  */
 
 export interface CalibrationBucket {
@@ -38,11 +38,11 @@ export interface TemporalFoldData {
 }
 
 export interface CalibrationMetricsData {
-  /** V2.1 Premium Optimization Model calibration buckets */
+  /** Probability Optimization Model calibration buckets */
   v21Buckets: CalibrationBucket[];
-  /** TA Model V3 calibration buckets */
+  /** TA ML Model calibration buckets */
   v3Buckets: CalibrationBucket[];
-  /** TA Model V3 temporal stability by fold (for 70-80% bucket) */
+  /** TA ML Model temporal stability by fold (for 70-80% bucket) */
   v3TemporalFolds?: TemporalFoldData[];
 }
 

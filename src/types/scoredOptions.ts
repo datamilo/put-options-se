@@ -12,10 +12,10 @@ export interface ScoredOptionData {
   expiry_date: string;
   days_to_expiry: number;
 
-  // Probability (V2.1 Model)
+  // Probability Optimization Model
   current_probability: number;
 
-  // V2.1 Model
+  // Probability Optimization Model
   v21_score: number | null;
   v21_bucket: string;
   v21_historical_peak: number | null;

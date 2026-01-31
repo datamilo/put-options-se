@@ -81,7 +81,7 @@ export const ScoredOptions = () => {
         return false;
       }
 
-      // Min V2.1 score filter - only exclude null values if minimum > 0
+      // Min Probability Optimization score filter - only exclude null values if minimum > 0
       if (option.v21_score == null) {
         if (filters.minV21Score > 0) {
           return false;

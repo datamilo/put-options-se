@@ -201,10 +201,10 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
             />
           </div>
 
-          {/* Min V2.1 Score */}
+          {/* Min Probability Optimization Score */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label>Min V2.1 Score: {filters.minV21Score}</Label>
+              <Label>Min Probability Optimization Score: {filters.minV21Score}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.minV21Score.content}
                 side="bottom"
