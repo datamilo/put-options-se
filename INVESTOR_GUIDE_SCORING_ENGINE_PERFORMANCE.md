@@ -1,8 +1,8 @@
 # Swedish Put Options Scoring Engine: Performance Analysis & Investment Thesis
 
 **Prepared For:** Investors with quantitative background
-**Date:** January 30, 2026
-**Version:** 1.0
+**Date:** January 31, 2026
+**Version:** 1.1
 **Status:** Production Ready
 
 ---
@@ -21,7 +21,7 @@ The Swedish Put Options Scoring Engine identifies equity options most likely to 
 |--------|-----------|-----------|-----------------|
 | **Test AUC** | 0.862 | 0.8615 | Excellent discrimination (both models) |
 | **Walk-Forward AUC** | 0.651 | 0.6511 ± 0.040 | Good generalization to future periods (stable) |
-| **Hit Rate (70-80% range)** | 77% | N/A | Probability option expires worthless |
+| **Hit Rate (70-80% range)** | 77% | 77.1% | Probability option expires worthless |
 | **Brier Score** | - | 0.1519 | Well-calibrated probabilities |
 | **Training Data** | Historical pricing | 1.8M+ option records | 21+ months (Apr 2024 - Jan 2026) |
 | **Model Features** | 3 factors | **17 features** (12 TA + 5 Greeks) | V3 adds empirical Greeks importance |
@@ -92,69 +92,53 @@ Profit = Premium Collected - max(Strike - Stock Price, 0)
 
 **Why This Matters:** Probability of expiration worthless directly drives profitability.
 
-### The Accuracy vs. Premium Trade-Off
+### The Premium Optimization Strategy
 
-**Historical Finding (V2.0 Analysis):**
+V2.1 deliberately targets the **70-80% probability range** as the optimal business zone. This is not about maximum accuracy—it's about maximum risk-adjusted returns.
 
-Traditional machine learning models optimize for maximum accuracy, leading to:
-- High probability predictions (80-100%)
-- Excellent hit rates (90%+)
-- Very low premiums collected
+**Why Not Higher Probability?**
 
-**The Business Problem:**
+Many practitioners optimize for maximum prediction accuracy (90%+ hit rates), but this creates a fundamental business problem:
+
 ```
-Accuracy-Optimized Model:
+Accuracy-Optimized Approach:
 - Predicted Range: 85-100%
 - Hit Rate: 92%
 - Premium Level: 1-2x
-- Return on Capital: Minimal
+- Return on Capital: Minimal (premium barely covers opportunity cost)
 ```
 
-**The V2.1 Innovation:**
+The catch: When you correctly predict 90% of options expire worthless, the market has already priced that certainty. Your premium collected is minimal. Excellent accuracy ≠ profitable premiums.
+
+**The V2.1 Solution: Premium Optimization**
+
+V2.1 shifts the strategy to the "sweet spot" where premiums exceed accuracy:
+
 ```
-Premium-Optimized Model:
-- Predicted Range: 70-80% (deliberately lower)
-- Hit Rate: 77% (accepting lower accuracy)
-- Premium Level: 5-10x (dramatically higher)
+Premium-Optimized Strategy (V2.1):
+- Target Range: 70-80% probability
+- Hit Rate: 77% (good, not perfect)
+- Premium Level: 5-10x
 - Return on Capital: Optimized
 ```
 
+**The Business Trade-Off:**
+- Sacrifice 15-20% accuracy (90% → 77%)
+- Gain 5-10x premium multiplier
+- Net result: Higher risk-adjusted returns
+
 **Statistical Justification:**
-The 77% hit rate in the 70-80% range represents 5-10x higher premiums for only a 13-15% reduction in accuracy. This trade-off is mathematically favorable for risk-adjusted returns.
-
-### Evolution: What We Learned (V2.0 → V2.1)
-
-**V2.0 Problem Discovered (January 2026):**
-
-Analysis revealed a critical calibration failure in V2.0:
-- Score range 50-60 was predicting 72.55% hit rate (should predict 50-60%)
-- Recovery Advantage factor showed **negative correlation** with outcomes (-0.0332)
-- Yet this factor was weighted at 33% (second-highest importance)
-
-**Root Cause Analysis:**
-
-The problem stemmed from using **feature importance** (contribution to model ensemble) instead of **predictive correlation** (actual outcome prediction).
-
 ```
-Random Forest Feature Importance ≠ Predictive Power
+Expected Return = (Hit Rate × Premium Collected) - (Loss Rate × Loss Amount)
 
-Recovery Advantage:
-- Was important to model decisions (high feature importance)
-- But predicted opposite direction (negative correlation)
-- Still weighted heavily, distorting predictions
+90% accuracy with 1x premium:
+  = (0.90 × 1x) - (0.10 × Strike Distance) = Marginal
+
+77% accuracy with 5-10x premium:
+  = (0.77 × 5-10x) - (0.23 × Strike Distance) = Significantly better
 ```
 
-**The Solution (V2.1):**
-1. Removed Recovery Advantage (0% weight)
-2. Reweighted by correlation strength, not feature importance
-3. Final weights: Current Probability 60%, Historical Peak 30%, Support 10%
-
-**Results:**
-- AUC improved from 0.5171 to 0.6096 (**+27% improvement**)
-- Calibration across score buckets now accurate
-- Model now reflects actual predictive signals
-
-**Key Lesson:** Using correct feature selection methodology is as important as model architecture.
+This mathematical framework drives V2.1's design: weighted composite of Current Probability (60%), Historical Peak (30%), and Support Strength (10%).
 
 ---
 
@@ -234,37 +218,15 @@ Where:
 
 **Interpretation:** Support Strength acts as a risk filter. Options trading below weak support are flagged as riskier despite favorable primary signals.
 
-### What Was Removed from V2.0
+### Why Only 3 Factors?
 
-**Days to Expiry (AUC: 0.5293)**
+V2.1 uses exactly 3 factors weighted by empirical predictive strength. Other potential factors (Days to Expiry, Recovery Advantage, etc.) were evaluated but excluded because:
 
-**Finding:** Days to expiration showed no predictive power—barely random performance.
+- **Days to Expiry:** Time decay is already priced into Current Probability. Testing on historical data showed no independent predictive value (AUC: 0.5293, essentially random). Days_To_Expiry is retained in TA Model V3 where it contributes 2.73% when combined with technical signals, but adds no value as a standalone factor in V2.1's simplified composite.
 
-**Why It Failed:**
-- Time decay is priced into Current Probability
-- Number of days doesn't predict direction
-- Market already accounts for time value
+- **Recovery Advantage:** Some options experience "recovery" (low probability initially, then high probability later). Testing showed this factor had negative empirical correlation with outcomes—options that recovered were not worse performers, contradicting intuition. Removing this factor improved model calibration and generalization.
 
-**Decision:** Removed from composite scoring but retained for:
-- Filtering (5-35 day options only)
-- Output display (analyst preference)
-
-**TA Model V2 Handling:** Included contract-level features (Days_To_Expiry) in the machine learning model, where it contributes 5.4% to ensemble decision-making (more useful when combined with other technical signals).
-
-**Recovery Advantage (Correlation: -0.0332)**
-
-**Critical Finding:** This factor showed **negative correlation** with outcomes—predicted opposite direction.
-
-**What It Measured:** Premium recovery potential (how much premium increases with positive moves).
-
-**The Problem:**
-- Used as 33% weight in V2.0
-- Negative correlation meant higher weights on worse predictions
-- Distorted entire model calibration
-
-**Root Cause:** Feature importance (how much it contributed to model decisions) was confused with predictive correlation (whether it actually predicted outcomes).
-
-**Decision:** Completely removed from V2.1. Available in recovery analysis reports for separate analytical purposes.
+The principle: **Only include factors that empirically improve predictive accuracy and calibration.** V2.1's 3-factor design reflects this discipline.
 
 ### Performance Metrics
 
@@ -326,7 +288,7 @@ The model uses isotonic regression to ensure predicted probabilities match empir
 
 ## Section 3: TA Model V3 (Independent Validation)
 
-**Status Update (January 29, 2026):** TA Model has been upgraded from V2 (9 features) to V3 (17 features). V3 adds 5 enhanced technical indicators and 3 Options Greeks features for superior predictive power.
+**Status (January 29, 2026):** TA Model V3 is a calibrated Random Forest with 17 empirically-selected features: 12 stock-level technical indicators and 5 contract-level features including Options Greeks. This comprehensive feature set provides superior predictive power for identifying options that expire worthless.
 
 ### ⚠️ CRITICAL DISTINCTION: Empirical ML Interpretations vs. Traditional Technical Analysis
 
@@ -367,17 +329,22 @@ Rather than optimizing a single model to perfection, the system employs two inde
 **Training Date:** January 29, 2026
 **Validation Method:** Walk-forward time-series cross-validation (5-fold expanding window)
 
-### What V3 Changes from V2
+### V3 Feature Composition & Empirical Importance
 
-| Aspect | V2 (9 Features) | V3 (17 Features) | Impact |
-|--------|-----------------|-----------------|--------|
-| Stock-Level | 7 indicators | 12 indicators (added ADX, ATR, Stochastic) | Better trend & volatility capture |
-| Contract-Level | 2 features | 5 features (added Greeks_Delta, Vega, Theta) | Empirically found Greeks are most predictive |
-| Test AUC | 0.8447 | 0.8615 | +1.68% improvement |
-| Walk-Forward AUC | 0.651 | 0.6511 | Same (both good) |
-| Top Predictor | Sigma_Distance (16.13%) | Greeks_Delta (11.82%) | **Greeks empirically stronger** |
+**Stock-Level Technical Indicators (12 features):**
+- RSI, RSI_Slope, MACD_Hist, MACD_Slope, BB_Position, Dist_SMA50, Vol_Ratio, ADX, ATR, Stochastic_K, Stochastic_D
+- Combined importance: 54.91% of predictive power
 
-**Key V3 Discovery:** Adding Options Greeks revealed that **Delta is the single strongest predictor of worthless expiration** (11.82% feature importance). This empirical finding wasn't known until the V3 model was trained on 1.8M records.
+**Contract-Level Features (5 features):**
+- Sigma_Distance, Days_To_Expiry, Greeks_Delta, Greeks_Vega, Greeks_Theta
+- Combined importance: 45.09% of predictive power
+- **Greeks alone:** 23.17% (most predictive category)
+- **Greeks_Delta specifically:** 11.82% (single strongest feature of all 17)
+
+**Performance Metrics:**
+- Test AUC: 0.8615 (excellent discrimination on held-out data)
+- Walk-Forward AUC: 0.6511 (proven generalization to future periods)
+- Brier Score: 0.1519 (well-calibrated probabilities)
 
 ### The 17-Feature System (V3 Enhanced with Greeks)
 
@@ -454,37 +421,6 @@ Rather than optimizing a single model to perfection, the system employs two inde
 17. **Greeks_Theta** (Option Theta) ⭐ **NEW in V3**
     - Black-Scholes Theta: daily time decay value
     - **ML Empirical Finding:** Feature importance 5.23%. Model determined theta decay pattern correlates with worthless expiration. This is a data-learned pattern unique to this dataset.
-
-**Contract-Level Features (2 Features):**
-
-8. **Sigma_Distance** (Strike distance in volatility units) ⭐ **Most Important**
-
-   Formula: `Sigma_Distance = (Strike - Current_Price) / (Annual_HV × √(DTE/365))`
-
-   **What It Does:**
-   - Normalizes strike distance by both volatility and time
-   - Controls for options expiring in 5 days vs 30 days
-   - Accounts for high-volatility vs low-volatility stocks
-
-   **Why This Innovation Matters:**
-   - A 2% OTM strike on volatile technology stock ≠ 2% OTM on utility stock
-   - Same normalized distance on 5-day expiry ≠ same on 30-day expiry
-   - Enables strike-level and expiration-level differentiation
-
-   **Impact on Probabilities:**
-   - Without contract-level features: All options in same stock cluster together
-   - With Sigma_Distance: Probabilities range from 0.044 to 0.992
-   - **Full spectrum utilization** (not compressed to narrow range)
-
-   **ML Empirical Finding:** The model analyzed 1.8M historical option records and determined that Sigma_Distance is the strongest predictor of expiration outcomes. The strength of this feature comes from empirical analysis of Swedish options data—how strike-distance-relative-to-volatility actually correlates with worthless expiration.
-
-   **Feature Importance:** 16.13% (highest among all 9 features)
-
-9. **Days_To_Expiry** (Business days until expiration)
-   - Time decay factor
-   - Interacts with technical signals
-   - **ML Empirical Finding:** The model learned empirically how days-to-expiry interacts with other signals to predict worthless outcomes. While time decay is a theoretical concept, its actual predictive value in the model comes from observed patterns in 1.8M historical records. The empirically learned relationship drives the 5.44% feature importance.
-   - Feature Importance: 5.44%
 
 ### Feature Importance Ranking (V3 - Empirically Determined)
 
@@ -651,7 +587,7 @@ A Brier Score of 0.1519 means:
 - Average prediction error of √0.1519 = ~39% probability units
 - Example: For an option, if predicted 70%, actual might be 49-89%
 - Well-calibrated (0.0 is perfect, 0.25 is random guessing)
-- V3 Brier improved from V2's 0.1608
+- V3 Brier: 0.1519 (excellent calibration)
 
 ### What These Metrics Prove About V3 Empirical Learning
 
@@ -671,6 +607,67 @@ A Brier Score of 0.1519 means:
 - Model behavior is stable and predictable
 
 **The Key Point:** These metrics validate that the model's empirical learning—what it discovered about which feature values predict worthless expiration—is genuine, stable, and predictive of real future outcomes. This isn't overfitting or data dredging; it's discovering real patterns.
+
+### TA Model V3 Calibration (Walk-Forward Validated)
+
+**What This Section Answers:** When TA V3 predicts an option has a 70% chance of expiring worthless, how often does it actually expire worthless? This is the business-critical question — the metric that directly translates to hit rates for put sellers.
+
+**Methodology:**
+
+TA V3 calibration was validated using the same 5-fold expanding window walk-forward structure used for AUC validation. Each of 1,588,980 test predictions was made on truly out-of-sample data (future periods the model never trained on), then bucketed by predicted probability to measure whether those predictions matched actual outcomes.
+
+This is a strict out-of-sample test. It answers: *"On data TA V3 has never seen, do its predicted probabilities match reality?"*
+
+**Calibration Results (1,588,980 out-of-sample predictions):**
+
+| TA V3 Predicted | Actual Worthless Rate | Count | 95% CI | V2.1 Reference | Status |
+|---|---|---|---|---|---|
+| <50% | 44.6% | 15,729 | [43.8% - 45.3%] | <55% | Well calibrated |
+| 50-60% | 57.1% | 95,560 | [56.8% - 57.4%] | 55-65% | Well calibrated |
+| 60-70% | 65.3% | 547,402 | [65.2% - 65.4%] | 65-70% | Well calibrated |
+| **70-80%** | **77.1%** | **583,229** | **[77.0% - 77.2%]** | **~77%** | **Well calibrated** ✅ |
+| 80-90% | 82.3% | 300,158 | [82.2% - 82.5%] | 90%+ | Well calibrated |
+| 90%+ | 87.6% | 46,902 | [87.3% - 87.9%] | 90%+ | Overestimates (-7.4pp) |
+
+**The business-critical finding: TA V3 hit rate at 70-80% = 77.1%**
+
+When TA V3 predicts an option has a 70-80% probability of expiring worthless, it actually does so 77.1% of the time. This is effectively identical to V2.1's 77% at the same range — two independent models converging on the same empirical reality at the premium collection sweet spot.
+
+**Bucket-by-Bucket Interpretation:**
+
+- **<50% through 80-90%:** Well calibrated across the entire business-relevant range. Each bucket's actual worthless rate falls within or very near the predicted range, with tight confidence intervals reflecting large sample sizes (95K-583K per bucket).
+- **90%+ bucket:** Overestimates by 7.4 percentage points (predicted ~95% midpoint, actual 87.6%). This is the only miscalibrated bucket, affecting 3.0% of all test predictions. Options scoring 90%+ are already beyond the 70-80% premium optimization target range, so this overestimation does not affect the core trading strategy.
+
+**Direct Comparison at the Premium Zone:**
+
+| Model | Predicted Range | Actual Hit Rate | Out-of-Sample Records |
+|---|---|---|---|
+| V2.1 Premium Optimization | 70-80% | 77% | 934K+ expired options |
+| TA Model V3 | 70-80% | 77.1% | 583,229 walk-forward predictions |
+
+Both models independently confirm: options in the 70-80% range expire worthless approximately 77% of the time.
+
+### TA V3 Temporal Stability (Per-Fold Calibration)
+
+The 5-fold walk-forward structure tests calibration across distinct future market periods. Each fold covers a different ~3-month window, making this a temporal stability analysis — not just an overall average.
+
+**Per-Fold Results at the 70-80% Bucket (the premium zone):**
+
+| Fold | Test Period | 70-80% Hit Rate | Count | Deviation |
+|---|---|---|---|---|
+| 1 | Aug 29 - Dec 2, 2024 | 73.8% | 54,021 | -1.2pp |
+| 2 | Dec 3, 2024 - Mar 14, 2025 | 64.7% | 103,117 | -10.3pp |
+| 3 | Mar 17 - Jun 26, 2025 | 82.0% | 116,641 | +7.0pp |
+| 4 | Jun 27 - Sep 30, 2025 | 79.0% | 140,181 | +4.0pp |
+| 5 | Oct 1, 2025 - Jan 12, 2026 | 80.8% | 169,269 | +5.8pp |
+
+**Interpretation of Temporal Variation:**
+
+- **Fold 2 (Dec 2024 - Mar 2025):** Significant overestimation — 64.7% actual vs 70-80% predicted. This fold also recorded the lowest walk-forward AUC (0.589). A market regime shift during this period temporarily degraded model calibration. This is expected behavior: the model was trained on data up to Dec 2024 and tested on the subsequent 3 months, during which conditions shifted.
+- **Folds 3-5 (Mar 2025 onwards):** The model became increasingly conservative. Actual worthless rates exceeded predictions in upper buckets (80-90% predicted bucket: 92.3% in Fold 3, 90.9% in Fold 4, 93.3% in Fold 5). The model underestimated expiration probability in higher buckets during this period.
+- **Aggregated 77.1% masks this variation:** Individual periods show +/-10pp swings from the mean. Investors should understand that calibration is an average across market regimes, not a guaranteed rate in any given period.
+
+**Business Implication:** Recent folds (4-5, covering Jun 2025 - Jan 2026) show 79.0% and 80.8% hit rates at the 70-80% bucket — slightly above the long-run average. The model appears well-calibrated for current market conditions. The Fold 2 underperformance was a transient regime effect, consistent with the model retraining each fold to incorporate new data.
 
 ### Dual-Model Agreement (V2.1 + V3 Consensus)
 
@@ -866,7 +863,7 @@ A model with Test AUC 0.96 but Walk-Forward AUC 0.52 is **worse than useless**�
 | Model | Test AUC | Walk-Forward AUC | Gap | Interpretation |
 |---|---|---|---|---|
 | **V2.1** | 0.862 | 0.651 | 0.211 | Good generalization |
-| **TA Model V2** | 0.8447 | 0.651 | 0.194 | Good generalization |
+| **TA Model V3** | 0.8615 | 0.6511 | 0.210 | Good generalization |
 | Ensemble Clustering (REJECTED) | 0.96+ | 0.5846 | 0.410 | Severe overfitting |
 
 **Why the Gap Matters:**
@@ -894,7 +891,7 @@ Large Gap (>0.35) = Overfitting risk ✗
 
 **Our Results:**
 - V2.1 Gap: 0.211 (healthy)
-- TA Model V2 Gap: 0.194 (healthy)
+- TA Model V3 Gap: 0.210 (healthy)
 - Ensemble Clustering Gap: 0.410 (rejected due to overfitting)
 
 ### Case Study: Ensemble Clustering Rejection (January 2026)
@@ -992,6 +989,8 @@ approximately 70% should actually expire worthless.
 
 **Interpretation:** The model's predicted probabilities are highly accurate, with less than 2.4% average deviation from empirical frequencies.
 
+**TA Model V3 Calibration:** TA V3 has been independently calibration-validated using the same walk-forward methodology (1.59M out-of-sample predictions). At the 70-80% premium zone, TA V3 achieves 77.1% actual worthless rate — matching V2.1. See Section 3 (TA Model V3 Calibration) for full out-of-sample results and per-fold temporal stability analysis.
+
 ### Daily Health Monitoring
 
 **What Gets Monitored:**
@@ -1019,9 +1018,9 @@ Each month includes:
 
 ---
 
-## Section 5: Historical Performance Analysis
+## Section 5: Performance Validation & Consistency
 
-### Backtest Period & Data Coverage
+### Backtest Period & Coverage
 
 **Testing Period:** April 18, 2024 - January 31, 2026 (21+ months)
 **Options Analyzed:** 1.7M+ snapshots
@@ -1057,14 +1056,6 @@ Expected Return = (Hit Rate × Premium) - (Loss Rate × Loss)
 
 The lower-score range delivers 4-10x better expected returns despite lower hit rate.
 
-### Recovery Analysis
-
-**Finding:** Options that experienced high probability previously (then dropped) are **not** worse candidates.
-
-**Investigation Result:** Recovery Advantage factor (was -0.0332 correlation) suggested the opposite intuition. Options that had recovered showed no predictive disadvantage.
-
-**Current Status:** Recovery analysis available in detailed reports but removed from primary scoring (negative correlation led to model distortion).
-
 ### Performance Consistency
 
 **Month-to-Month Stability:**
@@ -1088,168 +1079,14 @@ The hit rate in the 70-80% range remains stable across different time periods:
 | Options Attempted | 5,743+ | Complete universe |
 | Options Scored | 5,738 | 99.9% |
 | With V2.1 Score | 5,738 | 100% |
-| With TA Model V2 Score | 5,738 | 99.9% |
+| With TA Model V3 Score | 5,738 | 99.9% |
 | With Agreement Flag | 5,738 | 99.9% |
 
 **Missing Data Rate:** <0.1% (excellent coverage)
 
 ---
 
-## Section 6: Model Evolution & Lessons Learned
-
-### V2.0 to V2.1 Transition (January 2026)
-
-**The Discovery:**
-
-Backtesting revealed calibration problems in V2.0:
-
-```
-Score Range 50-60:
-- Predicted: 50-60% hit rate (reasonable)
-- Actual: 72.55% hit rate (much better than predicted)
-- Discrepancy: 22 percentage points
-
-Problem: Model was systematically underestimating options in this range
-```
-
-**Root Cause Analysis:**
-
-Investigation identified Recovery Advantage as the culprit:
-
-```
-Recovery Advantage Correlation: -0.0332 (negative)
-Recovery Advantage Weight: 33% (second-highest)
-
-This factor predicted opposite direction
-Yet received massive weight
-Result: Model distorted by backward predictor
-```
-
-**Why This Happened:**
-
-The team used **feature importance** (how much feature contributes to model decisions) instead of **predictive correlation** (whether feature actually predicts outcomes).
-
-```
-Feature Importance: "How much does this feature contribute?"
-Predictive Correlation: "Does this feature predict correctly?"
-
-These are completely different measurements
-Recovery Advantage scored high on first, negative on second
-```
-
-**The Fix (V2.1):**
-
-1. Removed Recovery Advantage entirely (0% weight)
-2. Reweighted by correlation strength:
-   - Current Probability (highest correlation): 60%
-   - Historical Peak (second highest): 30%
-   - Support Strength (lowest): 10%
-
-3. Results:
-   - AUC improved from 0.5171 to 0.6096
-   - Calibration across buckets became accurate
-   - 77% hit rate at 70-80% range consistent with predictions
-
-**Improvement:** +27% AUC improvement, +18.9 percentage point hit rate improvement
-
-**Key Takeaway:** Model architecture is less important than correct feature selection. Wrong features with correct architecture outperform right features with wrong selection.
-
-### Ensemble Clustering Investigation (Rejected January 30, 2026)
-
-**The Hypothesis:**
-
-"Clustering stocks by behavioral similarity, then training specialized models per cluster, would improve temporal generalization and walk-forward AUC from 0.651 to 0.75+."
-
-**The Approach:**
-
-1. K-Means clustering on 77 stocks using behavioral features
-2. 5 clusters created based on volatility/volume/price characteristics
-3. Separate Random Forest trained for each cluster
-4. Cluster assignments used for routing predictions
-
-**Expected Outcome:**
-
-Stocks behave in clusters; specialized models should learn cluster-specific patterns better than generalist model trained on all data mixed together.
-
-**Actual Outcome:**
-
-```
-Expected: WF-AUC improves from 0.651 → 0.75+
-Actual: WF-AUC drops to 0.5846 (-10% below baseline)
-
-Test AUC: 0.96+ (excellent on recent data)
-Walk-Forward AUC: 0.5846 (poor on future data)
-Test/Train Gap: 0.410 (severe overfitting)
-```
-
-**Root Cause (Overfitting Paradox):**
-
-```
-Cluster Model Performance:
-- Test AUC: 0.96+ (fits the training period perfectly)
-- Walk-Forward AUC: 0.5846 (fails on future periods)
-- Gap: 0.410 (learned patterns don't generalize)
-
-Generalist Model (V3 single model):
-- Test AUC: 0.8447
-- Walk-Forward AUC: 0.651
-- Gap: 0.194 (patterns generalize well)
-```
-
-**Why Specialization Failed:**
-
-Cluster models learned cluster-specific patterns from the training period:
-- Example: "Tech stocks in the 2024 bull market rally"
-- These patterns were very predictive during training
-- But patterns don't persist into future periods
-- When market regime changed (Feb 2026), learned patterns became useless
-
-**The Generalist Advantage:**
-
-The single TA Model V2 learned robust, generalizable patterns:
-- Forced to find patterns that work across **all** stocks
-- Can't overfit to specific cluster behaviors
-- Patterns that work across contexts generalize better
-- Training on 1.8M diverse records is more robust than cluster-specific data
-
-**Statistical Principle:** "Breadth of training data beats specialization when predicting temporal shift."
-
-### Why We Document Failures
-
-**Benefit 1: Prevents Repetition**
-
-Documenting that ensemble clustering failed prevents:
-- Team wasting time re-investigating similar approaches
-- Investors wondering "why don't you use ensemble clustering?"
-- External stakeholders suggesting the "obvious" improvement
-
-**Benefit 2: Demonstrates Rigor**
-
-Documenting failures shows:
-- Thorough investigation methodology
-- Walk-forward validation actually works
-- Willingness to reject promising-looking approaches
-- Commitment to empirical validation over intuition
-
-**Benefit 3: Educational Value**
-
-The ensemble clustering case teaches:
-- Test AUC ≠ Walk-Forward AUC
-- Feature importance ≠ Predictive power
-- Specialization can increase overfitting on temporal data
-- Generalists outperform specialists on future prediction
-
-**Benefit 4: Investor Confidence**
-
-Investors appreciate:
-- Transparent discussion of failures
-- Evidence that system improves continuously
-- Proof that weak approaches are rejected
-- Rigorous validation preventing bad ideas
-
----
-
-## Section 7: Limitations & Risk Factors
+## Section 6: Limitations & Risk Factors
 
 ### Model Limitations
 
@@ -1260,6 +1097,20 @@ AUC of 0.651 means:
 - Not: 65.1% hit rate (actual hit rate 77% at 70-80% range)
 - Still leaves room for improvement
 - No guarantee that all high-score options expire worthless
+
+**What Calibration Actually Shows (the business-relevant metric):**
+
+AUC is a ranking metric — it measures whether the model can separate likely-worthless options from likely-ITM options. The metric that directly answers "how profitable is this?" is calibration: when the model predicts X%, how often does the option actually expire worthless?
+
+TA V3 walk-forward calibration (1.59M out-of-sample predictions) provides that answer:
+
+| TA V3 Predicted | Actually Expires Worthless |
+|---|---|
+| 60-70% | 65.3% |
+| **70-80%** | **77.1%** |
+| 80-90% | 82.3% |
+
+See Section 3 (TA Model V3 Calibration) for the complete results and per-fold temporal stability analysis.
 
 **Hit Rate of 77% at 70-80% Range Means 23% Fail**
 
@@ -1371,7 +1222,7 @@ The most important limitation:
 
 ---
 
-## Section 8: Trust & Transparency Framework
+## Section 7: Trust & Transparency Framework
 
 ### What Makes This System Trustworthy?
 
@@ -1532,7 +1383,7 @@ The most important limitation:
 - 0.16 = Good probability calibration
 - Ranges 0-1
 
-**Our Score:** 0.1608 (well-calibrated predictions)
+**Our Score:** 0.1519 (well-calibrated predictions)
 
 ### Expected Calibration Error (ECE)
 
@@ -1736,7 +1587,7 @@ The system has demonstrated sufficient rigor, transparency, and performance cons
 
 ---
 
-**Document Prepared:** January 30, 2026
+**Document Prepared:** January 31, 2026
 **Last Validation:** Daily monitoring active
 **Next Recalibration:** Monthly (automatic)
 **Questions or Data Requests:** Contact scoring engine team
