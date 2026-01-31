@@ -25,7 +25,7 @@ Four key metrics provide an at-a-glance overview:
 | KPI | Description |
 |-----|-------------|
 | **Total Options** | Total number of options analyzed across all expiry dates |
-| **Models Agree** | Count of options where V2.1 and TA models both recommend (percentage of total) |
+| **Models Agree** | Count of options where Probability Optimization and TA models both recommend (percentage of total) |
 | **Strong Agreement** | Options with "Strong" agreement strength (percentage of agreements) |
 | **Showing** | Options currently displayed after applying all filters (percentage of total) |
 
@@ -47,21 +47,21 @@ Four key metrics provide an at-a-glance overview:
 
 **Model Agreement** (Optional)
 - **All Options** - Show all analyzed options regardless of model agreement
-- **Models Agree** - Show only options where both V2.1 and TA models recommend
+- **Models Agree** - Show only options where both Probability Optimization and TA models recommend
 - **Models Disagree** - Show only options where models disagree (useful for conflict analysis)
 
 **Min Combined Score** (0-100, default: 70)
 - Slider filter for overall combined score threshold
-- Combined score is calculated as average of V2.1 and TA scores
+- Combined score is calculated as average of Probability Optimization and TA scores
 - When set to 0: Includes options with missing combined scores
 - When set > 0: Excludes options with missing combined scores
 - Value range: 0-100
 - Default filters to "good" quality recommendations
 
-**Min V2.1 Score** (0-100, default: 0)
-- Slider filter for V2.1 probability model score minimum
-- When set to 0: Includes options with missing V2.1 Score values
-- When set > 0: Excludes options with missing V2.1 Score values
+**Min Probability Optimization Score** (0-100, default: 0)
+- Slider filter for Probability Optimization probability model score minimum
+- When set to 0: Includes options with missing Probability Optimization Score values
+- When set > 0: Excludes options with missing Probability Optimization Score values
 - Use to focus on probability-model-favored options
 
 **Min TA Prob** (0-100%, default: 0%)
@@ -100,9 +100,9 @@ Four key metrics provide an at-a-glance overview:
 
 ### Missing Value Handling
 
-**Critical:** V2.1 Score and TA Probability columns may display "-" for options without calculated values.
+**Critical:** Probability Optimization Score and TA Probability columns may display "-" for options without calculated values.
 
-- Options with missing V2.1 Score values are **included** when "Min V2.1 Score" is set to 0, and **excluded** when set above 0
+- Options with missing Probability Optimization Score values are **included** when "Min Probability Optimization Score" is set to 0, and **excluded** when set above 0
 - Options with missing TA Probability values are **included** when "Min TA Prob" is set to 0%, and **excluded** when set above 0%
 - When sorting by these columns, rows with missing values sort to the bottom (after all numeric values)
 - The "-" placeholder ensures data consistency and accurate filtering/sorting
@@ -160,7 +160,7 @@ Summary of model consensus:
 **CSV File:** `current_options_scored.csv`
 **Location:** `/data/current_options_scored.csv`
 **Format:** Pipe-delimited (`|`) text file
-**Columns:** 33 fields including stock name, expiry date, V2.1 scores, 17 TA indicators (12 stock-level + 4 contract-level + sigma distance), and agreement metrics
+**Columns:** 33 fields including stock name, expiry date, Probability Optimization scores, 17 TA indicators (12 stock-level + 4 contract-level + sigma distance), and agreement metrics
 
 **Enrichment:**
 - Premium values are enriched from live website data (not CSV data)
@@ -177,7 +177,7 @@ Summary of model consensus:
 2. Set "Model Agreement" to "Models Agree"
 3. Set "Min Combined Score" to 70+
 4. Review "Strong Agreement" options first
-5. Click row to view V2.1 and TA breakdowns
+5. Click row to view Probability Optimization and TA breakdowns
 
 ### Workflow 2: Compare Model Disagreements
 
@@ -189,14 +189,14 @@ Summary of model consensus:
 ### Workflow 3: Focus on Probability Model
 
 1. Select expiry date
-2. Set "Min V2.1 Score" to 60+
+2. Set "Min Probability Optimization Score" to 60+
 3. Leave "Min TA Prob" at 0%
 4. Review options favored by probability model regardless of TA consensus
 
 ### Workflow 4: Focus on Technical Analysis
 
 1. Select expiry date
-2. Leave "Min V2.1 Score" at 0
+2. Leave "Min Probability Optimization Score" at 0
 3. Set "Min TA Prob" to 50%+
 4. Review options favored by technical analysis regardless of probability consensus
 
@@ -216,7 +216,7 @@ Summary of model consensus:
 
 ### Data Processing
 
-**V2.1 and TA Probability Handling:**
+**Probability Optimization and TA Probability Handling:**
 - Missing or invalid values from CSV are converted to `null` during parsing
 - `parseFloat("-")` and other invalid strings produce NaN, which is converted to null
 - Null values display as "-" in the table but are handled distinctly in filtering/sorting
@@ -228,8 +228,8 @@ Summary of model consensus:
 
 **Filtering Logic:**
 - Minimum score filters only exclude rows with null values when the filter is set to a value greater than 0
-- Example: "Min V2.1 Score: 0" includes rows where v21_score is null or >= 0
-- Example: "Min V2.1 Score: 27" excludes any row where v21_score is null or < 27
+- Example: "Min Probability Optimization Score: 0" includes rows where v21_score is null or >= 0
+- Example: "Min Probability Optimization Score: 27" excludes any row where v21_score is null or < 27
 - Combined Score filter is applied regardless of null values (has default 0 fallback)
 
 ### Performance Notes
@@ -276,16 +276,16 @@ Summary of model consensus:
 
 **Filtering Improvements:**
 - Fixed critical issue: Options with missing values are now correctly included when all filter minimums are set to 0
-- Min V2.1 Score: Now includes missing values when set to 0, excludes only when > 0
+- Min Probability Optimization Score: Now includes missing values when set to 0, excludes only when > 0
 - Min TA Prob: Now includes missing values when set to 0%, excludes only when > 0%
 - Min Combined Score: Now includes missing values when set to 0, excludes only when > 0
-  - Combined score is calculated from available V2.1 or TA scores if missing from CSV
+  - Combined score is calculated from available Probability Optimization or TA scores if missing from CSV
   - Example: Options with only TA score use TA score as combined score
 - Resolved discrepancy between KPI count and displayed table rows
 - Removed duplicate filtering logic that was causing inconsistent behavior
 
 **Formatting Standardization:**
-- V2.1 Score: Now displays as percentage (e.g., "85,5%") to match TA Probability format
+- Probability Optimization Score: Now displays as percentage (e.g., "85,5%") to match TA Probability format
 - Historical Peak: Changed from decimal to percentage format (e.g., "85,50%") for consistency with Current Probability
 - Support Strength: Changed from decimal to percentage format (e.g., "85,50%") to reflect 0-1 scale
 - HV Annual: Changed from decimal to percentage format (e.g., "45,67%")
