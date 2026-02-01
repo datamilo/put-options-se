@@ -86,13 +86,10 @@ export const CalibrationMetrics: React.FC = () => {
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-900 rounded p-4 space-y-3">
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              The TA ML Model uses machine learning with 17 empirically-learned features: 12 stock-level technical
-              indicators and 5 contract-level features including Options Greeks. This table shows actual historical hit rates by prediction range.
+              The TA ML Model uses machine learning to analyze 17 different signals about each option and the underlying stock to estimate the probability it will expire worthless. This table shows the historical accuracy of predictions at different probability levels.
             </p>
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              <strong>Validation approach:</strong> Hit rates are based on 1.59M walk-forward validated predictions,
-              where the model made predictions on data it never trained on. This out-of-sample testing provides
-              evidence of the model's predictive capability on unseen future periods.
+              <strong>How accurate is this model?</strong> We tested this model on 1.59 million predictions covering future time periods the model never trained on. This testing shows how well the model would perform on new options going forward.
             </p>
           </div>
           <BucketCalibrationTable
