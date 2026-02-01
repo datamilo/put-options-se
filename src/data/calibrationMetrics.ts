@@ -134,7 +134,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       hitRate: 0.766,
       sampleSize: 636639,
       confidenceIntervalLower: 0.765,
-      confidenceIntervalUpper: 0.7671,
+      confidenceIntervalUpper: 0.767,
       expectedNote: 'Hit Rate: 76.6%',
     },
     {
