@@ -93,7 +93,7 @@ export const CalibrationMetrics: React.FC = () => {
             </p>
           </div>
           <BucketCalibrationTable
-            title="TA ML Model - Hit Rates by Predicted Range (Walk-Forward Validated)"
+            title="TA ML Model - Hit Rates by Predicted Range"
             buckets={calibrationMetricsData.v3Buckets}
             modelType="v3"
           />
