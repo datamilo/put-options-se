@@ -368,7 +368,7 @@ export const ScoredOptions = () => {
                 <div className="p-3 bg-white dark:bg-amber-900/30 rounded">
                   <div className="flex items-start gap-2 mb-2">
                     <span className="font-semibold text-amber-900 dark:text-amber-50">
-                      No Future Guarantees
+                      Past Performance ≠ Future Results
                     </span>
                     <InfoIconTooltip
                       title={scoredOptionsTooltips.disclaimers.noGuarantees.title}
@@ -377,7 +377,7 @@ export const ScoredOptions = () => {
                     />
                   </div>
                   <p className="text-sm text-amber-800 dark:text-amber-100">
-                    Past walk-forward validation (0.651 AUC) does NOT guarantee future results. Use as screening tool component, not sole decision-maker.
+                    These models performed well on historical data. There is no guarantee they will perform the same way in the future. Use these scores as one input to your decision-making process, not as the sole reason to write put options. Always apply your own judgment and risk management.
                   </p>
                 </div>
               </div>
