@@ -70,9 +70,7 @@ export const CalibrationMetrics: React.FC = () => {
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-900 rounded p-4">
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              The Probability Optimization Model uses a 3-factor weighted composite: Current Probability (60%),
-              Historical Peak (30%), and Support Strength (10%). This table shows actual historical hit rates by prediction range.
-              Hit rates are based on verified data from comprehensive_premium_zone_analysis.csv (1.86M options analyzed).
+              The Probability Optimization Model combines three factors to estimate the likelihood an option will expire worthless (out-of-the-money). This table shows the historical accuracy of predictions at different probability levels, based on analysis of 72,469 options with known outcomes.
             </p>
           </div>
           <BucketCalibrationTable
