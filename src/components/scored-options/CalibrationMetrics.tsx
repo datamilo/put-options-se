@@ -24,7 +24,7 @@ export const CalibrationMetrics: React.FC = () => {
               Model Calibration & Accuracy
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Both models independently confirm 77% hit rate at 70-80% prediction range
+              Probability Optimization Model (83.8% hit rate) and TA ML Model (76.6% hit rate) performance validated on historical data
             </p>
           </div>
         </div>
