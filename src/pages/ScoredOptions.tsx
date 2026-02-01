@@ -334,7 +334,7 @@ export const ScoredOptions = () => {
                 <div className="mb-4 p-3 bg-white dark:bg-amber-900/30 rounded">
                   <div className="flex items-start gap-2 mb-2">
                     <span className="font-semibold text-amber-900 dark:text-amber-50">
-                      77% Hit Rate ≠ No Losses
+                      High Hit Rates Don't Mean No Losses
                     </span>
                     <InfoIconTooltip
                       title={scoredOptionsTooltips.disclaimers.riskHitRate.title}
@@ -343,7 +343,7 @@ export const ScoredOptions = () => {
                     />
                   </div>
                   <p className="text-sm text-amber-800 dark:text-amber-100">
-                    23% of options in the 70-80% range will expire in-the-money. Position sizing must account for expected losses.
+                    Even options predicted as 83.8% likely to expire worthless (Probability Optimization Model at 70-80% range) will still fail 16.2% of the time. Expect losses on 1-2 out of every 10 positions. Position sizing must account for this failure rate.
                   </p>
                 </div>
 
