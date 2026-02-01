@@ -351,7 +351,7 @@ export const ScoredOptions = () => {
                 <div className="mb-4 p-3 bg-white dark:bg-amber-900/30 rounded">
                   <div className="flex items-start gap-2 mb-2">
                     <span className="font-semibold text-amber-900 dark:text-amber-50">
-                      Market Regime Changes
+                      Models Trained on Recent History
                     </span>
                     <InfoIconTooltip
                       title={scoredOptionsTooltips.disclaimers.marketRegimeRisk.title}
@@ -360,7 +360,7 @@ export const ScoredOptions = () => {
                     />
                   </div>
                   <p className="text-sm text-amber-800 dark:text-amber-100">
-                    Models trained on 21+ months of data. Extreme market shocks (geopolitical, rate changes) may reduce pattern relevance. Monitor monthly performance.
+                    These models learned patterns from April 2024 - January 2026 (21 months of relatively normal market conditions). Major market shocks, extreme interest rate changes, or geopolitical events could invalidate these patterns. If market conditions change significantly, model accuracy may decline.
                   </p>
                 </div>
 
