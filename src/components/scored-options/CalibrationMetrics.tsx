@@ -112,7 +112,7 @@ export const CalibrationMetrics: React.FC = () => {
             </p>
           </div>
           <div className="bg-blue-50 dark:bg-blue-950 rounded p-3 space-y-2">
-            <p className="font-semibold text-blue-900 dark:text-blue-100 text-sm">✓ Out-of-Sample Testing</p>
+            <p className="font-semibold text-blue-900 dark:text-blue-100 text-sm">✓ Tested on Future Data</p>
             <p className="text-xs text-blue-800 dark:text-blue-200">
               1.59M predictions on future data never seen during training
             </p>
