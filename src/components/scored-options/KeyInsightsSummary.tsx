@@ -11,7 +11,7 @@ export const KeyInsightsSummary: React.FC = () => {
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
             <strong>Two Independent Models:</strong> The system uses two separate analytical approaches:
-            Probability Optimization Model (67% hit rate at 70-80% range) and TA ML Model (77.1% hit rate at 70-80% range).
+            Probability Optimization Model (83.8% hit rate at 70-80% range) and TA ML Model (76.6% hit rate at 70-80% range).
             Both provide independent estimates for comparison.
           </p>
         </div>
@@ -26,7 +26,7 @@ export const KeyInsightsSummary: React.FC = () => {
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Statistical Precision:</strong> Large sample sizes (583K+ for TA ML Model, 99K+ for Probability Model at 70-80%)
+            <strong>Statistical Precision:</strong> Large sample sizes (636K+ for TA ML Model, 20K+ for Probability Model at 70-80%)
             provide high confidence in the estimates. Confidence intervals show the range where true hit rates likely fall.
           </p>
         </div>
@@ -60,7 +60,7 @@ export const KeyInsightsSummary: React.FC = () => {
       </div>
 
       <p className="text-xs text-gray-600 dark:text-gray-400 italic">
-        Source: Walk-forward validated backtesting on 1.8M+ Swedish equity option records (April 2024 - January 2026).
+        Source: Validated testing on 1.8M+ Swedish equity option records (April 2024 - January 2026).
         See{' '}
         <a
           href="https://github.com/datamilo/put-options-se/blob/main/INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md"
