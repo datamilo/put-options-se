@@ -1,4 +1,4 @@
-# Current Options Scoring - V3 Integration Guide
+# Current Options Scoring - TA Model Integration Guide
 
 **For**: Downstream Teams Using `current_options_scored.csv`
 **Date**: January 30, 2026
@@ -107,9 +107,9 @@ When **models disagree** (one <70%, one ≥70%):
 
 | Field | Meaning | Values | Use For |
 |-------|---------|--------|---------|
-| `both_models_agree_70pct` | Do V2.1 AND TA Model both predict ≥70%? | Yes/No | **Primary filter** - highest confidence |
-| `v21_v3_agreement` | Categorical agreement between V2.1 and TA Model | Strong Agree, Moderate Agree, Disagree | Risk assessment |
-| `agreement_bucket` | Agreement classification | Strong (80%+), Moderate (70%+), Weak (<70%) | Decision-making |
+| `models_agree` | Do V2.1 AND TA Model both predict ≥70%? | Yes/No (boolean) | **Primary filter** - highest confidence |
+| `agreement_strength` | Categorical agreement between V2.1 and TA Model | Strong, Moderate, Weak | Risk assessment and decision-making |
+| `combined_score` | Weighted combination of V2.1 and TA Model scores | 0.0 - 1.0 | Overall prediction confidence |
 
 ---
 
@@ -119,9 +119,9 @@ When **models disagree** (one <70%, one ≥70%):
 
 ```
 v21_probability: 0.85 (HIGH)
-v3_probability:  0.82 (HIGH)
-both_models_agree_70pct: YES
-agreement_bucket: Strong
+ta_probability:  0.82 (HIGH)
+models_agree: Yes
+agreement_strength: Strong
 ```
 
 **Interpretation**:
@@ -135,9 +135,9 @@ agreement_bucket: Strong
 
 ```
 v21_probability: 0.78 (HIGH)
-v3_probability:  0.65 (MODERATE)
-both_models_agree_70pct: NO
-agreement_bucket: Moderate
+ta_probability:  0.65 (MODERATE)
+models_agree: No
+agreement_strength: Weak
 ```
 
 **Interpretation**:
@@ -152,9 +152,9 @@ agreement_bucket: Moderate
 
 ```
 v21_probability: 0.75 (HIGH)
-v3_probability:  0.52 (LOW)
-both_models_agree_70pct: NO
-agreement_bucket: Weak
+ta_probability:  0.52 (LOW)
+models_agree: No
+agreement_strength: Weak
 ```
 
 **Interpretation**:
@@ -168,9 +168,9 @@ agreement_bucket: Weak
 
 ```
 v21_probability: 0.55 (LOW)
-v3_probability:  0.48 (LOW)
-both_models_agree_70pct: NO
-agreement_bucket: Weak
+ta_probability:  0.48 (LOW)
+models_agree: No
+agreement_strength: Weak
 ```
 
 **Interpretation**:
@@ -274,17 +274,17 @@ The TA Model uses machine learning to recognize patterns in historical option da
 
 ### Recommended Usage by Scenario (V2.1 + TA Model Agreement)
 
-**TIER 1: Best Opportunities** (V2.1 and TA Model both agree strongly)
+**TIER 1: Best Opportunities** (models_agree = Yes AND agreement_strength = 'Strong')
 - ✅ Action: **HIGH PRIORITY** for trade evaluation
 - Confidence: Very High
 - Expected hit rate: 85%+
 
-**TIER 2: Good Opportunities** (v21_v3_agreement = "Moderate Agree")
+**TIER 2: Good Opportunities** (models_agree = Yes AND agreement_strength = 'Moderate')
 - ✅ Action: **MEDIUM PRIORITY** - good candidates
 - Confidence: High
 - Expected hit rate: 75%+
 
-**TIER 3: Mixed Signals** (v21_v3_agreement = "Disagree")
+**TIER 3: Mixed Signals** (models_agree = No)
 - ⚠️ Action: **REVIEW CAREFULLY** or skip
 - Confidence: Low
 - Expected hit rate: 55%+
@@ -322,9 +322,10 @@ Both valid approaches - when they agree, confidence is high. When they disagree,
 
 **A**: Filter by:
 ```
-both_models_agree_70pct = YES
+models_agree = Yes
 v21_probability >= 0.80
 ta_probability >= 0.80
+agreement_strength = 'Strong'
 ```
 
 This gives you ~5-10% of options but with 85%+ confidence.
@@ -398,7 +399,7 @@ The addition of the **TA Model** provides **independent validation** of your **u
 | **Stability** | Both models tested on future data (walk-forward validation) |
 | **No Breaking Changes** | V2.1 remains your primary model, TA Model is a validation layer |
 
-**Best Practice**: Use the `both_models_agree_70pct` flag to **prioritize** your analysis. Options with strong agreement between V2.1 and TA Model deserve first attention.
+**Best Practice**: Use the `models_agree` flag and `agreement_strength` field to **prioritize** your analysis. Options with `models_agree = Yes` and `agreement_strength = 'Strong'` deserve first attention.
 
 ---
 

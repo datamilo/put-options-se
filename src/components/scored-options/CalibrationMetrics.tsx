@@ -86,6 +86,12 @@ export const CalibrationMetrics: React.FC = () => {
             <p className="text-sm text-gray-700 dark:text-gray-300">
               <strong>Testing approach:</strong> In-sample calibration on the Probability Tracking System (options actively tracked with complete historical snapshots). The 83.8% accuracy at 70-80% represents how well the formula works on this specific tracked dataset. Sample size of 19,830 at 70-80% is sufficient for high statistical confidence on tracked options.
             </p>
+            <div className="bg-white dark:bg-gray-800 rounded p-3 border border-gray-200 dark:border-gray-700">
+              <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">DATA REQUIREMENT DETAIL:</p>
+              <p className="text-xs text-gray-700 dark:text-gray-300">
+                V2.1 requires <strong>5 complex probability calculation methods</strong> (Black-Scholes + calibration + historical volatility + Bayesian + ensemble). This requires months of special historical probability tracking data. Of 1.86M historical options, only <strong>72,469 (3.9%)</strong> have complete: probability calculations + historical peak data + support metrics + known outcomes. This is why sample size is limited.
+              </p>
+            </div>
           </div>
           <BucketCalibrationTable
             title="Probability Optimization Model - Actual Worthless % by Score Range"
@@ -105,6 +111,12 @@ export const CalibrationMetrics: React.FC = () => {
             <p className="text-sm text-gray-700 dark:text-gray-300">
               <strong>Testing approach:</strong> Walk-forward temporal validation on the comprehensive historical database (all Swedish options, not just tracked ones). The model trains on historical data, then predicts on future periods it never saw. The 76.6% accuracy at 70-80% represents realistic expectation for new options the model hasn't encountered. Sample size of 636,639 at 70-80% provides extremely tight confidence intervals (±0.11 pp), proving the model generalizes well beyond training data.
             </p>
+            <div className="bg-white dark:bg-gray-800 rounded p-3 border border-gray-200 dark:border-gray-700">
+              <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">DATA REQUIREMENT DETAIL:</p>
+              <p className="text-xs text-gray-700 dark:text-gray-300">
+                TA Model uses <strong>17 standard technical analysis features</strong> (RSI, MACD, ADX, Bollinger Bands, Greeks, etc.) calculated from standard daily price data. These work on <strong>any option with basic market data</strong>. Of 1.86M historical options, <strong>~1,860,935 (99%+)</strong> have complete technical feature data. No special probability tracking required, no months of historical data needed—just standard market data every stock has.
+              </p>
+            </div>
           </div>
           <BucketCalibrationTable
             title="TA ML Model - Actual Worthless % by Predicted Range"
