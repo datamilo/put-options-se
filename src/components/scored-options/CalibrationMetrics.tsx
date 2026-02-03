@@ -38,6 +38,17 @@ export const CalibrationMetrics: React.FC = () => {
       {/* Accordion Content */}
       {isExpanded && (
         <div className="border-t border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900 space-y-6">
+
+      {/* Data Availability Explanation */}
+      <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+        <p className="text-sm font-semibold text-amber-900 dark:text-amber-100 mb-2">
+          Why the Large Sample Size Difference?
+        </p>
+        <p className="text-sm text-amber-800 dark:text-amber-200">
+          V2.1 tests on 72,469 total options (Probability Tracking System) → 19,830 at 70-80%. TA Model tests on 1,860,935 total options (comprehensive historical database) → 636,639 at 70-80%. The 32x difference reflects different data sources: V2.1 is limited to tracked options, while TA Model accesses all Swedish equity options. Both use 27% of their respective datasets at 70-80%, showing identical market distribution.
+        </p>
+      </div>
+
       {/* Key Insights Summary */}
       <KeyInsightsSummary />
 
