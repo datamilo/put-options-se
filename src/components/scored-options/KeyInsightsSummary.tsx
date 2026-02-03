@@ -18,9 +18,7 @@ export const KeyInsightsSummary: React.FC = () => {
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Data-Driven Metrics:</strong> The 70-80% prediction range shows different actual outcomes by model.
-            Use the tables below to review hit rates and sample sizes across all prediction ranges.
-            Users can sort and filter to identify patterns relevant to their investment criteria.
+            <strong>Data-Driven Metrics:</strong> Hit rates vary by model and prediction range. Review the detailed tables below for comprehensive performance data.
           </p>
         </div>
 
@@ -33,33 +31,12 @@ export const KeyInsightsSummary: React.FC = () => {
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Risk Assessment:</strong> Hit rate indicates percentage of options predicted to expire worthless
-            that actually do. Lower hit rates reflect higher risk. Users should evaluate their own risk tolerance
-            when selecting prediction ranges to trade.
+            <strong>Risk Assessment:</strong> Lower hit rates indicate higher risk. Evaluate model performance across prediction ranges to support your trading decisions.
           </p>
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded p-3 space-y-2">
-        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">How to Interpret the Data:</p>
-        <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-1 list-disc list-inside">
-          <li>
-            <strong>Hit Rate:</strong> Percentage of options in each prediction range that actually expired worthless
-          </li>
-          <li>
-            <strong>Sample Size:</strong> Number of options analyzed to calculate hit rate (larger samples provide more reliable estimates)
-          </li>
-          <li>
-            <strong>95% CI (Confidence Interval):</strong> Range where the true hit rate is 95% likely to fall. Narrow
-            intervals indicate more precise estimates.
-          </li>
-          <li>
-            <strong>Avg Premium:</strong> Average option premium (where available) for reference only
-          </li>
-        </ul>
-      </div>
-
-      <p className="text-xs text-gray-600 dark:text-gray-400 italic">
+<p className="text-xs text-gray-600 dark:text-gray-400 italic">
         Source: Validated testing on 1.8M+ Swedish equity option records (April 2024 - January 2026).
       </p>
     </div>

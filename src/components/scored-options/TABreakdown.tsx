@@ -283,24 +283,6 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
           })}
         </div>
 
-        {/* Legend */}
-        <div className="mt-4 pt-3 border-t">
-          <div className="text-xs font-medium text-muted-foreground mb-2">Legend:</div>
-          <div className="grid grid-cols-3 gap-2 text-xs">
-            <div className="flex items-center gap-1">
-              <span>🟢</span>
-              <span>Favorable</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span>🟡</span>
-              <span>Neutral</span>
-            </div>
-            <div className="flex items-center gap-1">
-              <span>🔴</span>
-              <span>Unfavorable</span>
-            </div>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
