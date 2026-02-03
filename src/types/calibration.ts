@@ -10,7 +10,7 @@ export interface CalibrationBucket {
   minScore: number;
   /** Maximum score for this bucket */
   maxScore: number;
-  /** Actual hit rate (percentage of options that expired worthless) */
+  /** Actual Actual Worthless % (percentage of options that expired worthless) */
   hitRate: number;
   /** Number of options/predictions in this bucket */
   sampleSize: number;
@@ -29,7 +29,7 @@ export interface TemporalFoldData {
   fold: number;
   /** Date range for this fold's test period */
   testPeriod: string;
-  /** Actual hit rate in 70-80% bucket for this fold */
+  /** Actual Actual Worthless % in 70-80% bucket for this fold */
   hitRate: number;
   /** Number of predictions in this fold */
   sampleCount: number;
