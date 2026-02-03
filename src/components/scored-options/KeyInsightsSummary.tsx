@@ -10,7 +10,7 @@ export const KeyInsightsSummary: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Two Independent Models:</strong> When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 76.6%. Both validated on 934K+ historical options.
+            <strong>Two Independent Models:</strong> When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 76.6%. Different testing methodologies explain the difference: V2.1 optimizes weights on tracked options (20K sample); TA Model validates on future unseen data (637K sample) using walk-forward testing.
           </p>
         </div>
 

@@ -68,9 +68,12 @@ export const CalibrationMetrics: React.FC = () => {
       {/* V2.1 Tab */}
       {activeTab === 'v21' && (
         <div className="space-y-4">
-          <div className="bg-gray-50 dark:bg-gray-900 rounded p-4">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded p-4 space-y-3">
             <p className="text-sm text-gray-700 dark:text-gray-300">
               The Probability Optimization Model combines three factors to estimate the likelihood an option will expire worthless (out-of-the-money). This table shows the historical accuracy of predictions at different probability levels, based on analysis of 72,469 options with known outcomes.
+            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-300">
+              <strong>Testing approach:</strong> In-sample calibration on the Probability Tracking System (options actively tracked with complete historical snapshots). The 83.8% accuracy at 70-80% represents how well the formula works on this specific tracked dataset. Sample size of 19,830 at 70-80% is sufficient for high statistical confidence on tracked options.
             </p>
           </div>
           <BucketCalibrationTable
@@ -89,7 +92,7 @@ export const CalibrationMetrics: React.FC = () => {
               The TA ML Model uses machine learning to analyze 17 different signals about each option and the underlying stock to estimate the probability it will expire worthless. This table shows the historical accuracy of predictions at different probability levels.
             </p>
             <p className="text-sm text-gray-700 dark:text-gray-300">
-              <strong>How accurate is this model?</strong> We tested this model on 1.59 million predictions covering future time periods the model never trained on. This testing shows how well the model would perform on new options going forward.
+              <strong>Testing approach:</strong> Walk-forward temporal validation on the comprehensive historical database (all Swedish options, not just tracked ones). The model trains on historical data, then predicts on future periods it never saw. The 76.6% accuracy at 70-80% represents realistic expectation for new options the model hasn't encountered. Sample size of 636,639 at 70-80% provides extremely tight confidence intervals (±0.11 pp), proving the model generalizes well beyond training data.
             </p>
           </div>
           <BucketCalibrationTable
