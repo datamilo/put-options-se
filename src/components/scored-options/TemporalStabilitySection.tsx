@@ -47,8 +47,8 @@ export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> =
       {isExpanded && (
         <div className="space-y-4 mt-4">
           <p className="text-sm text-gray-700 dark:text-gray-300">
-            This analysis shows how the model's calibration at the 70-80% prediction range varied across
-            different market periods. Each "fold" represents a distinct 3-month testing window in walk-forward validation.
+            This analysis shows how the TA ML Model's Actual Worthless % at the 70-80% prediction range varied across
+            different market periods. Each "fold" represents a distinct 3-month testing window in walk-forward validation. The overall average across all periods is approximately 77%, but individual periods show deviation due to market regime changes.
           </p>
 
           <div className="overflow-x-auto">
@@ -106,8 +106,7 @@ export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> =
                 suggesting the model is well-calibrated for current market conditions.
               </li>
               <li>
-                <strong>Overall Average:</strong> The 77% aggregate rate masks this variation. Users should understand
-                that actual Actual Worthless percentages fluctuate with market regimes, though the long-term average remains stable.
+                <strong>Overall Average:</strong> Across all periods combined, the TA ML Model achieved 77% Actual Worthless % at 70-80% predictions. This aggregate rate masks period-to-period variation. Users should understand that actual performance fluctuates with market regimes, though the long-term average remains stable.
               </li>
             </ul>
           </div>
