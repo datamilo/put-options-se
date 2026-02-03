@@ -61,16 +61,6 @@ export const KeyInsightsSummary: React.FC = () => {
 
       <p className="text-xs text-gray-600 dark:text-gray-400 italic">
         Source: Validated testing on 1.8M+ Swedish equity option records (April 2024 - January 2026).
-        See{' '}
-        <a
-          href="https://github.com/datamilo/put-options-se/blob/main/INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 dark:text-blue-400 hover:underline"
-        >
-          INVESTOR_GUIDE
-        </a>{' '}
-        for complete methodology and details.
       </p>
     </div>
   );

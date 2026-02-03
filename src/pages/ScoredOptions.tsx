@@ -320,69 +320,6 @@ export const ScoredOptions = () => {
               getFullPath={getFullPath}
             />
           )}
-
-          {/* Critical Disclaimers Section */}
-          <div className="mt-12 p-6 bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg space-y-4">
-            <div className="flex items-start gap-3">
-              <span className="text-2xl">⚠️</span>
-              <div className="flex-1">
-                <h3 className="font-semibold text-amber-900 dark:text-amber-50 mb-3">
-                  Critical Disclaimers & Risk Factors
-                </h3>
-
-                {/* Disclaimer 1: Hit Rate Reality */}
-                <div className="mb-4 p-3 bg-white dark:bg-amber-900/30 rounded">
-                  <div className="flex items-start gap-2 mb-2">
-                    <span className="font-semibold text-amber-900 dark:text-amber-50">
-                      High Hit Rates Don't Mean No Losses
-                    </span>
-                    <InfoIconTooltip
-                      title={scoredOptionsTooltips.disclaimers.riskHitRate.title}
-                      content={scoredOptionsTooltips.disclaimers.riskHitRate.content}
-                      side="left"
-                    />
-                  </div>
-                  <p className="text-sm text-amber-800 dark:text-amber-100">
-                    Even options predicted as 83.8% likely to expire worthless (Probability Optimization Model at 70-80% range) will still fail 16.2% of the time. Expect losses on 1-2 out of every 10 positions. Position sizing must account for this failure rate.
-                  </p>
-                </div>
-
-                {/* Disclaimer 2: Market Regime Risk */}
-                <div className="mb-4 p-3 bg-white dark:bg-amber-900/30 rounded">
-                  <div className="flex items-start gap-2 mb-2">
-                    <span className="font-semibold text-amber-900 dark:text-amber-50">
-                      Models Trained on Recent History
-                    </span>
-                    <InfoIconTooltip
-                      title={scoredOptionsTooltips.disclaimers.marketRegimeRisk.title}
-                      content={scoredOptionsTooltips.disclaimers.marketRegimeRisk.content}
-                      side="left"
-                    />
-                  </div>
-                  <p className="text-sm text-amber-800 dark:text-amber-100">
-                    These models learned patterns from April 2024 - January 2026 (21 months of relatively normal market conditions). Major market shocks, extreme interest rate changes, or geopolitical events could invalidate these patterns. If market conditions change significantly, model accuracy may decline.
-                  </p>
-                </div>
-
-                {/* Disclaimer 3: No Guarantees */}
-                <div className="p-3 bg-white dark:bg-amber-900/30 rounded">
-                  <div className="flex items-start gap-2 mb-2">
-                    <span className="font-semibold text-amber-900 dark:text-amber-50">
-                      Past Performance ≠ Future Results
-                    </span>
-                    <InfoIconTooltip
-                      title={scoredOptionsTooltips.disclaimers.noGuarantees.title}
-                      content={scoredOptionsTooltips.disclaimers.noGuarantees.content}
-                      side="left"
-                    />
-                  </div>
-                  <p className="text-sm text-amber-800 dark:text-amber-100">
-                    These models performed well on historical data. There is no guarantee they will perform the same way in the future. Use these scores as one input to your decision-making process, not as the sole reason to write put options. Always apply your own judgment and risk management.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </>
       )}
     </div>
