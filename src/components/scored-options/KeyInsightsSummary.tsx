@@ -18,20 +18,20 @@ export const KeyInsightsSummary: React.FC = () => {
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Data-Driven Metrics:</strong> Hit rates vary by model and prediction range. Review the detailed tables below for comprehensive performance data.
+            <strong>Data-Driven Metrics:</strong> Actual Worthless % varies by model and prediction range. Review the detailed tables below for comprehensive performance data.
           </p>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
             <strong>Statistical Precision:</strong> Large sample sizes (636K+ for TA ML Model, 20K+ for Probability Model at 70-80%)
-            provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless %s likely fall.
+            provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless % likely falls.
           </p>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Risk Assessment:</strong> Lower Actual Worthless %s indicate higher risk. Evaluate model performance across prediction ranges to support your trading decisions.
+            <strong>Risk Assessment:</strong> Lower Actual Worthless % indicates higher risk. Evaluate model performance across prediction ranges to support your trading decisions.
           </p>
         </div>
       </div>

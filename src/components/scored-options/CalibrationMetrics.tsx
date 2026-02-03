@@ -24,7 +24,7 @@ export const CalibrationMetrics: React.FC = () => {
               Model Calibration & Accuracy
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Probability Optimization Model (83.8% hit rate) and TA ML Model (76.6% hit rate) performance validated on historical data
+              Probability Optimization Model (83.8% Actual Worthless %) and TA ML Model (76.6% Actual Worthless %) performance validated on historical data
             </p>
           </div>
         </div>
@@ -123,7 +123,7 @@ export const CalibrationMetrics: React.FC = () => {
           </div>
           <div className="bg-purple-50 dark:bg-purple-950 rounded p-3 space-y-2">
             <p className="font-semibold text-purple-900 dark:text-purple-100 text-sm">✓ Verified Data</p>
-            <p className="text-xs text-purple-800 dark:text-purple-200">Hit rates from comprehensive historical analysis</p>
+            <p className="text-xs text-purple-800 dark:text-purple-200">Actual Worthless % from comprehensive historical analysis</p>
           </div>
         </div>
         </div>
