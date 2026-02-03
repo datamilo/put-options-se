@@ -18,9 +18,9 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
   };
 
   const getScoreBgColor = (score: number) => {
-    if (score >= 80) return 'bg-green-50';
-    if (score >= 70) return 'bg-amber-50';
-    return 'bg-red-50';
+    if (score >= 80) return 'bg-green-50 dark:bg-green-950';
+    if (score >= 70) return 'bg-amber-50 dark:bg-amber-950';
+    return 'bg-red-50 dark:bg-red-950';
   };
 
   // Get interpretation text based on bucket

@@ -18,9 +18,9 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
   };
 
   const getProbabilityBgColor = (prob: number) => {
-    if (prob >= 0.7) return 'bg-green-50';
-    if (prob >= 0.5) return 'bg-amber-50';
-    return 'bg-red-50';
+    if (prob >= 0.7) return 'bg-green-50 dark:bg-green-950';
+    if (prob >= 0.5) return 'bg-amber-50 dark:bg-amber-950';
+    return 'bg-red-50 dark:bg-red-950';
   };
 
   /**

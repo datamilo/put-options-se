@@ -19,16 +19,16 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
   };
 
   const getScoreBgColor = (score: number) => {
-    if (score >= 80) return 'bg-green-50';
-    if (score >= 70) return 'bg-amber-50';
-    return 'bg-red-50';
+    if (score >= 80) return 'bg-green-50 dark:bg-green-950';
+    if (score >= 70) return 'bg-amber-50 dark:bg-amber-950';
+    return 'bg-red-50 dark:bg-red-950';
   };
 
   // Get agreement strength color
   const getAgreementColor = (strength: string) => {
-    if (strength === 'Strong') return 'text-green-700 bg-green-50 border-green-200';
-    if (strength === 'Moderate') return 'text-amber-700 bg-amber-50 border-amber-200';
-    return 'text-red-700 bg-red-50 border-red-200';
+    if (strength === 'Strong') return 'text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800';
+    if (strength === 'Moderate') return 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800';
+    return 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800';
   };
 
   // Get agreement explanation

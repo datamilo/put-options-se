@@ -247,7 +247,7 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
                     <TableCell>
                       <button
                         onClick={() => setExpandedRow(expandedRow === idx ? null : idx)}
-                        className="p-1 hover:bg-muted rounded"
+                        className="p-1 hover:bg-muted rounded text-gray-600 dark:text-gray-400"
                       >
                         {expandedRow === idx ? (
                           <ChevronUp className="h-4 w-4" />
