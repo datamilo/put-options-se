@@ -84,7 +84,7 @@ export const filterTooltips: TooltipSection = {
   minCombinedScore: {
     title: 'Minimum Combined Score',
     content:
-      'Combined Score = Average of Probability Optimization Score and TA ML Model Probability.\n\nThe default 70 targets the optimal 70-80% probability range where historical data shows:\n• Hit rate: 77% (options expire worthless)\n• Premium multiplier: 5-10x higher than conservative 80%+ range\n• Expected calibration error: 2.4%\n\nThis represents the best risk-adjusted return profile. Adjust based on your risk tolerance.',
+      'Combined Score = Average of Probability Optimization Score and TA ML Model Probability.\n\nThe default 70 targets the optimal 70-80% probability range where both models show strong historical accuracy:\n• Probability Optimization Model: 83.8% Actual Worthless %\n• TA ML Model: 76.6% Actual Worthless %\n• Expected calibration error: 2.4%\n\nThis represents the best risk-adjusted return profile. Adjust based on your risk tolerance.',
   },
   minV21Score: {
     title: 'Minimum Probability Optimization Score',
@@ -262,7 +262,7 @@ export const agreementTooltips: TooltipSection = {
   agreementStrengthField: {
     title: 'Agreement Strength Classification',
     content:
-      'Categorizes agreement tier:\n\n**Strong Agreement** (~12%): Both >=80%, Expected hit 85%+ -> HIGH PRIORITY\n**Moderate Agreement** (~6%): Both 70-79%, Expected hit 75%+ -> GOOD\n**Total Agreement** (~18%): Combined 12-18% -> ACTIONABLE\n**Disagreement** (~70%): Models diverge -> INVESTIGATE\n**Both Conservative** (~12%): Both <60% -> SKIP',
+      'Categorizes agreement tier:\n\n**Strong Agreement** (~12%): Both >=80%, Expected Actual Worthless % 85%+ -> HIGH PRIORITY\n**Moderate Agreement** (~6%): Both 70-79%, Expected Actual Worthless % 75%+ -> GOOD\n**Total Agreement** (~18%): Combined 12-18% -> ACTIONABLE\n**Disagreement** (~70%): Models diverge -> INVESTIGATE\n**Both Conservative** (~12%): Both <60% -> SKIP',
   },
 };
 
@@ -272,9 +272,9 @@ export const agreementTooltips: TooltipSection = {
 
 export const validationTooltips: TooltipSection = {
   hitRate77: {
-    title: 'Actual Worthless %: 77% in 70-80% Range (Dual-Model)',
+    title: 'Actual Worthless % in 70-80% Range',
     content:
-      'Empirically observed outcome across both models: Approximately 77% of options in the 70-80% score range expire worthless (out-of-the-money).\n\n**Based on:** 934K+ expired options analyzed over 21+ months (April 2024 - January 2026)\n\n**21-Month Consistency:** Stable 76-78% across entire period\n\n**Interpretation:** 77% success rate means 23% failure rate. Premium gains offset by occasional losses.\n\n**Risk Management:** Position sizing must account for 23% failure rate. Average loss when wrong = strike distance.\n\n**Premium Level:** 5-10x higher than conservative 80%+ range (which has 90%+ Actual Worthless % but minimal premiums)',
+      'Empirically observed outcomes at 70-80% prediction range:\n• Probability Optimization Model: 83.8% (19,830 options analyzed)\n• TA ML Model: 76.6% (636,639 predictions tested)\n\n**Based on:** 934K+ expired options over 21+ months (April 2024 - January 2026)\n\n**Consistency:** Both models show stable performance across the entire period\n\n**Interpretation:** \n• V2.1: 83.8% success rate means 16.2% failure rate\n• TA: 76.6% success rate means 23.4% failure rate\nPremium gains offset by occasional losses.\n\n**Risk Management:** Position sizing must account for failure rate. Average loss when wrong = strike distance.\n\n**Why 70-80%?** Higher premiums than conservative 80%+ range (which has 90%+ Actual Worthless % but minimal premiums)',
   },
   walkForwardAUC: {
     title: 'Walk-Forward AUC: 0.6511 ± 0.040 (Dual-Model)',
@@ -294,9 +294,9 @@ export const validationTooltips: TooltipSection = {
 
 export const disclaimerTooltips: TooltipSection = {
   riskHitRate: {
-    title: 'Actual Worthless % of 77% Means 23% Failure',
+    title: 'Actual Worthless % Means Failure Rate Too',
     content:
-      'In the 70-80% range, approximately 1 in 4 options will expire in-the-money (against the prediction).\n\n**Financial Impact:** 23% of positions will experience losses = strike distance - premium collected.\n\n**Risk Management Requirement:** Portfolio-level risk controls, position sizing accounting for failure rate, stop-loss implementation.\n\n**Position Sizing Example:** If writing 10 put options in 70-80% range, expect ~7-8 to be profitable and ~2-3 to have losses.\n\n**No Guarantee:** Past performance does not guarantee future results.',
+      'When models predict 70-80% probability:\n• Probability Optimization Model: 83.8% expire worthless = 16.2% fail\n• TA ML Model: 76.6% expire worthless = 23.4% fail\n\nThis means approximately 1 in 4-6 options will expire in-the-money (against the prediction).\n\n**Financial Impact:** Failed positions will experience losses = strike distance - premium collected.\n\n**Risk Management Requirement:** Portfolio-level risk controls, position sizing accounting for failure rate, stop-loss implementation.\n\n**Position Sizing Example (TA Model):** If writing 10 put options in 70-80% range, expect ~7-8 to be profitable and ~2-3 to have losses.\n\n**No Guarantee:** Past performance does not guarantee future results.',
   },
   marketRegimeRisk: {
     title: 'Market Regime Changes Risk',
@@ -318,12 +318,12 @@ export const calibrationTooltips: TooltipSection = {
   overview: {
     title: 'Model Calibration & Accuracy',
     content:
-      'These tables show actual Actual Worthless %s (% worthless) achieved at each predicted probability level.\n\n**What This Answers:** "If the model predicts 70-80%, how often do options actually expire worthless?"\n\n**Key Finding:** Both Probability Optimization and TA ML Model independently predict ~77% Actual Worthless % at the 70-80% range. This dual confirmation validates the prediction accuracy at the premium collection sweet spot.\n\n**Based on:**\n• V2.1: 934K+ expired options (21+ months, April 2024 - January 2026)\n• TA V3: 1.59M walk-forward validated out-of-sample predictions\n\n**Confidence:** Tight 95% confidence intervals ([77.0%-77.2%] for TA V3 with 583K+ samples) indicate high statistical precision.',
+      'These tables show actual Actual Worthless %s (% worthless) achieved at each predicted probability level.\n\n**What This Answers:** "When the model predicts 70-80% probability, how often do options actually expire worthless?"\n\n**Key Finding:** Both models independently validated at the 70-80% prediction range:\n• Probability Optimization Model: 83.8% Actual Worthless % (19,830 samples)\n• TA ML Model: 76.6% Actual Worthless % (636,639 samples)\nThis dual confirmation validates both models\' accuracy at the premium collection sweet spot.\n\n**Based on:**\n• V2.1: 934K+ expired options (21+ months, April 2024 - January 2026)\n• TA V3: 1.59M walk-forward validated out-of-sample predictions\n\n**Confidence:** Large sample sizes and tight 95% confidence intervals indicate high statistical precision.',
   },
   premiumZone: {
     title: '70-80% Premium Zone (OPTIMAL)',
     content:
-      'The 70-80% prediction range is the optimal premium collection zone because:\n\n**Actual Worthless %:** 77% (options expire worthless)\n→ Means 23% fail (acceptable failure rate)\n→ Premium gains offset occasional losses\n\n**Premium Multiplier:** 5-10x higher than conservative ranges\n→ 80-90% range: 1-2x premium (minimal)\n→ 70-80% range: 5-10x premium (optimal)\n\n**Expected Return Formula:**\nExpected Return = (77% × Premium Multiplier) - (23% × Loss)\n\nThis risk-adjusted return profile is why 70-80% dominates trading strategies.\n\n**Risk-Adjusted Return:** Superior to both 80%+ (lower premiums) and <70% (lower Actual Worthless %).',
+      'The 70-80% prediction range is the optimal premium collection zone because:\n\n**Model Performance:**\n• Probability Optimization Model: 83.8% Actual Worthless % (16.2% failure rate)\n• TA ML Model: 76.6% Actual Worthless % (23.4% failure rate)\n→ Premium gains offset occasional losses\n\n**Why This Zone?**\n→ Offers higher premiums than conservative 80%+ ranges\n→ Maintains reasonable accuracy compared to <70% ranges\n\n**Expected Return Formula:**\nExpected Return = (Model Accuracy × Premium) - (Failure Rate × Loss)\n\nThis risk-adjusted return profile is why 70-80% dominates trading strategies.\n\n**Risk-Adjusted Return:** Superior to both 80%+ (lower premiums) and <70% (lower Actual Worthless %).',
   },
   confidenceIntervals: {
     title: '95% Confidence Intervals',
@@ -333,12 +333,12 @@ export const calibrationTooltips: TooltipSection = {
   temporalStability: {
     title: 'Temporal Stability (Per-Fold Analysis)',
     content:
-      'Shows how calibration varies across different 3-month market periods (folds 1-5 in walk-forward validation).\n\n**Why This Matters:** Calibration averages 77%, but individual periods show variation:\n• Fold 1: 73.8% (near average)\n• Fold 2: 64.7% (significant underperformance during Dec 2024-Mar 2025)\n• Fold 3: 82.0% (strong performance)\n• Fold 4: 79.0% (above average)\n• Fold 5: 80.8% (above average, recent)\n\n**What This Reveals:**\n• Market regimes affect calibration\n• Long-term average (77%) masks period-to-period swings\n• Recent periods (Folds 4-5) show strength\n• Fold 2 underperformance reflects temporary market regime shift\n\n**Investment Takeaway:** 77% is reliable long-term average, but understand actual Actual Worthless %s will fluctuate seasonally.',
+      'Shows how model calibration varies across different 3-month market periods (folds 1-5 in walk-forward validation) at the 70-80% prediction range.\n\n**Why This Matters:** Calibration shows period-to-period variation:\n• Fold 1: 73.8% (near average)\n• Fold 2: 64.7% (significant underperformance during Dec 2024-Mar 2025)\n• Fold 3: 82.0% (strong performance)\n• Fold 4: 79.0% (above average)\n• Fold 5: 80.8% (above average, recent)\n\n**What This Reveals:**\n• Market regimes affect calibration accuracy\n• Long-term average masks period-to-period swings\n• Recent periods (Folds 4-5) show strength\n• Fold 2 underperformance reflects temporary market regime shift\n\n**Investment Takeaway:** Long-term average is reliable, but understand Actual Worthless %s will fluctuate with market conditions. Recent performance (Folds 4-5) suggests current calibration is strong.',
   },
   dualModelConvergence: {
-    title: 'Dual-Model Convergence at 77%',
+    title: 'Dual-Model Convergence at 70-80% Range',
     content:
-      'Both Probability Optimization Model and TA ML Model independently reach 77% Actual Worthless % at 70-80%.\n\n**What This Proves:**\n\n1. **Two Different Methodologies:** V2.1 uses 3-factor weighting, TA V3 uses 17 ML features\n2. **Independent Analysis:** Learned from different data perspectives\n3. **Convergent Result:** Both reach identical 77% conclusion\n\n**Statistical Significance:** When two completely independent models converge on same result, confidence is much higher than single model.\n\n**Business Interpretation:** 77% Actual Worthless % is robust, not dependent on one model\'s quirks or assumptions. Both models independently confirmed this accuracy.\n\n**Investor Confidence:** Dual validation provides the strongest possible evidence that 77% is reliable.',
+      'Both Probability Optimization Model and TA ML Model independently demonstrate strong Actual Worthless % at 70-80% prediction range:\n• Probability Optimization (V2.1): 83.8%\n• TA ML Model (V3): 76.6%\n\nBoth models show high accuracy despite different methodologies.\n\n**What This Proves:**\n\n1. **Two Different Methodologies:** V2.1 uses 3-factor weighting, TA V3 uses 17 ML features\n2. **Independent Analysis:** Learned from different data perspectives\n3. **Convergent Results:** Both reach 75%+ range, confirming 70-80% is the optimal zone\n\n**Statistical Significance:** When two completely independent models reach similar results, confidence is much higher than single model.\n\n**Business Interpretation:** The 70-80% range performance is robust, not dependent on one model\'s quirks or assumptions. Both models independently confirmed strong Actual Worthless % values.\n\n**Investor Confidence:** Dual validation provides strong evidence that this range is reliable.',
   },
   walkForwardValidation: {
     title: 'Walk-Forward Validation (Out-of-Sample)',
