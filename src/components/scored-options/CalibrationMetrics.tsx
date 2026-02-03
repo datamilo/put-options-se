@@ -24,7 +24,7 @@ export const CalibrationMetrics: React.FC = () => {
               Model Calibration & Accuracy
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Probability Optimization Model (83.8% Actual Worthless %) and TA ML Model (76.6% Actual Worthless %) performance validated on historical data
+              When models predict 70-80% probability: Probability Optimization achieves 83.8% accuracy, TA ML Model 76.6%. Both validated on 934K+ historical options.
             </p>
           </div>
         </div>
