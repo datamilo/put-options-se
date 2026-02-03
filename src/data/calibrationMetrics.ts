@@ -22,7 +22,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 1878,
       confidenceIntervalLower: 0.997,
       confidenceIntervalUpper: 0.9999,
-      expectedNote: 'Hit Rate: 99.9%',
+      expectedNote: 'Actual Worthless %: 99.9%',
     },
     {
       rangeLabel: '80-90%',
@@ -32,7 +32,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 27082,
       confidenceIntervalLower: 0.979,
       confidenceIntervalUpper: 0.982,
-      expectedNote: 'Hit Rate: 98.1%',
+      expectedNote: 'Actual Worthless %: 98.1%',
     },
     {
       rangeLabel: '70-80%',
@@ -42,7 +42,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 19830,
       confidenceIntervalLower: 0.833,
       confidenceIntervalUpper: 0.843,
-      expectedNote: 'Hit Rate: 83.8%',
+      expectedNote: 'Actual Worthless %: 83.8%',
     },
     {
       rangeLabel: '60-70%',
@@ -52,7 +52,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 13506,
       confidenceIntervalLower: 0.506,
       confidenceIntervalUpper: 0.523,
-      expectedNote: 'Hit Rate: 51.4%',
+      expectedNote: 'Actual Worthless %: 51.4%',
     },
     {
       rangeLabel: '50-60%',
@@ -62,7 +62,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 7389,
       confidenceIntervalLower: 0.311,
       confidenceIntervalUpper: 0.332,
-      expectedNote: 'Hit Rate: 32.2%',
+      expectedNote: 'Actual Worthless %: 32.2%',
     },
     {
       rangeLabel: '40-50%',
@@ -72,7 +72,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 1963,
       confidenceIntervalLower: 0.109,
       confidenceIntervalUpper: 0.138,
-      expectedNote: 'Hit Rate: 12.3%',
+      expectedNote: 'Actual Worthless %: 12.3%',
     },
     {
       rangeLabel: '30-40%',
@@ -82,7 +82,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 622,
       confidenceIntervalLower: 0.048,
       confidenceIntervalUpper: 0.086,
-      expectedNote: 'Hit Rate: 6.4%',
+      expectedNote: 'Actual Worthless %: 6.4%',
     },
     {
       rangeLabel: '20-30%',
@@ -92,7 +92,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 194,
       confidenceIntervalLower: 0.005,
       confidenceIntervalUpper: 0.044,
-      expectedNote: 'Hit Rate: 1.5%',
+      expectedNote: 'Actual Worthless %: 1.5%',
     },
     {
       rangeLabel: '10-20%',
@@ -102,7 +102,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 5,
       confidenceIntervalLower: 0.118,
       confidenceIntervalUpper: 0.769,
-      expectedNote: 'Hit Rate: 40.0%',
+      expectedNote: 'Actual Worthless %: 40.0%',
     },
   ],
 
@@ -115,7 +115,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 29108,
       confidenceIntervalLower: 0.890,
       confidenceIntervalUpper: 0.897,
-      expectedNote: 'Hit Rate: 89.4%',
+      expectedNote: 'Actual Worthless %: 89.4%',
     },
     {
       rangeLabel: '80-90%',
@@ -125,7 +125,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 305869,
       confidenceIntervalLower: 0.841,
       confidenceIntervalUpper: 0.843,
-      expectedNote: 'Hit Rate: 84.2%',
+      expectedNote: 'Actual Worthless %: 84.2%',
     },
     {
       rangeLabel: '70-80%',
@@ -135,7 +135,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 636639,
       confidenceIntervalLower: 0.765,
       confidenceIntervalUpper: 0.767,
-      expectedNote: 'Hit Rate: 76.6%',
+      expectedNote: 'Actual Worthless %: 76.6%',
     },
     {
       rangeLabel: '60-70%',
@@ -145,7 +145,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 462494,
       confidenceIntervalLower: 0.673,
       confidenceIntervalUpper: 0.675,
-      expectedNote: 'Hit Rate: 67.4%',
+      expectedNote: 'Actual Worthless %: 67.4%',
     },
     {
       rangeLabel: '50-60%',
@@ -155,7 +155,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 151200,
       confidenceIntervalLower: 0.590,
       confidenceIntervalUpper: 0.594,
-      expectedNote: 'Hit Rate: 59.2%',
+      expectedNote: 'Actual Worthless %: 59.2%',
     },
     {
       rangeLabel: '<50%',
@@ -165,7 +165,7 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       sampleSize: 3670,
       confidenceIntervalLower: 0.319,
       confidenceIntervalUpper: 0.349,
-      expectedNote: 'Hit Rate: 33.4%',
+      expectedNote: 'Actual Worthless %: 33.4%',
     },
   ],
 

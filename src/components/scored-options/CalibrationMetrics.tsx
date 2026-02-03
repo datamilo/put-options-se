@@ -74,7 +74,7 @@ export const CalibrationMetrics: React.FC = () => {
             </p>
           </div>
           <BucketCalibrationTable
-            title="Probability Optimization Model - Hit Rates by Score Range"
+            title="Probability Optimization Model - Actual Worthless % by Score Range"
             buckets={calibrationMetricsData.v21Buckets}
             modelType="v21"
           />
@@ -93,7 +93,7 @@ export const CalibrationMetrics: React.FC = () => {
             </p>
           </div>
           <BucketCalibrationTable
-            title="TA ML Model - Hit Rates by Predicted Range"
+            title="TA ML Model - Actual Worthless % by Predicted Range"
             buckets={calibrationMetricsData.v3Buckets}
             modelType="v3"
           />

@@ -57,7 +57,7 @@ export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> =
                 <TableRow>
                   <TableHead className="text-center font-semibold">Fold</TableHead>
                   <TableHead className="text-left font-semibold">Test Period</TableHead>
-                  <TableHead className="text-center font-semibold">Hit Rate</TableHead>
+                  <TableHead className="text-center font-semibold">Actual Worthless %</TableHead>
                   <TableHead className="text-center font-semibold">Sample Size</TableHead>
                   <TableHead className="text-center font-semibold">Deviation from 77%</TableHead>
                 </TableRow>
@@ -107,7 +107,7 @@ export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> =
               </li>
               <li>
                 <strong>Overall Average:</strong> The 77% aggregate rate masks this variation. Users should understand
-                that actual hit rates fluctuate with market regimes, though the long-term average remains stable.
+                that actual Actual Worthless percentages fluctuate with market regimes, though the long-term average remains stable.
               </li>
             </ul>
           </div>

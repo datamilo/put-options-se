@@ -11,7 +11,7 @@ export const KeyInsightsSummary: React.FC = () => {
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
             <strong>Two Independent Models:</strong> The system uses two separate analytical approaches:
-            Probability Optimization Model (83.8% hit rate at 70-80% range) and TA ML Model (76.6% hit rate at 70-80% range).
+            Probability Optimization Model (83.8% Actual Worthless % at 70-80% range) and TA ML Model (76.6% Actual Worthless % at 70-80% range).
             Both provide independent estimates for comparison.
           </p>
         </div>
@@ -25,13 +25,13 @@ export const KeyInsightsSummary: React.FC = () => {
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
             <strong>Statistical Precision:</strong> Large sample sizes (636K+ for TA ML Model, 20K+ for Probability Model at 70-80%)
-            provide high confidence in the estimates. Confidence intervals show the range where true hit rates likely fall.
+            provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless %s likely fall.
           </p>
         </div>
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Risk Assessment:</strong> Lower hit rates indicate higher risk. Evaluate model performance across prediction ranges to support your trading decisions.
+            <strong>Risk Assessment:</strong> Lower Actual Worthless %s indicate higher risk. Evaluate model performance across prediction ranges to support your trading decisions.
           </p>
         </div>
       </div>

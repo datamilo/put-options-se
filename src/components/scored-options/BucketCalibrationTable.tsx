@@ -21,7 +21,12 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
   buckets,
   modelType,
 }) => {
-  const getHitRateColor = (hitRate: number): string => {
+  // For V2.1, only show buckets where actual worthless % >= 50%
+  const filteredBuckets = modelType === 'v21'
+    ? buckets.filter(bucket => bucket.hitRate >= 0.50)
+    : buckets;
+
+  const getActualWorthlessColor = (hitRate: number): string => {
     if (hitRate >= 0.80) return 'text-green-700 dark:text-green-400';
     if (hitRate >= 0.70) return 'text-amber-600 dark:text-amber-400';
     return 'text-red-600 dark:text-red-400';
@@ -45,14 +50,14 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
               <TableHead className="text-left font-semibold">
                 {modelType === 'v21' ? 'Score Range' : 'Predicted Range'}
               </TableHead>
-              <TableHead className="text-center font-semibold">Hit Rate</TableHead>
+              <TableHead className="text-center font-semibold">Actual Worthless %</TableHead>
               <TableHead className="text-center font-semibold">Sample Size</TableHead>
               <TableHead className="text-center font-semibold">95% CI</TableHead>
               <TableHead className="text-left font-semibold">Notes</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {buckets.map((bucket, idx) => (
+            {filteredBuckets.map((bucket, idx) => (
               <TableRow
                 key={`${bucket.rangeLabel}-${idx}`}
                 className={`hover:bg-opacity-75 ${getRowBgColor(bucket.hitRate)}`}
@@ -60,7 +65,7 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
                 <TableCell className="font-medium text-gray-900 dark:text-gray-100">
                   {bucket.rangeLabel}
                 </TableCell>
-                <TableCell className={`text-center font-bold ${getHitRateColor(bucket.hitRate)}`}>
+                <TableCell className={`text-center font-bold ${getActualWorthlessColor(bucket.hitRate)}`}>
                   {formatNordicDecimal(bucket.hitRate * 100, 1)}%
                 </TableCell>
                 <TableCell className="text-center text-gray-700 dark:text-gray-300">
