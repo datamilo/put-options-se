@@ -128,30 +128,6 @@ export const CalibrationMetrics: React.FC = () => {
           )}
         </div>
       )}
-
-        {/* Data Quality Indicators */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-          <div className="bg-green-50 dark:bg-green-950 rounded p-3 space-y-2">
-            <p className="font-semibold text-green-900 dark:text-green-100 text-sm">✓ Multiple Models</p>
-            <p className="text-xs text-green-800 dark:text-green-200">
-              Two independent analysis approaches for comparison
-            </p>
-          </div>
-          <div className="bg-blue-50 dark:bg-blue-950 rounded p-3 space-y-2">
-            <p className="font-semibold text-blue-900 dark:text-blue-100 text-sm">✓ Tested on Future Data</p>
-            <p className="text-xs text-blue-800 dark:text-blue-200">
-              1.59M predictions on future data never seen during training
-            </p>
-          </div>
-          <div className="bg-amber-50 dark:bg-amber-950 rounded p-3 space-y-2">
-            <p className="font-semibold text-amber-900 dark:text-amber-100 text-sm">✓ Large Sample Sizes</p>
-            <p className="text-xs text-amber-800 dark:text-amber-200">99K-583K+ options per range for statistical confidence</p>
-          </div>
-          <div className="bg-purple-50 dark:bg-purple-950 rounded p-3 space-y-2">
-            <p className="font-semibold text-purple-900 dark:text-purple-100 text-sm">✓ Verified Data</p>
-            <p className="text-xs text-purple-800 dark:text-purple-200">Actual Worthless % from comprehensive historical analysis</p>
-          </div>
-        </div>
         </div>
       )}
     </div>
