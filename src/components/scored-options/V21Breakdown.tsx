@@ -92,7 +92,7 @@ export const V21Breakdown: React.FC<V21BreakdownProps> = ({ option }) => {
             <span className="font-semibold">{option.v21_historical_peak != null ? formatNordicPercentage(option.v21_historical_peak, 2) : '-'}</span>
           </div>
           <p className="text-xs text-muted-foreground">
-            Highest probability this stock has shown historically
+            Highest probability this option has shown historically
           </p>
         </div>
 

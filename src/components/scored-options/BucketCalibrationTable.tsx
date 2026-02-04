@@ -21,9 +21,11 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
   buckets,
   modelType,
 }) => {
-  // For V2.1, only show buckets where actual worthless % >= 50%
+  // For V2.1, only show buckets where actual worthless % >= 30%
+  // This includes down to the 50-60% prediction range (32.2% actual worthless)
+  // Excludes lower ranges with too-small sample sizes or unreliable data
   const filteredBuckets = modelType === 'v21'
-    ? buckets.filter(bucket => bucket.hitRate >= 0.50)
+    ? buckets.filter(bucket => bucket.hitRate >= 0.30)
     : buckets;
 
   const getActualWorthlessColor = (hitRate: number): string => {
