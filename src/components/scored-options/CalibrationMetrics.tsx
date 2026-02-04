@@ -39,16 +39,6 @@ export const CalibrationMetrics: React.FC = () => {
       {isExpanded && (
         <div className="border-t border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900 space-y-6">
 
-      {/* Data Availability Explanation */}
-      <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
-        <p className="text-sm font-semibold text-amber-900 dark:text-amber-100 mb-2">
-          Why the Large Sample Size Difference?
-        </p>
-        <p className="text-sm text-amber-800 dark:text-amber-200">
-          V2.1 tests on 72,469 total options (Probability Tracking System) → 19,830 at 70-80%. TA Model tests on 1,860,935 total options (comprehensive historical database) → 636,639 at 70-80%. The 32x difference reflects different data sources: V2.1 is limited to tracked options, while TA Model accesses all Swedish equity options. Both use 27% of their respective datasets at 70-80%, showing identical market distribution.
-        </p>
-      </div>
-
       {/* Key Insights Summary */}
       <KeyInsightsSummary />
 
@@ -76,7 +66,7 @@ export const CalibrationMetrics: React.FC = () => {
         </button>
       </div>
 
-      {/* V2.1 Tab */}
+      {/* Probability Optimization Model Tab */}
       {activeTab === 'v21' && (
         <div className="space-y-4">
           <div className="bg-gray-50 dark:bg-gray-900 rounded p-4 space-y-3">
@@ -89,9 +79,17 @@ export const CalibrationMetrics: React.FC = () => {
             <div className="bg-white dark:bg-gray-800 rounded p-3 border border-gray-200 dark:border-gray-700">
               <p className="text-xs font-semibold text-gray-600 dark:text-gray-400 mb-2">DATA REQUIREMENT DETAIL:</p>
               <p className="text-xs text-gray-700 dark:text-gray-300">
-                V2.1 requires <strong>5 complex probability calculation methods</strong> (Black-Scholes + calibration + historical volatility + Bayesian + ensemble). This requires months of special historical probability tracking data. Of 1.86M historical options, only <strong>72,469 (3.9%)</strong> have complete: probability calculations + historical peak data + support metrics + known outcomes. This is why sample size is limited.
+                Probability Optimization Model requires <strong>5 complex probability calculation methods</strong> (Black-Scholes + calibration + historical volatility + Bayesian + ensemble). This requires months of special historical probability tracking data. Of 1.86M historical options, only <strong>72,469 (3.9%)</strong> have complete: probability calculations + historical peak data + support metrics + known outcomes. This is why sample size is limited.
               </p>
             </div>
+          </div>
+          <div className="bg-amber-50 dark:bg-amber-950 border border-amber-200 dark:border-amber-800 rounded-lg p-4">
+            <p className="text-sm font-semibold text-amber-900 dark:text-amber-100 mb-2">
+              Why Different Sample Sizes?
+            </p>
+            <p className="text-sm text-amber-800 dark:text-amber-200">
+              Probability Optimization Model tests on 72,469 total options (Probability Tracking System) → 19,830 at 70-80%. TA Model tests on 1,860,935 total options (comprehensive historical database) → 636,639 at 70-80%. The 32x difference reflects different data sources: Probability Optimization is limited to tracked options, while TA Model accesses all Swedish equity options. Both use 27% of their respective datasets at 70-80%, showing identical market distribution.
+            </p>
           </div>
           <BucketCalibrationTable
             title="Probability Optimization Model - Actual Worthless % by Score Range"
