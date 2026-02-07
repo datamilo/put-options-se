@@ -20,14 +20,26 @@ The page emphasizes **model agreement** - when both models independently recomme
 
 ## Summary KPIs
 
-Four key metrics provide an at-a-glance overview:
+Five key metrics provide an at-a-glance overview, with three updating dynamically based on current filter selections:
 
 | KPI | Description |
 |-----|-------------|
 | **Total Options** | Total number of options analyzed across all expiry dates |
-| **Models Agree** | Count of options where Probability Optimization and TA models both recommend (percentage of total) |
-| **Strong Agreement** | Options with "Strong" agreement strength (percentage of agreements) |
+| **Avg Combined Score** | Average confidence level across filtered results (dynamically updates) |
+| **Sample Size** | Historical validation sample size for the current score range (larger = more reliable) |
+| **Max Historical Loss** | Worst-case loss percentage historically observed at this score range |
 | **Showing** | Options currently displayed after applying all filters (percentage of total) |
+
+### Dynamic KPI Updates
+
+Three KPI cards update whenever you change filters:
+- **Avg Combined Score** - Recalculates mean score of filtered options; color-coded by confidence level
+- **Sample Size** - Shows historical sample size for the score range of your filtered results
+- **Max Historical Loss** - Shows worst-case loss from calibration data for the current score range
+
+The other two cards remain static:
+- **Total Options** - Total dataset size (unchanged)
+- **Showing** - Current filter result count (updated only by filter changes, not recalculated like the three above)
 
 ---
 
