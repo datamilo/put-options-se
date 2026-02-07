@@ -14,7 +14,7 @@ The **Scored Options Recommendations** page provides dual-model analysis combini
 - **Probability Optimization Model** - Probability-based scoring using current market probability (60%), historical peak probability (30%), and support strength (10%)
 - **TA ML Model** - Machine learning classifier (Random Forest) using 17 technical indicators: RSI, MACD, Bollinger Bands, ADX, ATR, Stochastic, and option Greeks (Delta, Vega, Theta)
 
-The page emphasizes **model agreement** - when both models independently recommend an option, confidence is higher.
+The page emphasizes **model agreement** - measured by proximity between model scores. When both models predict SIMILAR probabilities (within ±5% relative difference), confidence is higher. This is different from just "both models high" - it's about consensus (agreement) between models, not absolute score levels.
 
 ---
 
@@ -57,8 +57,8 @@ The other two cards remain static:
 
 **Model Agreement** (Optional)
 - **All Options** - Show all analyzed options regardless of model agreement
-- **Models Agree** - Show only options where both Probability Optimization and TA models recommend
-- **Models Disagree** - Show only options where models disagree (useful for conflict analysis)
+- **Models Agree** - Show only options where both models predict SIMILAR probabilities (within ±5% relative difference)
+- **Models Disagree** - Show only options where models predict divergent probabilities (useful for conflict analysis)
 
 **Min Combined Score** (0-100, default: 70)
 - Slider filter for overall combined score threshold
@@ -158,10 +158,35 @@ Detailed TA ML Model metrics organized into two sections with status indicators 
 
 ### Agreement Analysis Section
 
-Summary of model consensus:
-- **Models Agree** - Boolean indicator of agreement
-- **Agreement Strength** - Strong / Moderate / Weak classification
-- **Agreement Explanation** - Text describing basis for agreement classification
+The Agreement Analysis section displays how closely the two independent models align on their probability predictions. Agreement is measured by **proximity** (similarity) of scores, NOT by absolute score levels.
+
+#### How Agreement is Calculated
+
+Agreement uses a **relative difference formula** to measure score proximity:
+
+```
+relative_diff = |V2.1_Score - (TA_Probability × 100)| / average_score
+models_agree = relative_diff ≤ 0.05 (5%)
+```
+
+**Example:**
+- V2.1 Score: 75%
+- TA Probability: 77%
+- Difference: |75 - 77| = 2
+- Average: (75 + 77) / 2 = 76
+- Relative difference: 2 / 76 = 0.026 (2.6%)
+- Result: **Models Agree** ✓ (2.6% < 5%)
+
+This approach measures **consensus** between models, not "both models high." A V2.1 score of 55% and TA Probability of 57% would also agree (2% relative difference), while a V2.1 score of 75% and TA Probability of 73% would disagree (2.6% is close but relative difference matters more than absolute difference).
+
+#### Agreement Fields in Expandable Row
+
+- **Models Agree** - Boolean (✓/✕): Indicates whether relative difference ≤ 5%
+- **Agreement Strength** - Classification: Only displayed when models agree
+  - **Strong**: Relative difference ≤ 2% (very similar predictions)
+  - **Moderate**: Relative difference 2-5% (reasonably similar predictions)
+  - **Weak**: Relative difference > 5% (models disagree)
+- **Agreement Explanation** - Descriptive text: Explains basis for classification and shows calculated relative difference percentage
 
 ---
 

@@ -77,7 +77,7 @@ export const filterTooltips: TooltipSection = {
   modelAgreement: {
     title: 'Model Agreement Filter',
     content:
-      'Filter by agreement tier:\n\n**Strong Agreement:** Both >=80% (highest confidence)\n**Moderate Agreement:** Both 70-79% (good confidence)\n**Any Agreement:** Both >=70% (actionable)\n**Disagreement:** Models differ (mixed signals)',
+      'Filter by proximity-based model agreement (how close are the scores?):\n\n**Strong Agreement:** Scores within ±2% of each other (excellent consensus)\n**Moderate Agreement:** Scores within ±2% to ±5% (good consensus)\n**Weak Agreement:** Scores within ±5% but separated (disagreement)\n**Models Disagree:** Scores separated by >±5% (conflicting signals)\n\n**How It Works:** Relative difference = |V2.1 - TA| / average score. When <5%, models agree.',
   },
   minCombinedScore: {
     title: 'Minimum Combined Score',
@@ -112,17 +112,17 @@ export const columnTooltips: TooltipSection = {
   combined: {
     title: 'Combined Score / Agreement',
     content:
-      'Visual indicator of model agreement strength.\n\n**Green (85%+ expected Actual Worthless %):** Both models >=80%\n**Yellow (75%+ expected Actual Worthless %):** Both models 70-79%\n**Gray:** Disagreement or one model <70%',
+      'Average of Probability Optimization Score and TA ML Model probability (0-100 scale). Color indicates confidence level AND agreement status.\n\n**Green (≥80):** High confidence - typically models are closely aligned (Strong agreement)\n**Amber (70-79):** Good confidence - OPTIMAL RANGE for 77% hit rate with 5-10x premiums. Models may vary (Moderate agreement)\n**Red (<70):** Lower confidence - consider additional analysis\n\n**Note:** Color reflects SCORE LEVEL, not agreement status. Check "Models Agree" column for agreement classification.',
   },
   agree: {
     title: 'Models Agree',
     content:
-      'Boolean flag indicating whether both Probability Optimization Score and TA ML Model predict ≥70% probability.\n\nYes = Both models confirm high probability (15%+ premium opportunities)\nNo = Models diverge (mixed signals, human review needed)',
+      'Boolean flag indicating whether the two independent models have SIMILAR predictions (within ±5% relative difference).\n\n**Yes = Models Agree:** Scores are within ±5% proximity (consensus between models)\n**No = Models Disagree:** Scores separated by >±5% (conflicting predictions)\n\n**Formula:** Relative difference = |V2.1 Score - (TA Probability × 100)| / average score ≤ 0.05\n\nThis measures AGREEMENT (similarity), not absolute score levels.',
   },
   strength: {
     title: 'Agreement Strength',
     content:
-      'Classification of agreement tier:\n\n**Strong:** Both >=80% (expected 85%+ Actual Worthless %)\n**Moderate:** Both 70-79% (expected 75%+ Actual Worthless %)\n**Mild:** Both 60-69% (expected 60-70% Actual Worthless %)\n**None:** Disagreement (expected 55%+ Actual Worthless %)',
+      'Classification of how closely the two models align (only shown when models agree):\n\n**Strong Agreement:** Scores within ±2% relative difference (excellent consensus - models nearly identical)\n**Moderate Agreement:** Scores within ±2% to ±5% relative difference (good consensus - models mostly aligned)\n**Weak Agreement:** Scores >±5% but still classified as agreeing (disagreement - conflicting signals)\n\n**Interpretation:** Stronger agreement = higher confidence in the prediction. Use Strong/Moderate as primary signals.',
   },
 };
 
