@@ -107,8 +107,6 @@ export const ScoredOptions = () => {
   const summary = useMemo(() => {
     return {
       totalOptions: data.length,
-      bothAgreeCount: data.filter((opt) => opt.models_agree).length,
-      strongAgreementCount: data.filter((opt) => opt.models_agree && opt.agreement_strength === 'Strong').length,
       currentlyShowing: filteredData.length,
     };
   }, [data, filteredData]);
@@ -180,7 +178,7 @@ export const ScoredOptions = () => {
       {!isLoading && !error && (
         <>
           {/* Summary KPIs */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {/* Total Options */}
             <Card>
               <CardContent className="pt-6">
@@ -196,56 +194,6 @@ export const ScoredOptions = () => {
                     <p className="text-3xl font-bold mt-2">{summary.totalOptions}</p>
                   </div>
                   <TrendingUp className="h-8 w-8 text-blue-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Models Agree Count */}
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <p className="text-sm text-muted-foreground">Models Agree</p>
-                      <InfoIconTooltip
-                        title={scoredOptionsTooltips.kpi.modelsAgree.title}
-                        content={scoredOptionsTooltips.kpi.modelsAgree.content}
-                      />
-                    </div>
-                    <p className="text-3xl font-bold mt-2">{summary.bothAgreeCount}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {summary.totalOptions > 0
-                        ? ((summary.bothAgreeCount / summary.totalOptions) * 100).toFixed(0)
-                        : 0}
-                      %
-                    </p>
-                  </div>
-                  <CheckCircle className="h-8 w-8 text-green-600" />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Strong Agreement Count */}
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <p className="text-sm text-muted-foreground">Strong Agreement</p>
-                      <InfoIconTooltip
-                        title={scoredOptionsTooltips.kpi.strongAgreement.title}
-                        content={scoredOptionsTooltips.kpi.strongAgreement.content}
-                      />
-                    </div>
-                    <p className="text-3xl font-bold mt-2">{summary.strongAgreementCount}</p>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {summary.bothAgreeCount > 0
-                        ? ((summary.strongAgreementCount / summary.bothAgreeCount) * 100).toFixed(0)
-                        : 0}
-                      %
-                    </p>
-                  </div>
-                  <CheckCircle className="h-8 w-8 text-green-700" />
                 </div>
               </CardContent>
             </Card>
