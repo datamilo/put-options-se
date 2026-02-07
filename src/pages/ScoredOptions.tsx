@@ -232,7 +232,7 @@ export const ScoredOptions = () => {
             {/* Sample Size */}
             <KpiCard
               label="Sample Size"
-              value={kpiMetrics.sampleSize ? `${kpiMetrics.sampleSize} predictions` : null}
+              value={kpiMetrics.sampleSize}
               icon={Database}
               iconColor="text-blue-600"
               tooltipTitle={scoredOptionsTooltips.kpi.sampleSize.title}
