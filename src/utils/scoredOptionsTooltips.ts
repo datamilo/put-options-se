@@ -47,15 +47,17 @@ export const kpiTooltips: TooltipSection = {
     title: 'Total Options Available',
     content: 'Complete universe of Swedish equity options analyzed daily. Only includes OTM (out-of-the-money) and ATM (at-the-money) options—ITM (in-the-money) options excluded because the premium collection strategy focuses on writing options for value decay. This means the daily count varies 4,500-5,500 options depending on market conditions. System scores 99.9% of available options.',
   },
-  modelsAgree: {
-    title: 'Models in Agreement',
-    content:
-      'Both Probability Optimization Score and TA ML Model independently predict ≥70% probability of expiration worthless. Represents 12-18% of all available options (highest-confidence tier).\n\nBased on dual-model empirical analysis of 1.8M+ historical options records.\n\nExpected Actual Worthless %: 75%+\nRecommendation: Actionable opportunities',
+  avgCombinedScore: {
+    title: 'Average Combined Score',
+    content: 'Average confidence level across your filtered options. The combined score is the average of the Probability Optimization Score and TA ML Model probability. Higher scores indicate stronger model consensus between the two independent models. Green (≥75) = strong, Amber (70-74) = good, Red (<70) = lower confidence.',
   },
-  strongAgreement: {
-    title: 'Strong Agreement',
-    content:
-      'Both Probability Optimization Score and TA ML Model independently predict ≥80% probability of expiration worthless. Represents ~12% of all available options.\n\nBased on dual-model empirical analysis of 1.8M+ historical options records.\n\nExpected Actual Worthless %: 85%+\nRecommendation: Highest priority for premium collection',
+  sampleSize: {
+    title: 'Sample Size for Score Range',
+    content: 'Historical validation sample size for the score range of your filtered options. Larger samples provide higher statistical confidence in the models\' predictions. Our TA Model V3 is validated on 1.59M walk-forward predictions, and the Probability Optimization Model on 934K+ historical options.',
+  },
+  maxHistoricalLoss: {
+    title: 'Max Historical Loss',
+    content: 'Worst-case loss percentage historically observed in this score range. This represents the downside risk of your current selection. For example, at the 70-80% score level, 23% of options historically expired in-the-money (failure rate), representing the maximum historical loss.',
   },
   showing: {
     title: 'Showing Results',
