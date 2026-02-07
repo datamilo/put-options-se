@@ -1,5 +1,6 @@
 import { ScoredOptionData } from '@/types/scoredOptions';
 import { CalibrationMetricsData } from '@/types/calibration';
+import { formatNordicNumber } from './numberFormatting';
 
 export interface FilteredKPIs {
   avgCombinedScore: number | null;
@@ -93,17 +94,8 @@ export function calculateFilteredKPIs(
   // Get aggregated sample size (handles multi-bucket spans)
   const sampleSize = getAggregatedSampleSize(minScore, maxScore, calibrationMetricsData.v21Buckets);
 
-  // Format sample size as abbreviated string (e.g., "583K", "1.2M")
-  let formattedSampleSize: string | null = null;
-  if (sampleSize > 0) {
-    if (sampleSize >= 1000000) {
-      formattedSampleSize = `${(sampleSize / 1000000).toFixed(1)}M`;
-    } else if (sampleSize >= 1000) {
-      formattedSampleSize = `${(sampleSize / 1000).toFixed(0)}K`;
-    } else {
-      formattedSampleSize = sampleSize.toString();
-    }
-  }
+  // Format sample size as full number with Nordic formatting (e.g., "583 000" not "583K")
+  const formattedSampleSize = sampleSize > 0 ? formatNordicNumber(sampleSize, 0) : null;
 
   // Get max historical loss from bucket
   const maxHistoricalLoss = bucket ? getMaxHistoricalLoss(bucket) : null;
