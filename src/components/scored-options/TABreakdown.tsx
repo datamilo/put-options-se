@@ -135,6 +135,10 @@ export const TABreakdown: React.FC<TABreakdownProps> = ({ option }) => {
   };
 
   const getIndicatorFormat = (key: string, value: number): string => {
+    // Distance to SMA50 displays as percentage (e.g., "-5,00%" for -5%)
+    if (key === 'Dist_SMA50') {
+      return formatNordicPercentage(value, 2);
+    }
     // Stochastic K and D are already on 0-100 scale
     if (key === 'Stochastic_K' || key === 'Stochastic_D') {
       return formatNordicDecimal(value, 1);
