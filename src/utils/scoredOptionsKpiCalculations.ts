@@ -9,16 +9,18 @@ export interface FilteredKPIs {
 
 /**
  * Find the calibration bucket that matches the filtered data's score range
- * Returns the primary bucket (lower bound if spanning multiple buckets)
+ * For max loss calculation, finds the bucket containing the minimum score (most conservative)
+ * For sample size, this is used to determine the relevant score range bucket
  */
 function findCalibrationBucket(
   minScore: number,
   maxScore: number,
   calibrationBuckets: any[]
 ): any {
-  // Find first bucket that overlaps with the score range
+  // Find bucket that contains the minScore (worst-case/lowest score)
+  // This is more meaningful than first overlap, especially when spanning buckets
   return calibrationBuckets.find(
-    (bucket) => minScore < bucket.maxScore && maxScore > bucket.minScore
+    (bucket) => minScore >= bucket.minScore && minScore < bucket.maxScore
   );
 }
 
