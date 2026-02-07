@@ -4,7 +4,7 @@ import { useScoredOptionsData } from '@/hooks/useScoredOptionsData';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Target, Download, TrendingUp, CheckCircle } from 'lucide-react';
+import { Target, Download, TrendingUp, CheckCircle, Database, AlertTriangle } from 'lucide-react';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 import { exportScoredOptionsToExcel } from '@/utils/scoredOptionsExport';
 import { ScoredOptionsFiltersComponent } from '@/components/scored-options/ScoredOptionsFilters';
@@ -13,6 +13,9 @@ import { CalibrationMetrics } from '@/components/scored-options/CalibrationMetri
 import { ScoredOptionsFilters } from '@/types/scoredOptions';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
+import { calculateFilteredKPIs } from '@/utils/scoredOptionsKpiCalculations';
+import { KpiCard } from '@/components/scored-options/KpiCard';
+import { calibrationMetricsData } from '@/data/calibrationMetrics';
 
 export const ScoredOptions = () => {
   usePageTitle('Scored Options Recommendations');
@@ -111,6 +114,20 @@ export const ScoredOptions = () => {
     };
   }, [data, filteredData]);
 
+  // Calculate dynamic KPI metrics
+  const kpiMetrics = useMemo(() => {
+    return calculateFilteredKPIs(filteredData, calibrationMetricsData);
+  }, [filteredData, calibrationMetricsData]);
+
+  // Helper to get color class for avg score
+  const avgScoreColorClass = kpiMetrics.avgCombinedScore
+    ? kpiMetrics.avgCombinedScore >= 75
+      ? 'text-green-600'
+      : kpiMetrics.avgCombinedScore >= 70
+      ? 'text-orange-500'
+      : 'text-red-600'
+    : '';
+
   // Helper to get full path for links
   const getFullPath = (path: string) => {
     const isGitHubPages = window.location.hostname === 'datamilo.github.io';
@@ -197,6 +214,43 @@ export const ScoredOptions = () => {
                 </div>
               </CardContent>
             </Card>
+
+            {/* Average Combined Score */}
+            <KpiCard
+              label="Avg Combined Score"
+              value={kpiMetrics.avgCombinedScore !== null
+                ? kpiMetrics.avgCombinedScore.toLocaleString('sv-SE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+                : null
+              }
+              icon={TrendingUp}
+              iconColor={avgScoreColorClass || 'text-blue-600'}
+              tooltipTitle={scoredOptionsTooltips.kpi.avgCombinedScore.title}
+              tooltipContent={scoredOptionsTooltips.kpi.avgCombinedScore.content}
+              valueClassName={avgScoreColorClass}
+            />
+
+            {/* Sample Size */}
+            <KpiCard
+              label="Sample Size"
+              value={kpiMetrics.sampleSize ? `${kpiMetrics.sampleSize} predictions` : null}
+              icon={Database}
+              iconColor="text-blue-600"
+              tooltipTitle={scoredOptionsTooltips.kpi.sampleSize.title}
+              tooltipContent={scoredOptionsTooltips.kpi.sampleSize.content}
+            />
+
+            {/* Max Historical Loss */}
+            <KpiCard
+              label="Max Historical Loss"
+              value={kpiMetrics.maxHistoricalLoss !== null
+                ? `${kpiMetrics.maxHistoricalLoss.toLocaleString('sv-SE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`
+                : null
+              }
+              icon={AlertTriangle}
+              iconColor="text-orange-600"
+              tooltipTitle={scoredOptionsTooltips.kpi.maxHistoricalLoss.title}
+              tooltipContent={scoredOptionsTooltips.kpi.maxHistoricalLoss.content}
+            />
 
             {/* Currently Showing */}
             <Card>
