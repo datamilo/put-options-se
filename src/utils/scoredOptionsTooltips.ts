@@ -55,10 +55,6 @@ export const kpiTooltips: TooltipSection = {
     title: 'Sample Size for Score Range',
     content: 'Historical validation sample size for the score range of your filtered options. Larger samples provide higher statistical confidence in the models\' predictions. Our TA Model V3 is validated on 1.59M walk-forward predictions, and the Probability Optimization Model on 934K+ historical options.',
   },
-  maxHistoricalLoss: {
-    title: 'Max Historical Loss',
-    content: 'Worst-case loss percentage historically observed in this score range. This represents the downside risk of your current selection. For example, at the 70-80% score level, 23% of options historically expired in-the-money (failure rate), representing the maximum historical loss.',
-  },
   showing: {
     title: 'Showing Results',
     content: 'Number of options displayed in current table (after applying all filters). Total may be less than "Total Options Available" if filters are active.',

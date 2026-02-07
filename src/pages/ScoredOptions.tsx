@@ -4,7 +4,7 @@ import { useScoredOptionsData } from '@/hooks/useScoredOptionsData';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Target, Download, TrendingUp, CheckCircle, Database, AlertTriangle } from 'lucide-react';
+import { Target, Download, TrendingUp, CheckCircle, Database } from 'lucide-react';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 import { exportScoredOptionsToExcel } from '@/utils/scoredOptionsExport';
 import { ScoredOptionsFiltersComponent } from '@/components/scored-options/ScoredOptionsFilters';
@@ -195,7 +195,7 @@ export const ScoredOptions = () => {
       {!isLoading && !error && (
         <>
           {/* Summary KPIs */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Total Options */}
             <Card>
               <CardContent className="pt-6">
@@ -237,19 +237,6 @@ export const ScoredOptions = () => {
               iconColor="text-blue-600"
               tooltipTitle={scoredOptionsTooltips.kpi.sampleSize.title}
               tooltipContent={scoredOptionsTooltips.kpi.sampleSize.content}
-            />
-
-            {/* Max Historical Loss */}
-            <KpiCard
-              label="Max Historical Loss"
-              value={kpiMetrics.maxHistoricalLoss !== null
-                ? `${kpiMetrics.maxHistoricalLoss.toLocaleString('sv-SE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`
-                : null
-              }
-              icon={AlertTriangle}
-              iconColor="text-orange-600"
-              tooltipTitle={scoredOptionsTooltips.kpi.maxHistoricalLoss.title}
-              tooltipContent={scoredOptionsTooltips.kpi.maxHistoricalLoss.content}
             />
 
             {/* Currently Showing */}
