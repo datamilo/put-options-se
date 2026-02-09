@@ -24,7 +24,7 @@ export const CalibrationMetrics: React.FC = () => {
               Model Calibration & Accuracy
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              When models predict 70-80% probability: Probability Optimization achieves 83.8% accuracy, TA ML Model 76.6%. Both validated on 934K+ historical options.
+              When models predict 70-80% probability: Probability Optimization achieves 83.8% accuracy, TA ML Model 72.42%. Both validated on 934K+ historical options.
             </p>
           </div>
         </div>

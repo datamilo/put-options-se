@@ -10,7 +10,7 @@ export const KeyInsightsSummary: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Two Independent Models:</strong> When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 76.6%. Different testing methodologies explain the difference: Probability Optimization Model optimizes weights on tracked options (20K sample); TA Model validates on future unseen data (637K sample) using walk-forward testing.
+            <strong>Two Independent Models:</strong> When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 72.42%. Different market coverage explains the difference: Probability Optimization Model specializes on deeply-tracked options (19.8K sample); TA Model validates on comprehensive historical data (1.4M sample across all market conditions).
           </p>
         </div>
 
@@ -22,7 +22,7 @@ export const KeyInsightsSummary: React.FC = () => {
 
         <div className="space-y-2">
           <p className="text-sm text-blue-800 dark:text-blue-200">
-            <strong>Statistical Precision:</strong> Large sample sizes (636K+ for TA ML Model, 20K+ for Probability Model at 70-80%)
+            <strong>Statistical Precision:</strong> Large sample sizes (1.4M for TA ML Model, 19.8K for Probability Model at 70-80%)
             provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless % likely falls.
           </p>
         </div>
