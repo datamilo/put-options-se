@@ -1,8 +1,8 @@
 # Swedish Put Options Scoring Engine: Performance Analysis
 
 **Prepared For:** Investors with quantitative background
-**Date:** February 9, 2026
-**Version:** 2.1
+**Date:** February 8, 2026
+**Version:** 2.1 (Cleaned - Embracer stock split artifacts removed)
 **Status:** Production Ready
 
 ---
@@ -93,7 +93,7 @@ This table shows actual hit rates by score range, validated on 72,469 historical
 
 **Expected Calibration Error:** 2.4% (mean absolute difference between predicted and actual)
 
-**Interpretation:** Calibration error of 2.4% means: if V2.1 predicts 75%, the actual hit rate falls within 72.6% - 77.4% range. For practical purposes, predictions match empirical outcomes within 2-3 percentage points.
+**Expected Calibration Error:** Predictions match actual outcomes within 2.4 percentage points across score ranges.
 
 ### V2.1 Validation Metrics
 
@@ -316,65 +316,28 @@ TA Model V3 was built differently:
 3. Those features come from standard market data everyone has
 4. No tracking system needed, no historical probability file needed
 
-It's like the difference between:
-- **V2.1:** Maintaining a detailed patient history file for selected patients (requires ongoing work)
-- **TA Model V3:** Having a standard diagnostic test that works on anyone (simpler to apply)
 
 ---
 
-## Why This Difference Matters for Your Trading
+## Model Characteristics
 
-### V2.1: Optimized for Tracked Options
+### V2.1: Deep Historical Data Requirements
 
 **Data used:** Current probability + Historical peak + Support strength
 
-**What it knows:** Deep historical context about the specific option and stock
+**Coverage:** 3.9% of market options (requires months of probability tracking)
 
-**Result:** Very accurate on options in its tracking system (83.8% hit rate)
+**Hit rate:** 83.8% (70-80% score range, n=19,830)
 
-**Limitation:** Only works on tracked options (3.9% of market)
+### TA Model V3: Standard Market Data Only
 
-### TA Model V3: Works on All Options
+**Data used:** 17 technical indicators from standard daily price data
 
-**Data used:** 17 technical indicators calculated from standard market data
+**Coverage:** ~100% of market options (requires only basic OHLCV data)
 
-**What it knows:** How the stock is behaving right now across multiple dimensions
-
-**Result:** Accurate on any option with good price history (72.42% hit rate at 70-80% probability range)
-
-**Advantage:** Works on essentially all options (100% of market)
-
-### How to Use This Knowledge
-
-**Best practice: Use both models together**
-
-When both V2.1 and TA Model V3 agree:
-- You have confirmation from two completely different analytical approaches
-- V2.1 sees: probability history + support + peaks
-- TA Model V3 sees: technical indicators + Greeks
-
-Example: Both say "75%+ probability worthless"
-- Result: Very high confidence. This option has two independent reasons to expect success.
-
-When they disagree:
-- It's normal (they use different data)
-- It's actually valuable because disagreement shows you independent perspectives
-- It signals you should do additional analysis
+**Hit rate:** 72.42% (70-80% score range, n=1,425,565)
 
 ---
-
-## The Bottom Line on Sample Sizes
-
-The **121.8x difference is not a flaw**—it's by design.
-
-- **V2.1:** Smaller, highly controlled sample optimized for fair weight comparison (72,469 options)
-- **TA Model V3:** Full dataset enabling realistic production-environment assessment (8.8M options)
-
-Both approaches are correct. They answer different questions:
-- V2.1 asks: "On deeply tracked options, what's our hit rate with 50/30/20 weights?"
-- TA Model V3 asks: "On all options in production, what's our realistic hit rate?"
-
-You get value from both answers, especially when they converge on the same option.
 
 ---
 
@@ -435,10 +398,10 @@ This table shows TA Model V3 actual hit rates analyzed across 8.8M historical op
 
 | Metric | Value | Interpretation |
 |--------|-------|---|
-| Model AUC | 0.7933 | Good discrimination between worthless and in-the-money options |
-| Overall Hit Rate | 59.53% | Weighted average across all expiration dates and moneyness |
-| Expected Calibration Error (ECE) | 0.0219 | Excellent - Probabilities accurate within 2.2 percentage points |
-| Maximum Calibration Error (MCE) | 0.0524 | Good - Maximum error is 5.2% in any bucket |
+| Model AUC | 0.7933 | - |
+| Overall Hit Rate | 59.53% | - |
+| Expected Calibration Error (ECE) | 0.0219 | - |
+| Maximum Calibration Error (MCE) | 0.0524 | - |
 | Sample Size | 8,821,601 | All options across full real-world distribution |
 
 ### TA Model V3 Performance by Days to Expiration (Critical Finding)
@@ -450,15 +413,10 @@ The most important finding: Model performance varies dramatically based on how m
 | 0-35 days | 77% | 2,096,987 | Excellent ✅ |
 | 36+ days | 54% | 6,724,614 | Below threshold ⚠️ |
 
-**Critical Insight:** A performance cliff exists at 36 days to expiration:
-- **Short-dated options (0-35 DTE):** Model achieves 77% hit rate—excellent for put selling
-- **Far-dated options (36+ DTE):** Model drops to 54% hit rate—barely above baseline
-
-**Why This Matters:**
-- 76% of all options in production are 36+ DTE (6.7M of 8.8M)
-- Momentum indicators (RSI, MACD, Bollinger Bands) are calibrated for shorter-term trading patterns
-- Time decay behavior differs fundamentally between short and far-dated options
-- **Action Item:** For far-dated options, require V2.1 model agreement before trading (dual-model validation)
+**Performance Differential by Days to Expiration:**
+- Short-dated options (0-35 DTE): 77% hit rate (n=2,096,987)
+- Far-dated options (36+ DTE): 54% hit rate (n=6,724,614)
+- 76% of production options are 36+ DTE (6.7M of 8.8M)
 
 ---
 
@@ -466,23 +424,14 @@ The most important finding: Model performance varies dramatically based on how m
 
 ### Performance at 70-80% Score Range (Primary Operating Zone)
 
-| Metric | V2.1 | TA Model V3 | Interpretation |
-|--------|------|-----------|--------|
-| **Hit Rate (70-80%)** | **83.8%** | **72.42%** | Both well-calibrated; different data reflects different market coverage |
-| **Sample Size** | 19,830 | 1,425,565 | 72x larger sample for TA = extremely tight confidence interval |
-| **Confidence Interval** | 83.3%-84.3% | 72.34%-72.49% | TA V3 has 15x tighter precision due to larger sample |
-| **AUC Score** | 0.78-0.79 | 0.7933 | Similar discrimination ability across different populations |
-| **Data Coverage** | Deep tracking on 3.9% of options | Works on 100% of options | V2.1 specialized; TA V3 covers broader market |
-| **Data Sources** | Probability tracking system (5-method ensemble) | Stock technical indicators + strike distance | Different features provide independent validation |
-| **Key Strength** | Probability history + support level expertise | Fast signal detection; works on any option | Complementary strengths |
-
-**Interpretation:**
-- V2.1 achieves 83.8% hit rate on deeply tracked options; TA Model achieves 72.42% on all market options
-- Difference reflects scope, not quality: V2.1 has months of special historical data per option; TA Model works on options with only basic data
-- TA Model excels for short-dated options (77% hit rate, 0-35 DTE); weaker for far-dated (54%)
-- V2.1 is consistently strong across all expirations
-- Agreement between models: when both predict 70%+, hit rate exceeds 80% (dual-model consensus)
-- Sample size difference (72x) reflects broader applicability of TA Model to all trading opportunities
+| Metric | V2.1 | TA Model V3 |
+|--------|------|-----------|
+| Hit Rate | 83.8% | 72.42% |
+| Sample Size | 19,830 | 1,425,565 |
+| Confidence Interval | 83.3%-84.3% | 72.34%-72.49% |
+| AUC Score | 0.78-0.79 | 0.7933 |
+| Data Coverage | 3.9% of options | ~100% of options |
+| Data Sources | Probability tracking (5-method ensemble) | Technical indicators + option Greeks |
 
 ### Agreement Analysis (Dual-Model Consensus)
 
@@ -547,12 +496,10 @@ From analysis across 8.8M historical options:
 - Risk management essential for all positions
 - **Important:** Hit rate drops to 54% for options expiring after 35 days; require V2.1 agreement for far-dated positions
 
-**Disagreement Between Models Occurs in ~70% of Options:**
-- Both models have independent strengths (probability-based vs technical analysis-based)
-- Disagreement is NORMAL and EXPECTED given different data sources and testing methodologies
-- Disagreement signals mixed signals requiring additional analysis
-- Expected cause: V2.1 sees probability + support (focused view), TA V3 sees technical indicators + Greeks (broad market view)
-- **Not a flaw:** Having disagreements shows models are genuinely independent (if they agreed 100%, one would be redundant)
+**Disagreement Between Models:**
+- Occurs in approximately 70% of options
+- Root cause: V2.1 uses probability-tracking features; TA Model V3 uses technical indicators
+- Both models independently validated; disagreement indicates different data sources producing different predictions
 
 ### Data Limitations
 
@@ -644,142 +591,61 @@ V2.1 hit rate in 70-80% range remains stable across 21-month testing period:
 
 ---
 
-## Section 6: Loss Analysis - Risk-Adjusted Returns
+## Section 6: Loss Analysis - In-the-Money Scenario
 
-### What Happens When Predictions Fail?
+### Options Expiring In-the-Money
 
-Success for put sellers means options expire worthless. But some options expire **in-the-money (ITM)**, requiring the investor to purchase shares at the strike price—resulting in a loss. This section analyzes actual losses when predictions fail.
+When an option expires in-the-money (ITM), the option does not expire worthless and the model prediction fails. This section provides loss statistics for ITM expirations.
 
-**Key Question:** Do higher-confidence predictions fail with smaller losses?
+### V2.1 Loss Statistics by Score Bucket (Cleaned Data)
 
-### Loss Validation Results
+Data source: `v2_1_loss_analysis_summary_cleaned.csv` (263,723 ITM options after removing 2,957 Embracer stock split artifacts)
 
-Both models demonstrate **risk-adjusted scoring**: higher confidence scores predict not just *higher* success rates, but also *lower* losses when failures occur.
+| Bucket | Sample Size | Avg Loss | Median Loss | Min Loss | p95 Loss | Max Loss |
+|--------|----------|----------|------------|----------|----------|----------|
+| <50 | 47,103 | 11.62% | 9.43% | 0.00% | 30.69% | 56.19% |
+| 50-60 | 40,959 | 7.57% | 5.77% | 0.00% | 20.55% | 49.00% |
+| 60-70 | 63,043 | 7.26% | 5.10% | 0.00% | 21.60% | 56.79% |
+| 70-80 | 67,616 | 5.70% | 3.80% | 0.00% | 17.48% | 45.25% |
+| 80-100 | 45,002 | 4.63% | 3.07% | 0.00% | 14.14% | 39.39% |
 
-**V2.1 Loss Analysis:**
-- Highest confidence (80-100% score): 4.64% average loss when wrong
-- Lowest confidence (<50% score): 11.63% average loss when wrong
-- **Loss ratio: 2.51x** (low-confidence losses are 2.5 times higher)
-- Interpretation: V2.1 correctly identifies which predictions are risky; risky predictions fail with larger losses
+**Data Quality Note:** Dataset cleaned on February 8, 2026 by removing 2,957 Embracer Group AB options with artificial losses from stock split event (stock_price_at_expiry = 58.34 applied to pre-split strikes). Real Embracer losses from other stock prices retained.
 
-**TA Model V3 Loss Analysis:**
-- Highest confidence (90%+ predicted): 6.44% average loss when wrong
-- Lowest confidence (<50% predicted): 12.16% average loss when wrong
-- **Loss ratio: 1.89x** (low-confidence losses are 1.9 times higher)
-- Interpretation: TA Model V3 also correctly calibrates risk; predictions it labels uncertain do fail worse
+### TA Model V3 Loss Statistics by Score Bucket
 
-### Loss by Score Bucket (70-80% Primary Operating Zone)
+Data source: `ta_v3_calibration_results.csv` (walk-forward validation on 2.3M+ ITM options)
 
-| Metric | V2.1 | TA Model V3 | Difference |
-|--------|------|-------------|-----------|
-| Hit Rate | 62.51% | 70.16% | +7.65pp |
-| Avg Loss When Wrong | 5.94% | 6.64% | +0.70pp |
-| Median Loss When Wrong | 3.87% | 4.62% | +0.75pp |
-| Sample Size (Failures) | 68,786 | 486,004 | +417K |
+| Bucket | Avg Loss | Median Loss |
+|--------|----------|------------|
+| 90%+ | 6.44% | 4.41% |
+| 80-90% | 6.64% | 4.33% |
+| 70-80% | 6.64% | 4.62% |
+| 60-70% | 7.23% | 4.85% |
+| 50-60% | 8.19% | 5.90% |
+| <50% | 12.16% | 10.38% |
 
-**Interpretation:** In the primary 70-80% zone, approximately 6% average loss occurs on the ~37% of options that fail. This validates consistent loss patterns across both independent models.
+### Loss Distribution Summary (70-80% Primary Operating Zone)
 
-### Expected Return Analysis
+| Metric | V2.1 | TA Model V3 |
+|--------|------|-------------|
+| Hit Rate | 62.51% | 70.16% |
+| ITM Failure Rate | 37.49% | 29.84% |
+| Avg Loss When ITM | 5.70% | 6.64% |
+| Median Loss When ITM | 3.80% | 4.62% |
+| 95th Percentile Loss | 17.48% | (unavailable) |
+| Maximum Observed Loss | 45.25% | (unavailable) |
 
-When selling puts with 2.5% premium collected, expected return combines:
-- **Profit from successes:** (Hit Rate) × (Premium) = profit if option expires worthless
-- **Loss from failures:** (Failure Rate) × (Average Loss) = cost when option expires ITM
+### Loss Scaling by Confidence Level
 
-**Expected Return = (Hit Rate × 2.5%) - (Failure Rate × Average Loss)**
+V2.1 model demonstrates loss scaling with confidence:
+- Lowest confidence (<50%): 11.62% average loss
+- Highest confidence (80-100%): 4.63% average loss
+- Ratio: 2.51x (low-confidence losses larger than high-confidence)
 
-**V2.1 Expected Returns by Bucket:**
-
-| Bucket | Hit Rate | Expected Return |
-|--------|----------|-----------------|
-| 80-100% | 72.32% | **+0.52%** ✅ Profitable |
-| 70-80% | 62.51% | **-0.66%** ⚠️ Marginal loss |
-| 60-70% | 51.43% | **-2.57%** ❌ Significant loss |
-| 50-60% | 38.93% | **-3.68%** ❌ High loss |
-| <50% | 23.80% | **-8.27%** ❌ Avoid |
-
-**TA Model V3 Expected Returns by Bucket:**
-
-| Bucket | Hit Rate | Expected Return |
-|--------|----------|-----------------|
-| 90%+ | 85.82% | **+1.23%** ✅ Best profit |
-| 80-90% | 76.92% | **+0.39%** ✅ Profitable |
-| 70-80% | 70.16% | **-0.23%** ⚠️ Break-even |
-| 60-70% | 57.37% | **-1.65%** ❌ Loss |
-| 50-60% | 39.73% | **-3.94%** ❌ High loss |
-| <50% | 15.80% | **-9.84%** ❌ Avoid |
-
-### Critical Insight: Premium Requirement
-
-At 2.5% premium, only the highest confidence buckets generate positive expected returns:
-- **V2.1:** Only 80-100% bucket is profitable
-- **TA Model V3:** 80-90% and 90%+ buckets are profitable
-
-**This means:** To achieve positive expected returns, your premium must be HIGH ENOUGH to offset loss-rate and average-loss impacts. Many traders stop at 70-80% but may not be capturing sufficient premium at those confidence levels.
-
-### Capital Allocation Recommendations
-
-Based on expected return analysis:
-
-1. **80-90% and Above (Full Position Size)**
-   - Expected return: +0.39% to +1.23% at 2.5% premium
-   - Strategy: Maximum capital allocation
-   - Loss risk: 4.6-6.6% average when wrong
-
-2. **70-80% (Reduced Position Size - 80%)**
-   - Expected return: -0.23% to -0.66% at 2.5% premium (break-even to marginal loss)
-   - Strategy: Only with premium > 2.5% or dual-model agreement
-   - Loss risk: 5.9-6.6% average when wrong
-   - Note: Requires higher premiums or additional validation
-
-3. **60-70% (Cautious - 50% Position Size)**
-   - Expected return: -1.65% to -2.57% at 2.5% premium (losses)
-   - Strategy: Only if collecting 3%+ premium with high conviction
-   - Loss risk: 7.9% average when wrong
-
-4. **Below 60% (Avoid or Minimal - 25% Position Size)**
-   - Expected return: -3.94% to -9.84% at 2.5% premium (significant losses)
-   - Strategy: Avoid unless market conditions exceptional
-   - Loss risk: 7.6-11.6% average when wrong
-
-### Risk Management Implications
-
-**Maximum Observed Losses:**
-- V2.1: 73.48% loss (worst case observed)
-- TA Model V3: 67.59% loss (worst case observed)
-
-**Median Loss When Wrong:**
-- V2.1: 3.87% (70-80% bucket)
-- TA Model V3: 4.62% (70-80% bucket)
-
-**Recommendation:** Reserve 15-20% of capital for worst-case scenarios. If deploying $100K:
-- Allocate $80-85K to positions (distributed across buckets)
-- Reserve $15-20K for catastrophic loss coverage
-
----
-
-## Section 7: Appropriate Use Framework
-
-### Correct Applications
-
-- Screening tool for initial option candidate filtering
-- Confidence ranking via dual-model agreement
-- Probability estimate for risk assessment
-- Input to broader decision-making process
-
-### Incorrect Applications
-
-- Sole automated trading decision
-- Guarantee of profitability
-- Replacement for human judgment
-- Unmonitored or unreviewed automated trading
-
-### Risk Management Requirements
-
-- Portfolio-level risk controls independent of model
-- Position sizing accounting for 23-33% failure rate
-- Stop-loss implementation for downside protection
-- Regular monitoring of model performance
-- Adaptation for market regime changes
+TA Model V3 loss scaling:
+- Lowest confidence (<50%): 12.16% average loss
+- Highest confidence (90%+): 6.44% average loss
+- Ratio: 1.89x
 
 ---
 

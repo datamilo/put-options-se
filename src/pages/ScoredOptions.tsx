@@ -10,6 +10,7 @@ import { exportScoredOptionsToExcel } from '@/utils/scoredOptionsExport';
 import { ScoredOptionsFiltersComponent } from '@/components/scored-options/ScoredOptionsFilters';
 import { ScoredOptionsTable } from '@/components/scored-options/ScoredOptionsTable';
 import { CalibrationMetrics } from '@/components/scored-options/CalibrationMetrics';
+import { LossAnalysisMetrics } from '@/components/scored-options/LossAnalysisMetrics';
 import { ScoredOptionsFilters } from '@/types/scoredOptions';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
@@ -268,6 +269,11 @@ export const ScoredOptions = () => {
           {/* Model Calibration & Accuracy Section */}
           <div className="mt-8">
             <CalibrationMetrics />
+          </div>
+
+          {/* Loss Analysis Section */}
+          <div className="mt-8">
+            <LossAnalysisMetrics />
           </div>
 
           {/* Filters */}
