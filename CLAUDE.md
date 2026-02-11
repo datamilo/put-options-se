@@ -280,6 +280,30 @@ formatNordicPercentagePoints(24.55, 2) → "+24,55 pp"
 - Never mix Main Page and Portfolio Generator settings
 - Use `hasLoadedFromSupabase` flag to prevent continuous reloading in preference hooks
 
+### Audience & Tone
+**CRITICAL**: This website is for **senior professional investors** who have deep knowledge of financial markets and options trading.
+
+**NEVER add:**
+- Explanatory text or tooltips that teach users concepts they should already know
+- Hand-holding language that assumes investors don't understand implications
+- Educational disclaimers or warnings (e.g., "options expiring after dates may have volatility")
+- "Tips" or "helpful hints" about investing strategies
+- Condescending explanations of basic financial concepts
+
+**DO:**
+- Present data and facts clearly without commentary
+- Use field names and labels that speak for themselves
+- Trust that professional investors understand the context
+- Keep UI focused on information display, not education
+
+**Example - BAD:**
+```
+"Options expiring after these dates may have increased volatility due to these events."
+```
+
+**Example - GOOD:**
+Just display the dates without explanation. Senior investors know why this matters.
+
 ---
 
 ## Git & GitHub Workflow

@@ -68,10 +68,6 @@ export const StockEventDates: React.FC<StockEventDatesProps> = ({
               </div>
             )}
           </div>
-
-          <p className="text-xs text-gray-600 dark:text-gray-400 mt-3">
-            Options expiring after these dates may have increased volatility due to these events.
-          </p>
         </div>
       </CardContent>
     </Card>
