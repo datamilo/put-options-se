@@ -3,7 +3,6 @@ import { useStockData } from "@/hooks/useStockData";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
 import { StockDetails } from "@/components/stock/StockDetails";
-import { StockEventDates } from "@/components/stock/StockEventDates";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -272,9 +271,6 @@ const StockDetailsPage = () => {
           </SelectContent>
         </Select>
       </div>
-
-      {/* Event Dates Card */}
-      <StockEventDates stockName={selectedStock} />
 
       <StockDetails stockData={stockData} stockSummary={stockSummary} />
     </div>
