@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useScoredOptionsData } from '@/hooks/useScoredOptionsData';
+import { useScoredOptionsPreferences } from '@/hooks/useScoredOptionsPreferences';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -21,7 +22,9 @@ import { calibrationMetricsData } from '@/data/calibrationMetrics';
 export const ScoredOptions = () => {
   usePageTitle('Scored Options Recommendations');
   const { data, isLoading, error } = useScoredOptionsData();
+  const { settings: savedFilters, isLoading: isLoadingPreferences, saveSettings: saveFilterSettings } = useScoredOptionsPreferences();
   const { toast } = useToast();
+  const urlParamsProcessed = useRef(false);
 
   // Initialize filters with default values
   const [filters, setFilters] = useState<ScoredOptionsFilters>(() => ({
@@ -45,15 +48,73 @@ export const ScoredOptions = () => {
     return [...new Set(data.map((option) => option.stock_name))].sort();
   }, [data]);
 
-  // Initialize default expiry date
+  // Load saved preferences when data is available
   useEffect(() => {
-    if (!filters.expiryDate && availableExpiryDates.length > 0) {
+    if (urlParamsProcessed.current) return;
+    if (data.length === 0 || isLoadingPreferences) return;
+
+    console.log('📥 Loading preferences from Supabase:', savedFilters);
+
+    const availableStocks = [...new Set(data.map((option) => option.stock_name))].sort();
+    const availableExpiries = [...new Set(data.map((option) => option.expiry_date))].sort();
+
+    // Filter saved stocks to only include ones that exist in current data
+    const validSavedStocks = savedFilters.stockNames.filter((stock) =>
+      availableStocks.includes(stock)
+    );
+
+    // Check if saved expiry date still exists in current data
+    let expiryDateToUse = savedFilters.expiryDate;
+    if (expiryDateToUse && !availableExpiries.includes(expiryDateToUse)) {
+      console.log('⚠️ Saved expiry date no longer available:', expiryDateToUse);
+      expiryDateToUse = '';
+    }
+
+    // If no valid expiry date, calculate third Friday of next month as default
+    if (!expiryDateToUse && availableExpiries.length > 0) {
+      const defaultDate = calculateDefaultExpiryDate(availableExpiries);
+      if (defaultDate) {
+        expiryDateToUse = defaultDate;
+      }
+      console.log('🎯 Using default expiry date:', expiryDateToUse);
+    }
+
+    console.log('✅ Valid saved stocks:', validSavedStocks);
+    console.log('✅ Valid saved expiry date:', expiryDateToUse);
+
+    setFilters({
+      expiryDate: expiryDateToUse,
+      stockNames: validSavedStocks,
+      agreement: savedFilters.agreement,
+      minScore: savedFilters.minScore,
+      minV21Score: savedFilters.minV21Score,
+      minTAProb: savedFilters.minTAProb,
+    });
+
+    urlParamsProcessed.current = true;
+  }, [data, isLoadingPreferences, savedFilters]);
+
+  // Initialize default expiry date (fallback if no saved preferences)
+  useEffect(() => {
+    if (!filters.expiryDate && availableExpiryDates.length > 0 && !urlParamsProcessed.current) {
       const defaultDate = calculateDefaultExpiryDate(availableExpiryDates);
       if (defaultDate) {
         setFilters((prev) => ({ ...prev, expiryDate: defaultDate }));
       }
     }
-  }, [availableExpiryDates, filters.expiryDate]);
+  }, [availableExpiryDates]);
+
+  // Save preferences whenever filters change (debounced)
+  useEffect(() => {
+    if (!isLoadingPreferences && data.length > 0 && urlParamsProcessed.current) {
+      const timeoutId = setTimeout(() => {
+        console.log('💾 Saving preferences to Supabase:', filters);
+        saveFilterSettings(filters);
+      }, 500); // Debounce to avoid saving too frequently
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [filters, isLoadingPreferences, data.length, saveFilterSettings]);
 
   // Filter data based on current filters
   const filteredData = useMemo(() => {
@@ -134,6 +195,26 @@ export const ScoredOptions = () => {
     const isGitHubPages = window.location.hostname === 'datamilo.github.io';
     const basename = isGitHubPages ? '/put-options-se' : '';
     return basename + path;
+  };
+
+  // Handle reset to default
+  const handleResetToDefault = () => {
+    const availableExpiries = [...new Set(data.map((option) => option.expiry_date))].sort();
+    const defaultDate = availableExpiries.length > 0 ? calculateDefaultExpiryDate(availableExpiries) : '';
+
+    setFilters({
+      expiryDate: defaultDate || '',
+      stockNames: [],
+      agreement: 'all',
+      minScore: 70,
+      minV21Score: 0,
+      minTAProb: 0,
+    });
+
+    toast({
+      title: 'Filters reset',
+      description: 'Filters have been reset to default settings',
+    });
   };
 
   // Handle Excel export
@@ -280,6 +361,7 @@ export const ScoredOptions = () => {
           <ScoredOptionsFiltersComponent
             filters={filters}
             onFiltersChange={setFilters}
+            onResetToDefault={handleResetToDefault}
             availableStocks={availableStocks}
             availableExpiryDates={availableExpiryDates}
           />

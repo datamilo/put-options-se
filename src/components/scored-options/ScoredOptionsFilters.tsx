@@ -19,13 +19,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { ScoredOptionsFilters } from '@/types/scoredOptions';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, RotateCcw } from 'lucide-react';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 
 interface ScoredOptionsFiltersComponentProps {
   filters: ScoredOptionsFilters;
   onFiltersChange: (filters: ScoredOptionsFilters) => void;
+  onResetToDefault?: () => void;
   availableStocks: string[];
   availableExpiryDates: string[];
 }
@@ -33,6 +34,7 @@ interface ScoredOptionsFiltersComponentProps {
 export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersComponentProps> = ({
   filters,
   onFiltersChange,
+  onResetToDefault,
   availableStocks,
   availableExpiryDates,
 }) => {
@@ -92,6 +94,20 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
   return (
     <Card>
       <CardContent className="pt-6">
+        <div className="flex justify-end mb-4">
+          {onResetToDefault && (
+            <Button
+              onClick={onResetToDefault}
+              variant="ghost"
+              size="sm"
+              className="text-xs text-muted-foreground hover:text-foreground"
+              title="Reset all filters to default"
+            >
+              <RotateCcw className="h-3 w-3 mr-1" />
+              Reset to Default
+            </Button>
+          )}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Expiry Date */}
           <div className="space-y-2">
