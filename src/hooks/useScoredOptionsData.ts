@@ -136,6 +136,8 @@ export const useScoredOptionsData = () => {
       return {
         ...option,
         premium: matchingOption?.Premium || 0,
+        FinancialReport: matchingOption?.FinancialReport,
+        'X-Day': matchingOption?.['X-Day'],
       };
     });
   }, [rawData, enrichedData]);

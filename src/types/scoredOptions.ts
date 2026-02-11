@@ -51,6 +51,10 @@ export interface ScoredOptionData {
   // Enriched from website (NOT from CSV)
   // Premium comes from useEnrichedOptionsData, NOT from CSV
   premium: number;
+
+  // Event fields enriched from website
+  FinancialReport?: string;
+  'X-Day'?: string | null;
 }
 
 export interface ScoredOptionsFilters {

@@ -184,6 +184,12 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
     return agree ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400';
   };
 
+  const getOptionNameColor = (option: ScoredOptionData): string => {
+    if (option.FinancialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
+    if (option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
+    return 'text-primary';
+  };
+
   return (
     <div className="space-y-4">
       <ScrollArea className="w-full border rounded-lg">
@@ -277,7 +283,7 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
                             '_blank'
                           )
                         }
-                        className="text-primary hover:underline cursor-pointer font-medium"
+                        className={`hover:underline cursor-pointer font-medium ${getOptionNameColor(option)} hover:opacity-80 transition-all`}
                       >
                         {option.option_name}
                       </button>
