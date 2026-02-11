@@ -82,7 +82,7 @@ export const filterTooltips: TooltipSection = {
   minCombinedScore: {
     title: 'Minimum Combined Score',
     content:
-      'Combined Score = Average of Probability Optimization Score and TA ML Model Probability.\n\nThe default 70 targets the optimal 70-80% probability range where both models show strong historical accuracy:\n• Probability Optimization Model: 83.8% Actual Worthless %\n• TA ML Model: 72.42% Actual Worthless % (note: varies by DTE)\n• Expected calibration error: 2.4%\n\nThis represents the best risk-adjusted return profile. Adjust based on your risk tolerance.',
+      'Combined Score = Average of Probability Optimization Score and TA ML Model Probability.\n\nThe 70-80% probability range shows historical accuracy:\n• Probability Optimization Model: 83.8% Actual Worthless %\n• TA ML Model: 72.42% Actual Worthless % (note: varies by DTE)\n• Expected calibration error: 2.4%',
   },
   minV21Score: {
     title: 'Minimum Probability Optimization Score',
@@ -122,7 +122,7 @@ export const columnTooltips: TooltipSection = {
   strength: {
     title: 'Agreement Strength',
     content:
-      'Classification of how closely the two models align (only shown when models agree):\n\n**Strong Agreement:** Scores within ±2% relative difference (excellent consensus - models nearly identical)\n**Moderate Agreement:** Scores within ±2% to ±5% relative difference (good consensus - models mostly aligned)\n**Weak Agreement:** Scores >±5% but still classified as agreeing (disagreement - conflicting signals)\n\n**Interpretation:** Stronger agreement = higher confidence in the prediction. Use Strong/Moderate as primary signals.',
+      'Classification of model alignment:\n\n**Strong Agreement:** Scores within ±2% relative difference\n**Moderate Agreement:** Scores within ±2% to ±5% relative difference\n**Weak Agreement:** Scores >±5% relative difference',
   },
 };
 

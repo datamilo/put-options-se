@@ -13,44 +13,43 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
     name: "Option Name",
     category: "Identification",
     whatItIs: "Unique code identifying this specific put option contract",
-    whyItMatters: "Use this to place orders or track specific options",
+    whyItMatters: "Standard identifier for options trading and market data systems",
     example: "ERICB6U45 (Ericsson B-share, expiry code 6U, strike 45 SEK)",
   },
   StockName: {
     name: "Stock Name",
     category: "Identification",
     whatItIs: "Company name (Swedish convention)",
-    whyItMatters: "Identifies which stock you're protecting",
+    whyItMatters: "Identifies the underlying stock for the option contract",
     example: "ERIC B for Ericsson B-shares",
   },
   ExpiryDate: {
     name: "Expiry Date",
     category: "Identification",
     whatItIs: "Last day the option is valid",
-    whyItMatters: "After this date, option expires. Earlier dates = less time = lower premiums but faster profit",
+    whyItMatters: "Determines time remaining until contract expiration; affects all time-dependent calculations",
     unit: "YYYY-MM-DD",
   },
   FinancialReport: {
     name: "Financial Report",
     category: "Identification",
     whatItIs: "'Y' if company releases quarterly/annual report before expiry",
-    whyItMatters: "Reports can cause big price swings. 'Y' means higher risk but potentially higher reward",
+    whyItMatters: "Marks contracts with earnings events before expiration",
   },
   "X-Day": {
     name: "X-Day",
     category: "Identification",
     whatItIs: "'Y' if ex-dividend date falls before expiry",
-    whyItMatters: "Stock price drops by dividend amount on ex-dividend date. Our calculations already adjust for this",
+    whyItMatters: "Marks contracts with dividend events before expiration; premium calculations account for dividend impact",
   },
 
   // Pricing Fields
   Premium: {
     name: "Premium",
     category: "Pricing",
-    whatItIs: "Total money you receive for selling this put option position",
-    whyItMatters: "This is your profit if stock stays above strike price",
+    whatItIs: "Total income from selling the option position (Bid-Ask Mid Price × Number of Contracts × 100)",
+    whyItMatters: "Gross income received at contract sale for the full position",
     unit: "SEK (for ~100,000 SEK position)",
-    example: "5,000 SEK means you get 5,000 SEK immediately",
   },
   Bid_Ask_Mid_Price: {
     name: "Bid-Ask Mid Price",
@@ -62,8 +61,8 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
   Option_Price_Min: {
     name: "Option Price Min",
     category: "Pricing",
-    whatItIs: "Minimum price per option to break even (accounting for transaction costs)",
-    whyItMatters: "Only sell if market price is above this break-even point",
+    whatItIs: "Minimum price per option to break even after transaction costs",
+    whyItMatters: "Break-even threshold for the option contract",
     unit: "SEK per option",
   },
   NumberOfContractsBasedOnLimit: {
@@ -75,22 +74,22 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
   Bid: {
     name: "Bid",
     category: "Pricing",
-    whatItIs: "Highest price buyers are offering right now",
-    whyItMatters: "You can sell immediately at this price (real market price)",
+    whatItIs: "Highest price buyers are currently offering",
+    whyItMatters: "Real-time market bid for the option contract",
     unit: "SEK per option",
   },
   Ask: {
     name: "Ask",
     category: "Pricing",
-    whatItIs: "Lowest price sellers are offering right now",
-    whyItMatters: "Shows other side of market. Gap between Bid and Ask shows liquidity",
+    whatItIs: "Lowest price sellers are currently offering",
+    whyItMatters: "Real-time market ask for the option contract",
     unit: "SEK per option",
   },
   AskBidSpread: {
     name: "Ask-Bid Spread",
     category: "Pricing",
     whatItIs: "Difference between Ask and Bid prices",
-    whyItMatters: "Narrow spread (<1 SEK) = liquid, easy to trade. Wide spread (>5 SEK) = harder to get fair price",
+    whyItMatters: "Market spread; indicates width between buy and sell prices",
     unit: "SEK",
   },
 
@@ -98,10 +97,9 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
   "1_2_3_ProbOfWorthless_Weighted": {
     name: "Weighted Probability",
     category: "Probability",
-    whatItIs: "Main probability estimate - combines 3 methods (Black-Scholes, Calibrated, Historical)",
-    whyItMatters: "Use this as your primary probability estimate. Higher is safer but lower premium",
+    whatItIs: "Ensemble probability combining Black-Scholes, Calibrated, and Historical IV methods",
+    whyItMatters: "Blended estimate from three independent calculation approaches",
     unit: "0.0 to 1.0 (0% to 100%)",
-    example: "0.85 = 85% chance you keep the premium",
   },
   "1_ProbOfWorthless_Original": {
     name: "Black-Scholes Probability",
@@ -192,16 +190,15 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
   Lower_Bound_at_Accuracy: {
     name: "Lower Bound (80% Accuracy)",
     category: "Risk Protection",
-    whatItIs: "Stock price level with 80% historical accuracy",
-    whyItMatters: "Strike price below this = extra safety margin. Key risk metric",
+    whatItIs: "Stock price level calculated with 80% historical accuracy threshold",
+    whyItMatters: "Provides risk boundary estimate based on historical volatility patterns",
     unit: "SEK",
-    example: "If stock is 100 SEK and lower bound is 85 SEK, stock can drop 15% before reaching this level",
   },
   Lower_Bound_HistMedianIV_at_Accuracy: {
     name: "Lower Bound (Historical Median IV)",
     category: "Risk Protection",
     whatItIs: "Lower bound using historical median implied volatility (at 80% accuracy)",
-    whyItMatters: "Alternative calculation using longer-term volatility average. More conservative estimate",
+    whyItMatters: "Alternative calculation method using longer-term volatility baseline",
     unit: "SEK",
   },
   Lower_Bound: {
@@ -229,17 +226,16 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
     name: "Strike Below Lower Bound",
     category: "Risk Protection",
     whatItIs: "'Y' if strike price is below Lower_Bound_at_Accuracy AND spread is reasonable (≤10 SEK)",
-    whyItMatters: "Quick safety filter. 'Y' = extra protection against losses. Good for conservative strategies",
+    whyItMatters: "Flag indicating strike position relative to calculated lower bound with adequate liquidity",
   },
 
   // Loss Scenario Fields
   LossAtBadDecline: {
     name: "Loss at Bad Decline",
     category: "Loss Scenarios",
-    whatItIs: "Your loss if stock experiences a 'bad' historical decline (around 10th-20th worst)",
-    whyItMatters: "Realistic worst-case for typical market stress. Not catastrophic, but uncomfortable",
+    whatItIs: "Loss if stock experiences a bad historical decline (10th-20th percentile worst)",
+    whyItMatters: "Historical loss scenario for moderate adverse market movement",
     unit: "SEK (negative = loss)",
-    example: "-15,000 = you lose 15,000 SEK",
   },
   LossAtWorstDecline: {
     name: "Loss at Worst Decline",
