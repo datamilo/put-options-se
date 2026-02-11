@@ -2,7 +2,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useStockData } from "@/hooks/useStockData";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
-import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { StockDetails } from "@/components/stock/StockDetails";
 import { StockEventDates } from "@/components/stock/StockEventDates";
 import { Button } from "@/components/ui/button";
@@ -30,9 +29,6 @@ const StockDetailsPage = () => {
 
   const [selectedStock, setSelectedStock] = useState<string>(decodedParamStockName);
   const [allStocks, setAllStocks] = useState<string[]>([]);
-
-  // Get enriched options data for event dates
-  const { data: optionsData } = useEnrichedOptionsData();
 
   // Load all available stocks
   useEffect(() => {
@@ -278,9 +274,7 @@ const StockDetailsPage = () => {
       </div>
 
       {/* Event Dates Card */}
-      {optionsData.length > 0 && (
-        <StockEventDates stockName={selectedStock} optionsData={optionsData} />
-      )}
+      <StockEventDates stockName={selectedStock} />
 
       <StockDetails stockData={stockData} stockSummary={stockSummary} />
     </div>

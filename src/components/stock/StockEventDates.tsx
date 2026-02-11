@@ -1,34 +1,26 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Calendar, AlertCircle } from 'lucide-react';
-import { OptionData } from '@/types/options';
+import { useStockEventsData } from '@/hooks/useStockEventsData';
 
 interface StockEventDatesProps {
   stockName: string;
-  optionsData: OptionData[];
 }
 
-export const StockEventDates: React.FC<StockEventDatesProps> = ({
-  stockName,
-  optionsData,
-}) => {
-  // Filter options for this stock
-  const stockOptions = optionsData.filter((option) => option.StockName === stockName);
+export const StockEventDates: React.FC<StockEventDatesProps> = ({ stockName }) => {
+  const { getNextFinancialReportDate, getNextDividendDate } = useStockEventsData();
 
-  // Find next financial report (earnings) date
-  const nextFinancialReportDate = stockOptions
-    .filter((option) => option.FinancialReport === 'Y')
-    .map((option) => new Date(option.ExpiryDate))
-    .sort((a, b) => a.getTime() - b.getTime())[0];
+  // Get next actual event dates from historical events data
+  const nextFinancialReportDate = getNextFinancialReportDate(stockName)
+    ? new Date(getNextFinancialReportDate(stockName)!)
+    : null;
 
-  // Find next X-Day (dividend) date
-  const nextXDayDate = stockOptions
-    .filter((option) => option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y')
-    .map((option) => new Date(option.ExpiryDate))
-    .sort((a, b) => a.getTime() - b.getTime())[0];
+  const nextDividendDate = getNextDividendDate(stockName)
+    ? new Date(getNextDividendDate(stockName)!)
+    : null;
 
   // If no event dates, don't render
-  if (!nextFinancialReportDate && !nextXDayDate) {
+  if (!nextFinancialReportDate && !nextDividendDate) {
     return null;
   }
 
@@ -56,14 +48,14 @@ export const StockEventDates: React.FC<StockEventDatesProps> = ({
             )}
 
             {/* X-Day / Dividend */}
-            {nextXDayDate && (
+            {nextDividendDate && (
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Calendar className="h-4 w-4 text-red-600 dark:text-red-400" />
-                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">X-Day (Dividend)</p>
+                  <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Dividend Date</p>
                 </div>
                 <p className="text-lg font-bold text-red-600 dark:text-red-400 ml-6">
-                  {nextXDayDate.toLocaleDateString('sv-SE')}
+                  {nextDividendDate.toLocaleDateString('sv-SE')}
                 </p>
               </div>
             )}
