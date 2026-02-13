@@ -454,6 +454,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 ## Related Pages
 
+- **[portfolio-generator.md](portfolio-generator.md)** - Portfolio Generator's "Scored Models" strategy uses the same scored data and reuses V21Breakdown/TABreakdown components
 - **[recommendations.md](recommendations.md)** - Alternative "Automated Put Option Recommendations" with weighted 6-factor analysis
 - **[stock-analysis.md](stock-analysis.md)** - Individual stock metrics and history
 - **[probability-analysis.md](probability-analysis.md)** - Probability method validation and accuracy testing

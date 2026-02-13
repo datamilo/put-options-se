@@ -1,15 +1,18 @@
 # Portfolio Generator: Scored Models Strategy
 
+**Status**: Implemented (Feb 13, 2026)
+
 ## Overview
 
-Add a fourth optimization strategy ("Scored Models") to the Automatic Portfolio Generator that ranks options using the dual-model ML scores from the Scored Options system (V2.1 probability optimization + TA V3 technical analysis).
+A fourth optimization strategy ("Scored Models") added to the Automatic Portfolio Generator that ranks options using the dual-model ML scores from the Scored Options system (V2.1 probability optimization + TA V3 technical analysis).
 
 ## Design Decisions
 
 - **Side-by-side mode**: New strategy added alongside existing returns/capital/balanced — no changes to existing strategies
 - **Exclude unscored options**: Only options present in `current_options_scored.csv` are eligible when this strategy is active
 - **User-configurable weights**: Slider to blend V2.1 and TA scores (default 50/50)
-- **Key columns + expandable detail**: Four score columns in table, plus expandable row detail reusing existing V2.1 and TA breakdown components
+- **Key columns + expandable detail**: Three score columns plus selected PoW field in table, expandable row detail reusing existing V2.1 and TA breakdown components
+- **Max probability filter**: Added to all strategies to enable targeting a probability range (not just a minimum floor)
 
 ## Scoring Formula
 
@@ -30,6 +33,7 @@ finalScore = (v21Weight / 100) * v21_score + ((100 - v21Weight) / 100) * (ta_pro
 
 New fields in `usePortfolioGeneratorPreferences`:
 - `v21Weight: number` (default 50, range 0–100)
+- `maxProbabilityWorthless: number | null` (default null)
 - `optimizationStrategy` gains fourth value: `'scored'`
 
 `taWeight` is derived as `100 - v21Weight` (not stored separately).
@@ -47,11 +51,10 @@ New fields in `usePortfolioGeneratorPreferences`:
 | `StrikePrice` | Strike | Nordic decimal |
 | `Premium` | Premium | Nordic decimal |
 | `NumberOfContractsBasedOnLimit` | Contracts | Integer |
+| [selected PoW field] | [selected PoW label] | Percentage (×100) |
 | `combined_score` | Combined Score | Nordic decimal, 1 decimal |
 | `v21_score` | V2.1 Score | Nordic decimal, 1 decimal |
 | `ta_probability` | TA Probability | Nordic decimal, 1 decimal |
-| `agreement_strength` | Agreement | Text (Strong/Moderate/Weak) |
-| `EstTotalMargin` | Est. Total Margin | Nordic number, no decimals |
 
 When switching to other strategies, table reverts to existing default columns.
 
@@ -71,24 +74,19 @@ When switching to other strategies, table reverts to existing default columns.
 - Steps of 5, range 0–100
 - Default: 50
 
-**Existing filters** all still apply (excluded stocks, strike below period, min probability, expiry date, premium target, max capital).
+**Max probability filter** (all strategies):
+- New input field alongside existing min probability
+- Enables constraining probability range (e.g., 75%–85%)
+- Prevents scored strategy from always selecting highest-probability options
 
-## Files to Modify
+## Files Modified
 
-1. **`src/hooks/usePortfolioGeneratorPreferences.ts`** — add `v21Weight` field (default 50), add `'scored'` to strategy type
-2. **`src/pages/PortfolioGenerator.tsx`** — call `useScoredOptionsData`, implement join logic, compute blended score, add weight slider UI, handle strategy-specific column defaults
-3. **`src/components/options/PortfolioOptionsTable.tsx`** — add 4 new score columns, add expandable row toggle and detail rendering (reuse V21Breakdown + TABreakdown)
+1. **`src/hooks/usePortfolioGeneratorPreferences.ts`** — added `v21Weight`, `maxProbabilityWorthless` fields, added `'scored'` to strategy type
+2. **`src/pages/PortfolioGenerator.tsx`** — calls `useScoredOptionsData`, join logic, blended score, weight slider UI, max probability filter, strategy-specific column defaults
+3. **`src/components/options/PortfolioOptionsTable.tsx`** — score columns, expandable row toggle and detail rendering (reuses V21Breakdown + TABreakdown), `isScoredStrategy` and `selectedProbabilityField` props
 
 ## Files Reused (No Changes)
 
 - `src/hooks/useScoredOptionsData.ts` — loads scored CSV
 - `src/components/scored-options/V21Breakdown.tsx` — V2.1 detail panel
 - `src/components/scored-options/TABreakdown.tsx` — TA indicator detail panel
-
-## Out of Scope
-
-- No calibration metrics or KPI cards in Portfolio Generator
-- No model agreement filter
-- No changes to CSV data files or pipeline
-- No changes to the Scored Options page
-- Existing three strategies unchanged

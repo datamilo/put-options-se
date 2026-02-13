@@ -39,7 +39,7 @@ Detailed documentation for each page is in the `/docs` folder:
 | Page | Route | Documentation | Description |
 |------|-------|---------------|-------------|
 | Options Dashboard | `/` | [docs/index-page.md](docs/index-page.md) | Main options analysis with filterable table |
-| Portfolio Generator | `/portfolio-generator` | [docs/portfolio-generator.md](docs/portfolio-generator.md) | Portfolio optimization tools |
+| Portfolio Generator | `/portfolio-generator` | [docs/portfolio-generator.md](docs/portfolio-generator.md) | Portfolio optimization with 4 strategies including ML-scored models |
 | Monthly Analysis | `/monthly-analysis` | [docs/monthly-analysis.md](docs/monthly-analysis.md) | Historical performance, seasonality, and day-of-month timing patterns |
 | Stock Metrics and History | `/stock-analysis`, `/stock/:stockName` | [docs/stock-analysis.md](docs/stock-analysis.md) | Individual stock performance metrics |
 | Support Level Analysis | `/consecutive-breaks` | [docs/support-level-analysis.md](docs/support-level-analysis.md) | Rolling low and support level breaks |

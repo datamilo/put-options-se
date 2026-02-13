@@ -1,6 +1,6 @@
 # Put Options SE - Current Website State
 
-**Last Updated**: January 28, 2026
+**Last Updated**: February 13, 2026
 **Status**: Production
 **Deployment**: GitHub Pages at https://datamilo.github.io/put-options-se/
 
@@ -22,7 +22,7 @@
 | Page | Route | Status | Last Modified |
 |------|-------|--------|---------------|
 | [Options Dashboard](#options-dashboard) | `/` | ✅ Active | Jan 5, 2026 |
-| [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Jun 2024 |
+| [Portfolio Generator](#portfolio-generator) | `/portfolio-generator` | ✅ Active | Feb 13, 2026 |
 | [Monthly Analysis](#monthly-analysis) | `/monthly-analysis` | ✅ Active | Nov 25 |
 | [Stock Metrics and History](#stock-metrics-and-history) | `/stock/:stockName` | ✅ Active | Dec 19 |
 | [Support Level Analysis](#support-level-analysis) | `/consecutive-breaks` | ✅ Active | Dec 14 |
@@ -60,19 +60,22 @@
 ### Portfolio Generator
 **Route**: `/portfolio-generator`
 
-**Latest Changes** (Jan 5, 2026):
-- Added margin requirements data integration from `margin_requirements.csv`
-- **New Column**: "Est. Total Margin" now displayed in portfolio results
-- 13 additional margin and capital fields available via column manager
+**Latest Changes** (Feb 13, 2026):
+- **New Optimization Strategy**: "Scored Models" — ranks options using weighted blend of V2.1 Probability Optimization and TA V3 Technical Analysis model scores
+- User-configurable V2.1/TA weight slider (default 50/50)
+- Expandable row detail showing V2.1 Breakdown and TA Breakdown panels (reused from Scored Options page)
+- Scored-specific default columns: selected PoW field, Combined Score, V2.1 Score, TA Probability
+- **New Filter**: Maximum Probability of Worthless (%) — enables targeting a probability range instead of just a minimum floor
+- Only options present in `current_options_scored.csv` are eligible when Scored Models strategy is active
 
 **Features**:
-- Portfolio optimization tools with margin analysis
-- Estimated total margin requirements for selected positions
-- Python script support
-- Settings persistence
+- Four optimization strategies: Maximize Returns, Minimize Capital, Balanced, Scored Models
+- Min/max probability range filtering
+- Margin requirements analysis
+- Settings persistence (localStorage + Supabase)
 - Column visibility management
 
-**Status**: Fully functional with margin requirements integration
+**Status**: Fully functional with Scored Models strategy
 
 ---
 
