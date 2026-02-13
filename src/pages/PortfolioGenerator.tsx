@@ -274,12 +274,18 @@ const PortfolioGenerator = () => {
         // Expiry date filter
         if (settings.selectedExpiryDate && option.ExpiryDate !== settings.selectedExpiryDate) return false;
 
-        // Probability filter - must meet minimum threshold if specified
-        if (settings.minProbabilityWorthless) {
+        // Probability filter - must meet min/max thresholds if specified
+        if (settings.minProbabilityWorthless || settings.maxProbabilityWorthless) {
           const prob = getProbabilityValue(option);
-          // Convert user input from percentage (70) to decimal (0.70) for comparison
-          const minProbDecimal = settings.minProbabilityWorthless / 100;
-          if (prob === null || prob < minProbDecimal) return false;
+          if (prob === null) return false;
+          if (settings.minProbabilityWorthless) {
+            const minProbDecimal = settings.minProbabilityWorthless / 100;
+            if (prob < minProbDecimal) return false;
+          }
+          if (settings.maxProbabilityWorthless) {
+            const maxProbDecimal = settings.maxProbabilityWorthless / 100;
+            if (prob > maxProbDecimal) return false;
+          }
         }
 
         return true;
@@ -648,6 +654,22 @@ const PortfolioGenerator = () => {
                 onChange={(e) => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
                   updateSetting('minProbabilityWorthless', value);
+                }}
+                placeholder="40-100% (Optional)"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="maxProbability">Maximum Probability of Worthless (%)</Label>
+              <Input
+                id="maxProbability"
+                type="number"
+                min="40"
+                max="100"
+                value={settings.maxProbabilityWorthless || ""}
+                onChange={(e) => {
+                  const value = e.target.value ? parseInt(e.target.value) : null;
+                  updateSetting('maxProbabilityWorthless', value);
                 }}
                 placeholder="40-100% (Optional)"
               />

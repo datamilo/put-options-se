@@ -6,6 +6,7 @@ export interface PortfolioGeneratorSettings {
   totalPremiumTarget: number;
   strikeBelowPeriod: number | null;
   minProbabilityWorthless: number | null;
+  maxProbabilityWorthless: number | null;
   selectedExpiryDate: string;
   portfolioUnderlyingValue: number;
   selectedProbabilityField: string;
@@ -24,6 +25,7 @@ const defaultSettings: PortfolioGeneratorSettings = {
   totalPremiumTarget: 500,
   strikeBelowPeriod: null,
   minProbabilityWorthless: null,
+  maxProbabilityWorthless: null,
   selectedExpiryDate: "",
   portfolioUnderlyingValue: 100000,
   selectedProbabilityField: "ProbWorthless_Bayesian_IsoCal",
@@ -52,8 +54,10 @@ export const usePortfolioGeneratorPreferences = () => {
         totalPremiumTarget: parseInt(localStorage.getItem('portfolioGenerator_totalPremiumTarget') || '500'),
         strikeBelowPeriod: localStorage.getItem('portfolioGenerator_strikeBelowPeriod') ? 
           parseInt(localStorage.getItem('portfolioGenerator_strikeBelowPeriod')!) : null,
-        minProbabilityWorthless: localStorage.getItem('portfolioGenerator_minProbabilityWorthless') ? 
+        minProbabilityWorthless: localStorage.getItem('portfolioGenerator_minProbabilityWorthless') ?
           parseInt(localStorage.getItem('portfolioGenerator_minProbabilityWorthless')!) : null,
+        maxProbabilityWorthless: localStorage.getItem('portfolioGenerator_maxProbabilityWorthless') ?
+          parseInt(localStorage.getItem('portfolioGenerator_maxProbabilityWorthless')!) : null,
         selectedExpiryDate: localStorage.getItem('portfolioGenerator_selectedExpiryDate') || "",
         portfolioUnderlyingValue: parseInt(localStorage.getItem('portfolioGenerator_underlyingStockValue') || '100000'),
         selectedProbabilityField: localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal",
@@ -123,6 +127,7 @@ export const usePortfolioGeneratorPreferences = () => {
     localStorage.setItem('portfolioGenerator_totalPremiumTarget', newSettings.totalPremiumTarget.toString());
     localStorage.setItem('portfolioGenerator_strikeBelowPeriod', newSettings.strikeBelowPeriod?.toString() || '');
     localStorage.setItem('portfolioGenerator_minProbabilityWorthless', newSettings.minProbabilityWorthless?.toString() || '');
+    localStorage.setItem('portfolioGenerator_maxProbabilityWorthless', newSettings.maxProbabilityWorthless?.toString() || '');
     localStorage.setItem('portfolioGenerator_selectedExpiryDate', newSettings.selectedExpiryDate);
     localStorage.setItem('portfolioGenerator_underlyingStockValue', newSettings.portfolioUnderlyingValue.toString());
     localStorage.setItem('portfolioGenerator_selectedProbabilityField', newSettings.selectedProbabilityField);
