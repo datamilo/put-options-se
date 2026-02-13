@@ -66,7 +66,7 @@ export const PortfolioOptionsTable = ({
   const filterRef = useRef<HTMLDivElement>(null);
 
   // Scored-specific column keys (stored as keyof OptionData via casting since they're attached dynamically)
-  const scoredColumnKeys = ['combined_score', 'v21_score', 'ta_probability', 'agreement_strength'] as (keyof OptionData)[];
+  const scoredColumnKeys = ['combined_score', 'v21_score', 'ta_probability'] as (keyof OptionData)[];
 
   // Default columns for portfolio generator if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
@@ -82,7 +82,6 @@ export const PortfolioOptionsTable = ({
     'Premium', 'NumberOfContractsBasedOnLimit',
     probField,
     ...scoredColumnKeys,
-    'EstTotalMargin'
   ];
 
   // Initialize visible columns from user preferences or defaults
