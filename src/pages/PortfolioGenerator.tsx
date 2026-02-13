@@ -859,6 +859,7 @@ const PortfolioGenerator = () => {
               onSortChange={handleSortChange}
               enableFiltering={false}
               isScoredStrategy={settings.optimizationStrategy === 'scored'}
+              selectedProbabilityField={settings.selectedProbabilityField}
             />
           </CardContent>
         </Card>

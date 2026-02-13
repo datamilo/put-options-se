@@ -35,6 +35,7 @@ interface PortfolioOptionsTableProps {
   onSortChange: (field: keyof OptionData | null, direction: 'asc' | 'desc') => void;
   enableFiltering?: boolean;
   isScoredStrategy?: boolean;
+  selectedProbabilityField?: string;
 }
 
 interface ColumnFilter {
@@ -55,7 +56,8 @@ export const PortfolioOptionsTable = ({
   sortDirection,
   onSortChange,
   enableFiltering = true,
-  isScoredStrategy = false
+  isScoredStrategy = false,
+  selectedProbabilityField
 }: PortfolioOptionsTableProps) => {
   const { columnPreferences, isLoading } = usePortfolioPreferences();
   const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
@@ -73,9 +75,12 @@ export const PortfolioOptionsTable = ({
     'PotentialLossAtLowerBound', 'EstTotalMargin'
   ];
 
+  const probField = (selectedProbabilityField || '1_2_3_ProbOfWorthless_Weighted') as keyof OptionData;
+
   const scoredDefaultColumns: (keyof OptionData)[] = [
     'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
     'Premium', 'NumberOfContractsBasedOnLimit',
+    probField,
     ...scoredColumnKeys,
     'EstTotalMargin'
   ];
@@ -96,7 +101,7 @@ export const PortfolioOptionsTable = ({
         setVisibleColumns(defaultColumns);
       }
     }
-  }, [columnPreferences, isLoading, isScoredStrategy]);
+  }, [columnPreferences, isLoading, isScoredStrategy, selectedProbabilityField]);
 
   const toggleRowExpanded = (optionName: string) => {
     setExpandedRows(prev => {
