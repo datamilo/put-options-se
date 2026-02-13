@@ -8,10 +8,13 @@ import { useRecalculatedOptions, RecalculatedOptionData } from "@/hooks/useRecal
 import { useStockData } from "@/hooks/useStockData";
 import { useSettings } from "@/contexts/SettingsContext";
 import { usePortfolioGeneratorPreferences } from "@/hooks/usePortfolioGeneratorPreferences";
+import { useScoredOptionsData } from "@/hooks/useScoredOptionsData";
+import { ScoredOptionData } from "@/types/scoredOptions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ArrowLeft, Settings, ChevronDown, Info, Download } from "lucide-react";
@@ -25,6 +28,18 @@ const PortfolioGenerator = () => {
   const { getLowPriceForPeriod } = useStockData();
   const { transactionCost } = useSettings();
   const { settings, updateSetting, updateMultipleSettings, resetToDefaults, isLoading: preferencesLoading } = usePortfolioGeneratorPreferences();
+  const { data: scoredOptionsData, isLoading: scoredLoading } = useScoredOptionsData();
+
+  // Build a lookup map from option_name -> ScoredOptionData for fast joining
+  const scoredDataMap = useMemo(() => {
+    const map = new Map<string, ScoredOptionData>();
+    if (scoredOptionsData) {
+      for (const scored of scoredOptionsData) {
+        map.set(scored.option_name, scored);
+      }
+    }
+    return map;
+  }, [scoredOptionsData]);
 
   // Add state to prevent validation during portfolio generation
   const [isGeneratingPortfolio, setIsGeneratingPortfolio] = useState(false);
@@ -118,6 +133,7 @@ const PortfolioGenerator = () => {
     { value: "returns", label: "Maximize Returns", description: "Prioritize highest risk-adjusted returns" },
     { value: "capital", label: "Minimize Capital", description: "Prioritize lowest capital requirements" },
     { value: "balanced", label: "Balanced", description: "Balance returns and capital efficiency" },
+    { value: "scored", label: "Scored Models", description: "Rank by V2.1 + TA model scores" },
   ];
 
   const availableExpiryDates = useMemo(() => {
@@ -228,11 +244,21 @@ const PortfolioGenerator = () => {
       // Recalculate options using the effective underlying value
       const recalculatedData = recalculateOptionsForPortfolio(rawData || [], effectiveUnderlyingValue);
 
+      const isScored = settings.optimizationStrategy === 'scored';
+
       // Filter options based on criteria - use the recalculated data that includes updated premiums
       let filteredOptions = recalculatedData.filter(option => {
+        // For scored strategy, option must exist in scored data
+        if (isScored && !scoredDataMap.has(option.OptionName)) return false;
+
         // CRITICAL: Exclude options with missing required values first
-        if (!hasRequiredValues(option)) return false;
-        
+        // For scored strategy, skip PotentialLossAtLowerBound requirement since we rank by model scores
+        if (!isScored && !hasRequiredValues(option)) return false;
+        if (isScored) {
+          // Still need valid contracts and premium
+          if (!option.NumberOfContractsBasedOnLimit || option.NumberOfContractsBasedOnLimit <= 0) return false;
+        }
+
         // Basic checks - use the recalculated Premium which is updated based on underlying value
         if (option.Premium <= 0) return false;
 
@@ -261,44 +287,60 @@ const PortfolioGenerator = () => {
 
       // Calculate risk-adjusted scores and sort by best risk/return ratio
       filteredOptions.forEach(option => {
-        const prob = getProbabilityValue(option);
-        const potentialLoss = Math.abs((option as any).PotentialLossAtLowerBound);
-        const premium = option.Premium;
-        
-        // At this point, we know prob and potentialLoss are valid (passed hasRequiredValues check)
-        // Calculate Expected Value: Premium - (1 - ProbOfWorthless) × PotentialLoss
-        const expectedValue = premium - (1 - prob!) * potentialLoss;
-        
-        // Calculate capital required (investment amount)
         const capitalRequired = option.NumberOfContractsBasedOnLimit * option.StrikePrice * 100;
-        
-        // Calculate Expected Value per unit of capital (Capital Efficiency Score)
-        const expectedValuePerCapital = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
-        
-        // Calculate Capital Efficiency Score = ExpectedValue / UnderlyingValue
-        const capitalEfficiencyScore = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
-        
-        // Calculate simplified risk-adjusted score: (Premium / PotentialLoss) × ProbOfWorthless
-        const riskAdjustedScore = potentialLoss > 0 ? (premium / potentialLoss) * prob! : prob!;
-        
-        // Calculate combined score based on optimization strategy
-        let finalScore = 0;
-        if (settings.optimizationStrategy === 'returns') {
-          finalScore = riskAdjustedScore;
-        } else if (settings.optimizationStrategy === 'capital') {
-          // For capital minimization, prefer lower capital requirement with good returns
-          finalScore = capitalEfficiencyScore * (prob! * 2); // Weight by probability
-        } else { // balanced
-          finalScore = (riskAdjustedScore * 0.6) + (capitalEfficiencyScore * 0.4);
-        }
-        
-        // Store calculated metrics on the option for potential display
-        (option as any).expectedValue = expectedValue;
-        (option as any).expectedValuePerCapital = expectedValuePerCapital;
-        (option as any).capitalEfficiencyScore = capitalEfficiencyScore;
-        (option as any).riskAdjustedScore = riskAdjustedScore;
-        (option as any).finalScore = finalScore;
         (option as any).capitalRequired = capitalRequired;
+
+        if (isScored) {
+          // Scored Models strategy: rank by weighted blend of V2.1 and TA scores
+          const scored = scoredDataMap.get(option.OptionName)!;
+          const v21 = scored.v21_score ?? 0;
+          const ta = (scored.ta_probability ?? 0) * 100; // Scale 0-1 to 0-100
+          const w = settings.v21Weight / 100;
+          const finalScore = w * v21 + (1 - w) * ta;
+
+          // Attach scored data onto the option for table display and expandable detail
+          (option as any).scoredData = scored;
+          (option as any).combined_score = scored.combined_score;
+          (option as any).v21_score = scored.v21_score;
+          (option as any).ta_probability = scored.ta_probability;
+          (option as any).agreement_strength = scored.agreement_strength;
+          (option as any).finalScore = finalScore;
+        } else {
+          const prob = getProbabilityValue(option);
+          const potentialLoss = Math.abs((option as any).PotentialLossAtLowerBound);
+          const premium = option.Premium;
+
+          // At this point, we know prob and potentialLoss are valid (passed hasRequiredValues check)
+          // Calculate Expected Value: Premium - (1 - ProbOfWorthless) × PotentialLoss
+          const expectedValue = premium - (1 - prob!) * potentialLoss;
+
+          // Calculate Expected Value per unit of capital (Capital Efficiency Score)
+          const expectedValuePerCapital = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
+
+          // Calculate Capital Efficiency Score = ExpectedValue / UnderlyingValue
+          const capitalEfficiencyScore = capitalRequired > 0 ? expectedValue / capitalRequired : 0;
+
+          // Calculate simplified risk-adjusted score: (Premium / PotentialLoss) × ProbOfWorthless
+          const riskAdjustedScore = potentialLoss > 0 ? (premium / potentialLoss) * prob! : prob!;
+
+          // Calculate combined score based on optimization strategy
+          let finalScore = 0;
+          if (settings.optimizationStrategy === 'returns') {
+            finalScore = riskAdjustedScore;
+          } else if (settings.optimizationStrategy === 'capital') {
+            // For capital minimization, prefer lower capital requirement with good returns
+            finalScore = capitalEfficiencyScore * (prob! * 2); // Weight by probability
+          } else { // balanced
+            finalScore = (riskAdjustedScore * 0.6) + (capitalEfficiencyScore * 0.4);
+          }
+
+          // Store calculated metrics on the option for potential display
+          (option as any).expectedValue = expectedValue;
+          (option as any).expectedValuePerCapital = expectedValuePerCapital;
+          (option as any).capitalEfficiencyScore = capitalEfficiencyScore;
+          (option as any).riskAdjustedScore = riskAdjustedScore;
+          (option as any).finalScore = finalScore;
+        }
       });
 
       // Sort by final score based on optimization strategy
@@ -390,11 +432,16 @@ const PortfolioGenerator = () => {
         message = `Portfolio successfully generated with ${totalPremium.toLocaleString('sv-SE')} SEK premium.`;
       }
       
-      // Add capital efficiency info to message
-      const avgCapitalEfficiency = selectedOptions.length > 0 
-        ? selectedOptions.reduce((sum, opt) => sum + ((opt as any).capitalEfficiencyScore || 0), 0) / selectedOptions.length 
-        : 0;
-      message += ` Strategy: ${optimizationStrategyOptions.find(s => s.value === settings.optimizationStrategy)?.label}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
+      // Add strategy info to message
+      const strategyLabel = optimizationStrategyOptions.find(s => s.value === settings.optimizationStrategy)?.label;
+      if (isScored) {
+        message += ` Strategy: ${strategyLabel} (V2.1: ${settings.v21Weight}% / TA: ${100 - settings.v21Weight}%).`;
+      } else {
+        const avgCapitalEfficiency = selectedOptions.length > 0
+          ? selectedOptions.reduce((sum, opt) => sum + ((opt as any).capitalEfficiencyScore || 0), 0) / selectedOptions.length
+          : 0;
+        message += ` Strategy: ${strategyLabel}. Avg Capital Efficiency: ${(avgCapitalEfficiency * 100).toFixed(2)}%.`;
+      }
 
       // Save all changes in a single batch update to prevent race conditions
       updateMultipleSettings({
@@ -512,11 +559,10 @@ const PortfolioGenerator = () => {
         <Card className="border-muted bg-muted/20">
           <CardContent className="pt-4">
              <p className="text-sm text-muted-foreground leading-relaxed">
-               The Portfolio Generator uses an algorithm to evaluate each option's probability of expiring worthless, potential loss, and premium.
-               It calculates risk-adjusted scores and expected values, ranks all options based on your selected optimization strategy, and automatically
-               selects a diversified set. <strong>Maximize Returns</strong> prioritizes highest risk-adjusted returns. <strong>Minimize Capital</strong> prioritizes
+               The Portfolio Generator evaluates each option and ranks them based on your selected optimization strategy, then automatically
+               selects a diversified set (one option per stock). <strong>Maximize Returns</strong> prioritizes highest risk-adjusted returns. <strong>Minimize Capital</strong> prioritizes
                lowest capital requirements while maintaining quality. <strong>Balanced</strong> optimizes for both return and capital efficiency.
-               It will always pick just one option per stock.
+               <strong>Scored Models</strong> ranks options using a weighted blend of the V2.1 Probability Optimization and TA V3 Technical Analysis model scores.
              </p>
           </CardContent>
         </Card>
@@ -674,7 +720,7 @@ const PortfolioGenerator = () => {
                     <DropdownMenuItem 
                       key={option.value}
                        onClick={() => {
-                         updateSetting('optimizationStrategy', option.value as 'returns' | 'capital' | 'balanced');
+                         updateSetting('optimizationStrategy', option.value as 'returns' | 'capital' | 'balanced' | 'scored');
                        }}
                     >
                       <div>
@@ -686,6 +732,29 @@ const PortfolioGenerator = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
+
+            {settings.optimizationStrategy === 'scored' && (
+              <div className="space-y-2">
+                <Label>Model Weight</Label>
+                <div className="space-y-3">
+                  <div className="flex justify-between text-sm">
+                    <span>V2.1: {settings.v21Weight}%</span>
+                    <span>TA: {100 - settings.v21Weight}%</span>
+                  </div>
+                  <Slider
+                    value={[settings.v21Weight]}
+                    onValueChange={([value]) => updateSetting('v21Weight', value)}
+                    min={0}
+                    max={100}
+                    step={5}
+                  />
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>V2.1 Probability</span>
+                    <span>TA Technical</span>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div className="space-y-2">
               <Label htmlFor="maxCapital">Maximum Total Capital (Optional)</Label>
@@ -789,6 +858,7 @@ const PortfolioGenerator = () => {
               sortDirection={sortDirection}
               onSortChange={handleSortChange}
               enableFiltering={false}
+              isScoredStrategy={settings.optimizationStrategy === 'scored'}
             />
           </CardContent>
         </Card>

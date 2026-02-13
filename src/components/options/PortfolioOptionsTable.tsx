@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { OptionData } from "@/types/options";
+import { ScoredOptionData } from "@/types/scoredOptions";
 import {
   Table,
   TableBody,
@@ -12,13 +13,16 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpDown, Filter, Eye, EyeOff, Info, Download } from "lucide-react";
+import { ArrowUpDown, Filter, Eye, EyeOff, Info, Download, ChevronDown, ChevronRight } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { PortfolioColumnManager } from "./PortfolioColumnManager";
 import { usePortfolioPreferences } from "@/hooks/usePortfolioPreferences";
 import { formatNumber } from "@/lib/utils";
+import { formatNordicDecimal } from "@/utils/numberFormatting";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { exportToExcel } from "@/utils/excelExport";
+import { V21Breakdown } from "@/components/scored-options/V21Breakdown";
+import { TABreakdown } from "@/components/scored-options/TABreakdown";
 
 interface PortfolioOptionsTableProps {
   data: OptionData[];
@@ -30,6 +34,7 @@ interface PortfolioOptionsTableProps {
   sortDirection: 'asc' | 'desc';
   onSortChange: (field: keyof OptionData | null, direction: 'asc' | 'desc') => void;
   enableFiltering?: boolean;
+  isScoredStrategy?: boolean;
 }
 
 interface ColumnFilter {
@@ -49,12 +54,17 @@ export const PortfolioOptionsTable = ({
   sortField,
   sortDirection,
   onSortChange,
-  enableFiltering = true
+  enableFiltering = true,
+  isScoredStrategy = false
 }: PortfolioOptionsTableProps) => {
   const { columnPreferences, isLoading } = usePortfolioPreferences();
   const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const filterRef = useRef<HTMLDivElement>(null);
+
+  // Scored-specific column keys (stored as keyof OptionData via casting since they're attached dynamically)
+  const scoredColumnKeys = ['combined_score', 'v21_score', 'ta_probability', 'agreement_strength'] as (keyof OptionData)[];
 
   // Default columns for portfolio generator if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
@@ -63,10 +73,20 @@ export const PortfolioOptionsTable = ({
     'PotentialLossAtLowerBound', 'EstTotalMargin'
   ];
 
+  const scoredDefaultColumns: (keyof OptionData)[] = [
+    'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
+    'Premium', 'NumberOfContractsBasedOnLimit',
+    ...scoredColumnKeys,
+    'EstTotalMargin'
+  ];
+
   // Initialize visible columns from user preferences or defaults
   useEffect(() => {
     if (!isLoading) {
-      if (columnPreferences.length > 0) {
+      if (isScoredStrategy) {
+        // Always use scored default columns when scored strategy is active
+        setVisibleColumns(scoredDefaultColumns);
+      } else if (columnPreferences.length > 0) {
         const visibleCols = columnPreferences
           .filter(col => col.visible)
           .sort((a, b) => a.order - b.order)
@@ -76,7 +96,19 @@ export const PortfolioOptionsTable = ({
         setVisibleColumns(defaultColumns);
       }
     }
-  }, [columnPreferences, isLoading]);
+  }, [columnPreferences, isLoading, isScoredStrategy]);
+
+  const toggleRowExpanded = (optionName: string) => {
+    setExpandedRows(prev => {
+      const next = new Set(prev);
+      if (next.has(optionName)) {
+        next.delete(optionName);
+      } else {
+        next.add(optionName);
+      }
+      return next;
+    });
+  };
 
   // Handle click outside to close filter dropdown
   useEffect(() => {
@@ -125,7 +157,11 @@ export const PortfolioOptionsTable = ({
       'Margin_B_Historical_Floor': 'Margin B Historical Floor',
       'Margin_Floor_15pct': 'Margin Floor 15%',
       'Net_Premium_After_Costs': 'Net Premium After Costs',
-      'Annualized_ROM_Pct': 'Annualized Return on Margin %'
+      'Annualized_ROM_Pct': 'Annualized Return on Margin %',
+      'combined_score': 'Combined Score',
+      'v21_score': 'V2.1 Score',
+      'ta_probability': 'TA Probability',
+      'agreement_strength': 'Agreement'
     };
 
     if (fieldMappings[field]) {
@@ -150,15 +186,16 @@ export const PortfolioOptionsTable = ({
   const sortedData = [...data].sort((a, b) => {
     if (!sortField) return 0;
 
-    const aVal = a[sortField];
-    const bVal = b[sortField];
+    // For scored columns, read from dynamic properties
+    const aVal = scoredColumnKeys.includes(sortField) ? (a as any)[sortField] : a[sortField];
+    const bVal = scoredColumnKeys.includes(sortField) ? (b as any)[sortField] : b[sortField];
 
     if (typeof aVal === 'number' && typeof bVal === 'number') {
       return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
     }
 
-    const aStr = String(aVal).toLowerCase();
-    const bStr = String(bVal).toLowerCase();
+    const aStr = String(aVal ?? '').toLowerCase();
+    const bStr = String(bVal ?? '').toLowerCase();
 
     if (sortDirection === 'asc') {
       return aStr.localeCompare(bStr);
@@ -235,7 +272,17 @@ export const PortfolioOptionsTable = ({
     return columnFilters.find(f => f.field === field);
   };
 
-  const formatValue = (value: any, field: string) => {
+  const formatValue = (value: any, field: string, option?: OptionData) => {
+    // Scored columns: read from attached scoredData
+    if (scoredColumnKeys.includes(field as keyof OptionData) && option) {
+      const raw = (option as any)[field];
+      if (raw == null || raw === undefined) return '-';
+      if (field === 'agreement_strength') return String(raw);
+      // combined_score, v21_score, ta_probability all formatted as Nordic decimal 1dp
+      // ta_probability is 0-1 scale, display as 0-100
+      const numVal = field === 'ta_probability' ? (raw as number) * 100 : (raw as number);
+      return formatNordicDecimal(numVal, 1);
+    }
     return formatNumber(value, field);
   };
 
@@ -304,6 +351,9 @@ export const PortfolioOptionsTable = ({
           <Table>
           <TableHeader>
             <TableRow>
+              {isScoredStrategy && (
+                <TableHead className="w-10 min-w-[40px]" />
+              )}
               {visibleColumns.map(column => {
                 const fieldType = getFieldType(column);
                 const filter = getColumnFilter(column);
@@ -449,42 +499,77 @@ export const PortfolioOptionsTable = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.map((option, index) => (
-              <TableRow
-                key={`${option.StockName}-${option.OptionName}-${index}`}
-                className="hover:bg-muted/50"
-              >
-                  {visibleColumns.map(column => {
-                    // Determine the color for OptionName based on FinancialReport and X-Day
-                    const getOptionNameColor = () => {
-                      if (column !== 'OptionName') return '';
-                      if (option.FinancialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
-                      if (option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
-                      return 'text-primary';
-                    };
+            {filteredData.map((option, index) => {
+              const isExpanded = isScoredStrategy && expandedRows.has(option.OptionName);
+              const scoredData = (option as any).scoredData as ScoredOptionData | undefined;
 
-                    return (
-                      <TableCell
-                        key={column}
-                        className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
-                        onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
-                      >
-                        {column === 'OptionName' ? (
-                          <span className={`font-medium ${getOptionNameColor()} hover:opacity-80 transition-all`}>
-                            {formatValue(option[column as keyof OptionData], column)}
-                          </span>
-                        ) : column === 'StockName' ? (
-                          <span className="font-medium text-secondary-foreground hover:text-primary transition-colors">
-                            {formatValue(option[column as keyof OptionData], column)}
-                          </span>
-                        ) : (
-                          formatValue(option[column as keyof OptionData], column)
+              return (
+                <>
+                  <TableRow
+                    key={`${option.StockName}-${option.OptionName}-${index}`}
+                    className="hover:bg-muted/50"
+                  >
+                    {isScoredStrategy && (
+                      <TableCell className="w-10 min-w-[40px] p-1">
+                        {scoredData && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0"
+                            onClick={() => toggleRowExpanded(option.OptionName)}
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="h-4 w-4" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4" />
+                            )}
+                          </Button>
                         )}
                       </TableCell>
-                    );
-                  })}
-              </TableRow>
-            ))}
+                    )}
+                    {visibleColumns.map(column => {
+                      // Determine the color for OptionName based on FinancialReport and X-Day
+                      const getOptionNameColor = () => {
+                        if (column !== 'OptionName') return '';
+                        if (option.FinancialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
+                        if (option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
+                        return 'text-primary';
+                      };
+
+                      return (
+                        <TableCell
+                          key={column}
+                          className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
+                          onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
+                        >
+                          {column === 'OptionName' ? (
+                            <span className={`font-medium ${getOptionNameColor()} hover:opacity-80 transition-all`}>
+                              {formatValue(option[column as keyof OptionData], column, option)}
+                            </span>
+                          ) : column === 'StockName' ? (
+                            <span className="font-medium text-secondary-foreground hover:text-primary transition-colors">
+                              {formatValue(option[column as keyof OptionData], column, option)}
+                            </span>
+                          ) : (
+                            formatValue(option[column as keyof OptionData], column, option)
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                  {isExpanded && scoredData && (
+                    <TableRow key={`${option.OptionName}-detail`}>
+                      <TableCell colSpan={visibleColumns.length + 1} className="p-4 bg-muted/30">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 whitespace-normal">
+                          <V21Breakdown option={scoredData} />
+                          <TABreakdown option={scoredData} />
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
+              );
+            })}
           </TableBody>
         </Table>
         <ScrollBar orientation="horizontal" />

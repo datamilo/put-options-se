@@ -9,7 +9,8 @@ export interface PortfolioGeneratorSettings {
   selectedExpiryDate: string;
   portfolioUnderlyingValue: number;
   selectedProbabilityField: string;
-  optimizationStrategy: 'returns' | 'capital' | 'balanced';
+  optimizationStrategy: 'returns' | 'capital' | 'balanced' | 'scored';
+  v21Weight: number;
   maxTotalCapital: number | null;
   excludedStocks: string[];
   generatedPortfolio: any[];
@@ -27,6 +28,7 @@ const defaultSettings: PortfolioGeneratorSettings = {
   portfolioUnderlyingValue: 100000,
   selectedProbabilityField: "ProbWorthless_Bayesian_IsoCal",
   optimizationStrategy: 'returns',
+  v21Weight: 50,
   maxTotalCapital: null,
   excludedStocks: [],
   generatedPortfolio: [],
@@ -55,8 +57,9 @@ export const usePortfolioGeneratorPreferences = () => {
         selectedExpiryDate: localStorage.getItem('portfolioGenerator_selectedExpiryDate') || "",
         portfolioUnderlyingValue: parseInt(localStorage.getItem('portfolioGenerator_underlyingStockValue') || '100000'),
         selectedProbabilityField: localStorage.getItem('portfolioGenerator_selectedProbabilityField') || "ProbWorthless_Bayesian_IsoCal",
-        optimizationStrategy: (localStorage.getItem('portfolioGenerator_optimizationStrategy') as 'returns' | 'capital' | 'balanced') || 'returns',
-        maxTotalCapital: localStorage.getItem('portfolioGenerator_maxTotalCapital') ? 
+        optimizationStrategy: (localStorage.getItem('portfolioGenerator_optimizationStrategy') as 'returns' | 'capital' | 'balanced' | 'scored') || 'returns',
+        v21Weight: parseInt(localStorage.getItem('portfolioGenerator_v21Weight') || '50'),
+        maxTotalCapital: localStorage.getItem('portfolioGenerator_maxTotalCapital') ?
           parseInt(localStorage.getItem('portfolioGenerator_maxTotalCapital')!) : null,
         excludedStocks: localStorage.getItem('portfolioGenerator_excludedStocks') ? 
           JSON.parse(localStorage.getItem('portfolioGenerator_excludedStocks')!) : [],
@@ -124,6 +127,7 @@ export const usePortfolioGeneratorPreferences = () => {
     localStorage.setItem('portfolioGenerator_underlyingStockValue', newSettings.portfolioUnderlyingValue.toString());
     localStorage.setItem('portfolioGenerator_selectedProbabilityField', newSettings.selectedProbabilityField);
     localStorage.setItem('portfolioGenerator_optimizationStrategy', newSettings.optimizationStrategy);
+    localStorage.setItem('portfolioGenerator_v21Weight', newSettings.v21Weight.toString());
     localStorage.setItem('portfolioGenerator_maxTotalCapital', newSettings.maxTotalCapital?.toString() || '');
     localStorage.setItem('portfolioGenerator_excludedStocks', JSON.stringify(newSettings.excludedStocks));
     localStorage.setItem('portfolioGenerator_generatedPortfolio', JSON.stringify(newSettings.generatedPortfolio));
