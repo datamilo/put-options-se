@@ -2,7 +2,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useStockData } from "@/hooks/useStockData";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
+import { useUpcomingEvents } from '@/hooks/useUpcomingEvents';
 import { StockDetails } from "@/components/stock/StockDetails";
+import { UpcomingEventCard } from '@/components/stock/UpcomingEventCard';
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -22,6 +24,7 @@ const StockDetailsPage = () => {
   const navigate = useNavigate();
   const { getStockData, getStockSummary, isLoading, error, getAllStockNames } = useStockData();
   const { timestamps } = useTimestamps();
+  const { getEventForStock } = useUpcomingEvents();
 
   const isFromStock = paramStockName !== undefined;
   const decodedParamStockName = paramStockName ? decodeURIComponent(paramStockName) : '';
@@ -57,6 +60,7 @@ const StockDetailsPage = () => {
   // Get stock data
   const stockData = selectedStock ? getStockData(selectedStock) : [];
   const stockSummary = selectedStock ? getStockSummary(selectedStock) : null;
+  const upcomingEvent = selectedStock ? getEventForStock(selectedStock) : null;
 
   if (!selectedStock && isLoading) {
     return (
@@ -271,6 +275,8 @@ const StockDetailsPage = () => {
           </SelectContent>
         </Select>
       </div>
+
+      {upcomingEvent && <UpcomingEventCard event={upcomingEvent} stockName={selectedStock} />}
 
       <StockDetails stockData={stockData} stockSummary={stockSummary} />
     </div>
