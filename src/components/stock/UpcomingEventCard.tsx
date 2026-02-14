@@ -2,7 +2,6 @@ import { UpcomingEvent } from '@/types/stock';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, TrendingUp, Gift } from 'lucide-react';
-import { formatNordicNumber } from '@/utils/numberFormatting';
 
 interface UpcomingEventCardProps {
   event: UpcomingEvent | null;
