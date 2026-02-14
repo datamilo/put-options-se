@@ -23,3 +23,13 @@ export interface StockSummary {
   lowPrice52Week: number;
   volatility: number;
 }
+
+export interface UpcomingEvent {
+  date: string;
+  stock_name: string;
+  event_type: string;
+  event_category: string;
+  days_until_event: number;
+  is_earnings: boolean;
+  details: string;
+}
