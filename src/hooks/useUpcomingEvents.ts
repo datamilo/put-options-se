@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { UpcomingEvent } from '@/types/stock';
 
+// Singleton cache - persists across component mounts to prevent reloading
 let cachedEvents: UpcomingEvent[] | null = null;
 
 export const useUpcomingEvents = () => {
@@ -72,10 +73,12 @@ export const useUpcomingEvents = () => {
           });
           cachedEvents = events;
           setAllEvents(events);
+          setIsLoading(false);
         },
         error: (error) => {
           console.error('Error parsing upcoming events CSV:', error);
           setError('Failed to parse upcoming events data');
+          setIsLoading(false);
         }
       });
     } catch (err) {
