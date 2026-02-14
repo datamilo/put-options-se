@@ -3,7 +3,7 @@
 Routes: `/stock-analysis`, `/stock/:stockName`
 
 ## Overview
-Individual stock historical price data and performance metrics with stock selector dropdown, OHLC candlestick charts, and comprehensive performance metrics.
+Individual stock historical price data and performance metrics with upcoming events display, stock selector dropdown, OHLC candlestick charts, and comprehensive performance metrics.
 
 ## Access Methods
 1. **From Horizontal Navigation** (Desktop): Click "Stock Metrics and History" button on the far right of the header
@@ -12,11 +12,30 @@ Individual stock historical price data and performance metrics with stock select
 4. **Stock Selector Dropdown**: Available on all Stock Metrics and History views to switch between stocks instantly
 
 ## Key Components
+- **UpcomingEventCard** - Displays next upcoming event (earnings or dividend) for selected stock
 - **StockDetails** - Performance metrics display and layout
 - **CandlestickChart** - OHLC candlestick chart with volume overlay
 
 ## Data Hooks
+- **useUpcomingEvents** - Loads upcoming events CSV with singleton caching, provides `getEventForStock()` method
 - **useStockData** - Data loading, calculation logic, and `getAllStockNames()` method for dropdown
+
+## Upcoming Events
+
+Each stock can have upcoming events (earnings reports or dividend ex-dates) that are displayed at the top of the Stock Metrics page.
+
+### Event Information
+- **Event Date**: When the event is scheduled (YYYY-MM-DD format)
+- **Event Type**: Either "Earnings Report" or "Ex-Date" (dividend)
+- **Event Category**: Level of detail (e.g., "Earnings-FY", "Earnings-Q1", "Dividend")
+- **Details**: Description of the event (e.g., "Fourth quarter earnings results", "1.5 SEK dividend")
+- **Days Until Event**: Countdown to the event, updated daily
+
+### Urgent Event Highlighting
+Events within 7 days of the current date are highlighted with orange styling to draw attention to near-term catalysts.
+
+### Data Source
+Events are loaded from `upcoming_events.csv` which contains 100+ upcoming earnings reports and dividend dates for all stocks in the database.
 
 ## Performance Metrics
 
@@ -59,9 +78,13 @@ All period changes use the formula: `((Current Close - Baseline Close) / Baselin
 - **Price Ranges Card**: Shows price ranges for different time periods (1W, 1M, 3M, 6M, 9M, 1Y)
 
 ## File References
-- **Page**: `src/pages/StockDetailsPage.tsx`
+- **Page**: `src/pages/StockDetailsPage.tsx` (lines 1-280)
 - **Components**:
+  - `src/components/stock/UpcomingEventCard.tsx` - Upcoming events display with responsive design
   - `src/components/stock/StockDetails.tsx` - Performance metrics and layout
   - `src/components/stock/CandlestickChart.tsx` - OHLC chart with date filtering (lines 90-117 for date filtering logic)
-- **Hook**: `src/hooks/useStockData.ts` (lines 137-169 for period calculations)
-- **Types**: `src/types/stock.ts`
+- **Hooks**:
+  - `src/hooks/useUpcomingEvents.ts` - CSV loading with caching and fallback URLs
+  - `src/hooks/useStockData.ts` (lines 137-169 for period calculations)
+- **Types**: `src/types/stock.ts` (includes UpcomingEvent interface)
+- **Data**: `data/upcoming_events.csv` - 100+ upcoming events for all stocks (pipe-delimited)
