@@ -17,6 +17,7 @@ import { ProbabilityAnalysis } from "./pages/ProbabilityAnalysis";
 import { LowerBoundAnalysis } from "./pages/LowerBoundAnalysis";
 import AutomatedRecommendations from "./pages/AutomatedRecommendations";
 import { ScoredOptions } from "./pages/ScoredOptions";
+import { IVAnalysis } from "./pages/IVAnalysis";
 import NotFound from "./pages/NotFound";
 import Auth from "./pages/Auth";
 import AuthCallback from "./pages/AuthCallback";
@@ -101,6 +102,7 @@ const App = () => {
                       <Route path="/portfolio-generator" element={<ProtectedRoute><PortfolioGenerator /></ProtectedRoute>} />
                       <Route path="/monthly-analysis" element={<ProtectedRoute><MonthlyAnalysis /></ProtectedRoute>} />
                       <Route path="/volatility-analysis" element={<ProtectedRoute><VolatilityAnalysis /></ProtectedRoute>} />
+                      <Route path="/iv-analysis" element={<ProtectedRoute><IVAnalysis /></ProtectedRoute>} />
                       <Route path="/consecutive-breaks" element={<ProtectedRoute><ConsecutiveBreaksAnalysis /></ProtectedRoute>} />
                       <Route path="/support-level-options" element={<ProtectedRoute><SupportBasedOptionFinder /></ProtectedRoute>} />
                       <Route path="/option/:optionId" element={<ProtectedRoute><OptionDetailsPage /></ProtectedRoute>} />

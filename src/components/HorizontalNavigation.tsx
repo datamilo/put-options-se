@@ -11,6 +11,7 @@ import {
   ChartNetwork,
   LineChart,
   TrendingUpDown,
+  TrendingUp,
   ArrowDown10,
   Target,
   ChevronDown,
@@ -136,6 +137,11 @@ export const HorizontalNavigation = () => {
               path: "/volatility-analysis",
               label: "Financial Reporting Volatility",
               icon: Activity,
+            },
+            {
+              path: "/iv-analysis",
+              label: "Implied Volatility History",
+              icon: TrendingUp,
             },
           ]}
         />
@@ -283,6 +289,13 @@ export const HorizontalNavigation = () => {
             >
               <Activity className="mr-2 h-4 w-4" />
               Financial Reporting Volatility
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigate("/iv-analysis")}
+              className="cursor-pointer ml-2"
+            >
+              <TrendingUp className="mr-2 h-4 w-4" />
+              Implied Volatility History
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
