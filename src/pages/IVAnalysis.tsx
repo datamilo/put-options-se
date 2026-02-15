@@ -6,6 +6,8 @@ import { useIVPerStockPerDay } from '@/hooks/useIVPerStockPerDay';
 import { IVScreeningTable } from '@/components/iv-analysis/IVScreeningTable';
 import { IVDetailSection } from '@/components/iv-analysis/IVDetailSection';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Info } from 'lucide-react';
 
 export const IVAnalysis: React.FC = () => {
   usePageTitle('IV Analysis');
@@ -74,6 +76,14 @@ export const IVAnalysis: React.FC = () => {
       </div>
 
       <div className="container mx-auto px-4 py-6 space-y-8">
+        {/* Data methodology explanation */}
+        <Alert>
+          <Info className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Data source:</strong> IV values are from the option with strike price closest to the current stock price, expiring within 30 days. If multiple strikes are equally close, their IVs are averaged. Dates with no qualifying options show "–".
+          </AlertDescription>
+        </Alert>
+
         {/* Screening table */}
         <IVScreeningTable
           summaries={stockSummaries}
