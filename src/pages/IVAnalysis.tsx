@@ -80,7 +80,7 @@ export const IVAnalysis: React.FC = () => {
         <Alert>
           <Info className="h-4 w-4" />
           <AlertDescription>
-            <strong>Data source:</strong> IV values are from the option with strike price closest to the current stock price, expiring within 30 days. If multiple strikes are equally close, their IVs are averaged. Dates with no qualifying options show "–".
+            <strong>Data source:</strong> Each day's IV is a constant-maturity 30-day implied volatility computed via variance interpolation across the options term structure, targeting ~21 business days (following the Swedish holiday calendar). Dates with no valid IV data show as "–".
           </AlertDescription>
         </Alert>
 
