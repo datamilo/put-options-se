@@ -85,11 +85,13 @@ export const IVAnalysis: React.FC = () => {
         </Alert>
 
         {/* Screening table */}
-        <IVScreeningTable
-          summaries={stockSummaries}
-          selectedStock={selectedStock}
-          onSelectStock={handleSelectStock}
-        />
+        <div className="max-h-96 overflow-y-auto border rounded-lg">
+          <IVScreeningTable
+            summaries={stockSummaries}
+            selectedStock={selectedStock}
+            onSelectStock={handleSelectStock}
+          />
+        </div>
 
         {/* Detail section */}
         <IVDetailSection
