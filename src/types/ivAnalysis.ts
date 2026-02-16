@@ -4,9 +4,7 @@ export interface IVPerStockPerDay {
   Stock_Name: string;
   Date: string;           // YYYY-MM-DD
   Stock_Price: number;
-  Strike_Price: number | null;
-  Implied_Volatility: number | null;
-  Expiry_Date: string | null;
+  IV_30d: number | null;  // null for 67 rows with no_data method
 }
 
 export interface IVStockSummary {
