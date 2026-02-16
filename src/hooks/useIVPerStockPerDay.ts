@@ -53,14 +53,8 @@ export const useIVPerStockPerDay = () => {
           Stock_Name: row.Stock_Name?.trim() ?? '',
           Date: row.Date?.trim() ?? '',
           Stock_Price: parseFloat(row.Stock_Price) || 0,
-          Strike_Price: row.Strike_Price && row.Strike_Price !== '' && row.Strike_Price !== 'nan'
-            ? parseFloat(row.Strike_Price)
-            : null,
-          Implied_Volatility: row.Implied_Volatility && row.Implied_Volatility !== '' && row.Implied_Volatility !== 'nan'
-            ? parseFloat(row.Implied_Volatility)
-            : null,
-          Expiry_Date: row.Expiry_Date && row.Expiry_Date !== '' && row.Expiry_Date !== 'nan'
-            ? row.Expiry_Date.trim()
+          IV_30d: row.IV_30d && row.IV_30d !== '' && row.IV_30d !== 'nan'
+            ? parseFloat(row.IV_30d)
             : null,
         })).filter(row => row.Stock_Name && row.Date);
 
@@ -94,7 +88,7 @@ export const useIVPerStockPerDay = () => {
     const summaries: IVStockSummary[] = [];
 
     for (const [stockName, rows] of dataByStock.entries()) {
-      const validRows = rows.filter(r => r.Implied_Volatility !== null);
+      const validRows = rows.filter(r => r.IV_30d !== null);
       if (validRows.length === 0) {
         // Stock has no valid IV at all — still include with nulls
         const last = rows[rows.length - 1];
@@ -112,29 +106,29 @@ export const useIVPerStockPerDay = () => {
       }
 
       const lastValid = validRows[validRows.length - 1];
-      const currentIV = lastValid.Implied_Volatility!;
+      const currentIV = lastValid.IV_30d!;
       const currentDate = lastValid.Date;
 
       // All-time IV values
-      const allIVs = validRows.map(r => r.Implied_Volatility!);
+      const allIVs = validRows.map(r => r.IV_30d!);
       const ivRankAllTime = computeIVRank(currentIV, allIVs);
 
-      // 52-week (252 trading days approx — use 365 calendar days for simplicity)
+      // 52-week (365 calendar days for simplicity)
       const cutoff52w = new Date(currentDate);
       cutoff52w.setFullYear(cutoff52w.getFullYear() - 1);
       const cutoffStr = cutoff52w.toISOString().split('T')[0];
       const ivs52w = validRows
         .filter(r => r.Date >= cutoffStr)
-        .map(r => r.Implied_Volatility!);
+        .map(r => r.IV_30d!);
       const ivRank52w = computeIVRank(currentIV, ivs52w);
 
       // 1-day change: find the valid row just before the last valid row
       const prevValid = validRows.length >= 2 ? validRows[validRows.length - 2] : null;
-      const ivChange1d = prevValid ? currentIV - prevValid.Implied_Volatility! : null;
+      const ivChange1d = prevValid ? currentIV - prevValid.IV_30d! : null;
 
       // 5-day change: find valid row 5+ positions back
       const fiveDayBack = validRows.length > 5 ? validRows[validRows.length - 6] : null;
-      const ivChange5d = fiveDayBack ? currentIV - fiveDayBack.Implied_Volatility! : null;
+      const ivChange5d = fiveDayBack ? currentIV - fiveDayBack.IV_30d! : null;
 
       summaries.push({
         stockName,
