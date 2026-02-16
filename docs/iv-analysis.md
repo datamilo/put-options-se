@@ -8,24 +8,24 @@ The **Implied Volatility History** page displays daily implied volatility (IV) o
 
 ## Data Source and Methodology
 
-### Selection Criteria
+### Constant-Maturity 30-Day IV
 
-For each stock on each date, we select **the implied volatility of the option with:**
+Each day's IV is a synthetic, constant-maturity implied volatility targeting ~21 business days (approximately 30 calendar days). This is computed via variance interpolation across the available options term structure, ensuring consistent maturity across all dates.
 
-1. **Strike Price**: Closest to the current stock price (at-the-money)
-   - If multiple strikes are equidistant from stock price (e.g., stock at 100, options at 99 and 101), all are included
-2. **Time to Expiry**: 30 days or fewer until expiration date
-   - Only short-term options (closest to expiry) are considered
-   - Longer-dated options are excluded
-3. **Multiple IVs**: If multiple options at the closest strike are found, the arithmetic mean of their IVs is used
+**How it works:**
+1. For each expiry date available on a given date, the at-the-money (ATM) IV is estimated via linear interpolation across available strikes.
+2. These ATM IVs are converted to total variance (IV² × time).
+3. Variance is interpolated to the target 21-business-day maturity.
+4. The result is converted back to annualized IV.
 
-### NaN Rows
+**Why constant-maturity matters:** If you picked the nearest-expiry option on different dates, you might get a 7-day IV one day and a 28-day IV another—not comparable. Constant-maturity ensures all IVs represent the same time horizon.
 
-On dates where **no options expire within 30 days**, IV is shown as `–` (NaN). This typically occurs:
-- On or near expiration dates when most available options are far-dated
-- Early in the analysis period before a full 30-day window of options exists
+**Business days:** Calculations follow the Swedish public holiday calendar (not calendar days), ensuring consistent time-to-expiry across the year.
 
-The page retains these NaN rows to maintain a complete time series (no gaps in the date column).
+**Edge cases:**
+- If two expirations bracket the 21-day target: interpolate between them.
+- If only near-term or only far-term expirations exist: use the closest expiry's ATM IV.
+- If no valid IV data: row shows "–".
 
 ---
 
