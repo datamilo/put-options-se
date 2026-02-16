@@ -304,6 +304,17 @@ formatNordicPercentagePoints(24.55, 2) → "+24,55 pp"
 **Example - GOOD:**
 Just display the dates without explanation. Senior investors know why this matters.
 
+### Explanation Principle
+
+**Explain only what IS (current facts and methodology).** Never explain what WAS (previous versions) or what COULD HAVE BEEN (alternatives). Avoid comparative language ("rather than", "instead of", "unlike the old", "improved from"). Professional investors want facts, not rationale.
+
+**Example — BAD:**
+- "This new IV metric is better than picking single options because it ensures consistent maturity."
+- "The screening now uses constant-maturity IV rather than the old single-strike approach."
+
+**Example — GOOD:**
+- "Each day's IV is a constant-maturity 30-day implied volatility computed via variance interpolation."
+
 ---
 
 ## Git & GitHub Workflow
