@@ -62,7 +62,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
 
   const chartData = filteredData.map(r => ({
     date: r.Date,
-    iv: r.Implied_Volatility,           // null renders as gap
+    iv: r.IV_30d,           // null renders as gap
     price: r.Stock_Price,
   }));
 
