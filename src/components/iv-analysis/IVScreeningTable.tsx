@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { IVStockSummary } from '@/types/ivAnalysis';
 import { formatNordicDecimal, formatNordicPercentagePoints } from '@/utils/numberFormatting';
+import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 
 type SortField = 'stockName' | 'currentIV' | 'ivRank52w' | 'ivRankAllTime' | 'ivChange1d' | 'ivChange5d' | 'currentStockPrice';
 type SortDir = 'asc' | 'desc';
@@ -84,15 +85,22 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
     });
   }, [summaries, sortField, sortDir]);
 
-  const SortHeader = ({ field, label }: { field: SortField; label: string }) => (
+  const SortHeader = ({ field, label, tooltip }: { field: SortField; label: string; tooltip?: React.ReactNode }) => (
     <th
       className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground select-none whitespace-nowrap"
       onClick={() => handleSort(field)}
     >
-      {label}
-      {sortField === field && (
-        <span className="ml-1">{sortDir === 'asc' ? '↑' : '↓'}</span>
-      )}
+      <span className="inline-flex items-center gap-1">
+        {label}
+        {sortField === field && (
+          <span>{sortDir === 'asc' ? '↑' : '↓'}</span>
+        )}
+        {tooltip && (
+          <span onClick={e => e.stopPropagation()}>
+            <InfoIconTooltip content={tooltip} side="bottom" />
+          </span>
+        )}
+      </span>
     </th>
   );
 
@@ -131,13 +139,13 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
                 <SortHeader
                   field={rankMode === '52w' ? 'ivRank52w' : 'ivRankAllTime'}
                   label={rankMode === '52w' ? 'IV Rank 52w' : 'IV Rank Hist.'}
+                  tooltip={rankMode === '52w'
+                    ? "Where today's IV sits within this stock's own 52-week range. 100 = IV at 52-week high (expensive options), 0 = IV at 52-week low (cheap options). Useful for comparing relative IV richness across stocks with different baseline volatility."
+                    : "Where today's IV sits within this stock's full historical range in the dataset. 100 = IV at all-time high, 0 = IV at all-time low."}
                 />
                 <SortHeader field="ivChange1d" label="1-day Δ IV" />
                 <SortHeader field="ivChange5d" label="5-day Δ IV" />
                 <SortHeader field="currentStockPrice" label="Price" />
-                <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider whitespace-nowrap">
-                  Date
-                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
@@ -165,9 +173,6 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
                     </td>
                     <td className="px-3 py-2 tabular-nums">
                       {formatNordicDecimal(row.currentStockPrice, 2)}
-                    </td>
-                    <td className="px-3 py-2 text-muted-foreground text-xs">
-                      {row.latestDate}
                     </td>
                   </tr>
                 );
