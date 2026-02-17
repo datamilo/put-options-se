@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react';
 import {
   ComposedChart,
   Line,
+  ReferenceLine,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -14,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { IVPerStockPerDay } from '@/types/ivAnalysis';
 import { formatNordicDecimal } from '@/utils/numberFormatting';
+import { useEarningsDates } from '@/hooks/useEarningsDates';
 
 type DateRange = '3M' | '6M' | '1Y' | 'All';
 
@@ -28,8 +30,28 @@ function subtractMonths(dateStr: string, months: number): string {
   return d.toISOString().split('T')[0];
 }
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+// Small upward triangle rendered at the bottom of each earnings reference line
+const EarningsMarker = (props: any) => {
+  if (!props.viewBox) return null;
+  const { x, y, height } = props.viewBox;
+  const ty = y + height - 1;
+  return (
+    <polygon
+      points={`${x},${ty - 7} ${x - 4},${ty} ${x + 4},${ty}`}
+      fill="#f59e0b"
+      opacity={0.85}
+    />
+  );
+};
+
+const CustomTooltip = ({
+  active,
+  payload,
+  label,
+  earningsMap,
+}: any) => {
   if (!active || !payload || payload.length === 0) return null;
+  const earnings = earningsMap?.get(label);
   return (
     <div className="bg-background border rounded shadow-md p-2 text-xs space-y-1">
       <div className="font-medium">{label}</div>
@@ -40,12 +62,18 @@ const CustomTooltip = ({ active, payload, label }: any) => {
             : `Price: ${p.value != null ? formatNordicDecimal(p.value, 2) : '–'}`}
         </div>
       ))}
+      {earnings && (
+        <div className="text-amber-500 font-medium pt-0.5 border-t border-border">
+          ▲ {earnings.type}
+        </div>
+      )}
     </div>
   );
 };
 
 export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
   const [range, setRange] = useState<DateRange>('1Y');
+  const earningsDates = useEarningsDates(stockName);
 
   const sortedData = useMemo(
     () => [...data].sort((a, b) => a.Date.localeCompare(b.Date)),
@@ -62,9 +90,27 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
 
   const chartData = filteredData.map(r => ({
     date: r.Date,
-    iv: r.IV_30d,           // null renders as gap
+    iv: r.IV_30d,
     price: r.Stock_Price,
   }));
+
+  // Set of dates present in chartData for fast lookup
+  const chartDateSet = useMemo(
+    () => new Set(chartData.map(r => r.date)),
+    [chartData]
+  );
+
+  // Only show earnings markers for dates visible in the current range
+  const visibleEarnings = useMemo(
+    () => earningsDates.filter(e => chartDateSet.has(e.date)),
+    [earningsDates, chartDateSet]
+  );
+
+  // Map for O(1) tooltip lookup
+  const earningsMap = useMemo(
+    () => new Map(visibleEarnings.map(e => [e.date, e])),
+    [visibleEarnings]
+  );
 
   const ranges: DateRange[] = ['3M', '6M', '1Y', 'All'];
 
@@ -90,7 +136,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
           <XAxis
             dataKey="date"
             tick={{ fontSize: 11 }}
-            tickFormatter={v => v.slice(0, 7)} // YYYY-MM
+            tickFormatter={v => v.slice(0, 7)}
             minTickGap={40}
           />
           <YAxis
@@ -107,8 +153,20 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
             tickFormatter={v => formatNordicDecimal(v, 0)}
             width={60}
           />
-          <Tooltip content={<CustomTooltip />} />
+          <Tooltip content={<CustomTooltip earningsMap={earningsMap} />} />
           <Legend />
+          {visibleEarnings.map(e => (
+            <ReferenceLine
+              key={e.date}
+              x={e.date}
+              yAxisId="iv"
+              stroke="#f59e0b"
+              strokeDasharray="3 3"
+              strokeWidth={1}
+              strokeOpacity={0.7}
+              label={<EarningsMarker />}
+            />
+          ))}
           <Line
             yAxisId="iv"
             type="monotone"
@@ -131,6 +189,13 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
           />
         </ComposedChart>
       </ResponsiveContainer>
+
+      {visibleEarnings.length > 0 && (
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className="text-amber-500">▲</span>
+          <span>Earnings report</span>
+        </div>
+      )}
     </div>
   );
 };
