@@ -45,7 +45,7 @@ export const IVAnalysis: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Laddar IV-data...</p>
+          <p className="text-muted-foreground">Loading IV data...</p>
         </div>
       </div>
     );
@@ -56,7 +56,7 @@ export const IVAnalysis: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle className="text-destructive">Fel vid laddning</CardTitle>
+            <CardTitle className="text-destructive">Error loading data</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">{error}</p>

@@ -108,7 +108,7 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
               className="h-7 text-xs px-2"
               onClick={() => setRankMode('52w')}
             >
-              52 veckor
+              52 Weeks
             </Button>
             <Button
               size="sm"
@@ -116,7 +116,7 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
               className="h-7 text-xs px-2"
               onClick={() => setRankMode('allTime')}
             >
-              Historisk
+              Historical
             </Button>
           </div>
         </div>
@@ -126,17 +126,17 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
           <table className="w-full text-sm">
             <thead className="border-b bg-muted/50">
               <tr>
-                <SortHeader field="stockName" label="Aktie" />
-                <SortHeader field="currentIV" label="Aktuell IV" />
+                <SortHeader field="stockName" label="Stock" />
+                <SortHeader field="currentIV" label="Current IV" />
                 <SortHeader
                   field={rankMode === '52w' ? 'ivRank52w' : 'ivRankAllTime'}
-                  label={rankMode === '52w' ? 'IV Rank 52v' : 'IV Rank Hist.'}
+                  label={rankMode === '52w' ? 'IV Rank 52w' : 'IV Rank Hist.'}
                 />
-                <SortHeader field="ivChange1d" label="1-dag Δ IV" />
-                <SortHeader field="ivChange5d" label="5-dag Δ IV" />
-                <SortHeader field="currentStockPrice" label="Kurs" />
+                <SortHeader field="ivChange1d" label="1-day Δ IV" />
+                <SortHeader field="ivChange5d" label="5-day Δ IV" />
+                <SortHeader field="currentStockPrice" label="Price" />
                 <th className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider whitespace-nowrap">
-                  Datum
+                  Date
                 </th>
               </tr>
             </thead>

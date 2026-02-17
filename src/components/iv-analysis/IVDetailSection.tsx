@@ -66,19 +66,19 @@ export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
       <div ref={ref} className="space-y-4">
         {/* Stock selector */}
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-muted-foreground">Välj aktie:</span>
+          <span className="text-sm font-medium text-muted-foreground">Select stock:</span>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="w-48 justify-between">
-                {selectedStock || 'Välj aktie...'}
+                {selectedStock || 'Select stock...'}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-48 p-0" align="start">
               <Command>
-                <CommandInput placeholder="Sök aktie..." />
+                <CommandInput placeholder="Search stock..." />
                 <CommandList>
-                  <CommandEmpty>Ingen aktie hittades.</CommandEmpty>
+                  <CommandEmpty>No stock found.</CommandEmpty>
                   <CommandGroup>
                     {stockNames.map(name => (
                       <CommandItem
@@ -101,24 +101,24 @@ export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
           <>
             {/* KPI strip */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-              <KPICard label="Aktuell IV" value={currentIV} />
+              <KPICard label="Current IV" value={currentIV} />
               <KPICard
-                label="IV Rank 52v"
+                label="IV Rank 52w"
                 value={ivRank52w}
                 colorClass={ivRankColorClass(summary?.ivRank52w ?? null)}
               />
               <KPICard
-                label="IV Rank Historisk"
+                label="IV Rank Historical"
                 value={ivRankHist}
                 colorClass={ivRankColorClass(summary?.ivRankAllTime ?? null)}
               />
               <KPICard
-                label="1-dag Δ IV"
+                label="1-day Δ IV"
                 value={change1d}
                 colorClass={deltaColorClass(summary?.ivChange1d ?? null)}
               />
               <KPICard
-                label="5-dag Δ IV"
+                label="5-day Δ IV"
                 value={change5d}
                 colorClass={deltaColorClass(summary?.ivChange5d ?? null)}
               />
@@ -127,13 +127,13 @@ export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
             {/* Chart */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-base">{selectedStock} — IV & Kursutveckling</CardTitle>
+                <CardTitle className="text-base">{selectedStock} — IV & Price History</CardTitle>
               </CardHeader>
               <CardContent>
                 {stockData.length > 0 ? (
                   <IVDualAxisChart data={stockData} stockName={selectedStock} />
                 ) : (
-                  <p className="text-muted-foreground text-sm">Ingen data tillgänglig.</p>
+                  <p className="text-muted-foreground text-sm">No data available.</p>
                 )}
               </CardContent>
             </Card>

@@ -15,7 +15,7 @@ import { Button } from '@/components/ui/button';
 import { IVPerStockPerDay } from '@/types/ivAnalysis';
 import { formatNordicDecimal } from '@/utils/numberFormatting';
 
-type DateRange = '3M' | '6M' | '1Y' | 'Allt';
+type DateRange = '3M' | '6M' | '1Y' | 'All';
 
 interface Props {
   data: IVPerStockPerDay[];
@@ -37,7 +37,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
         <div key={p.name} style={{ color: p.color }}>
           {p.name === 'IV'
             ? `IV: ${p.value != null ? formatNordicDecimal(p.value * 100, 2) + '%' : '–'}`
-            : `Kurs: ${p.value != null ? formatNordicDecimal(p.value, 2) : '–'}`}
+            : `Price: ${p.value != null ? formatNordicDecimal(p.value, 2) : '–'}`}
         </div>
       ))}
     </div>
@@ -53,7 +53,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
   );
 
   const filteredData = useMemo(() => {
-    if (range === 'Allt' || sortedData.length === 0) return sortedData;
+    if (range === 'All' || sortedData.length === 0) return sortedData;
     const lastDate = sortedData[sortedData.length - 1].Date;
     const months = range === '3M' ? 3 : range === '6M' ? 6 : 12;
     const cutoff = subtractMonths(lastDate, months);
@@ -66,7 +66,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
     price: r.Stock_Price,
   }));
 
-  const ranges: DateRange[] = ['3M', '6M', '1Y', 'Allt'];
+  const ranges: DateRange[] = ['3M', '6M', '1Y', 'All'];
 
   return (
     <div className="space-y-2">
@@ -123,7 +123,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
             yAxisId="price"
             type="monotone"
             dataKey="price"
-            name="Kurs"
+            name="Price"
             stroke="hsl(var(--muted-foreground))"
             strokeWidth={1.5}
             dot={false}
