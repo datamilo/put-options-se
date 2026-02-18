@@ -29,7 +29,29 @@ Each day's IV is a synthetic, constant-maturity implied volatility targeting ~21
 
 ## Page Features
 
-### IV Screening Table (Top Section)
+### Swedish Market IV Panel (Top Section)
+
+A market-wide implied volatility index computed as a cross-sectional equal-weight average across all active Swedish stocks with listed options. Functions as a Swedish VIX proxy.
+
+**KPI Strip (6 cards):**
+1. **Current IV** — Latest market IV level as a percentage
+2. **IV Rank 52w / IV Rank Historical** — Where the current level sits within the 52-week or all-time range (0–100). Toggle between modes using the buttons in the panel header.
+3. **1-day Δ IV** — Change from previous observation
+4. **5-day Δ IV** — Change from 5 observations back
+5. **N Stocks** — Number of stocks contributing to the index on the latest date
+6. **N Excluded** — Number of stocks excluded as outliers by the MAD filter on the latest date
+
+**Chart:** Single-axis line chart of daily market IV. Date range buttons: `3M` `6M` `1Y` `All` (default: 1Y). No price axis. No earnings markers.
+
+**Outlier detection:** A dynamic MAD-based filter excludes company-specific IV spikes while preserving genuine market-wide stress events. Stocks with `IV > median + 4×MAD×1.4826` are excluded, unless exclusion would drop the pool below 30 stocks (in which case all stocks are included).
+
+**Aggregation:** Market IV is computed as `sqrt(mean(IV²))` — aggregating in variance space ensures mathematical correctness.
+
+**Minimum coverage:** The index requires at least 30 contributing stocks. Dates with fewer stocks show "–".
+
+---
+
+### IV Screening Table (Middle Section)
 
 Scan all stocks at a glance:
 
@@ -58,7 +80,7 @@ Scan all stocks at a glance:
 
 ---
 
-### Stock Detail Section (Bottom Section)
+### Stock Detail Section (Bottom Section, per stock)
 
 Deep-dive into a single stock:
 
@@ -100,10 +122,21 @@ Deep-dive into a single stock:
 **Earnings data:** Loaded from `Stock_Events_Volatility_Data.csv` via `useEarningsDates` hook. Data is cached at module level after the first fetch — no re-fetching when switching stocks.
 
 **Data sources:**
-- `iv_per_stock_per_day.csv` — pipe-delimited, IV and price data per stock per day
+- `iv_per_stock_per_day.csv` — pipe-delimited, IV and price data per stock per day, plus one `MARKET_IV` synthetic row per date
 - `Stock_Events_Volatility_Data.csv` — pipe-delimited, earnings and financial event dates
 
+**`iv_per_stock_per_day.csv` columns relevant to the UI:**
+
+| Column | Stock rows | MARKET_IV rows |
+|--------|-----------|----------------|
+| `Stock_Name` | stock ticker | `"MARKET_IV"` |
+| `Date` | YYYY-MM-DD | YYYY-MM-DD |
+| `Stock_Price` | stock price | — |
+| `IV_30d` | constant-maturity 30d IV | equal-weight market IV |
+| `N_Stocks` | — | stocks contributing to index |
+| `N_Excluded` | — | stocks excluded by MAD filter |
+
 **Data quality:**
-- Frequency: daily (one row per stock per trading day)
+- Frequency: daily (one row per stock per trading day, plus one MARKET_IV row)
 - Completeness: every (Stock, Date) combination represented; NaN rows included
 - Refresh: updated daily at market close
