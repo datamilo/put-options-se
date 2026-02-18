@@ -26,8 +26,10 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('pct_pos_return_months');
   const [sortBy, setSortBy] = useState<SortType>('pct_pos_return_months');
   const [maxStocks, setMaxStocks] = useState(20);
-  const [sortByMonth, setSortByMonth] = useState<number | null>(null); // null = use general sorting, number = sort by specific month
+  // Column sort: which column is active ('mtd' | month number as string | null) and its direction
+  const [sortByMonth, setSortByMonth] = useState<number | null>(null);
   const [sortByMtd, setSortByMtd] = useState(false);
+  const [columnSortDir, setColumnSortDir] = useState<'desc' | 'asc'>('desc');
 
   // Show MTD column when specific months are selected and current month is among them
   const showMtdColumn =
@@ -41,21 +43,28 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     ? `${MONTH_NAMES[currentMonth - 1]} MTD`
     : 'MTD';
 
+  // Cycle: inactive → desc → asc → inactive
   const handleMtdHeaderClick = () => {
-    if (sortByMtd) {
-      setSortByMtd(false);
-    } else {
+    if (!sortByMtd) {
       setSortByMtd(true);
       setSortByMonth(null);
+      setColumnSortDir('desc');
+    } else if (columnSortDir === 'desc') {
+      setColumnSortDir('asc');
+    } else {
+      setSortByMtd(false);
     }
   };
 
   const handleMonthHeaderClick = (monthNumber: number) => {
-    if (sortByMonth === monthNumber) {
-      setSortByMonth(null);
-    } else {
+    if (sortByMonth !== monthNumber) {
       setSortByMonth(monthNumber);
       setSortByMtd(false);
+      setColumnSortDir('desc');
+    } else if (columnSortDir === 'desc') {
+      setColumnSortDir('asc');
+    } else {
+      setSortByMonth(null);
     }
   };
 
@@ -92,20 +101,22 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
       stockInfo.avgPosMonths = posMonths.length > 0 ? posMonths.reduce((sum, p) => sum + p, 0) / posMonths.length : 0;
     });
 
+    const dir = columnSortDir === 'desc' ? 1 : -1;
+
     // Sort stocks based on selected criteria
     const sortedStocks = Array.from(stockMap.values()).sort((a, b) => {
       // Sort by current month MTD performance
       if (sortByMtd && currentMonthPerformance) {
         const aValue = currentMonthPerformance.get(a.name) ?? -Infinity;
         const bValue = currentMonthPerformance.get(b.name) ?? -Infinity;
-        return bValue - aValue;
+        return (bValue - aValue) * dir;
       }
 
       // If sorting by specific month, prioritize that
       if (sortByMonth !== null) {
         const aValue = a.monthlyData.get(sortByMonth)?.[selectedMetric] || 0;
         const bValue = b.monthlyData.get(sortByMonth)?.[selectedMetric] || 0;
-        return bValue - aValue; // Always descending for month-specific sorting
+        return (bValue - aValue) * dir;
       }
 
       // Otherwise use general sorting logic
@@ -142,7 +153,7 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     });
 
     return sortedStocks.slice(0, maxStocks);
-  }, [data, sortBy, maxStocks, selectedMonths, sortByMonth, selectedMetric, sortByMtd, currentMonthPerformance]);
+  }, [data, sortBy, maxStocks, selectedMonths, sortByMonth, selectedMetric, sortByMtd, currentMonthPerformance, columnSortDir]);
 
   // Calculate percentiles for color thresholds
   const colorThresholds = useMemo(() => {
@@ -223,7 +234,7 @@ Data points: ${stat.number_of_months_available} months`;
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                  Sorted by {sortByMtd ? mtdLabel : MONTH_NAMES[sortByMonth! - 1]}
+                  Sorted by {sortByMtd ? mtdLabel : MONTH_NAMES[sortByMonth! - 1]} ({columnSortDir === 'desc' ? '↓' : '↑'})
                 </Badge>
                 <span className="text-sm text-muted-foreground">
                   Click any column header to change sorting or click again to clear
@@ -313,7 +324,9 @@ Data points: ${stat.number_of_months_available} months`;
                   >
                     {month}
                     {isActiveSortColumn && (
-                      <ChevronDown className="h-3 w-3" />
+                      columnSortDir === 'desc'
+                        ? <ChevronDown className="h-3 w-3" />
+                        : <ChevronUp className="h-3 w-3" />
                     )}
                   </button>
                 );
@@ -339,7 +352,9 @@ Data points: ${stat.number_of_months_available} months`;
                     >
                       {MONTH_NAMES[monthNumber - 1]}
                       {isActiveSortColumn && (
-                        <ChevronDown className="h-3 w-3" />
+                        columnSortDir === 'desc'
+                          ? <ChevronDown className="h-3 w-3" />
+                          : <ChevronUp className="h-3 w-3" />
                       )}
                     </button>
                   );
@@ -361,7 +376,11 @@ Data points: ${stat.number_of_months_available} months`;
                     >
                       <span>{MONTH_NAMES[(currentMonth ?? 1) - 1]}</span>
                       <span className="text-[10px] font-normal opacity-80">MTD</span>
-                      {sortByMtd && <ChevronDown className="h-3 w-3" />}
+                      {sortByMtd && (
+                        columnSortDir === 'desc'
+                          ? <ChevronDown className="h-3 w-3" />
+                          : <ChevronUp className="h-3 w-3" />
+                      )}
                     </button>
                   </div>
                 )}
