@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
-import { IVPerStockPerDay, IVStockSummary } from '@/types/ivAnalysis';
+import { IVPerStockPerDay, IVStockSummary, IVMarketSummary } from '@/types/ivAnalysis';
 
 const GITHUB_URL = 'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/iv_per_stock_per_day.csv';
 const LOCAL_URL = '/data/iv_per_stock_per_day.csv';
@@ -17,6 +17,7 @@ function computeIVRank(currentIV: number, values: number[]): number | null {
 
 export const useIVPerStockPerDay = () => {
   const [rawData, setRawData] = useState<IVPerStockPerDay[]>([]);
+  const [marketIVData, setMarketIVData] = useState<IVPerStockPerDay[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,9 +57,18 @@ export const useIVPerStockPerDay = () => {
           IV_30d: row.IV_30d && row.IV_30d !== '' && row.IV_30d !== 'nan'
             ? parseFloat(row.IV_30d)
             : null,
+          N_Stocks: row.N_Stocks && row.N_Stocks !== '' && row.N_Stocks !== 'nan'
+            ? parseInt(row.N_Stocks, 10)
+            : null,
+          N_Excluded: row.N_Excluded && row.N_Excluded !== '' && row.N_Excluded !== 'nan'
+            ? parseInt(row.N_Excluded, 10)
+            : null,
         })).filter(row => row.Stock_Name && row.Date);
 
-        setRawData(parsed);
+        const marketRows = parsed.filter(r => r.Stock_Name === 'MARKET_IV');
+        const stockRows = parsed.filter(r => r.Stock_Name !== 'MARKET_IV');
+        setRawData(stockRows);
+        setMarketIVData(marketRows.sort((a, b) => a.Date.localeCompare(b.Date)));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');
       } finally {
@@ -145,10 +155,47 @@ export const useIVPerStockPerDay = () => {
     return summaries;
   }, [dataByStock]);
 
+  const marketIVSummary = useMemo((): IVMarketSummary | null => {
+    const validRows = marketIVData.filter(r => r.IV_30d !== null);
+    if (validRows.length === 0) return null;
+
+    const lastValid = validRows[validRows.length - 1];
+    const currentIV = lastValid.IV_30d!;
+    const currentDate = lastValid.Date;
+
+    const allIVs = validRows.map(r => r.IV_30d!);
+    const ivRankAllTime = computeIVRank(currentIV, allIVs);
+
+    const cutoff52w = new Date(currentDate);
+    cutoff52w.setFullYear(cutoff52w.getFullYear() - 1);
+    const cutoffStr = cutoff52w.toISOString().split('T')[0];
+    const ivs52w = validRows.filter(r => r.Date >= cutoffStr).map(r => r.IV_30d!);
+    const ivRank52w = computeIVRank(currentIV, ivs52w);
+
+    const prevValid = validRows.length >= 2 ? validRows[validRows.length - 2] : null;
+    const ivChange1d = prevValid ? currentIV - prevValid.IV_30d! : null;
+
+    const fiveDayBack = validRows.length > 5 ? validRows[validRows.length - 6] : null;
+    const ivChange5d = fiveDayBack ? currentIV - fiveDayBack.IV_30d! : null;
+
+    return {
+      latestDate: currentDate,
+      currentIV,
+      ivRank52w,
+      ivRankAllTime,
+      ivChange1d,
+      ivChange5d,
+      nStocks: lastValid.N_Stocks,
+      nExcluded: lastValid.N_Excluded,
+    };
+  }, [marketIVData]);
+
   return {
     rawData,
     dataByStock,
     stockSummaries,
+    marketIVData,
+    marketIVSummary,
     isLoading,
     error,
   };
