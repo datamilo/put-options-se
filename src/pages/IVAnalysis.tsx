@@ -5,6 +5,7 @@ import { usePageTitle } from '@/hooks/usePageTitle';
 import { useIVPerStockPerDay } from '@/hooks/useIVPerStockPerDay';
 import { IVScreeningTable } from '@/components/iv-analysis/IVScreeningTable';
 import { IVDetailSection } from '@/components/iv-analysis/IVDetailSection';
+import { MarketIVPanel } from '@/components/iv-analysis/MarketIVPanel';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
@@ -12,7 +13,7 @@ import { Info } from 'lucide-react';
 export const IVAnalysis: React.FC = () => {
   usePageTitle('IV Analysis');
 
-  const { stockSummaries, dataByStock, isLoading, error } = useIVPerStockPerDay();
+  const { stockSummaries, dataByStock, marketIVData, marketIVSummary, isLoading, error } = useIVPerStockPerDay();
   const [selectedStock, setSelectedStock] = useState<string>('');
   const detailRef = useRef<HTMLDivElement>(null);
 
@@ -83,6 +84,9 @@ export const IVAnalysis: React.FC = () => {
             <strong>Data source:</strong> Each day's IV is a constant-maturity 30-day implied volatility computed via variance interpolation across the options term structure, targeting ~21 business days (following the Swedish holiday calendar). Dates with no valid IV data show as "–".
           </AlertDescription>
         </Alert>
+
+        {/* Market IV panel */}
+        <MarketIVPanel marketIVData={marketIVData} marketIVSummary={marketIVSummary} />
 
         {/* Screening table */}
         <div className="max-h-96 overflow-y-auto border rounded-lg">
