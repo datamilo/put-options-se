@@ -27,6 +27,7 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
   const [sortBy, setSortBy] = useState<SortType>('pct_pos_return_months');
   const [maxStocks, setMaxStocks] = useState(20);
   const [sortByMonth, setSortByMonth] = useState<number | null>(null); // null = use general sorting, number = sort by specific month
+  const [sortByMtd, setSortByMtd] = useState(false);
 
   // Show MTD column when specific months are selected and current month is among them
   const showMtdColumn =
@@ -34,6 +35,29 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     currentMonth !== undefined &&
     selectedMonths.includes(currentMonth) &&
     (currentMonthPerformance?.size ?? 0) > 0;
+
+  // Label for the MTD column header, e.g. "Feb MTD"
+  const mtdLabel = currentMonth !== undefined
+    ? `${MONTH_NAMES[currentMonth - 1]} MTD`
+    : 'MTD';
+
+  const handleMtdHeaderClick = () => {
+    if (sortByMtd) {
+      setSortByMtd(false);
+    } else {
+      setSortByMtd(true);
+      setSortByMonth(null);
+    }
+  };
+
+  const handleMonthHeaderClick = (monthNumber: number) => {
+    if (sortByMonth === monthNumber) {
+      setSortByMonth(null);
+    } else {
+      setSortByMonth(monthNumber);
+      setSortByMtd(false);
+    }
+  };
 
   // Process and sort stocks
   const processedData = useMemo(() => {
@@ -70,6 +94,13 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
 
     // Sort stocks based on selected criteria
     const sortedStocks = Array.from(stockMap.values()).sort((a, b) => {
+      // Sort by current month MTD performance
+      if (sortByMtd && currentMonthPerformance) {
+        const aValue = currentMonthPerformance.get(a.name) ?? -Infinity;
+        const bValue = currentMonthPerformance.get(b.name) ?? -Infinity;
+        return bValue - aValue;
+      }
+
       // If sorting by specific month, prioritize that
       if (sortByMonth !== null) {
         const aValue = a.monthlyData.get(sortByMonth)?.[selectedMetric] || 0;
@@ -111,7 +142,7 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
     });
 
     return sortedStocks.slice(0, maxStocks);
-  }, [data, sortBy, maxStocks, selectedMonths, sortByMonth, selectedMetric]);
+  }, [data, sortBy, maxStocks, selectedMonths, sortByMonth, selectedMetric, sortByMtd, currentMonthPerformance]);
 
   // Calculate percentiles for color thresholds
   const colorThresholds = useMemo(() => {
@@ -187,22 +218,22 @@ Data points: ${stat.number_of_months_available} months`;
     <div className="space-y-6">
       {/* Controls */}
       <div className="space-y-4">
-        {sortByMonth !== null && (
+        {(sortByMonth !== null || sortByMtd) && (
           <div className="p-4 bg-primary/5 border border-primary/20 rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                  Sorted by {MONTH_NAMES[sortByMonth - 1]}
+                  Sorted by {sortByMtd ? mtdLabel : MONTH_NAMES[sortByMonth! - 1]}
                 </Badge>
                 <span className="text-sm text-muted-foreground">
-                  Click any month header to change sorting or click again to clear
+                  Click any column header to change sorting or click again to clear
                 </span>
               </div>
               <button
-                onClick={() => setSortByMonth(null)}
+                onClick={() => { setSortByMonth(null); setSortByMtd(false); }}
                 className="text-sm text-muted-foreground hover:text-foreground underline"
               >
-                Clear month sorting
+                Clear sorting
               </button>
             </div>
           </div>
@@ -268,13 +299,7 @@ Data points: ${stat.number_of_months_available} months`;
                 return (
                   <button
                     key={month}
-                    onClick={() => {
-                      if (sortByMonth === monthNumber) {
-                        setSortByMonth(null); // Clear month-specific sorting
-                      } else {
-                        setSortByMonth(monthNumber);
-                      }
-                    }}
+                    onClick={() => handleMonthHeaderClick(monthNumber)}
                     className={`
                       w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md mx-0.5
                       transition-all duration-200 cursor-pointer hover:bg-muted/20
@@ -300,13 +325,7 @@ Data points: ${stat.number_of_months_available} months`;
                   return (
                     <button
                       key={monthNumber}
-                      onClick={() => {
-                        if (sortByMonth === monthNumber) {
-                          setSortByMonth(null); // Clear month-specific sorting
-                        } else {
-                          setSortByMonth(monthNumber);
-                        }
-                      }}
+                      onClick={() => handleMonthHeaderClick(monthNumber)}
                       className={`
                         w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md mx-0.5
                         transition-all duration-200 cursor-pointer hover:bg-muted/20
@@ -326,11 +345,24 @@ Data points: ${stat.number_of_months_available} months`;
                   );
                 })}
                 {showMtdColumn && (
-                  <div className="flex items-center gap-0.5 ml-1">
+                  <div className="flex items-center ml-1">
                     <div className="w-px self-stretch bg-border mx-1" />
-                    <div className="w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 text-blue-600 dark:text-blue-400">
-                      MTD
-                    </div>
+                    <button
+                      onClick={handleMtdHeaderClick}
+                      className={`
+                        w-20 flex-shrink-0 text-xs font-semibold text-center px-2 py-2 rounded-md
+                        transition-all duration-200 cursor-pointer flex flex-col items-center justify-center gap-0.5
+                        ${sortByMtd
+                          ? 'bg-primary/10 text-primary border-2 border-primary/20'
+                          : 'text-blue-600 dark:text-blue-400 hover:bg-muted/20'
+                        }
+                      `}
+                      title="Click to sort by current month performance"
+                    >
+                      <span>{MONTH_NAMES[(currentMonth ?? 1) - 1]}</span>
+                      <span className="text-[10px] font-normal opacity-80">MTD</span>
+                      {sortByMtd && <ChevronDown className="h-3 w-3" />}
+                    </button>
                   </div>
                 )}
               </>
