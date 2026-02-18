@@ -84,6 +84,13 @@ const SortableColumnItem: React.FC<{
       'Annualized_ROM_Pct': 'Annualized Return on Margin %'
     };
 
+    // Scored strategy field mappings
+    const scoredMappings: { [key: string]: string } = {
+      'combined_score': 'Combined Score',
+      'v21_score': 'V2.1 Score',
+      'ta_probability': 'TA Probability'
+    };
+
     if (probabilityMappings[key]) {
       return probabilityMappings[key];
     }
@@ -94,6 +101,10 @@ const SortableColumnItem: React.FC<{
 
     if (marginMappings[key]) {
       return marginMappings[key];
+    }
+
+    if (scoredMappings[key]) {
+      return scoredMappings[key];
     }
 
     return key
@@ -182,7 +193,9 @@ export const PortfolioColumnManager: React.FC<PortfolioColumnManagerProps> = ({
       // Margin requirements fields
       'EstTotalMargin', 'Est_Margin_SEK', 'Prob_Normal_2SD_Decline_Pct', 'Hist_Worst_Decline_Pct',
       'SRI_Base', 'Event_Buffer', 'Final_SRI', 'OTM_Amount', 'Margin_A_Broker_Proxy',
-      'Margin_B_Historical_Floor', 'Margin_Floor_15pct', 'Net_Premium_After_Costs', 'Annualized_ROM_Pct'
+      'Margin_B_Historical_Floor', 'Margin_Floor_15pct', 'Net_Premium_After_Costs', 'Annualized_ROM_Pct',
+      // Scored strategy fields (dynamically attached)
+      'combined_score', 'v21_score', 'ta_probability'
     ];
   };
 
