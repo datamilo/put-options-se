@@ -394,7 +394,7 @@ export const PortfolioOptionsTable = ({
                             </TooltipContent>
                           </Tooltip>
                         )}
-                        {column === 'PotentialLossAtLowerBound', 'EstTotalMargin' && (
+                        {column === 'PotentialLossAtLowerBound' && (
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <Info className="h-3 w-3 text-muted-foreground cursor-help" />
