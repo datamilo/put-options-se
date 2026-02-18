@@ -87,7 +87,7 @@ const SortableColumnItem: React.FC<{
     // Scored strategy field mappings
     const scoredMappings: { [key: string]: string } = {
       'combined_score': 'Combined Score',
-      'v21_score': 'V2.1 Score',
+      'v21_score': 'Probability Score',
       'ta_probability': 'TA Probability'
     };
 

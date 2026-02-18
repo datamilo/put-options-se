@@ -87,15 +87,14 @@ export const PortfolioOptionsTable = ({
   // Initialize visible columns from user preferences or defaults
   useEffect(() => {
     if (!isLoading) {
-      if (isScoredStrategy) {
-        // Always use scored default columns when scored strategy is active
-        setVisibleColumns(scoredDefaultColumns);
-      } else if (columnPreferences.length > 0) {
+      if (columnPreferences.length > 0) {
         const visibleCols = columnPreferences
           .filter(col => col.visible)
           .sort((a, b) => a.order - b.order)
           .map(col => col.key as keyof OptionData);
         setVisibleColumns(visibleCols);
+      } else if (isScoredStrategy) {
+        setVisibleColumns(scoredDefaultColumns);
       } else {
         setVisibleColumns(defaultColumns);
       }
@@ -163,7 +162,7 @@ export const PortfolioOptionsTable = ({
       'Net_Premium_After_Costs': 'Net Premium After Costs',
       'Annualized_ROM_Pct': 'Annualized Return on Margin %',
       'combined_score': 'Combined Score',
-      'v21_score': 'V2.1 Score',
+      'v21_score': 'Probability Score',
       'ta_probability': 'TA Probability',
       'agreement_strength': 'Agreement'
     };
