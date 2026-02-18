@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Menu,
   Bot,
@@ -32,7 +32,6 @@ import { useState } from "react";
 import { useTheme } from "next-themes";
 
 export const HorizontalNavigation = () => {
-  const navigate = useNavigate();
   const location = useLocation();
   const { signOut } = useAuth();
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -50,13 +49,15 @@ export const HorizontalNavigation = () => {
   // Navigation button component for standalone pages
   const NavButton = ({ path, icon: Icon, label }: { path: string; icon: any; label: string }) => (
     <Button
-      onClick={() => navigate(path)}
+      asChild
       variant={isActive(path) ? "default" : "ghost"}
       size="sm"
       className="flex items-center gap-2 whitespace-nowrap"
     >
-      <Icon className="h-4 w-4" />
-      <span className="hidden sm:inline">{label}</span>
+      <Link to={path}>
+        <Icon className="h-4 w-4" />
+        <span className="hidden sm:inline">{label}</span>
+      </Link>
     </Button>
   );
 
@@ -90,14 +91,16 @@ export const HorizontalNavigation = () => {
             return (
               <DropdownMenuItem
                 key={item.path}
-                onClick={() => navigate(item.path)}
+                asChild
                 className="cursor-pointer flex items-center gap-2"
               >
-                <ItemIcon className="h-4 w-4" />
-                <span>{item.label}</span>
-                {isActive(item.path) && (
-                  <span className="ml-auto text-primary">✓</span>
-                )}
+                <Link to={item.path}>
+                  <ItemIcon className="h-4 w-4" />
+                  <span>{item.label}</span>
+                  {isActive(item.path) && (
+                    <span className="ml-auto text-primary">✓</span>
+                  )}
+                </Link>
               </DropdownMenuItem>
             );
           })}
@@ -213,12 +216,11 @@ export const HorizontalNavigation = () => {
             className="w-56 bg-background border shadow-lg z-50"
           >
             {/* Stock Metrics and History */}
-            <DropdownMenuItem
-              onClick={() => navigate("/stock-analysis")}
-              className="cursor-pointer"
-            >
-              <LineChart className="mr-2 h-4 w-4" />
-              Stock Metrics and History
+            <DropdownMenuItem asChild className="cursor-pointer">
+              <Link to="/stock-analysis">
+                <LineChart className="mr-2 h-4 w-4" />
+                Stock Metrics and History
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -227,12 +229,11 @@ export const HorizontalNavigation = () => {
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
               Support Levels
             </div>
-            <DropdownMenuItem
-              onClick={() => navigate("/consecutive-breaks")}
-              className="cursor-pointer ml-2"
-            >
-              <ChartNetwork className="mr-2 h-4 w-4" />
-              Support Level Analysis
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/consecutive-breaks">
+                <ChartNetwork className="mr-2 h-4 w-4" />
+                Support Level Analysis
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -241,33 +242,29 @@ export const HorizontalNavigation = () => {
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
               Automated Analysis
             </div>
-            <DropdownMenuItem
-              onClick={() => navigate("/recommendations")}
-              className="cursor-pointer ml-2"
-            >
-              <Sparkles className="mr-2 h-4 w-4" />
-              Automated Put Option Recommendations
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/recommendations">
+                <Sparkles className="mr-2 h-4 w-4" />
+                Automated Put Option Recommendations
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate("/scored-options")}
-              className="cursor-pointer ml-2"
-            >
-              <Target className="mr-2 h-4 w-4" />
-              Scored Options
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/scored-options">
+                <Target className="mr-2 h-4 w-4" />
+                Scored Options
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate("/portfolio-generator")}
-              className="cursor-pointer ml-2"
-            >
-              <Bot className="mr-2 h-4 w-4" />
-              Automatic Portfolio Generator
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/portfolio-generator">
+                <Bot className="mr-2 h-4 w-4" />
+                Automatic Portfolio Generator
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate("/support-level-options")}
-              className="cursor-pointer ml-2"
-            >
-              <Target className="mr-2 h-4 w-4" />
-              Support Level Options List
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/support-level-options">
+                <Target className="mr-2 h-4 w-4" />
+                Support Level Options List
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -276,26 +273,23 @@ export const HorizontalNavigation = () => {
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
               Historical Performance and Volatility
             </div>
-            <DropdownMenuItem
-              onClick={() => navigate("/monthly-analysis")}
-              className="cursor-pointer ml-2"
-            >
-              <Calendar className="mr-2 h-4 w-4" />
-              Monthly Analysis
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/monthly-analysis">
+                <Calendar className="mr-2 h-4 w-4" />
+                Monthly Analysis
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate("/volatility-analysis")}
-              className="cursor-pointer ml-2"
-            >
-              <Activity className="mr-2 h-4 w-4" />
-              Financial Reporting Volatility
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/volatility-analysis">
+                <Activity className="mr-2 h-4 w-4" />
+                Financial Reporting Volatility
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate("/iv-analysis")}
-              className="cursor-pointer ml-2"
-            >
-              <TrendingUp className="mr-2 h-4 w-4" />
-              Implied Volatility History
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/iv-analysis">
+                <TrendingUp className="mr-2 h-4 w-4" />
+                Implied Volatility History
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -304,19 +298,17 @@ export const HorizontalNavigation = () => {
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
               Method Validation
             </div>
-            <DropdownMenuItem
-              onClick={() => navigate("/probability-analysis")}
-              className="cursor-pointer ml-2"
-            >
-              <TrendingUpDown className="mr-2 h-4 w-4" />
-              Probability Analysis
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/probability-analysis">
+                <TrendingUpDown className="mr-2 h-4 w-4" />
+                Probability Analysis
+              </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => navigate("/lower-bound-analysis")}
-              className="cursor-pointer ml-2"
-            >
-              <ArrowDown10 className="mr-2 h-4 w-4" />
-              Lower Bound Analysis
+            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+              <Link to="/lower-bound-analysis">
+                <ArrowDown10 className="mr-2 h-4 w-4" />
+                Lower Bound Analysis
+              </Link>
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
