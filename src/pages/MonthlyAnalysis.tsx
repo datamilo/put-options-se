@@ -76,16 +76,28 @@ export const MonthlyAnalysis = () => {
       filtered = filtered.filter(stat => stat.name === selectedStock);
     }
 
+    // Exclude stocks with no price data in the last 30 days (stale/delisted)
+    // Only apply once stock data has been loaded (recentStocksSet non-empty)
+    if (recentStocksSet.size > 0) {
+      filtered = filtered.filter(stat => recentStocksSet.has(stat.name));
+    }
+
     return filtered;
-  }, [monthlyStats, selectedStock, minHistory]);
+  }, [monthlyStats, selectedStock, minHistory, recentStocksSet]);
 
 
-  // Current month MTD performance per stock (from daily stock_data.csv)
-  const currentMonthPerformance = useMemo(() => {
-    if (allStockData.length === 0) return new Map<string, number>();
+  // Current month MTD performance + set of stocks with recent price data
+  const { currentMonthPerformance, recentStocksSet } = useMemo(() => {
+    const perfMap = new Map<string, number>();
+    const recentSet = new Set<string>();
+
+    if (allStockData.length === 0) return { currentMonthPerformance: perfMap, recentStocksSet: recentSet };
 
     const today = new Date();
     const startOfMonthStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-01`;
+    const thirtyDaysAgo = new Date(today);
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const cutoffStr = thirtyDaysAgo.toISOString().slice(0, 10);
 
     // Group rows by stock name
     const byStock = new Map<string, typeof allStockData>();
@@ -94,18 +106,26 @@ export const MonthlyAnalysis = () => {
       byStock.get(d.name)!.push(d);
     });
 
-    const perfMap = new Map<string, number>();
     byStock.forEach((rows, name) => {
       const sorted = [...rows].sort((a, b) => a.date.localeCompare(b.date));
       const latest = sorted[sorted.length - 1];
-      const prevMonthLast = [...sorted].filter(d => d.date < startOfMonthStr).pop();
-      if (latest && prevMonthLast) {
-        const mtd = ((latest.close - prevMonthLast.close) / prevMonthLast.close) * 100;
-        perfMap.set(name, mtd);
+
+      // Mark stock as having recent data if latest entry is within last 30 days
+      if (latest.date >= cutoffStr) {
+        recentSet.add(name);
+      }
+
+      // Only compute MTD if the latest data point is from the current month
+      if (latest.date >= startOfMonthStr) {
+        const prevMonthLast = sorted.filter(d => d.date < startOfMonthStr).pop();
+        if (prevMonthLast) {
+          const mtd = ((latest.close - prevMonthLast.close) / prevMonthLast.close) * 100;
+          perfMap.set(name, mtd);
+        }
       }
     });
 
-    return perfMap;
+    return { currentMonthPerformance: perfMap, recentStocksSet: recentSet };
   }, [allStockData]);
 
   // KPI calculations
