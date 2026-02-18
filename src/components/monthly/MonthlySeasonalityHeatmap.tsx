@@ -8,6 +8,8 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 interface MonthlySeasonalityHeatmapProps {
   data: MonthlyStockStats[];
   selectedMonths?: number[]; // empty array = all months, [1,2,3] = specific months
+  currentMonth?: number; // 1-12
+  currentMonthPerformance?: Map<string, number>; // stock name → MTD % change
 }
 
 type MetricType = 'pct_pos_return_months' | 'return_month_mean_pct_return_month';
@@ -15,11 +17,23 @@ type SortType = 'pct_pos_return_months' | 'alphabetical' | 'avg_return';
 
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({ data, selectedMonths = [] }) => {
+export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({
+  data,
+  selectedMonths = [],
+  currentMonth,
+  currentMonthPerformance,
+}) => {
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('pct_pos_return_months');
   const [sortBy, setSortBy] = useState<SortType>('pct_pos_return_months');
   const [maxStocks, setMaxStocks] = useState(20);
   const [sortByMonth, setSortByMonth] = useState<number | null>(null); // null = use general sorting, number = sort by specific month
+
+  // Show MTD column when specific months are selected and current month is among them
+  const showMtdColumn =
+    selectedMonths.length > 0 &&
+    currentMonth !== undefined &&
+    selectedMonths.includes(currentMonth) &&
+    (currentMonthPerformance?.size ?? 0) > 0;
 
   // Process and sort stocks
   const processedData = useMemo(() => {
@@ -280,36 +294,46 @@ Data points: ${stat.number_of_months_available} months`;
                 );
               })
             ) : (
-              selectedMonths.map((monthNumber) => {
-                const isActiveSortColumn = sortByMonth === monthNumber;
-                return (
-                  <button
-                    key={monthNumber}
-                    onClick={() => {
-                      if (sortByMonth === monthNumber) {
-                        setSortByMonth(null); // Clear month-specific sorting
-                      } else {
-                        setSortByMonth(monthNumber);
-                      }
-                    }}
-                    className={`
-                      w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md mx-0.5
-                      transition-all duration-200 cursor-pointer hover:bg-muted/20
-                      flex items-center justify-center gap-1
-                      ${isActiveSortColumn
-                        ? 'bg-primary/10 text-primary border-2 border-primary/20'
-                        : 'text-foreground hover:text-primary'
-                      }
-                    `}
-                    title={`Click to sort by ${MONTH_NAMES[monthNumber - 1]} values`}
-                  >
-                    {MONTH_NAMES[monthNumber - 1]}
-                    {isActiveSortColumn && (
-                      <ChevronDown className="h-3 w-3" />
-                    )}
-                  </button>
-                );
-              })
+              <>
+                {selectedMonths.map((monthNumber) => {
+                  const isActiveSortColumn = sortByMonth === monthNumber;
+                  return (
+                    <button
+                      key={monthNumber}
+                      onClick={() => {
+                        if (sortByMonth === monthNumber) {
+                          setSortByMonth(null); // Clear month-specific sorting
+                        } else {
+                          setSortByMonth(monthNumber);
+                        }
+                      }}
+                      className={`
+                        w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 rounded-md mx-0.5
+                        transition-all duration-200 cursor-pointer hover:bg-muted/20
+                        flex items-center justify-center gap-1
+                        ${isActiveSortColumn
+                          ? 'bg-primary/10 text-primary border-2 border-primary/20'
+                          : 'text-foreground hover:text-primary'
+                        }
+                      `}
+                      title={`Click to sort by ${MONTH_NAMES[monthNumber - 1]} values`}
+                    >
+                      {MONTH_NAMES[monthNumber - 1]}
+                      {isActiveSortColumn && (
+                        <ChevronDown className="h-3 w-3" />
+                      )}
+                    </button>
+                  );
+                })}
+                {showMtdColumn && (
+                  <div className="flex items-center gap-0.5 ml-1">
+                    <div className="w-px self-stretch bg-border mx-1" />
+                    <div className="w-16 flex-shrink-0 text-sm font-semibold text-center px-2 py-2 text-blue-600 dark:text-blue-400">
+                      MTD
+                    </div>
+                  </div>
+                )}
+              </>
             )}
           </div>
 
@@ -367,45 +391,75 @@ Data points: ${stat.number_of_months_available} months`;
                   })
                 ) : (
                   // Show only selected months
-                  selectedMonths.map((monthNumber) => {
-                    const stat = stockInfo.monthlyData.get(monthNumber);
-                    const value = stat ? stat[selectedMetric] : null;
-                    const monthsAvailable = stat?.number_of_months_available || 0;
+                  <>
+                    {selectedMonths.map((monthNumber) => {
+                      const stat = stockInfo.monthlyData.get(monthNumber);
+                      const value = stat ? stat[selectedMetric] : null;
+                      const monthsAvailable = stat?.number_of_months_available || 0;
 
-                    return (
-                      <div
-                        key={monthNumber}
-                        className={`
-                          w-16 h-10 flex-shrink-0 rounded-md flex items-center justify-center
-                          text-xs font-semibold text-white cursor-help transition-all duration-200
-                          hover:scale-105 hover:shadow-lg hover:z-10 relative border border-white/20 mx-0.5
-                          ${getColorClass(value, selectedMetric)}
-                          ${getReliabilityOpacity(monthsAvailable)}
-                        `}
-                        title={getTooltipContent(stockInfo.name, monthNumber, stat)}
-                        onTouchStart={(e) => {
-                          // Show tooltip on mobile touch
-                          const title = getTooltipContent(stockInfo.name, monthNumber, stat);
-                          // Create a temporary tooltip element for mobile
-                          const tooltip = document.createElement('div');
-                          tooltip.className = 'fixed z-50 bg-black text-white text-xs p-2 rounded shadow-lg pointer-events-none';
-                          tooltip.textContent = title;
-                          tooltip.style.top = `${e.touches[0].clientY - 50}px`;
-                          tooltip.style.left = `${e.touches[0].clientX - 75}px`;
-                          document.body.appendChild(tooltip);
+                      return (
+                        <div
+                          key={monthNumber}
+                          className={`
+                            w-16 h-10 flex-shrink-0 rounded-md flex items-center justify-center
+                            text-xs font-semibold text-white cursor-help transition-all duration-200
+                            hover:scale-105 hover:shadow-lg hover:z-10 relative border border-white/20 mx-0.5
+                            ${getColorClass(value, selectedMetric)}
+                            ${getReliabilityOpacity(monthsAvailable)}
+                          `}
+                          title={getTooltipContent(stockInfo.name, monthNumber, stat)}
+                          onTouchStart={(e) => {
+                            // Show tooltip on mobile touch
+                            const title = getTooltipContent(stockInfo.name, monthNumber, stat);
+                            // Create a temporary tooltip element for mobile
+                            const tooltip = document.createElement('div');
+                            tooltip.className = 'fixed z-50 bg-black text-white text-xs p-2 rounded shadow-lg pointer-events-none';
+                            tooltip.textContent = title;
+                            tooltip.style.top = `${e.touches[0].clientY - 50}px`;
+                            tooltip.style.left = `${e.touches[0].clientX - 75}px`;
+                            document.body.appendChild(tooltip);
 
-                          setTimeout(() => {
-                            document.body.removeChild(tooltip);
-                          }, 2000);
-                        }}
-                      >
-                        {formatValue(value, selectedMetric)}
-                        {monthsAvailable < 5 && value !== null && (
-                          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 rounded-sm pointer-events-none"></div>
-                        )}
-                      </div>
-                    );
-                  })
+                            setTimeout(() => {
+                              document.body.removeChild(tooltip);
+                            }, 2000);
+                          }}
+                        >
+                          {formatValue(value, selectedMetric)}
+                          {monthsAvailable < 5 && value !== null && (
+                            <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 rounded-sm pointer-events-none"></div>
+                          )}
+                        </div>
+                      );
+                    })}
+                    {showMtdColumn && (() => {
+                      const mtd = currentMonthPerformance?.get(stockInfo.name);
+                      const isPositive = mtd !== undefined && mtd >= 0;
+                      return (
+                        <div className="flex items-center gap-0.5 ml-1">
+                          <div className="w-px self-stretch bg-border mx-1" />
+                          <div
+                            className={`
+                              w-16 h-10 flex-shrink-0 rounded-md flex items-center justify-center
+                              text-xs font-semibold text-white cursor-default transition-all duration-200
+                              hover:scale-105 hover:shadow-lg border border-white/20
+                              ${mtd === undefined
+                                ? 'bg-muted text-muted-foreground'
+                                : isPositive
+                                ? 'bg-gradient-to-br from-emerald-500 to-emerald-600'
+                                : 'bg-gradient-to-br from-red-500 to-red-600'
+                              }
+                            `}
+                            title={`${stockInfo.name} — current month to date: ${mtd !== undefined ? (mtd >= 0 ? '+' : '') + mtd.toFixed(2) + '%' : 'no data'}`}
+                          >
+                            {mtd !== undefined
+                              ? `${isPositive ? '+' : ''}${mtd.toFixed(2)}%`
+                              : '—'
+                            }
+                          </div>
+                        </div>
+                      );
+                    })()}
+                  </>
                 )}
               </div>
             ))}

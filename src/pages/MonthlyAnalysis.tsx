@@ -11,12 +11,15 @@ import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useMonthlyStockData, MonthlyStockStats } from '@/hooks/useMonthlyStockData';
+import { useStockData } from '@/hooks/useStockData';
 import { MonthlySeasonalityHeatmap } from '@/components/monthly/MonthlySeasonalityHeatmap';
 import { MonthlyStatsTable } from '@/components/monthly/MonthlyStatsTable';
 import { TimelinePerformanceChart } from '@/components/monthly/TimelinePerformanceChart';
 import { DayOfMonthAnalysis } from '@/components/monthly/DayOfMonthAnalysis';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+const CURRENT_MONTH_NUMBER = new Date().getMonth() + 1;
 
 const MONTH_NAMES = [
   'All Months', 'January', 'February', 'March', 'April', 'May', 'June',
@@ -27,6 +30,7 @@ export const MonthlyAnalysis = () => {
   usePageTitle('Monthly Analysis');
   const navigate = useNavigate();
   const { monthlyData, monthlyStats, isLoading, error } = useMonthlyStockData();
+  const { allStockData } = useStockData();
   
   // Filter states
   const [selectedMonths, setSelectedMonths] = useState<number[]>([]); // Empty array = All months
@@ -75,6 +79,34 @@ export const MonthlyAnalysis = () => {
     return filtered;
   }, [monthlyStats, selectedStock, minHistory]);
 
+
+  // Current month MTD performance per stock (from daily stock_data.csv)
+  const currentMonthPerformance = useMemo(() => {
+    if (allStockData.length === 0) return new Map<string, number>();
+
+    const today = new Date();
+    const startOfMonthStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-01`;
+
+    // Group rows by stock name
+    const byStock = new Map<string, typeof allStockData>();
+    allStockData.forEach(d => {
+      if (!byStock.has(d.name)) byStock.set(d.name, []);
+      byStock.get(d.name)!.push(d);
+    });
+
+    const perfMap = new Map<string, number>();
+    byStock.forEach((rows, name) => {
+      const sorted = [...rows].sort((a, b) => a.date.localeCompare(b.date));
+      const latest = sorted[sorted.length - 1];
+      const prevMonthLast = [...sorted].filter(d => d.date < startOfMonthStr).pop();
+      if (latest && prevMonthLast) {
+        const mtd = ((latest.close - prevMonthLast.close) / prevMonthLast.close) * 100;
+        perfMap.set(name, mtd);
+      }
+    });
+
+    return perfMap;
+  }, [allStockData]);
 
   // KPI calculations
   const kpis = useMemo(() => {
@@ -162,13 +194,14 @@ export const MonthlyAnalysis = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <Label>Months</Label>
+                <div className="flex gap-2">
                 <Popover open={monthDropdownOpen} onOpenChange={setMonthDropdownOpen}>
                   <PopoverTrigger asChild>
                     <Button
                       variant="outline"
                       role="combobox"
                       aria-expanded={monthDropdownOpen}
-                      className="w-full justify-between"
+                      className="flex-1 justify-between"
                     >
                       {selectedMonths.length === 0
                         ? "All months..."
@@ -223,6 +256,17 @@ export const MonthlyAnalysis = () => {
                     </Command>
                   </PopoverContent>
                 </Popover>
+                <Button
+                  variant={selectedMonths.length === 1 && selectedMonths[0] === CURRENT_MONTH_NUMBER ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => setSelectedMonths(prev =>
+                    prev.length === 1 && prev[0] === CURRENT_MONTH_NUMBER ? [] : [CURRENT_MONTH_NUMBER]
+                  )}
+                  title="Filter to current month"
+                >
+                  {MONTH_NAMES[CURRENT_MONTH_NUMBER]}
+                </Button>
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -320,7 +364,12 @@ export const MonthlyAnalysis = () => {
             </p>
           </CardHeader>
           <CardContent>
-            <MonthlySeasonalityHeatmap data={heatmapData} selectedMonths={selectedMonths} />
+            <MonthlySeasonalityHeatmap
+              data={heatmapData}
+              selectedMonths={selectedMonths}
+              currentMonth={CURRENT_MONTH_NUMBER}
+              currentMonthPerformance={currentMonthPerformance}
+            />
           </CardContent>
         </Card>
 
