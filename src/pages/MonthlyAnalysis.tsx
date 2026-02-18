@@ -47,46 +47,8 @@ export const MonthlyAnalysis = () => {
     return stocks.sort();
   }, [monthlyStats]);
 
-  // Filtered data for charts and tables (respects month filter)
-  const filteredStats = useMemo(() => {
-    let filtered = monthlyStats;
-
-    if (selectedMonths.length > 0) {
-      filtered = filtered.filter(stat => selectedMonths.includes(stat.month));
-    }
-
-    if (selectedStock) {
-      filtered = filtered.filter(stat => stat.name === selectedStock);
-    }
-
-    filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
-
-    return filtered.slice(0, topN);
-  }, [monthlyStats, selectedMonths, selectedStock, minHistory, topN]);
-
-  // Heatmap data that respects filters but always shows all months per stock
-  const heatmapData = useMemo(() => {
-    let filtered = monthlyStats;
-
-    // Filter by minimum history requirement
-    filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
-
-    // Filter by selected stock if any
-    if (selectedStock) {
-      filtered = filtered.filter(stat => stat.name === selectedStock);
-    }
-
-    // Exclude stocks with no price data in the last 30 days (stale/delisted)
-    // Only apply once stock data has been loaded (recentStocksSet non-empty)
-    if (recentStocksSet.size > 0) {
-      filtered = filtered.filter(stat => recentStocksSet.has(stat.name));
-    }
-
-    return filtered;
-  }, [monthlyStats, selectedStock, minHistory, recentStocksSet]);
-
-
   // Current month MTD performance + set of stocks with recent price data
+  // MUST be declared before heatmapData (recentStocksSet used in its deps array)
   const { currentMonthPerformance, recentStocksSet } = useMemo(() => {
     const perfMap = new Map<string, number>();
     const recentSet = new Set<string>();
@@ -127,6 +89,44 @@ export const MonthlyAnalysis = () => {
 
     return { currentMonthPerformance: perfMap, recentStocksSet: recentSet };
   }, [allStockData]);
+
+  // Filtered data for charts and tables (respects month filter)
+  const filteredStats = useMemo(() => {
+    let filtered = monthlyStats;
+
+    if (selectedMonths.length > 0) {
+      filtered = filtered.filter(stat => selectedMonths.includes(stat.month));
+    }
+
+    if (selectedStock) {
+      filtered = filtered.filter(stat => stat.name === selectedStock);
+    }
+
+    filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
+
+    return filtered.slice(0, topN);
+  }, [monthlyStats, selectedMonths, selectedStock, minHistory, topN]);
+
+  // Heatmap data that respects filters but always shows all months per stock
+  const heatmapData = useMemo(() => {
+    let filtered = monthlyStats;
+
+    // Filter by minimum history requirement
+    filtered = filtered.filter(stat => stat.number_of_months_available >= minHistory[0]);
+
+    // Filter by selected stock if any
+    if (selectedStock) {
+      filtered = filtered.filter(stat => stat.name === selectedStock);
+    }
+
+    // Exclude stocks with no price data in the last 30 days (stale/delisted)
+    // Only apply once stock data has been loaded (recentStocksSet non-empty)
+    if (recentStocksSet.size > 0) {
+      filtered = filtered.filter(stat => recentStocksSet.has(stat.name));
+    }
+
+    return filtered;
+  }, [monthlyStats, selectedStock, minHistory, recentStocksSet]);
 
   // KPI calculations
   const kpis = useMemo(() => {
