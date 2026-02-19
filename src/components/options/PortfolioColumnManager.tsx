@@ -194,6 +194,9 @@ export const PortfolioColumnManager: React.FC<PortfolioColumnManagerProps> = ({
       'EstTotalMargin', 'Est_Margin_SEK', 'Prob_Normal_2SD_Decline_Pct', 'Hist_Worst_Decline_Pct',
       'SRI_Base', 'Event_Buffer', 'Final_SRI', 'OTM_Amount', 'Margin_A_Broker_Proxy',
       'Margin_B_Historical_Floor', 'Margin_Floor_15pct', 'Net_Premium_After_Costs', 'Annualized_ROM_Pct',
+      // New stress test fields
+      'IV_2sigma_Decline', 'BreakevenDecline', 'CVaR10pct_Decline',
+      'LossAtIV2sigmaDecline', 'LossAtCVaR10pctDecline',
       // Scored strategy fields (dynamically attached)
       'combined_score', 'v21_score', 'ta_probability'
     ];

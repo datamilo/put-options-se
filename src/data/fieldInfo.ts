@@ -349,6 +349,41 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
     whyItMatters: "Crisis benchmark for 50-day timeframe",
     unit: "Decimal (negative)",
   },
+  IV_2sigma_Decline: {
+    name: "IV 2-Sigma Decline",
+    category: "Loss Scenarios",
+    whatItIs: "IV-implied 2-sigma downside move over remaining DTE: −2 × IV × √(DTE / 252)",
+    whyItMatters: "What the options market currently prices as a severe decline. Reflects today's market conditions — rises automatically in high-IV environments",
+    unit: "Decimal (negative, e.g. -0.207 = -20.7%)",
+  },
+  BreakevenDecline: {
+    name: "Breakeven Decline",
+    category: "Loss Scenarios",
+    whatItIs: "Stock must fall at least this much before writing the put results in any monetary loss: (Strike − Premium) / StockPrice − 1",
+    whyItMatters: "Threshold that anchors all other stress scenarios",
+    unit: "Decimal (negative, e.g. -0.125 = -12.5%)",
+  },
+  CVaR10pct_Decline: {
+    name: "CVaR 10% Decline",
+    category: "Loss Scenarios",
+    whatItIs: "Average of the worst 10% of historical declines (Expected Shortfall), DTE-matched. More robust than a single worst-case data point",
+    whyItMatters: "Tail-risk estimate: not just the 10th-percentile threshold but the average outcome when losses are in that worst 10%",
+    unit: "Decimal (negative)",
+  },
+  LossAtIV2sigmaDecline: {
+    name: "Loss at IV 2-Sigma",
+    category: "Loss Scenarios",
+    whatItIs: "Loss if stock falls by the IV-implied 2-sigma move",
+    whyItMatters: "SEK equivalent of the IV 2-sigma stress scenario for the current position size",
+    unit: "SEK (negative = loss)",
+  },
+  LossAtCVaR10pctDecline: {
+    name: "Loss at CVaR 10%",
+    category: "Loss Scenarios",
+    whatItIs: "Loss if stock falls by the CVaR 10% historical tail decline",
+    whyItMatters: "SEK equivalent of the CVaR tail-risk scenario for the current position size",
+    unit: "SEK (negative = loss)",
+  },
 
   // Profit Ratios
   ProfitLossPctLeastBad: {

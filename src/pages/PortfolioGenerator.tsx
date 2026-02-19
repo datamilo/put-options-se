@@ -91,6 +91,10 @@ const PortfolioGenerator = () => {
       // Loss_Least_Bad = least negative (max) of Bad, Worst, and 100-Day scenarios
       const lossLeastBad = Math.max(lossAtBadDecline, lossAtWorstDecline, lossAt100DayWorstDecline);
 
+      // Recalculate SEK loss fields for the new decline percentage fields
+      const lossAtIV2sigmaDecline = calcLossAtDecline(option.IV_2sigma_Decline) ?? null;
+      const lossAtCVaR10pctDecline = calcLossAtDecline(option.CVaR10pct_Decline) ?? null;
+
       // Recalculate PotentialLossAtLowerBound using portfolio contracts and recalculated premium
       let potentialLossAtLowerBound: number | null = (option as any).PotentialLossAtLowerBound ?? null;
       const lowerBoundClosestToStrike = (option as any).LowerBoundClosestToStrike;
@@ -130,6 +134,8 @@ const PortfolioGenerator = () => {
         LossAt50DayWorstDecline: lossAt50DayWorstDecline,
         LossAt_2008_50DayWorstDecline: lossAt_2008_50DayWorstDecline,
         Loss_Least_Bad: lossLeastBad,
+        LossAtIV2sigmaDecline: lossAtIV2sigmaDecline,
+        LossAtCVaR10pctDecline: lossAtCVaR10pctDecline,
         PotentialLossAtLowerBound: potentialLossAtLowerBound,
         EstTotalMargin: estTotalMargin,
       };

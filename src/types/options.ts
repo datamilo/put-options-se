@@ -54,6 +54,12 @@ export interface OptionData {
   Ask?: number;
   WorstHistoricalDecline?: number;
   BadHistoricalDecline?: number;
+  IV_2sigma_Decline?: number;
+  BreakevenDecline?: number;
+  CVaR10pct_Decline?: number;
+  // Calculated SEK loss fields for the new decline fields
+  LossAtIV2sigmaDecline?: number | null;
+  LossAtCVaR10pctDecline?: number | null;
   ImpliedVolatilityUntilExpiry?: number;
   StockPrice_After_100DayWorstDecline?: number;
   StockPrice_After_50DayWorstDecline?: number;

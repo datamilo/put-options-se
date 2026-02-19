@@ -22,6 +22,13 @@ export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptio
       // Use configurable transaction cost
       const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
 
+      // Calculate SEK loss fields for the new decline percentage fields
+      const calcLossAtDecline = (declinePct: number | undefined | null): number | null => {
+        if (declinePct == null) return null;
+        const stockAfter = option.StockPrice * (1 + declinePct);
+        return Math.min(0, (stockAfter - option.StrikePrice) * numberOfContractsBasedOnLimit * 100);
+      };
+
       return {
         ...option,
         originalPremium: option.Premium,
@@ -32,6 +39,8 @@ export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptio
         Premium: recalculatedPremium,
         NumberOfContractsBasedOnLimit: numberOfContractsBasedOnLimit,
         Bid_Ask_Mid_Price: bidAskMidPrice,
+        LossAtIV2sigmaDecline: calcLossAtDecline(option.IV_2sigma_Decline),
+        LossAtCVaR10pctDecline: calcLossAtDecline(option.CVaR10pct_Decline),
       };
     });
   }, [options, underlyingValue, transactionCost]);

@@ -66,7 +66,8 @@ export const useOptionsData = () => {
                 'BadHistoricalDecline', 'ImpliedVolatilityUntilExpiry', 'StockPrice_After_100DayWorstDecline',
                 'StockPrice_After_50DayWorstDecline', 'StockPrice_After_2008_50DayWorstDecline',
                 '100DayMaxPrice', '50DayMaxPrice', 'Historical100DaysWorstDecline',
-                'Historical50DaysWorstDecline', '2008_100DaysWorstDecline', '2008_50DaysWorstDecline'
+                'Historical50DaysWorstDecline', '2008_100DaysWorstDecline', '2008_50DaysWorstDecline',
+                'IV_2sigma_Decline', 'BreakevenDecline', 'CVaR10pct_Decline'
               ];
               
               if (typeof field === 'string' && numericFields.includes(field)) {
