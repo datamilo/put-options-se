@@ -72,8 +72,46 @@ const PortfolioGenerator = () => {
       const numberOfContractsBasedOnLimit = Math.round((underlyingValue / option.StrikePrice) / 100);
       const bidAskMidPrice = (option.Bid + (option.Ask || option.Bid)) / 2;
       const recalculatedPremium = Math.round((bidAskMidPrice * numberOfContractsBasedOnLimit * 100) - transactionCost);
-      // Calculate the actual underlying value based on portfolio settings
       const calculatedUnderlyingValue = numberOfContractsBasedOnLimit * option.StrikePrice * 100;
+
+      // Recalculate decline-based loss fields using portfolio contracts
+      const calcLossAtDecline = (declinePct: number | undefined | null): number | undefined => {
+        if (declinePct == null) return undefined;
+        const stockAfter = option.StockPrice * (1 + declinePct);
+        return Math.min(0, (stockAfter - option.StrikePrice) * numberOfContractsBasedOnLimit * 100);
+      };
+
+      const lossAtBadDecline = calcLossAtDecline(option.BadHistoricalDecline) ?? option.LossAtBadDecline;
+      const lossAtWorstDecline = calcLossAtDecline(option.WorstHistoricalDecline) ?? option.LossAtWorstDecline;
+      const lossAt100DayWorstDecline = calcLossAtDecline(option.Historical100DaysWorstDecline) ?? option.LossAt100DayWorstDecline;
+      const lossAt_2008_100DayWorstDecline = calcLossAtDecline(option['2008_100DaysWorstDecline']) ?? option.LossAt_2008_100DayWorstDecline;
+      const lossAt50DayWorstDecline = calcLossAtDecline(option.Historical50DaysWorstDecline) ?? option.LossAt50DayWorstDecline;
+      const lossAt_2008_50DayWorstDecline = calcLossAtDecline(option['2008_50DaysWorstDecline']) ?? option.LossAt_2008_50DayWorstDecline;
+
+      // Loss_Least_Bad = least negative (max) of Bad, Worst, and 100-Day scenarios
+      const lossLeastBad = Math.max(lossAtBadDecline, lossAtWorstDecline, lossAt100DayWorstDecline);
+
+      // Recalculate PotentialLossAtLowerBound using portfolio contracts and recalculated premium
+      let potentialLossAtLowerBound: number | null = (option as any).PotentialLossAtLowerBound ?? null;
+      const lowerBoundClosestToStrike = (option as any).LowerBoundClosestToStrike;
+      if (lowerBoundClosestToStrike) {
+        const underlyingValueInvestment = option.StrikePrice * numberOfContractsBasedOnLimit * 100;
+        const underlyingValueLowerBound = numberOfContractsBasedOnLimit * lowerBoundClosestToStrike * 100;
+        const lossLowerBound = underlyingValueLowerBound - underlyingValueInvestment;
+        potentialLossAtLowerBound = recalculatedPremium + lossLowerBound;
+        if (potentialLossAtLowerBound >= 0) {
+          potentialLossAtLowerBound = 0;
+        } else {
+          potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
+        }
+      }
+
+      // Recalculate EstTotalMargin using portfolio contracts
+      let estTotalMargin: number | null = (option as any).EstTotalMargin ?? null;
+      const estMarginSEK = (option as any).Est_Margin_SEK;
+      if (estMarginSEK) {
+        estTotalMargin = Math.round(estMarginSEK * numberOfContractsBasedOnLimit);
+      }
 
       return {
         ...option,
@@ -84,8 +122,16 @@ const PortfolioGenerator = () => {
         Premium: recalculatedPremium,
         NumberOfContractsBasedOnLimit: numberOfContractsBasedOnLimit,
         Bid_Ask_Mid_Price: bidAskMidPrice,
-        // Override the Underlying_Value field with the calculated value based on portfolio settings
         Underlying_Value: calculatedUnderlyingValue,
+        LossAtBadDecline: lossAtBadDecline,
+        LossAtWorstDecline: lossAtWorstDecline,
+        LossAt100DayWorstDecline: lossAt100DayWorstDecline,
+        LossAt_2008_100DayWorstDecline: lossAt_2008_100DayWorstDecline,
+        LossAt50DayWorstDecline: lossAt50DayWorstDecline,
+        LossAt_2008_50DayWorstDecline: lossAt_2008_50DayWorstDecline,
+        Loss_Least_Bad: lossLeastBad,
+        PotentialLossAtLowerBound: potentialLossAtLowerBound,
+        EstTotalMargin: estTotalMargin,
       };
     });
   };
