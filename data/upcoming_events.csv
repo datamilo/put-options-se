@@ -1,15 +1,19 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
 2026-02-19|Lundin Mining Corporation|Earnings Report|Earnings-FY|-1|True|Fourth quarter earnings results
+2026-02-19|Asmodee Group AB ser. B|Earnings Report|Earnings-Q3|-1|True|Third quarter earnings results
 2026-02-19|AstraZeneca PLC|Ex-Date|Dividend|-1|False|1.6 GBP
 2026-02-24|BONESUPPORT HOLDING AB|Earnings Report|Earnings-FY|3|True|Fourth quarter earnings results
+2026-02-25|Samhällsbyggnadsbo. i Norden AB ser. B|Earnings Report|Earnings-FY|4|True|Fourth quarter earnings results
+2026-03-05|Elekta AB ser. B|Earnings Report|Earnings-Q3|10|True|Third quarter earnings results
 2026-03-05|Elekta AB ser. B|Ex-Date|Dividend|10|False|1.2 SEK
 2026-03-17|TRATON SE|Earnings Report|Earnings-FY|18|True|Fourth quarter earnings results
 2026-03-19|Axfood AB|Ex-Date|Dividend|20|False|4.5 SEK
 2026-03-23|ABB Ltd|Ex-Date|Dividend|22|False|0.94 CHF
 2026-03-25|Nordea Bank Abp|Ex-Date|Dividend|24|False|0.96 EUR
-2026-03-25|Skandinaviska Enskilda Banken ser. A|Ex-Date|Dividend|24|False|8.5 SEK
 2026-03-25|Swedbank AB ser A|Ex-Date|Dividend|24|False|20.45 SEK
+2026-03-25|Skandinaviska Enskilda Banken ser. A|Ex-Date|Dividend|24|False|8.5 SEK
 2026-03-26|Svenska Handelsbanken ser. A|Ex-Date|Dividend|25|False|8.0 SEK
+2026-03-26|Hennes & Mauritz AB, H & M ser. B|Earnings Report|Earnings-Q1|25|True|First quarter earnings results
 2026-03-27|Essity AB ser. B|Ex-Date|Dividend|26|False|8.75 SEK
 2026-03-30|Svenska Cellulosa AB SCA ser. B|Ex-Date|Dividend|27|False|3.0 SEK
 2026-03-31|Holmen AB ser. B|Ex-Date|Dividend|28|False|9.5 SEK
@@ -20,86 +24,84 @@ date|stock_name|event_type|event_category|days_until_event|is_earnings|details
 2026-04-10|Industrivärden, AB ser. C|Earnings Report|Earnings-Q1|36|True|First quarter earnings results
 2026-04-10|Telia Company AB|Ex-Date|Dividend|36|False|0.51 SEK
 2026-04-14|Industrivärden, AB ser. C|Ex-Date|Dividend|38|False|8.75 SEK
+2026-04-16|Kinnevik AB ser. B|Earnings Report|Earnings-Q1|40|True|First quarter earnings results
 2026-04-16|Investor AB ser. B|Earnings Report|Earnings-Q1|40|True|First quarter earnings results
 2026-04-17|JM AB|Ex-Date|Dividend|41|False|2.0 SEK
 2026-04-17|Husqvarna AB ser. B|Ex-Date|Dividend|41|False|0.5 SEK
+2026-04-17|Ericsson, Telefonab. L M ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-21|SKF, AB ser. B|Earnings Report|Earnings-Q1|43|True|First quarter earnings results
+2026-04-21|Getinge AB ser. B|Earnings Report|Earnings-Q1|43|True|First quarter earnings results
+2026-04-21|Avanza Bank Holding AB|Earnings Report|Earnings-Q1|43|True|First quarter earnings results
+2026-04-22|ABB Ltd|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
 2026-04-22|Getinge AB ser. B|Ex-Date|Dividend|44|False|4.75 SEK
 2026-04-22|Sandvik AB|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
-2026-04-23|Essity AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-22|Tele2 AB ser. B|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
+2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
+2026-04-22|Svenska Handelsbanken ser. A|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
+2026-04-22|Evolution AB|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
+2026-04-22|EQT AB|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
+2026-04-22|Alfa Laval AB|Earnings Report|Earnings-Q1|44|True|First quarter earnings results
+2026-04-23|New Wave Group AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|Trelleborg AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
 2026-04-23|Nokia Corporation|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
-2026-04-23|Axfood AB|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|Husqvarna AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|Hexagon AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|SAAB AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
 2026-04-23|Fabege AB|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|Axfood AB|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|Essity AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|JM AB|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-23|Dometic Group AB|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
+2026-04-24|Svenska Cellulosa AB SCA ser. B|Earnings Report|Earnings-Q1|46|True|First quarter earnings results
+2026-04-24|Nordnet AB|Earnings Report|Earnings-Q1|46|True|First quarter earnings results
+2026-04-24|Electrolux, AB ser. B|Earnings Report|Earnings-Q1|46|True|First quarter earnings results
+2026-04-24|Volvo, AB ser. B|Earnings Report|Earnings-Q1|46|True|First quarter earnings results
+2026-04-24|Castellum AB|Earnings Report|Earnings-Q1|46|True|First quarter earnings results
 2026-04-24|Betsson AB ser. B|Earnings Report|Earnings-Q1|46|True|First quarter earnings results
+2026-04-28|Holmen AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-04-28|Securitas AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
-2026-04-28|Atlas Copco AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-04-28|SSAB AB ser. A|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-04-28|Billerud Aktiebolag|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-04-28|AAK AB|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
-2026-04-28|SSAB AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-04-28|Atlas Copco AB ser. A|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-04-28|Atlas Copco AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-04-28|Boliden AB|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-04-28|ASSA ABLOY AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-04-28|Swedish Orphan Biovitrum AB|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
-2026-04-29|Modern Times Group MTG AB ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
-2026-04-29|Atlas Copco AB ser. A|Ex-Date|Dividend|49|False|1.0 SEK
-2026-04-29|SSAB AB ser. A|Ex-Date|Dividend|49|False|2.0 SEK
+2026-04-28|SSAB AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-04-29|Volvo Car AB ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
-2026-04-29|SSAB AB ser. B|Ex-Date|Dividend|49|False|2.0 SEK
-2026-04-29|Securitas AB ser. B|Ex-Date|Dividend|49|False|2.65 SEK
-2026-04-29|NCC AB ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Modern Times Group MTG AB ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
 2026-04-29|Sandvik AB|Ex-Date|Dividend|49|False|6.0 SEK
-2026-04-29|Atlas Copco AB ser. B|Ex-Date|Dividend|49|False|1.0 SEK
+2026-04-29|Swedbank AB ser A|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Atlas Copco AB ser. A|Ex-Date|Dividend|49|False|1.0 SEK
 2026-04-29|ASSA ABLOY AB ser. B|Ex-Date|Dividend|49|False|3.2 SEK
+2026-04-29|Skandinaviska Enskilda Banken ser. A|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Epiroc AB ser. A|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|NCC AB ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Fingerprint Cards AB ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|SSAB AB ser. B|Ex-Date|Dividend|49|False|2.0 SEK
+2026-04-29|Telia Company AB|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Latour, Investmentab. ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Stillfront Group AB|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-04-29|Securitas AB ser. B|Ex-Date|Dividend|49|False|2.65 SEK
+2026-04-29|Atlas Copco AB ser. B|Ex-Date|Dividend|49|False|1.0 SEK
+2026-04-29|SSAB AB ser. A|Ex-Date|Dividend|49|False|2.0 SEK
+2026-05-04|HEXPOL AB ser. B|Earnings Report|Earnings-Q1|52|True|First quarter earnings results
+2026-05-06|Orrön Energy AB|Earnings Report|Earnings-Q1|54|True|First quarter earnings results
 2026-05-06|NCC AB ser. B|Ex-Date|Dividend|54|False|2.0 SEK
 2026-05-06|Hennes & Mauritz AB, H & M ser. B|Ex-Date|Dividend|54|False|3.55 SEK
 2026-05-07|Stora Enso Oyj ser. R|Earnings Report|Earnings-Q1|55|True|First quarter earnings results
-2026-05-07|Epiroc AB ser. A|Ex-Date|Dividend|55|False|1.9 SEK
 2026-05-07|Sinch AB|Earnings Report|Earnings-Q1|55|True|First quarter earnings results
+2026-05-07|Skanska AB ser. B|Earnings Report|Earnings-Q1|55|True|First quarter earnings results
+2026-05-07|Intrum AB|Earnings Report|Earnings-Q1|55|True|First quarter earnings results
+2026-05-07|Epiroc AB ser. A|Ex-Date|Dividend|55|False|1.9 SEK
+2026-05-08|Sagax AB B|Earnings Report|Earnings-Q1|56|True|First quarter earnings results
 2026-05-08|Fastighets AB Balder ser. B|Earnings Report|Earnings-Q1|56|True|First quarter earnings results
 2026-05-08|Investor AB ser. B|Ex-Date|Dividend|56|False|4.0 SEK
 2026-05-11|AAK AB|Ex-Date|Dividend|57|False|5.5 SEK
 2026-05-13|EQT AB|Ex-Date|Dividend|59|False|2.5 SEK
 2026-05-19|Tele2 AB ser. B|Ex-Date|Dividend|63|False|5.25 SEK
+2026-05-19|NIBE Industrier AB ser. B|Earnings Report|Earnings-Q1|63|True|First quarter earnings results
+2026-05-20|Embracer Group AB ser. B|Earnings Report|Earnings-FY|64|True|Fourth quarter earnings results
 2026-05-20|Addtech AB ser. B|Earnings Report|Earnings-FY|64|True|Fourth quarter earnings results
 2026-05-27|Billerud Aktiebolag|Ex-Date|Dividend|69|False|2.0 SEK
-2026-08-07|Asmodee Group AB ser. B|Earnings Report|Earnings-Q1|121|True|First quarter earnings results
-2026-08-20|New Wave Group AB ser. B|Earnings Report|Earnings-Q2/HY|130|True|Second quarter earnings results
-2026-08-27|Elekta AB ser. B|Earnings Report|Earnings-Q1|135|True|First quarter earnings results
-2026-10-22|Billerud Aktiebolag|Earnings Report|Earnings-Q3|175|True|Third quarter earnings results
-2026-10-22|Telia Company AB|Earnings Report|Earnings-Q3|175|True|Third quarter earnings results
-2026-10-23|Hexagon AB ser. B|Earnings Report|Earnings-Q3|176|True|Third quarter earnings results
-2026-10-23|Intrum AB|Earnings Report|Earnings-Q3|176|True|Third quarter earnings results
-2026-10-28|Trelleborg AB ser. B|Earnings Report|Earnings-Q3|179|True|Third quarter earnings results
-2026-11-12|Embracer Group AB ser. B|Earnings Report|Earnings-Q2/HY|190|True|Second quarter earnings results
-2027-01-21|Avanza Bank Holding AB|Earnings Report|Earnings-FY|240|True|Fourth quarter earnings results
-2027-01-22|HEXPOL AB ser. B|Earnings Report|Earnings-FY|241|True|Fourth quarter earnings results
-2027-01-22|Ericsson, Telefonab. L M ser. B|Earnings Report|Earnings-FY|241|True|Fourth quarter earnings results
-2027-01-22|Svenska Cellulosa AB SCA ser. B|Earnings Report|Earnings-FY|241|True|Fourth quarter earnings results
-2027-01-28|EQT AB|Earnings Report|Earnings-FY|245|True|Fourth quarter earnings results
-2027-01-28|Skandinaviska Enskilda Banken ser. A|Earnings Report|Earnings-FY|245|True|Fourth quarter earnings results
-2027-01-29|Electrolux, AB ser. B|Earnings Report|Earnings-FY|246|True|Fourth quarter earnings results
-2027-01-29|Holmen AB ser. B|Earnings Report|Earnings-FY|246|True|Fourth quarter earnings results
-2027-01-29|JM AB|Earnings Report|Earnings-FY|246|True|Fourth quarter earnings results
-2027-01-29|ASSA ABLOY AB ser. B|Earnings Report|Earnings-FY|246|True|Fourth quarter earnings results
-2027-01-29|Skanska AB ser. B|Earnings Report|Earnings-FY|246|True|Fourth quarter earnings results
-2027-02-02|Swedbank AB ser A|Earnings Report|Earnings-FY|248|True|Fourth quarter earnings results
-2027-02-02|Nordnet AB|Earnings Report|Earnings-FY|248|True|Fourth quarter earnings results
-2027-02-02|Tele2 AB ser. B|Earnings Report|Earnings-FY|248|True|Fourth quarter earnings results
-2027-02-03|Husqvarna AB ser. B|Earnings Report|Earnings-FY|249|True|Fourth quarter earnings results
-2027-02-03|Volvo, AB ser. B|Earnings Report|Earnings-FY|249|True|Fourth quarter earnings results
-2027-02-03|SSAB AB ser. A|Earnings Report|Earnings-FY|249|True|Fourth quarter earnings results
-2027-02-03|Alfa Laval AB|Earnings Report|Earnings-FY|249|True|Fourth quarter earnings results
-2027-02-03|Epiroc AB ser. A|Earnings Report|Earnings-FY|249|True|Fourth quarter earnings results
-2027-02-03|Dometic Group AB|Earnings Report|Earnings-FY|249|True|Fourth quarter earnings results
-2027-02-04|ABB Ltd|Earnings Report|Earnings-FY|250|True|Fourth quarter earnings results
-2027-02-04|Kinnevik AB ser. B|Earnings Report|Earnings-FY|250|True|Fourth quarter earnings results
-2027-02-04|Nordea Bank Abp|Earnings Report|Earnings-FY|250|True|Fourth quarter earnings results
-2027-02-04|SKF, AB ser. B|Earnings Report|Earnings-FY|250|True|Fourth quarter earnings results
-2027-02-05|SAAB AB ser. B|Earnings Report|Earnings-FY|251|True|Fourth quarter earnings results
-2027-02-05|Sagax AB B|Earnings Report|Earnings-FY|251|True|Fourth quarter earnings results
-2027-02-05|Boliden AB|Earnings Report|Earnings-FY|251|True|Fourth quarter earnings results
-2027-02-10|Evolution AB|Earnings Report|Earnings-FY|254|True|Fourth quarter earnings results
-2027-02-10|Svenska Handelsbanken ser. A|Earnings Report|Earnings-FY|254|True|Fourth quarter earnings results
-2027-02-17|Stillfront Group AB|Earnings Report|Earnings-FY|259|True|Fourth quarter earnings results
-2027-02-17|Latour, Investmentab. ser. B|Earnings Report|Earnings-FY|259|True|Fourth quarter earnings results
-2027-02-17|Fingerprint Cards AB ser. B|Earnings Report|Earnings-FY|259|True|Fourth quarter earnings results
-2027-02-18|NIBE Industrier AB ser. B|Earnings Report|Earnings-FY|260|True|Fourth quarter earnings results
-2027-02-24|Samhällsbyggnadsbo. i Norden AB ser. B|Earnings Report|Earnings-FY|264|True|Fourth quarter earnings results
-2027-04-01|Hennes & Mauritz AB, H & M ser. B|Earnings Report|Earnings-Q1|290|True|First quarter earnings results
-2027-07-20|Getinge AB ser. B|Earnings Report|Earnings-Q2/HY|368|True|Second quarter earnings results
