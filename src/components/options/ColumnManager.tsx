@@ -83,6 +83,15 @@ const SortableColumnItem: React.FC<{
       'Annualized_ROM_Pct': 'Annualized Return on Margin %'
     };
 
+    // New stress test field mappings
+    const stressTestMappings: { [key: string]: string } = {
+      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
+      'BreakevenDecline': 'Breakeven Decline',
+      'CVaR10pct_Decline': 'CVaR 10% Decline',
+      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
+      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
+    };
+
     if (probabilityMappings[key]) {
       return probabilityMappings[key];
     }
@@ -93,6 +102,10 @@ const SortableColumnItem: React.FC<{
 
     if (marginMappings[key]) {
       return marginMappings[key];
+    }
+
+    if (stressTestMappings[key]) {
+      return stressTestMappings[key];
     }
 
     return key

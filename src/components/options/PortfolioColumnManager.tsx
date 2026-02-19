@@ -107,6 +107,19 @@ const SortableColumnItem: React.FC<{
       return scoredMappings[key];
     }
 
+    // New stress test field mappings
+    const stressTestMappings: { [key: string]: string } = {
+      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
+      'BreakevenDecline': 'Breakeven Decline',
+      'CVaR10pct_Decline': 'CVaR 10% Decline',
+      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
+      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
+    };
+
+    if (stressTestMappings[key]) {
+      return stressTestMappings[key];
+    }
+
     return key
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, str => str.toUpperCase())

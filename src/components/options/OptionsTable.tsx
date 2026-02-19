@@ -133,7 +133,12 @@ export const OptionsTable = ({
       'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
       '1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',
       '2_ProbOfWorthless_Calibrated': 'PoW - Bias Corrected',
-      '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV'
+      '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV',
+      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
+      'BreakevenDecline': 'Breakeven Decline',
+      'CVaR10pct_Decline': 'CVaR 10% Decline',
+      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
+      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
     };
     
     if (fieldMappings[field]) {

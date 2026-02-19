@@ -25,7 +25,12 @@ export const exportToExcel = ({ filename, visibleColumns, data }: ExportOptions)
       'SafetyCategory': 'Safety Category',
       'CushionMinusIVPct': 'Cushion Minus IV %',
       'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound',
-      'recalculatedNumberOfContracts': 'Number Of Contracts'
+      'recalculatedNumberOfContracts': 'Number Of Contracts',
+      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
+      'BreakevenDecline': 'Breakeven Decline',
+      'CVaR10pct_Decline': 'CVaR 10% Decline',
+      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
+      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
     };
     
     if (fieldMappings[field]) {

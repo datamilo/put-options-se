@@ -164,7 +164,12 @@ export const PortfolioOptionsTable = ({
       'combined_score': 'Combined Score',
       'v21_score': 'Probability Score',
       'ta_probability': 'TA Probability',
-      'agreement_strength': 'Agreement'
+      'agreement_strength': 'Agreement',
+      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
+      'BreakevenDecline': 'Breakeven Decline',
+      'CVaR10pct_Decline': 'CVaR 10% Decline',
+      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
+      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
     };
 
     if (fieldMappings[field]) {
