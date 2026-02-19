@@ -218,10 +218,10 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
 
   const getTooltipContent = (stock: string, month: number, stat: MonthlyStockStats | undefined) => {
     if (!stat) return 'No data available';
-    
+
     return `${stock} - ${MONTH_NAMES[month - 1]}
 ${stat.pct_pos_return_months.toFixed(1)}% positive months
-Avg return: ${(stat.return_month_mean_pct_return_month * 100).toFixed(2)}%
+Avg return: ${stat.return_month_mean_pct_return_month.toFixed(2)}%
 Data points: ${stat.number_of_months_available} months`;
   };
 
