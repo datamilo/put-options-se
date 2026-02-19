@@ -1,7 +1,7 @@
 # Put Options Analysis - Field Guide for Investors
 
-**Last Updated**: January 5, 2026
-**Purpose**: Business-focused explanation of all 80+ fields (67 from `data.csv` + 13 margin fields from `margin_requirements.csv`)
+**Last Updated**: February 2026
+**Purpose**: Business-focused explanation of all 85+ fields (72 from `data.csv` + 13 margin fields from `margin_requirements.csv`)
 
 This guide explains what each field means for your investment decisions, without technical jargon.
 
@@ -17,7 +17,7 @@ This guide explains what each field means for your investment decisions, without
 | **[Pricing](#pricing-fields)** | 4, 28-31, 53 | What you pay and market prices |
 | **[Probabilities](#probability-fields)** | 5-11, 15-21 | Chance option expires worthless (you keep premium) |
 | **[Risk Protection](#risk-protection-fields)** | 12, 25-27, 49-50 | How low can the stock go before you lose money |
-| **[Loss Scenarios](#loss-scenario-fields)** | 13-14, 22-23, 33, 41-42, 54-55, 60-67 | What you could lose in market downturns |
+| **[Loss Scenarios](#loss-scenario-fields)** | 13-14, 22-23, 33, 41-42, 54-55, 60-72 | What you could lose in market downturns |
 | **[Profit Ratios](#profit-ratios)** | 32, 43-45 | Premium earned vs potential loss |
 | **[Margin & Capital](#margin--capital-requirements-fields)** | Est. Total Margin, ROM %, SRI, Event Buffer, etc. | Estimated margin requirements and capital efficiency |
 | **[Volatility](#volatility-fields)** | 34, 46-48, 56 | How much the stock price swings |
@@ -267,6 +267,31 @@ This guide explains what each field means for your investment decisions, without
 **What it is**: Worst 50-day decline during 2008 financial crisis
 **Unit**: Decimal (negative)
 **Why it matters**: Crisis benchmark for 50-day timeframe
+
+### 68. IV_2sigma_Decline
+**What it is**: IV-implied 2-sigma downside move over the option's remaining DTE: −2 × IV × √(DTE / 252)
+**Unit**: Decimal (negative, e.g. -0.207 = -20.7%)
+**Why it matters**: Unlike historical decline fields this updates daily with current market conditions. A high-IV environment automatically produces a more severe scenario. The stock must fall further than this value to exceed a 2-sigma move as priced by the options market today.
+
+### 69. BreakevenDecline
+**What it is**: The stock must fall at least this much before writing the put results in any monetary loss: (Strike − Mid Price) / StockPrice − 1
+**Unit**: Decimal (negative, e.g. -0.125 = -12.5%)
+**Why it matters**: Threshold that anchors all other stress scenarios. Compare against the historical and IV-based decline fields to see how much buffer exists between current premium protection and each stress scenario.
+
+### 70. CVaR10pct_Decline
+**What it is**: Average of the worst 10% of historical declines (Expected Shortfall), matched to the option's DTE
+**Unit**: Decimal (negative)
+**Why it matters**: More robust tail-risk estimate than a single worst-case data point. Not just the 10th-percentile threshold — the average outcome when losses fall in that worst 10%. DTE-matched: a 5-day option uses only historical windows ≤ 5 business days.
+
+### 71. LossAtIV2sigmaDecline
+**What it is**: Loss if stock falls by the IV-implied 2-sigma move (field 68). Calculated using current position size.
+**Unit**: SEK (negative = loss)
+**Why it matters**: Translates the IV 2-sigma percentage scenario into the actual SEK loss for the current position
+
+### 72. LossAtCVaR10pctDecline
+**What it is**: Loss if stock falls by the CVaR 10% tail decline (field 70). Calculated using current position size.
+**Unit**: SEK (negative = loss)
+**Why it matters**: Translates the statistical tail-risk percentage into the actual SEK loss for the current position
 
 ---
 

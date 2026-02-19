@@ -38,7 +38,7 @@ Main options analysis dashboard with filterable table displaying put options dat
 - **Margin & Capital**: Est. Total Margin, Est. Margin per Contract, Annualized ROM%, Risk metrics
   - **Note**: Margin fields are ESTIMATES using SRI methodology, not exact Nasdaq requirements
 - User-customizable: UnderlyingValue, TransactionCost
-- Total Fields: 80+ (67 base options fields + 13 margin fields)
+- Total Fields: 85+ (72 base options fields + 13 margin fields)
 
 ## File References
 - **Page**: `src/pages/Index.tsx`

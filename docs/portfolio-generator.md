@@ -45,7 +45,7 @@ finalScore = (v21Weight / 100) × v21_score + ((100 - v21Weight) / 100) × (ta_p
 
 ## Algorithm
 1. **Data Loading** - Load options and stock data (+ scored options data for Scored Models)
-2. **Recalculation** - Apply user settings (underlying value, transaction cost)
+2. **Recalculation** - Apply user settings (underlying value, transaction cost). All position-size-dependent SEK fields are recalculated using the portfolio's own underlying value: `LossAtBadDecline`, `LossAtWorstDecline`, `LossAt100DayWorstDecline`, `LossAt_2008_100DayWorstDecline`, `LossAt50DayWorstDecline`, `LossAt_2008_50DayWorstDecline`, `Loss_Least_Bad`, `LossAtIV2sigmaDecline`, `LossAtCVaR10pctDecline`, `PotentialLossAtLowerBound`, `EstTotalMargin`
 3. **Filtering** - Apply filters: expiry date, min/max probability, strike below period, excluded stocks, and scored data availability (for Scored Models)
 4. **Scoring** - Calculate score per strategy (risk metrics for returns/capital/balanced, weighted model blend for scored)
 5. **Sorting** - Sort by finalScore descending
