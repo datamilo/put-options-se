@@ -37,7 +37,8 @@ export default defineConfig(async ({ mode }) => {
             vendor: ['react', 'react-dom'],
             router: ['react-router-dom'],
             charts: ['recharts'],
-            csv: ['papaparse']
+            csv: ['papaparse'],
+            plotly: ['plotly.js', 'react-plotly.js']
           }
         }
       }

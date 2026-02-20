@@ -144,6 +144,9 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
         align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : ''
       }`}
       onClick={() => handleSort(field)}
+      aria-sort={sortField === field
+        ? (sortDirection === 'asc' ? 'ascending' : 'descending')
+        : undefined}
     >
       <div className={`flex items-center gap-1.5 ${align === 'right' ? 'justify-end' : align === 'center' ? 'justify-center' : ''}`}>
         <span>{label}</span>

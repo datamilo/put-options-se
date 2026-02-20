@@ -81,9 +81,10 @@ TableRow.displayName = "TableRow"
 const TableHead = React.forwardRef<
   HTMLTableCellElement,
   React.ThHTMLAttributes<HTMLTableCellElement> & { numeric?: boolean }
->(({ className, numeric, ...props }, ref) => (
+>(({ className, numeric, scope = "col", ...props }, ref) => (
   <th
     ref={ref}
+    scope={scope}
     className={cn(
       "h-10 px-2 text-left align-middle font-semibold text-foreground [&:has([role=checkbox])]:pr-0",
       numeric && "text-right font-mono",

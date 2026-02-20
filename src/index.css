@@ -54,7 +54,7 @@ All colors MUST be HSL.
     /* Market indicators */
     --bull: 145 60% 40%;
     --bear: 355 75% 45%;
-    --neutral: 215 15% 50%;
+    --neutral: 215 15% 55%;
     --high-risk: 20 90% 48%;
     --low-risk: 188 85% 40%;
 
@@ -93,7 +93,7 @@ All colors MUST be HSL.
     --secondary-foreground: 0 0% 100%;
 
     --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20% 60%;
+    --muted-foreground: 215 20% 65%;
 
     --accent: 25 35% 35%;
     --accent-foreground: 0 0% 100%;
@@ -116,7 +116,7 @@ All colors MUST be HSL.
     /* Market indicators - dark theme */
     --bull: 145 55% 35%;
     --bear: 355 70% 40%;
-    --neutral: 215 15% 45%;
+    --neutral: 215 15% 55%;
     --high-risk: 20 85% 43%;
     --low-risk: 188 80% 35%;
 

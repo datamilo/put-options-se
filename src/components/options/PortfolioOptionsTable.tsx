@@ -368,13 +368,19 @@ export const PortfolioOptionsTable = ({
                 const hasFilter = !!filter;
 
                 return (
-                  <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
+                  <TableHead
+                    key={column}
+                    className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}
+                    aria-sort={sortField === column
+                      ? (sortDirection === 'asc' ? 'ascending' : 'descending')
+                      : undefined}
+                  >
                     <div className="space-y-2">
                       <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
                           onClick={() => handleSort(column as keyof OptionData)}
-                          className="h-8 p-0 font-medium"
+                          className="h-9 px-1 font-medium"
                           title={formatColumnName(column)}
                         >
                           {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
@@ -435,7 +441,7 @@ export const PortfolioOptionsTable = ({
                             variant={hasFilter ? "default" : "outline"}
                             size="sm"
                             onClick={() => setActiveFilter(activeFilter === column ? null : column)}
-                            className="h-6 w-full text-xs"
+                            className="h-9 w-full text-xs"
                           >
                             <Filter className="h-3 w-3 mr-1" />
                             {hasFilter ? 'Filtered' : 'Filter'}
@@ -449,6 +455,7 @@ export const PortfolioOptionsTable = ({
                               {fieldType === 'text' ? (
                                 <Input
                                   placeholder="Search..."
+                                  aria-label={`Search ${formatColumnName(column)}`}
                                   value={filter?.textValue || ''}
                                   onChange={(e) => updateColumnFilter(column, { textValue: e.target.value.slice(0, 100) })}
                                   className="h-8"
@@ -460,6 +467,7 @@ export const PortfolioOptionsTable = ({
                                   <Input
                                     type="number"
                                     placeholder="Min value"
+                                    aria-label={`Minimum ${formatColumnName(column)}`}
                                     value={filter?.minValue || ''}
                                     onChange={(e) => {
                                       const value = e.target.value;
@@ -473,6 +481,7 @@ export const PortfolioOptionsTable = ({
                                   <Input
                                     type="number"
                                     placeholder="Max value"
+                                    aria-label={`Maximum ${formatColumnName(column)}`}
                                     value={filter?.maxValue || ''}
                                     onChange={(e) => {
                                       const value = e.target.value;
@@ -492,7 +501,7 @@ export const PortfolioOptionsTable = ({
                                   updateColumnFilter(column, fieldType === 'text' ? { textValue: '' } : { minValue: undefined, maxValue: undefined });
                                   setActiveFilter(null);
                                 }}
-                                className="mt-2 h-6 w-full text-xs"
+                                className="mt-2 h-9 w-full text-xs"
                               >
                                 Clear
                               </Button>

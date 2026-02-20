@@ -365,13 +365,19 @@ export const OptionsTable = ({
                 const hasFilter = !!filter;
                 
                 return (
-                  <TableHead key={column} className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}>
+                  <TableHead
+                    key={column}
+                    className={column === 'StockName' ? "w-28 max-w-28" : "min-w-[120px]"}
+                    aria-sort={sortField === column
+                      ? (sortDirection === 'asc' ? 'ascending' : 'descending')
+                      : undefined}
+                  >
                     <div className="space-y-2">
                       <div className="flex items-center gap-1">
                         <Button
                           variant="ghost"
                           onClick={() => handleSort(column as keyof OptionData)}
-                          className="h-8 p-0 font-medium"
+                          className="h-9 px-1 font-medium"
                           title={formatColumnName(column)}
                         >
                           {formatColumnName(column)} <ArrowUpDown className="ml-1 h-3 w-3" />
@@ -396,7 +402,7 @@ export const OptionsTable = ({
                                 });
                               }
                             }}
-                            className="h-6 w-full text-xs"
+                            className="h-9 w-full text-xs"
                           >
                             <Filter className="h-3 w-3 mr-1" />
                             {hasFilter ? 'Filtered' : 'Filter'}
@@ -410,6 +416,7 @@ export const OptionsTable = ({
                               {fieldType === 'text' ? (
                                 <Input
                                   placeholder="Search..."
+                                  aria-label={`Search ${formatColumnName(column)}`}
                                   value={filter?.textValue || ''}
                                   onChange={(e) => updateColumnFilter(column, { textValue: e.target.value.slice(0, 100) })}
                                   className="h-8"
@@ -422,6 +429,7 @@ export const OptionsTable = ({
                                     type="text"
                                     inputMode="decimal"
                                     placeholder="Min value"
+                                    aria-label={`Minimum ${formatColumnName(column)}`}
                                     value={filterInputs.minValue}
                                     onChange={(e) => {
                                       const inputValue = e.target.value;
@@ -444,6 +452,7 @@ export const OptionsTable = ({
                                     type="text"
                                     inputMode="decimal"
                                     placeholder="Max value"
+                                    aria-label={`Maximum ${formatColumnName(column)}`}
                                     value={filterInputs.maxValue}
                                     onChange={(e) => {
                                       const inputValue = e.target.value;
@@ -471,7 +480,7 @@ export const OptionsTable = ({
                                   setFilterInputs({ minValue: '', maxValue: '' });
                                   setActiveFilter(null);
                                 }}
-                                className="mt-2 h-6 w-full text-xs"
+                                className="mt-2 h-9 w-full text-xs"
                               >
                                 Clear
                               </Button>

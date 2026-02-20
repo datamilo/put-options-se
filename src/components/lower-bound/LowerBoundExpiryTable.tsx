@@ -115,7 +115,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
       <Table>
         <TableHeader className="bg-slate-50">
           <TableRow>
-            <TableHead className="cursor-pointer hover:bg-slate-100">
+            <TableHead className="cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'ExpiryDate' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -126,7 +126,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="ExpiryDate" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'PredictionCount' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -137,7 +137,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="PredictionCount" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'BreachCount' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -148,7 +148,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="BreachCount" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'hitRate' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -159,7 +159,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="hitRate" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'LowerBound_Min' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -170,7 +170,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="LowerBound_Min" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'LowerBound_Max' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -181,7 +181,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="LowerBound_Max" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'LowerBound_Median' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"
@@ -192,7 +192,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 <SortIcon field="LowerBound_Median" />
               </Button>
             </TableHead>
-            <TableHead className="text-right cursor-pointer hover:bg-slate-100">
+            <TableHead className="text-right cursor-pointer hover:bg-slate-100" aria-sort={sortField === 'ExpiryClosePrice' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
               <Button
                 variant="ghost"
                 size="sm"

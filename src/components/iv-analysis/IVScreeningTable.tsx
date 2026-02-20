@@ -87,8 +87,12 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
 
   const SortHeader = ({ field, label, tooltip }: { field: SortField; label: string; tooltip?: React.ReactNode }) => (
     <th
+      scope="col"
       className="px-3 py-2 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider cursor-pointer hover:text-foreground select-none whitespace-nowrap"
       onClick={() => handleSort(field)}
+      aria-sort={sortField === field
+        ? (sortDir === 'asc' ? 'ascending' : 'descending')
+        : undefined}
     >
       <span className="inline-flex items-center gap-1">
         {label}

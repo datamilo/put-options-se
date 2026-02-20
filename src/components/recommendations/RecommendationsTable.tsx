@@ -76,6 +76,9 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
         align === 'right' ? 'text-right' : align === 'center' ? 'text-center' : ''
       }`}
       onClick={() => handleSort(field)}
+      aria-sort={sortField === field
+        ? (sortDirection === 'asc' ? 'ascending' : 'descending')
+        : undefined}
     >
       <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
         <span>{label}</span>

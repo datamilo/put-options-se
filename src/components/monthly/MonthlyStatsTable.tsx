@@ -213,7 +213,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'name' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('name')}
@@ -222,7 +222,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Stock {getSortIcon('name')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-16">
+                <TableHead className="w-16" aria-sort={sortKey === 'month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('month')}
@@ -231,7 +231,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Month {getSortIcon('month')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'number_of_months_available' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('number_of_months_available')}
@@ -240,7 +240,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     History {getSortIcon('number_of_months_available')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'pct_pos_return_months' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('pct_pos_return_months')}
@@ -249,7 +249,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Pos % {getSortIcon('pct_pos_return_months')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'return_month_mean_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('return_month_mean_pct_return_month')}
@@ -258,7 +258,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Avg Ret % {getSortIcon('return_month_mean_pct_return_month')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'open_to_low_mean_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('open_to_low_mean_pct_return_month')}
@@ -267,7 +267,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Avg Drawdown % {getSortIcon('open_to_low_mean_pct_return_month')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'open_to_low_min_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('open_to_low_min_pct_return_month')}
@@ -276,7 +276,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     Worst Drawdown % {getSortIcon('open_to_low_min_pct_return_month')}
                   </Button>
                 </TableHead>
-                <TableHead className="w-20">
+                <TableHead className="w-20" aria-sort={sortKey === 'open_to_low_max_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
                   <Button
                     variant="ghost"
                     onClick={() => handleSort('open_to_low_max_pct_return_month')}

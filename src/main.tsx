@@ -2,26 +2,14 @@ import { createRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-console.log("Main.tsx loading...", {
-  env: import.meta.env.MODE,
-  base: import.meta.env.BASE_URL,
-  location: window.location.href,
-  origin: window.location.origin
-});
-
 try {
-  // Additional debugging for GitHub Pages
-  console.log("DOM ready, attempting to render React app...");
-  
   const rootElement = document.getElementById("root");
   if (!rootElement) {
     throw new Error("Root element not found in DOM");
   }
-  
+
   createRoot(rootElement).render(<App />);
-  console.log("✅ App rendered successfully on GitHub Pages");
 } catch (error) {
-  console.error("❌ Failed to render app:", error);
   const errorDetails = error instanceof Error ? error.message : String(error);
   document.body.innerHTML = `
     <div style="padding: 20px; font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; background: #f5f5f5; border-radius: 8px;">
