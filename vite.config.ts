@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 export default defineConfig(async ({ mode }) => {
   const isProduction = mode === 'production';
@@ -8,7 +9,7 @@ export default defineConfig(async ({ mode }) => {
   // For GitHub Pages, we need to set the base path to match the repository name
   // Check if we're building for GitHub Pages deployment
   const basePath = isProduction ? '/put-options-se' : '/';
-  
+
   return {
     server: {
   host: "::",
@@ -20,6 +21,8 @@ export default defineConfig(async ({ mode }) => {
   },
     plugins: [
       react(),
+      // Polyfill Node.js built-ins (buffer, stream, etc.) needed by Plotly's dependencies
+      nodePolyfills({ include: ['buffer'] }),
     ],
     resolve: {
       alias: {
