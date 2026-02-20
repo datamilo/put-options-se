@@ -1,0 +1,1 @@
+import{r as u}from"./router-C0wDHNfv.js";const s="Swedish Put Options",n=(o,r)=>{u.useEffect(()=>{let t=o?`${o}`:s;return r&&(t=`${o} - ${r}`),t=t?`${t} - ${s}`:s,document.title=t,()=>{document.title=s}},[o,r])};export{n as u};
