@@ -131,7 +131,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
       </div>
 
       <ResponsiveContainer width="100%" height={320}>
-        <ComposedChart data={chartData} margin={{ top: 5, right: 20, left: 10, bottom: 5 }}>
+        <ComposedChart data={chartData} margin={{ top: 5, right: 60, left: 50, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
           <XAxis
             dataKey="date"

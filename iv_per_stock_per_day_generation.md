@@ -3,17 +3,22 @@
 **Script**: `generate_iv_per_stock_per_day.py`
 **Output File**: `output/iv_per_stock_per_day.csv`
 **Date Created**: February 15, 2026
-**Last Updated**: February 16, 2026 (Rewritten: constant-maturity 30-day IV via variance interpolation)
+**Last Updated**: February 18, 2026 (Added MARKET_IV synthetic row — Swedish equity IV index)
 **Input Data**: `C:/Users/Gustaf/OneDrive/OptionsData/Implied_Volatility_Historical_ALL.parquet` (via `config_utils.py`)
 
 ---
 
 ## Purpose
 
-Produces a daily constant-maturity 30-day implied volatility (IV) for each stock. Unlike a
-single-option approach (picking one option at one strike and expiry), this uses
-**VIX-style variance interpolation** across the full IV term structure to always target the
-same maturity regardless of which expiry dates are available on a given day.
+Produces two types of output in a single CSV:
+
+1. **Per-stock daily IV**: Constant-maturity 30-day implied volatility for each stock. Uses
+   **VIX-style variance interpolation** across the full IV term structure to always target the
+   same maturity regardless of which expiry dates are available on a given day.
+
+2. **Market IV index**: A daily Swedish equity implied volatility index (`Stock_Name = "MARKET_IV"`)
+   — one synthetic row per date representing the cross-sectional average implied volatility
+   across all active Swedish stocks with listed options. Serves as a "Swedish VIX proxy."
 
 **Why constant maturity matters**: If you pick the option expiring soonest within 30 days,
 you might get a 7-day IV on one date and a 28-day IV another date — these are not
@@ -31,15 +36,22 @@ every day.
 ### Mode 2: Incremental Update (Subsequent Runs)
 **Trigger**: Output file exists
 **Operation**:
+- Strips existing `MARKET_IV` rows and `N_Stocks`/`N_Excluded` columns from the loaded CSV
+  (MARKET_IV is always recomputed fresh from current stock data)
 - Identifies new dates in parquet not yet in the CSV
 - ALWAYS refreshes the last 3 parquet dates (even if already in CSV) — catches any parquet
   corrections or IV recalculations
-- Removes old rows for those dates from existing CSV, appends freshly computed rows
+- Removes old stock rows for those dates from existing CSV, appends freshly computed rows
+- Recomputes MARKET_IV for all dates from the merged stock data
 - Sorts and saves
 
 **Why always refresh last 3 dates**: The IV parquet for recent dates can be corrected after
 the fact (e.g., when intraday bid/ask prices are replaced with closing prices). Refreshing
 the last 3 dates catches these corrections automatically.
+
+**Why MARKET_IV is always fully recomputed**: The market index is derived from per-stock data.
+Recomputing from scratch on each run is fast (pure pandas groupby, no parquet I/O) and
+ensures the index is always consistent with the current stock dataset.
 
 ---
 
@@ -49,11 +61,11 @@ the last 3 dates catches these corrections automatically.
 **Config key**: `iv_historical_parquet` in `config/paths_config.yaml`
 **Resolved path**: `C:/Users/Gustaf/OneDrive/OptionsData/Implied_Volatility_Historical_ALL.parquet`
 **Format**: Apache Parquet
-**Current size**: 109.2 MB
-**Total records**: 2,406,808 rows
+**Current size**: ~110 MB
+**Total records**: 2,417,832 rows
 **Unique stocks**: 77
-**Date range**: 2024-04-18 to 2026-02-13 (454 unique dates)
-**NaN ImpliedVolatility**: 284,870 rows (11.8%) — handled gracefully (skipped)
+**Date range**: 2024-04-18 to 2026-02-17 (456 unique dates)
+**NaN ImpliedVolatility**: ~11.8% — handled gracefully (skipped)
 
 ### Columns Used
 | Column | Data Type | Purpose |
@@ -166,37 +178,137 @@ is performed (extrapolating variance to shorter maturities is unreliable for put
 **Path**: `output/iv_per_stock_per_day.csv`
 **Delimiter**: `|` (pipe)
 **Encoding**: UTF-8
-**Current size**: 2.25 MB
-**Rows**: 29,731 (29,730 data rows + 1 header)
+**Current size**: 2.18 MB
+**Rows**: 28,324 (28,323 data rows + 1 header)
 
 ### Columns
 
 | Column | Type | Nullable | Description |
 |--------|------|----------|-------------|
-| `Stock_Name` | string | No | Stock identifier (from `Name` column in parquet) |
+| `Stock_Name` | string | No | Stock identifier, or `"MARKET_IV"` for the market index row |
 | `Date` | date string (YYYY-MM-DD) | No | IV observation date |
-| `Stock_Price` | float64 | No | Stock price on that date |
-| `IV_30d` | float64 | Yes (67 rows) | Constant-maturity 30-day annualized implied volatility |
-| `Near_Expiry_DTE` | int / NaN | Yes | Business days to the nearer expiry used in interpolation |
-| `Far_Expiry_DTE` | int / NaN | Yes | Business days to the farther expiry used in interpolation |
-| `Method` | string | No | `interpolated`, `nearest_expiry`, or `no_data` |
+| `Stock_Price` | float64 | Yes | Stock price on that date (NaN for MARKET_IV rows) |
+| `IV_30d` | float64 | Yes | Constant-maturity 30-day annualized implied volatility |
+| `Near_Expiry_DTE` | int / NaN | Yes | Business days to the nearer expiry used in interpolation (NaN for MARKET_IV rows) |
+| `Far_Expiry_DTE` | int / NaN | Yes | Business days to the farther expiry used in interpolation (NaN for MARKET_IV rows) |
+| `Method` | string | No | `interpolated`, `nearest_expiry`, `no_data`, or `market_equal_weight` |
+| `N_Stocks` | int / NaN | Yes | Number of stocks contributing to MARKET_IV (NaN for stock rows) |
+| `N_Excluded` | int / NaN | Yes | Number of stocks excluded as outliers by MAD filter (NaN for stock rows) |
 
 **Notes on Near/Far Expiry DTE**:
 - `interpolated`: both `Near_Expiry_DTE` and `Far_Expiry_DTE` are populated
 - `nearest_expiry`: only one of the two fields is populated (near or far, depending on which side the single expiry falls)
-- `no_data`: both are NaN
+- `no_data` and `market_equal_weight`: both are NaN
 
 ### Current Statistics
 | Category | Count | Pct |
 |----------|-------|-----|
-| Total rows | 29,731 | 100% |
-| `IV_30d` valid | 29,664 | 99.8% |
-| `IV_30d` NaN | 67 | 0.2% |
-| Method: interpolated | 27,559 | 92.7% |
-| Method: nearest_expiry | 2,105 | 7.1% |
-| Method: no_data | 67 | 0.2% |
+| Total rows | 28,324 | 100% |
+| `IV_30d` valid | 28,321 | 99.99% |
+| `IV_30d` NaN | 3 | 0.01% |
+| Method: interpolated | 26,312 | 92.9% |
+| Method: nearest_expiry | 1,554 | 5.5% |
+| Method: market_equal_weight | 456 | 1.6% |
+| Method: no_data | 2 | 0.0% |
 
-**Coverage**: 77 stocks × 454 dates (2024-04-18 to 2026-02-13)
+**Coverage**: 67 active stocks × 456 dates (2024-04-18 to 2026-02-17), plus 456 MARKET_IV rows
+
+---
+
+## 3.1 Output Filtering: Complete Stock Requirement
+
+**Applied**: After all IV calculations, before saving to CSV
+
+Before writing the output file, the script filters to ensure **data completeness**:
+
+1. **Identify maximum date**: Find the most recent date in all processed data
+2. **Find complete stocks**: Identify stocks that have a valid (non-NaN) `IV_30d` on the maximum date
+3. **Filter output**: Remove all rows for stocks that lack data on the maximum date
+4. **Result**: Output file contains ONLY stocks with current data, eliminating stale stocks
+
+**Rationale**:
+- Ensures the output file is not polluted with stocks that haven't had options quoted recently
+- Downstream analyses can assume any stock in the CSV has current IV data available
+- If a stock has no options on the most recent trading day, it's excluded entirely (across all historical dates)
+
+**MARKET_IV exemption**: The max-date filter runs on real stock rows only. MARKET_IV rows are
+computed after the filter and are always present for every date where ≥30 stocks reported.
+
+**Diagnostic output**:
+```
+Filtering stocks to those with data on maximum date...
+  Maximum date in data: 2026-02-17
+  Stocks with valid IV_30d on max date: 67
+  Rows before filter: 29,865
+  Rows after filter: 27,868
+  Rows removed: 1,997
+```
+
+**Impact**: Typically removes 6-20% of rows (stocks that haven't been actively traded recently)
+
+---
+
+## 3.2 MARKET_IV: Swedish Equity IV Index
+
+**Applied**: After the max-date stock filter, before saving
+
+A synthetic `MARKET_IV` row is appended per date, representing the cross-sectional average
+implied volatility across all active Swedish stocks. This functions as a "Swedish VIX proxy."
+
+### Algorithm
+
+For each date:
+
+1. **Collect valid stocks**: All real stock rows with non-NaN `IV_30d` on that date.
+2. **Minimum coverage check**: If fewer than 30 stocks → `IV_30d = NaN`, `N_Stocks = actual count`.
+3. **Dynamic outlier detection (MAD-based)**:
+   ```
+   median_iv = median of all stocks' IV_30d
+   MAD = median of |IV_i - median_iv|
+   threshold = median_iv + 4 × MAD × 1.4826
+   ```
+   Stocks with `IV_30d > threshold` are excluded (`N_Excluded` counts them).
+   - If exclusion drops below 30 stocks, the exclusion is cancelled and all stocks are used.
+4. **Variance averaging**:
+   ```
+   market_IV = sqrt(mean(IV_i²))
+   ```
+   Aggregating in variance space (then taking sqrt) is mathematically correct — IV² is
+   proportional to expected variance, which is additive across stocks.
+
+### Why Dynamic Outlier Detection
+
+A fixed cap (e.g., exclude all stocks with IV > 200%) would wrongly exclude stocks during
+genuine market-wide stress events when all IVs rise together. The MAD-based threshold rises
+proportionally with the cross-sectional median, so:
+
+- **Company-specific crisis**: One stock spikes to 150% while median is 25% → threshold ~55%
+  → spike is excluded. Market IV reflects the other stocks correctly.
+- **Market-wide stress**: All stocks rise; median reaches 45%, threshold rises to ~100% →
+  a stock at 80% stays in (it reflects real market fear, not an individual crisis).
+
+### Current Statistics (2024-04-18 to 2026-02-17, 456 dates)
+| Metric | Value |
+|--------|-------|
+| MARKET_IV rows | 456 |
+| Dates with valid MARKET_IV | 455 |
+| Dates below minimum coverage | 1 |
+| Market IV range | 0.165–0.446 (16.5%–44.6%) |
+| Average N_Stocks per date | 59.3 |
+| Total outlier exclusions (all dates) | 846 |
+
+**Evidence**: Values validated against known market events — April 2025 tariff shock visible at
+0.446 on 2025-04-07, August 2024 selloff at 0.402 on 2024-08-05 (source: run output Feb 18 2026).
+
+### Key Design Decisions
+
+| Decision | Choice | Rationale |
+|----------|--------|-----------|
+| Weighting scheme | Equal-weight | Swedish optionable stocks cluster in mid/large cap; no market cap data dependency |
+| Aggregation space | Variance (IV²) | IV² is additive (proportional to expected variance); simple IV averaging is incorrect |
+| Outlier detection | Dynamic MAD | Preserves market stress events; fixed cap would wrongly exclude stocks during crashes |
+| Minimum coverage | 30 stocks | ~40% of universe; below this the index is not representative |
+| MAD multiplier | 4× (with 1.4826 normalizer) | Conservative; only true outliers caught (≈4σ equivalent) |
 
 ---
 
@@ -220,8 +332,9 @@ executor.map(compute_single_group, groups, chunksize=50)
 for ordered result collection. The GIL is bypassed because each worker runs in a separate
 process.
 
-**Performance**: Full generation of 29,731 groups (~29K (stock, date) pairs) across all 454
-dates completes in approximately 2–5 minutes depending on CPU count.
+**Performance**: Full generation of ~28K (stock, date) groups across all 456 dates completes
+in approximately 2–5 minutes depending on CPU count. MARKET_IV computation adds negligible
+time (pure pandas groupby on the already-loaded output DataFrame).
 
 ---
 
@@ -270,6 +383,16 @@ input/backups/20260111_Implied_Volatility_Historical_ALL.parquet
 ### New Dates in Parquet (Incremental Mode)
 **Detection**: `new_dates = set(parquet_dates) - existing_dates`
 **Processing**: All new dates + last 3 dates are processed; merged with retained existing rows
+
+### MARKET_IV Below Minimum Coverage
+**Trigger**: Fewer than 30 stocks have valid IV_30d on a given date
+**Output**: `IV_30d = NaN`, `N_Stocks = actual count`, `N_Excluded = 0`
+**Frequency**: 1 date in current data (2024-04-18, the first date with limited coverage)
+
+### MARKET_IV Outlier Safety Override
+**Trigger**: MAD-based exclusion would drop the contributing pool below 30 stocks
+**Output**: All stocks used, `N_Excluded = 0` (exclusion cancelled)
+**Rationale**: Prevents the safety mechanism from producing an under-representative index
 
 ---
 
@@ -321,10 +444,14 @@ time-to-expiry calculation across the project.
 | `T_TARGET_YEARS` | 23 | Target maturity in years (21/252) |
 | `interpolate_atm_iv(exp_group, stock_price)` | 26–67 | ATM IV via linear strike interpolation for one expiry |
 | `compute_single_group(args)` | 70–157 | Full constant-maturity IV computation for one (stock, date) group |
-| `process_groups_parallel(iv_df, n_workers)` | 160–181 | ProcessPoolExecutor driver; pre-splits groups, maps workers |
-| `main()` | 184–324 | Config loading, incremental date detection, merge, save |
-| Incremental date logic | 247–263 | new_dates ∪ last_3_dates → dates_to_process |
-| Merge with existing | 285–300 | Remove refreshed dates, concat, sort |
+| `compute_market_iv_rows(stock_df)` | 160–226 | MARKET_IV computation: MAD outlier detection + variance averaging |
+| `process_groups_parallel(iv_df, n_workers)` | 229–249 | ProcessPoolExecutor driver; pre-splits groups, maps workers |
+| `main()` | 252–451 | Config loading, incremental date detection, merge, filtering, Market IV, save |
+| Incremental load + MARKET_IV strip | 299–315 | Load existing CSV, strip MARKET_IV rows and N_Stocks/N_Excluded columns |
+| Incremental date logic | 320–331 | new_dates ∪ last_3_dates → dates_to_process |
+| Merge with existing | 354–373 | Remove refreshed dates, concat, sort |
+| Output filtering | 378–398 | Filter to only stocks with data on maximum date |
+| MARKET_IV append | 400–425 | Strip any residual MARKET_IV rows, add N_Stocks/N_Excluded, compute and append |
 
 ---
 
