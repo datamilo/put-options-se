@@ -430,7 +430,7 @@ AAK AB|2026-02-19|247.2|0.1988822830313083|21.0|39.0|interpolated||
 AAK AB|2026-02-20|247.8|0.2319664619263116|20.0|38.0|interpolated||
 AAK AB|2026-02-23|245.0|0.21481268607268053|19.0|37.0|interpolated||
 AAK AB|2026-02-24|248.2|0.20807137018237631|18.0|36.0|interpolated||
-AAK AB|2026-02-25|245.4|0.20766910893803073|17.0|35.0|interpolated||
+AAK AB|2026-02-25|245.2|0.20777724119377258|17.0|35.0|interpolated||
 ABB Ltd|2024-04-18|532.0|0.1909312248872484|19.0|42.0|interpolated||
 ABB Ltd|2024-04-19|535.8|0.1533538362439951|18.0|41.0|interpolated||
 ABB Ltd|2024-04-22|539.4|0.2239309315056822|17.0|40.0|interpolated||
@@ -888,7 +888,7 @@ ABB Ltd|2026-02-19|818.2|0.2034274990132223|21.0|39.0|interpolated||
 ABB Ltd|2026-02-20|819.0|0.2240754005506307|20.0|38.0|interpolated||
 ABB Ltd|2026-02-23|816.8|0.2435551480322108|19.0|37.0|interpolated||
 ABB Ltd|2026-02-24|826.8|0.23223032718730893|18.0|36.0|interpolated||
-ABB Ltd|2026-02-25|834.4|0.23959900750853996|17.0|35.0|interpolated||
+ABB Ltd|2026-02-25|835.4|0.2430103809327389|17.0|35.0|interpolated||
 ASSA ABLOY AB ser. B|2024-04-18|305.0|0.2175254500566391|19.0|42.0|interpolated||
 ASSA ABLOY AB ser. B|2024-04-19|305.4|0.2323108993401039|18.0|41.0|interpolated||
 ASSA ABLOY AB ser. B|2024-04-22|299.5|0.1621532059098797|17.0|40.0|interpolated||
@@ -1348,7 +1348,7 @@ ASSA ABLOY AB ser. B|2026-02-19|377.5|0.1850509634789095|21.0|39.0|interpolated|
 ASSA ABLOY AB ser. B|2026-02-20|382.7|0.2067402077918919|20.0|38.0|interpolated||
 ASSA ABLOY AB ser. B|2026-02-23|381.5|0.19003278362973178|19.0|37.0|interpolated||
 ASSA ABLOY AB ser. B|2026-02-24|385.8|0.1943621254374864|18.0|36.0|interpolated||
-ASSA ABLOY AB ser. B|2026-02-25|380.1|0.19865407047159064|17.0|35.0|interpolated||
+ASSA ABLOY AB ser. B|2026-02-25|378.4|0.2008075105474483|17.0|35.0|interpolated||
 Addtech AB ser. B|2025-09-30|305.2|0.3251689327857228|13.0|38.0|interpolated||
 Addtech AB ser. B|2025-10-01|307.4|0.2378637025172476|12.0|37.0|interpolated||
 Addtech AB ser. B|2025-10-02|306.8|0.2446577877382012|11.0|36.0|interpolated||
@@ -1449,7 +1449,7 @@ Addtech AB ser. B|2026-02-19|324.8|0.2028022036295805|21.0|39.0|interpolated||
 Addtech AB ser. B|2026-02-20|326.2|0.232129427151182|20.0|38.0|interpolated||
 Addtech AB ser. B|2026-02-23|318.4|0.25431766548893175|19.0|37.0|interpolated||
 Addtech AB ser. B|2026-02-24|323.4|0.24477975646820418|18.0|36.0|interpolated||
-Addtech AB ser. B|2026-02-25|326.0|0.2430355757756657|17.0|35.0|interpolated||
+Addtech AB ser. B|2026-02-25|325.4|0.2406066277829496|17.0|35.0|interpolated||
 Alfa Laval AB|2024-04-18|421.2|0.3081963560476502|19.0|42.0|interpolated||
 Alfa Laval AB|2024-04-19|420.5|0.3062942465262239|18.0|41.0|interpolated||
 Alfa Laval AB|2024-04-22|473.2|0.9007581545601144|17.0|40.0|interpolated||
@@ -1909,7 +1909,7 @@ Alfa Laval AB|2026-02-19|521.0|0.1653139914955851|21.0|39.0|interpolated||
 Alfa Laval AB|2026-02-20|522.2|0.2041265100834139|20.0|38.0|interpolated||
 Alfa Laval AB|2026-02-23|528.6|0.19941851014068632|19.0|37.0|interpolated||
 Alfa Laval AB|2026-02-24|535.0|0.19173762829076157|18.0|36.0|interpolated||
-Alfa Laval AB|2026-02-25|529.4|0.1962170225325428|17.0|35.0|interpolated||
+Alfa Laval AB|2026-02-25|530.2|0.20160904406370314|17.0|35.0|interpolated||
 Asmodee Group AB ser. B|2025-04-14|90.79|0.2555165731063252|21.0|43.0|interpolated||
 Asmodee Group AB ser. B|2025-04-15|92.7|0.2373380409189011|20.0|42.0|interpolated||
 Asmodee Group AB ser. B|2025-04-16|92.2|0.2310663164175005|19.0|41.0|interpolated||
@@ -2011,7 +2011,7 @@ Asmodee Group AB ser. B|2026-02-19|110.38|0.2770256237392427|21.0|39.0|interpola
 Asmodee Group AB ser. B|2026-02-20|115.0|0.2908217369221588|20.0|38.0|interpolated||
 Asmodee Group AB ser. B|2026-02-23|111.58|0.3186760514252985|19.0|37.0|interpolated||
 Asmodee Group AB ser. B|2026-02-24|112.18|0.2904160953024024|18.0|36.0|interpolated||
-Asmodee Group AB ser. B|2026-02-25|110.66|0.2972390671966649|17.0|35.0|interpolated||
+Asmodee Group AB ser. B|2026-02-25|110.72|0.3004190537664495|17.0|35.0|interpolated||
 AstraZeneca PLC|2024-04-18|1497.0|0.2137633518984368|19.0|42.0|interpolated||
 AstraZeneca PLC|2024-04-19|1494.5|0.2088433311603888|18.0|41.0|interpolated||
 AstraZeneca PLC|2024-04-22|1646.0|0.5326174088684497|17.0|40.0|interpolated||
@@ -2472,7 +2472,7 @@ AstraZeneca PLC|2026-02-19|1862.0|0.2100468769865691|21.0|39.0|interpolated||
 AstraZeneca PLC|2026-02-20|1867.5|0.2284691329670959|20.0|38.0|interpolated||
 AstraZeneca PLC|2026-02-23|1874.0|0.23675267710748063|19.0|37.0|interpolated||
 AstraZeneca PLC|2026-02-24|1872.5|0.23669426007067113|18.0|36.0|interpolated||
-AstraZeneca PLC|2026-02-25|1860.0|0.23875723078060626|17.0|35.0|interpolated||
+AstraZeneca PLC|2026-02-25|1857.0|0.23009890416211137|17.0|35.0|interpolated||
 Atlas Copco AB ser. A|2024-04-18|182.65|0.2631627715883968|19.0|42.0|interpolated||
 Atlas Copco AB ser. A|2024-04-19|179.45|0.2612846461847793|18.0|41.0|interpolated||
 Atlas Copco AB ser. A|2024-04-22|193.9|0.7210641108881449|17.0|40.0|interpolated||
@@ -2932,7 +2932,7 @@ Atlas Copco AB ser. A|2026-02-19|194.85|0.2246305046318268|21.0|39.0|interpolate
 Atlas Copco AB ser. A|2026-02-20|195.5|0.2602703798559826|20.0|38.0|interpolated||
 Atlas Copco AB ser. A|2026-02-23|194.85|0.25528534032575584|19.0|37.0|interpolated||
 Atlas Copco AB ser. A|2026-02-24|196.25|0.2591350586863354|18.0|36.0|interpolated||
-Atlas Copco AB ser. A|2026-02-25|196.35|0.2543786903996997|17.0|35.0|interpolated||
+Atlas Copco AB ser. A|2026-02-25|195.85|0.2509930977705174|17.0|35.0|interpolated||
 Atlas Copco AB ser. B|2025-04-14|133.0|0.3284872513038879|21.0|43.0|interpolated||
 Atlas Copco AB ser. B|2025-04-15|135.25|0.333084708858979|20.0|42.0|interpolated||
 Atlas Copco AB ser. B|2025-04-16|133.35|0.3365281405405127|19.0|41.0|interpolated||
@@ -3148,7 +3148,7 @@ Atlas Copco AB ser. B|2026-02-19|168.25|0.2160674632200489|21.0|39.0|interpolate
 Atlas Copco AB ser. B|2026-02-20|169.65|0.2655192549968806|20.0|38.0|interpolated||
 Atlas Copco AB ser. B|2026-02-23|168.3|0.2613496035636351|19.0|37.0|interpolated||
 Atlas Copco AB ser. B|2026-02-24|170.15|0.26276601811833106|18.0|36.0|interpolated||
-Atlas Copco AB ser. B|2026-02-25|170.4|0.24915403450361667|17.0|35.0|interpolated||
+Atlas Copco AB ser. B|2026-02-25|170.05|0.2484462291992041|17.0|35.0|interpolated||
 Avanza Bank Holding AB|2024-04-18|229.0|0.3205442608926767|19.0|42.0|interpolated||
 Avanza Bank Holding AB|2024-04-19|235.0|0.2592806430214097|18.0|41.0|interpolated||
 Avanza Bank Holding AB|2024-04-22|238.8|0.4088025860355018|17.0|40.0|interpolated||
@@ -3609,7 +3609,7 @@ Avanza Bank Holding AB|2026-02-19|327.0|0.2711749164599753|21.0|39.0|interpolate
 Avanza Bank Holding AB|2026-02-20|330.8|0.3274918948737085|20.0|38.0|interpolated||
 Avanza Bank Holding AB|2026-02-23|324.4|0.3403750832487471|19.0|37.0|interpolated||
 Avanza Bank Holding AB|2026-02-24|322.1|0.3156385215111678|18.0|36.0|interpolated||
-Avanza Bank Holding AB|2026-02-25|326.3|0.29444100218088853|17.0|35.0|interpolated||
+Avanza Bank Holding AB|2026-02-25|326.9|0.3050518397767854|17.0|35.0|interpolated||
 Axfood AB|2024-04-18|288.0|0.2184532695299259|19.0|42.0|interpolated||
 Axfood AB|2024-04-19|289.6|0.1875174918066005|18.0|41.0|interpolated||
 Axfood AB|2024-04-22|290.1|0.09516023709754|17.0|40.0|interpolated||
@@ -4053,7 +4053,7 @@ Axfood AB|2026-02-19|335.3|0.1667164767871465|21.0|39.0|interpolated||
 Axfood AB|2026-02-20|327.7|0.2080451255978105|20.0|38.0|interpolated||
 Axfood AB|2026-02-23|326.1|0.17804731306225866|19.0|37.0|interpolated||
 Axfood AB|2026-02-24|325.0|0.1970282746299946|18.0|36.0|interpolated||
-Axfood AB|2026-02-25|322.0|0.19641534778550118|17.0|35.0|interpolated||
+Axfood AB|2026-02-25|321.9|0.19483280822355872|17.0|35.0|interpolated||
 BONESUPPORT HOLDING AB|2025-04-14|309.2|0.3962594693799277|21.0|43.0|interpolated||
 BONESUPPORT HOLDING AB|2025-04-15|318.8|0.3678078035528617|20.0|42.0|interpolated||
 BONESUPPORT HOLDING AB|2025-04-16|317.2|0.3580312781918374|19.0|41.0|interpolated||
@@ -4269,7 +4269,7 @@ BONESUPPORT HOLDING AB|2026-02-19|184.0|0.4473559931938909|21.0|39.0|interpolate
 BONESUPPORT HOLDING AB|2026-02-20|183.1|0.48187894765502|20.0|38.0|interpolated||
 BONESUPPORT HOLDING AB|2026-02-23|180.8|0.5167644049032423|19.0|37.0|interpolated||
 BONESUPPORT HOLDING AB|2026-02-24|187.4|0.5124782798708193|18.0|36.0|interpolated||
-BONESUPPORT HOLDING AB|2026-02-25|198.7|0.4745343414813412|17.0|35.0|interpolated||
+BONESUPPORT HOLDING AB|2026-02-25|197.5|0.451003661536432|17.0|35.0|interpolated||
 Betsson AB ser. B|2024-04-18|107.9|0.4245410371220567|19.0|42.0|interpolated||
 Betsson AB ser. B|2024-04-19|107.1|0.3895524792314837|18.0|41.0|interpolated||
 Betsson AB ser. B|2024-04-22|122.0|1.1201439162016689|17.0|40.0|interpolated||
@@ -4729,7 +4729,7 @@ Betsson AB ser. B|2026-02-19|92.65|0.2646078809640813|21.0|39.0|interpolated||
 Betsson AB ser. B|2026-02-20|93.1|0.3111413638800313|20.0|38.0|interpolated||
 Betsson AB ser. B|2026-02-23|91.1|0.29581410026002153|19.0|37.0|interpolated||
 Betsson AB ser. B|2026-02-24|92.35|0.2982765156160899|18.0|36.0|interpolated||
-Betsson AB ser. B|2026-02-25|92.35|0.30338267766675237|17.0|35.0|interpolated||
+Betsson AB ser. B|2026-02-25|91.7|0.2885556105638727|17.0|35.0|interpolated||
 Billerud Aktiebolag|2024-04-18|98.75|0.2998325560273259|19.0|42.0|interpolated||
 Billerud Aktiebolag|2024-04-19|98.75|0.3033532565878598|18.0|41.0|interpolated||
 Billerud Aktiebolag|2024-04-22|99.2|0.2680322283135607|17.0|40.0|interpolated||
@@ -5187,7 +5187,7 @@ Billerud Aktiebolag|2026-02-19|82.9|0.2123139326846766|21.0|39.0|interpolated||
 Billerud Aktiebolag|2026-02-20|83.15|0.2174068993239621|20.0|38.0|interpolated||
 Billerud Aktiebolag|2026-02-23|81.6|0.23455141875010316|19.0|37.0|interpolated||
 Billerud Aktiebolag|2026-02-24|81.85|0.2545712795957693|18.0|36.0|interpolated||
-Billerud Aktiebolag|2026-02-25|81.2|0.22692486769970996|17.0|35.0|interpolated||
+Billerud Aktiebolag|2026-02-25|81.0|0.22978737430955126|17.0|35.0|interpolated||
 Boliden AB|2024-04-18|349.3|0.368221376329349|19.0|42.0|interpolated||
 Boliden AB|2024-04-19|346.2|0.358956980191697|18.0|41.0|interpolated||
 Boliden AB|2024-04-22|355.2|0.5240454756657875|17.0|40.0|interpolated||
@@ -5647,7 +5647,7 @@ Boliden AB|2026-02-19|650.4|0.3784516287534613|21.0|39.0|interpolated||
 Boliden AB|2026-02-20|660.4|0.4171316887933218|20.0|38.0|interpolated||
 Boliden AB|2026-02-23|672.8|0.4124127694449856|19.0|37.0|interpolated||
 Boliden AB|2026-02-24|700.6|0.41790101846828626|18.0|36.0|interpolated||
-Boliden AB|2026-02-25|721.6|0.41821585250122917|17.0|35.0|interpolated||
+Boliden AB|2026-02-25|722.6|0.4200230113298587|17.0|35.0|interpolated||
 Castellum AB|2024-04-18|128.7|0.2888461383505841|19.0|42.0|interpolated||
 Castellum AB|2024-04-19|128.8|0.262660691192486|18.0|41.0|interpolated||
 Castellum AB|2024-04-22|129.95|0.2379055745990027|17.0|40.0|interpolated||
@@ -6102,7 +6102,7 @@ Castellum AB|2026-02-19|104.8|0.202242697195001|21.0|39.0|interpolated||
 Castellum AB|2026-02-20|115.05|0.2452261724487788|20.0|38.0|interpolated||
 Castellum AB|2026-02-23|114.1|0.23922238995127917|19.0|37.0|interpolated||
 Castellum AB|2026-02-24|116.3|0.23246521380874755|18.0|36.0|interpolated||
-Castellum AB|2026-02-25|116.45|0.2233513595850613|17.0|35.0|interpolated||
+Castellum AB|2026-02-25|116.35|0.22316242577970674|17.0|35.0|interpolated||
 Dometic Group AB|2024-04-18|85.55|0.4414404806980098|19.0|42.0|interpolated||
 Dometic Group AB|2024-04-19|79.3|0.2842885447757136|18.0|41.0|interpolated||
 Dometic Group AB|2024-04-22|77.55|0.3076989888816115|17.0|40.0|interpolated||
@@ -6563,7 +6563,7 @@ Dometic Group AB|2026-02-19|40.52|0.3539863146805201|21.0|39.0|interpolated||
 Dometic Group AB|2026-02-20|40.84|0.412190782518962|20.0|38.0|interpolated||
 Dometic Group AB|2026-02-23|39.88|0.4406980790983625|19.0|37.0|interpolated||
 Dometic Group AB|2026-02-24|39.76|0.4436191027525226|18.0|36.0|interpolated||
-Dometic Group AB|2026-02-25|38.04|0.4704691054044779|17.0|35.0|interpolated||
+Dometic Group AB|2026-02-25|37.94|0.4675044887294265|17.0|35.0|interpolated||
 EQT AB|2024-04-18|289.6|0.3356994303749041|19.0|42.0|interpolated||
 EQT AB|2024-04-19|288.1|0.3266839772853557|18.0|41.0|interpolated||
 EQT AB|2024-04-22|295.4|0.4207540189720531|17.0|40.0|interpolated||
@@ -7023,7 +7023,7 @@ EQT AB|2026-02-19|294.0|0.3268141158639001|21.0|39.0|interpolated||
 EQT AB|2026-02-20|295.9|0.4020867554408551|20.0|38.0|interpolated||
 EQT AB|2026-02-23|269.7|0.42994372062270153|19.0|37.0|interpolated||
 EQT AB|2026-02-24|271.8|0.4169809584477696|18.0|36.0|interpolated||
-EQT AB|2026-02-25|275.9|0.42395155818286673|17.0|35.0|interpolated||
+EQT AB|2026-02-25|274.4|0.4194048513602848|17.0|35.0|interpolated||
 Electrolux, AB ser. B|2024-04-18|90.2|0.4327005855773022|19.0|42.0|interpolated||
 Electrolux, AB ser. B|2024-04-19|91.08|0.3953478413782418|18.0|41.0|interpolated||
 Electrolux, AB ser. B|2024-04-22|95.46|0.4793382431616264|17.0|40.0|interpolated||
@@ -7481,7 +7481,7 @@ Electrolux, AB ser. B|2026-02-19|79.72|0.3657972021528586|21.0|39.0|interpolated
 Electrolux, AB ser. B|2026-02-20|77.28|0.4887257411650973|20.0|38.0|interpolated||
 Electrolux, AB ser. B|2026-02-23|75.9|0.47140057062206475|19.0|37.0|interpolated||
 Electrolux, AB ser. B|2026-02-24|76.12|0.44470513464122585|18.0|36.0|interpolated||
-Electrolux, AB ser. B|2026-02-25|75.4|0.44149580284493123|17.0|35.0|interpolated||
+Electrolux, AB ser. B|2026-02-25|75.16|0.43911046146484806|17.0|35.0|interpolated||
 Elekta AB ser. B|2024-04-18|75.0|0.2355785692782744|19.0|42.0|interpolated||
 Elekta AB ser. B|2024-04-19|74.45|0.2283611849139463|18.0|41.0|interpolated||
 Elekta AB ser. B|2024-04-22|75.6|0.2162024353821003|17.0|40.0|interpolated||
@@ -7942,7 +7942,7 @@ Elekta AB ser. B|2026-02-19|55.3|0.386123454247406|21.0|39.0|interpolated||
 Elekta AB ser. B|2026-02-20|56.2|0.4344127475199844|20.0|38.0|interpolated||
 Elekta AB ser. B|2026-02-23|54.85|0.4395126281446814|19.0|37.0|interpolated||
 Elekta AB ser. B|2026-02-24|56.25|0.42312311174298756|18.0|36.0|interpolated||
-Elekta AB ser. B|2026-02-25|57.0|0.4282990641899046|17.0|35.0|interpolated||
+Elekta AB ser. B|2026-02-25|56.95|0.43089074596503246|17.0|35.0|interpolated||
 Embracer Group AB ser. B|2024-04-18|153.72|4.437641503067185|19.0|42.0|interpolated||
 Embracer Group AB ser. B|2024-04-19|151.92|4.4682833580151735|18.0|41.0|interpolated||
 Embracer Group AB ser. B|2024-04-22|165.0|4.378376069192425|17.0|40.0|interpolated||
@@ -8400,7 +8400,7 @@ Embracer Group AB ser. B|2026-02-19|52.12|0.4304604884856415|21.0|39.0|interpola
 Embracer Group AB ser. B|2026-02-20|53.33|0.5152855898476489|20.0|38.0|interpolated||
 Embracer Group AB ser. B|2026-02-23|53.44|0.46779986478962005|19.0|37.0|interpolated||
 Embracer Group AB ser. B|2026-02-24|53.85|0.4848848658169742|18.0|36.0|interpolated||
-Embracer Group AB ser. B|2026-02-25|53.12|0.46294010396561414|17.0|35.0|interpolated||
+Embracer Group AB ser. B|2026-02-25|53.45|0.5058228350636099|17.0|35.0|interpolated||
 Epiroc AB ser. A|2024-04-18|213.0|0.2621584603769452|19.0|42.0|interpolated||
 Epiroc AB ser. A|2024-04-19|212.4|0.2505333071341352|18.0|41.0|interpolated||
 Epiroc AB ser. A|2024-04-22|204.9|0.1939909626248732|17.0|40.0|interpolated||
@@ -8859,12 +8859,12 @@ Epiroc AB ser. A|2026-02-19|258.7|0.2059529747705064|21.0|39.0|interpolated||
 Epiroc AB ser. A|2026-02-20|259.2|0.241642766059564|20.0|38.0|interpolated||
 Epiroc AB ser. A|2026-02-23|264.4|0.23622371875630427|19.0|37.0|interpolated||
 Epiroc AB ser. A|2026-02-24|266.7|0.22516559224547017|18.0|36.0|interpolated||
-Epiroc AB ser. A|2026-02-25|267.7|0.22474022015351738|17.0|35.0|interpolated||
+Epiroc AB ser. A|2026-02-25|266.9|0.2129705319260041|17.0|35.0|interpolated||
 Ericsson, Telefonab. L M ser. B|2026-02-19|101.65|0.2038544432859558|21.0|39.0|interpolated||
 Ericsson, Telefonab. L M ser. B|2026-02-20|102.05|0.2468047273027947|20.0|38.0|interpolated||
 Ericsson, Telefonab. L M ser. B|2026-02-23|100.85|0.2570648590180086|19.0|37.0|interpolated||
 Ericsson, Telefonab. L M ser. B|2026-02-24|99.76|0.2730671914480053|18.0|36.0|interpolated||
-Ericsson, Telefonab. L M ser. B|2026-02-25|100.5|0.2811072357278026|17.0|35.0|interpolated||
+Ericsson, Telefonab. L M ser. B|2026-02-25|100.5|0.27776180722759536|17.0|35.0|interpolated||
 Essity AB ser. B|2024-04-18|253.2|0.1992797502930979|19.0|42.0|interpolated||
 Essity AB ser. B|2024-04-19|254.5|0.2124078038118508|18.0|41.0|interpolated||
 Essity AB ser. B|2024-04-22|269.8|0.3898575957399542|17.0|40.0|interpolated||
@@ -9324,7 +9324,7 @@ Essity AB ser. B|2026-02-19|282.1|0.1507747467845707|21.0|39.0|interpolated||
 Essity AB ser. B|2026-02-20|285.7|0.1704852948494341|20.0|38.0|interpolated||
 Essity AB ser. B|2026-02-23|287.5|0.1526611929116026|19.0|37.0|interpolated||
 Essity AB ser. B|2026-02-24|289.3|0.14606134498295556|18.0|36.0|interpolated||
-Essity AB ser. B|2026-02-25|287.1|0.15699641621472665|17.0|35.0|interpolated||
+Essity AB ser. B|2026-02-25|285.9|0.15224901702538948|17.0|35.0|interpolated||
 Evolution AB|2024-04-18|1295.5|0.4046699648541446|19.0|42.0|interpolated||
 Evolution AB|2024-04-19|1281.0|0.4105585366183417|18.0|41.0|interpolated||
 Evolution AB|2024-04-22|1295.0|0.3387386532456545|17.0|40.0|interpolated||
@@ -9786,7 +9786,7 @@ Evolution AB|2026-02-19|538.2|0.2613526171429417|21.0|39.0|interpolated||
 Evolution AB|2026-02-20|532.2|0.3207173753955694|20.0|38.0|interpolated||
 Evolution AB|2026-02-23|515.8|0.30071200807522586|19.0|37.0|interpolated||
 Evolution AB|2026-02-24|527.2|0.303315845385106|18.0|36.0|interpolated||
-Evolution AB|2026-02-25|537.6|0.3090132020956134|17.0|35.0|interpolated||
+Evolution AB|2026-02-25|538.6|0.305254469101461|17.0|35.0|interpolated||
 Fabege AB|2024-04-18|87.3|0.3304539091277561|19.0|42.0|interpolated||
 Fabege AB|2024-04-19|88.2|0.2819520073716927|18.0|41.0|interpolated||
 Fabege AB|2024-04-22|88.6|0.2413424423776724|17.0|40.0|interpolated||
@@ -10247,7 +10247,7 @@ Fabege AB|2026-02-19|81.4|0.2203416884674851|21.0|39.0|interpolated||
 Fabege AB|2026-02-20|83.3|0.2735754315078064|20.0|38.0|interpolated||
 Fabege AB|2026-02-23|82.3|0.2530307418217692|19.0|37.0|interpolated||
 Fabege AB|2026-02-24|82.8|0.2841937874078988|18.0|36.0|interpolated||
-Fabege AB|2026-02-25|82.9|0.26029174933002747|17.0|35.0|interpolated||
+Fabege AB|2026-02-25|82.6|0.24850309760620154|17.0|35.0|interpolated||
 Fastighets AB Balder ser. B|2024-04-18|66.4|0.3876230677963863|19.0|42.0|interpolated||
 Fastighets AB Balder ser. B|2024-04-19|66.78|0.3365155640469519|18.0|41.0|interpolated||
 Fastighets AB Balder ser. B|2024-04-22|67.1|0.3014122909332997|17.0|40.0|interpolated||
@@ -10697,7 +10697,7 @@ Fastighets AB Balder ser. B|2026-02-19|63.6|0.2526384858189398|21.0|39.0|interpo
 Fastighets AB Balder ser. B|2026-02-20|65.94|0.3100727036224927|20.0|38.0|interpolated||
 Fastighets AB Balder ser. B|2026-02-23|65.24|0.29280597938835207|19.0|37.0|interpolated||
 Fastighets AB Balder ser. B|2026-02-24|65.66|0.27897247600497704|18.0|36.0|interpolated||
-Fastighets AB Balder ser. B|2026-02-25|65.8|0.3098629722108778|17.0|35.0|interpolated||
+Fastighets AB Balder ser. B|2026-02-25|65.9|0.3162834952710826|17.0|35.0|interpolated||
 Getinge AB ser. B|2024-04-18|209.9|0.3814590695633686|19.0|42.0|interpolated||
 Getinge AB ser. B|2024-04-19|212.8|0.3618640410234529|18.0|41.0|interpolated||
 Getinge AB ser. B|2024-04-22|235.1|0.3470818033316334|17.0|40.0|interpolated||
@@ -11158,7 +11158,7 @@ Getinge AB ser. B|2026-02-19|200.4|0.2031247695703162|21.0|39.0|interpolated||
 Getinge AB ser. B|2026-02-20|203.6|0.2573837755601239|20.0|38.0|interpolated||
 Getinge AB ser. B|2026-02-23|199.05|0.24209295388639998|19.0|37.0|interpolated||
 Getinge AB ser. B|2026-02-24|198.75|0.24208598014941063|18.0|36.0|interpolated||
-Getinge AB ser. B|2026-02-25|199.8|0.2424282767072517|17.0|35.0|interpolated||
+Getinge AB ser. B|2026-02-25|200.1|0.2465327349090537|17.0|35.0|interpolated||
 Hennes & Mauritz AB, H & M ser. B|2024-04-18|170.45|0.2703374952786064|19.0|42.0|interpolated||
 Hennes & Mauritz AB, H & M ser. B|2024-04-19|171.1|0.2646209862993141|18.0|41.0|interpolated||
 Hennes & Mauritz AB, H & M ser. B|2024-04-22|179.95|0.4089771272625527|17.0|40.0|interpolated||
@@ -11620,7 +11620,7 @@ Hennes & Mauritz AB, H & M ser. B|2026-02-19|184.5|0.2168243457266033|21.0|39.0|
 Hennes & Mauritz AB, H & M ser. B|2026-02-20|182.95|0.270512511304571|20.0|38.0|interpolated||
 Hennes & Mauritz AB, H & M ser. B|2026-02-23|181.4|0.26562244518610095|19.0|37.0|interpolated||
 Hennes & Mauritz AB, H & M ser. B|2026-02-24|187.55|0.29038216951055734|18.0|36.0|interpolated||
-Hennes & Mauritz AB, H & M ser. B|2026-02-25|192.1|0.280150731207536|17.0|35.0|interpolated||
+Hennes & Mauritz AB, H & M ser. B|2026-02-25|192.3|0.28132485311605315|17.0|35.0|interpolated||
 Hexagon AB ser. B|2024-04-18|121.7|0.2723244326693133|19.0|42.0|interpolated||
 Hexagon AB ser. B|2024-04-19|120.4|0.2632324125354348|18.0|41.0|interpolated||
 Hexagon AB ser. B|2024-04-22|120.2|0.246088084603129|17.0|40.0|interpolated||
@@ -12081,7 +12081,7 @@ Hexagon AB ser. B|2026-02-19|98.8|0.2501683495694247|21.0|39.0|interpolated||
 Hexagon AB ser. B|2026-02-20|99.64|0.2694018119562358|20.0|38.0|interpolated||
 Hexagon AB ser. B|2026-02-23|98.44|0.2535030432156054|19.0|37.0|interpolated||
 Hexagon AB ser. B|2026-02-24|99.22|0.2726833076872796|18.0|36.0|interpolated||
-Hexagon AB ser. B|2026-02-25|99.38|0.2715020927171955|17.0|35.0|interpolated||
+Hexagon AB ser. B|2026-02-25|99.0|0.2579934595739487|17.0|35.0|interpolated||
 Holmen AB ser. B|2024-04-18|410.6|0.1927817125276257|19.0|42.0|interpolated||
 Holmen AB ser. B|2024-04-19|416.2|0.1969579251001636|18.0|41.0|interpolated||
 Holmen AB ser. B|2024-04-22|418.6|0.1740075631127549|17.0|40.0|interpolated||
@@ -12541,7 +12541,7 @@ Holmen AB ser. B|2026-02-19|357.2|0.2038439931321351|21.0|39.0|interpolated||
 Holmen AB ser. B|2026-02-20|359.6|0.2591538251498252|20.0|38.0|interpolated||
 Holmen AB ser. B|2026-02-23|356.4|0.23245067054559895|19.0|37.0|interpolated||
 Holmen AB ser. B|2026-02-24|358.8|0.23284393421502322|18.0|36.0|interpolated||
-Holmen AB ser. B|2026-02-25|359.2|0.23127961053616525|17.0|35.0|interpolated||
+Holmen AB ser. B|2026-02-25|357.8|0.21966004656514823|17.0|35.0|interpolated||
 Husqvarna AB ser. B|2024-04-18|82.6|0.3152881359869898|19.0|42.0|interpolated||
 Husqvarna AB ser. B|2024-04-19|81.08|0.2602238608343256|18.0|41.0|interpolated||
 Husqvarna AB ser. B|2024-04-22|87.8|0.6735045596246853|17.0|40.0|interpolated||
@@ -13003,7 +13003,7 @@ Husqvarna AB ser. B|2026-02-19|43.77|0.2345745534491234|21.0|39.0|interpolated||
 Husqvarna AB ser. B|2026-02-20|43.67|0.2986963580557984|20.0|38.0|interpolated||
 Husqvarna AB ser. B|2026-02-23|43.0|0.2804545622682115|19.0|37.0|interpolated||
 Husqvarna AB ser. B|2026-02-24|43.6|0.2637337541871447|18.0|36.0|interpolated||
-Husqvarna AB ser. B|2026-02-25|43.38|0.2741553803969719|17.0|35.0|interpolated||
+Husqvarna AB ser. B|2026-02-25|43.31|0.27968058799309825|17.0|35.0|interpolated||
 Industrivärden, AB ser. C|2024-04-18|357.5|0.1683512209822554|19.0|42.0|interpolated||
 Industrivärden, AB ser. C|2024-04-19|352.5|0.1558036751277876|18.0|41.0|interpolated||
 Industrivärden, AB ser. C|2024-04-22|353.9|0.1344180995152764|17.0|40.0|interpolated||
@@ -13464,7 +13464,7 @@ Industrivärden, AB ser. C|2026-02-19|484.2|0.1651148699680362|21.0|39.0|interpo
 Industrivärden, AB ser. C|2026-02-20|488.3|0.1910320149226027|20.0|38.0|interpolated||
 Industrivärden, AB ser. C|2026-02-23|489.8|0.1905937380698081|19.0|37.0|interpolated||
 Industrivärden, AB ser. C|2026-02-24|495.8|0.17885686976590312|18.0|36.0|interpolated||
-Industrivärden, AB ser. C|2026-02-25|498.7|0.17946162729250104|17.0|35.0|interpolated||
+Industrivärden, AB ser. C|2026-02-25|498.6|0.17893537978612964|17.0|35.0|interpolated||
 Investor AB ser. B|2024-04-18|261.85|0.1964952399968471|19.0|42.0|interpolated||
 Investor AB ser. B|2024-04-19|261.05|0.1803151940819435|18.0|41.0|interpolated||
 Investor AB ser. B|2024-04-22|271.05|0.2877079665086145|17.0|40.0|interpolated||
@@ -13924,7 +13924,7 @@ Investor AB ser. B|2026-02-19|365.55|0.1690724676538674|21.0|39.0|interpolated||
 Investor AB ser. B|2026-02-20|368.0|0.1899352096875569|20.0|38.0|interpolated||
 Investor AB ser. B|2026-02-23|368.05|0.1941081961248992|19.0|37.0|interpolated||
 Investor AB ser. B|2026-02-24|370.7|0.1795029552031739|18.0|36.0|interpolated||
-Investor AB ser. B|2026-02-25|372.7|0.18213749027988282|17.0|35.0|interpolated||
+Investor AB ser. B|2026-02-25|372.45|0.17635788221534512|17.0|35.0|interpolated||
 JM AB|2024-04-18|195.7|0.4716292970443851|19.0|42.0|interpolated||
 JM AB|2024-04-19|190.6|0.3548037169336192|18.0|41.0|interpolated||
 JM AB|2024-04-22|196.3|0.381853540326979|17.0|40.0|interpolated||
@@ -14383,7 +14383,7 @@ JM AB|2026-02-19|131.7|0.2859533373535945|21.0|39.0|interpolated||
 JM AB|2026-02-20|134.9|0.303499019246684|20.0|38.0|interpolated||
 JM AB|2026-02-23|132.6|0.30129566779507033|19.0|37.0|interpolated||
 JM AB|2026-02-24|132.6|0.30013801828682857|18.0|36.0|interpolated||
-JM AB|2026-02-25|133.8|0.30034378614464435|17.0|35.0|interpolated||
+JM AB|2026-02-25|133.5|0.28659600956836706|17.0|35.0|interpolated||
 Kinnevik AB ser. B|2024-04-18|112.4|0.3485675889873291|19.0|42.0|interpolated||
 Kinnevik AB ser. B|2024-04-19|112.5|0.2823010289966222|18.0|41.0|interpolated||
 Kinnevik AB ser. B|2024-04-22|116.95|0.3148040829994385|17.0|40.0|interpolated||
@@ -14844,7 +14844,7 @@ Kinnevik AB ser. B|2026-02-19|64.58|0.2827063124020911|21.0|39.0|interpolated||
 Kinnevik AB ser. B|2026-02-20|64.6|0.3435870784527323|20.0|38.0|interpolated||
 Kinnevik AB ser. B|2026-02-23|62.3|0.33678225433762754|19.0|37.0|interpolated||
 Kinnevik AB ser. B|2026-02-24|63.3|0.3479130642653989|18.0|36.0|interpolated||
-Kinnevik AB ser. B|2026-02-25|62.54|0.3517112040298589|17.0|35.0|interpolated||
+Kinnevik AB ser. B|2026-02-25|62.28|0.34165961638349623|17.0|35.0|interpolated||
 Latour, Investmentab. ser. B|2024-04-18|277.4|0.3187908216354401|19.0|42.0|interpolated||
 Latour, Investmentab. ser. B|2024-04-19|275.1|0.2973074397249742|18.0|41.0|interpolated||
 Latour, Investmentab. ser. B|2024-04-22|270.7|0.23726032970786|17.0|40.0|interpolated||
@@ -15284,7 +15284,7 @@ Latour, Investmentab. ser. B|2026-02-19|225.2|0.2238069856329556|21.0|39.0|inter
 Latour, Investmentab. ser. B|2026-02-20|229.3|0.2464632529391985|20.0|38.0|interpolated||
 Latour, Investmentab. ser. B|2026-02-23|224.9|0.2650588912943755|19.0|37.0|interpolated||
 Latour, Investmentab. ser. B|2026-02-24|225.1|0.24809559822084754|18.0|36.0|interpolated||
-Latour, Investmentab. ser. B|2026-02-25|223.7|0.2708574070101319|17.0|35.0|interpolated||
+Latour, Investmentab. ser. B|2026-02-25|223.5|0.25812427080207245|17.0|35.0|interpolated||
 Lundin Mining Corporation|2024-04-18|127.7|0.3958788672625081|19.0|42.0|interpolated||
 Lundin Mining Corporation|2024-04-19|125.8|0.3306038403569131|18.0|41.0|interpolated||
 Lundin Mining Corporation|2024-04-22|127.5|0.4922148258772219|17.0|40.0|interpolated||
@@ -15728,7 +15728,7 @@ Lundin Mining Corporation|2026-02-19|234.2|0.4603808890463218|21.0|39.0|interpol
 Lundin Mining Corporation|2026-02-20|253.2|0.5077370064526884|20.0|38.0|interpolated||
 Lundin Mining Corporation|2026-02-23|266.0|0.5085598373836683|19.0|37.0|interpolated||
 Lundin Mining Corporation|2026-02-24|286.6|0.5259735616373362|18.0|36.0|interpolated||
-Lundin Mining Corporation|2026-02-25|298.0|0.5309258173091062|17.0|35.0|interpolated||
+Lundin Mining Corporation|2026-02-25|295.4|0.5376262515230747|17.0|35.0|interpolated||
 MARKET_IV|2024-04-18||0.3108476150161463|||market_equal_weight|52.0|2.0
 MARKET_IV|2024-04-19||0.2836953165871307|||market_equal_weight|52.0|2.0
 MARKET_IV|2024-04-22||0.3677029203002308|||market_equal_weight|50.0|4.0
@@ -16190,7 +16190,7 @@ MARKET_IV|2026-02-19||0.256906234689762|||market_equal_weight|65.0|2.0
 MARKET_IV|2026-02-20||0.3067909523942157|||market_equal_weight|66.0|1.0
 MARKET_IV|2026-02-23||0.30338832477507505|||market_equal_weight|66.0|1.0
 MARKET_IV|2026-02-24||0.3029818290197159|||market_equal_weight|66.0|1.0
-MARKET_IV|2026-02-25||0.3101658460470877|||market_equal_weight|67.0|0.0
+MARKET_IV|2026-02-25||0.30165000121813196|||market_equal_weight|66.0|1.0
 Modern Times Group MTG AB ser. B|2024-04-18|88.65|0.3702629233890583|19.0|42.0|interpolated||
 Modern Times Group MTG AB ser. B|2024-04-19|88.55|0.3210063135959971|18.0|41.0|interpolated||
 Modern Times Group MTG AB ser. B|2024-04-22|92.85|0.4877611772640458|17.0|40.0|interpolated||
@@ -16627,7 +16627,7 @@ Modern Times Group MTG AB ser. B|2026-02-19|88.1|0.3204772767973206|21.0|81.0|in
 Modern Times Group MTG AB ser. B|2026-02-20|89.0|0.3935946131202132|20.0|80.0|interpolated||
 Modern Times Group MTG AB ser. B|2026-02-23|86.7|0.38753954321432854|19.0|79.0|interpolated||
 Modern Times Group MTG AB ser. B|2026-02-24|86.2|0.3695878466323007|18.0|78.0|interpolated||
-Modern Times Group MTG AB ser. B|2026-02-25|88.45|0.3825632314712739|17.0|77.0|interpolated||
+Modern Times Group MTG AB ser. B|2026-02-25|88.55|0.3735144588265334|17.0|77.0|interpolated||
 NCC AB ser. B|2024-04-18|127.4|0.2393277582650933|19.0|42.0|interpolated||
 NCC AB ser. B|2024-04-19|130.2|0.2251176827946671|18.0|41.0|interpolated||
 NCC AB ser. B|2024-04-22|131.0|0.2309852546822226|17.0|40.0|interpolated||
@@ -17076,7 +17076,7 @@ NCC AB ser. B|2026-02-19|219.4|0.2296950862124341|21.0|39.0|interpolated||
 NCC AB ser. B|2026-02-20|222.6|0.2853305949097436|20.0|38.0|interpolated||
 NCC AB ser. B|2026-02-23|219.6|0.2698514728296268|19.0|37.0|interpolated||
 NCC AB ser. B|2026-02-24|228.0|0.2699880090634873|18.0|36.0|interpolated||
-NCC AB ser. B|2026-02-25|224.8|0.2651274509125957|17.0|35.0|interpolated||
+NCC AB ser. B|2026-02-25|225.2|0.25864627590640654|17.0|35.0|interpolated||
 NIBE Industrier AB ser. B|2024-04-18|48.89|0.47457244942089|19.0|42.0|interpolated||
 NIBE Industrier AB ser. B|2024-04-19|48.83|0.4538600439623371|18.0|41.0|interpolated||
 NIBE Industrier AB ser. B|2024-04-22|51.54|0.5816432950757874|17.0|40.0|interpolated||
@@ -17536,7 +17536,7 @@ NIBE Industrier AB ser. B|2026-02-19|39.38|0.2982944483038607|21.0|39.0|interpol
 NIBE Industrier AB ser. B|2026-02-20|40.07|0.3215004914489892|20.0|38.0|interpolated||
 NIBE Industrier AB ser. B|2026-02-23|39.35|0.33686390614894646|19.0|37.0|interpolated||
 NIBE Industrier AB ser. B|2026-02-24|40.37|0.3299591062385873|18.0|36.0|interpolated||
-NIBE Industrier AB ser. B|2026-02-25|35.35|0.42127641066364413|17.0|35.0|interpolated||
+NIBE Industrier AB ser. B|2026-02-25|35.1|0.3909332375818566|17.0|35.0|interpolated||
 New Wave Group AB ser. B|2024-04-18|109.8|0.4403358572539619|19.0|42.0|interpolated||
 New Wave Group AB ser. B|2024-04-19|108.3|0.3714882341917911|18.0|41.0|interpolated||
 New Wave Group AB ser. B|2024-04-22|108.9|0.4041989980686187|17.0|40.0|interpolated||
@@ -17974,17 +17974,17 @@ New Wave Group AB ser. B|2026-02-19|101.8|0.1792854817697681|21.0|39.0|interpola
 New Wave Group AB ser. B|2026-02-20|101.8|0.2671983282529392|20.0|38.0|interpolated||
 New Wave Group AB ser. B|2026-02-23|100.4|0.2339704507463348|19.0|37.0|interpolated||
 New Wave Group AB ser. B|2026-02-24|100.5|0.23556453935554453|18.0|36.0|interpolated||
-New Wave Group AB ser. B|2026-02-25|100.8|0.26497429586187365|17.0|35.0|interpolated||
+New Wave Group AB ser. B|2026-02-25|100.4|0.2378815291313048|17.0|35.0|interpolated||
 Nokia Corporation|2026-02-19|67.8|0.2920552205720454|21.0|39.0|interpolated||
 Nokia Corporation|2026-02-20|68.58|0.325249338203703|20.0|38.0|interpolated||
 Nokia Corporation|2026-02-23|68.48|0.3294144909023716|19.0|37.0|interpolated||
 Nokia Corporation|2026-02-24|67.34|0.3334778031248063|18.0|36.0|interpolated||
-Nokia Corporation|2026-02-25|68.32|0.34721110408838457|17.0|35.0|interpolated||
+Nokia Corporation|2026-02-25|68.32|0.33639931326068573|17.0|35.0|interpolated||
 Nordea Bank Abp|2026-02-19|176.45|0.1947368323152394|21.0|39.0|interpolated||
 Nordea Bank Abp|2026-02-20|179.1|0.2461307242075339|20.0|38.0|interpolated||
 Nordea Bank Abp|2026-02-23|178.85|0.2597811391973347|19.0|37.0|interpolated||
 Nordea Bank Abp|2026-02-24|176.95|0.27698221721564587|18.0|36.0|interpolated||
-Nordea Bank Abp|2026-02-25|178.3|0.28728536244642877|17.0|35.0|interpolated||
+Nordea Bank Abp|2026-02-25|178.3|0.2868345532954471|17.0|35.0|interpolated||
 Nordnet AB|2025-04-14|247.8|0.4249579925793386|21.0|43.0|interpolated||
 Nordnet AB|2025-04-15|255.8|0.4016146234674103|20.0|42.0|interpolated||
 Nordnet AB|2025-04-16|254.6|0.3963660506647771|19.0|41.0|interpolated||
@@ -18200,7 +18200,7 @@ Nordnet AB|2026-02-19|292.6|0.2036385485748274|21.0|39.0|interpolated||
 Nordnet AB|2026-02-20|295.8|0.2534606986217339|20.0|38.0|interpolated||
 Nordnet AB|2026-02-23|286.2|0.2510493521812835|19.0|37.0|interpolated||
 Nordnet AB|2026-02-24|281.8|0.2509359218992275|18.0|36.0|interpolated||
-Nordnet AB|2026-02-25|284.4|0.24724766028876616|17.0|35.0|interpolated||
+Nordnet AB|2026-02-25|284.0|0.2334456539747263|17.0|35.0|interpolated||
 SAAB AB ser. B|2024-05-07|224.0|0.2487461093286194|7.0|30.0|interpolated||
 SAAB AB ser. B|2024-05-10|226.3|0.2436869081024404|5.0|28.0|interpolated||
 SAAB AB ser. B|2024-05-13|239.8|0.55569822054786|4.0|27.0|interpolated||
@@ -18649,7 +18649,7 @@ SAAB AB ser. B|2026-02-19|672.9|0.3469595475164672|21.0|39.0|interpolated||
 SAAB AB ser. B|2026-02-20|669.4|0.4008099792955437|20.0|38.0|interpolated||
 SAAB AB ser. B|2026-02-23|649.4|0.4004043930904861|19.0|37.0|interpolated||
 SAAB AB ser. B|2026-02-24|657.9|0.4042740428901776|18.0|36.0|interpolated||
-SAAB AB ser. B|2026-02-25|646.9|0.41662401525027937|17.0|35.0|interpolated||
+SAAB AB ser. B|2026-02-25|648.6|0.4314431920788931|17.0|35.0|interpolated||
 SKF, AB ser. B|2024-04-18|219.6|0.2423888749155442|19.0|42.0|interpolated||
 SKF, AB ser. B|2024-04-19|219.5|0.2498343333422427|18.0|41.0|interpolated||
 SKF, AB ser. B|2024-04-22|225.2|0.2843024466550927|17.0|40.0|interpolated||
@@ -19111,17 +19111,17 @@ SKF, AB ser. B|2026-02-19|254.7|0.2100715226125926|21.0|39.0|interpolated||
 SKF, AB ser. B|2026-02-20|260.0|0.2334721264383263|20.0|38.0|interpolated||
 SKF, AB ser. B|2026-02-23|259.3|0.23998690833004438|19.0|37.0|interpolated||
 SKF, AB ser. B|2026-02-24|261.3|0.2256807651860561|18.0|36.0|interpolated||
-SKF, AB ser. B|2026-02-25|259.1|0.23853320998575556|17.0|35.0|interpolated||
+SKF, AB ser. B|2026-02-25|258.0|0.23292174306058538|17.0|35.0|interpolated||
 SSAB AB ser. A|2026-02-19|77.24|0.3182392197131443|21.0|39.0|interpolated||
 SSAB AB ser. A|2026-02-20|77.9|0.3769267203847067|20.0|38.0|interpolated||
 SSAB AB ser. A|2026-02-23|79.7|0.3572576387291646|19.0|37.0|interpolated||
 SSAB AB ser. A|2026-02-24|79.38|0.36282812708368756|18.0|36.0|interpolated||
-SSAB AB ser. A|2026-02-25|80.56|0.3513551648314718|17.0|35.0|interpolated||
+SSAB AB ser. A|2026-02-25|80.56|0.3433290512491204|17.0|35.0|interpolated||
 SSAB AB ser. B|2026-02-19|76.56|0.326623203170673|21.0|39.0|interpolated||
 SSAB AB ser. B|2026-02-20|77.08|0.3749346427586552|20.0|38.0|interpolated||
 SSAB AB ser. B|2026-02-23|78.84|0.35982329177438577|19.0|37.0|interpolated||
 SSAB AB ser. B|2026-02-24|78.68|0.37585431851873535|18.0|36.0|interpolated||
-SSAB AB ser. B|2026-02-25|79.92|0.365328989972215|17.0|35.0|interpolated||
+SSAB AB ser. B|2026-02-25|79.92|0.35910506594342345|17.0|35.0|interpolated||
 Sagax AB B|2024-04-18|265.8|0.3585922442779237|19.0|42.0|interpolated||
 Sagax AB B|2024-04-19|265.6|0.2968254380480166|18.0|41.0|interpolated||
 Sagax AB B|2024-04-22|272.6|0.35612655151618|17.0|40.0|interpolated||
@@ -19555,7 +19555,7 @@ Sagax AB B|2026-02-19|174.8|0.2463101620636759|21.0|39.0|interpolated||
 Sagax AB B|2026-02-20|178.3|0.2863548249472027|20.0|38.0|interpolated||
 Sagax AB B|2026-02-23|176.3|0.2626067426510515|19.0|37.0|interpolated||
 Sagax AB B|2026-02-24|180.0|0.2769934678641301|18.0|36.0|interpolated||
-Sagax AB B|2026-02-25|182.8|0.2806442694018154|17.0|35.0|interpolated||
+Sagax AB B|2026-02-25|183.3|0.2854950875540878|17.0|35.0|interpolated||
 Samhällsbyggnadsbo. i Norden AB ser. B|2025-04-14|3.63|0.5739412766893729|21.0|43.0|interpolated||
 Samhällsbyggnadsbo. i Norden AB ser. B|2025-04-15|3.729|0.4673618995092719|20.0|42.0|interpolated||
 Samhällsbyggnadsbo. i Norden AB ser. B|2025-04-16|3.651||||no_data||
@@ -19771,7 +19771,7 @@ Samhällsbyggnadsbo. i Norden AB ser. B|2026-02-19|4.27|0.6461908253786105|21.0|
 Samhällsbyggnadsbo. i Norden AB ser. B|2026-02-20|4.435|0.7768656518281518|20.0|38.0|interpolated||
 Samhällsbyggnadsbo. i Norden AB ser. B|2026-02-23|4.293|0.8785883388122223|19.0|37.0|interpolated||
 Samhällsbyggnadsbo. i Norden AB ser. B|2026-02-24|4.286|0.7422528106525625|18.0|36.0|interpolated||
-Samhällsbyggnadsbo. i Norden AB ser. B|2026-02-25|3.97|0.5504568437958115|17.0|35.0|interpolated||
+Samhällsbyggnadsbo. i Norden AB ser. B|2026-02-25|3.89|0.49976174387981037|17.0|35.0|interpolated||
 Sandvik AB|2024-04-18|239.9|0.3004461978514181|19.0|42.0|interpolated||
 Sandvik AB|2024-04-19|237.1|0.2924300916177511|18.0|41.0|interpolated||
 Sandvik AB|2024-04-22|227.3|0.2715199309107164|17.0|40.0|interpolated||
@@ -20232,7 +20232,7 @@ Sandvik AB|2026-02-19|377.5|0.2267650976795285|21.0|39.0|interpolated||
 Sandvik AB|2026-02-20|379.6|0.280019772408153|20.0|38.0|interpolated||
 Sandvik AB|2026-02-23|383.1|0.2552613612341878|19.0|37.0|interpolated||
 Sandvik AB|2026-02-24|391.1|0.25648113816092355|18.0|36.0|interpolated||
-Sandvik AB|2026-02-25|396.5|0.25443029681010493|17.0|35.0|interpolated||
+Sandvik AB|2026-02-25|397.6|0.2656705353339866|17.0|35.0|interpolated||
 Securitas AB ser. B|2024-04-18|109.45|0.2899162481281986|19.0|42.0|interpolated||
 Securitas AB ser. B|2024-04-19|109.65|0.2766299895016454|18.0|41.0|interpolated||
 Securitas AB ser. B|2024-04-22|110.55|0.2670033976429233|17.0|40.0|interpolated||
@@ -20693,7 +20693,7 @@ Securitas AB ser. B|2026-02-19|156.7|0.1691438077075857|21.0|39.0|interpolated||
 Securitas AB ser. B|2026-02-20|157.45|0.1997258929731572|20.0|38.0|interpolated||
 Securitas AB ser. B|2026-02-23|155.9|0.21444423691148862|19.0|37.0|interpolated||
 Securitas AB ser. B|2026-02-24|155.95|0.21028963477370063|18.0|36.0|interpolated||
-Securitas AB ser. B|2026-02-25|157.25|0.19592979688477058|17.0|35.0|interpolated||
+Securitas AB ser. B|2026-02-25|157.7|0.2008770386587206|17.0|35.0|interpolated||
 Sinch AB|2024-04-18|24.75|0.8107029785031432|19.0|42.0|interpolated||
 Sinch AB|2024-04-19|24.35|0.785985189411681|18.0|41.0|interpolated||
 Sinch AB|2024-04-22|26.39|0.931796190451159|17.0|40.0|interpolated||
@@ -21155,7 +21155,7 @@ Sinch AB|2026-02-19|22.18|0.3736297934431939|21.0|39.0|interpolated||
 Sinch AB|2026-02-20|22.26|0.4609116192109876|20.0|38.0|interpolated||
 Sinch AB|2026-02-23|21.12|0.44268174284057316|19.0|37.0|interpolated||
 Sinch AB|2026-02-24|21.81|0.41947424595254196|18.0|36.0|interpolated||
-Sinch AB|2026-02-25|22.11|0.426198810093861|17.0|35.0|interpolated||
+Sinch AB|2026-02-25|22.19|0.4400573588635686|17.0|35.0|interpolated||
 Skandinaviska Enskilda Banken ser. A|2024-04-18|145.35|0.2430665126161338|19.0|42.0|interpolated||
 Skandinaviska Enskilda Banken ser. A|2024-04-19|145.25|0.2091046692357204|18.0|41.0|interpolated||
 Skandinaviska Enskilda Banken ser. A|2024-04-22|144.4|0.1565324036920994|17.0|40.0|interpolated||
@@ -21616,7 +21616,7 @@ Skandinaviska Enskilda Banken ser. A|2026-02-19|193.0|0.1830020570184184|21.0|39
 Skandinaviska Enskilda Banken ser. A|2026-02-20|196.0|0.211311916961532|20.0|38.0|interpolated||
 Skandinaviska Enskilda Banken ser. A|2026-02-23|194.6|0.2058696940417597|19.0|37.0|interpolated||
 Skandinaviska Enskilda Banken ser. A|2026-02-24|193.3|0.21877278366674785|18.0|36.0|interpolated||
-Skandinaviska Enskilda Banken ser. A|2026-02-25|195.45|0.2029846417167576|17.0|35.0|interpolated||
+Skandinaviska Enskilda Banken ser. A|2026-02-25|195.5|0.20601588959063485|17.0|35.0|interpolated||
 Skanska AB ser. B|2024-04-18|189.4|0.2629862149731246|19.0|42.0|interpolated||
 Skanska AB ser. B|2024-04-19|189.25|0.2484070800136429|18.0|41.0|interpolated||
 Skanska AB ser. B|2024-04-22|191.2|0.272086259622833|17.0|40.0|interpolated||
@@ -22065,7 +22065,7 @@ Skanska AB ser. B|2026-02-19|270.5|0.1883922317494145|21.0|39.0|interpolated||
 Skanska AB ser. B|2026-02-20|276.9|0.2070558621608656|20.0|38.0|interpolated||
 Skanska AB ser. B|2026-02-23|274.2|0.22462178661562368|19.0|37.0|interpolated||
 Skanska AB ser. B|2026-02-24|273.8|0.2000990667524834|18.0|36.0|interpolated||
-Skanska AB ser. B|2026-02-25|275.2|0.20676484206336146|17.0|35.0|interpolated||
+Skanska AB ser. B|2026-02-25|274.6|0.20585258844447069|17.0|35.0|interpolated||
 Stora Enso Oyj ser. R|2024-04-18|144.6|0.2719085778673416|19.0|42.0|interpolated||
 Stora Enso Oyj ser. R|2024-04-19|148.8|0.2617102075375863|18.0|41.0|interpolated||
 Stora Enso Oyj ser. R|2024-04-22|148.7|0.2512889213668845|17.0|40.0|interpolated||
@@ -22515,7 +22515,7 @@ Stora Enso Oyj ser. R|2026-02-19|120.4|0.2629926308513182|21.0|39.0|interpolated
 Stora Enso Oyj ser. R|2026-02-20|120.5|0.3060210860450635|20.0|38.0|interpolated||
 Stora Enso Oyj ser. R|2026-02-23|119.5|0.3080538263782892|19.0|37.0|interpolated||
 Stora Enso Oyj ser. R|2026-02-24|121.2|0.29984450227338144|18.0|36.0|interpolated||
-Stora Enso Oyj ser. R|2026-02-25|122.2|0.3109735189397426|17.0|35.0|interpolated||
+Stora Enso Oyj ser. R|2026-02-25|121.4|0.2949818247980239|17.0|35.0|interpolated||
 Svenska Cellulosa AB SCA ser. B|2024-04-18|152.0|0.2557504113213836|19.0|42.0|interpolated||
 Svenska Cellulosa AB SCA ser. B|2024-04-19|152.95|0.2494187070890488|18.0|41.0|interpolated||
 Svenska Cellulosa AB SCA ser. B|2024-04-22|158.7|0.3259345025517003|17.0|40.0|interpolated||
@@ -22977,7 +22977,7 @@ Svenska Cellulosa AB SCA ser. B|2026-02-19|121.0|0.2020131205422535|21.0|39.0|in
 Svenska Cellulosa AB SCA ser. B|2026-02-20|121.1|0.2273596168861879|20.0|38.0|interpolated||
 Svenska Cellulosa AB SCA ser. B|2026-02-23|120.95|0.22972809428906876|19.0|37.0|interpolated||
 Svenska Cellulosa AB SCA ser. B|2026-02-24|122.3|0.23056312235679777|18.0|36.0|interpolated||
-Svenska Cellulosa AB SCA ser. B|2026-02-25|122.7|0.2536070197994208|17.0|35.0|interpolated||
+Svenska Cellulosa AB SCA ser. B|2026-02-25|122.5|0.25151075433010567|17.0|35.0|interpolated||
 Svenska Handelsbanken ser. A|2024-04-18|109.45|0.2500458226053623|19.0|42.0|interpolated||
 Svenska Handelsbanken ser. A|2024-04-19|109.0|0.1977208933695473|18.0|41.0|interpolated||
 Svenska Handelsbanken ser. A|2024-04-22|110.7|0.1983035811102407|17.0|40.0|interpolated||
@@ -23438,7 +23438,7 @@ Svenska Handelsbanken ser. A|2026-02-19|141.45|0.1837522954082136|21.0|39.0|inte
 Svenska Handelsbanken ser. A|2026-02-20|143.7|0.2090072849589769|20.0|38.0|interpolated||
 Svenska Handelsbanken ser. A|2026-02-23|143.65|0.2051677988687726|19.0|37.0|interpolated||
 Svenska Handelsbanken ser. A|2026-02-24|143.55|0.20889786386837583|18.0|36.0|interpolated||
-Svenska Handelsbanken ser. A|2026-02-25|145.95|0.19193372079046603|17.0|35.0|interpolated||
+Svenska Handelsbanken ser. A|2026-02-25|145.8|0.19283620175797833|17.0|35.0|interpolated||
 Swedbank AB ser A|2024-04-18|213.1|0.2515914672771207|19.0|42.0|interpolated||
 Swedbank AB ser A|2024-04-19|214.8|0.2325040093866329|18.0|41.0|interpolated||
 Swedbank AB ser A|2024-04-22|216.1|0.1407329377464194|17.0|40.0|interpolated||
@@ -23898,7 +23898,7 @@ Swedbank AB ser A|2026-02-19|347.3|0.1968756076362759|21.0|39.0|interpolated||
 Swedbank AB ser A|2026-02-20|348.7|0.2459725953226665|20.0|38.0|interpolated||
 Swedbank AB ser A|2026-02-23|349.0|0.23648153152670304|19.0|37.0|interpolated||
 Swedbank AB ser A|2026-02-24|346.0|0.23860898960260818|18.0|36.0|interpolated||
-Swedbank AB ser A|2026-02-25|351.9|0.21864466951656905|17.0|35.0|interpolated||
+Swedbank AB ser A|2026-02-25|351.7|0.21935395522954035|17.0|35.0|interpolated||
 Swedish Orphan Biovitrum AB|2024-04-18|259.4|0.2571618965694998|19.0|42.0|interpolated||
 Swedish Orphan Biovitrum AB|2024-04-19|261.0|0.2407030309586393|18.0|41.0|interpolated||
 Swedish Orphan Biovitrum AB|2024-04-22|281.0|0.523848398323102|17.0|40.0|interpolated||
@@ -24357,7 +24357,7 @@ Swedish Orphan Biovitrum AB|2026-02-19|401.6|0.2562845772815509|21.0|39.0|interp
 Swedish Orphan Biovitrum AB|2026-02-20|402.4|0.3271377627888113|20.0|38.0|interpolated||
 Swedish Orphan Biovitrum AB|2026-02-23|410.0|0.3182722627173163|19.0|37.0|interpolated||
 Swedish Orphan Biovitrum AB|2026-02-24|405.4|0.3149956582412025|18.0|36.0|interpolated||
-Swedish Orphan Biovitrum AB|2026-02-25|404.4|0.31495555231012273|17.0|35.0|interpolated||
+Swedish Orphan Biovitrum AB|2026-02-25|404.6|0.3116904309531167|17.0|35.0|interpolated||
 TRATON SE|2024-04-18|403.5|0.3363530384068685|19.0|42.0|interpolated||
 TRATON SE|2024-04-19|398.0|0.3127685155637743|18.0|41.0|interpolated||
 TRATON SE|2024-04-22|394.0|0.2694217251440474|17.0|40.0|interpolated||
@@ -24806,7 +24806,7 @@ TRATON SE|2026-02-19|389.4|0.2818970047028463|21.0|39.0|interpolated||
 TRATON SE|2026-02-20|395.2|0.3293505499502419|20.0|38.0|interpolated||
 TRATON SE|2026-02-23|390.6|0.3302538262027469|19.0|37.0|interpolated||
 TRATON SE|2026-02-24|393.8|0.34229839258030625|18.0|36.0|interpolated||
-TRATON SE|2026-02-25|386.4|0.33467789360797434|17.0|35.0|interpolated||
+TRATON SE|2026-02-25|386.4|0.32704887397021654|17.0|35.0|interpolated||
 Tele2 AB ser. B|2024-04-18|98.82|0.3034974707855754|19.0|42.0|interpolated||
 Tele2 AB ser. B|2024-04-19|100.85|0.2818657716988089|18.0|41.0|interpolated||
 Tele2 AB ser. B|2024-04-22|104.65|0.3897556456658872|17.0|40.0|interpolated||
@@ -25268,12 +25268,12 @@ Tele2 AB ser. B|2026-02-19|189.1|0.1844811155541939|21.0|39.0|interpolated||
 Tele2 AB ser. B|2026-02-20|190.7|0.2328884663295709|20.0|38.0|interpolated||
 Tele2 AB ser. B|2026-02-23|191.3|0.21238691291464507|19.0|37.0|interpolated||
 Tele2 AB ser. B|2026-02-24|189.6|0.22199565125859178|18.0|36.0|interpolated||
-Tele2 AB ser. B|2026-02-25|190.95|0.2183949432647721|17.0|35.0|interpolated||
+Tele2 AB ser. B|2026-02-25|190.5|0.21474110084455128|17.0|35.0|interpolated||
 Telia Company AB|2026-02-19|44.7|0.1699990395996015|21.0|39.0|interpolated||
 Telia Company AB|2026-02-20|44.93|0.2056407957941972|20.0|38.0|interpolated||
 Telia Company AB|2026-02-23|45.63|0.185470150159826|19.0|37.0|interpolated||
 Telia Company AB|2026-02-24|46.05|0.1911010567505593|18.0|36.0|interpolated||
-Telia Company AB|2026-02-25|46.39|0.19566223200668767|17.0|35.0|interpolated||
+Telia Company AB|2026-02-25|46.39|0.200417802543065|17.0|35.0|interpolated||
 Trelleborg AB ser. B|2024-04-18|381.0|0.2699661687087137|19.0|42.0|interpolated||
 Trelleborg AB ser. B|2024-04-19|376.2|0.2667440268423238|18.0|41.0|interpolated||
 Trelleborg AB ser. B|2024-04-22|388.4|0.5329680840069166|17.0|40.0|interpolated||
@@ -25731,7 +25731,7 @@ Trelleborg AB ser. B|2026-02-19|395.9|0.1994043825648312|21.0|39.0|interpolated|
 Trelleborg AB ser. B|2026-02-20|400.4|0.2320365807503976|20.0|38.0|interpolated||
 Trelleborg AB ser. B|2026-02-23|396.9|0.22151899577158177|19.0|37.0|interpolated||
 Trelleborg AB ser. B|2026-02-24|404.4|0.2321266401203688|18.0|36.0|interpolated||
-Trelleborg AB ser. B|2026-02-25|399.7|0.23013417491759725|17.0|35.0|interpolated||
+Trelleborg AB ser. B|2026-02-25|399.6|0.22610272045071833|17.0|35.0|interpolated||
 Volvo Car AB ser. B|2024-04-18|41.4|0.3211838230421432|19.0|42.0|interpolated||
 Volvo Car AB ser. B|2024-04-19|40.86|0.3617081385579979|18.0|41.0|interpolated||
 Volvo Car AB ser. B|2024-04-22|39.31|0.3228590356400883|17.0|40.0|interpolated||
@@ -26188,7 +26188,7 @@ Volvo Car AB ser. B|2026-02-19|25.35|0.3889584619336739|21.0|39.0|interpolated||
 Volvo Car AB ser. B|2026-02-20|25.73|0.4553776873691617|20.0|38.0|interpolated||
 Volvo Car AB ser. B|2026-02-23|24.7|0.4569554256920533|19.0|37.0|interpolated||
 Volvo Car AB ser. B|2026-02-24|25.31|0.46625695531972616|18.0|36.0|interpolated||
-Volvo Car AB ser. B|2026-02-25|25.26|0.4719633103583618|17.0|35.0|interpolated||
+Volvo Car AB ser. B|2026-02-25|25.1|0.45371916498717635|17.0|35.0|interpolated||
 Volvo, AB ser. B|2024-04-18|292.3|0.1944362656199225|19.0|42.0|interpolated||
 Volvo, AB ser. B|2024-04-19|280.2|0.1780981419860028|18.0|41.0|interpolated||
 Volvo, AB ser. B|2024-04-22|281.3|0.1867278252461437|17.0|40.0|interpolated||
@@ -26644,4 +26644,4 @@ Volvo, AB ser. B|2026-02-19|347.2|0.2007701099588017|21.0|39.0|interpolated||
 Volvo, AB ser. B|2026-02-20|351.1|0.2337304606998244|20.0|38.0|interpolated||
 Volvo, AB ser. B|2026-02-23|350.1|0.23214651854308138|19.0|37.0|interpolated||
 Volvo, AB ser. B|2026-02-24|353.2|0.22976922490033408|18.0|36.0|interpolated||
-Volvo, AB ser. B|2026-02-25|350.0|0.22532846570165968|17.0|35.0|interpolated||
+Volvo, AB ser. B|2026-02-25|349.8|0.22839368575720734|17.0|35.0|interpolated||
