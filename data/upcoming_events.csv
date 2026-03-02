@@ -25,104 +25,108 @@ date|stock_name|event_type|event_category|days_until_event|is_earnings|details
 2026-04-14|Industrivärden, AB ser. C|Ex-Date|Dividend|31|False|8.75 SEK
 2026-04-16|Kinnevik AB ser. B|Earnings Report|Earnings-Q1|33|True|First quarter earnings results
 2026-04-16|Investor AB ser. B|Earnings Report|Earnings-Q1|33|True|First quarter earnings results
-2026-04-17|Ericsson, Telefonab. L M ser. B|Earnings Report|Earnings-Q1|34|True|First quarter earnings results
-2026-04-17|JM AB|Ex-Date|Dividend|34|False|2.0 SEK
 2026-04-17|Husqvarna AB ser. B|Ex-Date|Dividend|34|False|0.5 SEK
 2026-04-17|Ericsson, Telefonab. L M ser. B|Earnings Report|Earnings-Q1|34|True|First quarter earnings results
-2026-04-21|Avanza Bank Holding AB|Earnings Report|Earnings-Q1|36|True|First quarter earnings results
-2026-04-21|Getinge AB ser. B|Earnings Report|Earnings-Q1|36|True|First quarter earnings results
+2026-04-17|JM AB|Ex-Date|Dividend|34|False|2.0 SEK
+2026-04-17|Ericsson, Telefonab. L M ser. B|Earnings Report|Earnings-Q1|34|True|First quarter earnings results
 2026-04-21|SKF, AB ser. B|Earnings Report|Earnings-Q1|36|True|First quarter earnings results
-2026-04-22|Evolution AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|EQT AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|Svenska Handelsbanken ser. A|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-21|Getinge AB ser. B|Earnings Report|Earnings-Q1|36|True|First quarter earnings results
+2026-04-21|Avanza Bank Holding AB|Earnings Report|Earnings-Q1|36|True|First quarter earnings results
 2026-04-22|Sandvik AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|ABB Ltd|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|Getinge AB ser. B|Ex-Date|Dividend|37|False|4.75 SEK
 2026-04-22|BONESUPPORT HOLDING AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-22|Tele2 AB ser. B|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|ABB Ltd|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|Getinge AB ser. B|Ex-Date|Dividend|37|False|4.75 SEK
 2026-04-22|Alfa Laval AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
-2026-04-23|Alfa Laval AB|Ex-Date|Dividend|38|False|9.0 SEK
-2026-04-23|JM AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Hexagon AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Trelleborg AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Dometic Group AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Fabege AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-22|Evolution AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|Svenska Handelsbanken ser. A|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|EQT AB|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|Tele2 AB ser. B|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
+2026-04-22|Nordea Bank Abp|Earnings Report|Earnings-Q1|37|True|First quarter earnings results
 2026-04-23|Nokia Corporation|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|Trelleborg AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
 2026-04-23|SAAB AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
 2026-04-23|New Wave Group AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Samhällsbyggnadsbo. i Norden AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Nokia Corporation|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-23|Essity AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
 2026-04-23|Axfood AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
 2026-04-23|Husqvarna AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
-2026-04-24|Betsson AB ser. B|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
+2026-04-23|Nokia Corporation|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|Alfa Laval AB|Ex-Date|Dividend|38|False|9.0 SEK
+2026-04-23|Dometic Group AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|Essity AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|Hexagon AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|Fabege AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|JM AB|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
+2026-04-23|Samhällsbyggnadsbo. i Norden AB ser. B|Earnings Report|Earnings-Q1|38|True|First quarter earnings results
 2026-04-24|Nordnet AB|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
 2026-04-24|Trelleborg AB ser. B|Ex-Date|Dividend|39|False|8.0 SEK
 2026-04-24|Electrolux, AB ser. B|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
-2026-04-24|Castellum AB|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
 2026-04-24|Volvo, AB ser. B|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
+2026-04-24|Castellum AB|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
+2026-04-24|Betsson AB ser. B|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
 2026-04-24|Svenska Cellulosa AB SCA ser. B|Earnings Report|Earnings-Q1|39|True|First quarter earnings results
 2026-04-27|Hexagon AB ser. B|Ex-Date|Dividend|40|False|0.14 EUR
-2026-04-28|AAK AB|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|Lifco AB ser.B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
 2026-04-28|Nordnet AB|Ex-Date|Dividend|41|False|8.6 SEK
-2026-04-28|SSAB AB ser. A|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|ASSA ABLOY AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|SSAB AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|Boliden AB|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|SSAB AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
 2026-04-28|Billerud Aktiebolag|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
 2026-04-28|Holmen AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|Atlas Copco AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|Atlas Copco AB ser. A|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-28|Swedish Orphan Biovitrum AB|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
 2026-04-28|SSAB AB ser. A|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
 2026-04-28|Securitas AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
-2026-04-29|NCC AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|Fingerprint Cards AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|Stillfront Group AB|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|SSAB AB ser. B|Ex-Date|Dividend|42|False|2.0 SEK
+2026-04-28|SSAB AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|AAK AB|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|Boliden AB|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|SSAB AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|Swedish Orphan Biovitrum AB|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|SSAB AB ser. A|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|Atlas Copco AB ser. A|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|Atlas Copco AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
+2026-04-28|ASSA ABLOY AB ser. B|Earnings Report|Earnings-Q1|41|True|First quarter earnings results
 2026-04-29|Telia Company AB|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
 2026-04-29|SSAB AB ser. A|Ex-Date|Dividend|42|False|2.0 SEK
-2026-04-29|Boliden AB|Ex-Date|Dividend|42|False|11.0 SEK
-2026-04-29|Skandinaviska Enskilda Banken ser. A|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|Modern Times Group MTG AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|Telia Company AB|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|ASSA ABLOY AB ser. B|Ex-Date|Dividend|42|False|3.2 SEK
 2026-04-29|Swedbank AB ser A|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|Epiroc AB ser. A|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
 2026-04-29|SSAB AB ser. B|Ex-Date|Dividend|42|False|2.0 SEK
-2026-04-29|Atlas Copco AB ser. A|Ex-Date|Dividend|42|False|1.0 SEK
-2026-04-29|SSAB AB ser. A|Ex-Date|Dividend|42|False|2.0 SEK
-2026-04-29|Atlas Copco AB ser. B|Ex-Date|Dividend|42|False|1.0 SEK
-2026-04-29|Latour, Investmentab. ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
-2026-04-29|Sandvik AB|Ex-Date|Dividend|42|False|6.0 SEK
-2026-04-29|Avanza Bank Holding AB|Ex-Date|Dividend|42|False|12.75 SEK
+2026-04-29|Epiroc AB ser. A|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|ASSA ABLOY AB ser. B|Ex-Date|Dividend|42|False|3.2 SEK
+2026-04-29|Telia Company AB|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|Skandinaviska Enskilda Banken ser. A|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|Stillfront Group AB|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|NCC AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
 2026-04-29|Volvo Car AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|SSAB AB ser. A|Ex-Date|Dividend|42|False|2.0 SEK
+2026-04-29|Atlas Copco AB ser. A|Ex-Date|Dividend|42|False|1.0 SEK
+2026-04-29|Lifco AB ser.B|Ex-Date|Dividend|42|False|2.7 SEK
+2026-04-29|Modern Times Group MTG AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|Latour, Investmentab. ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|Fingerprint Cards AB ser. B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-04-29|Atlas Copco AB ser. B|Ex-Date|Dividend|42|False|1.0 SEK
+2026-04-29|Avanza Bank Holding AB|Ex-Date|Dividend|42|False|12.75 SEK
+2026-04-29|SSAB AB ser. B|Ex-Date|Dividend|42|False|2.0 SEK
+2026-04-29|Boliden AB|Ex-Date|Dividend|42|False|11.0 SEK
+2026-04-29|Sandvik AB|Ex-Date|Dividend|42|False|6.0 SEK
 2026-04-30|Securitas AB ser. B|Ex-Date|Dividend|43|False|2.65 SEK
 2026-05-04|HEXPOL AB ser. B|Earnings Report|Earnings-Q1|45|True|First quarter earnings results
 2026-05-05|HEXPOL AB ser. B|Ex-Date|Dividend|46|False|4.2 SEK
-2026-05-06|Hennes & Mauritz AB, H & M ser. B|Ex-Date|Dividend|47|False|3.55 SEK
-2026-05-06|Lundin Mining Corporation|Earnings Report|Earnings-Q1|47|True|First quarter earnings results
-2026-05-06|Epiroc AB ser. A|Ex-Date|Dividend|47|False|1.9 SEK
-2026-05-06|Orrön Energy AB|Earnings Report|Earnings-Q1|47|True|First quarter earnings results
 2026-05-06|NCC AB ser. B|Ex-Date|Dividend|47|False|2.0 SEK
+2026-05-06|Hennes & Mauritz AB, H & M ser. B|Ex-Date|Dividend|47|False|3.55 SEK
+2026-05-06|Orrön Energy AB|Earnings Report|Earnings-Q1|47|True|First quarter earnings results
+2026-05-06|Epiroc AB ser. A|Ex-Date|Dividend|47|False|1.9 SEK
+2026-05-06|Lundin Mining Corporation|Earnings Report|Earnings-Q1|47|True|First quarter earnings results
 2026-05-07|Intrum AB|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-05-07|Sinch AB|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
-2026-05-07|Skanska AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-05-07|NOBA Bank Group AB|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-05-07|Stora Enso Oyj ser. R|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
+2026-05-07|Skanska AB ser. B|Earnings Report|Earnings-Q1|48|True|First quarter earnings results
 2026-05-08|Sagax AB B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
 2026-05-08|Fastighets AB Balder ser. B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
 2026-05-08|Investor AB ser. B|Ex-Date|Dividend|49|False|4.0 SEK
-2026-05-11|Sagax AB B|Ex-Date|Dividend|50|False|3.7 SEK
 2026-05-11|AAK AB|Ex-Date|Dividend|50|False|5.5 SEK
+2026-05-11|Sagax AB B|Ex-Date|Dividend|50|False|3.7 SEK
 2026-05-12|Latour, Investmentab. ser. B|Ex-Date|Dividend|51|False|5.1 SEK
 2026-05-19|Tele2 AB ser. B|Ex-Date|Dividend|56|False|5.25 SEK
 2026-05-19|NIBE Industrier AB ser. B|Earnings Report|Earnings-Q1|56|True|First quarter earnings results
-2026-05-20|NIBE Industrier AB ser. B|Ex-Date|Dividend|57|False|0.35 SEK
-2026-05-20|Addtech AB ser. B|Earnings Report|Earnings-FY|57|True|Fourth quarter earnings results
 2026-05-20|Embracer Group AB ser. B|Earnings Report|Earnings-FY|57|True|Fourth quarter earnings results
+2026-05-20|Addtech AB ser. B|Earnings Report|Earnings-FY|57|True|Fourth quarter earnings results
+2026-05-20|NIBE Industrier AB ser. B|Ex-Date|Dividend|57|False|0.35 SEK
 2026-05-21|Asmodee Group AB ser. B|Earnings Report|Earnings-FY|58|True|Fourth quarter earnings results
+2026-05-22|NOBA Bank Group AB|Ex-Date|Dividend|59|False|1.6 SEK
 2026-05-27|Billerud Aktiebolag|Ex-Date|Dividend|62|False|2.0 SEK
