@@ -22,6 +22,7 @@ import { exportToExcel } from "@/utils/excelExport";
 import { toast } from "@/hooks/use-toast";
 
 const PortfolioGenerator = () => {
+  // Force rebuild - 2026-03-06
   usePageTitle('Portfolio Generator');
   const navigate = useNavigate();
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
