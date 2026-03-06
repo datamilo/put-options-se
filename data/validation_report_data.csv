@@ -2119,41 +2119,41 @@ calibration_by_stock|Stillfront Group AB||Bias Corrected|40-50%|0.48591666666666
 calibration_by_stock|Stillfront Group AB||Bias Corrected|50-60%|0.5507500000000001|0.25|20|-0.3007500000000001||||
 calibration_by_stock|Stillfront Group AB||Bias Corrected|60-70%|0.649875|0.4375|32|-0.21237499999999998||||
 calibration_by_stock|Stillfront Group AB||Bias Corrected|70-80%|0.730375|0.875|8|0.144625||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|30-40%|0.38699258819271815|0.43621399176954734|243|0.04922140357682919||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|40-50%|0.4533924444623086|0.4766726943942134|2765|0.023280249931904806||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|50-60%|0.5489998912723479|0.573805202661827|3306|0.024805311389479057||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|60-70%|0.6555400983303923|0.6932361076188082|3977|0.03769600928841588||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|70-80%|0.7489745341486947|0.8411773276992569|6863|0.09220279355056216||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|80-90%|0.8209013559193955|0.8753799392097265|329|0.05447858329033095||||
-calibration_by_stock|Stora Enso Oyj ser. R||Weighted Average|90-100%|0.9237197348846635|0.6|5|-0.32371973488466355||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|20-30%|0.28012649100343695|0.43661971830985913|142|0.15649322730642218||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|30-40%|0.36844460014258673|0.5234899328859061|149|0.15504533274331933||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|40-50%|0.4276658303575103|0.4546979865771812|1788|0.027032156219670866||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|50-60%|0.5489090997327186|0.5589490968801314|3045|0.010039997147412771||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|60-70%|0.6381221776707551|0.6407021393307735|3646|0.0025799616600183928||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|70-80%|0.7362020341965002|0.7619539932799173|3869|0.025751959083417097||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|80-90%|0.8476348374840256|0.868456986800182|4394|0.020822149316156446||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bayesian Calibrated|90-100%|0.932164722159613|0.8505494505494505|455|-0.08161527161016247||||
-calibration_by_stock|Stora Enso Oyj ser. R||Original Black-Scholes|50-60%|0.5512401729319494|0.4823828550671994|2753|-0.06885731786474997||||
-calibration_by_stock|Stora Enso Oyj ser. R||Original Black-Scholes|60-70%|0.6517304010150845|0.5744084682440846|3212|-0.07732193277099986||||
-calibration_by_stock|Stora Enso Oyj ser. R||Original Black-Scholes|70-80%|0.7521016923071265|0.6880846873461349|4062|-0.06401700496099161||||
-calibration_by_stock|Stora Enso Oyj ser. R||Original Black-Scholes|80-90%|0.8528614172560817|0.8277828886844526|5435|-0.025078528571629066||||
-calibration_by_stock|Stora Enso Oyj ser. R||Original Black-Scholes|90-100%|0.9158486885445178|0.9019953051643192|1704|-0.013853383380198592||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|10-20%|0.19565517241379313|0.5862068965517241|29|0.39055172413793093||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|20-30%|0.20125|0.5|8|0.29874999999999996||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|40-50%|0.4562965050732807|0.48102217211574594|2661|0.02472566704246526||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|50-60%|0.5502710140592283|0.5737361651211487|3343|0.023465151061920375||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|60-70%|0.6546602294990205|0.6607892527287993|3573|0.006129023229778818||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|70-80%|0.7525473437238145|0.808446455505279|5967|0.05589911178146456||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|80-90%|0.8260148069804336|0.9132734003172924|1891|0.08725859333685881||||
-calibration_by_stock|Stora Enso Oyj ser. R||Bias Corrected|90-100%|0.9753125|0.6875|16|-0.2878125||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|30-40%|0.35910866752910736|0.4398447606727037|2319|0.08073609314359637||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|40-50%|0.44960655737704913|0.5494018608772707|2257|0.09979530350022159||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|50-60%|0.544656381942189|0.6235790841182202|3079|0.07892270217603115||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|60-70%|0.6465166259168705|0.8171149144254278|8180|0.1705982885085573||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|70-80%|0.743700801424755|0.7773820124666073|1123|0.03368121104185229||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|80-90%|0.8278830409356721|0.7982456140350878|342|-0.02963742690058435||||
-calibration_by_stock|Stora Enso Oyj ser. R||Historical IV|90-100%|0.9479487179487179|0.9230769230769231|39|-0.024871794871794806||||
+calibration_by_stock|Stora Enso||Weighted Average|30-40%|0.38699258819271815|0.43621399176954734|243|0.04922140357682919||||
+calibration_by_stock|Stora Enso||Weighted Average|40-50%|0.4533924444623086|0.4766726943942134|2765|0.023280249931904806||||
+calibration_by_stock|Stora Enso||Weighted Average|50-60%|0.5489998912723479|0.573805202661827|3306|0.024805311389479057||||
+calibration_by_stock|Stora Enso||Weighted Average|60-70%|0.6555400983303923|0.6932361076188082|3977|0.03769600928841588||||
+calibration_by_stock|Stora Enso||Weighted Average|70-80%|0.7489745341486947|0.8411773276992569|6863|0.09220279355056216||||
+calibration_by_stock|Stora Enso||Weighted Average|80-90%|0.8209013559193955|0.8753799392097265|329|0.05447858329033095||||
+calibration_by_stock|Stora Enso||Weighted Average|90-100%|0.9237197348846635|0.6|5|-0.32371973488466355||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|20-30%|0.28012649100343695|0.43661971830985913|142|0.15649322730642218||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|30-40%|0.36844460014258673|0.5234899328859061|149|0.15504533274331933||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|40-50%|0.4276658303575103|0.4546979865771812|1788|0.027032156219670866||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|50-60%|0.5489090997327186|0.5589490968801314|3045|0.010039997147412771||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|60-70%|0.6381221776707551|0.6407021393307735|3646|0.0025799616600183928||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|70-80%|0.7362020341965002|0.7619539932799173|3869|0.025751959083417097||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|80-90%|0.8476348374840256|0.868456986800182|4394|0.020822149316156446||||
+calibration_by_stock|Stora Enso||Bayesian Calibrated|90-100%|0.932164722159613|0.8505494505494505|455|-0.08161527161016247||||
+calibration_by_stock|Stora Enso||Original Black-Scholes|50-60%|0.5512401729319494|0.4823828550671994|2753|-0.06885731786474997||||
+calibration_by_stock|Stora Enso||Original Black-Scholes|60-70%|0.6517304010150845|0.5744084682440846|3212|-0.07732193277099986||||
+calibration_by_stock|Stora Enso||Original Black-Scholes|70-80%|0.7521016923071265|0.6880846873461349|4062|-0.06401700496099161||||
+calibration_by_stock|Stora Enso||Original Black-Scholes|80-90%|0.8528614172560817|0.8277828886844526|5435|-0.025078528571629066||||
+calibration_by_stock|Stora Enso||Original Black-Scholes|90-100%|0.9158486885445178|0.9019953051643192|1704|-0.013853383380198592||||
+calibration_by_stock|Stora Enso||Bias Corrected|10-20%|0.19565517241379313|0.5862068965517241|29|0.39055172413793093||||
+calibration_by_stock|Stora Enso||Bias Corrected|20-30%|0.20125|0.5|8|0.29874999999999996||||
+calibration_by_stock|Stora Enso||Bias Corrected|40-50%|0.4562965050732807|0.48102217211574594|2661|0.02472566704246526||||
+calibration_by_stock|Stora Enso||Bias Corrected|50-60%|0.5502710140592283|0.5737361651211487|3343|0.023465151061920375||||
+calibration_by_stock|Stora Enso||Bias Corrected|60-70%|0.6546602294990205|0.6607892527287993|3573|0.006129023229778818||||
+calibration_by_stock|Stora Enso||Bias Corrected|70-80%|0.7525473437238145|0.808446455505279|5967|0.05589911178146456||||
+calibration_by_stock|Stora Enso||Bias Corrected|80-90%|0.8260148069804336|0.9132734003172924|1891|0.08725859333685881||||
+calibration_by_stock|Stora Enso||Bias Corrected|90-100%|0.9753125|0.6875|16|-0.2878125||||
+calibration_by_stock|Stora Enso||Historical IV|30-40%|0.35910866752910736|0.4398447606727037|2319|0.08073609314359637||||
+calibration_by_stock|Stora Enso||Historical IV|40-50%|0.44960655737704913|0.5494018608772707|2257|0.09979530350022159||||
+calibration_by_stock|Stora Enso||Historical IV|50-60%|0.544656381942189|0.6235790841182202|3079|0.07892270217603115||||
+calibration_by_stock|Stora Enso||Historical IV|60-70%|0.6465166259168705|0.8171149144254278|8180|0.1705982885085573||||
+calibration_by_stock|Stora Enso||Historical IV|70-80%|0.743700801424755|0.7773820124666073|1123|0.03368121104185229||||
+calibration_by_stock|Stora Enso||Historical IV|80-90%|0.8278830409356721|0.7982456140350878|342|-0.02963742690058435||||
+calibration_by_stock|Stora Enso||Historical IV|90-100%|0.9479487179487179|0.9230769230769231|39|-0.024871794871794806||||
 calibration_by_stock|Svenska Cellulosa AB SCA ser. B||Weighted Average|20-30%|0.24924853401280056|0.19362186788154898|878|-0.055626666131251584||||
 calibration_by_stock|Svenska Cellulosa AB SCA ser. B||Weighted Average|30-40%|0.3543468316517426|0.3058823529411765|850|-0.048464478710566083||||
 calibration_by_stock|Svenska Cellulosa AB SCA ser. B||Weighted Average|40-50%|0.45319884379914027|0.46730901582931866|1453|0.014110172030178392||||
@@ -14089,209 +14089,209 @@ calibration_by_stock_and_dte|Stillfront Group AB|35+ days|Bias Corrected|40-50%|
 calibration_by_stock_and_dte|Stillfront Group AB|35+ days|Bias Corrected|50-60%|0.5455|0.35714285714285715|14|-0.18835714285714283||||
 calibration_by_stock_and_dte|Stillfront Group AB|35+ days|Bias Corrected|60-70%|0.6452499999999999|0.75|12|0.10475000000000012||||
 calibration_by_stock_and_dte|Stillfront Group AB|35+ days|Bias Corrected|70-80%|0.734|1.0|7|0.266||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Weighted Average|40-50%|0.4977950877042683|0.2|5|-0.29779508770426827||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Weighted Average|50-60%|0.550754502773194|0.5121951219512195|41|-0.03855938082197452||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Weighted Average|60-70%|0.6527138661432789|0.6382978723404256|47|-0.0144159938028533||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Weighted Average|70-80%|0.7563365543168139|0.7368421052631579|38|-0.01949444905365605||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Weighted Average|80-90%|0.8317994964481773|0.8|10|-0.031799496448177256||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Weighted Average|90-100%|0.9329507454393514|1.0|2|0.06704925456064859||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bayesian Calibrated|50-60%|0.5660377358490564|0.4782608695652174|23|-0.08777686628383896||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bayesian Calibrated|60-70%|0.6370634681529461|0.5774647887323944|71|-0.05959867942055175||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bayesian Calibrated|70-80%|0.7380952380952381|0.75|12|0.011904761904761862||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bayesian Calibrated|80-90%|0.8102971121901353|0.7714285714285715|35|-0.038868540761563874||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bayesian Calibrated|90-100%|0.95275|1.0|2|0.047250000000000014||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Original Black-Scholes|50-60%|0.5508428351656625|0.5121951219512195|41|-0.038647713214442936||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Original Black-Scholes|60-70%|0.6527593527676332|0.6382978723404256|47|-0.01446148042720763||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Original Black-Scholes|70-80%|0.7563150443997303|0.7368421052631579|38|-0.019472939136572442||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Original Black-Scholes|80-90%|0.8317975451848645|0.8|10|-0.03179754518486444||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Original Black-Scholes|90-100%|0.9327598840168378|1.0|2|0.06724011598316215||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bias Corrected|40-50%|0.49779999999999996|0.2|5|-0.29779999999999995||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bias Corrected|50-60%|0.5507317073170731|0.5121951219512195|41|-0.03853658536585358||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bias Corrected|60-70%|0.6527021276595746|0.6382978723404256|47|-0.014404255319149017||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bias Corrected|70-80%|0.7574615384615385|0.7435897435897436|39|-0.013871794871794907||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bias Corrected|80-90%|0.8353333333333333|0.7777777777777778|9|-0.05755555555555547||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|0-3 days|Bias Corrected|90-100%|0.933|1.0|2|0.06699999999999995||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Weighted Average|50-60%|0.5695592218875533|0.5454545454545454|33|-0.024104676433007843||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Weighted Average|60-70%|0.656424160277858|0.6707317073170732|82|0.014307547039215218||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Weighted Average|70-80%|0.7268153806247065|0.7164179104477612|67|-0.010397470176945367||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Weighted Average|80-90%|0.8537694503155633|0.8888888888888888|9|0.035119438573325557||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bayesian Calibrated|50-60%|0.5660377358490565|0.5789473684210527|19|0.012909632571996177||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bayesian Calibrated|60-70%|0.6391752577319588|0.6185567010309279|97|-0.020618556701030966||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bayesian Calibrated|70-80%|0.738095238095238|0.6842105263157895|19|-0.053884711779448535||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bayesian Calibrated|80-90%|0.8156002767643045|0.7659574468085106|47|-0.04964282995579383||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bayesian Calibrated|90-100%|0.9591666666666667|1.0|9|0.04083333333333328||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Original Black-Scholes|50-60%|0.5510235467242857|0.627906976744186|43|0.07688343001990039||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Original Black-Scholes|60-70%|0.6521092477763227|0.6808510638297872|47|0.028741816053464486||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Original Black-Scholes|70-80%|0.7510508782597678|0.7037037037037037|54|-0.047347174556064076||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Original Black-Scholes|80-90%|0.8328738463232027|0.6571428571428571|35|-0.17573098918034558||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Original Black-Scholes|90-100%|0.944420123749431|1.0|8|0.05557987625056904||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bias Corrected|40-50%|0.497|0.25|4|-0.247||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bias Corrected|50-60%|0.5790000000000001|0.5555555555555556|9|-0.02344444444444449||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bias Corrected|60-70%|0.6638190476190475|0.638095238095238|105|-0.025723809523809482||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bias Corrected|70-80%|0.7293661971830987|0.7605633802816901|71|0.03119718309859143||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Bias Corrected|80-90%|0.8095000000000001|1.0|2|0.1904999999999999||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Historical IV|50-60%|0.544|0.5846153846153846|65|0.04061538461538461||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Historical IV|60-70%|0.6793246753246752|0.7012987012987013|77|0.02197402597402609||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Historical IV|70-80%|0.7348387096774194|0.7096774193548387|31|-0.02516129032258063||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Historical IV|80-90%|0.85725|0.25|4|-0.60725||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|4-7 days|Historical IV|90-100%|0.969|1.0|8|0.031000000000000028||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Weighted Average|40-50%|0.46367081963198264|0.4166666666666667|108|-0.04700415296531596||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Weighted Average|50-60%|0.5534005325361429|0.5379310344827586|145|-0.015469498053384267||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Weighted Average|60-70%|0.6508975967911131|0.6606060606060606|165|0.009708463814947499||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Weighted Average|70-80%|0.7429627941452722|0.7937219730941704|223|0.05075917894889814||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Weighted Average|80-90%|0.8355066310831772|0.9130434782608695|46|0.07753684717769227||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bayesian Calibrated|40-50%|0.4333333333333333|0.42857142857142855|21|-0.004761904761904745||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bayesian Calibrated|50-60%|0.5696941286769013|0.45217391304347826|115|-0.11752021563342302||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bayesian Calibrated|60-70%|0.646935209425902|0.6413502109704642|237|-0.005584998455437806||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bayesian Calibrated|70-80%|0.7255639097744361|0.6363636363636364|66|-0.08920027341079972||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bayesian Calibrated|80-90%|0.8460675271569137|0.7737556561085973|221|-0.07231187104831638||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bayesian Calibrated|90-100%|0.9611751137102016|0.9259259259259259|27|-0.03524918778427566||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Original Black-Scholes|50-60%|0.5508743538391108|0.4806201550387597|129|-0.07025419880035105||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Original Black-Scholes|60-70%|0.6517309375062391|0.5704697986577181|149|-0.08126113884852104||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Original Black-Scholes|70-80%|0.7530013365412779|0.6648648648648648|185|-0.08813647167641303||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Original Black-Scholes|80-90%|0.8446161203506096|0.8333333333333334|204|-0.011282787017276252||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Original Black-Scholes|90-100%|0.9204149109763604|0.8888888888888888|9|-0.03152602208747157||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bias Corrected|40-50%|0.4679859154929578|0.4084507042253521|71|-0.05953521126760569||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bias Corrected|50-60%|0.5522115384615385|0.46153846153846156|104|-0.09067307692307691||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bias Corrected|60-70%|0.6566615384615384|0.6461538461538462|260|-0.010507692307692218||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bias Corrected|70-80%|0.7454285714285714|0.7904761904761904|210|0.045047619047619||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Bias Corrected|80-90%|0.8238333333333335|0.9523809523809523|42|0.1285476190476188||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|30-40%|0.39334285714285705|0.42857142857142855|140|0.0352285714285715||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|40-50%|0.4277848101265823|0.6075949367088608|79|0.17981012658227846||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|50-60%|0.5522549019607843|0.6274509803921569|153|0.07519607843137255||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|60-70%|0.6726293103448276|0.7155172413793104|116|0.04288793103448274||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|70-80%|0.7346879432624114|0.8014184397163121|141|0.06673049645390072||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|80-90%|0.861275|0.85|40|-0.011275000000000035||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|8-14 days|Historical IV|90-100%|0.9401111111111109|0.9444444444444444|18|0.004333333333333522||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Weighted Average|40-50%|0.4672679950697181|0.3247863247863248|117|-0.1424816702833933||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Weighted Average|50-60%|0.5496490776931668|0.47058823529411764|119|-0.0790608423990492||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Weighted Average|60-70%|0.6525748286333737|0.6213592233009708|103|-0.031215605332402863||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Weighted Average|70-80%|0.7601618243093918|0.7924528301886793|159|0.03229100587928746||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Weighted Average|80-90%|0.8345569669783476|0.8133333333333334|75|-0.021223633645014228||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Weighted Average|90-100%|0.9175657278482049|0.3333333333333333|3|-0.5842323945148715||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|20-30%|0.28691259398496244|0.23214285714285715|56|-0.05476973684210529||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|30-40%|0.39458689458689455|0.47435897435897434|78|0.07977207977207978||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|40-50%|0.4553030303030303|0.5227272727272727|44|0.06742424242424239||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|50-60%|0.5785896656534953|0.43617021276595747|94|-0.14241945288753788||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|60-70%|0.6638783173460989|0.7289719626168224|107|0.06509364527072348||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|70-80%|0.7135763938147256|0.6037735849056604|53|-0.10980280890906524||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|80-90%|0.8718477677803578|0.84375|128|-0.028097767780357774||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bayesian Calibrated|90-100%|0.9605942982456142|0.875|16|-0.08559429824561415||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Original Black-Scholes|50-60%|0.554798892377471|0.3409090909090909|88|-0.21388980146838016||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Original Black-Scholes|60-70%|0.6513307026625904|0.41|100|-0.24133070266259044||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Original Black-Scholes|70-80%|0.7529558369240601|0.5734265734265734|143|-0.17952926349748666||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Original Black-Scholes|80-90%|0.8527607503816501|0.7864077669902912|206|-0.06635298339135887||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Original Black-Scholes|90-100%|0.9194701414098994|0.9393939393939394|33|0.019923797984040093||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bias Corrected|40-50%|0.46719767441860466|0.27906976744186046|86|-0.1881279069767442||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bias Corrected|50-60%|0.548424778761062|0.39823008849557523|113|-0.15019469026548676||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bias Corrected|60-70%|0.647875|0.6176470588235294|136|-0.03022794117647054||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bias Corrected|70-80%|0.7657046979865773|0.7516778523489933|149|-0.01402684563758394||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bias Corrected|80-90%|0.8291797752808988|0.8764044943820225|89|0.04722471910112369||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Bias Corrected|90-100%|0.9173333333333332|1.0|3|0.08266666666666678||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|30-40%|0.3931481481481481|0.35185185185185186|108|-0.04129629629629622||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|40-50%|0.44362222222222225|0.4222222222222222|90|-0.02140000000000003||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|50-60%|0.5535862068965517|0.5344827586206896|116|-0.01910344827586208||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|60-70%|0.6520666666666669|0.8266666666666667|75|0.17459999999999976||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|70-80%|0.7386204379562042|0.8102189781021898|137|0.07159854014598555||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|80-90%|0.8623421052631578|0.6578947368421053|38|-0.2044473684210525||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|15-21 days|Historical IV|90-100%|0.9473333333333335|0.8333333333333334|12|-0.1140000000000001||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Weighted Average|30-40%|0.33674460895530045|0.2222222222222222|9|-0.11452238673307824||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Weighted Average|40-50%|0.47600811525421743|0.5080645161290323|124|0.03205640087481482||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Weighted Average|50-60%|0.5470181599793285|0.5482233502538071|197|0.0012051902744786291||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Weighted Average|60-70%|0.6405860210698033|0.6728971962616822|107|0.03231117519187887||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Weighted Average|70-80%|0.7564834165286223|0.7769230769230769|260|0.020439660394454662||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Weighted Average|80-90%|0.81401724650429|0.7391304347826086|46|-0.07488681172168132||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|20-30%|0.27699149388623073|0.5079365079365079|63|0.23094501405027718||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|30-40%|0.3946666666666668|0.48|25|0.0853333333333332||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|40-50%|0.45945945945945954|0.6666666666666666|15|0.2072072072072071||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|50-60%|0.5455353431753432|0.5266666666666666|150|-0.01886867650867663||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|60-70%|0.6461684066436693|0.6231155778894473|199|-0.023052828754221988||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|70-80%|0.7438616071428571|0.71875|64|-0.025111607142857095||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|80-90%|0.8533207249802994|0.7943262411347518|141|-0.05899448384554762||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bayesian Calibrated|90-100%|0.9317662492546215|0.7674418604651163|86|-0.16432438878950517||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Original Black-Scholes|50-60%|0.5507831811084367|0.4803921568627451|102|-0.0703910242456916||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Original Black-Scholes|60-70%|0.6501351918968917|0.5407407407407407|135|-0.10939445115615098||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Original Black-Scholes|70-80%|0.7520217054984933|0.6167664670658682|167|-0.1352552384326251||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Original Black-Scholes|80-90%|0.8548795012571149|0.76171875|256|-0.09316075125711487||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Original Black-Scholes|90-100%|0.9125555435132432|0.7972972972972973|74|-0.11525824621594594||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|10-20%|0.19642857142857142|0.2857142857142857|7|0.08928571428571427||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|20-30%|0.201|0.0|2|-0.201||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|40-50%|0.4603|0.5105263157894737|190|0.05022631578947373||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|50-60%|0.5510864197530865|0.5679012345679012|162|0.016814814814814727||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|60-70%|0.6160000000000001|0.6923076923076923|52|0.07630769230769219||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|70-80%|0.7608926174496644|0.7483221476510067|298|-0.012570469798657724||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Bias Corrected|80-90%|0.8130625|0.96875|32|0.15568749999999998||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|30-40%|0.3942|1.0|5|0.6058||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|40-50%|0.48322900763358784|0.48854961832061067|131|0.005320610687022831||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|50-60%|0.5432751937984496|0.5775193798449613|258|0.03424418604651169||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|60-70%|0.6614411764705883|0.7529411764705882|170|0.09149999999999991||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|70-80%|0.7395816993464053|0.7712418300653595|153|0.03166013071895424||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|80-90%|0.8242|0.64|25|-0.18420000000000003||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|22-28 days|Historical IV|90-100%|0.928|1.0|1|0.07199999999999995||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Weighted Average|30-40%|0.3365744294044403|0.8|15|0.4634255705955597||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Weighted Average|40-50%|0.47415911513281384|0.5492957746478874|142|0.07513665951507353||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Weighted Average|50-60%|0.5442000933864986|0.6084905660377359|212|0.06429047265123733||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Weighted Average|60-70%|0.6405715493484746|0.6901408450704225|142|0.049569295721947904||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Weighted Average|70-80%|0.7609444582916948|0.7582417582417582|364|-0.002702700049936557||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Weighted Average|80-90%|0.8116539068086595|0.9375|48|0.12584609319134055||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|20-30%|0.27232171337434496|0.7142857142857143|21|0.44196400091136934||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|30-40%|0.3104395313681029|0.5952380952380952|42|0.28479856386999236||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|40-50%|0.4156429742099078|0.43478260869565216|23|0.01913963448574435||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|50-60%|0.5529617954427338|0.5959595959595959|297|0.042997800516862084||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|60-70%|0.6444986952513835|0.7094017094017094|117|0.06490301415032596||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|70-80%|0.7459686207726857|0.7538461538461538|195|0.007877533073468168||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|80-90%|0.8230051318773123|0.7819548872180451|133|-0.04105024465926721||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bayesian Calibrated|90-100%|0.9313339318195155|0.8105263157894737|95|-0.12080761603004186||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Original Black-Scholes|50-60%|0.5494779231866876|0.5588235294117647|136|0.009345606225077074||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Original Black-Scholes|60-70%|0.6531391166772686|0.5751633986928104|153|-0.07797571798445824||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Original Black-Scholes|70-80%|0.7543082718585734|0.6782178217821783|202|-0.07609045007639514||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Original Black-Scholes|80-90%|0.8534306648350621|0.7763578274760383|313|-0.07707283735902382||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Original Black-Scholes|90-100%|0.9123832435647218|0.7884615384615384|104|-0.12392170510318334||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|10-20%|0.19616666666666668|0.75|12|0.5538333333333333||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|20-30%|0.20133333333333336|1.0|3|0.7986666666666666||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|40-50%|0.4586553191489362|0.5617021276595745|235|0.1030468085106383||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|50-60%|0.5511675392670157|0.6335078534031413|191|0.08234031413612564||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|60-70%|0.6174117647058823|0.7205882352941176|68|0.10317647058823531||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|70-80%|0.7610557029177719|0.7824933687002652|377|0.021437665782493287||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Bias Corrected|80-90%|0.8081081081081083|0.7837837837837838|37|-0.02432432432432452||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Historical IV|40-50%|0.4847692307692308|0.5944055944055944|143|0.10963636363636359||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Historical IV|50-60%|0.5426880341880342|0.6153846153846154|234|0.07269658119658118||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Historical IV|60-70%|0.6650882352941178|0.7058823529411765|272|0.04079411764705876||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Historical IV|70-80%|0.7430231481481481|0.7870370370370371|216|0.04401388888888902||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|29-35 days|Historical IV|80-90%|0.8179999999999998|0.8103448275862069|58|-0.007655172413792988||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Weighted Average|30-40%|0.3925108721879735|0.4200913242009132|219|0.027580452012939738||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Weighted Average|40-50%|0.4495543097910834|0.48171000440722783|2269|0.032155694616144426||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Weighted Average|50-60%|0.5489773102123091|0.5810863618601017|2559|0.03210905164779254||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Weighted Average|60-70%|0.6569983377744606|0.699189432602822|3331|0.042191094828361364||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Weighted Average|70-80%|0.748010936025972|0.8546592489568846|5752|0.10664831293091259||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Weighted Average|80-90%|0.8067933437994118|0.9473684210526315|95|0.14057507725321972||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|20-30%|0.2708181818181818|1.0|2|0.7291818181818182||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|30-40%|0.3038351648351648|1.0|4|0.6961648351648352||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|40-50%|0.42675459409327904|0.4516320474777448|1685|0.024877453384465786||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|50-60%|0.5460981745583309|0.5671069450362164|2347|0.02100877047788552||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|60-70%|0.6355604927935558|0.638041163946061|2818|0.002480671152505276||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|70-80%|0.7360424644798257|0.7684971098265896|3460|0.0324546453467639||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|80-90%|0.8483216376879272|0.8831661696936839|3689|0.03484453200575666||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bayesian Calibrated|90-100%|0.9257595035534874|0.8818181818181818|220|-0.043941321735305516||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Original Black-Scholes|50-60%|0.5512609083693799|0.480126467931346|2214|-0.07113444043803391||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Original Black-Scholes|60-70%|0.6517201503767897|0.5796203022084463|2581|-0.07209984816834336||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Original Black-Scholes|70-80%|0.7518498403190873|0.6978307363275282|3273|-0.05401910399155907||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Original Black-Scholes|80-90%|0.8532962795666069|0.8383586488324642|4411|-0.01493763073414267||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Original Black-Scholes|90-100%|0.9159715523105861|0.9138398914518318|1474|-0.0021316608587543806||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|10-20%|0.1945|0.6|10|0.40549999999999997||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|20-30%|0.20133333333333336|0.3333333333333333|3|0.13199999999999995||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|40-50%|0.45462850241545893|0.4811594202898551|2070|0.026530917874396154||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|50-60%|0.5500602276900478|0.5824458318031582|2723|0.03238560411311042||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|60-70%|0.656063339070568|0.6633390705679862|2905|0.007275731497418225||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|70-80%|0.7515716359112585|0.817955629276384|4823|0.06638399336512546||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|80-90%|0.8265125|0.9166666666666666|1680|0.09015416666666665||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Bias Corrected|90-100%|0.9988181818181818|0.5454545454545454|11|-0.4533636363636364||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Historical IV|30-40%|0.3549244917715392|0.44385285575992256|2066|0.08892836398838339||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Historical IV|40-50%|0.4456538037486218|0.5540242557883132|1814|0.10837045203969137||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Historical IV|50-60%|0.5440621393697292|0.6351531291611185|2253|0.0910909897913893||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Historical IV|60-70%|0.6447013386880857|0.8253012048192772|7470|0.1805998661311915||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Historical IV|70-80%|0.7504831460674157|0.7617977528089888|445|0.01131460674157303||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|35+ days|Historical IV|80-90%|0.8160338983050843|0.847457627118644|177|0.031423728813559704||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Weighted Average|40-50%|0.4977950877042683|0.2|5|-0.29779508770426827||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Weighted Average|50-60%|0.550754502773194|0.5121951219512195|41|-0.03855938082197452||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Weighted Average|60-70%|0.6527138661432789|0.6382978723404256|47|-0.0144159938028533||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Weighted Average|70-80%|0.7563365543168139|0.7368421052631579|38|-0.01949444905365605||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Weighted Average|80-90%|0.8317994964481773|0.8|10|-0.031799496448177256||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Weighted Average|90-100%|0.9329507454393514|1.0|2|0.06704925456064859||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bayesian Calibrated|50-60%|0.5660377358490564|0.4782608695652174|23|-0.08777686628383896||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bayesian Calibrated|60-70%|0.6370634681529461|0.5774647887323944|71|-0.05959867942055175||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bayesian Calibrated|70-80%|0.7380952380952381|0.75|12|0.011904761904761862||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bayesian Calibrated|80-90%|0.8102971121901353|0.7714285714285715|35|-0.038868540761563874||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bayesian Calibrated|90-100%|0.95275|1.0|2|0.047250000000000014||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Original Black-Scholes|50-60%|0.5508428351656625|0.5121951219512195|41|-0.038647713214442936||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Original Black-Scholes|60-70%|0.6527593527676332|0.6382978723404256|47|-0.01446148042720763||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Original Black-Scholes|70-80%|0.7563150443997303|0.7368421052631579|38|-0.019472939136572442||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Original Black-Scholes|80-90%|0.8317975451848645|0.8|10|-0.03179754518486444||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Original Black-Scholes|90-100%|0.9327598840168378|1.0|2|0.06724011598316215||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bias Corrected|40-50%|0.49779999999999996|0.2|5|-0.29779999999999995||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bias Corrected|50-60%|0.5507317073170731|0.5121951219512195|41|-0.03853658536585358||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bias Corrected|60-70%|0.6527021276595746|0.6382978723404256|47|-0.014404255319149017||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bias Corrected|70-80%|0.7574615384615385|0.7435897435897436|39|-0.013871794871794907||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bias Corrected|80-90%|0.8353333333333333|0.7777777777777778|9|-0.05755555555555547||||
+calibration_by_stock_and_dte|Stora Enso|0-3 days|Bias Corrected|90-100%|0.933|1.0|2|0.06699999999999995||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Weighted Average|50-60%|0.5695592218875533|0.5454545454545454|33|-0.024104676433007843||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Weighted Average|60-70%|0.656424160277858|0.6707317073170732|82|0.014307547039215218||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Weighted Average|70-80%|0.7268153806247065|0.7164179104477612|67|-0.010397470176945367||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Weighted Average|80-90%|0.8537694503155633|0.8888888888888888|9|0.035119438573325557||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bayesian Calibrated|50-60%|0.5660377358490565|0.5789473684210527|19|0.012909632571996177||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bayesian Calibrated|60-70%|0.6391752577319588|0.6185567010309279|97|-0.020618556701030966||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bayesian Calibrated|70-80%|0.738095238095238|0.6842105263157895|19|-0.053884711779448535||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bayesian Calibrated|80-90%|0.8156002767643045|0.7659574468085106|47|-0.04964282995579383||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bayesian Calibrated|90-100%|0.9591666666666667|1.0|9|0.04083333333333328||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Original Black-Scholes|50-60%|0.5510235467242857|0.627906976744186|43|0.07688343001990039||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Original Black-Scholes|60-70%|0.6521092477763227|0.6808510638297872|47|0.028741816053464486||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Original Black-Scholes|70-80%|0.7510508782597678|0.7037037037037037|54|-0.047347174556064076||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Original Black-Scholes|80-90%|0.8328738463232027|0.6571428571428571|35|-0.17573098918034558||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Original Black-Scholes|90-100%|0.944420123749431|1.0|8|0.05557987625056904||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bias Corrected|40-50%|0.497|0.25|4|-0.247||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bias Corrected|50-60%|0.5790000000000001|0.5555555555555556|9|-0.02344444444444449||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bias Corrected|60-70%|0.6638190476190475|0.638095238095238|105|-0.025723809523809482||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bias Corrected|70-80%|0.7293661971830987|0.7605633802816901|71|0.03119718309859143||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Bias Corrected|80-90%|0.8095000000000001|1.0|2|0.1904999999999999||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Historical IV|50-60%|0.544|0.5846153846153846|65|0.04061538461538461||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Historical IV|60-70%|0.6793246753246752|0.7012987012987013|77|0.02197402597402609||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Historical IV|70-80%|0.7348387096774194|0.7096774193548387|31|-0.02516129032258063||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Historical IV|80-90%|0.85725|0.25|4|-0.60725||||
+calibration_by_stock_and_dte|Stora Enso|4-7 days|Historical IV|90-100%|0.969|1.0|8|0.031000000000000028||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Weighted Average|40-50%|0.46367081963198264|0.4166666666666667|108|-0.04700415296531596||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Weighted Average|50-60%|0.5534005325361429|0.5379310344827586|145|-0.015469498053384267||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Weighted Average|60-70%|0.6508975967911131|0.6606060606060606|165|0.009708463814947499||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Weighted Average|70-80%|0.7429627941452722|0.7937219730941704|223|0.05075917894889814||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Weighted Average|80-90%|0.8355066310831772|0.9130434782608695|46|0.07753684717769227||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bayesian Calibrated|40-50%|0.4333333333333333|0.42857142857142855|21|-0.004761904761904745||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bayesian Calibrated|50-60%|0.5696941286769013|0.45217391304347826|115|-0.11752021563342302||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bayesian Calibrated|60-70%|0.646935209425902|0.6413502109704642|237|-0.005584998455437806||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bayesian Calibrated|70-80%|0.7255639097744361|0.6363636363636364|66|-0.08920027341079972||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bayesian Calibrated|80-90%|0.8460675271569137|0.7737556561085973|221|-0.07231187104831638||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bayesian Calibrated|90-100%|0.9611751137102016|0.9259259259259259|27|-0.03524918778427566||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Original Black-Scholes|50-60%|0.5508743538391108|0.4806201550387597|129|-0.07025419880035105||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Original Black-Scholes|60-70%|0.6517309375062391|0.5704697986577181|149|-0.08126113884852104||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Original Black-Scholes|70-80%|0.7530013365412779|0.6648648648648648|185|-0.08813647167641303||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Original Black-Scholes|80-90%|0.8446161203506096|0.8333333333333334|204|-0.011282787017276252||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Original Black-Scholes|90-100%|0.9204149109763604|0.8888888888888888|9|-0.03152602208747157||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bias Corrected|40-50%|0.4679859154929578|0.4084507042253521|71|-0.05953521126760569||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bias Corrected|50-60%|0.5522115384615385|0.46153846153846156|104|-0.09067307692307691||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bias Corrected|60-70%|0.6566615384615384|0.6461538461538462|260|-0.010507692307692218||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bias Corrected|70-80%|0.7454285714285714|0.7904761904761904|210|0.045047619047619||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Bias Corrected|80-90%|0.8238333333333335|0.9523809523809523|42|0.1285476190476188||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|30-40%|0.39334285714285705|0.42857142857142855|140|0.0352285714285715||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|40-50%|0.4277848101265823|0.6075949367088608|79|0.17981012658227846||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|50-60%|0.5522549019607843|0.6274509803921569|153|0.07519607843137255||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|60-70%|0.6726293103448276|0.7155172413793104|116|0.04288793103448274||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|70-80%|0.7346879432624114|0.8014184397163121|141|0.06673049645390072||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|80-90%|0.861275|0.85|40|-0.011275000000000035||||
+calibration_by_stock_and_dte|Stora Enso|8-14 days|Historical IV|90-100%|0.9401111111111109|0.9444444444444444|18|0.004333333333333522||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Weighted Average|40-50%|0.4672679950697181|0.3247863247863248|117|-0.1424816702833933||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Weighted Average|50-60%|0.5496490776931668|0.47058823529411764|119|-0.0790608423990492||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Weighted Average|60-70%|0.6525748286333737|0.6213592233009708|103|-0.031215605332402863||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Weighted Average|70-80%|0.7601618243093918|0.7924528301886793|159|0.03229100587928746||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Weighted Average|80-90%|0.8345569669783476|0.8133333333333334|75|-0.021223633645014228||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Weighted Average|90-100%|0.9175657278482049|0.3333333333333333|3|-0.5842323945148715||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|20-30%|0.28691259398496244|0.23214285714285715|56|-0.05476973684210529||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|30-40%|0.39458689458689455|0.47435897435897434|78|0.07977207977207978||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|40-50%|0.4553030303030303|0.5227272727272727|44|0.06742424242424239||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|50-60%|0.5785896656534953|0.43617021276595747|94|-0.14241945288753788||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|60-70%|0.6638783173460989|0.7289719626168224|107|0.06509364527072348||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|70-80%|0.7135763938147256|0.6037735849056604|53|-0.10980280890906524||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|80-90%|0.8718477677803578|0.84375|128|-0.028097767780357774||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bayesian Calibrated|90-100%|0.9605942982456142|0.875|16|-0.08559429824561415||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Original Black-Scholes|50-60%|0.554798892377471|0.3409090909090909|88|-0.21388980146838016||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Original Black-Scholes|60-70%|0.6513307026625904|0.41|100|-0.24133070266259044||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Original Black-Scholes|70-80%|0.7529558369240601|0.5734265734265734|143|-0.17952926349748666||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Original Black-Scholes|80-90%|0.8527607503816501|0.7864077669902912|206|-0.06635298339135887||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Original Black-Scholes|90-100%|0.9194701414098994|0.9393939393939394|33|0.019923797984040093||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bias Corrected|40-50%|0.46719767441860466|0.27906976744186046|86|-0.1881279069767442||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bias Corrected|50-60%|0.548424778761062|0.39823008849557523|113|-0.15019469026548676||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bias Corrected|60-70%|0.647875|0.6176470588235294|136|-0.03022794117647054||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bias Corrected|70-80%|0.7657046979865773|0.7516778523489933|149|-0.01402684563758394||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bias Corrected|80-90%|0.8291797752808988|0.8764044943820225|89|0.04722471910112369||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Bias Corrected|90-100%|0.9173333333333332|1.0|3|0.08266666666666678||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|30-40%|0.3931481481481481|0.35185185185185186|108|-0.04129629629629622||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|40-50%|0.44362222222222225|0.4222222222222222|90|-0.02140000000000003||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|50-60%|0.5535862068965517|0.5344827586206896|116|-0.01910344827586208||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|60-70%|0.6520666666666669|0.8266666666666667|75|0.17459999999999976||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|70-80%|0.7386204379562042|0.8102189781021898|137|0.07159854014598555||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|80-90%|0.8623421052631578|0.6578947368421053|38|-0.2044473684210525||||
+calibration_by_stock_and_dte|Stora Enso|15-21 days|Historical IV|90-100%|0.9473333333333335|0.8333333333333334|12|-0.1140000000000001||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Weighted Average|30-40%|0.33674460895530045|0.2222222222222222|9|-0.11452238673307824||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Weighted Average|40-50%|0.47600811525421743|0.5080645161290323|124|0.03205640087481482||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Weighted Average|50-60%|0.5470181599793285|0.5482233502538071|197|0.0012051902744786291||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Weighted Average|60-70%|0.6405860210698033|0.6728971962616822|107|0.03231117519187887||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Weighted Average|70-80%|0.7564834165286223|0.7769230769230769|260|0.020439660394454662||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Weighted Average|80-90%|0.81401724650429|0.7391304347826086|46|-0.07488681172168132||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|20-30%|0.27699149388623073|0.5079365079365079|63|0.23094501405027718||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|30-40%|0.3946666666666668|0.48|25|0.0853333333333332||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|40-50%|0.45945945945945954|0.6666666666666666|15|0.2072072072072071||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|50-60%|0.5455353431753432|0.5266666666666666|150|-0.01886867650867663||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|60-70%|0.6461684066436693|0.6231155778894473|199|-0.023052828754221988||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|70-80%|0.7438616071428571|0.71875|64|-0.025111607142857095||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|80-90%|0.8533207249802994|0.7943262411347518|141|-0.05899448384554762||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bayesian Calibrated|90-100%|0.9317662492546215|0.7674418604651163|86|-0.16432438878950517||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Original Black-Scholes|50-60%|0.5507831811084367|0.4803921568627451|102|-0.0703910242456916||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Original Black-Scholes|60-70%|0.6501351918968917|0.5407407407407407|135|-0.10939445115615098||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Original Black-Scholes|70-80%|0.7520217054984933|0.6167664670658682|167|-0.1352552384326251||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Original Black-Scholes|80-90%|0.8548795012571149|0.76171875|256|-0.09316075125711487||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Original Black-Scholes|90-100%|0.9125555435132432|0.7972972972972973|74|-0.11525824621594594||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|10-20%|0.19642857142857142|0.2857142857142857|7|0.08928571428571427||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|20-30%|0.201|0.0|2|-0.201||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|40-50%|0.4603|0.5105263157894737|190|0.05022631578947373||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|50-60%|0.5510864197530865|0.5679012345679012|162|0.016814814814814727||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|60-70%|0.6160000000000001|0.6923076923076923|52|0.07630769230769219||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|70-80%|0.7608926174496644|0.7483221476510067|298|-0.012570469798657724||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Bias Corrected|80-90%|0.8130625|0.96875|32|0.15568749999999998||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|30-40%|0.3942|1.0|5|0.6058||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|40-50%|0.48322900763358784|0.48854961832061067|131|0.005320610687022831||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|50-60%|0.5432751937984496|0.5775193798449613|258|0.03424418604651169||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|60-70%|0.6614411764705883|0.7529411764705882|170|0.09149999999999991||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|70-80%|0.7395816993464053|0.7712418300653595|153|0.03166013071895424||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|80-90%|0.8242|0.64|25|-0.18420000000000003||||
+calibration_by_stock_and_dte|Stora Enso|22-28 days|Historical IV|90-100%|0.928|1.0|1|0.07199999999999995||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Weighted Average|30-40%|0.3365744294044403|0.8|15|0.4634255705955597||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Weighted Average|40-50%|0.47415911513281384|0.5492957746478874|142|0.07513665951507353||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Weighted Average|50-60%|0.5442000933864986|0.6084905660377359|212|0.06429047265123733||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Weighted Average|60-70%|0.6405715493484746|0.6901408450704225|142|0.049569295721947904||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Weighted Average|70-80%|0.7609444582916948|0.7582417582417582|364|-0.002702700049936557||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Weighted Average|80-90%|0.8116539068086595|0.9375|48|0.12584609319134055||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|20-30%|0.27232171337434496|0.7142857142857143|21|0.44196400091136934||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|30-40%|0.3104395313681029|0.5952380952380952|42|0.28479856386999236||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|40-50%|0.4156429742099078|0.43478260869565216|23|0.01913963448574435||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|50-60%|0.5529617954427338|0.5959595959595959|297|0.042997800516862084||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|60-70%|0.6444986952513835|0.7094017094017094|117|0.06490301415032596||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|70-80%|0.7459686207726857|0.7538461538461538|195|0.007877533073468168||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|80-90%|0.8230051318773123|0.7819548872180451|133|-0.04105024465926721||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bayesian Calibrated|90-100%|0.9313339318195155|0.8105263157894737|95|-0.12080761603004186||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Original Black-Scholes|50-60%|0.5494779231866876|0.5588235294117647|136|0.009345606225077074||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Original Black-Scholes|60-70%|0.6531391166772686|0.5751633986928104|153|-0.07797571798445824||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Original Black-Scholes|70-80%|0.7543082718585734|0.6782178217821783|202|-0.07609045007639514||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Original Black-Scholes|80-90%|0.8534306648350621|0.7763578274760383|313|-0.07707283735902382||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Original Black-Scholes|90-100%|0.9123832435647218|0.7884615384615384|104|-0.12392170510318334||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|10-20%|0.19616666666666668|0.75|12|0.5538333333333333||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|20-30%|0.20133333333333336|1.0|3|0.7986666666666666||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|40-50%|0.4586553191489362|0.5617021276595745|235|0.1030468085106383||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|50-60%|0.5511675392670157|0.6335078534031413|191|0.08234031413612564||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|60-70%|0.6174117647058823|0.7205882352941176|68|0.10317647058823531||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|70-80%|0.7610557029177719|0.7824933687002652|377|0.021437665782493287||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Bias Corrected|80-90%|0.8081081081081083|0.7837837837837838|37|-0.02432432432432452||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Historical IV|40-50%|0.4847692307692308|0.5944055944055944|143|0.10963636363636359||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Historical IV|50-60%|0.5426880341880342|0.6153846153846154|234|0.07269658119658118||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Historical IV|60-70%|0.6650882352941178|0.7058823529411765|272|0.04079411764705876||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Historical IV|70-80%|0.7430231481481481|0.7870370370370371|216|0.04401388888888902||||
+calibration_by_stock_and_dte|Stora Enso|29-35 days|Historical IV|80-90%|0.8179999999999998|0.8103448275862069|58|-0.007655172413792988||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Weighted Average|30-40%|0.3925108721879735|0.4200913242009132|219|0.027580452012939738||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Weighted Average|40-50%|0.4495543097910834|0.48171000440722783|2269|0.032155694616144426||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Weighted Average|50-60%|0.5489773102123091|0.5810863618601017|2559|0.03210905164779254||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Weighted Average|60-70%|0.6569983377744606|0.699189432602822|3331|0.042191094828361364||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Weighted Average|70-80%|0.748010936025972|0.8546592489568846|5752|0.10664831293091259||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Weighted Average|80-90%|0.8067933437994118|0.9473684210526315|95|0.14057507725321972||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|20-30%|0.2708181818181818|1.0|2|0.7291818181818182||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|30-40%|0.3038351648351648|1.0|4|0.6961648351648352||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|40-50%|0.42675459409327904|0.4516320474777448|1685|0.024877453384465786||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|50-60%|0.5460981745583309|0.5671069450362164|2347|0.02100877047788552||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|60-70%|0.6355604927935558|0.638041163946061|2818|0.002480671152505276||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|70-80%|0.7360424644798257|0.7684971098265896|3460|0.0324546453467639||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|80-90%|0.8483216376879272|0.8831661696936839|3689|0.03484453200575666||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bayesian Calibrated|90-100%|0.9257595035534874|0.8818181818181818|220|-0.043941321735305516||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Original Black-Scholes|50-60%|0.5512609083693799|0.480126467931346|2214|-0.07113444043803391||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Original Black-Scholes|60-70%|0.6517201503767897|0.5796203022084463|2581|-0.07209984816834336||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Original Black-Scholes|70-80%|0.7518498403190873|0.6978307363275282|3273|-0.05401910399155907||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Original Black-Scholes|80-90%|0.8532962795666069|0.8383586488324642|4411|-0.01493763073414267||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Original Black-Scholes|90-100%|0.9159715523105861|0.9138398914518318|1474|-0.0021316608587543806||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|10-20%|0.1945|0.6|10|0.40549999999999997||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|20-30%|0.20133333333333336|0.3333333333333333|3|0.13199999999999995||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|40-50%|0.45462850241545893|0.4811594202898551|2070|0.026530917874396154||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|50-60%|0.5500602276900478|0.5824458318031582|2723|0.03238560411311042||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|60-70%|0.656063339070568|0.6633390705679862|2905|0.007275731497418225||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|70-80%|0.7515716359112585|0.817955629276384|4823|0.06638399336512546||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|80-90%|0.8265125|0.9166666666666666|1680|0.09015416666666665||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Bias Corrected|90-100%|0.9988181818181818|0.5454545454545454|11|-0.4533636363636364||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Historical IV|30-40%|0.3549244917715392|0.44385285575992256|2066|0.08892836398838339||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Historical IV|40-50%|0.4456538037486218|0.5540242557883132|1814|0.10837045203969137||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Historical IV|50-60%|0.5440621393697292|0.6351531291611185|2253|0.0910909897913893||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Historical IV|60-70%|0.6447013386880857|0.8253012048192772|7470|0.1805998661311915||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Historical IV|70-80%|0.7504831460674157|0.7617977528089888|445|0.01131460674157303||||
+calibration_by_stock_and_dte|Stora Enso|35+ days|Historical IV|80-90%|0.8160338983050843|0.847457627118644|177|0.031423728813559704||||
 calibration_by_stock_and_dte|Svenska Cellulosa AB SCA ser. B|0-3 days|Weighted Average|40-50%|0.499976106302639|0.0|1|-0.499976106302639||||
 calibration_by_stock_and_dte|Svenska Cellulosa AB SCA ser. B|0-3 days|Weighted Average|50-60%|0.5525103490693385|0.5714285714285714|28|0.018918222359232906||||
 calibration_by_stock_and_dte|Svenska Cellulosa AB SCA ser. B|0-3 days|Weighted Average|60-70%|0.657193975975214|0.6875|32|0.030306024024785994||||
@@ -18181,41 +18181,41 @@ calibration_by_stock_and_dte|Stillfront Group AB|All DTE|Bias Corrected|40-50%|0
 calibration_by_stock_and_dte|Stillfront Group AB|All DTE|Bias Corrected|50-60%|0.5507500000000001|0.25|20|-0.3007500000000001||||
 calibration_by_stock_and_dte|Stillfront Group AB|All DTE|Bias Corrected|60-70%|0.649875|0.4375|32|-0.21237499999999998||||
 calibration_by_stock_and_dte|Stillfront Group AB|All DTE|Bias Corrected|70-80%|0.730375|0.875|8|0.144625||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|30-40%|0.38699258819271815|0.43621399176954734|243|0.04922140357682919||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|40-50%|0.4533924444623086|0.4766726943942134|2765|0.023280249931904806||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|50-60%|0.5489998912723479|0.573805202661827|3306|0.024805311389479057||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|60-70%|0.6555400983303923|0.6932361076188082|3977|0.03769600928841588||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|70-80%|0.7489745341486947|0.8411773276992569|6863|0.09220279355056216||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|80-90%|0.8209013559193955|0.8753799392097265|329|0.05447858329033095||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Weighted Average|90-100%|0.9237197348846635|0.6|5|-0.32371973488466355||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|20-30%|0.28012649100343695|0.43661971830985913|142|0.15649322730642218||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|30-40%|0.36844460014258673|0.5234899328859061|149|0.15504533274331933||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|40-50%|0.4276658303575103|0.4546979865771812|1788|0.027032156219670866||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|50-60%|0.5489090997327186|0.5589490968801314|3045|0.010039997147412771||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|60-70%|0.6381221776707551|0.6407021393307735|3646|0.0025799616600183928||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|70-80%|0.7362020341965002|0.7619539932799173|3869|0.025751959083417097||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|80-90%|0.8476348374840256|0.868456986800182|4394|0.020822149316156446||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bayesian Calibrated|90-100%|0.932164722159613|0.8505494505494505|455|-0.08161527161016247||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Original Black-Scholes|50-60%|0.5512401729319494|0.4823828550671994|2753|-0.06885731786474997||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Original Black-Scholes|60-70%|0.6517304010150845|0.5744084682440846|3212|-0.07732193277099986||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Original Black-Scholes|70-80%|0.7521016923071265|0.6880846873461349|4062|-0.06401700496099161||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Original Black-Scholes|80-90%|0.8528614172560817|0.8277828886844526|5435|-0.025078528571629066||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Original Black-Scholes|90-100%|0.9158486885445178|0.9019953051643192|1704|-0.013853383380198592||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|10-20%|0.19565517241379313|0.5862068965517241|29|0.39055172413793093||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|20-30%|0.20125|0.5|8|0.29874999999999996||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|40-50%|0.4562965050732807|0.48102217211574594|2661|0.02472566704246526||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|50-60%|0.5502710140592283|0.5737361651211487|3343|0.023465151061920375||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|60-70%|0.6546602294990205|0.6607892527287993|3573|0.006129023229778818||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|70-80%|0.7525473437238145|0.808446455505279|5967|0.05589911178146456||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|80-90%|0.8260148069804336|0.9132734003172924|1891|0.08725859333685881||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Bias Corrected|90-100%|0.9753125|0.6875|16|-0.2878125||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|30-40%|0.35910866752910736|0.4398447606727037|2319|0.08073609314359637||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|40-50%|0.44960655737704913|0.5494018608772707|2257|0.09979530350022159||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|50-60%|0.544656381942189|0.6235790841182202|3079|0.07892270217603115||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|60-70%|0.6465166259168705|0.8171149144254278|8180|0.1705982885085573||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|70-80%|0.743700801424755|0.7773820124666073|1123|0.03368121104185229||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|80-90%|0.8278830409356721|0.7982456140350878|342|-0.02963742690058435||||
-calibration_by_stock_and_dte|Stora Enso Oyj ser. R|All DTE|Historical IV|90-100%|0.9479487179487179|0.9230769230769231|39|-0.024871794871794806||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|30-40%|0.38699258819271815|0.43621399176954734|243|0.04922140357682919||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|40-50%|0.4533924444623086|0.4766726943942134|2765|0.023280249931904806||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|50-60%|0.5489998912723479|0.573805202661827|3306|0.024805311389479057||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|60-70%|0.6555400983303923|0.6932361076188082|3977|0.03769600928841588||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|70-80%|0.7489745341486947|0.8411773276992569|6863|0.09220279355056216||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|80-90%|0.8209013559193955|0.8753799392097265|329|0.05447858329033095||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Weighted Average|90-100%|0.9237197348846635|0.6|5|-0.32371973488466355||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|20-30%|0.28012649100343695|0.43661971830985913|142|0.15649322730642218||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|30-40%|0.36844460014258673|0.5234899328859061|149|0.15504533274331933||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|40-50%|0.4276658303575103|0.4546979865771812|1788|0.027032156219670866||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|50-60%|0.5489090997327186|0.5589490968801314|3045|0.010039997147412771||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|60-70%|0.6381221776707551|0.6407021393307735|3646|0.0025799616600183928||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|70-80%|0.7362020341965002|0.7619539932799173|3869|0.025751959083417097||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|80-90%|0.8476348374840256|0.868456986800182|4394|0.020822149316156446||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bayesian Calibrated|90-100%|0.932164722159613|0.8505494505494505|455|-0.08161527161016247||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Original Black-Scholes|50-60%|0.5512401729319494|0.4823828550671994|2753|-0.06885731786474997||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Original Black-Scholes|60-70%|0.6517304010150845|0.5744084682440846|3212|-0.07732193277099986||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Original Black-Scholes|70-80%|0.7521016923071265|0.6880846873461349|4062|-0.06401700496099161||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Original Black-Scholes|80-90%|0.8528614172560817|0.8277828886844526|5435|-0.025078528571629066||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Original Black-Scholes|90-100%|0.9158486885445178|0.9019953051643192|1704|-0.013853383380198592||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|10-20%|0.19565517241379313|0.5862068965517241|29|0.39055172413793093||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|20-30%|0.20125|0.5|8|0.29874999999999996||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|40-50%|0.4562965050732807|0.48102217211574594|2661|0.02472566704246526||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|50-60%|0.5502710140592283|0.5737361651211487|3343|0.023465151061920375||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|60-70%|0.6546602294990205|0.6607892527287993|3573|0.006129023229778818||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|70-80%|0.7525473437238145|0.808446455505279|5967|0.05589911178146456||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|80-90%|0.8260148069804336|0.9132734003172924|1891|0.08725859333685881||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Bias Corrected|90-100%|0.9753125|0.6875|16|-0.2878125||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|30-40%|0.35910866752910736|0.4398447606727037|2319|0.08073609314359637||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|40-50%|0.44960655737704913|0.5494018608772707|2257|0.09979530350022159||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|50-60%|0.544656381942189|0.6235790841182202|3079|0.07892270217603115||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|60-70%|0.6465166259168705|0.8171149144254278|8180|0.1705982885085573||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|70-80%|0.743700801424755|0.7773820124666073|1123|0.03368121104185229||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|80-90%|0.8278830409356721|0.7982456140350878|342|-0.02963742690058435||||
+calibration_by_stock_and_dte|Stora Enso|All DTE|Historical IV|90-100%|0.9479487179487179|0.9230769230769231|39|-0.024871794871794806||||
 calibration_by_stock_and_dte|Svenska Cellulosa AB SCA ser. B|All DTE|Weighted Average|20-30%|0.24924853401280056|0.19362186788154898|878|-0.055626666131251584||||
 calibration_by_stock_and_dte|Svenska Cellulosa AB SCA ser. B|All DTE|Weighted Average|30-40%|0.3543468316517426|0.3058823529411765|850|-0.048464478710566083||||
 calibration_by_stock_and_dte|Svenska Cellulosa AB SCA ser. B|All DTE|Weighted Average|40-50%|0.45319884379914027|0.46730901582931866|1453|0.014110172030178392||||
