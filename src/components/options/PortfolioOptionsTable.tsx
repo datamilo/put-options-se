@@ -577,9 +577,11 @@ export const PortfolioOptionsTable = ({
                   {isExpanded && scoredData && (
                     <TableRow key={`${option.OptionName}-detail`}>
                       <TableCell colSpan={visibleColumns.length + 1} className="p-4 bg-muted/30">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 whitespace-normal">
-                          <V21Breakdown option={scoredData} />
-                          <TABreakdown option={scoredData} />
+                        <div className="max-w-2xl">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 whitespace-normal">
+                            <V21Breakdown option={scoredData} />
+                            <TABreakdown option={scoredData} />
+                          </div>
                         </div>
                       </TableCell>
                     </TableRow>
