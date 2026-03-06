@@ -113,18 +113,8 @@ export const HorizontalNavigation = () => {
     <>
       {/* Desktop Horizontal Navigation */}
       <nav className="hidden md:flex items-center gap-1 flex-wrap flex-1">
-        {/* Support Levels Dropdown */}
-        <NavDropdown
-          label="Support Levels"
-          icon={ChartNetwork}
-          items={[
-            {
-              path: "/consecutive-breaks",
-              label: "Support Level Analysis",
-              icon: ChartNetwork,
-            },
-          ]}
-        />
+        {/* Support Level Analysis */}
+        <NavButton path="/consecutive-breaks" icon={ChartNetwork} label="Support Level Analysis" />
 
         {/* Historical Performance and Volatility Dropdown */}
         <NavDropdown
@@ -225,11 +215,8 @@ export const HorizontalNavigation = () => {
 
             <DropdownMenuSeparator />
 
-            {/* Support Levels Group */}
-            <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
-              Support Levels
-            </div>
-            <DropdownMenuItem asChild className="cursor-pointer ml-2">
+            {/* Support Level Analysis */}
+            <DropdownMenuItem asChild className="cursor-pointer">
               <Link to="/consecutive-breaks">
                 <ChartNetwork className="mr-2 h-4 w-4" />
                 Support Level Analysis
