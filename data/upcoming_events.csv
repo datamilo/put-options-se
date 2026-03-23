@@ -1,5 +1,5 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-03-23|ABB|Ex-Date|Dividend|0|False|0.94 CHF
+2026-03-23|ABB|Ex-Date|Dividend|-1|False|0.94 CHF
 2026-03-25|Stora Enso R|Ex-Date|Dividend|2|False|0.13 EUR
 2026-03-25|Nordea Bank|Ex-Date|Dividend|2|False|0.96 EUR
 2026-03-25|Nordea Bank|Ex-Date|Dividend|2|False|0.96 EUR
