@@ -1,8 +1,8 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-04-27|Nokia Corporation|Ex-Date|Dividend|0|False|0.04 EUR
-2026-04-27|Nokia Corporation|Ex-Date|Dividend|0|False|0.04 EUR
-2026-04-27|Lifco B|Ex-Date|Dividend|0|False|2.7 SEK
-2026-04-27|Hexagon B|Ex-Date|Dividend|0|False|0.14 EUR
+2026-04-27|Nokia Corporation|Ex-Date|Dividend|-1|False|0.04 EUR
+2026-04-27|Nokia Corporation|Ex-Date|Dividend|-1|False|0.04 EUR
+2026-04-27|Lifco B|Ex-Date|Dividend|-1|False|2.7 SEK
+2026-04-27|Hexagon B|Ex-Date|Dividend|-1|False|0.14 EUR
 2026-04-28|Atlas Copco B|Earnings Report|Earnings-Q1|1|True|First quarter earnings results
 2026-04-28|SSAB A|Earnings Report|Earnings-Q1|1|True|First quarter earnings results
 2026-04-28|ASSA ABLOY B|Earnings Report|Earnings-Q1|1|True|First quarter earnings results
