@@ -9,7 +9,7 @@ export const TimestampDisplay = () => {
     const fetchTimestamps = async () => {
       try {
         const response = await fetch(
-          'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/last_updated.json'
+          `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${Date.now()}`
         );
         if (response.ok) {
           setTimestamps(await response.json());

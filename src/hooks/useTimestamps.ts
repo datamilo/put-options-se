@@ -22,9 +22,11 @@ export const useTimestamps = () => {
   useEffect(() => {
     const loadTimestamps = async () => {
       try {
-        // Try multiple fallback URLs for better reliability on GitHub Pages
+        // last_updated.json changes on every data refresh — fetch direct from GitHub
+        // (raw.githubusercontent.com) to bypass jsDelivr's 12-hour CDN cache.
+        // Cache-bust with timestamp so GitHub's own HTTP cache is also skipped.
         const urls = [
-          'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/last_updated.json',
+          `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?t=${Date.now()}`,
           `${window.location.origin}${import.meta.env.BASE_URL}data/last_updated.json`,
         ];
 
