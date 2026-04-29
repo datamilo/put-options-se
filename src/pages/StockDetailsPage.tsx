@@ -32,7 +32,8 @@ const StockDetailsPage = () => {
   const [selectedStock, setSelectedStock] = useState<string>(decodedParamStockName);
   const [allStocks, setAllStocks] = useState<string[]>([]);
 
-  // Load all available stocks
+  // Load all available stocks — also depends on isLoading so the effect re-runs
+  // when the CSV finishes fetching on a fresh page load (e.g. opened in new tab)
   useEffect(() => {
     const stocks = getAllStockNames();
     setAllStocks(stocks);
@@ -41,7 +42,7 @@ const StockDetailsPage = () => {
     if (!selectedStock && stocks.length > 0) {
       setSelectedStock(stocks[0]);
     }
-  }, [getAllStockNames]);
+  }, [getAllStockNames, isLoading]);
 
   const handleBackClick = () => {
     navigate(-1);
@@ -62,7 +63,7 @@ const StockDetailsPage = () => {
   const stockSummary = selectedStock ? getStockSummary(selectedStock) : null;
   const upcomingEvent = selectedStock ? getEventForStock(selectedStock) : null;
 
-  if (!selectedStock && isLoading) {
+  if (isLoading && allStocks.length === 0) {
     return (
       <div className="container mx-auto p-6 space-y-6">
         {isFromStock && (
