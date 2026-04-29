@@ -26,12 +26,16 @@ function translateEventType(raw: string): string {
   return map[raw?.trim()] ?? raw?.trim() ?? 'Earnings';
 }
 
-// Module-level cache so the CSV is only fetched once per session
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 let cachedRows: RawRow[] | null = null;
+let cachedAt = 0;
 let pendingLoad: Promise<RawRow[]> | null = null;
 
 async function fetchEarningsRows(): Promise<RawRow[]> {
-  if (cachedRows) return cachedRows;
+  if (cachedRows && Date.now() - cachedAt < SINGLETON_TTL_MS) return cachedRows;
+  cachedRows = null;
+  pendingLoad = null;
   if (pendingLoad) return pendingLoad;
 
   pendingLoad = (async () => {
@@ -46,10 +50,12 @@ async function fetchEarningsRows(): Promise<RawRow[]> {
           delimiter: '|',
         });
         cachedRows = parsed.data.filter(r => r.date && r.name);
+        cachedAt = Date.now();
         return cachedRows;
       } catch {}
     }
     cachedRows = [];
+    cachedAt = Date.now();
     return cachedRows;
   })();
 

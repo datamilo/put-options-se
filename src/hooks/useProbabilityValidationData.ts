@@ -9,11 +9,14 @@ import {
 } from '@/types/probabilityValidation';
 import { normalizeProbMethod } from '@/utils/probabilityMethods';
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface ValidationSingleton {
   data: ProbabilityValidationData[];
   metrics: ValidationMetrics[];
   calibrationData: CalibrationData[];
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
@@ -22,6 +25,7 @@ const validationSingleton: ValidationSingleton = {
   metrics: [],
   calibrationData: [],
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -33,7 +37,8 @@ export const useProbabilityValidationData = () => {
   const [error, setError] = useState<string | null>(validationSingleton.error);
 
   const loadCSVFromGitHub = useCallback(async (filename: string, forceReload = false) => {
-    if (validationSingleton.loaded && !forceReload) {
+    const isFresh = validationSingleton.loaded && Date.now() - validationSingleton.loadedAt < SINGLETON_TTL_MS;
+    if (isFresh && !forceReload) {
       setData(validationSingleton.data);
       setMetrics(validationSingleton.metrics);
       setCalibrationData(validationSingleton.calibrationData);
@@ -41,6 +46,7 @@ export const useProbabilityValidationData = () => {
       setError(validationSingleton.error);
       return validationSingleton.data;
     }
+    validationSingleton.loaded = false;
 
     setIsLoading(true);
     setError(null);
@@ -109,6 +115,7 @@ export const useProbabilityValidationData = () => {
         validationSingleton.metrics = metricsData;
         validationSingleton.calibrationData = calibData;
         validationSingleton.loaded = true;
+        validationSingleton.loadedAt = Date.now();
         validationSingleton.error = null;
 
         setData(parseResult);

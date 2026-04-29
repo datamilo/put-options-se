@@ -2,10 +2,13 @@ import { useState, useEffect, useCallback } from 'react';
 import Papa from 'papaparse';
 import { StockData, StockSummary } from '@/types/stock';
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface StockSingleton {
   data: StockData[];
   dataByName: Map<string, StockData[]>; // pre-sorted ascending by date
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
@@ -13,6 +16,7 @@ const stockSingleton: StockSingleton = {
   data: [],
   dataByName: new Map(),
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -36,22 +40,24 @@ export const useStockData = () => {
   const [error, setError] = useState<string | null>(stockSingleton.error);
 
   useEffect(() => {
-    if (stockSingleton.loaded) {
+    if (stockSingleton.loaded && Date.now() - stockSingleton.loadedAt < SINGLETON_TTL_MS) {
       setAllStockData(stockSingleton.data);
       setIsLoading(false);
       setError(stockSingleton.error);
       return;
     }
+    stockSingleton.loaded = false;
     loadStockData();
   }, []);
 
   const loadStockData = useCallback(async () => {
-    if (stockSingleton.loaded) {
+    if (stockSingleton.loaded && Date.now() - stockSingleton.loadedAt < SINGLETON_TTL_MS) {
       setAllStockData(stockSingleton.data);
       setIsLoading(false);
       setError(stockSingleton.error);
       return;
     }
+    stockSingleton.loaded = false;
 
     try {
       setIsLoading(true);
@@ -103,6 +109,7 @@ export const useStockData = () => {
           stockSingleton.data = data;
           stockSingleton.dataByName = map;
           stockSingleton.loaded = true;
+          stockSingleton.loadedAt = Date.now();
           stockSingleton.error = null;
 
           setAllStockData(data);

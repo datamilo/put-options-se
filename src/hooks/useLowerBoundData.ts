@@ -42,7 +42,7 @@ export const useLowerBoundTrendData = () => {
         });
       });
     },
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
   });
 };
@@ -77,7 +77,7 @@ export const useLowerBoundDailyPredictions = () => {
         });
       });
     },
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
   });
 };
@@ -116,7 +116,7 @@ export const useLowerBoundExpiryStats = () => {
         });
       });
     },
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
   });
 };
@@ -192,7 +192,7 @@ export const useAllLowerBoundData = () => {
       };
     },
     enabled: trendsQuery.isSuccess && dailyQuery.isSuccess && expiryQuery.isSuccess,
-    staleTime: 1000 * 60 * 60 * 24, // 24 hours
+    staleTime: 30 * 60 * 1000, // 30 minutes
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days
   });
 };

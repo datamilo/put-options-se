@@ -13,6 +13,8 @@ interface ChartDataPoint {
 
 type ChartDataStructure = Record<string, Record<string, Record<string, Record<string, Record<string, ChartDataPoint>>>>>;
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface RecoverySingleton {
   data: ProbabilityRecoveryData[];
   scenarios: RecoveryScenario[];
@@ -21,6 +23,7 @@ interface RecoverySingleton {
   chartData: ChartDataStructure;
   stockChartData: ChartDataStructure;
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
@@ -32,6 +35,7 @@ const recoverySingleton: RecoverySingleton = {
   chartData: {},
   stockChartData: {},
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -89,7 +93,8 @@ export const useProbabilityRecoveryData = () => {
   }, []);
 
   const loadCSVFromGitHub = useCallback(async (filename: string, forceReload = false) => {
-    if (recoverySingleton.loaded && !forceReload) {
+    const isFresh = recoverySingleton.loaded && Date.now() - recoverySingleton.loadedAt < SINGLETON_TTL_MS;
+    if (isFresh && !forceReload) {
       setData(recoverySingleton.data);
       setScenarios(recoverySingleton.scenarios);
       setStockData(recoverySingleton.stockData);
@@ -100,6 +105,7 @@ export const useProbabilityRecoveryData = () => {
       setError(recoverySingleton.error);
       return recoverySingleton.data;
     }
+    recoverySingleton.loaded = false;
 
     setIsLoading(true);
     setError(null);
@@ -170,6 +176,7 @@ export const useProbabilityRecoveryData = () => {
         recoverySingleton.chartData = aggregatedChart;
         recoverySingleton.stockChartData = stockChart;
         recoverySingleton.loaded = true;
+        recoverySingleton.loadedAt = Date.now();
         recoverySingleton.error = null;
 
         setData(parseResult);

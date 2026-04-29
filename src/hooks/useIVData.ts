@@ -20,17 +20,20 @@ export interface IVData {
   CushionMinusIVPct: number;
 }
 
-// Create a singleton instance to prevent multiple loading attempts
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 let ivDataSingleton: {
   data: IVData[];
   isLoading: boolean;
   error: string | null;
   loaded: boolean;
+  loadedAt: number;
 } = {
   data: [],
   isLoading: false,
   error: null,
-  loaded: false
+  loaded: false,
+  loadedAt: 0,
 };
 
 export const useIVData = () => {
@@ -41,14 +44,15 @@ export const useIVData = () => {
   console.log('🔍 useIVData hook called, singleton loaded:', ivDataSingleton.loaded, 'data length:', ivDataSingleton.data.length);
 
   const loadIVDataFromGitHub = useCallback(async () => {
-    // If already loaded successfully, don't reload
-    if (ivDataSingleton.loaded && ivDataSingleton.data.length > 0) {
+    const isFresh = ivDataSingleton.loaded && ivDataSingleton.data.length > 0 && Date.now() - ivDataSingleton.loadedAt < SINGLETON_TTL_MS;
+    if (isFresh) {
       console.log('🚀 IV data already loaded in singleton, using cached data:', ivDataSingleton.data.length);
       setData(ivDataSingleton.data);
       setIsLoading(false);
       setError(ivDataSingleton.error);
       return;
     }
+    ivDataSingleton.loaded = false;
 
     console.log('📥 Loading IV data...');
     setIsLoading(true);
@@ -116,9 +120,9 @@ export const useIVData = () => {
               console.log(`✅ Parsed ${results.data.length} IV rows from CSV - STORING IN SINGLETON`);
               const parsedData = results.data as IVData[];
               
-              // Store in singleton to prevent re-loading
               ivDataSingleton.data = parsedData;
               ivDataSingleton.loaded = true;
+              ivDataSingleton.loadedAt = Date.now();
               ivDataSingleton.isLoading = false;
               ivDataSingleton.error = null;
               

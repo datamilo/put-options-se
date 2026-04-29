@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { UpcomingEvent } from '@/types/stock';
 
-// Singleton cache - persists across component mounts to prevent reloading
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 let cachedEvents: UpcomingEvent[] | null = null;
+let cachedAt = 0;
 
 export const useUpcomingEvents = () => {
   const [allEvents, setAllEvents] = useState<UpcomingEvent[]>([]);
@@ -16,12 +18,12 @@ export const useUpcomingEvents = () => {
 
   const loadUpcomingEvents = async () => {
     try {
-      // Return cached data if available
-      if (cachedEvents) {
+      if (cachedEvents && Date.now() - cachedAt < SINGLETON_TTL_MS) {
         setAllEvents(cachedEvents);
         setIsLoading(false);
         return;
       }
+      cachedEvents = null;
 
       setIsLoading(true);
       setError(null);
@@ -54,6 +56,7 @@ export const useUpcomingEvents = () => {
             } as UpcomingEvent;
           });
           cachedEvents = events;
+          cachedAt = Date.now();
           setAllEvents(events);
           setIsLoading(false);
         },

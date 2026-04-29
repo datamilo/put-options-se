@@ -7,10 +7,13 @@ import { IVPerStockPerDay, IVStockSummary, IVMarketSummary } from '@/types/ivAna
 const GITHUB_URL = 'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/iv_per_stock_per_day.csv';
 const LOCAL_URL = '/data/iv_per_stock_per_day.csv';
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface IVPerStockSingleton {
   stockRows: IVPerStockPerDay[];
   marketRows: IVPerStockPerDay[];
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
@@ -18,6 +21,7 @@ const ivPerStockSingleton: IVPerStockSingleton = {
   stockRows: [],
   marketRows: [],
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -36,13 +40,14 @@ export const useIVPerStockPerDay = () => {
   const [error, setError] = useState<string | null>(ivPerStockSingleton.error);
 
   useEffect(() => {
-    if (ivPerStockSingleton.loaded) {
+    if (ivPerStockSingleton.loaded && Date.now() - ivPerStockSingleton.loadedAt < SINGLETON_TTL_MS) {
       setRawData(ivPerStockSingleton.stockRows);
       setMarketIVData(ivPerStockSingleton.marketRows);
       setIsLoading(false);
       setError(ivPerStockSingleton.error);
       return;
     }
+    ivPerStockSingleton.loaded = false;
 
     const load = async () => {
       try {
@@ -95,6 +100,7 @@ export const useIVPerStockPerDay = () => {
         ivPerStockSingleton.stockRows = stockRows;
         ivPerStockSingleton.marketRows = marketRows;
         ivPerStockSingleton.loaded = true;
+        ivPerStockSingleton.loadedAt = Date.now();
         ivPerStockSingleton.error = null;
 
         setRawData(stockRows);

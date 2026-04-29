@@ -17,17 +17,20 @@ export interface MarginRequirementsData {
   Annualized_ROM_Pct: number;
 }
 
-// Create a singleton instance to prevent multiple loading attempts
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 let marginDataSingleton: {
   data: MarginRequirementsData[];
   isLoading: boolean;
   error: string | null;
   loaded: boolean;
+  loadedAt: number;
 } = {
   data: [],
   isLoading: false,
   error: null,
-  loaded: false
+  loaded: false,
+  loadedAt: 0,
 };
 
 export const useMarginRequirementsData = () => {
@@ -38,14 +41,15 @@ export const useMarginRequirementsData = () => {
   console.log('🔍 useMarginRequirementsData hook called, singleton loaded:', marginDataSingleton.loaded, 'data length:', marginDataSingleton.data.length);
 
   const loadMarginDataFromGitHub = useCallback(async () => {
-    // If already loaded successfully, don't reload
-    if (marginDataSingleton.loaded && marginDataSingleton.data.length > 0) {
+    const isFresh = marginDataSingleton.loaded && marginDataSingleton.data.length > 0 && Date.now() - marginDataSingleton.loadedAt < SINGLETON_TTL_MS;
+    if (isFresh) {
       console.log('🚀 Margin data already loaded in singleton, using cached data:', marginDataSingleton.data.length);
       setData(marginDataSingleton.data);
       setIsLoading(false);
       setError(marginDataSingleton.error);
       return;
     }
+    marginDataSingleton.loaded = false;
 
     console.log('📥 Loading margin requirements data...');
     setIsLoading(true);
@@ -113,9 +117,9 @@ export const useMarginRequirementsData = () => {
               console.log(`✅ Parsed ${results.data.length} margin requirements rows from CSV - STORING IN SINGLETON`);
               const parsedData = results.data as MarginRequirementsData[];
 
-              // Store in singleton to prevent re-loading
               marginDataSingleton.data = parsedData;
               marginDataSingleton.loaded = true;
+              marginDataSingleton.loadedAt = Date.now();
               marginDataSingleton.isLoading = false;
               marginDataSingleton.error = null;
 

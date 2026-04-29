@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
 import { VolatilityEventData, VolatilityStats } from '@/types/volatility';
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface VolatilitySingleton {
   data: VolatilityEventData[];
   stats: VolatilityStats[];
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
@@ -13,6 +16,7 @@ const volatilitySingleton: VolatilitySingleton = {
   data: [],
   stats: [],
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -23,13 +27,14 @@ export const useVolatilityData = () => {
   const [error, setError] = useState<string | null>(volatilitySingleton.error);
 
   const loadVolatilityData = async () => {
-    if (volatilitySingleton.loaded) {
+    if (volatilitySingleton.loaded && Date.now() - volatilitySingleton.loadedAt < SINGLETON_TTL_MS) {
       setVolatilityData(volatilitySingleton.data);
       setVolatilityStats(volatilitySingleton.stats);
       setIsLoading(false);
       setError(volatilitySingleton.error);
       return;
     }
+    volatilitySingleton.loaded = false;
 
     try {
       setIsLoading(true);
@@ -82,6 +87,7 @@ export const useVolatilityData = () => {
       volatilitySingleton.data = data;
       volatilitySingleton.stats = stats;
       volatilitySingleton.loaded = true;
+      volatilitySingleton.loadedAt = Date.now();
       volatilitySingleton.error = null;
 
       setVolatilityData(data);

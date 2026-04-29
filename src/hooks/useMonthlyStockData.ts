@@ -32,10 +32,13 @@ export interface MonthlyStockStats {
   top_5_accumulated_score: number;
 }
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface MonthlyDataSingleton {
   data: MonthlyStockData[];
   stats: MonthlyStockStats[];
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
@@ -43,6 +46,7 @@ const monthlyDataSingleton: MonthlyDataSingleton = {
   data: [],
   stats: [],
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -53,13 +57,14 @@ export const useMonthlyStockData = () => {
   const [error, setError] = useState<string | null>(monthlyDataSingleton.error);
 
   const loadMonthlyData = async () => {
-    if (monthlyDataSingleton.loaded) {
+    if (monthlyDataSingleton.loaded && Date.now() - monthlyDataSingleton.loadedAt < SINGLETON_TTL_MS) {
       setMonthlyData(monthlyDataSingleton.data);
       setMonthlyStats(monthlyDataSingleton.stats);
       setIsLoading(false);
       setError(monthlyDataSingleton.error);
       return;
     }
+    monthlyDataSingleton.loaded = false;
 
     try {
       setIsLoading(true);
@@ -118,6 +123,7 @@ export const useMonthlyStockData = () => {
       monthlyDataSingleton.data = data;
       monthlyDataSingleton.stats = stats;
       monthlyDataSingleton.loaded = true;
+      monthlyDataSingleton.loadedAt = Date.now();
       monthlyDataSingleton.error = null;
 
       setMonthlyData(data);

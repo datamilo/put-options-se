@@ -11,15 +11,19 @@ export interface ProbabilityHistoryData {
   '3_ProbOfWorthless_Historical_IV': number;
 }
 
+const SINGLETON_TTL_MS = 30 * 60 * 1000;
+
 interface ProbabilityHistorySingleton {
   data: ProbabilityHistoryData[];
   loaded: boolean;
+  loadedAt: number;
   error: string | null;
 }
 
 const probabilityHistorySingleton: ProbabilityHistorySingleton = {
   data: [],
   loaded: false,
+  loadedAt: 0,
   error: null,
 };
 
@@ -33,12 +37,13 @@ export const useProbabilityHistory = (optionName?: string) => {
   }, []);
 
   const loadProbabilityHistory = async () => {
-    if (probabilityHistorySingleton.loaded) {
+    if (probabilityHistorySingleton.loaded && Date.now() - probabilityHistorySingleton.loadedAt < SINGLETON_TTL_MS) {
       setAllData(probabilityHistorySingleton.data);
       setIsLoading(false);
       setError(probabilityHistorySingleton.error);
       return;
     }
+    probabilityHistorySingleton.loaded = false;
 
     try {
       setIsLoading(true);
@@ -91,6 +96,7 @@ export const useProbabilityHistory = (optionName?: string) => {
 
           probabilityHistorySingleton.data = data;
           probabilityHistorySingleton.loaded = true;
+          probabilityHistorySingleton.loadedAt = Date.now();
           probabilityHistorySingleton.error = null;
 
           setAllData(data);
