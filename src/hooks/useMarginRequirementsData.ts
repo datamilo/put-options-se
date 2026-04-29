@@ -55,8 +55,8 @@ export const useMarginRequirementsData = () => {
 
     // Try multiple fallback URLs for better reliability on GitHub Pages
     const urls = [
-      `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/margin_requirements.csv?${Date.now()}`,
-      `${window.location.origin}${import.meta.env.BASE_URL}data/margin_requirements.csv?${Date.now()}`
+      'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/margin_requirements.csv',
+      `${window.location.origin}${import.meta.env.BASE_URL}data/margin_requirements.csv`,
     ];
 
     let lastError: Error | null = null;

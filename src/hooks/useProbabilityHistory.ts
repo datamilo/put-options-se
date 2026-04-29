@@ -11,52 +11,62 @@ export interface ProbabilityHistoryData {
   '3_ProbOfWorthless_Historical_IV': number;
 }
 
+interface ProbabilityHistorySingleton {
+  data: ProbabilityHistoryData[];
+  loaded: boolean;
+  error: string | null;
+}
+
+const probabilityHistorySingleton: ProbabilityHistorySingleton = {
+  data: [],
+  loaded: false,
+  error: null,
+};
+
 export const useProbabilityHistory = (optionName?: string) => {
-  const [allData, setAllData] = useState<ProbabilityHistoryData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [allData, setAllData] = useState<ProbabilityHistoryData[]>(probabilityHistorySingleton.data);
+  const [isLoading, setIsLoading] = useState(!probabilityHistorySingleton.loaded);
+  const [error, setError] = useState<string | null>(probabilityHistorySingleton.error);
 
   useEffect(() => {
     loadProbabilityHistory();
   }, []);
 
   const loadProbabilityHistory = async () => {
+    if (probabilityHistorySingleton.loaded) {
+      setAllData(probabilityHistorySingleton.data);
+      setIsLoading(false);
+      setError(probabilityHistorySingleton.error);
+      return;
+    }
+
     try {
-      console.log('📥 Starting to load probability history...');
       setIsLoading(true);
       setError(null);
 
-      // Try multiple fallback URLs for better reliability on GitHub Pages
       const urls = [
-        `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/probability_history.csv?${Date.now()}`,
-        `${window.location.origin}${import.meta.env.BASE_URL}data/probability_history.csv?${Date.now()}`
+        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/probability_history.csv',
+        `${window.location.origin}${import.meta.env.BASE_URL}data/probability_history.csv`,
       ];
-      console.log('📍 Trying URLs:', urls);
-      
+
       let lastError: Error | null = null;
       let response: Response | null = null;
-      
+
       for (const url of urls) {
         try {
-          console.log('🔗 Trying probability history URL:', url);
           response = await fetch(url);
-          if (response.ok) {
-            console.log('✅ Successfully loaded CSV from:', url);
-            break;
-          } else {
-            console.warn('⚠️ HTTP error for URL:', url, 'Status:', response.status);
-          }
-        } catch (error) {
-          console.warn('❌ Failed to load from:', url, error);
-          lastError = error as Error;
+          if (response.ok) break;
+        } catch (err) {
+          lastError = err as Error;
         }
       }
-      
+
       if (!response || !response.ok) {
         throw lastError || new Error('Failed to load probability history from any URL');
       }
+
       const csvText = await response.text();
-      
+
       Papa.parse(csvText, {
         header: true,
         delimiter: '|',
@@ -67,36 +77,36 @@ export const useProbabilityHistory = (optionName?: string) => {
             'ProbWorthless_Bayesian_IsoCal',
             '1_ProbOfWorthless_Original',
             '2_ProbOfWorthless_Calibrated',
-            '3_ProbOfWorthless_Historical_IV'
+            '3_ProbOfWorthless_Historical_IV',
           ];
-          
+
           if (typeof field === 'string' && numericFields.includes(field)) {
-            if (value === '' || value === null || value === undefined) {
-              return null;
-            }
+            if (value === '' || value === null || value === undefined) return null;
             return parseFloat(value);
           }
           return value;
         },
         complete: (results) => {
-          console.log('✅ Probability history CSV parsed successfully!');
-          console.log('📊 Total rows loaded:', results.data.length);
-          console.log('First row sample:', results.data[0]);
-          if (results.errors.length > 0) {
-            console.warn('⚠️ CSV parsing errors:', results.errors);
-          }
-          setAllData(results.data as ProbabilityHistoryData[]);
+          const data = results.data as ProbabilityHistoryData[];
+
+          probabilityHistorySingleton.data = data;
+          probabilityHistorySingleton.loaded = true;
+          probabilityHistorySingleton.error = null;
+
+          setAllData(data);
           setIsLoading(false);
         },
-        error: (error) => {
-          console.error('❌ Error parsing probability history CSV:', error);
-          setError('Failed to parse probability history data');
+        error: () => {
+          const msg = 'Failed to parse probability history data';
+          probabilityHistorySingleton.error = msg;
+          setError(msg);
           setIsLoading(false);
-        }
+        },
       });
-    } catch (error) {
-      console.error('Error loading probability history data:', error);
-      setError('Failed to load probability history data');
+    } catch (err) {
+      const msg = 'Failed to load probability history data';
+      probabilityHistorySingleton.error = msg;
+      setError(msg);
       setIsLoading(false);
     }
   };
@@ -114,6 +124,6 @@ export const useProbabilityHistory = (optionName?: string) => {
     optionData,
     isLoading,
     error,
-    getProbabilityHistoryForOption
+    getProbabilityHistoryForOption,
   };
 };

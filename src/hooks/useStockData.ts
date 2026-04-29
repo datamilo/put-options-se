@@ -1,56 +1,94 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Papa from 'papaparse';
 import { StockData, StockSummary } from '@/types/stock';
 
+interface StockSingleton {
+  data: StockData[];
+  dataByName: Map<string, StockData[]>; // pre-sorted ascending by date
+  loaded: boolean;
+  error: string | null;
+}
+
+const stockSingleton: StockSingleton = {
+  data: [],
+  dataByName: new Map(),
+  loaded: false,
+  error: null,
+};
+
+function buildStockMap(data: StockData[]): Map<string, StockData[]> {
+  const map = new Map<string, StockData[]>();
+  for (const row of data) {
+    if (!row.name) continue;
+    if (!map.has(row.name)) map.set(row.name, []);
+    map.get(row.name)!.push(row);
+  }
+  // Pre-sort each stock's rows by date ascending so callers get sorted data for free
+  for (const rows of map.values()) {
+    rows.sort((a, b) => a.date.localeCompare(b.date));
+  }
+  return map;
+}
+
 export const useStockData = () => {
-  const [allStockData, setAllStockData] = useState<StockData[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [allStockData, setAllStockData] = useState<StockData[]>(stockSingleton.data);
+  const [isLoading, setIsLoading] = useState(!stockSingleton.loaded);
+  const [error, setError] = useState<string | null>(stockSingleton.error);
 
   useEffect(() => {
+    if (stockSingleton.loaded) {
+      setAllStockData(stockSingleton.data);
+      setIsLoading(false);
+      setError(stockSingleton.error);
+      return;
+    }
     loadStockData();
   }, []);
 
-  const loadStockData = async () => {
+  const loadStockData = useCallback(async () => {
+    if (stockSingleton.loaded) {
+      setAllStockData(stockSingleton.data);
+      setIsLoading(false);
+      setError(stockSingleton.error);
+      return;
+    }
+
     try {
       setIsLoading(true);
       setError(null);
-      
-      // Try multiple fallback URLs for better reliability on GitHub Pages
+
       const urls = [
-        `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/stock_data.csv?${Date.now()}`,
-        `${window.location.origin}${import.meta.env.BASE_URL}data/stock_data.csv?${Date.now()}`
+        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/stock_data.csv',
+        `${window.location.origin}${import.meta.env.BASE_URL}data/stock_data.csv`,
       ];
-      
+
       let lastError: Error | null = null;
       let response: Response | null = null;
-      
+
       for (const url of urls) {
         try {
-          console.log('🔗 Trying stock data URL:', url);
           response = await fetch(url);
-          if (response.ok) {
-            console.log('✅ Successfully loaded CSV from:', url);
-            break;
-          }
-        } catch (error) {
-          console.warn('❌ Failed to load from:', url, error);
-          lastError = error as Error;
+          if (response.ok) break;
+        } catch (err) {
+          lastError = err as Error;
         }
       }
-      
+
       if (!response || !response.ok) {
         throw lastError || new Error('Failed to load stock data from any URL');
       }
+
       const csvText = await response.text();
-      
+
       Papa.parse(csvText, {
         header: true,
         delimiter: '|',
         skipEmptyLines: true,
         transform: (value, field) => {
-          if (field === 'open' || field === 'high' || field === 'low' || field === 'close' || field === 'volume' || field === 'pct_change_close') {
-            // Handle empty values in numeric fields
+          if (
+            field === 'open' || field === 'high' || field === 'low' ||
+            field === 'close' || field === 'volume' || field === 'pct_change_close'
+          ) {
             if (value === '' || value === null || value === undefined) {
               return field === 'volume' ? 0 : null;
             }
@@ -59,37 +97,38 @@ export const useStockData = () => {
           return value;
         },
         complete: (results) => {
-          console.log('Raw CSV data loaded:', results.data.slice(0, 5)); // First 5 rows
-          console.log('Total rows loaded:', results.data.length);
-          
-          // Debug: Check for AAK AB data specifically
-          const aakData = results.data.filter((row: any) => row.name === 'AAK AB');
-          console.log('AAK AB data found:', aakData.length, 'rows');
-          console.log('Latest AAK AB entries:', aakData.slice(-5));
-          
-          setAllStockData(results.data as StockData[]);
+          const data = results.data as StockData[];
+          const map = buildStockMap(data);
+
+          stockSingleton.data = data;
+          stockSingleton.dataByName = map;
+          stockSingleton.loaded = true;
+          stockSingleton.error = null;
+
+          setAllStockData(data);
           setIsLoading(false);
         },
-        error: (error) => {
-          console.error('Error parsing CSV:', error);
-          setError('Failed to parse stock data');
+        error: () => {
+          const msg = 'Failed to parse stock data';
+          stockSingleton.error = msg;
+          setError(msg);
           setIsLoading(false);
-        }
+        },
       });
-    } catch (error) {
-      console.error('Error loading stock data:', error);
-      setError('Failed to load stock data');
+    } catch (err) {
+      const msg = 'Failed to load stock data';
+      stockSingleton.error = msg;
+      setError(msg);
       setIsLoading(false);
     }
-  };
+  }, []);
 
-  const getStockData = (stockName: string): StockData[] => {
-    return allStockData
-      .filter(data => data.name === stockName)
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-  };
+  // O(1) lookup — data is pre-sorted ascending by date
+  const getStockData = useCallback((stockName: string): StockData[] => {
+    return stockSingleton.dataByName.get(stockName) ?? [];
+  }, []);
 
-  const getLowPriceForPeriod = (stockName: string, periodDays: number): number | null => {
+  const getLowPriceForPeriod = useCallback((stockName: string, periodDays: number): number | null => {
     const stockData = getStockData(stockName);
     if (stockData.length === 0) return null;
 
@@ -99,34 +138,32 @@ export const useStockData = () => {
     const recentData = stockData.filter(d => new Date(d.date) >= periodAgo);
     if (recentData.length === 0) return null;
 
-    const prices = recentData.map(d => d.low);
-    return Math.min(...prices);
-  };
+    return Math.min(...recentData.map(d => d.low));
+  }, [getStockData]);
 
-  const getPriceRangeForPeriod = (stockName: string, periodDays: number): { high: number; low: number } | null => {
+  const getPriceRangeForPeriod = useCallback(
+    (stockName: string, periodDays: number): { high: number; low: number } | null => {
+      const stockData = getStockData(stockName);
+      if (stockData.length === 0) return null;
+
+      const periodAgo = new Date();
+      periodAgo.setDate(periodAgo.getDate() - periodDays);
+
+      const recentData = stockData.filter(d => new Date(d.date) >= periodAgo);
+      if (recentData.length === 0) return null;
+
+      return {
+        high: Math.max(...recentData.map(d => d.high)),
+        low: Math.min(...recentData.map(d => d.low)),
+      };
+    },
+    [getStockData]
+  );
+
+  const getStockSummary = useCallback((stockName: string): StockSummary | null => {
+    // Data is pre-sorted ascending — last element is the most recent
     const stockData = getStockData(stockName);
     if (stockData.length === 0) return null;
-
-    const periodAgo = new Date();
-    periodAgo.setDate(periodAgo.getDate() - periodDays);
-
-    const recentData = stockData.filter(d => new Date(d.date) >= periodAgo);
-    if (recentData.length === 0) return null;
-
-    const highs = recentData.map(d => d.high);
-    const lows = recentData.map(d => d.low);
-    return {
-      high: Math.max(...highs),
-      low: Math.min(...lows)
-    };
-  };
-
-  const getStockSummary = (stockName: string): StockSummary | null => {
-    const stockData = getStockData(stockName);
-    if (stockData.length === 0) return null;
-
-    console.log(`Stock data for ${stockName}:`, stockData.slice(-5)); // Last 5 data points
-    console.log(`Latest data for ${stockName}:`, stockData[stockData.length - 1]);
 
     const latestData = stockData[stockData.length - 1];
     const previousData = stockData[stockData.length - 2];
@@ -134,64 +171,54 @@ export const useStockData = () => {
     const priceChange = previousData ? latestData.close - previousData.close : 0;
     const priceChangePercent = previousData ? (priceChange / previousData.close) * 100 : 0;
 
-    // Calculate price changes for different periods
     const currentDate = new Date(latestData.date);
 
-    // Last trading day of previous week (find last data point before current week's Monday)
+    // Week-over-week change
     const startOfCurrentWeek = new Date(currentDate);
     const dayOfWeek = startOfCurrentWeek.getDay();
     const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
     startOfCurrentWeek.setDate(startOfCurrentWeek.getDate() - daysToMonday);
     startOfCurrentWeek.setHours(0, 0, 0, 0);
-    const previousWeekData = stockData
-      .filter(d => new Date(d.date) < startOfCurrentWeek)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    // .at(-1) on ascending-sorted filtered array gives the most recent entry before cutoff
+    const previousWeekData = stockData.filter(d => new Date(d.date) < startOfCurrentWeek).at(-1);
     const priceChangePercentWeek = previousWeekData
       ? ((latestData.close - previousWeekData.close) / previousWeekData.close) * 100
       : 0;
 
-    // Last trading day of previous month
+    // Month-over-month change
     const startOfCurrentMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    const previousMonthData = stockData
-      .filter(d => new Date(d.date) < startOfCurrentMonth)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const previousMonthData = stockData.filter(d => new Date(d.date) < startOfCurrentMonth).at(-1);
     const priceChangePercentMonth = previousMonthData
       ? ((latestData.close - previousMonthData.close) / previousMonthData.close) * 100
       : 0;
 
-    // Last trading day of previous year
+    // Year-over-year change
     const startOfCurrentYear = new Date(currentDate.getFullYear(), 0, 1);
-    const previousYearData = stockData
-      .filter(d => new Date(d.date) < startOfCurrentYear)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
+    const previousYearData = stockData.filter(d => new Date(d.date) < startOfCurrentYear).at(-1);
     const priceChangePercentYear = previousYearData
       ? ((latestData.close - previousYearData.close) / previousYearData.close) * 100
       : 0;
 
-    // Calculate 52-week high and low using OHLC data
+    // 52-week high/low and volatility
     const oneYearAgo = new Date();
     oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
-
     const recentData = stockData.filter(d => new Date(d.date) >= oneYearAgo);
-    const highs = recentData.map(d => d.high);
-    const lows = recentData.map(d => d.low);
 
-    const highPrice52Week = Math.max(...highs);
-    const lowPrice52Week = Math.min(...lows);
+    const highPrice52Week = Math.max(...recentData.map(d => d.high));
+    const lowPrice52Week = Math.min(...recentData.map(d => d.low));
 
-    // Calculate volatility (standard deviation of daily returns)
-    const returns = recentData.slice(1).map((d, i) => 
+    const returns = recentData.slice(1).map((d, i) =>
       (d.close - recentData[i].close) / recentData[i].close
     );
     const avgReturn = returns.reduce((sum, r) => sum + r, 0) / returns.length;
     const variance = returns.reduce((sum, r) => sum + Math.pow(r - avgReturn, 2), 0) / returns.length;
-    const volatility = Math.sqrt(variance) * Math.sqrt(252) * 100; // Annualized volatility
+    const volatility = Math.sqrt(variance) * Math.sqrt(252) * 100;
 
-    // Calculate median volume
     const volumes = recentData.map(d => d.volume).sort((a, b) => a - b);
-    const medianVolume = volumes.length % 2 === 0 
-      ? (volumes[volumes.length / 2 - 1] + volumes[volumes.length / 2]) / 2
-      : volumes[Math.floor(volumes.length / 2)];
+    const medianVolume =
+      volumes.length % 2 === 0
+        ? (volumes[volumes.length / 2 - 1] + volumes[volumes.length / 2]) / 2
+        : volumes[Math.floor(volumes.length / 2)];
 
     return {
       name: stockName,
@@ -205,15 +232,13 @@ export const useStockData = () => {
       medianVolume,
       highPrice52Week,
       lowPrice52Week,
-      volatility
+      volatility,
     };
-  };
+  }, [getStockData]);
 
-  const getAllStockNames = (): string[] => {
-    const uniqueNames = Array.from(new Set(allStockData.map(d => d.name)))
-      .filter(name => name && name.trim() !== ''); // Filter out empty/whitespace names
-    return uniqueNames.sort();
-  };
+  const getAllStockNames = useCallback((): string[] => {
+    return Array.from(stockSingleton.dataByName.keys()).sort();
+  }, []);
 
   return {
     allStockData,
@@ -224,6 +249,6 @@ export const useStockData = () => {
     getLowPriceForPeriod,
     getPriceRangeForPeriod,
     loadStockData,
-    getAllStockNames
+    getAllStockNames,
   };
 };

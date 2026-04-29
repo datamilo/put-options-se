@@ -22,12 +22,10 @@ export const useTimestamps = () => {
   useEffect(() => {
     const loadTimestamps = async () => {
       try {
-        // Add cache busting to ensure fresh data
-        const cacheBuster = Date.now();
         // Try multiple fallback URLs for better reliability on GitHub Pages
         const urls = [
-          `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?cb=${cacheBuster}`,
-          `${window.location.origin}${import.meta.env.BASE_URL}data/last_updated.json?cb=${cacheBuster}`
+          'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json',
+          `${window.location.origin}${import.meta.env.BASE_URL}data/last_updated.json`,
         ];
 
         let lastError: Error | null = null;

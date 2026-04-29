@@ -7,6 +7,20 @@ import { IVPerStockPerDay, IVStockSummary, IVMarketSummary } from '@/types/ivAna
 const GITHUB_URL = 'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/iv_per_stock_per_day.csv';
 const LOCAL_URL = '/data/iv_per_stock_per_day.csv';
 
+interface IVPerStockSingleton {
+  stockRows: IVPerStockPerDay[];
+  marketRows: IVPerStockPerDay[];
+  loaded: boolean;
+  error: string | null;
+}
+
+const ivPerStockSingleton: IVPerStockSingleton = {
+  stockRows: [],
+  marketRows: [],
+  loaded: false,
+  error: null,
+};
+
 function computeIVRank(currentIV: number, values: number[]): number | null {
   if (values.length === 0) return null;
   const min = Math.min(...values);
@@ -16,12 +30,20 @@ function computeIVRank(currentIV: number, values: number[]): number | null {
 }
 
 export const useIVPerStockPerDay = () => {
-  const [rawData, setRawData] = useState<IVPerStockPerDay[]>([]);
-  const [marketIVData, setMarketIVData] = useState<IVPerStockPerDay[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [rawData, setRawData] = useState<IVPerStockPerDay[]>(ivPerStockSingleton.stockRows);
+  const [marketIVData, setMarketIVData] = useState<IVPerStockPerDay[]>(ivPerStockSingleton.marketRows);
+  const [isLoading, setIsLoading] = useState(!ivPerStockSingleton.loaded);
+  const [error, setError] = useState<string | null>(ivPerStockSingleton.error);
 
   useEffect(() => {
+    if (ivPerStockSingleton.loaded) {
+      setRawData(ivPerStockSingleton.stockRows);
+      setMarketIVData(ivPerStockSingleton.marketRows);
+      setIsLoading(false);
+      setError(ivPerStockSingleton.error);
+      return;
+    }
+
     const load = async () => {
       try {
         setIsLoading(true);
@@ -30,7 +52,7 @@ export const useIVPerStockPerDay = () => {
         let csvText = '';
         for (const url of [GITHUB_URL, LOCAL_URL]) {
           try {
-            const response = await fetch(url.includes('github') ? `${url}?${Date.now()}` : url);
+            const response = await fetch(url);
             if (response.ok) {
               csvText = await response.text();
               break;
@@ -41,7 +63,7 @@ export const useIVPerStockPerDay = () => {
         }
 
         if (!csvText) {
-          throw new Error('Could not load IV data from GitHub or local source.');
+          throw new Error('Could not load IV data from any source.');
         }
 
         const result = Papa.parse<Record<string, string>>(csvText, {
@@ -65,12 +87,22 @@ export const useIVPerStockPerDay = () => {
             : null,
         })).filter(row => row.Stock_Name && row.Date);
 
-        const marketRows = parsed.filter(r => r.Stock_Name === 'MARKET_IV');
+        const marketRows = parsed
+          .filter(r => r.Stock_Name === 'MARKET_IV')
+          .sort((a, b) => a.Date.localeCompare(b.Date));
         const stockRows = parsed.filter(r => r.Stock_Name !== 'MARKET_IV');
+
+        ivPerStockSingleton.stockRows = stockRows;
+        ivPerStockSingleton.marketRows = marketRows;
+        ivPerStockSingleton.loaded = true;
+        ivPerStockSingleton.error = null;
+
         setRawData(stockRows);
-        setMarketIVData(marketRows.sort((a, b) => a.Date.localeCompare(b.Date)));
+        setMarketIVData(marketRows);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        const msg = err instanceof Error ? err.message : 'Unknown error';
+        ivPerStockSingleton.error = msg;
+        setError(msg);
       } finally {
         setIsLoading(false);
       }
@@ -86,7 +118,6 @@ export const useIVPerStockPerDay = () => {
       if (!map.has(row.Stock_Name)) map.set(row.Stock_Name, []);
       map.get(row.Stock_Name)!.push(row);
     }
-    // Sort each stock's rows by date ascending
     for (const rows of map.values()) {
       rows.sort((a, b) => a.Date.localeCompare(b.Date));
     }
@@ -100,7 +131,6 @@ export const useIVPerStockPerDay = () => {
     for (const [stockName, rows] of dataByStock.entries()) {
       const validRows = rows.filter(r => r.IV_30d !== null);
       if (validRows.length === 0) {
-        // Stock has no valid IV at all — still include with nulls
         const last = rows[rows.length - 1];
         summaries.push({
           stockName,
@@ -119,24 +149,18 @@ export const useIVPerStockPerDay = () => {
       const currentIV = lastValid.IV_30d!;
       const currentDate = lastValid.Date;
 
-      // All-time IV values
       const allIVs = validRows.map(r => r.IV_30d!);
       const ivRankAllTime = computeIVRank(currentIV, allIVs);
 
-      // 52-week (365 calendar days for simplicity)
       const cutoff52w = new Date(currentDate);
       cutoff52w.setFullYear(cutoff52w.getFullYear() - 1);
       const cutoffStr = cutoff52w.toISOString().split('T')[0];
-      const ivs52w = validRows
-        .filter(r => r.Date >= cutoffStr)
-        .map(r => r.IV_30d!);
+      const ivs52w = validRows.filter(r => r.Date >= cutoffStr).map(r => r.IV_30d!);
       const ivRank52w = computeIVRank(currentIV, ivs52w);
 
-      // 1-day change: find the valid row just before the last valid row
       const prevValid = validRows.length >= 2 ? validRows[validRows.length - 2] : null;
       const ivChange1d = prevValid ? currentIV - prevValid.IV_30d! : null;
 
-      // 5-day change: find valid row 5+ positions back
       const fiveDayBack = validRows.length > 5 ? validRows[validRows.length - 6] : null;
       const ivChange5d = fiveDayBack ? currentIV - fiveDayBack.IV_30d! : null;
 

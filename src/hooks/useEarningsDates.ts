@@ -37,7 +37,7 @@ async function fetchEarningsRows(): Promise<RawRow[]> {
   pendingLoad = (async () => {
     for (const url of [GITHUB_URL, LOCAL_URL]) {
       try {
-        const res = await fetch(url.includes('github') ? `${url}?${Date.now()}` : url);
+        const res = await fetch(url);
         if (!res.ok) continue;
         const text = await res.text();
         const parsed = Papa.parse<RawRow>(text, {

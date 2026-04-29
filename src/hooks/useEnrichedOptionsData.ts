@@ -13,84 +13,50 @@ export const useEnrichedOptionsData = () => {
   const { data: marginData, isLoading: isMarginLoading, error: marginError } = useMarginRequirementsData();
   const { underlyingValue, transactionCost } = useSettings();
 
+  // Pre-index into Maps for O(1) lookup instead of O(n) .find() per option
+  const ivMap = useMemo(
+    () => new Map(ivData.map(iv => [iv.OptionName, iv])),
+    [ivData]
+  );
+  const marginMap = useMemo(
+    () => new Map(marginData.map(m => [m.OptionName, m])),
+    [marginData]
+  );
+
   const enrichedData = useMemo(() => {
     if (!optionsData.length) {
       return optionsData;
     }
 
-    console.log('🔄 Enriching options data with IV and margin data...', {
-      optionsDataLength: optionsData.length,
-      ivDataLength: ivData.length,
-      marginDataLength: marginData.length
-    });
-    
     return optionsData.map(option => {
-      // Find matching IV data by OptionName only (left join)
-      const matchingIVData = ivData.find(iv => 
-        iv.OptionName === option.OptionName
-      );
-
-      if (!matchingIVData) {
-        console.log('⚠️ No IV data found for option:', option.OptionName);
-      }
-
-      // Find matching margin data by OptionName (left join)
-      const matchingMarginData = marginData.find(m =>
-        m.OptionName === option.OptionName
-      );
-
-      if (!matchingMarginData) {
-        console.log('⚠️ No margin data found for option:', option.OptionName);
-      }
+      const matchingIVData = ivMap.get(option.OptionName);
+      const matchingMarginData = marginMap.get(option.OptionName);
 
       // Calculate potential loss at lower bound - following exact Python logic
       let potentialLossAtLowerBound: number | null = null;
       if (matchingIVData?.LowerBoundClosestToStrike) {
         const numberOfContracts = option.NumberOfContractsBasedOnLimit || 0;
-        
-        // Step 1: Calculate "Underlying Value (Investment)" = StrikePrice * Number Of Contracts * 100
+
+        // Step 1: Underlying Value (Investment) = StrikePrice * Number Of Contracts * 100
         const underlyingValueInvestment = option.StrikePrice * numberOfContracts * 100;
-        
+
         // Step 2: UnderlyingValue_LowerBound_ClosestToStrike = numberOfContracts * LowerBoundClosestToStrike * 100
         const underlyingValueLowerBoundClosestToStrike = numberOfContracts * matchingIVData.LowerBoundClosestToStrike * 100;
-        
-        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound_ClosestToStrike - Underlying Value (Investment)
+
+        // Step 3: Loss_LowerBound_ClosestToStrike = UnderlyingValue_LowerBound - Underlying Value (Investment)
         const lossLowerBoundClosestToStrike = underlyingValueLowerBoundClosestToStrike - underlyingValueInvestment;
-        
+
         // Step 4: Potential Loss At IV Lower Bound = Premium + Loss_LowerBound_ClosestToStrike
         potentialLossAtLowerBound = option.Premium + lossLowerBoundClosestToStrike;
-        
+
         // Step 5: Set positive values to zero
         if (potentialLossAtLowerBound >= 0) {
           potentialLossAtLowerBound = 0;
         }
-        
+
         // Step 6: Apply transaction cost to negative values
         if (potentialLossAtLowerBound < 0) {
           potentialLossAtLowerBound = potentialLossAtLowerBound - (potentialLossAtLowerBound * 0.000075 + transactionCost);
-        }
-        
-        // Debug for HOLMB5U356 specifically
-        if (option.OptionName === 'HOLMB5U356') {
-          console.log('🎯 HOLMB5U356 Debug - Full Calculation:', {
-            optionName: option.OptionName,
-            strikePrice: option.StrikePrice,
-            numberOfContracts,
-            lowerBoundClosestToStrike: matchingIVData.LowerBoundClosestToStrike,
-            premium: option.Premium,
-            transactionCost,
-            '1_underlyingValueInvestment': underlyingValueInvestment,
-            '2_underlyingValueLowerBoundClosestToStrike': underlyingValueLowerBoundClosestToStrike,
-            '3_lossLowerBoundClosestToStrike': lossLowerBoundClosestToStrike,
-            '4_beforeTransactionCost': option.Premium + lossLowerBoundClosestToStrike,
-            '5_potentialLossAtLowerBound_FINAL': potentialLossAtLowerBound,
-            expectedResult: -2402.8272,
-            expectedCalc_step1: 356.0 * 3 * 100,
-            expectedCalc_step2: 3 * 345.9 * 100,
-            expectedCalc_step3: (3 * 345.9 * 100) - (356.0 * 3 * 100),
-            expectedCalc_step4: 726 + ((3 * 345.9 * 100) - (356.0 * 3 * 100)),
-            expectedCalc_step5: (726 + ((3 * 345.9 * 100) - (356.0 * 3 * 100))) - ((726 + ((3 * 345.9 * 100) - (356.0 * 3 * 100))) * 0.000075 + 99)
-          });
         }
       }
 
@@ -134,7 +100,7 @@ export const useEnrichedOptionsData = () => {
         EstTotalMargin: estTotalMargin
       };
     });
-  }, [optionsData, ivData, marginData, underlyingValue, transactionCost]);
+  }, [optionsData, ivMap, marginMap, underlyingValue, transactionCost]);
 
   return {
     data: enrichedData,

@@ -9,28 +9,51 @@ import {
 } from '@/types/probabilityValidation';
 import { normalizeProbMethod } from '@/utils/probabilityMethods';
 
-export const useProbabilityValidationData = () => {
-  const [data, setData] = useState<ProbabilityValidationData[]>([]);
-  const [metrics, setMetrics] = useState<ValidationMetrics[]>([]);
-  const [calibrationData, setCalibrationData] = useState<CalibrationData[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+interface ValidationSingleton {
+  data: ProbabilityValidationData[];
+  metrics: ValidationMetrics[];
+  calibrationData: CalibrationData[];
+  loaded: boolean;
+  error: string | null;
+}
 
-  const loadCSVFromGitHub = useCallback(async (filename: string) => {
-    console.log('📥 Loading Validation CSV:', filename);
+const validationSingleton: ValidationSingleton = {
+  data: [],
+  metrics: [],
+  calibrationData: [],
+  loaded: false,
+  error: null,
+};
+
+export const useProbabilityValidationData = () => {
+  const [data, setData] = useState<ProbabilityValidationData[]>(validationSingleton.data);
+  const [metrics, setMetrics] = useState<ValidationMetrics[]>(validationSingleton.metrics);
+  const [calibrationData, setCalibrationData] = useState<CalibrationData[]>(validationSingleton.calibrationData);
+  const [isLoading, setIsLoading] = useState(!validationSingleton.loaded);
+  const [error, setError] = useState<string | null>(validationSingleton.error);
+
+  const loadCSVFromGitHub = useCallback(async (filename: string, forceReload = false) => {
+    if (validationSingleton.loaded && !forceReload) {
+      setData(validationSingleton.data);
+      setMetrics(validationSingleton.metrics);
+      setCalibrationData(validationSingleton.calibrationData);
+      setIsLoading(false);
+      setError(validationSingleton.error);
+      return validationSingleton.data;
+    }
+
     setIsLoading(true);
     setError(null);
 
     const urls = [
-      `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}?${Date.now()}`,
-      `${window.location.origin}${import.meta.env.BASE_URL}data/${filename}?${Date.now()}`
+      `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}`,
+      `${window.location.origin}${import.meta.env.BASE_URL}data/${filename}`,
     ];
 
     let lastError: Error | null = null;
 
     for (const url of urls) {
       try {
-        console.log('🔗 Trying URL:', url);
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -43,8 +66,6 @@ export const useProbabilityValidationData = () => {
           throw new Error('Empty CSV file received');
         }
 
-        console.log('✅ Successfully loaded Validation CSV from:', url);
-
         const parseResult = await new Promise<ProbabilityValidationData[]>((resolve, reject) => {
           Papa.parse(csvText, {
             header: true,
@@ -53,14 +74,8 @@ export const useProbabilityValidationData = () => {
             transformHeader: (header) => header.trim(),
             transform: (value, field) => {
               const numericFields = [
-                'PredictedProb',
-                'ActualRate',
-                'Count',
-                'CalibrationError',
-                'Brier_Score',
-                'AUC_ROC',
-                'Log_Loss',
-                'Expected_Calibration_Error'
+                'PredictedProb', 'ActualRate', 'Count', 'CalibrationError',
+                'Brier_Score', 'AUC_ROC', 'Log_Loss', 'Expected_Calibration_Error'
               ];
 
               if (typeof field === 'string' && numericFields.includes(field)) {
@@ -68,7 +83,6 @@ export const useProbabilityValidationData = () => {
                 return isNaN(num) ? 0 : num;
               }
 
-              // Normalize ProbMethod to handle both old and new formats
               if (field === 'ProbMethod') {
                 return normalizeProbMethod(value);
               }
@@ -76,24 +90,14 @@ export const useProbabilityValidationData = () => {
               return value;
             },
             complete: (results) => {
-              if (results.errors.length > 0) {
-                console.warn('⚠️ CSV parsing warnings:', results.errors);
-              }
-
-              const parsedData = results.data as ProbabilityValidationData[];
-              console.log(`✅ Parsed ${parsedData.length} validation records`);
-              resolve(parsedData);
+              resolve(results.data as ProbabilityValidationData[]);
             },
-            error: (error) => {
-              console.error('❌ CSV parsing error:', error);
-              reject(error);
+            error: (err) => {
+              reject(err);
             }
           });
         });
 
-        setData(parseResult);
-
-        // Split into metrics and calibration data
         const metricsData = parseResult.filter(row => row.DataType === 'metrics') as ValidationMetrics[];
         const calibData = parseResult.filter(row =>
           row.DataType === 'calibration_aggregated' ||
@@ -101,34 +105,35 @@ export const useProbabilityValidationData = () => {
           row.DataType === 'calibration_by_stock_and_dte'
         ) as CalibrationData[];
 
+        validationSingleton.data = parseResult;
+        validationSingleton.metrics = metricsData;
+        validationSingleton.calibrationData = calibData;
+        validationSingleton.loaded = true;
+        validationSingleton.error = null;
+
+        setData(parseResult);
         setMetrics(metricsData);
         setCalibrationData(calibData);
-
         setIsLoading(false);
         return parseResult;
 
       } catch (err) {
         lastError = err as Error;
-        console.warn(`⚠️ Failed to load from ${url}:`, err);
         continue;
       }
     }
 
-    // All URLs failed
     const errorMessage = lastError?.message || 'Failed to load validation CSV from all sources';
-    console.error('❌ All CSV load attempts failed:', errorMessage);
+    validationSingleton.error = errorMessage;
     setError(errorMessage);
     setIsLoading(false);
     throw lastError;
   }, []);
 
   useEffect(() => {
-    loadCSVFromGitHub('validation_report_data.csv').catch(err => {
-      console.error('Failed to load validation data:', err);
-    });
+    loadCSVFromGitHub('validation_report_data.csv').catch(() => {});
   }, [loadCSVFromGitHub]);
 
-  // Helper functions to transform data for charts
   const getMethodPerformance = useCallback((): MethodPerformance[] => {
     return metrics.map(m => ({
       method: m.ProbMethod,
@@ -167,6 +172,9 @@ export const useProbabilityValidationData = () => {
     error,
     getMethodPerformance,
     getCalibrationPoints,
-    reload: () => loadCSVFromGitHub('validation_report_data.csv')
+    reload: () => {
+      validationSingleton.loaded = false;
+      return loadCSVFromGitHub('validation_report_data.csv', true);
+    },
   };
 };
