@@ -36,7 +36,7 @@ export const useVolatilityData = () => {
       setError(null);
 
       const urls = [
-        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/Stock_Events_Volatility_Data.csv',
+        'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/Stock_Events_Volatility_Data.csv',
         '/data/Stock_Events_Volatility_Data.csv',
       ];
 

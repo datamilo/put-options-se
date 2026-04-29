@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
 import { IVPerStockPerDay, IVStockSummary, IVMarketSummary } from '@/types/ivAnalysis';
 
-const GITHUB_URL = 'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/iv_per_stock_per_day.csv';
+const GITHUB_URL = 'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/iv_per_stock_per_day.csv';
 const LOCAL_URL = '/data/iv_per_stock_per_day.csv';
 
 interface IVPerStockSingleton {

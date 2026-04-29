@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import Papa from 'papaparse';
 
-const GITHUB_URL = 'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/Stock_Events_Volatility_Data.csv';
+const GITHUB_URL = 'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/Stock_Events_Volatility_Data.csv';
 const LOCAL_URL = '/data/Stock_Events_Volatility_Data.csv';
 
 export interface EarningsEvent {

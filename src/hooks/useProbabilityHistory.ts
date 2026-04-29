@@ -45,7 +45,7 @@ export const useProbabilityHistory = (optionName?: string) => {
       setError(null);
 
       const urls = [
-        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/probability_history.csv',
+        'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/probability_history.csv',
         `${window.location.origin}${import.meta.env.BASE_URL}data/probability_history.csv`,
       ];
 

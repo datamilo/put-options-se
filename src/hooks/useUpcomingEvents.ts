@@ -26,30 +26,12 @@ export const useUpcomingEvents = () => {
       setIsLoading(true);
       setError(null);
 
-      const urls = [
-        `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/upcoming_events.csv?${Date.now()}`,
-        `${window.location.origin}${import.meta.env.BASE_URL}data/upcoming_events.csv?${Date.now()}`
-      ];
+      const response = await fetch(
+        'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/upcoming_events.csv'
+      );
 
-      let lastError: Error | null = null;
-      let response: Response | null = null;
-
-      for (const url of urls) {
-        try {
-          console.log('🔗 Trying upcoming events URL:', url);
-          response = await fetch(url);
-          if (response.ok) {
-            console.log('✅ Successfully loaded upcoming events from:', url);
-            break;
-          }
-        } catch (error) {
-          console.warn('❌ Failed to load from:', url, error);
-          lastError = error as Error;
-        }
-      }
-
-      if (!response || !response.ok) {
-        throw lastError || new Error('Failed to load upcoming events from any URL');
+      if (!response.ok) {
+        throw new Error('Failed to load upcoming events');
       }
 
       const csvText = await response.text();
@@ -75,14 +57,12 @@ export const useUpcomingEvents = () => {
           setAllEvents(events);
           setIsLoading(false);
         },
-        error: (error) => {
-          console.error('Error parsing upcoming events CSV:', error);
+        error: () => {
           setError('Failed to parse upcoming events data');
           setIsLoading(false);
         }
       });
     } catch (err) {
-      console.error('Error loading upcoming events:', err);
       setError('Failed to load upcoming events');
     } finally {
       setIsLoading(false);

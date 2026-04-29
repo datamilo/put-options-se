@@ -105,7 +105,7 @@ export const useProbabilityRecoveryData = () => {
     setError(null);
 
     const urls = [
-      `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${filename}`,
+      `https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/${filename}`,
       `${window.location.origin}${import.meta.env.BASE_URL}data/${filename}`,
     ];
 

@@ -6,49 +6,14 @@ export const TimestampDisplay = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log('🚀 TimestampDisplay component mounted');
-    
     const fetchTimestamps = async () => {
-      console.log('📡 About to fetch timestamps...');
-      
       try {
-        // Try multiple fallback URLs for better reliability on GitHub Pages
-        const urls = [
-          `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/last_updated.json?${Date.now()}`,
-          `${window.location.origin}${import.meta.env.BASE_URL}data/last_updated.json?${Date.now()}`
-        ];
-        
-        let lastError: Error | null = null;
-        let response: Response | null = null;
-        
-        for (const url of urls) {
-          try {
-            console.log('🔗 Trying timestamp URL:', url);
-            response = await fetch(url);
-            if (response.ok) {
-              console.log('✅ Successfully loaded timestamps from:', url);
-              break;
-            }
-          } catch (error) {
-            console.warn('❌ Failed to load from:', url, error);
-            lastError = error as Error;
-          }
-        }
-        
-        if (!response || !response.ok) {
-          throw lastError || new Error('Failed to load timestamps from any URL');
-        }
-        console.log('📨 Got response:', response.status);
-        
+        const response = await fetch(
+          'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/last_updated.json'
+        );
         if (response.ok) {
-          const data = await response.json();
-          console.log('✅ Got data:', data);
-          setTimestamps(data);
-        } else {
-          console.error('❌ Bad response:', response.status);
+          setTimestamps(await response.json());
         }
-      } catch (error) {
-        console.error('❌ Fetch error:', error);
       } finally {
         setLoading(false);
       }
@@ -56,8 +21,6 @@ export const TimestampDisplay = () => {
 
     fetchTimestamps();
   }, []);
-
-  console.log('🔍 Render - timestamps:', timestamps, 'loading:', loading);
 
   if (loading) {
     return <div className="text-sm text-muted-foreground">Loading timestamp information...</div>;
