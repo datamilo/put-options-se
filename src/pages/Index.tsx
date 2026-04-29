@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
@@ -86,13 +86,12 @@ const Index = () => {
     { value: "Low Risk", label: "Low Risk" },
   ];
 
-  // Helper function to get risk level for an option
-  const getRiskLevel = (option: OptionData) => {
+  const getRiskLevel = useCallback((option: OptionData) => {
     const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
     if (probValue <= 0.6) return 'High Risk';
     if (probValue < 0.8) return 'Medium Risk';
     return 'Low Risk';
-  };
+  }, []);
 
   // Risk info component that works on both desktop and mobile
   const RiskInfoButton = () => (

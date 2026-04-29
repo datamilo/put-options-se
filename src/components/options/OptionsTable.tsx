@@ -1,14 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import { OptionData } from "@/types/options";
 import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -58,6 +57,7 @@ export const OptionsTable = ({
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [filterInputs, setFilterInputs] = useState<{ minValue: string; maxValue: string }>({ minValue: '', maxValue: '' });
   const filterRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Default columns if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
@@ -208,6 +208,20 @@ export const OptionsTable = ({
     });
   }) : sortedData;
 
+  const rowVirtualizer = useVirtualizer({
+    count: filteredData.length,
+    getScrollElement: () => scrollContainerRef.current,
+    estimateSize: () => 45,
+    overscan: 15,
+  });
+
+  const virtualItems = rowVirtualizer.getVirtualItems();
+  const totalSize = rowVirtualizer.getTotalSize();
+  const paddingTop = virtualItems.length > 0 ? virtualItems[0].start : 0;
+  const paddingBottom = virtualItems.length > 0
+    ? totalSize - virtualItems[virtualItems.length - 1].end
+    : 0;
+
   const updateColumnFilter = (field: string, filterUpdate: Partial<ColumnFilter>) => {
     if (!enableFiltering) return;
     
@@ -355,9 +369,13 @@ export const OptionsTable = ({
           </div>
         </div>
 
-        <ScrollArea className="w-full whitespace-nowrap rounded-md border">
-          <Table>
-          <TableHeader>
+        <div
+          ref={scrollContainerRef}
+          className="w-full overflow-auto rounded-md border"
+          style={{ height: '70vh' }}
+        >
+          <table className="w-full caption-bottom text-sm whitespace-nowrap">
+          <TableHeader sticky className="bg-background">
             <TableRow>
               {visibleColumns.map(column => {
                 const fieldType = getFieldType(column);
@@ -495,46 +513,54 @@ export const OptionsTable = ({
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.map((option, index) => (
-              <TableRow
-                key={`${option.StockName}-${option.OptionName}-${index}`}
-                className="hover:bg-muted/50"
-              >
-                  {visibleColumns.map(column => {
-                    // Determine the color for OptionName based on FinancialReport and X-Day
-                    const getOptionNameColor = () => {
-                      if (column !== 'OptionName') return '';
-                      if (option.FinancialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
-                      if (option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
-                      return 'text-primary';
-                    };
-
-                    return (
-                      <TableCell 
-                        key={column} 
-                        className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
-                        onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
-                      >
-                        {column === 'OptionName' ? (
-                          <span className={`font-medium ${getOptionNameColor()} hover:opacity-80 transition-all`}>
-                            {formatValue(option[column as keyof OptionData], column)}
-                          </span>
-                        ) : column === 'StockName' ? (
-                          <span className="font-medium text-foreground hover:text-primary transition-colors">
-                            {formatValue(option[column as keyof OptionData], column)}
-                          </span>
-                        ) : (
-                          formatValue(option[column as keyof OptionData], column)
-                        )}
-                      </TableCell>
-                    );
-                  })}
-              </TableRow>
-            ))}
+            {paddingTop > 0 && (
+              <tr style={{ height: paddingTop }}>
+                <td colSpan={visibleColumns.length} />
+              </tr>
+            )}
+            {virtualItems.map(virtualRow => {
+              const option = filteredData[virtualRow.index];
+              const getOptionNameColor = (column: string) => {
+                if (column !== 'OptionName') return '';
+                if (option.FinancialReport === 'Y') return 'text-orange-600 dark:text-orange-400';
+                if (option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y') return 'text-red-600 dark:text-red-400';
+                return 'text-primary';
+              };
+              return (
+                <TableRow
+                  key={`${option.StockName}-${option.OptionName}-${virtualRow.index}`}
+                  className="hover:bg-muted/50"
+                >
+                  {visibleColumns.map(column => (
+                    <TableCell
+                      key={column}
+                      className={`${column === 'StockName' ? "w-28 max-w-28 truncate" : "min-w-[120px]"} ${column === 'OptionName' || column === 'StockName' ? 'cursor-pointer hover:bg-accent/50 transition-colors' : ''}`}
+                      onClick={column === 'OptionName' ? () => onRowClick?.(option) : column === 'StockName' ? () => onStockClick?.(option.StockName) : undefined}
+                    >
+                      {column === 'OptionName' ? (
+                        <span className={`font-medium ${getOptionNameColor(column)} hover:opacity-80 transition-all`}>
+                          {formatValue(option[column as keyof OptionData], column)}
+                        </span>
+                      ) : column === 'StockName' ? (
+                        <span className="font-medium text-foreground hover:text-primary transition-colors">
+                          {formatValue(option[column as keyof OptionData], column)}
+                        </span>
+                      ) : (
+                        formatValue(option[column as keyof OptionData], column)
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })}
+            {paddingBottom > 0 && (
+              <tr style={{ height: paddingBottom }}>
+                <td colSpan={visibleColumns.length} />
+              </tr>
+            )}
           </TableBody>
-        </Table>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+        </table>
+      </div>
     </div>
     </TooltipProvider>
   );
