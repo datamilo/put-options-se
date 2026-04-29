@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import Plot from 'react-plotly.js';
+import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';

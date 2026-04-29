@@ -2,7 +2,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { usePageTitle } from '@/hooks/usePageTitle';
 import { useSearchParams } from 'react-router-dom';
-import Plot from 'react-plotly.js';
+import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { useConsecutiveBreaksAnalysis } from '@/hooks/useConsecutiveBreaksAnalysis';
 import { useVolatilityData } from '@/hooks/useVolatilityData';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

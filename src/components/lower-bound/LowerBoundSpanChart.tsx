@@ -5,7 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
-import Plot from 'react-plotly.js';
+import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { LowerBoundExpiryStatistic } from '@/types/lowerBound';
 
 interface LowerBoundSpanChartProps {

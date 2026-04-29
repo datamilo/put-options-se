@@ -7,7 +7,7 @@
  */
 
 import React, { useMemo } from 'react';
-import Plot from 'react-plotly.js';
+import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { LowerBoundExpiryStatistic, LowerBoundDailyPrediction } from '@/types/lowerBound';
 import { useStockData } from '@/hooks/useStockData';
 import { useVolatilityData } from '@/hooks/useVolatilityData';
