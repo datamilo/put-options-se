@@ -66,7 +66,7 @@ export const useMonthlyStockData = () => {
       setError(null);
 
       const urls = [
-        'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/Stocks_Monthly_Data.csv',
+        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/Stocks_Monthly_Data.csv',
         '/data/Stocks_Monthly_Data.csv',
       ];
 

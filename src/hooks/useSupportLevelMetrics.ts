@@ -43,7 +43,7 @@ export const useSupportLevelMetrics = () => {
 
         // Load from GitHub raw URL (same pattern as other data files)
         const response = await fetch(
-          'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/support_level_metrics.csv'
+          'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/support_level_metrics.csv'
         );
 
         if (!response.ok) {

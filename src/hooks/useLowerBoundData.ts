@@ -12,7 +12,7 @@ import {
   LowerBoundSummaryMetrics,
 } from '@/types/lowerBound';
 
-const GITHUB_RAW_URL = import.meta.env.VITE_GITHUB_RAW_URL || 'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main';
+const GITHUB_RAW_URL = import.meta.env.VITE_GITHUB_RAW_URL || 'https://raw.githubusercontent.com/datamilo/put-options-se/main';
 
 /**
  * Hook to load monthly trend data (hit rates by month)

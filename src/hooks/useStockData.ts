@@ -58,7 +58,7 @@ export const useStockData = () => {
       setError(null);
 
       const urls = [
-        'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/stock_data.csv',
+        'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/stock_data.csv',
         `${window.location.origin}${import.meta.env.BASE_URL}data/stock_data.csv`,
       ];
 

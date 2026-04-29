@@ -29,7 +29,7 @@ export const useScoredOptionsData = () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/current_options_scored.csv'
+          'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/current_options_scored.csv'
         );
 
         if (!response.ok) {

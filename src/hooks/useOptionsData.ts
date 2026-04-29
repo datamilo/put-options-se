@@ -65,7 +65,7 @@ function parseOptionsCSV(csvText: string): Promise<OptionData[]> {
 
 async function fetchOptionsData(): Promise<OptionData[]> {
   const urls = [
-    'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/data.csv',
+    'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/data.csv',
     `${window.location.origin}${import.meta.env.BASE_URL}data/data.csv`,
   ];
 

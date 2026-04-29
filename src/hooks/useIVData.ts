@@ -58,7 +58,7 @@ export const useIVData = () => {
 
     // Try multiple fallback URLs for better reliability on GitHub Pages
     const urls = [
-      'https://cdn.jsdelivr.net/gh/datamilo/put-options-se@main/data/IV_PotentialDecline.csv',
+      'https://raw.githubusercontent.com/datamilo/put-options-se/main/data/IV_PotentialDecline.csv',
       `${window.location.origin}${import.meta.env.BASE_URL}data/IV_PotentialDecline.csv`,
     ];
 
