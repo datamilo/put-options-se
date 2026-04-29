@@ -9,6 +9,7 @@
 | Styling | Tailwind CSS 3 + shadcn/ui (Radix primitives) |
 | Charts | Recharts 2 (standard charts) + Plotly 3 (financial charts) |
 | Data fetching | TanStack Query v5 |
+| Table virtualization | TanStack Virtual v3 (`@tanstack/react-virtual`) |
 | State / preferences | React Context + Supabase (authenticated) + localStorage (guest) |
 | Auth | Supabase Auth |
 | Routing | React Router 6 |
@@ -150,7 +151,7 @@ Guest mode: Preference hooks fall back to `localStorage` when no Supabase sessio
 - **Primary hosting**: [Lovable.dev](https://lovable.dev)
 - **Public site**: GitHub Pages at `https://datamilo.github.io/put-options-se/`
 - **CI/CD**: GitHub Actions automatically builds and deploys to the `gh-pages` branch on every push to `main`
-- **Data files**: CSV files are loaded at runtime from `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/` with cache-busting query strings and a local fallback
+- **Data files**: CSV files are loaded at runtime from `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/` with a local fallback. Browser HTTP cache (ETags) controls freshness — no cache-busting query strings
 
 ### Build Command
 

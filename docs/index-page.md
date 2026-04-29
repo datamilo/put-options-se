@@ -6,7 +6,7 @@ Route: `/`
 Main options analysis dashboard with filterable table displaying put options data with customizable underlying values and transaction costs.
 
 ## Key Components
-- **OptionsTable** - Main data table with sorting, filtering, and column management
+- **OptionsTable** - Main data table with sorting, filtering, and column management. Uses `@tanstack/react-virtual` to render only visible rows (70vh scroll container, overscan 15). All rows are available to sort/filter; only the visible slice is in the DOM.
 - **SettingsModal** - User preference configuration
 
 ## Data Hooks

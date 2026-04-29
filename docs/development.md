@@ -22,14 +22,17 @@ Do not load options data directly from `useOptionsData` in page components unles
 
 ### CSV Data Loading
 
-All CSV files are fetched from GitHub raw content with a cache-busting timestamp, falling back to local files:
+All CSV files are fetched from GitHub raw content with a local fallback. Browser HTTP cache (ETags) controls freshness:
 
 ```typescript
-const PRIMARY_URL = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${file}.csv?t=${Date.now()}`;
+const PRIMARY_URL = `https://raw.githubusercontent.com/datamilo/put-options-se/main/data/${file}.csv`;
 const FALLBACK_URL = `/data/${file}.csv`;
 ```
 
-Data is parsed via PapaParse. All hooks use the singleton pattern with React state — CSV files are not re-fetched on component re-renders.
+Data is parsed via PapaParse. Two caching strategies prevent re-fetches across navigations:
+
+- **`useOptionsData`**: TanStack Query (`staleTime: 10 min`, `gcTime: 30 min`) — data persists in the query cache across page navigations
+- **All other CSV hooks**: module-level singletons — the loaded array is stored at module scope and returned immediately on subsequent mounts
 
 ### OHLC Data
 

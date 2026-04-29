@@ -42,7 +42,7 @@ Timestamps are stored as `YYYY-MM-DD HH:mm:ss` and displayed as `YYYY-MM-DD HH:m
 
 ### Implementation
 
-- Hook: `useTimestamps` (`src/hooks/useTimestamps.ts`) — loads with fallback URLs and cache-busting
+- Hook: `useTimestamps` (`src/hooks/useTimestamps.ts`) — loads with fallback URLs, singleton-cached
 - Component: `DataTimestamp` (`src/components/ui/data-timestamp.tsx`) — displays with clock icon
 
 ### Pages displaying timestamps
