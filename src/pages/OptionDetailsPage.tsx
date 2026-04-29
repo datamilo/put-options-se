@@ -3,7 +3,7 @@ import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 
 const OptionDetailsPage = () => {
   const { optionId } = useParams<{ optionId: string }>();
@@ -11,7 +11,7 @@ const OptionDetailsPage = () => {
   const [searchParams] = useSearchParams();
 
   // Use enriched data directly - it already includes recalculated options
-  const { data } = useEnrichedOptionsData();
+  const { data, isLoading } = useEnrichedOptionsData();
 
   const handleBackClick = () => {
     navigate(-1);
@@ -23,12 +23,25 @@ const OptionDetailsPage = () => {
   // Set page title with option name
   usePageTitle('Option Details', option?.OptionName);
 
+  if (isLoading) {
+    return (
+      <div className="container mx-auto p-6 space-y-6">
+        <div className="flex items-center justify-center py-12">
+          <div className="text-center space-y-4">
+            <Loader2 className="h-8 w-8 animate-spin mx-auto" />
+            <p className="text-muted-foreground">Loading option data...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!option) {
     return (
       <div className="container mx-auto p-6 space-y-6">
         <div className="flex items-center gap-4">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={handleBackClick}
             className="flex items-center gap-2"
           >
