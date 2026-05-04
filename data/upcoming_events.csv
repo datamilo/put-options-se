@@ -1,5 +1,5 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-05-04|HEXPOL B|Earnings Report|Earnings-Q1|0|True|First quarter earnings results
+2026-05-04|HEXPOL B|Earnings Report|Earnings-Q1|-1|True|First quarter earnings results
 2026-05-05|HEXPOL B|Ex-Date|Dividend|1|False|4.2 SEK
 2026-05-06|NCC B|Ex-Date|Dividend|2|False|4.5 SEK
 2026-05-06|H&M B|Ex-Date|Dividend|2|False|3.55 SEK
