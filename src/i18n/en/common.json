@@ -92,6 +92,52 @@
   "settings": {
     "title": "Calculation Settings",
     "underlyingValue": "Underlying Value",
-    "transactionCost": "Transaction Cost"
+    "transactionCost": "Transaction Cost",
+    "underlyingSection": "Underlying Stock Value for Premium Calculation",
+    "underlyingDescription": "This value is used to calculate the number of contracts and Premium. Default is 100,000.",
+    "currentValue": "Current Value:",
+    "enterExactValue": "Or enter exact value:",
+    "transactionCostSection": "Transaction Cost",
+    "transactionCostDescription": "The transaction cost that will be subtracted from the premium calculation. Default is 150.",
+    "transactionCostLabel": "Transaction Cost:",
+    "cancel": "Cancel",
+    "apply": "Apply Settings",
+    "savedSuccess": "Calculation Settings updated: Underlying value {{value}}, Transaction cost {{cost}}",
+    "invalidRange": "Please enter a value between 10 000 and 1 000 000"
+  },
+  "authPage": {
+    "appTitle": "Put Options SE",
+    "appSubtitle": "Analytics platform for Swedish put options",
+    "feature1": "Real-time options data with 67+ fields per contract",
+    "feature2": "Dual-model scoring combining probability and technical analysis",
+    "feature3": "Automated portfolio generation with margin estimates",
+    "feature4": "Historical performance, support levels, and IV analysis",
+    "cardTitle": "Sign in",
+    "tabSignIn": "Sign In",
+    "tabSignUp": "Sign Up",
+    "emailLabel": "Email",
+    "emailPlaceholder": "you@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Your password",
+    "passwordCreatePlaceholder": "Create a strong password",
+    "signInButton": "Sign In",
+    "createAccountButton": "Create Account",
+    "confirmEmail": "Check your email to confirm your account, then return here.",
+    "networkError": "Network/CORS error. Please check your connection and try again."
+  },
+  "notFoundPage": {
+    "title": "Page not found",
+    "returnHome": "Return to Home",
+    "goToLogin": "Go to Login"
+  },
+  "dataTimestamp": {
+    "stockData": "Stock data",
+    "analysisUpdated": "Analysis updated",
+    "dataUpdated": "Data updated"
+  },
+  "selectPlaceholder": {
+    "stock": "Select a stock...",
+    "month": "Select a month...",
+    "date": "Select a date..."
   }
 }

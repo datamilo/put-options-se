@@ -18,6 +18,7 @@ import { useState, useEffect } from "react";
 import { DataTimestamp } from "@/components/ui/data-timestamp";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const StockDetailsPage = () => {
   const { stockName: paramStockName } = useParams<{ stockName: string }>();
@@ -25,6 +26,7 @@ const StockDetailsPage = () => {
   const { getStockData, getStockSummary, isLoading, error, getAllStockNames } = useStockData();
   const { timestamps } = useTimestamps();
   const { getEventForStock } = useUpcomingEvents();
+  const { t } = useTranslation();
 
   const isFromStock = paramStockName !== undefined;
   const decodedParamStockName = paramStockName ? decodeURIComponent(paramStockName) : '';
@@ -74,14 +76,14 @@ const StockDetailsPage = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Options
+              {t('pages:optionDetails.back')}
             </Button>
           </div>
         )}
         <div className="flex items-center justify-center py-12">
           <div className="text-center space-y-4">
             <Loader2 className="h-8 w-8 animate-spin mx-auto" />
-            <p className="text-muted-foreground">Loading stock data...</p>
+            <p className="text-muted-foreground">{t('pages:stockAnalysis.loading', 'Loading stock data...')}</p>
           </div>
         </div>
       </div>
@@ -99,20 +101,20 @@ const StockDetailsPage = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Options
+              {t('pages:optionDetails.back')}
             </Button>
           </div>
         )}
         <div className="space-y-4">
           <div className="text-center">
-            <h1 className="text-2xl font-bold">No Stock Selected</h1>
-            <p className="text-muted-foreground mt-2">Please select a stock to view.</p>
+            <h1 className="text-2xl font-bold">{t('pages:stockAnalysis.noStockSelected')}</h1>
+            <p className="text-muted-foreground mt-2">{t('pages:stockAnalysis.pleaseSelect')}</p>
           </div>
           {allStocks.length > 0 && (
             <div className="w-full max-w-xs mx-auto">
               <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a stock..." />
+                  <SelectValue placeholder={t('selectPlaceholder.stock')} />
                 </SelectTrigger>
                 <SelectContent>
                   {allStocks.map((stock) => (
@@ -140,14 +142,14 @@ const StockDetailsPage = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Options
+              {t('pages:optionDetails.back')}
             </Button>
           </div>
         )}
         <div className="flex items-center justify-center py-12">
           <div className="text-center space-y-4">
             <Loader2 className="h-8 w-8 animate-spin mx-auto" />
-            <p className="text-muted-foreground">Loading stock data...</p>
+            <p className="text-muted-foreground">{t('pages:stockAnalysis.loading', 'Loading stock data...')}</p>
           </div>
         </div>
       </div>
@@ -165,12 +167,12 @@ const StockDetailsPage = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Options
+              {t('pages:optionDetails.back')}
             </Button>
           </div>
         )}
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Error Loading Stock Data</h1>
+          <h1 className="text-2xl font-bold">{t('status.errorLoadingData')}</h1>
           <p className="text-muted-foreground mt-2">{error}</p>
         </div>
       </div>
@@ -188,18 +190,18 @@ const StockDetailsPage = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Options
+              {t('pages:optionDetails.back')}
             </Button>
           </div>
         )}
         <div className="flex flex-col gap-4">
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Stock Metrics and History</h1>
+            <h1 className="text-3xl font-bold">{t('pages:stockAnalysis.title')}</h1>
           </div>
           <div className="w-full max-w-xs">
             <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
               <SelectTrigger>
-                <SelectValue placeholder="Select a stock..." />
+                <SelectValue placeholder={t('selectPlaceholder.stock')} />
               </SelectTrigger>
               <SelectContent>
                 {allStocks.map((stock) => (
@@ -212,7 +214,7 @@ const StockDetailsPage = () => {
           </div>
         </div>
         <div className="text-center">
-          <h2 className="text-2xl font-bold">Stock Not Found</h2>
+          <h2 className="text-2xl font-bold">{t('pages:stockAnalysis.stockNotFound')}</h2>
           <p className="text-muted-foreground mt-2">
             No data available for "{selectedStock}".
           </p>
@@ -228,12 +230,12 @@ const StockDetailsPage = () => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link to="/">Options Dashboard</Link>
+              <Link to="/">{t('pages:stockAnalysis.optionsDashboard')}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Stock Metrics and History</BreadcrumbPage>
+            <BreadcrumbPage>{t('pages:stockAnalysis.title')}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -241,12 +243,12 @@ const StockDetailsPage = () => {
       {/* Page Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-1">Stock Metrics and History</h1>
+          <h1 className="text-3xl font-bold mb-1">{t('pages:stockAnalysis.title')}</h1>
           <p className="text-muted-foreground">{selectedStock}</p>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label="Stock data" />
-          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label="Analysis updated" />
+          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label={t('dataTimestamp.stockData')} />
+          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label={t('dataTimestamp.analysisUpdated')} />
           {isFromStock && (
             <Button
               variant="outline"
@@ -255,7 +257,7 @@ const StockDetailsPage = () => {
               className="flex items-center gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back
+              {t('button.back')}
             </Button>
           )}
         </div>

@@ -11,10 +11,12 @@ import { VolatilityStatsChart } from '@/components/volatility/VolatilityStatsCha
 import { VolatilityDataTable } from '@/components/volatility/VolatilityDataTable';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export const VolatilityAnalysis = () => {
   usePageTitle('Volatility Analysis');
   const navigate = useNavigate();
+  const { t } = useTranslation('pages');
   const { volatilityData, volatilityStats, isLoading, error } = useVolatilityData();
 
   // Unified stock filter state
@@ -51,7 +53,7 @@ export const VolatilityAnalysis = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading volatility analysis data...</p>
+          <p className="text-muted-foreground">{t('volatilityAnalysis.loading')}</p>
         </div>
       </div>
     );
@@ -62,13 +64,13 @@ export const VolatilityAnalysis = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle className="text-destructive">Error Loading Data</CardTitle>
+            <CardTitle className="text-destructive">{t('volatilityAnalysis.error')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">{error}</p>
             <Button onClick={() => navigate('/')} variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Main Page
+              {t('volatilityAnalysis.backToMain')}
             </Button>
           </CardContent>
         </Card>
@@ -93,17 +95,17 @@ export const VolatilityAnalysis = () => {
             <div className="flex items-center gap-4">
               <Button onClick={() => navigate('/')} variant="ghost" size="sm">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Options
+                {t('volatilityAnalysis.backToMain')}
               </Button>
               <div>
-                <h1 className="text-2xl font-bold">Financial Reporting Volatility</h1>
-                <p className="text-muted-foreground">Stock price behavior during financial reporting days</p>
+                <h1 className="text-2xl font-bold">{t('volatilityAnalysis.title')}</h1>
+                <p className="text-muted-foreground">{t('volatilityAnalysis.subtitle')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <BarChart3 className="h-5 w-5 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
-                {totalEvents.toLocaleString('sv-SE')} events analyzed
+                {totalEvents.toLocaleString('sv-SE')} {t('volatilityAnalysis.eventsAnalyzed')}
               </span>
             </div>
           </div>
@@ -115,39 +117,39 @@ export const VolatilityAnalysis = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Events</CardTitle>
+              <CardTitle className="text-sm font-medium">{t('volatilityAnalysis.totalEvents')}</CardTitle>
               <BarChart3 className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{totalEvents.toLocaleString('sv-SE')}</div>
               <p className="text-xs text-muted-foreground">
-                Financial reports analyzed
+                {t('volatilityAnalysis.totalEventsDesc')}
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Average Volatility</CardTitle>
+              <CardTitle className="text-sm font-medium">{t('volatilityAnalysis.avgVolatility')}</CardTitle>
               <TrendingUp className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{avgVolatility.toFixed(2)}%</div>
               <p className="text-xs text-muted-foreground">
-                Mean absolute price change
+                {t('volatilityAnalysis.avgVolatilityDesc')}
               </p>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">High Volatility Stocks</CardTitle>
+              <CardTitle className="text-sm font-medium">{t('volatilityAnalysis.highVolatility')}</CardTitle>
               <TrendingDown className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{highVolatilityStocks}</div>
               <p className="text-xs text-muted-foreground">
-                Above average volatility
+                {t('volatilityAnalysis.highVolatilityDesc')}
               </p>
             </CardContent>
           </Card>
@@ -156,14 +158,14 @@ export const VolatilityAnalysis = () => {
         {/* Stock Filter */}
         <Card>
           <CardHeader>
-            <CardTitle>Filter by Stock</CardTitle>
+            <CardTitle>{t('volatilityAnalysis.filterByStock')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Select one or more stocks to analyze (default: all stocks)
+              {t('volatilityAnalysis.filterDesc')}
             </p>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <Label>Stock Selection</Label>
+              <Label>{t('volatilityAnalysis.stockSelection')}</Label>
               <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
                 <PopoverTrigger asChild>
                   <Button
@@ -173,19 +175,19 @@ export const VolatilityAnalysis = () => {
                     className="w-full justify-between"
                   >
                     {selectedStocks.length === 0
-                      ? "All stocks"
+                      ? t('volatilityAnalysis.allStocks')
                       : selectedStocks.length === 1
                       ? selectedStocks[0]
-                      : `${selectedStocks.length} stocks selected`
+                      : t('volatilityAnalysis.stocksSelected', { count: selectedStocks.length })
                     }
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-full p-0" align="start">
                   <Command>
-                    <CommandInput placeholder="Search stocks..." />
+                    <CommandInput placeholder={t('common:filter.searchStocks')} />
                     <CommandList>
-                      <CommandEmpty>No stock found.</CommandEmpty>
+                      <CommandEmpty>{t('common:filter.noStockFound')}</CommandEmpty>
                       <CommandGroup>
                         <CommandItem
                           onSelect={() => {
@@ -196,7 +198,7 @@ export const VolatilityAnalysis = () => {
                           <Check
                             className={`mr-2 h-4 w-4 ${selectedStocks.length === 0 ? "opacity-100" : "opacity-0"}`}
                           />
-                          All stocks
+                          {t('volatilityAnalysis.allStocks')}
                         </CommandItem>
                         {uniqueStocks.map((stock) => (
                           <CommandItem
@@ -221,9 +223,9 @@ export const VolatilityAnalysis = () => {
         {/* Volatility Statistics Charts */}
         <Card>
           <CardHeader>
-            <CardTitle>Volatility Statistics Visualization</CardTitle>
+            <CardTitle>{t('volatilityAnalysis.vizTitle')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Interactive charts showing price volatility patterns during financial reporting days
+              {t('volatilityAnalysis.vizDesc')}
             </p>
           </CardHeader>
           <CardContent>
@@ -234,9 +236,9 @@ export const VolatilityAnalysis = () => {
         {/* Event Data Table */}
         <Card>
           <CardHeader>
-            <CardTitle>Event Data Details</CardTitle>
+            <CardTitle>{t('volatilityAnalysis.eventDataTitle')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Complete event-by-event data with filtering and sorting capabilities
+              {t('volatilityAnalysis.eventDataDesc')}
             </p>
           </CardHeader>
           <CardContent>

@@ -92,6 +92,52 @@
   "settings": {
     "title": "Beräkningsinställningar",
     "underlyingValue": "Underliggande värde",
-    "transactionCost": "Transaktionskostnad"
+    "transactionCost": "Transaktionskostnad",
+    "underlyingSection": "Underliggande aktievärde för premieberäkning",
+    "underlyingDescription": "Detta värde används för att beräkna antal kontrakt och premie. Standard är 100 000.",
+    "currentValue": "Nuvarande värde:",
+    "enterExactValue": "Eller ange exakt värde:",
+    "transactionCostSection": "Transaktionskostnad",
+    "transactionCostDescription": "Transaktionskostnaden som dras från premieberäkningen. Standard är 150.",
+    "transactionCostLabel": "Transaktionskostnad:",
+    "cancel": "Avbryt",
+    "apply": "Tillämpa inställningar",
+    "savedSuccess": "Beräkningsinställningar uppdaterade: Underliggande värde {{value}}, Transaktionskostnad {{cost}}",
+    "invalidRange": "Ange ett värde mellan 10 000 och 1 000 000"
+  },
+  "authPage": {
+    "appTitle": "Put Options SE",
+    "appSubtitle": "Analysplattform för svenska säljoptioner",
+    "feature1": "Realtidsoptionsdata med 67+ fält per kontrakt",
+    "feature2": "Dubbel modellpoängsättning som kombinerar sannolikhet och teknisk analys",
+    "feature3": "Automatiserad portföljgenerering med marginaluppskattningar",
+    "feature4": "Historisk avkastning, stödnivåer och IV-analys",
+    "cardTitle": "Logga in",
+    "tabSignIn": "Logga in",
+    "tabSignUp": "Skapa konto",
+    "emailLabel": "E-post",
+    "emailPlaceholder": "du@exempel.se",
+    "passwordLabel": "Lösenord",
+    "passwordPlaceholder": "Ditt lösenord",
+    "passwordCreatePlaceholder": "Skapa ett starkt lösenord",
+    "signInButton": "Logga in",
+    "createAccountButton": "Skapa konto",
+    "confirmEmail": "Kontrollera din e-post för att bekräfta ditt konto och återvänd sedan hit.",
+    "networkError": "Nätverks-/CORS-fel. Kontrollera din anslutning och försök igen."
+  },
+  "notFoundPage": {
+    "title": "Sidan hittades inte",
+    "returnHome": "Tillbaka till startsidan",
+    "goToLogin": "Gå till inloggning"
+  },
+  "dataTimestamp": {
+    "stockData": "Aktiedata",
+    "analysisUpdated": "Analys uppdaterad",
+    "dataUpdated": "Data uppdaterad"
+  },
+  "selectPlaceholder": {
+    "stock": "Välj aktie...",
+    "month": "Välj månad...",
+    "date": "Välj datum..."
   }
 }

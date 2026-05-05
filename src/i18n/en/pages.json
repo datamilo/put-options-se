@@ -43,9 +43,11 @@
   },
   "stockAnalysis": {
     "title": "Stock Metrics and History",
+    "loading": "Loading stock data...",
     "noStockSelected": "No Stock Selected",
     "stockNotFound": "Stock Not Found",
     "pleaseSelect": "Please select a stock to view.",
+    "optionsDashboard": "Options Dashboard",
     "sections": {
       "currentPrice": "Current Price",
       "medianDailyVolume": "Median Daily Volume",
@@ -97,16 +99,50 @@
   },
   "volatilityAnalysis": {
     "title": "Financial Reporting Volatility",
+    "subtitle": "Stock price behavior during financial reporting days",
     "loading": "Loading volatility analysis data...",
-    "error": "Error loading volatility data"
+    "error": "Error loading volatility data",
+    "backToMain": "Back to Main Page",
+    "totalEvents": "Total Events",
+    "totalEventsDesc": "Financial reports analyzed",
+    "avgVolatility": "Average Volatility",
+    "avgVolatilityDesc": "Mean absolute price change",
+    "highVolatility": "High Volatility Stocks",
+    "highVolatilityDesc": "Above average volatility",
+    "eventsAnalyzed": "events analyzed",
+    "filterByStock": "Filter by Stock",
+    "filterDesc": "Select one or more stocks to analyze (default: all stocks)",
+    "stockSelection": "Stock Selection",
+    "allStocks": "All stocks",
+    "stocksSelected": "{{count}} stocks selected",
+    "vizTitle": "Volatility Statistics Visualization",
+    "vizDesc": "Interactive charts showing price volatility patterns during financial reporting days",
+    "eventDataTitle": "Event Data Details",
+    "eventDataDesc": "Complete event-by-event data with filtering and sorting capabilities"
   },
   "ivAnalysis": {
     "title": "Implied Volatility History",
-    "loading": "Loading IV analysis data..."
+    "loading": "Loading IV data...",
+    "error": "Error loading data",
+    "dataSourceNote": "Data source: Each day's IV is a constant-maturity 30-day implied volatility computed via variance interpolation across the options term structure, targeting ~21 business days (following the Swedish holiday calendar). Dates with no valid IV data show as \"–\"."
   },
   "consecutiveBreaks": {
     "title": "Support Level Analysis",
-    "loading": "Loading support level data..."
+    "loading": "Loading support level data...",
+    "filterTitle": "Filters",
+    "stock": "Stock",
+    "period": "Period (days)",
+    "maxGap": "Max Gap (days)",
+    "dateFrom": "Date From",
+    "dateTo": "Date To",
+    "noStockSelected": "Select a stock to analyze",
+    "breakHistory": "Break History",
+    "supportBreaks": "Support Breaks",
+    "days30": "30 days",
+    "days90": "90 days",
+    "days180": "180 days",
+    "days270": "270 days",
+    "days365": "365 days"
   },
   "supportLevelOptions": {
     "title": "Support Level Options List",
@@ -114,20 +150,53 @@
   },
   "recommendations": {
     "title": "Automated Put Option Recommendations",
-    "loading": "Loading recommendations..."
+    "loading": "Loading recommendations...",
+    "export": "Export",
+    "filters": "Filters",
+    "resetFilters": "Reset Filters"
   },
   "scoredOptions": {
     "title": "Scored Options",
-    "loading": "Loading scored options..."
+    "loading": "Loading scored options...",
+    "filters": "Filters",
+    "resetFilters": "Reset Filters"
   },
   "portfolioGenerator": {
     "title": "Automatic Portfolio Generator",
-    "loading": "Loading portfolio generator..."
+    "loading": "Loading portfolio generator...",
+    "generate": "Generate Portfolio",
+    "reset": "Reset"
   },
   "optionDetails": {
     "title": "Option Details",
     "loading": "Loading option data...",
     "back": "Back to Options",
     "notFound": "Option Not Found"
+  },
+  "lowerBoundAnalysis": {
+    "title": "Lower Bound Validation Analysis",
+    "subtitle": "Analyzing IV-based lower bound predictions against historical stock prices",
+    "loading": "Loading lower bound data...",
+    "errorTitle": "Error Loading Data",
+    "errorDesc": "Failed to load lower bound analysis data. Please try refreshing the page.",
+    "analysisControls": "Analysis Controls",
+    "howToUse": "How to Use",
+    "howToUseSteps": {
+      "selectStock": "Select a stock from the dropdown to view its detailed analysis",
+      "trendTab": "The Trend Analysis tab shows monthly hit rate evolution",
+      "distributionTab": "The Distribution tab displays prediction ranges and breaches",
+      "statisticsTab": "The Statistics tab provides sortable per-expiry metrics"
+    },
+    "tabs": {
+      "trends": "Trend Analysis",
+      "distribution": "Distribution",
+      "statistics": "Statistics"
+    },
+    "monthlyHitRateTrends": "Monthly Hit Rate Trends — {{stock}}",
+    "hitRateEvolution": "Hit rate evolution by expiry month with prediction volume",
+    "predictionDistribution": "Prediction Distribution & Breaches — {{stock}}",
+    "predictionDesc": "Prediction ranges, span percentages, breach counts, and stock prices",
+    "expiryStatistics": "Expiry Statistics — {{stock}}",
+    "expiryStatsDesc": "Click column headers to sort. Hit rate color-coded: green (85%+), blue (75–85%), yellow (65–75%), red (<65%)"
   }
 }

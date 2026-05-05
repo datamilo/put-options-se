@@ -17,8 +17,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertCircle, Info } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useTranslation } from 'react-i18next';
 
 export const LowerBoundAnalysis: React.FC = () => {
+  const { t } = useTranslation('pages');
   // Load all data
   const allDataQuery = useAllLowerBoundData();
   const [selectedStock, setSelectedStock] = useState<string>('');
@@ -40,10 +42,10 @@ export const LowerBoundAnalysis: React.FC = () => {
         {/* Header */}
         <div className="space-y-2">
           <h1 className="text-4xl font-bold text-slate-900">
-            Lower Bound Validation Analysis
+            {t('lowerBoundAnalysis.title')}
           </h1>
           <p className="text-lg text-slate-600">
-            Analyzing IV-based lower bound predictions against historical stock prices
+            {t('lowerBoundAnalysis.subtitle')}
           </p>
         </div>
 
@@ -51,9 +53,9 @@ export const LowerBoundAnalysis: React.FC = () => {
         {hasError && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Error Loading Data</AlertTitle>
+            <AlertTitle>{t('lowerBoundAnalysis.errorTitle')}</AlertTitle>
             <AlertDescription>
-              Failed to load lower bound analysis data. Please try refreshing the page.
+              {t('lowerBoundAnalysis.errorDesc')}
             </AlertDescription>
           </Alert>
         )}
@@ -69,7 +71,7 @@ export const LowerBoundAnalysis: React.FC = () => {
         {/* Controls Section */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Analysis Controls</CardTitle>
+            <CardTitle className="text-lg">{t('lowerBoundAnalysis.analysisControls')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Stock Selector */}
@@ -85,21 +87,13 @@ export const LowerBoundAnalysis: React.FC = () => {
             {/* Information Alert */}
             <Alert className="bg-blue-50 border-blue-200 text-blue-900">
               <Info className="h-4 w-4 text-blue-600" />
-              <AlertTitle>How to Use</AlertTitle>
+              <AlertTitle>{t('lowerBoundAnalysis.howToUse')}</AlertTitle>
               <AlertDescription>
                 <ul className="list-disc list-inside space-y-1 mt-2 text-sm">
-                  <li>
-                    Select a stock from the dropdown to view its detailed analysis
-                  </li>
-                  <li>
-                    The <strong>Trend Analysis</strong> tab shows monthly hit rate evolution
-                  </li>
-                  <li>
-                    The <strong>Distribution</strong> tab displays prediction ranges and breaches
-                  </li>
-                  <li>
-                    The <strong>Statistics</strong> tab provides sortable per-expiry metrics
-                  </li>
+                  <li>{t('lowerBoundAnalysis.howToUseSteps.selectStock')}</li>
+                  <li>{t('lowerBoundAnalysis.howToUseSteps.trendTab')}</li>
+                  <li>{t('lowerBoundAnalysis.howToUseSteps.distributionTab')}</li>
+                  <li>{t('lowerBoundAnalysis.howToUseSteps.statisticsTab')}</li>
                 </ul>
               </AlertDescription>
             </Alert>
@@ -121,9 +115,9 @@ export const LowerBoundAnalysis: React.FC = () => {
         {selectedStock && (
           <Tabs defaultValue="trends" className="w-full">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="trends">Trend Analysis</TabsTrigger>
-              <TabsTrigger value="distribution">Distribution</TabsTrigger>
-              <TabsTrigger value="statistics">Statistics</TabsTrigger>
+              <TabsTrigger value="trends">{t('lowerBoundAnalysis.tabs.trends')}</TabsTrigger>
+              <TabsTrigger value="distribution">{t('lowerBoundAnalysis.tabs.distribution')}</TabsTrigger>
+              <TabsTrigger value="statistics">{t('lowerBoundAnalysis.tabs.statistics')}</TabsTrigger>
             </TabsList>
 
             {/* Trend Analysis Tab */}
@@ -131,10 +125,10 @@ export const LowerBoundAnalysis: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">
-                    Monthly Hit Rate Trends - {selectedStock}
+                    {t('lowerBoundAnalysis.monthlyHitRateTrends', { stock: selectedStock })}
                   </CardTitle>
                   <p className="text-sm text-slate-600 mt-2">
-                    Hit rate evolution by expiry month with prediction volume
+                    {t('lowerBoundAnalysis.hitRateEvolution')}
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -154,10 +148,10 @@ export const LowerBoundAnalysis: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">
-                    Prediction Distribution & Breaches - {selectedStock}
+                    {t('lowerBoundAnalysis.predictionDistribution', { stock: selectedStock })}
                   </CardTitle>
                   <p className="text-sm text-slate-600 mt-2">
-                    Prediction ranges, span percentages, breach counts, and stock prices
+                    {t('lowerBoundAnalysis.predictionDesc')}
                   </p>
                 </CardHeader>
                 <CardContent>
@@ -178,10 +172,10 @@ export const LowerBoundAnalysis: React.FC = () => {
               <Card>
                 <CardHeader>
                   <CardTitle className="text-lg">
-                    Expiry Statistics - {selectedStock}
+                    {t('lowerBoundAnalysis.expiryStatistics', { stock: selectedStock })}
                   </CardTitle>
                   <p className="text-sm text-slate-600 mt-2">
-                    Click column headers to sort. Hit rate color-coded: green (85%+), blue (75-85%), yellow (65-75%), red (&lt;65%)
+                    {t('lowerBoundAnalysis.expiryStatsDesc')}
                   </p>
                 </CardHeader>
                 <CardContent>

@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Settings } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 interface SettingsModalProps {
   isOpen?: boolean;
@@ -18,6 +19,7 @@ interface SettingsModalProps {
 export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerButton = true }: SettingsModalProps) => {
   const { underlyingValue, setUnderlyingValue, transactionCost, setTransactionCost } = useSettings();
   const { trackInteraction } = useAnalytics();
+  const { t } = useTranslation('common');
   const [tempValue, setTempValue] = useState(underlyingValue);
   const [tempTransactionCost, setTempTransactionCost] = useState(transactionCost);
   const [inputValue, setInputValue] = useState(underlyingValue.toString());
@@ -77,9 +79,9 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
       setUnderlyingValue(tempValue);
       setTransactionCost(tempTransactionCost);
       setIsOpen(false);
-      toast.success(`Calculation Settings updated: Underlying value ${tempValue.toLocaleString('sv-SE')}, Transaction cost ${tempTransactionCost}`);
+      toast.success(t('settings.savedSuccess', { value: tempValue.toLocaleString('sv-SE'), cost: tempTransactionCost }));
     } else {
-      toast.error('Please enter a value between 10 000 and 1 000 000');
+      toast.error(t('settings.invalidRange'));
     }
   };
 
@@ -113,30 +115,30 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
             }}
           >
             <Settings className="h-4 w-4 mr-2" />
-            Calculation Settings
+            {t('settings.title')}
           </Button>
         </DialogTrigger>
       )}
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Calculation Settings</DialogTitle>
+          <DialogTitle>{t('settings.title')}</DialogTitle>
         </DialogHeader>
         <div className="space-y-6 py-4">
           {/* Section 1: Underlying Stock Value */}
           <div className="border rounded-lg p-4 space-y-4">
             <div className="border-b pb-3 mb-4">
-              <h3 className="font-semibold text-base">Underlying Stock Value for Premium Calculation</h3>
+              <h3 className="font-semibold text-base">{t('settings.underlyingSection')}</h3>
             </div>
 
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">
-                This value is used to calculate the number of contracts and Premium. Default is 100,000.
+                {t('settings.underlyingDescription')}
               </p>
             </div>
 
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label>Current Value: {formatCurrency(tempValue)}</Label>
+                <Label>{t('settings.currentValue')} {formatCurrency(tempValue)}</Label>
                 <Slider
                   value={[tempValue]}
                   onValueChange={handleSliderChange}
@@ -152,7 +154,7 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="underlying-input">Or enter exact value:</Label>
+                <Label htmlFor="underlying-input">{t('settings.enterExactValue')}</Label>
                 <Input
                   id="underlying-input"
                   type="text"
@@ -168,17 +170,17 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
           {/* Section 2: Transaction Cost */}
           <div className="border rounded-lg p-4 space-y-4">
             <div className="border-b pb-3 mb-4">
-              <h3 className="font-semibold text-base">Transaction Cost</h3>
+              <h3 className="font-semibold text-base">{t('settings.transactionCostSection')}</h3>
             </div>
 
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">
-                The transaction cost that will be subtracted from the premium calculation. Default is 150.
+                {t('settings.transactionCostDescription')}
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="transaction-cost-input">Transaction Cost:</Label>
+              <Label htmlFor="transaction-cost-input">{t('settings.transactionCostLabel')}</Label>
               <Input
                 id="transaction-cost-input"
                 type="text"
@@ -191,10 +193,10 @@ export const SettingsModal = ({ isOpen: externalIsOpen, onOpenChange, triggerBut
 
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" onClick={handleCancel}>
-              Cancel
+              {t('settings.cancel')}
             </Button>
             <Button onClick={handleSave}>
-              Apply Settings
+              {t('settings.apply')}
             </Button>
           </div>
         </div>

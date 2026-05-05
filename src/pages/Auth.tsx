@@ -7,12 +7,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTranslation } from "react-i18next";
 
 const Auth = () => {
   usePageTitle('Login');
   const { signIn, signUp, session } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation('common');
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -34,8 +36,8 @@ const Auth = () => {
     if (error) {
       console.error("Supabase sign-in error:", error);
       const message = error.message === "Failed to fetch"
-        ? "Network/CORS error. Please check your connection and try again."
-        : error.message ?? "Failed to sign in";
+        ? t('authPage.networkError')
+        : error.message ?? t('auth.failedSignIn');
       setError(message);
     }
   };
@@ -48,11 +50,11 @@ const Auth = () => {
     if (error) {
       console.error("Supabase sign-up error:", error);
       const message = error.message === "Failed to fetch"
-        ? "Network/CORS error. Please check your connection and try again."
-        : error.message ?? "Failed to sign up";
+        ? t('authPage.networkError')
+        : error.message ?? t('auth.failedSignUp');
       setError(message);
     } else {
-      setInfo("Check your email to confirm your account, then return here.");
+      setInfo(t('authPage.confirmEmail'));
     }
   };
 
@@ -62,27 +64,27 @@ const Auth = () => {
         {/* Value proposition */}
         <div className="flex-1 max-w-md space-y-6">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Put Options SE</h1>
+            <h1 className="text-3xl font-bold tracking-tight">{t('authPage.appTitle')}</h1>
             <p className="text-muted-foreground mt-2">
-              Analytics platform for Swedish put options
+              {t('authPage.appSubtitle')}
             </p>
           </div>
           <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-2">
               <span className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0">1</span>
-              <span>Real-time options data with 67+ fields per contract</span>
+              <span>{t('authPage.feature1')}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0">2</span>
-              <span>Dual-model scoring combining probability and technical analysis</span>
+              <span>{t('authPage.feature2')}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0">3</span>
-              <span>Automated portfolio generation with margin estimates</span>
+              <span>{t('authPage.feature3')}</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-bold shrink-0">4</span>
-              <span>Historical performance, support levels, and IV analysis</span>
+              <span>{t('authPage.feature4')}</span>
             </li>
           </ul>
         </div>
@@ -90,66 +92,66 @@ const Auth = () => {
         {/* Sign-in card */}
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle className="text-center">Sign in</CardTitle>
+            <CardTitle className="text-center">{t('authPage.cardTitle')}</CardTitle>
           </CardHeader>
         <CardContent>
           <Tabs defaultValue="signin">
             <TabsList className="grid grid-cols-2 w-full">
-              <TabsTrigger value="signin">Sign In</TabsTrigger>
-              <TabsTrigger value="signup">Sign Up</TabsTrigger>
+              <TabsTrigger value="signin">{t('authPage.tabSignIn')}</TabsTrigger>
+              <TabsTrigger value="signup">{t('authPage.tabSignUp')}</TabsTrigger>
             </TabsList>
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">{t('authPage.emailLabel')}</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    placeholder="you@example.com"
+                    placeholder={t('authPage.emailPlaceholder')}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">{t('authPage.passwordLabel')}</Label>
                   <Input
                     id="password"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Your password"
+                    placeholder={t('authPage.passwordPlaceholder')}
                   />
                 </div>
                 {error && (
                   <p className="text-sm text-destructive" role="alert">{error}</p>
                 )}
-                <Button type="submit" className="w-full">Sign In</Button>
+                <Button type="submit" className="w-full">{t('authPage.signInButton')}</Button>
               </form>
             </TabsContent>
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4 mt-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email2">Email</Label>
+                  <Label htmlFor="email2">{t('authPage.emailLabel')}</Label>
                   <Input
                     id="email2"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    placeholder="you@example.com"
+                    placeholder={t('authPage.emailPlaceholder')}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password2">Password</Label>
+                  <Label htmlFor="password2">{t('authPage.passwordLabel')}</Label>
                   <Input
                     id="password2"
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    placeholder="Create a strong password"
+                    placeholder={t('authPage.passwordCreatePlaceholder')}
                   />
                 </div>
                 {error && (
@@ -158,7 +160,7 @@ const Auth = () => {
                 {info && (
                   <p className="text-sm text-success" role="status">{info}</p>
                 )}
-                <Button type="submit" className="w-full">Create Account</Button>
+                <Button type="submit" className="w-full">{t('authPage.createAccountButton')}</Button>
               </form>
             </TabsContent>
           </Tabs>

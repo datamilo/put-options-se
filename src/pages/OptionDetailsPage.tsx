@@ -4,11 +4,13 @@ import { usePageTitle } from "@/hooks/usePageTitle";
 import { OptionDetails } from "@/components/options/OptionDetails";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const OptionDetailsPage = () => {
   const { optionId } = useParams<{ optionId: string }>();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { t } = useTranslation();
 
   // Use enriched data directly - it already includes recalculated options
   const { data, isLoading } = useEnrichedOptionsData();
@@ -29,7 +31,7 @@ const OptionDetailsPage = () => {
         <div className="flex items-center justify-center py-12">
           <div className="text-center space-y-4">
             <Loader2 className="h-8 w-8 animate-spin mx-auto" />
-            <p className="text-muted-foreground">Loading option data...</p>
+            <p className="text-muted-foreground">{t('pages:optionDetails.loading')}</p>
           </div>
         </div>
       </div>
@@ -46,12 +48,11 @@ const OptionDetailsPage = () => {
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Overview
+            {t('button.back')}
           </Button>
         </div>
         <div className="text-center">
-          <h1 className="text-2xl font-bold">Option Not Found</h1>
-          <p className="text-muted-foreground mt-2">The requested option could not be found.</p>
+          <h1 className="text-2xl font-bold">{t('pages:optionDetails.notFound')}</h1>
         </div>
       </div>
     );
@@ -60,14 +61,14 @@ const OptionDetailsPage = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Option Details</h1>
-        <Button 
-          variant="outline" 
+        <h1 className="text-3xl font-bold">{t('pages:optionDetails.title')}</h1>
+        <Button
+          variant="outline"
           onClick={handleBackClick}
           className="flex items-center gap-2"
         >
           <ArrowLeft className="h-4 w-4" />
-          Back to Overview
+          {t('button.back')}
         </Button>
       </div>
       <OptionDetails option={option} />

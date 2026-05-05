@@ -9,9 +9,11 @@ import { MarketIVPanel } from '@/components/iv-analysis/MarketIVPanel';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Info } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const IVAnalysis: React.FC = () => {
   usePageTitle('IV Analysis');
+  const { t } = useTranslation('pages');
 
   const { stockSummaries, dataByStock, marketIVData, marketIVSummary, isLoading, error } = useIVPerStockPerDay();
   const [selectedStock, setSelectedStock] = useState<string>('');
@@ -46,7 +48,7 @@ export const IVAnalysis: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading IV data...</p>
+          <p className="text-muted-foreground">{t('ivAnalysis.loading')}</p>
         </div>
       </div>
     );
@@ -57,7 +59,7 @@ export const IVAnalysis: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle className="text-destructive">Error loading data</CardTitle>
+            <CardTitle className="text-destructive">{t('ivAnalysis.error')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">{error}</p>
@@ -72,7 +74,7 @@ export const IVAnalysis: React.FC = () => {
       {/* Page header */}
       <div className="border-b bg-card">
         <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">Implied Volatility History</h1>
+          <h1 className="text-2xl font-bold">{t('ivAnalysis.title')}</h1>
         </div>
       </div>
 
@@ -81,7 +83,7 @@ export const IVAnalysis: React.FC = () => {
         <Alert>
           <Info className="h-4 w-4" />
           <AlertDescription>
-            <strong>Data source:</strong> Each day's IV is a constant-maturity 30-day implied volatility computed via variance interpolation across the options term structure, targeting ~21 business days (following the Swedish holiday calendar). Dates with no valid IV data show as "–".
+            <strong>Data source:</strong> {t('ivAnalysis.dataSourceNote')}
           </AlertDescription>
         </Alert>
 

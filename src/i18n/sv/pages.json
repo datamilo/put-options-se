@@ -43,9 +43,11 @@
   },
   "stockAnalysis": {
     "title": "Aktienyckeltal och historik",
+    "loading": "Laddar aktiedata...",
     "noStockSelected": "Ingen aktie vald",
     "stockNotFound": "Aktie ej hittad",
     "pleaseSelect": "Välj en aktie att visa.",
+    "optionsDashboard": "Optionsinstrumentpanel",
     "sections": {
       "currentPrice": "Aktuellt pris",
       "medianDailyVolume": "Median daglig volym",
@@ -97,16 +99,50 @@
   },
   "volatilityAnalysis": {
     "title": "Volatilitet vid finansiell rapportering",
+    "subtitle": "Aktiekursutveckling under finansiella rapporteringsdagar",
     "loading": "Laddar volatilitetsanalysdata...",
-    "error": "Fel vid inläsning av volatilitetsdata"
+    "error": "Fel vid inläsning av volatilitetsdata",
+    "backToMain": "Tillbaka till huvudsidan",
+    "totalEvents": "Totalt antal händelser",
+    "totalEventsDesc": "Analyserade finansiella rapporter",
+    "avgVolatility": "Genomsnittlig volatilitet",
+    "avgVolatilityDesc": "Genomsnittlig absolut prisförändring",
+    "highVolatility": "Aktier med hög volatilitet",
+    "highVolatilityDesc": "Över genomsnittlig volatilitet",
+    "eventsAnalyzed": "händelser analyserade",
+    "filterByStock": "Filtrera på aktie",
+    "filterDesc": "Välj en eller flera aktier att analysera (standard: alla aktier)",
+    "stockSelection": "Aktievarval",
+    "allStocks": "Alla aktier",
+    "stocksSelected": "{{count}} aktier valda",
+    "vizTitle": "Visualisering av volatilitetsstatistik",
+    "vizDesc": "Interaktiva diagram som visar prismönster under finansiella rapporteringsdagar",
+    "eventDataTitle": "Händelsedata i detalj",
+    "eventDataDesc": "Fullständiga händelsedata med filter- och sorteringsmöjligheter"
   },
   "ivAnalysis": {
     "title": "Historik för implicit volatilitet",
-    "loading": "Laddar IV-analysdata..."
+    "loading": "Laddar IV-data...",
+    "error": "Fel vid inläsning av data",
+    "dataSourceNote": "Datakälla: Varje dags IV är en konstant löptid på 30 dagars implicit volatilitet beräknad via variansinterpolation av optionsstrukturens termstruktur, riktad mot ~21 handelsdagar (enligt den svenska semesterkalendern). Datum utan giltig IV-data visas som \"–\"."
   },
   "consecutiveBreaks": {
     "title": "Stödnivåanalys",
-    "loading": "Laddar stödnivådata..."
+    "loading": "Laddar stödnivådata...",
+    "filterTitle": "Filter",
+    "stock": "Aktie",
+    "period": "Period (dagar)",
+    "maxGap": "Max mellanrum (dagar)",
+    "dateFrom": "Datum från",
+    "dateTo": "Datum till",
+    "noStockSelected": "Välj en aktie att analysera",
+    "breakHistory": "Genombrottshistorik",
+    "supportBreaks": "Stödnivågenombrott",
+    "days30": "30 dagar",
+    "days90": "90 dagar",
+    "days180": "180 dagar",
+    "days270": "270 dagar",
+    "days365": "365 dagar"
   },
   "supportLevelOptions": {
     "title": "Lista säljoptioner vid stödnivå",
@@ -114,20 +150,53 @@
   },
   "recommendations": {
     "title": "Automatiserade säljoptionsrekommendationer",
-    "loading": "Laddar rekommendationer..."
+    "loading": "Laddar rekommendationer...",
+    "export": "Exportera",
+    "filters": "Filter",
+    "resetFilters": "Återställ filter"
   },
   "scoredOptions": {
     "title": "Rankade optioner",
-    "loading": "Laddar rankade optioner..."
+    "loading": "Laddar rankade optioner...",
+    "filters": "Filter",
+    "resetFilters": "Återställ filter"
   },
   "portfolioGenerator": {
     "title": "Automatisk portföljgenerator",
-    "loading": "Laddar portföljgenerator..."
+    "loading": "Laddar portföljgenerator...",
+    "generate": "Generera portfölj",
+    "reset": "Återställ"
   },
   "optionDetails": {
     "title": "Optionsdetaljer",
     "loading": "Laddar optionsdata...",
     "back": "Tillbaka till optioner",
     "notFound": "Option ej hittad"
+  },
+  "lowerBoundAnalysis": {
+    "title": "Nedre gräns-valideringsanalys",
+    "subtitle": "Analys av IV-baserade nedre gräns-prognoser mot historiska aktiekurser",
+    "loading": "Laddar nedre gräns-data...",
+    "errorTitle": "Fel vid datainläsning",
+    "errorDesc": "Kunde inte ladda nedre gräns-analysdata. Försök uppdatera sidan.",
+    "analysisControls": "Analysstyrning",
+    "howToUse": "Instruktioner",
+    "howToUseSteps": {
+      "selectStock": "Välj en aktie i rullgardinsmenyn för att se detaljerad analys",
+      "trendTab": "Fliken Trendanalys visar månadsvis träffkvotutveckling",
+      "distributionTab": "Fliken Fördelning visar prognosintervall och genombrott",
+      "statisticsTab": "Fliken Statistik visar sorterbar förfallomåttstabell"
+    },
+    "tabs": {
+      "trends": "Trendanalys",
+      "distribution": "Fördelning",
+      "statistics": "Statistik"
+    },
+    "monthlyHitRateTrends": "Månadsvis träffkvotstrend — {{stock}}",
+    "hitRateEvolution": "Träffkvotutveckling per förfallomånad med prognosvolym",
+    "predictionDistribution": "Prognosfördelning och genombrott — {{stock}}",
+    "predictionDesc": "Prognosintervall, spanprocent, genombrottsantal och aktiekurser",
+    "expiryStatistics": "Förfallostatistik — {{stock}}",
+    "expiryStatsDesc": "Klicka på kolumnrubriker för att sortera. Träffkvot färgkodad: grön (85%+), blå (75–85%), gul (65–75%), röd (<65%)"
   }
 }
