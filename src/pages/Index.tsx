@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
@@ -32,6 +33,7 @@ const Index = () => {
 
   usePageTitle('Options Analysis');
   const navigate = useNavigate();
+  const { t } = useTranslation('pages');
   const [searchParams, setSearchParams] = useSearchParams();
   
   // Use enriched data directly - it already includes recalculated options
@@ -72,18 +74,18 @@ const Index = () => {
   });
 
   const timePeriodOptions = [
-    { label: "1 Week Low", days: 7 },
-    { label: "1 Month Low", days: 30 },
-    { label: "3 Months Low", days: 90 },
-    { label: "6 Months Low", days: 180 },
-    { label: "9 Months Low", days: 270 },
-    { label: "1 Year Low", days: 365 },
+    { label: t('index.timePeriods.1w'), days: 7 },
+    { label: t('index.timePeriods.1m'), days: 30 },
+    { label: t('index.timePeriods.3m'), days: 90 },
+    { label: t('index.timePeriods.6m'), days: 180 },
+    { label: t('index.timePeriods.9m'), days: 270 },
+    { label: t('index.timePeriods.1y'), days: 365 },
   ];
 
   const riskLevelOptions = [
-    { value: "High Risk", label: "High Risk" },
-    { value: "Medium Risk", label: "Medium Risk" },
-    { value: "Low Risk", label: "Low Risk" },
+    { value: "High Risk", label: t('index.riskLevelNames.High Risk') },
+    { value: "Medium Risk", label: t('index.riskLevelNames.Medium Risk') },
+    { value: "Low Risk", label: t('index.riskLevelNames.Low Risk') },
   ];
 
   const getRiskLevel = useCallback((option: OptionData) => {
@@ -105,14 +107,14 @@ const Index = () => {
             </TooltipTrigger>
             <TooltipContent className="max-w-sm bg-background border z-50">
               <div className="space-y-2 text-sm">
-                <p className="font-medium">Risk Level Classification:</p>
+                <p className="font-medium">{t('index.riskLevel.heading')}:</p>
                 <div className="space-y-1">
-                  <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
-                  <p><strong>Medium Risk:</strong> {">"}60% and {"<"}80% probability of being worthless</p>
-                  <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
+                  <p><strong>{t('index.riskLevelNames.High Risk')}:</strong> ≤60% {t('tooltips:riskLevel.high.description', 'probability of being worthless')}</p>
+                  <p><strong>{t('index.riskLevelNames.Medium Risk')}:</strong> {">"}60% and {"<"}80% {t('tooltips:riskLevel.high.description', 'probability of being worthless')}</p>
+                  <p><strong>{t('index.riskLevelNames.Low Risk')}:</strong> ≥80% {t('tooltips:riskLevel.high.description', 'probability of being worthless')}</p>
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback. No overlapping values between categories.
+                  {t('index.riskLevel.note')}
                 </p>
               </div>
             </TooltipContent>
@@ -128,14 +130,14 @@ const Index = () => {
           </DialogTrigger>
           <DialogContent className="max-w-sm">
             <div className="space-y-3">
-              <h3 className="font-medium">Risk Level Classification</h3>
+              <h3 className="font-medium">{t('index.riskLevel.heading')}</h3>
               <div className="space-y-2 text-sm">
-                <p><strong>High Risk:</strong> ≤60% probability of being worthless</p>
-                <p><strong>Medium Risk:</strong> {">"}60% and {"<"}80% probability of being worthless</p>
-                <p><strong>Low Risk:</strong> ≥80% probability of being worthless</p>
+                <p><strong>{t('index.riskLevelNames.High Risk')}:</strong> {t('index.riskLevel.high')}</p>
+                <p><strong>{t('index.riskLevelNames.Medium Risk')}:</strong> {t('index.riskLevel.medium')}</p>
+                <p><strong>{t('index.riskLevelNames.Low Risk')}:</strong> {t('index.riskLevel.low')}</p>
               </div>
               <p className="text-xs text-muted-foreground">
-                Based on ProbWorthless_Bayesian_IsoCal field, or 1_2_3_ProbOfWorthless_Weighted as fallback. No overlapping values between categories.
+                {t('index.riskLevel.note')}
               </p>
             </div>
           </DialogContent>
@@ -265,7 +267,7 @@ const Index = () => {
     setSelectedRiskLevels([]);
     setStrikeBelowPeriod(null);
     
-    toast.success("Filters reset to default");
+    toast.success(t('index.toast.filtersReset'));
   };
   
   // Save preferences whenever filters change (debounced by only saving when user is done interacting)
@@ -380,16 +382,16 @@ const Index = () => {
 
   const handleLoadMockData = () => {
     loadMockData();
-    toast.success("Mock data loaded");
+    toast.success(t('index.toast.mockDataLoaded'));
   };
 
   const handleOptionClick = (option: OptionData) => {
     const optionId = encodeURIComponent(option.OptionName);
-    navigate(`/option/${optionId}?${searchParams.toString()}`);
+    window.open(`/option/${optionId}?${searchParams.toString()}`, '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
-    navigate(`/stock/${encodeURIComponent(stockName)}?${searchParams.toString()}`);
+    window.open(`/stock/${encodeURIComponent(stockName)}?${searchParams.toString()}`, '_blank');
   };
 
   const handleExportCSV = () => {
@@ -399,7 +401,7 @@ const Index = () => {
       row_count: filteredData.length,
     });
     exportToCSV(filteredData, `swedish-put-options-${new Date().toISOString().split('T')[0]}.csv`);
-    toast.success("Data exported successfully");
+    toast.success(t('index.toast.dataExported'));
   };
 
   return (
@@ -407,13 +409,13 @@ const Index = () => {
       {/* Page Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-1">Swedish Put Options</h1>
-          <p className="text-muted-foreground">Analysis and insights for Swedish equity put options</p>
+          <h1 className="text-3xl font-bold mb-1">{t('index.title')}</h1>
+          <p className="text-muted-foreground">{t('index.headerDesc')}</p>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label="Options data" />
-          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label="Stock data" />
-          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label="Analysis updated" />
+          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label={t('index.optionsDataLabel')} />
+          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label={t('common:dataTimestamp.stockData')} />
+          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label={t('common:dataTimestamp.analysisUpdated')} />
         </div>
       </div>
 
@@ -422,7 +424,7 @@ const Index = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileSpreadsheet className="h-5 w-5" />
-              Loading Options Data
+              {t('index.empty.title')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -432,7 +434,7 @@ const Index = () => {
                 <div className="mt-2 space-y-2">
                   <div className="text-center">
                     <Button onClick={handleLoadMockData} variant="outline" disabled={isLoading}>
-                      Load Sample Data Instead
+                      {t('common:button.loadSampleData')}
                     </Button>
                   </div>
                 </div>
@@ -441,13 +443,13 @@ const Index = () => {
 
             {isLoading && (
               <div className="text-center text-sm text-muted-foreground">
-                Loading...
+                {t('common:status.loading')}
               </div>
             )}
 
             {!isLoading && !error && (
               <div className="text-center text-sm text-muted-foreground">
-                Loading...
+                {t('common:status.loading')}
               </div>
             )}
           </CardContent>
@@ -458,12 +460,12 @@ const Index = () => {
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <h2 className="text-lg font-semibold">
-                  Options Analysis
+                  {t('index.subtitle')}
                 </h2>
                 <ExportButton onExportCSV={handleExportCSV} size="sm" variant="ghost" />
               </div>
               <p className="text-sm text-muted-foreground">
-                Showing {filteredData.length} of {data.length} options ({((filteredData.length / data.length) * 100).toFixed(1)}%)
+                {t('index.showingOptions', { filtered: filteredData.length, total: data.length, pct: ((filteredData.length / data.length) * 100).toFixed(1) })}
               </p>
             </div>
             
@@ -476,18 +478,18 @@ const Index = () => {
                 title="Reset all filters to default (third Friday of next month)"
               >
                 <RotateCcw className="h-3 w-3 mr-1" />
-                Reset to Default
+                {t('index.resetToDefault')}
               </Button>
               
               <div className="space-y-2">
                 <div className="flex items-center gap-1 min-h-5">
-                  <Label>Strike Price Below</Label>
+                  <Label>{t('index.filters.strikePriceBelow')}</Label>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
-                      {strikeBelowPeriod === null 
-                        ? "Select Period" 
+                      {strikeBelowPeriod === null
+                        ? t('index.selectPeriod')
                         : `✓ ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
@@ -502,7 +504,7 @@ const Index = () => {
                       });
                       setStrikeBelowPeriod(null);
                     }}>
-                      Clear Filter
+                      {t('index.clearFilter')}
                     </DropdownMenuItem>
                     {timePeriodOptions.map(option => (
                       <DropdownMenuItem
@@ -526,15 +528,17 @@ const Index = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-1 min-h-5">
-                  <Label>Risk Level</Label>
+                  <Label>{t('index.filters.riskLevel')}</Label>
                   <RiskInfoButton />
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
-                      {selectedRiskLevels.length === 0 ? 'All Risk Levels' : 
-                       selectedRiskLevels.length === 1 ? selectedRiskLevels[0] : 
-                       `${selectedRiskLevels.length} levels selected`}
+                      {selectedRiskLevels.length === 0
+                        ? t('index.filters.allRiskLevels')
+                        : selectedRiskLevels.length === 1
+                        ? riskLevelOptions.find(r => r.value === selectedRiskLevels[0])?.label ?? selectedRiskLevels[0]
+                        : t('index.levelsSelected', { count: selectedRiskLevels.length })}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -556,7 +560,7 @@ const Index = () => {
                           }}
                         />
                         <label htmlFor="select-all-risk" className="text-sm cursor-pointer font-medium">
-                          Select All
+                          {t('index.selectAll')}
                         </label>
                       </div>
                       {riskLevelOptions.map(risk => (
@@ -589,21 +593,23 @@ const Index = () => {
               
               <div className="space-y-2">
                 <div className="flex items-center gap-1 min-h-5">
-                  <Label>Filter by Stock</Label>
+                  <Label>{t('index.filters.filterByStock')}</Label>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
-                      {selectedStocks.length === 0 ? 'All Stocks' : 
-                       selectedStocks.length === 1 ? selectedStocks[0] : 
-                       `${selectedStocks.length} stocks selected`}
+                      {selectedStocks.length === 0
+                        ? t('index.filters.allStocks')
+                        : selectedStocks.length === 1
+                        ? selectedStocks[0]
+                        : t('index.stocksSelected', { count: selectedStocks.length })}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto bg-background z-50">
                     <div className="space-y-2">
                       <Input
-                        placeholder="Search stocks..."
+                        placeholder={t('index.filters.searchStocks')}
                         value={stockSearch}
                         onChange={(e) => setStockSearch(e.target.value.slice(0, 50))}
                         className="h-8"
@@ -625,7 +631,7 @@ const Index = () => {
                           }}
                         />
                         <label htmlFor="select-all-stocks" className="text-sm cursor-pointer font-medium">
-                          Select All
+                          {t('index.selectAll')}
                         </label>
                       </div>
                       {filteredStocks.map(stock => (
@@ -658,21 +664,23 @@ const Index = () => {
 
               <div className="space-y-2">
                 <div className="flex items-center gap-1 min-h-5">
-                  <Label>Filter by Expiry Date</Label>
+                  <Label>{t('index.filters.filterByExpiryDate')}</Label>
                 </div>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="min-w-[200px] justify-between">
-                      {selectedExpiryDates.length === 0 ? 'All Expiry Dates' : 
-                       selectedExpiryDates.length === 1 ? selectedExpiryDates[0] : 
-                       `${selectedExpiryDates.length} dates selected`}
+                      {selectedExpiryDates.length === 0
+                        ? t('index.filters.allExpiryDates')
+                        : selectedExpiryDates.length === 1
+                        ? selectedExpiryDates[0]
+                        : t('index.datesSelected', { count: selectedExpiryDates.length })}
                       <ChevronDown className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto bg-background z-50">
                     <div className="space-y-2">
                       <Input
-                        placeholder="Search dates..."
+                        placeholder={t('index.filters.searchDates')}
                         value={expirySearch}
                         onChange={(e) => setExpirySearch(e.target.value.slice(0, 50))}
                         className="h-8"
@@ -694,7 +702,7 @@ const Index = () => {
                           }}
                         />
                         <label htmlFor="select-all-expiry" className="text-sm cursor-pointer font-medium">
-                          Select All
+                          {t('index.selectAll')}
                         </label>
                       </div>
                       {filteredExpiryDates.map(date => (
@@ -731,11 +739,11 @@ const Index = () => {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="table" className="flex items-center gap-2">
                 <Table className="h-4 w-4" />
-                Table View
+                {t('index.tabs.table')}
               </TabsTrigger>
               <TabsTrigger value="charts" className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
-                Charts
+                {t('index.tabs.charts')}
               </TabsTrigger>
             </TabsList>
             
