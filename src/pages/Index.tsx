@@ -387,11 +387,13 @@ const Index = () => {
 
   const handleOptionClick = (option: OptionData) => {
     const optionId = encodeURIComponent(option.OptionName);
-    window.open(`/option/${optionId}?${searchParams.toString()}`, '_blank');
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    window.open(`${base}/option/${optionId}?${searchParams.toString()}`, '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
-    window.open(`/stock/${encodeURIComponent(stockName)}?${searchParams.toString()}`, '_blank');
+    const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+    window.open(`${base}/stock/${encodeURIComponent(stockName)}?${searchParams.toString()}`, '_blank');
   };
 
   const handleExportCSV = () => {
