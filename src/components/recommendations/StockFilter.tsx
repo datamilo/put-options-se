@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { RecommendedOption } from '@/types/recommendations';
+import { useTranslation } from 'react-i18next';
 
 interface StockFilterProps {
   recommendations: RecommendedOption[];
@@ -14,6 +15,7 @@ export const StockFilter: React.FC<StockFilterProps> = ({
   selectedStocks,
   onSelectedStocksChange,
 }) => {
+  const { t } = useTranslation('pages');
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -63,10 +65,10 @@ export const StockFilter: React.FC<StockFilterProps> = ({
 
   const displayText =
     selectedStocks.length === 0
-      ? 'All stocks'
+      ? t('recommendations.allStocks')
       : selectedStocks.length === 1
         ? selectedStocks[0]
-        : `${selectedStocks.length} stocks selected`;
+        : t('recommendations.stocksSelected', { count: selectedStocks.length });
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -93,7 +95,7 @@ export const StockFilter: React.FC<StockFilterProps> = ({
               onClick={handleSelectAll}
               className="flex-1 h-8"
             >
-              Select All
+              {t('recommendations.selectAll')}
             </Button>
             <Button
               variant="outline"
@@ -101,7 +103,7 @@ export const StockFilter: React.FC<StockFilterProps> = ({
               onClick={handleClearAll}
               className="flex-1 h-8"
             >
-              Clear
+              {t('recommendations.clearStocks')}
             </Button>
           </div>
 
@@ -109,7 +111,7 @@ export const StockFilter: React.FC<StockFilterProps> = ({
           <div className="p-2 space-y-1">
             {stocksWithCounts.length === 0 ? (
               <div className="text-sm text-muted-foreground p-2">
-                No stocks available
+                {t('recommendations.noStocksAvailable')}
               </div>
             ) : (
               stocksWithCounts.map(({ stock, count }) => (

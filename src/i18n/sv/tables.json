@@ -50,18 +50,33 @@
     "lastBreakDate": "Senaste genombrott"
   },
   "recommendations": {
+    "details": "Detaljer",
+    "rank": "Rang",
     "stock": "Aktie",
     "option": "Option",
     "expiryDate": "Förfallodatum",
     "daysToExpiry": "Dagar till förfall",
     "strikePrice": "Lösenpris",
+    "strikeShort": "Lösenpris",
+    "currentPrice": "Aktuellt",
+    "support": "Stödnivå",
+    "distancePct": "Avstånd %",
+    "daysSince": "Dagar sedan (handelsdagar)",
+    "currentPoW": "Aktuell PoW",
+    "peakPoW": "Topp-PoW",
+    "recoveryRate": "Återhämtningstakt %",
+    "monthlyPct": "Månadsvis %",
+    "currMonth": "Akt. månad",
+    "strength": "Styrka",
     "premium": "Premie",
     "probability": "PoW %",
     "annualizedReturn": "Annualiserad avk. %",
     "recoveryAdvantage": "Återhämtningsfördel",
-    "score": "Poäng"
+    "score": "Poäng",
+    "noData": "N/A"
   },
   "scored": {
+    "details": "Detaljer",
     "rank": "Rang",
     "stock": "Aktie",
     "option": "Option",
@@ -69,9 +84,17 @@
     "probability": "PoW %",
     "annualizedReturn": "Annualiserad avk. %",
     "expiryDate": "Förfallodatum",
+    "expiryShort": "Förfall",
     "daysToExpiry": "Dagar till förfall",
+    "dte": "DTF",
     "strikePrice": "Lösenpris",
-    "premium": "Premie"
+    "strikeShort": "Lösenpris",
+    "premium": "Premie",
+    "probabilityScore": "Sannolikhetspoäng",
+    "taProb": "TA-sannolikhet",
+    "combined": "Kombinerad",
+    "agree": "Enig",
+    "strength": "Styrka"
   },
   "lowerBound": {
     "stock": "Aktie",

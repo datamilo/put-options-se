@@ -18,17 +18,14 @@ import { TimelinePerformanceChart } from '@/components/monthly/TimelinePerforman
 import { DayOfMonthAnalysis } from '@/components/monthly/DayOfMonthAnalysis';
 import { ArrowLeft, TrendingUp, TrendingDown, BarChart3, Calendar, Check, ChevronsUpDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const CURRENT_MONTH_NUMBER = new Date().getMonth() + 1;
-
-const MONTH_NAMES = [
-  'All Months', 'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
 
 export const MonthlyAnalysis = () => {
   usePageTitle('Monthly Analysis');
   const navigate = useNavigate();
+  const { t } = useTranslation('pages');
   const { monthlyData, monthlyStats, isLoading, error } = useMonthlyStockData();
   const { allStockData } = useStockData();
   
@@ -148,7 +145,7 @@ export const MonthlyAnalysis = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading monthly analysis data...</p>
+          <p className="text-muted-foreground">{t('monthlyAnalysis.loading')}</p>
         </div>
       </div>
     );
@@ -159,13 +156,13 @@ export const MonthlyAnalysis = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Card className="max-w-md">
           <CardHeader>
-            <CardTitle className="text-destructive">Error Loading Data</CardTitle>
+            <CardTitle className="text-destructive">{t('monthlyAnalysis.errorTitle')}</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground mb-4">{error}</p>
             <Button onClick={() => navigate('/')} variant="outline">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Main Page
+              {t('monthlyAnalysis.backToMain')}
             </Button>
           </CardContent>
         </Card>
@@ -182,21 +179,21 @@ export const MonthlyAnalysis = () => {
             <div className="flex items-center gap-4">
               <Button onClick={() => navigate('/')} variant="ghost" size="sm">
                 <ArrowLeft className="mr-2 h-4 w-4" />
-                Back to Options
+                {t('monthlyAnalysis.backToOptions')}
               </Button>
               <div>
-                <h1 className="text-2xl font-bold">Monthly Stock Analysis</h1>
-                <p className="text-muted-foreground">Historical seasonal patterns and performance metrics</p>
+                <h1 className="text-2xl font-bold">{t('monthlyAnalysis.title')}</h1>
+                <p className="text-muted-foreground">{t('monthlyAnalysis.subtitle')}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Calendar className="h-5 w-5 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">
                 {selectedMonths.length === 0
-                  ? 'All Months'
+                  ? t('common:filter.allMonths')
                   : selectedMonths.length === 1
-                    ? MONTH_NAMES[selectedMonths[0]]
-                    : `${selectedMonths.length} months selected`
+                    ? t(`common:monthNames.${selectedMonths[0]}`)
+                    : t('monthlyAnalysis.monthsSelected', { count: selectedMonths.length })
                 }
               </span>
             </div>
@@ -208,12 +205,12 @@ export const MonthlyAnalysis = () => {
         {/* Filters */}
         <Card>
           <CardHeader>
-            <CardTitle>Filters & Controls</CardTitle>
+            <CardTitle>{t('monthlyAnalysis.filtersTitle')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="space-y-2">
-                <Label>Months</Label>
+                <Label>{t('monthlyAnalysis.monthsLabel')}</Label>
                 <div className="flex gap-2">
                 <Popover open={monthDropdownOpen} onOpenChange={setMonthDropdownOpen}>
                   <PopoverTrigger asChild>
@@ -224,19 +221,19 @@ export const MonthlyAnalysis = () => {
                       className="flex-1 justify-between"
                     >
                       {selectedMonths.length === 0
-                        ? "All months..."
+                        ? t('monthlyAnalysis.allMonthsPlaceholder')
                         : selectedMonths.length === 1
-                        ? MONTH_NAMES[selectedMonths[0]]
-                        : `${selectedMonths.length} months selected`
+                        ? t(`common:monthNames.${selectedMonths[0]}`)
+                        : t('monthlyAnalysis.monthsSelected', { count: selectedMonths.length })
                       }
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0" align="start">
                     <Command>
-                      <CommandInput placeholder="Search months..." />
+                      <CommandInput placeholder={t('common:filter.searchMonths')} />
                       <CommandList>
-                        <CommandEmpty>No month found.</CommandEmpty>
+                        <CommandEmpty>{t('common:filter.noMonthFound')}</CommandEmpty>
                         <CommandGroup>
                           <CommandItem
                             onSelect={() => {
@@ -247,10 +244,9 @@ export const MonthlyAnalysis = () => {
                               checked={selectedMonths.length === 0}
                               className="mr-2"
                             />
-                            All months
+                            {t('common:filter.allMonths')}
                           </CommandItem>
-                          {MONTH_NAMES.slice(1).map((month, index) => {
-                            const monthNumber = index + 1;
+                          {[1,2,3,4,5,6,7,8,9,10,11,12].map((monthNumber) => {
                             const isSelected = selectedMonths.includes(monthNumber);
                             return (
                               <CommandItem
@@ -267,7 +263,7 @@ export const MonthlyAnalysis = () => {
                                   checked={isSelected}
                                   className="mr-2"
                                 />
-                                {month}
+                                {t(`common:monthNames.${monthNumber}`)}
                               </CommandItem>
                             );
                           })}
@@ -284,13 +280,13 @@ export const MonthlyAnalysis = () => {
                   )}
                   title="Filter to current month"
                 >
-                  {MONTH_NAMES[CURRENT_MONTH_NUMBER]}
+                  {t(`common:monthNames.${CURRENT_MONTH_NUMBER}`)}
                 </Button>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label>Select Stock</Label>
+                <Label>{t('monthlyAnalysis.selectStockLabel')}</Label>
                 <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
                   <PopoverTrigger asChild>
                     <Button
@@ -299,15 +295,15 @@ export const MonthlyAnalysis = () => {
                       aria-expanded={stockDropdownOpen}
                       className="w-full justify-between"
                     >
-                      {selectedStock || "All stocks..."}
+                      {selectedStock || t('monthlyAnalysis.allStocksPlaceholder')}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-full p-0" align="start">
                     <Command>
-                      <CommandInput placeholder="Search stocks..." />
+                      <CommandInput placeholder={t('common:filter.searchStocks')} />
                       <CommandList>
-                        <CommandEmpty>No stock found.</CommandEmpty>
+                        <CommandEmpty>{t('common:filter.noStockFound')}</CommandEmpty>
                         <CommandGroup>
                           <CommandItem
                             value=""
@@ -319,7 +315,7 @@ export const MonthlyAnalysis = () => {
                             <Check
                               className={`mr-2 h-4 w-4 ${selectedStock === '' ? "opacity-100" : "opacity-0"}`}
                             />
-                            All stocks
+                            {t('common:filter.allStocks')}
                           </CommandItem>
                           {availableStocks.map((stock) => (
                             <CommandItem
@@ -344,7 +340,7 @@ export const MonthlyAnalysis = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Min History (months): {minHistory[0]}</Label>
+                <Label>{t('monthlyAnalysis.minHistoryLabel', { value: minHistory[0] })}</Label>
                 <Slider
                   value={minHistory}
                   onValueChange={setMinHistory}
@@ -356,7 +352,7 @@ export const MonthlyAnalysis = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Show Top N Stocks</Label>
+                <Label>{t('monthlyAnalysis.filters.showTopN')}</Label>
                 <Select value={topN.toString()} onValueChange={(value) => setTopN(parseInt(value))}>
                   <SelectTrigger>
                     <SelectValue />
@@ -378,9 +374,9 @@ export const MonthlyAnalysis = () => {
         {/* Seasonality Heatmap */}
         <Card>
           <CardHeader>
-            <CardTitle>Monthly Seasonality Heatmap</CardTitle>
+            <CardTitle>{t('monthlyAnalysis.sections.heatmap')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Percentage of positive return months by stock and calendar month
+              {t('monthlyAnalysis.sections.heatmapDesc')}
             </p>
           </CardHeader>
           <CardContent>
@@ -396,9 +392,9 @@ export const MonthlyAnalysis = () => {
         {/* Timeline Performance Chart */}
         <Card>
           <CardHeader>
-            <CardTitle>Timeline Performance Chart</CardTitle>
+            <CardTitle>{t('monthlyAnalysis.sections.timeline')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Historical monthly returns over time - analyze when good/bad months occurred
+              {t('monthlyAnalysis.sections.timelineDesc')}
             </p>
           </CardHeader>
           <CardContent>
@@ -417,9 +413,9 @@ export const MonthlyAnalysis = () => {
         {/* Interactive Table */}
         <Card>
           <CardHeader>
-            <CardTitle>Detailed Statistics Table</CardTitle>
+            <CardTitle>{t('monthlyAnalysis.sections.statistics')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Complete monthly performance metrics for all stocks
+              {t('monthlyAnalysis.sections.statisticsDesc')}
             </p>
           </CardHeader>
           <CardContent>

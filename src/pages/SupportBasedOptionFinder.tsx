@@ -26,9 +26,11 @@ import {
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { calculateDefaultExpiryDate } from '@/lib/utils';
 import { SupportMetricsBreakdown } from '@/components/SupportMetricsBreakdown';
+import { useTranslation } from 'react-i18next';
 
 export const SupportBasedOptionFinder = () => {
   usePageTitle('Support Level Options List');
+  const { t } = useTranslation('pages');
   const { findOptions, isLoading } = useSupportBasedOptionFinder();
   const { data: allOptionsData } = useEnrichedOptionsData();
   const { getMetricsForStock } = useSupportLevelMetrics();
@@ -175,7 +177,7 @@ export const SupportBasedOptionFinder = () => {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground">Loading data...</p>
+            <p className="text-muted-foreground">{t('supportLevelOptions.loading')}</p>
           </CardContent>
         </Card>
       </div>
@@ -189,44 +191,44 @@ export const SupportBasedOptionFinder = () => {
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
             <Target className="h-8 w-8" />
-            Support Level Options List
+            {t('supportLevelOptions.title')}
           </h1>
           <p className="text-muted-foreground">
-            Filter put options by support levels and analyze positioning relative to support
+            {t('supportLevelOptions.subtitle')}
           </p>
         </div>
 
         {/* Configuration Panel */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Filter Criteria</CardTitle>
+            <CardTitle>{t('supportLevelOptions.filterCriteria')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
               {/* Support Analysis Parameters */}
               <div>
-                <h3 className="text-sm font-semibold mb-3 text-gray-700">Support Analysis</h3>
+                <h3 className="text-sm font-semibold mb-3 text-gray-700">{t('supportLevelOptions.supportAnalysisSection')}</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="rolling-period" className="text-sm">
-                      Rolling Low Period
+                      {t('supportLevelOptions.rollingLowPeriod')}
                     </Label>
                     <Select value={rollingPeriod} onValueChange={setRollingPeriod}>
                       <SelectTrigger id="rolling-period">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="30">1-Month (30 days)</SelectItem>
-                        <SelectItem value="90">3-Month (90 days)</SelectItem>
-                        <SelectItem value="180">6-Month (180 days)</SelectItem>
-                        <SelectItem value="270">9-Month (270 days)</SelectItem>
-                        <SelectItem value="365">1-Year (365 days)</SelectItem>
+                        <SelectItem value="30">{t('consecutiveBreaks.period1Month')}</SelectItem>
+                        <SelectItem value="90">{t('consecutiveBreaks.period3Month')}</SelectItem>
+                        <SelectItem value="180">{t('consecutiveBreaks.period6Month')}</SelectItem>
+                        <SelectItem value="270">{t('consecutiveBreaks.period9Month')}</SelectItem>
+                        <SelectItem value="365">{t('consecutiveBreaks.period1Year')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="days-since-break" className="text-sm">
-                      Min Days Since Last Break (business days)
+                      {t('supportLevelOptions.minDaysSinceBreak')}
                     </Label>
                     <Input
                       id="days-since-break"
@@ -239,11 +241,11 @@ export const SupportBasedOptionFinder = () => {
                   </div>
                   <div className="flex flex-col space-y-2">
                     <Label htmlFor="expiry-date" className="text-sm">
-                      Expiry Date
+                      {t('supportLevelOptions.expiryDate')}
                     </Label>
                     <Select value={selectedExpiryDate || ''} onValueChange={setSelectedExpiryDate}>
                       <SelectTrigger id="expiry-date">
-                        <SelectValue placeholder="Select expiry date" />
+                        <SelectValue placeholder={t('common:filter.selectExpiryDate')} />
                       </SelectTrigger>
                       <SelectContent>
                         {[...new Set(allOptionsData.map(option => option.ExpiryDate))].sort().map(date => (
@@ -263,7 +265,7 @@ export const SupportBasedOptionFinder = () => {
         {/* Results Summary */}
         <div className="mb-4">
           <p className="text-sm text-muted-foreground">
-            Found <span className="font-bold text-foreground">{supportBasedResults.length}</span> options matching criteria
+            {t('supportLevelOptions.foundOptions', { count: supportBasedResults.length })}
           </p>
         </div>
 
@@ -273,26 +275,26 @@ export const SupportBasedOptionFinder = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[50px]">Details</TableHead>
-                  <SortableHeader field="stockName" label="Stock" />
-                  <SortableHeader field="optionName" label="Option" />
-                  <TableHead className="min-w-[100px]">Support Analysis</TableHead>
-                  <SortableHeader field="currentPrice" label="Current Price" align="right" />
-                  <SortableHeader field="strikePrice" label="Strike" align="right" />
-                  <SortableHeader field="rollingLow" label={`Support (${rollingPeriod}d)`} align="right" />
-                  <SortableHeader field="distanceToSupport" label="Distance to Support" align="right" />
-                  <SortableHeader field="strikeVsSupport" label="Strike vs Support" align="right" />
-                  <SortableHeader field="medianDropPerBreak" label="Median Drop/Break" align="right" />
-                  <SortableHeader field="premium" label="Premium" align="right" />
-                  <SortableHeader field="powBayesianCalibrated" label="PoW - Bayesian Calibrated" align="right" />
-                  <SortableHeader field="powOriginal" label="PoW - Original" align="right" />
-                  <SortableHeader field="daysToExpiry" label="Days to Expiry" align="right" />
+                  <TableHead className="w-[50px]">{t('supportLevelOptions.colDetails')}</TableHead>
+                  <SortableHeader field="stockName" label={t('supportLevelOptions.colStock')} />
+                  <SortableHeader field="optionName" label={t('supportLevelOptions.colOption')} />
+                  <TableHead className="min-w-[100px]">{t('supportLevelOptions.colSupportAnalysis')}</TableHead>
+                  <SortableHeader field="currentPrice" label={t('supportLevelOptions.colCurrentPrice')} align="right" />
+                  <SortableHeader field="strikePrice" label={t('supportLevelOptions.colStrike')} align="right" />
+                  <SortableHeader field="rollingLow" label={t('supportLevelOptions.colSupport', { period: rollingPeriod })} align="right" />
+                  <SortableHeader field="distanceToSupport" label={t('supportLevelOptions.colDistanceToSupport')} align="right" />
+                  <SortableHeader field="strikeVsSupport" label={t('supportLevelOptions.colStrikeVsSupport')} align="right" />
+                  <SortableHeader field="medianDropPerBreak" label={t('supportLevelOptions.colMedianDropPerBreak')} align="right" />
+                  <SortableHeader field="premium" label={t('supportLevelOptions.colPremium')} align="right" />
+                  <SortableHeader field="powBayesianCalibrated" label={t('supportLevelOptions.colPowBayesian')} align="right" />
+                  <SortableHeader field="powOriginal" label={t('supportLevelOptions.colPowOriginal')} align="right" />
+                  <SortableHeader field="daysToExpiry" label={t('supportLevelOptions.colDaysToExpiry')} align="right" />
                   <TableHead
                     className="text-right min-w-[130px] cursor-pointer hover:bg-muted/50 transition-colors"
                     onClick={() => handleSort('supportStability')}
                   >
                     <div className="flex items-center justify-end gap-1">
-                      <span>Support Stability</span>
+                      <span>{t('supportLevelOptions.colSupportStability')}</span>
                       {sortField === 'supportStability' && (
                         sortDirection === 'asc' ?
                           <ArrowUp className="h-4 w-4" /> :
@@ -304,19 +306,19 @@ export const SupportBasedOptionFinder = () => {
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs bg-background border">
-                            <p>Percentage of trading days within the rolling period where the rolling low held without being broken. Higher percentage indicates more stable support. For example, 85% means the support level held on 85% of days and was broken on 15% of days.</p>
+                            <p>{t('supportLevelOptions.tooltipStability')}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
                     </div>
                   </TableHead>
-                  <SortableHeader field="daysSinceLastBreak" label="Days Since Break (biz days)" align="right" />
+                  <SortableHeader field="daysSinceLastBreak" label={t('supportLevelOptions.colDaysSinceBreak')} align="right" />
                   <TableHead
                     className="text-right min-w-[130px] cursor-pointer hover:bg-muted/50 transition-colors"
                     onClick={() => handleSort('supportStrengthScore')}
                   >
                     <div className="flex items-center justify-end gap-1">
-                      <span>Support Strength</span>
+                      <span>{t('supportLevelOptions.colSupportStrength')}</span>
                       {sortField === 'supportStrengthScore' && (
                         sortDirection === 'asc' ?
                           <ArrowUp className="h-4 w-4" /> :
@@ -328,15 +330,9 @@ export const SupportBasedOptionFinder = () => {
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs bg-background border">
-                            <p className="font-semibold mb-1">Support Strength Score (0-100)</p>
-                            <p className="mb-2">Composite score combining: Stability (30%), Days Since Break (25%), Break Frequency (25%), Drop Consistency (20%)</p>
-                            <p className="text-xs">
-                              <span className="text-green-600">80-100: Exceptional</span> |
-                              <span className="text-green-600"> 70-79: Strong</span> |
-                              <span className="text-yellow-600"> 60-69: Good</span> |
-                              <span className="text-yellow-600"> 50-59: Moderate</span> |
-                              <span className="text-red-600"> &lt;50: Weak</span>
-                            </p>
+                            <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipStrengthTitle')}</p>
+                            <p className="mb-2">{t('supportLevelOptions.tooltipStrengthDesc')}</p>
+                            <p className="text-xs">{t('supportLevelOptions.tooltipStrengthScale')}</p>
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
@@ -347,7 +343,7 @@ export const SupportBasedOptionFinder = () => {
                     onClick={() => handleSort('patternType')}
                   >
                     <div className="flex items-center gap-1">
-                      <span>Pattern</span>
+                      <span>{t('supportLevelOptions.colPattern')}</span>
                       {sortField === 'patternType' && (
                         sortDirection === 'asc' ?
                           <ArrowUp className="h-4 w-4" /> :
@@ -359,7 +355,7 @@ export const SupportBasedOptionFinder = () => {
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                           </TooltipTrigger>
                           <TooltipContent className="max-w-md bg-background border">
-                            <p className="font-semibold mb-1">Pattern Classification</p>
+                            <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipPatternTitle')}</p>
                             <div className="text-xs space-y-1">
                               <p><span className="text-green-600 font-semibold">never_breaks:</span> 99.5%+ stability - safest</p>
                               <p><span className="text-blue-600 font-semibold">exhausted_cascade:</span> Near max breaks - rebound candidate</p>
@@ -378,7 +374,7 @@ export const SupportBasedOptionFinder = () => {
                     onClick={() => handleSort('stabilityTrend')}
                   >
                     <div className="flex items-center gap-1">
-                      <span>Trend</span>
+                      <span>{t('supportLevelOptions.colTrend')}</span>
                       {sortField === 'stabilityTrend' && (
                         sortDirection === 'asc' ?
                           <ArrowUp className="h-4 w-4" /> :
@@ -390,8 +386,8 @@ export const SupportBasedOptionFinder = () => {
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs bg-background border">
-                            <p className="font-semibold mb-1">Stability Trend</p>
-                            <p className="mb-2">Compares first half vs second half of rolling period.</p>
+                            <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipTrendTitle')}</p>
+                            <p className="mb-2">{t('supportLevelOptions.tooltipTrendDesc')}</p>
                             <div className="text-xs space-y-1">
                               <p><span className="text-green-600">↑ improving:</span> Support strengthening - increasingly safe</p>
                               <p><span className="text-gray-600">→ stable:</span> Consistent behavior - predictable</p>
@@ -407,7 +403,7 @@ export const SupportBasedOptionFinder = () => {
                     onClick={() => handleSort('maxConsecutiveBreaks')}
                   >
                     <div className="flex items-center justify-end gap-1">
-                      <span>Max Consecutive</span>
+                      <span>{t('supportLevelOptions.colMaxConsecutive')}</span>
                       {sortField === 'maxConsecutiveBreaks' && (
                         sortDirection === 'asc' ?
                           <ArrowUp className="h-4 w-4" /> :
@@ -419,10 +415,10 @@ export const SupportBasedOptionFinder = () => {
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs bg-background border">
-                            <p className="font-semibold mb-1">Max Consecutive Breaks</p>
-                            <p className="mb-2">Historical maximum number of consecutive support breaks in any cluster (breaks ≤30 days apart).</p>
+                            <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipMaxConsecTitle')}</p>
+                            <p className="mb-2">{t('supportLevelOptions.tooltipMaxConsecDesc')}</p>
                             <div className="text-xs">
-                              <p>0-2: Low cascade risk | 3-5: Normal | 6-10: Elevated | 11+: High risk</p>
+                              <p>{t('supportLevelOptions.tooltipMaxConsecScale')}</p>
                               <p className="mt-1">Shows worst-case scenario if stock starts breaking support.</p>
                             </div>
                           </TooltipContent>
@@ -435,7 +431,7 @@ export const SupportBasedOptionFinder = () => {
                     onClick={() => handleSort('currentConsecutiveBreaks')}
                   >
                     <div className="flex items-center justify-end gap-1">
-                      <span>Current Consecutive</span>
+                      <span>{t('supportLevelOptions.colCurrentConsecutive')}</span>
                       {sortField === 'currentConsecutiveBreaks' && (
                         sortDirection === 'asc' ?
                           <ArrowUp className="h-4 w-4" /> :
@@ -447,14 +443,14 @@ export const SupportBasedOptionFinder = () => {
                             <Info className="h-4 w-4 text-muted-foreground cursor-help" />
                           </TooltipTrigger>
                           <TooltipContent className="max-w-xs bg-background border">
-                            <p className="font-semibold mb-1">Current Consecutive Breaks</p>
-                            <p className="mb-2">Number of breaks in most recent active cluster (if ended ≤30 days ago).</p>
+                            <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipCurrConsecTitle')}</p>
+                            <p className="mb-2">{t('supportLevelOptions.tooltipCurrConsecDesc')}</p>
                             <div className="text-xs space-y-1">
                               <p><strong>0:</strong> Support holding normally - safe to write</p>
                               <p><strong>1-2:</strong> Minor activity - watch</p>
                               <p><strong>3-5:</strong> Active cascade - caution</p>
                               <p><strong>6+:</strong> Major cascade - high risk</p>
-                              <p className="mt-1 text-blue-600">If Current ≥ 80% of Max: likely rebound candidate!</p>
+                              <p className="mt-1 text-blue-600">{t('supportLevelOptions.tooltipCurrConsecNote')}</p>
                             </div>
                           </TooltipContent>
                         </Tooltip>
@@ -505,7 +501,7 @@ export const SupportBasedOptionFinder = () => {
                         onClick={() => window.open(getFullPath(`/consecutive-breaks?stock=${encodeURIComponent(option.stockName)}&period=${rollingPeriod}`), '_blank')}
                         className="text-primary hover:underline cursor-pointer text-xs"
                       >
-                        View Analysis
+                        {t('supportLevelOptions.viewAnalysis')}
                       </button>
                     </TableCell>
                     <TableCell className="text-right">{option.currentPrice.toFixed(2)} kr</TableCell>
@@ -597,7 +593,7 @@ export const SupportBasedOptionFinder = () => {
           <Card>
             <CardContent className="pt-6">
               <p className="text-muted-foreground text-center">
-                No options match the current criteria. Try relaxing some filters.
+                {t('supportLevelOptions.noOptionsMatch')}
               </p>
             </CardContent>
           </Card>

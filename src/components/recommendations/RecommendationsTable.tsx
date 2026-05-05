@@ -12,6 +12,7 @@ import { ChevronDown, ChevronUp, ArrowUp, ArrowDown } from 'lucide-react';
 import { ScoreBreakdownComponent } from './ScoreBreakdown';
 import { OptionExplanation } from './OptionExplanation';
 import type { RecommendedOption, RecommendationFilters, ScoreWeights } from '@/types/recommendations';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendationsTableProps {
   recommendations: RecommendedOption[];
@@ -26,6 +27,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
   filters,
   weights,
 }) => {
+  const { t } = useTranslation('tables');
   type SortField = keyof RecommendedOption;
   type SortDirection = 'asc' | 'desc';
 
@@ -113,30 +115,30 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">Details</TableHead>
-              <SortableHeader field="rank" label="Rank" align="center" />
-              <SortableHeader field="stockName" label="Stock" />
-              <SortableHeader field="optionName" label="Option" />
-              <SortableHeader field="strikePrice" label="Strike" align="right" />
-              <SortableHeader field="currentPrice" label="Current" align="right" />
-              <SortableHeader field="rollingLow" label="Support" align="right" />
-              <SortableHeader field="distanceToSupportPct" label="Distance %" align="right" />
-              <SortableHeader field="daysSinceLastBreak" label="Days Since (biz days)" align="right" />
-              <SortableHeader field="currentProbability" label="Current PoW" align="right" />
-              <SortableHeader field="historicalPeakProbability" label="Peak PoW" align="right" />
-              <SortableHeader field="recoveryAdvantage" label="Recovery Rate %" align="right" />
-              <SortableHeader field="monthlyPositiveRate" label="Monthly %" align="right" />
-              <SortableHeader field="currentMonthPerformance" label="Curr Month" align="right" />
-              <SortableHeader field="supportStrengthScore" label="Strength" align="right" />
-              <SortableHeader field="premium" label="Premium" align="right" />
-              <SortableHeader field="compositeScore" label="Score" align="right" />
+              <TableHead className="w-12">{t('recommendations.details')}</TableHead>
+              <SortableHeader field="rank" label={t('recommendations.rank')} align="center" />
+              <SortableHeader field="stockName" label={t('recommendations.stock')} />
+              <SortableHeader field="optionName" label={t('recommendations.option')} />
+              <SortableHeader field="strikePrice" label={t('recommendations.strikeShort')} align="right" />
+              <SortableHeader field="currentPrice" label={t('recommendations.currentPrice')} align="right" />
+              <SortableHeader field="rollingLow" label={t('recommendations.support')} align="right" />
+              <SortableHeader field="distanceToSupportPct" label={t('recommendations.distancePct')} align="right" />
+              <SortableHeader field="daysSinceLastBreak" label={t('recommendations.daysSince')} align="right" />
+              <SortableHeader field="currentProbability" label={t('recommendations.currentPoW')} align="right" />
+              <SortableHeader field="historicalPeakProbability" label={t('recommendations.peakPoW')} align="right" />
+              <SortableHeader field="recoveryAdvantage" label={t('recommendations.recoveryRate')} align="right" />
+              <SortableHeader field="monthlyPositiveRate" label={t('recommendations.monthlyPct')} align="right" />
+              <SortableHeader field="currentMonthPerformance" label={t('recommendations.currMonth')} align="right" />
+              <SortableHeader field="supportStrengthScore" label={t('recommendations.strength')} align="right" />
+              <SortableHeader field="premium" label={t('recommendations.premium')} align="right" />
+              <SortableHeader field="compositeScore" label={t('recommendations.score')} align="right" />
             </TableRow>
           </TableHeader>
           <TableBody>
             {sortedRecommendations.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={17} className="text-center text-muted-foreground py-8">
-                  No recommendations found. Try adjusting your filters or click Analyze.
+                  {t('pages:recommendations.noRecommendationsFound')}
                 </TableCell>
               </TableRow>
             ) : (
@@ -197,7 +199,7 @@ export const RecommendationsTable: React.FC<RecommendationsTableProps> = ({
                         : '-'}
                     </TableCell>
                     <TableCell className="text-right">
-                      {rec.daysSinceLastBreak !== null ? rec.daysSinceLastBreak : 'N/A'}
+                      {rec.daysSinceLastBreak !== null ? rec.daysSinceLastBreak : t('recommendations.noData')}
                     </TableCell>
                     <TableCell className="text-right">
                       {(rec.currentProbability * 100).toFixed(1)}%

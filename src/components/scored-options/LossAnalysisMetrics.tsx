@@ -9,10 +9,12 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { formatNordicDecimal, formatNordicNumber } from '@/utils/numberFormatting';
+import { useTranslation } from 'react-i18next';
 
 type ActiveTab = 'v21' | 'v3';
 
 export const LossAnalysisMetrics: React.FC = () => {
+  const { t } = useTranslation('pages');
   const [activeTab, setActiveTab] = useState<ActiveTab>('v21');
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -26,10 +28,10 @@ export const LossAnalysisMetrics: React.FC = () => {
         <div className="flex items-center gap-3 text-left">
           <div>
             <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-              Loss Analysis - In-the-Money Scenarios
+              {t('scoredOptions.lossAnalysis.title')}
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-              Historical loss data when options expire in-the-money (ITM). V2.1: 263,723 ITM options analyzed. TA Model V3: 2.3M+ ITM options (walk-forward validation).
+              {t('scoredOptions.lossAnalysis.subtitle')}
             </p>
           </div>
         </div>
@@ -54,7 +56,7 @@ export const LossAnalysisMetrics: React.FC = () => {
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
-              Probability Optimization Model
+              {t('scoredOptions.lossAnalysis.tabProbOptimization')}
             </button>
             <button
               onClick={() => setActiveTab('v3')}
@@ -64,7 +66,7 @@ export const LossAnalysisMetrics: React.FC = () => {
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
               }`}
             >
-              TA ML Model
+              {t('scoredOptions.lossAnalysis.tabTAML')}
             </button>
           </div>
 
@@ -75,13 +77,13 @@ export const LossAnalysisMetrics: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-left font-semibold">Score Bucket</TableHead>
-                      <TableHead className="text-center font-semibold">Sample Size</TableHead>
-                      <TableHead className="text-center font-semibold">Avg Loss</TableHead>
-                      <TableHead className="text-center font-semibold">Median Loss</TableHead>
-                      <TableHead className="text-center font-semibold">Min Loss</TableHead>
-                      <TableHead className="text-center font-semibold">95th Percentile</TableHead>
-                      <TableHead className="text-center font-semibold">Max Loss</TableHead>
+                      <TableHead className="text-left font-semibold">{t('scoredOptions.lossAnalysis.colScoreBucket')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colSampleSize')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colAvgLoss')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colMedianLoss')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colMinLoss')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.col95thPct')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colMaxLoss')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -134,7 +136,7 @@ export const LossAnalysisMetrics: React.FC = () => {
                 </Table>
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Data source: v2_1_loss_analysis_summary_cleaned.csv (263,723 ITM options). Dataset cleaned by removing 2,957 Embracer Group AB options with artificial losses from stock split event.
+                {t('scoredOptions.lossAnalysis.dataSourceV21')}
               </p>
             </div>
           )}
@@ -146,9 +148,9 @@ export const LossAnalysisMetrics: React.FC = () => {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="text-left font-semibold">Predicted Range</TableHead>
-                      <TableHead className="text-center font-semibold">Avg Loss</TableHead>
-                      <TableHead className="text-center font-semibold">Median Loss</TableHead>
+                      <TableHead className="text-left font-semibold">{t('scoredOptions.lossAnalysis.colPredictedRange')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colAvgLoss')}</TableHead>
+                      <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colMedianLoss')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -186,7 +188,7 @@ export const LossAnalysisMetrics: React.FC = () => {
                 </Table>
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400">
-                Data source: ta_v3_calibration_results.csv (walk-forward validation on 2.3M+ ITM options).
+                {t('scoredOptions.lossAnalysis.dataSourceV3')}
               </p>
             </div>
           )}
@@ -194,35 +196,35 @@ export const LossAnalysisMetrics: React.FC = () => {
           {/* Loss Distribution Summary - Always Visible */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
             <h4 className="font-semibold text-gray-900 dark:text-gray-100">
-              Loss Distribution Summary (70-80% Primary Operating Zone)
+              {t('scoredOptions.lossAnalysis.distributionSummaryTitle')}
             </h4>
             <div className="overflow-x-auto border rounded-lg">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-left font-semibold">Metric</TableHead>
-                    <TableHead className="text-center font-semibold">Probability Optimization</TableHead>
-                    <TableHead className="text-center font-semibold">TA Model V3</TableHead>
+                    <TableHead className="text-left font-semibold">{t('scoredOptions.lossAnalysis.colMetric')}</TableHead>
+                    <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colProbOptimization')}</TableHead>
+                    <TableHead className="text-center font-semibold">{t('scoredOptions.lossAnalysis.colTAModelV3')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   <TableRow>
-                    <TableCell className="font-medium">Hit Rate</TableCell>
+                    <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowHitRate')}</TableCell>
                     <TableCell className="text-center">62,51%</TableCell>
                     <TableCell className="text-center">70,16%</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">ITM Failure Rate</TableCell>
+                    <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowITMFailureRate')}</TableCell>
                     <TableCell className="text-center">37,49%</TableCell>
                     <TableCell className="text-center">29,84%</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Avg Loss When ITM</TableCell>
+                    <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowAvgLossWhenITM')}</TableCell>
                     <TableCell className="text-center font-semibold">5,70%</TableCell>
                     <TableCell className="text-center font-semibold">6,64%</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Median Loss When ITM</TableCell>
+                    <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowMedianLossWhenITM')}</TableCell>
                     <TableCell className="text-center">3,80%</TableCell>
                     <TableCell className="text-center">4,62%</TableCell>
                   </TableRow>
@@ -234,39 +236,39 @@ export const LossAnalysisMetrics: React.FC = () => {
           {/* Loss Scaling by Confidence Summary */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-6 space-y-4">
             <h4 className="font-semibold text-gray-900 dark:text-gray-100">
-              Loss Scaling by Confidence Level
+              {t('scoredOptions.lossAnalysis.lossScalingTitle')}
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-3">
-                <h5 className="font-medium text-gray-900 dark:text-gray-100">Probability Optimization Model</h5>
+                <h5 className="font-medium text-gray-900 dark:text-gray-100">{t('scoredOptions.lossAnalysis.probOptModel')}</h5>
                 <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <div className="flex justify-between">
-                    <span>Lowest confidence (&lt;50%):</span>
+                    <span>{t('scoredOptions.lossAnalysis.lowestConfidence')}</span>
                     <span className="font-semibold">11,62%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Highest confidence (80-100%):</span>
+                    <span>{t('scoredOptions.lossAnalysis.highestConfidenceV21')}</span>
                     <span className="font-semibold">4,63%</span>
                   </div>
                   <div className="flex justify-between border-t border-gray-300 dark:border-gray-600 pt-2">
-                    <span>Ratio:</span>
+                    <span>{t('scoredOptions.lossAnalysis.ratio')}</span>
                     <span className="font-semibold">2.51x</span>
                   </div>
                 </div>
               </div>
               <div className="space-y-3">
-                <h5 className="font-medium text-gray-900 dark:text-gray-100">TA Model V3</h5>
+                <h5 className="font-medium text-gray-900 dark:text-gray-100">{t('scoredOptions.lossAnalysis.taModelV3')}</h5>
                 <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
                   <div className="flex justify-between">
-                    <span>Lowest confidence (&lt;50%):</span>
+                    <span>{t('scoredOptions.lossAnalysis.lowestConfidence')}</span>
                     <span className="font-semibold">12,16%</span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Highest confidence (90%+):</span>
+                    <span>{t('scoredOptions.lossAnalysis.highestConfidenceV3')}</span>
                     <span className="font-semibold">6,44%</span>
                   </div>
                   <div className="flex justify-between border-t border-gray-300 dark:border-gray-600 pt-2">
-                    <span>Ratio:</span>
+                    <span>{t('scoredOptions.lossAnalysis.ratio')}</span>
                     <span className="font-semibold">1.89x</span>
                   </div>
                 </div>

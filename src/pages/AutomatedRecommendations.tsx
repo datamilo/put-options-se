@@ -25,9 +25,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import { useTranslation } from 'react-i18next';
 
 export const AutomatedRecommendations = () => {
   usePageTitle('Option Recommendations');
+  const { t } = useTranslation('pages');
   const { analyzeOptions, isLoading } = useAutomatedRecommendations();
   const { data: allOptionsData } = useEnrichedOptionsData();
   const { toast } = useToast();
@@ -101,8 +103,8 @@ export const AutomatedRecommendations = () => {
       data: filteredRecommendations
     });
     toast({
-      title: "Export successful",
-      description: `Exported ${filteredRecommendations.length} recommendations to Excel`,
+      title: t('recommendations.exportSuccess'),
+      description: t('recommendations.exportSuccessDesc', { count: filteredRecommendations.length }),
     });
   };
 
@@ -133,10 +135,10 @@ export const AutomatedRecommendations = () => {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Sparkles className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold">Automated Put Option Recommendations</h1>
+          <h1 className="text-3xl font-bold">{t('recommendations.title')}</h1>
         </div>
         <p className="text-muted-foreground">
-          Evaluates 6 weighted analysis factors—support strength, support stability, recovery potential, historical peaks, monthly seasonality, and current performance—to identify optimal put writing opportunities.
+          {t('recommendations.subtitle')}
         </p>
       </div>
 
@@ -145,7 +147,7 @@ export const AutomatedRecommendations = () => {
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Loading data sources...
+              {t('recommendations.loadingDataSources')}
             </div>
           </CardContent>
         </Card>
@@ -156,7 +158,7 @@ export const AutomatedRecommendations = () => {
           {/* Filters */}
           <Card>
             <CardHeader>
-              <CardTitle>Analysis Parameters</CardTitle>
+              <CardTitle>{t('recommendations.analysisParameters')}</CardTitle>
             </CardHeader>
             <CardContent>
               <RecommendationFiltersComponent
@@ -173,7 +175,7 @@ export const AutomatedRecommendations = () => {
           {recommendations.length > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Filter by Stock</CardTitle>
+                <CardTitle>{t('recommendations.filterByStock')}</CardTitle>
               </CardHeader>
               <CardContent>
                 <StockFilter
@@ -193,7 +195,7 @@ export const AutomatedRecommendations = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <CardTitle className="text-lg">
-                        Score Weights Configuration
+                        {t('recommendations.scoreWeightsConfig')}
                       </CardTitle>
                       <ChevronDown
                         className={`h-5 w-5 transition-transform ${weightsOpen ? 'rotate-180' : ''}`}
@@ -208,7 +210,7 @@ export const AutomatedRecommendations = () => {
                       }}
                     >
                       <RotateCcw className="h-4 w-4 mr-1" />
-                      Reset
+                      {t('recommendations.weightsReset')}
                     </Button>
                   </div>
                 </CollapsibleTrigger>
@@ -216,39 +218,39 @@ export const AutomatedRecommendations = () => {
               <CollapsibleContent>
                 <CardContent className="space-y-4">
                   <p className="text-sm text-muted-foreground">
-                    Adjust sliders to set relative importance between factors.
+                    {t('recommendations.weightsHint')}
                   </p>
                   {(
                     [
                       {
                         key: 'recoveryAdvantage',
-                        label: 'Recovery Advantage',
-                        description: 'Statistical advantage from probability recovery',
+                        label: t('recommendations.weightRecoveryAdvantage'),
+                        description: t('recommendations.weightRecoveryAdvantageDesc'),
                       },
                       {
                         key: 'supportStrength',
-                        label: 'Support Strength',
-                        description: 'Pre-calculated support level robustness',
+                        label: t('recommendations.weightSupportStrength'),
+                        description: t('recommendations.weightSupportStrengthDesc'),
                       },
                       {
                         key: 'daysSinceBreak',
-                        label: 'Days Since Break',
-                        description: 'Time since support was last broken',
+                        label: t('recommendations.weightDaysSinceBreak'),
+                        description: t('recommendations.weightDaysSinceBreakDesc'),
                       },
                       {
                         key: 'historicalPeak',
-                        label: 'Historical Peak',
-                        description: 'Recovery candidate from high past probability',
+                        label: t('recommendations.weightHistoricalPeak'),
+                        description: t('recommendations.weightHistoricalPeakDesc'),
                       },
                       {
                         key: 'monthlySeasonality',
-                        label: 'Monthly Seasonality',
-                        description: 'Historical % of positive months',
+                        label: t('recommendations.weightMonthlySeasonality'),
+                        description: t('recommendations.weightMonthlySeasonalityDesc'),
                       },
                       {
                         key: 'currentPerformance',
-                        label: 'Current Performance',
-                        description: 'Underperformance suggests bounce potential',
+                        label: t('recommendations.weightCurrentPerformance'),
+                        description: t('recommendations.weightCurrentPerformanceDesc'),
                       },
                     ] as const
                   ).map((item) => (
@@ -283,7 +285,7 @@ export const AutomatedRecommendations = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Unique Stocks
+                    {t('recommendations.kpiUniqueStocks')}
                   </CardTitle>
                   <Building2 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
@@ -291,40 +293,40 @@ export const AutomatedRecommendations = () => {
                   <div className="text-2xl font-bold">{uniqueStocksCount}</div>
                   <p className="text-xs text-muted-foreground">
                     {selectedStocks.length > 0 && selectedStocks.length < uniqueStocksCount
-                      ? `${selectedStocks.length} selected`
-                      : 'Available stocks'}
+                      ? t('recommendations.kpiUniqueStocksSelected', { count: selectedStocks.length })
+                      : t('recommendations.kpiUniqueStocksAvailable')}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Recommendations
+                    {t('recommendations.kpiTotalRecommendations')}
                   </CardTitle>
                   <Target className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{filteredRecommendations.length}</div>
                   <p className="text-xs text-muted-foreground">
-                    {selectedStocks.length > 0 ? 'After filtering' : 'Matching criteria'}
+                    {selectedStocks.length > 0 ? t('recommendations.kpiAfterFiltering') : t('recommendations.kpiMatchingCriteria')}
                   </p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Average Composite Score
+                    {t('recommendations.kpiAvgScore')}
                   </CardTitle>
                   <BarChart3 className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{avgScore.toFixed(1)}</div>
-                  <p className="text-xs text-muted-foreground">Across options</p>
+                  <p className="text-xs text-muted-foreground">{t('recommendations.kpiAvgScoreDesc')}</p>
                 </CardContent>
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Top Score</CardTitle>
+                  <CardTitle className="text-sm font-medium">{t('recommendations.kpiTopScore')}</CardTitle>
                   <TrendingUp className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
@@ -344,7 +346,7 @@ export const AutomatedRecommendations = () => {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <CardTitle>
-                  Recommendations{' '}
+                  {t('recommendations.recommendationsTitle')}{' '}
                   {filteredRecommendations.length > 0 && `(${filteredRecommendations.length})`}
                 </CardTitle>
                 {filteredRecommendations.length > 0 && (
@@ -354,7 +356,7 @@ export const AutomatedRecommendations = () => {
                     onClick={handleExport}
                   >
                     <Download className="h-4 w-4 mr-2" />
-                    Export to Excel
+                    {t('recommendations.exportToExcel')}
                   </Button>
                 )}
               </div>

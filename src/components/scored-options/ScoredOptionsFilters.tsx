@@ -22,6 +22,7 @@ import { ScoredOptionsFilters } from '@/types/scoredOptions';
 import { ChevronDown, RotateCcw } from 'lucide-react';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
+import { useTranslation } from 'react-i18next';
 
 interface ScoredOptionsFiltersComponentProps {
   filters: ScoredOptionsFilters;
@@ -38,6 +39,8 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
   availableStocks,
   availableExpiryDates,
 }) => {
+  const { t } = useTranslation('pages');
+
   const handleExpiryChange = (value: string) => {
     onFiltersChange({
       ...filters,
@@ -101,10 +104,10 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
               variant="ghost"
               size="sm"
               className="text-xs text-muted-foreground hover:text-foreground"
-              title="Reset all filters to default"
+              title={t('scoredOptions.filterResetDefault')}
             >
               <RotateCcw className="h-3 w-3 mr-1" />
-              Reset to Default
+              {t('scoredOptions.filterResetDefault')}
             </Button>
           )}
         </div>
@@ -112,7 +115,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
           {/* Expiry Date */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label htmlFor="expiry">Expiry Date</Label>
+              <Label htmlFor="expiry">{t('scoredOptions.filterExpiryDate')}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.expiryDate.content}
                 side="bottom"
@@ -120,7 +123,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
             </div>
             <Select value={filters.expiryDate} onValueChange={handleExpiryChange}>
               <SelectTrigger id="expiry">
-                <SelectValue placeholder="Select expiry date" />
+                <SelectValue placeholder={t('scoredOptions.filterExpiryPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {availableExpiryDates.map((date) => (
@@ -135,7 +138,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
           {/* Stock Names */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label>Stocks</Label>
+              <Label>{t('scoredOptions.filterStocksLabel')}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.stocks.content}
                 side="bottom"
@@ -146,8 +149,8 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
                 <Button variant="outline" className="w-full justify-between">
                   <span className="truncate">
                     {filters.stockNames.length === 0
-                      ? 'All stocks'
-                      : `${filters.stockNames.length} selected`}
+                      ? t('scoredOptions.filterAllStocks')
+                      : t('scoredOptions.filterStocksSelected', { count: filters.stockNames.length })}
                   </span>
                   <ChevronDown className="h-4 w-4 ml-2 flex-shrink-0" />
                 </Button>
@@ -159,7 +162,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
                       onClick={handleClearAllStocks}
                       className="w-full px-2 py-1.5 text-sm text-left hover:bg-accent hover:text-accent-foreground rounded-sm"
                     >
-                      Clear all stocks
+                      {t('scoredOptions.filterClearAllStocks')}
                     </button>
                     <DropdownMenuSeparator />
                   </>
@@ -180,7 +183,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
           {/* Agreement Filter */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label htmlFor="agreement">Model Agreement</Label>
+              <Label htmlFor="agreement">{t('scoredOptions.filterModelAgreement')}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.modelAgreement.content}
                 side="bottom"
@@ -191,9 +194,9 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Options</SelectItem>
-                <SelectItem value="agree">Models Agree</SelectItem>
-                <SelectItem value="disagree">Models Disagree</SelectItem>
+                <SelectItem value="all">{t('scoredOptions.filterAllOptions')}</SelectItem>
+                <SelectItem value="agree">{t('scoredOptions.filterModelsAgree')}</SelectItem>
+                <SelectItem value="disagree">{t('scoredOptions.filterModelsDisagree')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -201,7 +204,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
           {/* Min Combined Score */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label>Min Combined Score: {filters.minScore}</Label>
+              <Label>{t('scoredOptions.filterMinCombinedScore', { value: filters.minScore })}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.minCombinedScore.content}
                 side="bottom"
@@ -220,7 +223,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
           {/* Min Probability Optimization Score */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label>Min Probability Optimization Score: {filters.minV21Score}</Label>
+              <Label>{t('scoredOptions.filterMinV21Score', { value: filters.minV21Score })}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.minV21Score.content}
                 side="bottom"
@@ -239,7 +242,7 @@ export const ScoredOptionsFiltersComponent: React.FC<ScoredOptionsFiltersCompone
           {/* Min TA Probability */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <Label>Min TA Prob: {filters.minTAProb}%</Label>
+              <Label>{t('scoredOptions.filterMinTAProb', { value: filters.minTAProb })}</Label>
               <InfoIconTooltip
                 content={scoredOptionsTooltips.filters.minTAProb.content}
                 side="bottom"

@@ -50,18 +50,33 @@
     "lastBreakDate": "Last Break Date"
   },
   "recommendations": {
+    "details": "Details",
+    "rank": "Rank",
     "stock": "Stock",
     "option": "Option",
     "expiryDate": "Expiry Date",
     "daysToExpiry": "Days to Expiry",
     "strikePrice": "Strike Price",
+    "strikeShort": "Strike",
+    "currentPrice": "Current",
+    "support": "Support",
+    "distancePct": "Distance %",
+    "daysSince": "Days Since (biz days)",
+    "currentPoW": "Current PoW",
+    "peakPoW": "Peak PoW",
+    "recoveryRate": "Recovery Rate %",
+    "monthlyPct": "Monthly %",
+    "currMonth": "Curr Month",
+    "strength": "Strength",
     "premium": "Premium",
     "probability": "PoW %",
     "annualizedReturn": "Ann. Return %",
     "recoveryAdvantage": "Recovery Advantage",
-    "score": "Score"
+    "score": "Score",
+    "noData": "N/A"
   },
   "scored": {
+    "details": "Details",
     "rank": "Rank",
     "stock": "Stock",
     "option": "Option",
@@ -69,9 +84,17 @@
     "probability": "PoW %",
     "annualizedReturn": "Ann. Return %",
     "expiryDate": "Expiry Date",
+    "expiryShort": "Expiry",
     "daysToExpiry": "Days to Expiry",
+    "dte": "DTE",
     "strikePrice": "Strike Price",
-    "premium": "Premium"
+    "strikeShort": "Strike",
+    "premium": "Premium",
+    "probabilityScore": "Probability Score",
+    "taProb": "TA Prob",
+    "combined": "Combined",
+    "agree": "Agree",
+    "strength": "Strength"
   },
   "lowerBound": {
     "stock": "Stock",

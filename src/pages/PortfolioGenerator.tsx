@@ -20,10 +20,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { ArrowLeft, Settings, ChevronDown, Info, Download } from "lucide-react";
 import { exportToExcel } from "@/utils/excelExport";
 import { toast } from "@/hooks/use-toast";
+import { useTranslation } from 'react-i18next';
 
 const PortfolioGenerator = () => {
   // Force rebuild - 2026-03-06
   usePageTitle('Portfolio Generator');
+  const { t } = useTranslation('pages');
   const navigate = useNavigate();
   const { data: rawData, isLoading, error } = useEnrichedOptionsData();
   const { getLowPriceForPeriod } = useStockData();
@@ -166,27 +168,27 @@ const PortfolioGenerator = () => {
 
   // Get dropdown options from data
   const timePeriodOptions = [
-    { label: "1 Week Low", days: 7 },
-    { label: "1 Month Low", days: 30 },
-    { label: "3 Months Low", days: 90 },
-    { label: "6 Months Low", days: 180 },
-    { label: "9 Months Low", days: 270 },
-    { label: "1 Year Low", days: 365 },
+    { label: t('index.timePeriods.1w'), days: 7 },
+    { label: t('index.timePeriods.1m'), days: 30 },
+    { label: t('index.timePeriods.3m'), days: 90 },
+    { label: t('index.timePeriods.6m'), days: 180 },
+    { label: t('index.timePeriods.9m'), days: 270 },
+    { label: t('index.timePeriods.1y'), days: 365 },
   ];
 
   const probabilityFieldOptions = [
-    { value: "ProbWorthless_Bayesian_IsoCal", label: "PoW - Bayesian Calibrated" },
-    { value: "1_2_3_ProbOfWorthless_Weighted", label: "PoW - Weighted Average" },
-    { value: "1_ProbOfWorthless_Original", label: "PoW - Original Black-Scholes" },
-    { value: "2_ProbOfWorthless_Calibrated", label: "PoW - Bias Corrected" },
-    { value: "3_ProbOfWorthless_Historical_IV", label: "PoW - Historical IV" },
+    { value: "ProbWorthless_Bayesian_IsoCal", label: t('charts:methods.bayesianCalibrated') },
+    { value: "1_2_3_ProbOfWorthless_Weighted", label: t('charts:methods.weightedAverage') },
+    { value: "1_ProbOfWorthless_Original", label: t('charts:methods.originalBlackScholes') },
+    { value: "2_ProbOfWorthless_Calibrated", label: t('charts:methods.biasCorreected') },
+    { value: "3_ProbOfWorthless_Historical_IV", label: t('charts:methods.historicalIV') },
   ];
 
   const optimizationStrategyOptions = [
-    { value: "returns", label: "Maximize Returns", description: "Prioritize highest risk-adjusted returns" },
-    { value: "capital", label: "Minimize Capital", description: "Prioritize lowest capital requirements" },
-    { value: "balanced", label: "Balanced", description: "Balance returns and capital efficiency" },
-    { value: "scored", label: "Scored Models", description: "Rank by V2.1 + TA model scores" },
+    { value: "returns", label: t('portfolioGenerator.strategyReturnsLabel'), description: t('portfolioGenerator.strategyReturnsDesc') },
+    { value: "capital", label: t('portfolioGenerator.strategyCapitalLabel'), description: t('portfolioGenerator.strategyCapitalDesc') },
+    { value: "balanced", label: t('portfolioGenerator.strategyBalancedLabel'), description: t('portfolioGenerator.strategyBalancedDesc') },
+    { value: "scored", label: t('portfolioGenerator.strategyScoredLabel'), description: t('portfolioGenerator.strategyScoredDesc') },
   ];
 
   const availableExpiryDates = useMemo(() => {
@@ -283,8 +285,8 @@ const PortfolioGenerator = () => {
     
     // Show toast immediately
     toast({
-      title: "Generating Portfolio",
-      description: "Analyzing options and building your portfolio...",
+      title: t('portfolioGenerator.toastGeneratingTitle'),
+      description: t('portfolioGenerator.toastGeneratingDesc'),
     });
     
     // Defer the actual generation to allow UI to update with the toast
@@ -513,15 +515,15 @@ const PortfolioGenerator = () => {
       });
 
         toast({
-          title: "Portfolio Generated",
-          description: `Successfully created portfolio with ${selectedOptions.length} options.`,
+          title: t('portfolioGenerator.toastGeneratedTitle'),
+          description: t('portfolioGenerator.toastGeneratedDesc', { count: selectedOptions.length }),
         });
 
       } catch (error) {
         updateSetting('portfolioMessage', `Error generating portfolio: ${error}`);
         toast({
-          title: "Error",
-          description: "Failed to generate portfolio. Please try again.",
+          title: t('portfolioGenerator.toastErrorTitle'),
+          description: t('portfolioGenerator.toastErrorDesc'),
           variant: "destructive",
         });
       } finally {
@@ -560,9 +562,9 @@ const PortfolioGenerator = () => {
       <div className="flex items-center gap-4 mb-4">
         <Button variant="ghost" onClick={handleBackToMain} className="flex items-center gap-2">
           <ArrowLeft className="h-4 w-4" />
-          Back to Options
+          {t('portfolioGenerator.backToOptions')}
         </Button>
-        <h1 className="text-3xl font-bold">Automatic Portfolio Generator</h1>
+        <h1 className="text-3xl font-bold">{t('portfolioGenerator.title')}</h1>
         <div className="ml-auto flex items-center gap-2">
           <Button
             variant="ghost"
@@ -571,7 +573,7 @@ const PortfolioGenerator = () => {
             className="flex items-center gap-2 text-muted-foreground hover:text-foreground"
           >
             <Info className="h-4 w-4" />
-            How it works
+            {t('portfolioGenerator.howItWorks')}
           </Button>
 
           {/* PoW Legend Info Button */}
@@ -589,17 +591,17 @@ const PortfolioGenerator = () => {
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>PoW Legend</DialogTitle>
+                <DialogTitle>{t('portfolioGenerator.powLegendTitle')}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div>
-                  <p className="font-semibold text-sm mb-2">What is PoW?</p>
+                  <p className="font-semibold text-sm mb-2">{t('portfolioGenerator.powWhatIsTitle')}</p>
                   <p className="text-sm text-muted-foreground">
-                    <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless (meaning you keep the premium).
+                    {t('portfolioGenerator.powWhatIsDesc')}
                   </p>
                 </div>
                 <div>
-                  <p className="font-semibold text-sm mb-2">The 5 Calculation Methods</p>
+                  <p className="font-semibold text-sm mb-2">{t('portfolioGenerator.pow5MethodsTitle')}</p>
                   <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
                     <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
                     <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
@@ -618,10 +620,7 @@ const PortfolioGenerator = () => {
         <Card className="border-muted bg-muted/20">
           <CardContent className="pt-4">
              <p className="text-sm text-muted-foreground leading-relaxed">
-               The Portfolio Generator evaluates each option and ranks them based on your selected optimization strategy, then automatically
-               selects a diversified set (one option per stock). <strong>Maximize Returns</strong> prioritizes highest risk-adjusted returns. <strong>Minimize Capital</strong> prioritizes
-               lowest capital requirements while maintaining quality. <strong>Balanced</strong> optimizes for both return and capital efficiency.
-               <strong>Scored Models</strong> ranks options using a weighted blend of the V2.1 Probability Optimization and TA V3 Technical Analysis model scores.
+               {t('portfolioGenerator.descriptionText')}
              </p>
           </CardContent>
         </Card>
@@ -631,13 +630,13 @@ const PortfolioGenerator = () => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Settings className="h-5 w-5" />
-            Portfolio Configuration
+            {t('portfolioGenerator.configTitle')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="totalPremium">Total Portfolio Premium</Label>
+              <Label htmlFor="totalPremium">{t('portfolioGenerator.labelTotalPremium')}</Label>
               <Input
                 id="totalPremium"
                 type="number"
@@ -646,11 +645,11 @@ const PortfolioGenerator = () => {
                 onBlur={(e) => validateTotalPremium(e.target.value)}
                 placeholder="500 - 1 000 000"
               />
-              <p className="text-xs text-muted-foreground">Range: 500 - 1 000 000 SEK</p>
+              <p className="text-xs text-muted-foreground">{t('portfolioGenerator.rangeTotalPremium')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="underlyingValue">Underlying Stock Value Per Option</Label>
+              <Label htmlFor="underlyingValue">{t('portfolioGenerator.labelUnderlyingValue')}</Label>
                 <Input
                 id="underlyingValue"
                 type="text"
@@ -662,16 +661,16 @@ const PortfolioGenerator = () => {
                 placeholder="10 000 - 1 000 000"
                 className="text-left"
               />
-              <p className="text-xs text-muted-foreground">Range: 10 000 - 1 000 000 SEK</p>
+              <p className="text-xs text-muted-foreground">{t('portfolioGenerator.rangeUnderlyingValue')}</p>
             </div>
 
             <div className="space-y-2">
-              <Label>Strike Price Below</Label>
+              <Label>{t('portfolioGenerator.labelStrikePriceBelow')}</Label>
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                     {settings.strikeBelowPeriod === null 
-                      ? "Select Period (Optional)" 
+                     {settings.strikeBelowPeriod === null
+                      ? t('portfolioGenerator.selectPeriodOptional')
                       : timePeriodOptions.find(opt => opt.days === settings.strikeBelowPeriod)?.label}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
@@ -680,7 +679,7 @@ const PortfolioGenerator = () => {
                    <DropdownMenuItem onClick={() => {
                      updateSetting('strikeBelowPeriod', null);
                    }}>
-                     No Filter
+                     {t('portfolioGenerator.noFilter')}
                    </DropdownMenuItem>
                    {timePeriodOptions.map(option => (
                      <DropdownMenuItem 
@@ -697,7 +696,7 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="minProbability">Minimum Probability of Worthless (%)</Label>
+              <Label htmlFor="minProbability">{t('portfolioGenerator.labelMinProbability')}</Label>
               <Input
                 id="minProbability"
                 type="number"
@@ -713,7 +712,7 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="maxProbability">Maximum Probability of Worthless (%)</Label>
+              <Label htmlFor="maxProbability">{t('portfolioGenerator.labelMaxProbability')}</Label>
               <Input
                 id="maxProbability"
                 type="number"
@@ -729,11 +728,11 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label>Probability Field to Use</Label>
+              <Label>{t('portfolioGenerator.labelProbabilityField')}</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {probabilityFieldOptions.find(opt => opt.value === settings.selectedProbabilityField)?.label || "Select Field"}
+                    {probabilityFieldOptions.find(opt => opt.value === settings.selectedProbabilityField)?.label || t('portfolioGenerator.selectField')}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -753,11 +752,11 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label>Expiry Date</Label>
+              <Label>{t('portfolioGenerator.labelExpiryDate')}</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {settings.selectedExpiryDate || "Select Expiry Date (Optional)"}
+                    {settings.selectedExpiryDate || t('portfolioGenerator.selectExpiryOptional')}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -765,7 +764,7 @@ const PortfolioGenerator = () => {
                    <DropdownMenuItem onClick={() => {
                      updateSetting('selectedExpiryDate', "");
                    }}>
-                     All Expiry Dates
+                     {t('portfolioGenerator.allExpiryDates')}
                    </DropdownMenuItem>
                    {availableExpiryDates.map(date => (
                      <DropdownMenuItem 
@@ -782,11 +781,11 @@ const PortfolioGenerator = () => {
             </div>
 
             <div className="space-y-2">
-              <Label>Optimization Strategy</Label>
+              <Label>{t('portfolioGenerator.labelOptimizationStrategy')}</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {optimizationStrategyOptions.find(opt => opt.value === settings.optimizationStrategy)?.label || "Select Strategy"}
+                    {optimizationStrategyOptions.find(opt => opt.value === settings.optimizationStrategy)?.label || t('portfolioGenerator.selectStrategy')}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -810,7 +809,7 @@ const PortfolioGenerator = () => {
 
             {settings.optimizationStrategy === 'scored' && (
               <div className="space-y-2">
-                <Label>Model Weight</Label>
+                <Label>{t('portfolioGenerator.labelModelWeight')}</Label>
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
                     <span>V2.1: {settings.v21Weight}%</span>
@@ -824,15 +823,15 @@ const PortfolioGenerator = () => {
                     step={5}
                   />
                   <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>V2.1 Probability</span>
-                    <span>TA Technical</span>
+                    <span>{t('portfolioGenerator.modelWeightV21')}</span>
+                    <span>{t('portfolioGenerator.modelWeightTA')}</span>
                   </div>
                 </div>
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="maxCapital">Maximum Total Capital (Optional)</Label>
+              <Label htmlFor="maxCapital">{t('portfolioGenerator.labelMaxCapital')}</Label>
               <Input
                 id="maxCapital"
                 type="number"
@@ -845,16 +844,18 @@ const PortfolioGenerator = () => {
                 placeholder="e.g., 5 000 000 SEK"
               />
               <p className="text-xs text-muted-foreground">
-                Limits total underlying value across all options
+                {t('portfolioGenerator.maxCapitalDesc')}
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label>Exclude Stocks</Label>
+              <Label>{t('portfolioGenerator.labelExcludeStocks')}</Label>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {settings.excludedStocks.length > 0 ? `${settings.excludedStocks.length} stock(s) excluded` : "No stocks excluded"}
+                    {settings.excludedStocks.length > 0
+                      ? t('portfolioGenerator.stocksExcluded', { count: settings.excludedStocks.length })
+                      : t('portfolioGenerator.noStocksExcluded')}
                     <ChevronDown className="h-4 w-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -862,7 +863,7 @@ const PortfolioGenerator = () => {
                    <DropdownMenuItem onClick={() => {
                      updateSetting('excludedStocks', []);
                    }}>
-                     Clear All Exclusions
+                     {t('portfolioGenerator.clearAllExclusions')}
                    </DropdownMenuItem>
                    {availableStocks.map(stock => (
                      <DropdownMenuItem 
@@ -881,7 +882,7 @@ const PortfolioGenerator = () => {
                </DropdownMenu>
                {settings.excludedStocks.length > 0 && (
                  <p className="text-xs text-muted-foreground">
-                   Excluded: {settings.excludedStocks.join(', ')}
+                   {t('portfolioGenerator.excludedLabel', { stocks: settings.excludedStocks.join(', ') })}
                  </p>
                )}
             </div>
@@ -903,7 +904,7 @@ const PortfolioGenerator = () => {
              className="w-full md:w-auto"
              size="lg"
            >
-             {isGeneratingPortfolio ? 'Generating...' : 'Generate Portfolio Automatically'}
+             {isGeneratingPortfolio ? t('portfolioGenerator.generating') : t('portfolioGenerator.generate')}
             </Button>
 
         </CardContent>
@@ -914,12 +915,12 @@ const PortfolioGenerator = () => {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Generated Portfolio ({settings.generatedPortfolio.length} options)</CardTitle>
+                <CardTitle>{t('portfolioGenerator.generatedPortfolioTitle', { count: settings.generatedPortfolio.length })}</CardTitle>
                 <div className="text-sm text-muted-foreground space-y-1 mt-2">
                   <p>{settings.portfolioMessage}</p>
-                  <p>Total Underlying Stock Value: {settings.totalUnderlyingValue.toLocaleString('sv-SE')} SEK</p>
-                  <p>Total Premium: {settings.generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString('sv-SE')} SEK (Based on {settings.portfolioUnderlyingValue.toLocaleString('sv-SE')} SEK underlying value, {transactionCost} SEK transaction cost per option included)</p>
-                  <p>Total Calculated Risk of Loss: {Math.round(settings.totalPotentialLoss).toLocaleString('sv-SE')} SEK</p>
+                  <p>{t('portfolioGenerator.totalUnderlyingValue', { value: settings.totalUnderlyingValue.toLocaleString('sv-SE') })}</p>
+                  <p>{t('portfolioGenerator.totalPremium', { value: settings.generatedPortfolio.reduce((sum, opt) => sum + opt.Premium, 0).toLocaleString('sv-SE'), underlying: settings.portfolioUnderlyingValue.toLocaleString('sv-SE'), cost: transactionCost })}</p>
+                  <p>{t('portfolioGenerator.totalRiskOfLoss', { value: Math.round(settings.totalPotentialLoss).toLocaleString('sv-SE') })}</p>
                 </div>
               </div>
             </div>

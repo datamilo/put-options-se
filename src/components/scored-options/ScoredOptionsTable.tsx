@@ -16,6 +16,7 @@ import { AgreementAnalysis } from './AgreementAnalysis';
 import { formatNordicNumber, formatNordicDecimal, formatNordicCurrency } from '@/utils/numberFormatting';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
+import { useTranslation } from 'react-i18next';
 
 interface ScoredOptionsTableProps {
   data: ScoredOptionData[];
@@ -28,6 +29,7 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
   filters,
   getFullPath,
 }) => {
+  const { t } = useTranslation('tables');
   type SortField = keyof ScoredOptionData | 'expanded';
   type SortDirection = 'asc' | 'desc';
 
@@ -199,44 +201,44 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">Details</TableHead>
-              <SortableHeader field="stock_name" label="Stock" />
-              <SortableHeader field="option_name" label="Option" />
-              <SortableHeader field="strike_price" label="Strike" align="right" />
-              <SortableHeader field="expiry_date" label="Expiry" />
-              <SortableHeader field="days_to_expiry" label="DTE" align="right" />
-              <SortableHeader field="premium" label="Premium" align="right" />
+              <TableHead className="w-12">{t('scored.details')}</TableHead>
+              <SortableHeader field="stock_name" label={t('scored.stock')} />
+              <SortableHeader field="option_name" label={t('scored.option')} />
+              <SortableHeader field="strike_price" label={t('scored.strikeShort')} align="right" />
+              <SortableHeader field="expiry_date" label={t('scored.expiryShort')} />
+              <SortableHeader field="days_to_expiry" label={t('scored.dte')} align="right" />
+              <SortableHeader field="premium" label={t('scored.premium')} align="right" />
               <SortableHeader
                 field="v21_score"
-                label="Probability Score"
+                label={t('scored.probabilityScore')}
                 align="right"
                 tooltipTitle={scoredOptionsTooltips.columns.v21Score.title}
                 tooltipContent={scoredOptionsTooltips.columns.v21Score.content}
               />
               <SortableHeader
                 field="ta_probability"
-                label="TA Prob"
+                label={t('scored.taProb')}
                 align="right"
                 tooltipTitle={scoredOptionsTooltips.columns.taProbability.title}
                 tooltipContent={scoredOptionsTooltips.columns.taProbability.content}
               />
               <SortableHeader
                 field="combined_score"
-                label="Combined"
+                label={t('scored.combined')}
                 align="right"
                 tooltipTitle={scoredOptionsTooltips.columns.combined.title}
                 tooltipContent={scoredOptionsTooltips.columns.combined.content}
               />
               <SortableHeader
                 field="models_agree"
-                label="Agree"
+                label={t('scored.agree')}
                 align="center"
                 tooltipTitle={scoredOptionsTooltips.columns.agree.title}
                 tooltipContent={scoredOptionsTooltips.columns.agree.content}
               />
               <SortableHeader
                 field="agreement_strength"
-                label="Strength"
+                label={t('scored.strength')}
                 tooltipTitle={scoredOptionsTooltips.columns.strength.title}
                 tooltipContent={scoredOptionsTooltips.columns.strength.content}
               />
@@ -246,7 +248,7 @@ export const ScoredOptionsTable: React.FC<ScoredOptionsTableProps> = ({
             {sortedData.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={12} className="text-center text-muted-foreground py-8">
-                  No options found matching your filters.
+                  {t('pages:scoredOptions.noOptionsFound')}
                 </TableCell>
               </TableRow>
             ) : (

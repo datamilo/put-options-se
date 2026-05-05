@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';
 import type { RecommendationFilters } from '@/types/recommendations';
+import { useTranslation } from 'react-i18next';
 
 interface RecommendationFiltersProps {
   filters: RecommendationFilters;
@@ -27,6 +28,8 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
   availableExpiryDates,
   isAnalyzing,
 }) => {
+  const { t } = useTranslation('pages');
+
   const updateFilter = (key: keyof RecommendationFilters, value: any) => {
     onFiltersChange({ ...filters, [key]: value });
   };
@@ -36,13 +39,13 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Expiry Date */}
         <div className="space-y-2">
-          <Label htmlFor="expiry-date">Expiry Date</Label>
+          <Label htmlFor="expiry-date">{t('recommendations.filterExpiryDate')}</Label>
           <Select
             value={filters.expiryDate}
             onValueChange={(value) => updateFilter('expiryDate', value)}
           >
             <SelectTrigger id="expiry-date">
-              <SelectValue placeholder="Select expiry date" />
+              <SelectValue placeholder={t('common:filter.selectExpiryDate')} />
             </SelectTrigger>
             <SelectContent>
               {availableExpiryDates.map((date) => (
@@ -56,7 +59,7 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
 
         {/* Rolling Low Period */}
         <div className="space-y-2">
-          <Label htmlFor="rolling-period">Rolling Low Period</Label>
+          <Label htmlFor="rolling-period">{t('recommendations.filterRollingLowPeriod')}</Label>
           <Select
             value={filters.rollingPeriod.toString()}
             onValueChange={(value) => updateFilter('rollingPeriod', parseInt(value))}
@@ -65,18 +68,18 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="30">30 days (1-Month)</SelectItem>
-              <SelectItem value="90">90 days (3-Month)</SelectItem>
-              <SelectItem value="180">180 days (6-Month)</SelectItem>
-              <SelectItem value="270">270 days (9-Month)</SelectItem>
-              <SelectItem value="365">365 days (1-Year)</SelectItem>
+              <SelectItem value="30">{t('recommendations.rollingPeriod30')}</SelectItem>
+              <SelectItem value="90">{t('recommendations.rollingPeriod90')}</SelectItem>
+              <SelectItem value="180">{t('recommendations.rollingPeriod180')}</SelectItem>
+              <SelectItem value="270">{t('recommendations.rollingPeriod270')}</SelectItem>
+              <SelectItem value="365">{t('recommendations.rollingPeriod365')}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         {/* Min Days Since Last Break */}
         <div className="space-y-2">
-          <Label htmlFor="min-days-since-break">Min Days Since Last Break (business days)</Label>
+          <Label htmlFor="min-days-since-break">{t('recommendations.filterMinDaysSinceBreak')}</Label>
           <Input
             id="min-days-since-break"
             type="text"
@@ -85,14 +88,12 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
             value={filters.minDaysSinceBreak}
             onChange={(e) => {
               const value = e.target.value.trim();
-              // Allow empty string temporarily while typing
               if (value === '') {
                 updateFilter('minDaysSinceBreak', 0);
                 return;
               }
-              // Only allow numeric characters
               if (!/^\d+$/.test(value)) {
-                return; // Ignore non-numeric input
+                return;
               }
               const parsed = parseInt(value, 10);
               if (!isNaN(parsed) && parsed >= 0) {
@@ -106,7 +107,7 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Probability Method */}
         <div className="space-y-2">
-          <Label htmlFor="prob-method">Probability Method</Label>
+          <Label htmlFor="prob-method">{t('recommendations.filterProbabilityMethod')}</Label>
           <Select
             value={filters.probabilityMethod}
             onValueChange={(value) => updateFilter('probabilityMethod', value)}
@@ -116,19 +117,19 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="ProbWorthless_Bayesian_IsoCal">
-                PoW - Bayesian Calibrated
+                {t('charts:methods.bayesianCalibrated')}
               </SelectItem>
               <SelectItem value="1_2_3_ProbOfWorthless_Weighted">
-                PoW - Weighted Average
+                {t('charts:methods.weightedAverage')}
               </SelectItem>
               <SelectItem value="1_ProbOfWorthless_Original">
-                PoW - Original Black-Scholes
+                {t('charts:methods.originalBlackScholes')}
               </SelectItem>
               <SelectItem value="2_ProbOfWorthless_Calibrated">
-                PoW - Bias Corrected
+                {t('charts:methods.biasCorreected')}
               </SelectItem>
               <SelectItem value="3_ProbOfWorthless_Historical_IV">
-                PoW - Historical IV
+                {t('charts:methods.historicalIV')}
               </SelectItem>
             </SelectContent>
           </Select>
@@ -136,7 +137,7 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
 
         {/* Historical Peak Threshold */}
         <div className="space-y-2">
-          <Label htmlFor="peak-threshold">Historical Peak Threshold</Label>
+          <Label htmlFor="peak-threshold">{t('recommendations.filterHistoricalPeakThreshold')}</Label>
           <Select
             value={filters.historicalPeakThreshold.toFixed(2)}
             onValueChange={(value) =>
@@ -163,7 +164,7 @@ export const RecommendationFiltersComponent: React.FC<RecommendationFiltersProps
             size="lg"
           >
             <Sparkles className="mr-2 h-4 w-4" />
-            {isAnalyzing ? 'Analyzing...' : 'Analyze'}
+            {isAnalyzing ? t('recommendations.analyzing') : t('recommendations.analyze')}
           </Button>
         </div>
       </div>

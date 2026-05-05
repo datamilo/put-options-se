@@ -16,6 +16,7 @@ import {
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { ChartNetwork } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -27,6 +28,7 @@ import {
 
 export const ConsecutiveBreaksAnalysis = () => {
   usePageTitle('Support Level Analysis');
+  const { t } = useTranslation('pages');
   const [searchParams] = useSearchParams();
   const { uniqueStocks, selectedStock, setSelectedStock, analyzeStock } =
     useConsecutiveBreaksAnalysis();
@@ -110,7 +112,7 @@ export const ConsecutiveBreaksAnalysis = () => {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground">Loading stock data...</p>
+            <p className="text-muted-foreground">{t('consecutiveBreaks.loading')}</p>
           </CardContent>
         </Card>
       </div>
@@ -133,7 +135,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           high: analysis.data.map((d) => d.high),
           low: analysis.data.map((d) => d.low),
           close: analysis.data.map((d) => d.close),
-          name: 'Price',
+          name: t('consecutiveBreaks.tracePriceName'),
           increasing: { line: { color: '#0066CC' } },
           decreasing: { line: { color: '#CC3300' } },
         },
@@ -143,7 +145,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           mode: 'lines',
           x: analysis.data.map((d) => extractDateOnly(d.date)),
           y: analysis.data.map((d) => d.rolling_low),
-          name: 'Rolling Low',
+          name: t('consecutiveBreaks.traceRollingLowName'),
           line: { color: '#4B5563', width: 2, dash: 'dash' },
           customdata: analysis.data.map((d) => d.last_break_date),
           hovertemplate: '<b>Running Low:</b> %{y:.2f} kr<br><b>Running Low Date:</b> %{customdata|%Y-%m-%d}<extra></extra>',
@@ -154,7 +156,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           mode: 'markers',
           x: analysis.breaks.map((b) => extractDateOnly(b.date)),
           y: analysis.breaks.map((b) => b.new_support),
-          name: 'Support Broken',
+          name: t('consecutiveBreaks.traceSupportBrokenName'),
           marker: { color: '#D97706', size: 5, symbol: 'circle' },
           text: analysis.breaks.map((b) => `Drop: ${b.drop_pct.toFixed(2)}%`),
           hovertemplate:
@@ -168,7 +170,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                 mode: 'markers',
                 x: earningsEvents.map((e) => extractDateOnly(e.date)),
                 y: earningsEvents.map((e) => e.price),
-                name: 'Earnings',
+                name: t('consecutiveBreaks.traceEarningsName'),
                 marker: {
                   color: '#991B1B',
                   size: 12,
@@ -184,13 +186,13 @@ export const ConsecutiveBreaksAnalysis = () => {
     : [];
 
   const plotlyLayout = {
-    title: analysis ? `Support Breaks Timeline - ${selectedStock}` : 'Support Breaks Timeline',
+    title: analysis ? t('consecutiveBreaks.chartTitle', { stock: selectedStock }) : t('consecutiveBreaks.chartTitleNoStock'),
     yaxis: {
-      title: 'Price (kr)',
+      title: t('consecutiveBreaks.priceAxisLabel'),
       autorange: true,
     },
     xaxis: {
-      title: 'Date',
+      title: t('consecutiveBreaks.dateAxisLabel'),
       type: 'category',
       tickangle: -45,
       tickmode: 'linear',
@@ -210,10 +212,10 @@ export const ConsecutiveBreaksAnalysis = () => {
         <div className="mb-8">
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
             <ChartNetwork className="h-8 w-8" />
-            Support Level Analysis
+            {t('consecutiveBreaks.title')}
           </h1>
           <p className="text-muted-foreground">
-            Analyze how well a stock's low is holding as support - tracking support breaks and clusters
+            {t('consecutiveBreaks.subtitle')}
           </p>
         </div>
 
@@ -223,7 +225,7 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Stock Select */}
             <div className="flex flex-col space-y-2">
               <Label htmlFor="stock-select" className="font-semibold">
-                Select Stock
+                {t('consecutiveBreaks.selectStock')}
               </Label>
               <Select value={selectedStock} onValueChange={setSelectedStock}>
                 <SelectTrigger id="stock-select">
@@ -242,7 +244,7 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Date From */}
             <div className="flex flex-col space-y-2">
               <Label htmlFor="date-from" className="font-semibold">
-                From Date
+                {t('consecutiveBreaks.fromDate')}
               </Label>
               <Input
                 id="date-from"
@@ -255,7 +257,7 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Date To */}
             <div className="flex flex-col space-y-2">
               <Label htmlFor="date-to" className="font-semibold">
-                To Date
+                {t('consecutiveBreaks.toDate')}
               </Label>
               <Input
                 id="date-to"
@@ -268,18 +270,18 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Period */}
             <div className="flex flex-col space-y-2">
               <Label htmlFor="period-select" className="font-semibold">
-                Rolling Low Period
+                {t('consecutiveBreaks.rollingLowPeriod')}
               </Label>
               <Select value={period} onValueChange={setPeriod}>
                 <SelectTrigger id="period-select">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="30">1-Month (30 days)</SelectItem>
-                  <SelectItem value="90">3-Month (90 days)</SelectItem>
-                  <SelectItem value="180">6-Month (180 days)</SelectItem>
-                  <SelectItem value="270">9-Month (270 days)</SelectItem>
-                  <SelectItem value="365">1-Year (365 days)</SelectItem>
+                  <SelectItem value="30">{t('consecutiveBreaks.period1Month')}</SelectItem>
+                  <SelectItem value="90">{t('consecutiveBreaks.period3Month')}</SelectItem>
+                  <SelectItem value="180">{t('consecutiveBreaks.period6Month')}</SelectItem>
+                  <SelectItem value="270">{t('consecutiveBreaks.period9Month')}</SelectItem>
+                  <SelectItem value="365">{t('consecutiveBreaks.period1Year')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -287,7 +289,7 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Max Gap */}
             <div className="flex flex-col space-y-2">
               <Label htmlFor="max-gap" className="font-semibold">
-                Max Days Between Breaks
+                {t('consecutiveBreaks.maxDaysBetweenBreaks')}
               </Label>
               <Input
                 id="max-gap"
@@ -321,7 +323,7 @@ export const ConsecutiveBreaksAnalysis = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
               <Card>
                 <CardContent className="pt-6">
-                  <div className="text-sm font-medium text-gray-600">Total Breaks</div>
+                  <div className="text-sm font-medium text-gray-600">{t('consecutiveBreaks.totalBreaks')}</div>
                   <div className="text-2xl font-bold text-orange-700">
                     {analysis.breaks.length}
                   </div>
@@ -329,7 +331,7 @@ export const ConsecutiveBreaksAnalysis = () => {
               </Card>
               <Card>
                 <CardContent className="pt-6">
-                  <div className="text-sm font-medium text-gray-600">Total Clusters</div>
+                  <div className="text-sm font-medium text-gray-600">{t('consecutiveBreaks.totalClusters')}</div>
                   <div className="text-2xl font-bold text-orange-700">
                     {analysis.clusters.length}
                   </div>
@@ -338,7 +340,7 @@ export const ConsecutiveBreaksAnalysis = () => {
               <Card>
                 <CardContent className="pt-6">
                   <div className="text-sm font-medium text-gray-600">
-                    Avg Breaks per Cluster
+                    {t('consecutiveBreaks.avgBreaksPerCluster')}
                   </div>
                   <div className="text-2xl font-bold text-orange-700">
                     {analysis.clusters.length > 0
@@ -350,7 +352,7 @@ export const ConsecutiveBreaksAnalysis = () => {
               <Card>
                 <CardContent className="pt-6">
                   <div className="text-sm font-medium text-gray-600">
-                    Multi-Break Clusters
+                    {t('consecutiveBreaks.multiBreakClusters')}
                   </div>
                   <div className="text-2xl font-bold text-orange-700">
                     {analysis.clusters.filter((c) => c.num_breaks > 1).length}
@@ -360,7 +362,7 @@ export const ConsecutiveBreaksAnalysis = () => {
               <Card>
                 <CardContent className="pt-6">
                   <div className="text-sm font-medium text-gray-600">
-                    Max Support Breaks
+                    {t('consecutiveBreaks.maxSupportBreaks')}
                   </div>
                   <div className="text-2xl font-bold text-orange-700">
                     {analysis.clusters.length > 0
@@ -374,49 +376,48 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Cluster Details */}
             {analysis.clusters.length > 0 && (
               <div className="space-y-6 mb-8">
-                <h2 className="text-2xl font-semibold">All Break Clusters</h2>
+                <h2 className="text-2xl font-semibold">{t('consecutiveBreaks.allBreakClusters')}</h2>
                 {analysis.clusters.map((cluster) => {
                   const emoji = cluster.num_breaks > 1 ? '🔴' : '🟡';
-                  const breakLabel = cluster.num_breaks === 1 ? 'break' : 'breaks';
+                  const breakLabel = cluster.num_breaks === 1 ? t('consecutiveBreaks.breakSingular') : t('consecutiveBreaks.breakPlural');
 
                   return (
                     <Card key={cluster.id} className="border-l-4 border-l-orange-500">
                       <CardHeader className="pb-3">
                         <CardTitle className="text-base">
-                          {emoji} Cluster #{cluster.id}: {cluster.num_breaks} {breakLabel} (
-                          {cluster.start_date.split(' ')[0]} to {cluster.end_date.split(' ')[0]})
+                          {emoji} {t('consecutiveBreaks.clusterHeading', { id: cluster.id, count: cluster.num_breaks, breakWord: breakLabel, start: cluster.start_date.split(' ')[0], end: cluster.end_date.split(' ')[0] })}
                         </CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
                           <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                            <div className="text-xs text-gray-600 font-medium">Duration</div>
+                            <div className="text-xs text-gray-600 font-medium">{t('consecutiveBreaks.duration')}</div>
                             <div className="text-lg font-bold text-orange-700">
-                              {cluster.duration_days} days
+                              {t('consecutiveBreaks.durationDays', { count: cluster.duration_days })}
                             </div>
                           </div>
                           {cluster.avg_gap !== undefined && (
                             <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                              <div className="text-xs text-gray-600 font-medium">Avg Gap</div>
+                              <div className="text-xs text-gray-600 font-medium">{t('consecutiveBreaks.avgGap')}</div>
                               <div className="text-lg font-bold text-orange-700">
-                                {cluster.avg_gap.toFixed(1)} days
+                                {t('consecutiveBreaks.durationDays', { count: cluster.avg_gap.toFixed(1) })}
                               </div>
                             </div>
                           )}
                           <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                            <div className="text-xs text-gray-600 font-medium">Total Drop</div>
+                            <div className="text-xs text-gray-600 font-medium">{t('consecutiveBreaks.totalDrop')}</div>
                             <div className="text-lg font-bold text-orange-700">
                               {cluster.total_drop.toFixed(2)}%
                             </div>
                           </div>
                           <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                            <div className="text-xs text-gray-600 font-medium">Avg Drop per Break</div>
+                            <div className="text-xs text-gray-600 font-medium">{t('consecutiveBreaks.avgDropPerBreak')}</div>
                             <div className="text-lg font-bold text-orange-700">
                               {cluster.avg_drop.toFixed(2)}%
                             </div>
                           </div>
                           <div className="bg-orange-50 p-3 rounded border border-orange-200">
-                            <div className="text-xs text-gray-600 font-medium">Median Drop per Break</div>
+                            <div className="text-xs text-gray-600 font-medium">{t('consecutiveBreaks.medianDropPerBreak')}</div>
                             <div className="text-lg font-bold text-orange-700">
                               {cluster.median_drop.toFixed(2)}%
                             </div>
@@ -427,15 +428,15 @@ export const ConsecutiveBreaksAnalysis = () => {
                           <Table>
                             <TableHeader>
                               <TableRow className="bg-orange-50">
-                                <TableHead className="text-orange-900">Date</TableHead>
+                                <TableHead className="text-orange-900">{t('consecutiveBreaks.tableDate')}</TableHead>
                                 <TableHead className="text-orange-900 text-right">
-                                  Previous Support
+                                  {t('consecutiveBreaks.tablePrevSupport')}
                                 </TableHead>
                                 <TableHead className="text-orange-900 text-right">
-                                  New Support
+                                  {t('consecutiveBreaks.tableNewSupport')}
                                 </TableHead>
-                                <TableHead className="text-orange-900 text-right">Drop %</TableHead>
-                                <TableHead className="text-orange-900">Days Since</TableHead>
+                                <TableHead className="text-orange-900 text-right">{t('consecutiveBreaks.tableDropPct')}</TableHead>
+                                <TableHead className="text-orange-900">{t('consecutiveBreaks.tableDaysSince')}</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -480,11 +481,11 @@ export const ConsecutiveBreaksAnalysis = () => {
             {/* Statistics */}
             {analysis.stats && (
               <div className="mb-8">
-                <h2 className="text-2xl font-semibold mb-4">Support Break Statistics</h2>
+                <h2 className="text-2xl font-semibold mb-4">{t('consecutiveBreaks.supportBreakStatistics')}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <Card>
                     <CardContent className="pt-6">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Total Breaks</h4>
+                      <h4 className="text-sm font-semibold text-gray-700 mb-2">{t('consecutiveBreaks.totalBreaks')}</h4>
                       <div className="text-2xl font-bold text-orange-700">
                         {analysis.stats.totalBreaks}
                       </div>
@@ -492,7 +493,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Days Since Last Break</h4>
+                      <h4 className="text-sm font-semibold text-gray-700 mb-2">{t('consecutiveBreaks.statDaysSinceLastBreak')}</h4>
                       <div className="text-2xl font-bold text-orange-700">
                         {analysis.stats.daysSinceLastBreak}d
                       </div>
@@ -500,7 +501,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Stability</h4>
+                      <h4 className="text-sm font-semibold text-gray-700 mb-2">{t('consecutiveBreaks.statStability')}</h4>
                       <div className="text-2xl font-bold text-orange-700">
                         {analysis.stats.stability.toFixed(1)}%
                       </div>
@@ -508,7 +509,7 @@ export const ConsecutiveBreaksAnalysis = () => {
                   </Card>
                   <Card>
                     <CardContent className="pt-6">
-                      <h4 className="text-sm font-semibold text-gray-700 mb-2">Trading Days per Break</h4>
+                      <h4 className="text-sm font-semibold text-gray-700 mb-2">{t('consecutiveBreaks.statTradingDaysPerBreak')}</h4>
                       <div className="text-2xl font-bold text-orange-700">
                         {analysis.stats.tradingDaysPerBreak.toFixed(0)}
                       </div>

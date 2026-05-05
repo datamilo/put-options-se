@@ -18,9 +18,11 @@ import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
 import { calculateFilteredKPIs } from '@/utils/scoredOptionsKpiCalculations';
 import { KpiCard } from '@/components/scored-options/KpiCard';
 import { calibrationMetricsData } from '@/data/calibrationMetrics';
+import { useTranslation } from 'react-i18next';
 
 export const ScoredOptions = () => {
   usePageTitle('Scored Options Recommendations');
+  const { t } = useTranslation('pages');
   const { data, isLoading, error } = useScoredOptionsData();
   const { settings: savedFilters, isLoading: isLoadingPreferences, saveSettings: saveFilterSettings } = useScoredOptionsPreferences();
   const { toast } = useToast();
@@ -212,8 +214,8 @@ export const ScoredOptions = () => {
     });
 
     toast({
-      title: 'Filters reset',
-      description: 'Filters have been reset to default settings',
+      title: t('scoredOptions.toastFiltersReset'),
+      description: t('scoredOptions.toastFiltersResetDesc'),
     });
   };
 
@@ -221,8 +223,8 @@ export const ScoredOptions = () => {
   const handleExport = () => {
     if (filteredData.length === 0) {
       toast({
-        title: 'No data to export',
-        description: 'Please adjust your filters to include at least one option.',
+        title: t('scoredOptions.toastNoData'),
+        description: t('scoredOptions.toastNoDataDesc'),
         variant: 'destructive',
       });
       return;
@@ -234,8 +236,8 @@ export const ScoredOptions = () => {
     });
 
     toast({
-      title: 'Export successful',
-      description: `Exported ${filteredData.length} scored options to Excel`,
+      title: t('scoredOptions.toastExportSuccess'),
+      description: t('scoredOptions.toastExportSuccessDesc', { count: filteredData.length }),
     });
   };
 
@@ -245,10 +247,10 @@ export const ScoredOptions = () => {
       <div className="space-y-2">
         <div className="flex items-center gap-2">
           <Target className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold">Scored Options Recommendations</h1>
+          <h1 className="text-3xl font-bold">{t('scoredOptions.title')}</h1>
         </div>
         <p className="text-muted-foreground">
-          Dual-model consensus screening: probability-based analysis cross-validated with machine learning technical indicators.
+          {t('scoredOptions.subtitle')}
         </p>
       </div>
 
@@ -257,7 +259,7 @@ export const ScoredOptions = () => {
         <Card className="border-red-200 bg-red-50">
           <CardContent className="pt-6">
             <p className="text-red-800">
-              <strong>Error loading data:</strong> {error}
+              <strong>{t('scoredOptions.errorLoading')}</strong> {error}
             </p>
           </CardContent>
         </Card>
@@ -268,7 +270,7 @@ export const ScoredOptions = () => {
         <Card>
           <CardContent className="py-8">
             <div className="text-center text-muted-foreground">
-              Loading scored options data...
+              {t('scoredOptions.loading')}
             </div>
           </CardContent>
         </Card>
@@ -284,7 +286,7 @@ export const ScoredOptions = () => {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <p className="text-sm text-muted-foreground">Total Options</p>
+                      <p className="text-sm text-muted-foreground">{t('scoredOptions.kpiTotalOptions')}</p>
                       <InfoIconTooltip
                         title={scoredOptionsTooltips.kpi.totalOptions.title}
                         content={scoredOptionsTooltips.kpi.totalOptions.content}
@@ -299,7 +301,7 @@ export const ScoredOptions = () => {
 
             {/* Average Combined Score */}
             <KpiCard
-              label="Avg Combined Score"
+              label={t('scoredOptions.kpiAvgScore')}
               value={kpiMetrics.avgCombinedScore !== null
                 ? kpiMetrics.avgCombinedScore.toLocaleString('sv-SE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
                 : null
@@ -313,7 +315,7 @@ export const ScoredOptions = () => {
 
             {/* Sample Size */}
             <KpiCard
-              label="Sample Size"
+              label={t('scoredOptions.kpiSampleSize')}
               value={kpiMetrics.sampleSize}
               icon={Database}
               iconColor="text-blue-600"
@@ -327,7 +329,7 @@ export const ScoredOptions = () => {
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2">
-                      <p className="text-sm text-muted-foreground">Showing</p>
+                      <p className="text-sm text-muted-foreground">{t('scoredOptions.kpiShowing')}</p>
                       <InfoIconTooltip
                         title={scoredOptionsTooltips.kpi.showing.title}
                         content={scoredOptionsTooltips.kpi.showing.content}
@@ -375,7 +377,7 @@ export const ScoredOptions = () => {
                 className="gap-2"
               >
                 <Download className="h-4 w-4" />
-                Export to Excel
+                {t('scoredOptions.exportToExcel')}
               </Button>
             </div>
           )}
@@ -385,8 +387,8 @@ export const ScoredOptions = () => {
             <Card>
               <CardContent className="py-8">
                 <div className="text-center text-muted-foreground">
-                  <p>No options found matching your filters.</p>
-                  <p className="text-sm mt-2">Try adjusting your filter criteria.</p>
+                  <p>{t('scoredOptions.noOptionsFound')}</p>
+                  <p className="text-sm mt-2">{t('scoredOptions.tryAdjusting')}</p>
                 </div>
               </CardContent>
             </Card>
