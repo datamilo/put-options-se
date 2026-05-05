@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   BarChart,
   Bar,
@@ -34,6 +35,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
   chartData,
   stockChartData
 }) => {
+  const { t } = useTranslation('pages');
   // Get available thresholds and methods from chart data
   const availableOptions = useMemo(() => {
     const thresholds = new Set<string>();
@@ -99,8 +101,8 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
       if (point) {
         dataMap.push({
           name: dte,
-          'Recovery Candidates': point.recovery_candidate_rate * 100,
-          'Baseline': point.baseline_rate !== null ? point.baseline_rate * 100 : null,
+          recoveryCandidates: point.recovery_candidate_rate * 100,
+          baseline: point.baseline_rate !== null ? point.baseline_rate * 100 : null,
           recovery_candidate_n: point.recovery_candidate_n,
           baseline_n: point.baseline_n
         });
@@ -117,7 +119,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
 
     return (
       <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-        <p className="font-semibold mb-2">{data.name} days</p>
+        <p className="font-semibold mb-2">{data.name} {t('probabilityAnalysis.recoveryChart.tooltipDays')}</p>
 
         {payload.map((entry: any, index: number) => (
           <div key={index}>
@@ -127,13 +129,13 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
             {entry.value !== null ? (
               <>
                 <p className="text-sm opacity-90 ml-2">
-                  Worthless Rate: {entry.value.toFixed(1)}% ({entry.name === 'Recovery Candidates'
+                  {t('probabilityAnalysis.recoveryChart.tooltipWorthlessRate')} {entry.value.toFixed(1)}% ({entry.dataKey === 'recoveryCandidates'
                     ? `${data.recovery_candidate_n.toLocaleString()}`
                     : `${data.baseline_n.toLocaleString()}`})
                 </p>
               </>
             ) : (
-              <p className="text-sm opacity-70 ml-2">No data</p>
+              <p className="text-sm opacity-70 ml-2">{t('probabilityAnalysis.recoveryChart.tooltipNoData')}</p>
             )}
           </div>
         ))}
@@ -150,10 +152,10 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recovery Advantage Analysis</CardTitle>
+        <CardTitle>{t('probabilityAnalysis.recoveryChart.title')}</CardTitle>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
           <div>
-            <Label>Stock (optional)</Label>
+            <Label>{t('probabilityAnalysis.recoveryChart.stockLabel')}</Label>
             <Select value={stock} onValueChange={setStock}>
               <SelectTrigger>
                 <SelectValue />
@@ -168,22 +170,30 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
             </Select>
           </div>
           <div>
-            <Label>Probability Method</Label>
+            <Label>{t('probabilityAnalysis.recoveryChart.methodLabel')}</Label>
             <Select value={method} onValueChange={setMethod}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                {availableOptions.methods.map(m => (
-                  <SelectItem key={m} value={m}>
-                    PoW - {m}
-                  </SelectItem>
-                ))}
+                {availableOptions.methods.map(m => {
+                  const methodKeyMap: Record<string, string> = {
+                    'Weighted Average': 'weightedAverage', 'Bayesian Calibrated': 'bayesianCalibrated',
+                    'Original Black-Scholes': 'originalBlackScholes', 'Bias Corrected': 'biasCorreected',
+                    'Historical IV': 'historicalIV',
+                  };
+                  const key = methodKeyMap[m];
+                  return (
+                    <SelectItem key={m} value={m}>
+                      {key ? t(`charts:methods.${key}`) : `PoW - ${m}`}
+                    </SelectItem>
+                  );
+                })}
               </SelectContent>
             </Select>
           </div>
           <div>
-            <Label>Historical Peak Threshold</Label>
+            <Label>{t('probabilityAnalysis.recoveryChart.thresholdLabel')}</Label>
             <Select value={threshold} onValueChange={setThreshold}>
               <SelectTrigger>
                 <SelectValue />
@@ -198,7 +208,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
             </Select>
           </div>
           <div>
-            <Label>Current Probability Bin</Label>
+            <Label>{t('probabilityAnalysis.recoveryChart.probBinLabel')}</Label>
             <Select value={probBin} onValueChange={setProbBin}>
               <SelectTrigger>
                 <SelectValue />
@@ -217,7 +227,7 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
       <CardContent>
         {barChartData.length === 0 ? (
           <div className="flex items-center justify-center h-96">
-            <p className="text-center text-destructive">No data available for this combination</p>
+            <p className="text-center text-destructive">{t('probabilityAnalysis.recoveryChart.noData')}</p>
           </div>
         ) : (
           <div>
@@ -227,11 +237,11 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
                 <XAxis
                   dataKey="name"
-                  label={{ value: 'Days to Expiry (Calendar Days)', position: 'insideBottom', offset: -5 }}
+                  label={{ value: t('probabilityAnalysis.recoveryChart.xAxisLabel'), position: 'insideBottom', offset: -5 }}
                   className="text-sm"
                 />
                 <YAxis
-                  label={{ value: 'Worthless Rate (%)', angle: -90, position: 'insideLeft' }}
+                  label={{ value: t('probabilityAnalysis.recoveryChart.yAxisLabel'), angle: -90, position: 'insideLeft' }}
                   domain={[0, 100]}
                   className="text-sm"
                 />
@@ -242,8 +252,8 @@ export const RecoveryComparisonChart: React.FC<RecoveryComparisonChartProps> = (
                   align="center"
                   verticalAlign="bottom"
                 />
-                <Bar dataKey="Recovery Candidates" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="Baseline" fill="hsl(var(--chart-3))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="recoveryCandidates" name={t('probabilityAnalysis.recoveryChart.barCandidates')} fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="baseline" name={t('probabilityAnalysis.recoveryChart.barBaseline')} fill="hsl(var(--chart-3))" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>

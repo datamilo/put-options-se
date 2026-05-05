@@ -4,6 +4,7 @@
  */
 
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Table,
   TableBody,
@@ -30,6 +31,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
   stock,
   isLoading = false,
 }) => {
+  const { t } = useTranslation('pages');
   const [sortField, setSortField] = useState<SortField>('ExpiryDate');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
@@ -97,7 +99,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-64 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">Loading table data...</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.tableLoadingData')}</p>
       </div>
     );
   }
@@ -105,7 +107,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
   if (tableData.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">No expiry data available for this stock</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.tableNoData')}</p>
       </div>
     );
   }
@@ -122,7 +124,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8"
                 onClick={() => handleSort('ExpiryDate')}
               >
-                Expiry Date
+                {t('lowerBoundAnalysis.colExpiryDate')}
                 <SortIcon field="ExpiryDate" />
               </Button>
             </TableHead>
@@ -133,7 +135,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('PredictionCount')}
               >
-                Predictions
+                {t('lowerBoundAnalysis.colPredictions')}
                 <SortIcon field="PredictionCount" />
               </Button>
             </TableHead>
@@ -144,7 +146,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('BreachCount')}
               >
-                Breaches
+                {t('lowerBoundAnalysis.colBreaches')}
                 <SortIcon field="BreachCount" />
               </Button>
             </TableHead>
@@ -155,7 +157,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('hitRate')}
               >
-                Hit Rate %
+                {t('lowerBoundAnalysis.colHitRatePct')}
                 <SortIcon field="hitRate" />
               </Button>
             </TableHead>
@@ -166,7 +168,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('LowerBound_Min')}
               >
-                Min Bound
+                {t('lowerBoundAnalysis.colMinBound')}
                 <SortIcon field="LowerBound_Min" />
               </Button>
             </TableHead>
@@ -177,7 +179,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('LowerBound_Max')}
               >
-                Max Bound
+                {t('lowerBoundAnalysis.colMaxBound')}
                 <SortIcon field="LowerBound_Max" />
               </Button>
             </TableHead>
@@ -188,7 +190,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('LowerBound_Median')}
               >
-                Median
+                {t('lowerBoundAnalysis.colMedian')}
                 <SortIcon field="LowerBound_Median" />
               </Button>
             </TableHead>
@@ -199,7 +201,7 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
                 className="gap-2 h-8 ml-auto"
                 onClick={() => handleSort('ExpiryClosePrice')}
               >
-                Close Price
+                {t('lowerBoundAnalysis.colClosePrice')}
                 <SortIcon field="ExpiryClosePrice" />
               </Button>
             </TableHead>
@@ -249,10 +251,11 @@ export const LowerBoundExpiryTable: React.FC<LowerBoundExpiryTableProps> = ({
 
       <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 text-sm text-slate-600">
         <p>
-          Showing {tableData.length} expir{tableData.length === 1 ? 'y' : 'ies'} | Total
-          predictions: {tableData.reduce((sum, s) => sum + s.PredictionCount, 0)} | Total
-          breaches:{' '}
-          {tableData.reduce((sum, s) => sum + s.BreachCount, 0)}
+          {t('lowerBoundAnalysis.tableFooter', {
+            count: tableData.length,
+            totalPredictions: tableData.reduce((sum, s) => sum + s.PredictionCount, 0),
+            totalBreaches: tableData.reduce((sum, s) => sum + s.BreachCount, 0),
+          })}
         </p>
       </div>
     </div>

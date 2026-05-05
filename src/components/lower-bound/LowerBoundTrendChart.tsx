@@ -4,6 +4,7 @@
  */
 
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ComposedChart,
   Line,
@@ -28,6 +29,8 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
   stock,
   isLoading = false,
 }) => {
+  const { t } = useTranslation('pages');
+
   // Filter data for the selected stock and sort by date
   const chartData = useMemo(() => {
     return data
@@ -74,7 +77,7 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">Loading trend data...</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.chartLoadingTrend')}</p>
       </div>
     );
   }
@@ -82,7 +85,7 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
   if (chartData.length === 0) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">No trend data available for this stock</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.chartNoTrendData')}</p>
       </div>
     );
   }
@@ -115,7 +118,7 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
           <YAxis
             yAxisId="left"
             label={{
-              value: 'Hit Rate (%)',
+              value: t('lowerBoundAnalysis.chartYAxisHitRate'),
               angle: -90,
               position: 'insideLeft',
               offset: 10,
@@ -129,7 +132,7 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
             yAxisId="right"
             orientation="right"
             label={{
-              value: 'Prediction Count',
+              value: t('lowerBoundAnalysis.chartYAxisPredictionCount'),
               angle: 90,
               position: 'insideRight',
               offset: 10,
@@ -148,14 +151,14 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
             }}
             formatter={(value, name) => {
               if (name === 'hitRate') {
-                return [value.toFixed(2), 'Hit Rate (%)'];
+                return [value.toFixed(2), t('lowerBoundAnalysis.chartTooltipHitRate')];
               }
               if (name === 'total') {
-                return [value, 'Predictions'];
+                return [value, t('lowerBoundAnalysis.chartTooltipPredictions')];
               }
               return [value, name];
             }}
-            labelFormatter={(label) => `Month: ${label}`}
+            labelFormatter={(label) => t('lowerBoundAnalysis.chartTooltipMonth', { label })}
           />
 
           <Legend
@@ -167,7 +170,7 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
           <Bar
             yAxisId="right"
             dataKey="total"
-            name="Prediction Count"
+            name={t('lowerBoundAnalysis.chartLegendPredictionCount')}
             fill="url(#barGradient)"
             opacity={0.7}
             isAnimationActive={false}
@@ -177,7 +180,7 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
             yAxisId="left"
             type="monotone"
             dataKey="hitRate"
-            name="Hit Rate (%)"
+            name={t('lowerBoundAnalysis.chartLegendHitRate')}
             stroke="#e74c3c"
             strokeWidth={3}
             dot={{ fill: '#e74c3c', r: 5 }}
@@ -189,8 +192,11 @@ export const LowerBoundTrendChart: React.FC<LowerBoundTrendChartProps> = ({
 
       <div className="mt-4 text-sm text-slate-600">
         <p>
-          Data points: {chartData.length} | Date range: {chartData[0]?.date} to{' '}
-          {chartData[chartData.length - 1]?.date}
+          {t('lowerBoundAnalysis.chartDataPoints', {
+            count: chartData.length,
+            from: chartData[0]?.date,
+            to: chartData[chartData.length - 1]?.date,
+          })}
         </p>
       </div>
     </div>

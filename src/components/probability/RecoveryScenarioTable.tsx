@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { RecoveryScenario } from '@/types/probabilityRecovery';
@@ -12,8 +13,10 @@ interface RecoveryScenarioTableProps {
 export const RecoveryScenarioTable: React.FC<RecoveryScenarioTableProps> = ({
   scenarios,
   topN = 5,
-  title = 'Top Recovery Scenarios'
+  title
 }) => {
+  const { t } = useTranslation('pages');
+  const resolvedTitle = title ?? t('probabilityAnalysis.scenarioTable.defaultTitle');
   const topScenarios = useMemo(() => {
     return [...scenarios]
       .sort((a, b) => b.Advantage_pp - a.Advantage_pp)
@@ -31,20 +34,20 @@ export const RecoveryScenarioTable: React.FC<RecoveryScenarioTableProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
+        <CardTitle>{resolvedTitle}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Method</TableHead>
-                <TableHead>Threshold</TableHead>
-                <TableHead>Prob Bin</TableHead>
-                <TableHead>DTE</TableHead>
-                <TableHead className="text-right">Advantage (pp)</TableHead>
-                <TableHead className="text-right">Candidates</TableHead>
-                <TableHead className="text-right">Worthless Rate</TableHead>
+                <TableHead>{t('probabilityAnalysis.scenarioTable.colMethod')}</TableHead>
+                <TableHead>{t('probabilityAnalysis.scenarioTable.colThreshold')}</TableHead>
+                <TableHead>{t('probabilityAnalysis.scenarioTable.colProbBin')}</TableHead>
+                <TableHead>{t('probabilityAnalysis.scenarioTable.colDTE')}</TableHead>
+                <TableHead className="text-right">{t('probabilityAnalysis.scenarioTable.colAdvantage')}</TableHead>
+                <TableHead className="text-right">{t('probabilityAnalysis.scenarioTable.colCandidates')}</TableHead>
+                <TableHead className="text-right">{t('probabilityAnalysis.scenarioTable.colWorthlessRate')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

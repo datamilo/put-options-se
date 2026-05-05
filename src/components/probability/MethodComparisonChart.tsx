@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
@@ -45,6 +46,7 @@ const getDisplayName = (method: string): string => {
 export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
   calibrationPoints
 }) => {
+  const { t } = useTranslation('pages');
   const [selectedDTE, setSelectedDTE] = useState<string>('8-14 days');
   const [sortColumn, setSortColumn] = useState<string>('stock');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -209,14 +211,28 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
     );
   };
 
+  const dteBinKeyMap: Record<string, string> = {
+    'All DTE': 'all', '0-3 days': '0to3', '4-7 days': '4to7', '8-14 days': '8to14',
+    '15-21 days': '15to21', '22-28 days': '22to28', '29-35 days': '29to35', '35+ days': '35plus',
+  };
+  const methodKeyMap: Record<string, string> = {
+    'Weighted Average': 'weightedAverage', 'Bayesian Calibrated': 'bayesianCalibrated',
+    'Original Black-Scholes': 'originalBlackScholes', 'Bias Corrected': 'biasCorreected',
+    'Historical IV': 'historicalIV',
+  };
+  const getTranslatedMethod = (method: string) => {
+    const key = methodKeyMap[method];
+    return key ? t(`charts:methods.${key}`) : `PoW - ${method}`;
+  };
+
   return (
     <div className="space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle>Stock Performance by Method</CardTitle>
+          <CardTitle>{t('probabilityAnalysis.methodComparisonChart.title')}</CardTitle>
           <div className="mt-4 space-y-4">
             <div className="max-w-xs">
-              <Label>Days to Expiry (business days)</Label>
+              <Label>{t('probabilityAnalysis.methodComparisonChart.dteLabel')}</Label>
               <Select value={selectedDTE} onValueChange={setSelectedDTE}>
                 <SelectTrigger>
                   <SelectValue />
@@ -224,7 +240,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
                 <SelectContent>
                   {DTE_BINS.map(dte => (
                     <SelectItem key={dte} value={dte}>
-                      {dte}
+                      {t(`probabilityAnalysis.recoveryCandidatesExplained.dteBins.${dteBinKeyMap[dte]}`)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -233,10 +249,10 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
 
             <div className="mt-4 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 rounded-lg text-sm">
               <p className="text-amber-900 dark:text-amber-200">
-                <strong>Color Guide:</strong> Green = conservative (under-predicts), Red = overconfident (over-predicts), White = well-calibrated
+                {t('probabilityAnalysis.methodComparisonChart.colorGuide')}
               </p>
               <p className="text-amber-800 dark:text-amber-300 text-xs mt-2">
-                Values show average calibration error (actual - predicted) weighted by sample size. Positive = conservative, Negative = overconfident.
+                {t('probabilityAnalysis.methodComparisonChart.colorDesc')}
               </p>
             </div>
           </div>
@@ -246,7 +262,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
       {metricsData.length === 0 ? (
         <Card>
           <CardContent className="pt-6">
-            <p className="text-muted-foreground text-center">No data available for this filter combination.</p>
+            <p className="text-muted-foreground text-center">{t('probabilityAnalysis.methodComparisonChart.noData')}</p>
           </CardContent>
         </Card>
       ) : (
@@ -258,7 +274,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
                 <tr>
                   <th className="px-4 py-2 text-left cursor-pointer" onClick={() => toggleSort('stock')}>
                     <div className="flex items-center gap-2">
-                      Stock
+                      {t('probabilityAnalysis.methodComparisonChart.stockCol')}
                       <SortIcon column="stock" />
                     </div>
                   </th>
@@ -274,14 +290,14 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
                       }}
                     >
                       <div className="flex items-center justify-between gap-1">
-                        {getDisplayName(method)}
+                        {getTranslatedMethod(method)}
                         <SortIcon column={method} />
                       </div>
                     </th>
                   ))}
                   <th className="px-4 py-2 text-right cursor-pointer" onClick={() => toggleSort('avgError')}>
                     <div className="flex items-center justify-between gap-1">
-                      Avg Error
+                      {t('probabilityAnalysis.methodComparisonChart.avgErrorCol')}
                       <SortIcon column="avgError" />
                     </div>
                   </th>
@@ -312,7 +328,7 @@ export const MethodComparisonChart: React.FC<MethodComparisonChartProps> = ({
 
           <div className="p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg text-sm mt-4">
             <p className="text-blue-900 dark:text-blue-300">
-              <strong>Interpretation:</strong> Positive values indicate the method is conservative (predicts lower probabilities than actual), negative values indicate overconfidence. Values are weighted by sample size to emphasize results with more data.
+              {t('probabilityAnalysis.methodComparisonChart.interpretation')}
             </p>
           </div>
         </CardContent>

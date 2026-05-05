@@ -196,30 +196,30 @@ export const LowerBoundAnalysis: React.FC = () => {
         {isLoading && !selectedStock && (
           <div className="flex flex-col items-center justify-center py-16">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            <p className="mt-4 text-slate-600">Loading analysis data...</p>
+            <p className="mt-4 text-slate-600">{t('lowerBoundAnalysis.loading')}</p>
           </div>
         )}
 
         {/* Data Information */}
         <Card className="bg-slate-50 border-slate-200">
           <CardHeader>
-            <CardTitle className="text-sm">Data Information</CardTitle>
+            <CardTitle className="text-sm">{t('lowerBoundAnalysis.dataInfoTitle')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-slate-600">
             {allDataQuery.isSuccess && allDataQuery.data && (
               <>
                 <p>
-                  <strong>Analysis Period:</strong> {allDataQuery.data.summaryMetrics.dateRangeStart} to{' '}
+                  <strong>{t('lowerBoundAnalysis.analysisPeriod')}</strong> {allDataQuery.data.summaryMetrics.dateRangeStart} to{' '}
                   {allDataQuery.data.summaryMetrics.dateRangeEnd}
                 </p>
                 <p>
-                  <strong>Data Source:</strong> Lower bound historical validation dataset
+                  <strong>{t('lowerBoundAnalysis.dataSource')}</strong> {t('lowerBoundAnalysis.dataSourceValue')}
                 </p>
                 <p>
-                  <strong>Methodology:</strong> IV-based lower bound predictions at 1σ (68% confidence level)
+                  <strong>{t('lowerBoundAnalysis.methodology')}</strong> {t('lowerBoundAnalysis.methodologyValue')}
                 </p>
                 <p>
-                  <strong>Last Updated:</strong> {new Date().toLocaleDateString()}
+                  <strong>{t('lowerBoundAnalysis.lastUpdated')}</strong> {new Date().toLocaleDateString()}
                 </p>
               </>
             )}
@@ -228,9 +228,9 @@ export const LowerBoundAnalysis: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center text-sm text-slate-500 pt-8 border-t border-slate-200">
-          <p>Lower Bound Validation Analysis Dashboard</p>
+          <p>{t('lowerBoundAnalysis.footerTitle')}</p>
           <p className="mt-1">
-            Built with React, Recharts, and TanStack Query
+            {t('lowerBoundAnalysis.footerBuiltWith')}
           </p>
         </div>
       </div>

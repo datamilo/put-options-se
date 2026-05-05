@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -16,15 +17,29 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   availableStocks = [],
   getCalibrationPoints: getCalibrationPointsFn
 }) => {
+  const { t, i18n } = useTranslation('pages');
+
   const [selectedStock, setSelectedStock] = useState<string>('All Stocks');
   const [selectedDTE, setSelectedDTE] = useState<string>('All DTE');
   const [selectedMethod, setSelectedMethod] = useState<string>('All Methods');
 
-
   const DTE_BINS = ['All DTE', '0-3 days', '4-7 days', '8-14 days', '15-21 days', '22-28 days', '29-35 days', '35+ days'];
+  const dteBinKeyMap: Record<string, string> = {
+    'All DTE': 'all', '0-3 days': '0to3', '4-7 days': '4to7', '8-14 days': '8to14',
+    '15-21 days': '15to21', '22-28 days': '22to28', '29-35 days': '29to35', '35+ days': '35plus',
+  };
+
   // Methods now stored in normalized format (without "PoW - " prefix) from CSV
   const METHODS_NORMALIZED = ['Weighted Average', 'Bayesian Calibrated', 'Original Black-Scholes', 'Bias Corrected', 'Historical IV'];
   const METHODS = ['All Methods', ...METHODS_NORMALIZED];
+
+  const methodKeyMap: Record<string, string> = {
+    'Weighted Average': 'weightedAverage',
+    'Bayesian Calibrated': 'bayesianCalibrated',
+    'Original Black-Scholes': 'originalBlackScholes',
+    'Bias Corrected': 'biasCorreected',
+    'Historical IV': 'historicalIV',
+  };
 
   // Color mappings for normalized method names
   const COLORS: Record<string, string> = {
@@ -35,10 +50,10 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     'Historical IV': '#8b5cf6'
   };
 
-  // Display names with "PoW - " prefix for UI
   const getDisplayName = (method: string): string => {
-    if (method === 'All Methods') return method;
-    return `PoW - ${method}`;
+    if (method === 'All Methods') return t('probabilityAnalysis.calibrationChart.allMethods');
+    const key = methodKeyMap[method];
+    return key ? t(`charts:methods.${key}`) : `PoW - ${method}`;
   };
 
   // Filter and group data by method
@@ -55,12 +70,10 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
 
       if (selectedStock === 'All Stocks') {
         // Aggregate across all stocks for this DTE
-        // Group by method and BIN (not exact predicted probability), sum counts, calculate weighted average
         const aggregated: Record<string, any> = {};
 
         dteRecords.forEach(point => {
           const p = point as any;
-          // Create unique key combining method and BIN
           const key = `${p.method}|${p.Bin}`;
 
           if (!aggregated[key]) {
@@ -73,14 +86,12 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
             };
           }
 
-          // Sum counts and accumulate weighted actual rate and predicted rate
           const count = p.count || 0;
           aggregated[key].totalCount += count;
           aggregated[key].totalActualCount += count * (p.actual || 0);
           aggregated[key].totalPredictedCount += count * (p.predicted || 0);
         });
 
-        // Convert to CalibrationPoint format with weighted average actual rate and predicted rate
         filtered = Object.values(aggregated).map((item: any) => ({
           predicted: item.totalCount > 0 ? item.totalPredictedCount / item.totalCount : 0,
           actual: item.totalCount > 0 ? item.totalActualCount / item.totalCount : 0,
@@ -88,22 +99,18 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
           method: item.method
         }));
       } else {
-        // For specific stock, just filter by stock (no aggregation needed)
         filtered = dteRecords.filter(p => {
           const point = p as any;
           return point.Stock === selectedStock;
         });
       }
     } else {
-      // When DTE is "All DTE", show aggregated or by-stock data
       if (selectedStock !== 'All Stocks') {
-        // For specific stock, use by_stock data (no DTE filtering)
         filtered = calibrationPoints.filter(p => {
           const point = p as any;
           return point.Stock === selectedStock && point.DataType === 'calibration_by_stock';
         });
       } else {
-        // For All Stocks, use aggregated data (no stock or DTE filtering)
         filtered = calibrationPoints.filter(p => {
           const point = p as any;
           return point.DataType === 'calibration_aggregated';
@@ -111,15 +118,11 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       }
     }
 
-    // Calculate 25th percentile of counts to filter out low-sample outliers
     const counts = filtered.map(p => p.count).sort((a, b) => a - b);
     const percentile25Index = Math.floor(counts.length * 0.25);
     const countThreshold = counts.length > 0 ? counts[percentile25Index] : 0;
-
-    // Filter out points with count below 25th percentile
     const filteredByCount = filtered.filter(p => p.count >= countThreshold);
 
-    // Group by method
     const grouped: Record<string, Array<{ predicted: number; actual: number; count: number }>> = {};
 
     filteredByCount.forEach(point => {
@@ -133,7 +136,6 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       });
     });
 
-    // Sort each method's points by predicted value
     Object.keys(grouped).forEach(method => {
       grouped[method].sort((a, b) => a.predicted - b.predicted);
     });
@@ -145,29 +147,19 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
   const plotlyData = useMemo(() => {
     const traces: any[] = [];
 
-    // Perfect calibration reference line (diagonal)
     traces.push({
       x: [0, 1],
       y: [0, 1],
       mode: 'lines',
-      name: 'Perfect Calibration',
-      line: {
-        color: 'black',
-        width: 2,
-        dash: 'dash'
-      },
+      name: t('probabilityAnalysis.calibrationChart.perfectCalibration'),
+      line: { color: 'black', width: 2, dash: 'dash' },
       hoverinfo: 'skip',
       showlegend: true
     });
 
-    // Add traces for each method
     Object.entries(chartData).forEach(([method, points]) => {
       if (!points || points.length === 0) return;
-
-      // Skip this method if a specific method is selected and it doesn't match
-      if (selectedMethod !== 'All Methods' && method !== selectedMethod) {
-        return;
-      }
+      if (selectedMethod !== 'All Methods' && method !== selectedMethod) return;
 
       const color = COLORS[method] || '#999';
       const displayName = getDisplayName(method);
@@ -177,18 +169,8 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
         y: points.map(p => p.actual),
         mode: 'lines+markers',
         name: displayName,
-        line: {
-          color: color,
-          width: 2
-        },
-        marker: {
-          color: color,
-          size: 8,
-          line: {
-            color: 'white',
-            width: 1
-          }
-        },
+        line: { color: color, width: 2 },
+        marker: { color: color, size: 8, line: { color: 'white', width: 1 } },
         hovertemplate:
           '<b>' + displayName + '</b><br>' +
           'Predicted: %{x:.1%}<br>' +
@@ -200,22 +182,22 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
     });
 
     return traces;
-  }, [chartData, selectedMethod]);
+  }, [chartData, selectedMethod, i18n.language]);
 
   const layout = useMemo(() => {
     return {
       title: {
-        text: '<b>Calibration Analysis</b>',
+        text: `<b>${t('probabilityAnalysis.calibrationChart.title')}</b>`,
         font: { size: 16 }
       },
       xaxis: {
-        title: 'Predicted Probability',
+        title: t('probabilityAnalysis.calibrationChart.axisPredicted'),
         tickformat: '.0%',
         range: [0, 1],
         gridcolor: '#e5e7eb'
       },
       yaxis: {
-        title: 'Actual Rate',
+        title: t('probabilityAnalysis.calibrationChart.axisActual'),
         tickformat: '.0%',
         range: [0, 1],
         gridcolor: '#e5e7eb'
@@ -224,29 +206,24 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       template: 'plotly_white',
       hovermode: 'closest',
       showlegend: true,
-      legend: {
-        orientation: 'h',
-        y: -0.15,
-        x: 0.5,
-        xanchor: 'center'
-      }
+      legend: { orientation: 'h', y: -0.15, x: 0.5, xanchor: 'center' }
     };
-  }, []);
+  }, [i18n.language]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Calibration Analysis</CardTitle>
+        <CardTitle>{t('probabilityAnalysis.calibrationChart.title')}</CardTitle>
         {availableStocks.length > 0 && (
           <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl">
             <div>
-              <Label>Stock</Label>
+              <Label>{t('probabilityAnalysis.calibrationChart.stockLabel')}</Label>
               <Select value={selectedStock} onValueChange={setSelectedStock}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a stock" />
+                  <SelectValue placeholder={t('probabilityAnalysis.calibrationChart.selectStock')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="All Stocks">All Stocks</SelectItem>
+                  <SelectItem value="All Stocks">{t('probabilityAnalysis.calibrationChart.allStocks')}</SelectItem>
                   {availableStocks
                     .filter(stock => stock !== 'All Stocks')
                     .map(stock => (
@@ -258,25 +235,25 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
               </Select>
             </div>
             <div>
-              <Label>Days to Expiry (business days)</Label>
+              <Label>{t('probabilityAnalysis.calibrationChart.dteLabel')}</Label>
               <Select value={selectedDTE} onValueChange={setSelectedDTE}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select DTE" />
+                  <SelectValue placeholder={t('probabilityAnalysis.calibrationChart.selectDTE')} />
                 </SelectTrigger>
                 <SelectContent>
                   {DTE_BINS.map(dte => (
                     <SelectItem key={dte} value={dte}>
-                      {dte}
+                      {t(`probabilityAnalysis.recoveryCandidatesExplained.dteBins.${dteBinKeyMap[dte]}`)}
                     </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <Label>Probability Method</Label>
+              <Label>{t('probabilityAnalysis.calibrationChart.methodLabel')}</Label>
               <Select value={selectedMethod} onValueChange={setSelectedMethod}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select method" />
+                  <SelectValue placeholder={t('probabilityAnalysis.calibrationChart.selectMethod')} />
                 </SelectTrigger>
                 <SelectContent>
                   {METHODS.map(method => (
@@ -293,26 +270,21 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
       <CardContent>
         {Object.keys(chartData).length === 0 || Object.values(chartData).every((points: any) => !points || points.length === 0) ? (
           <div className="flex items-center justify-center h-96 bg-muted/30 rounded-lg">
-            <p className="text-muted-foreground">No calibration data available for this filter combination.</p>
+            <p className="text-muted-foreground">{t('probabilityAnalysis.calibrationChart.noData')}</p>
           </div>
         ) : (
           <div className="w-full">
             <Plot
               data={plotlyData}
               layout={layout}
-              config={{
-                responsive: true,
-                displayModeBar: true,
-                displaylogo: false,
-              }}
+              config={{ responsive: true, displayModeBar: true, displaylogo: false }}
               style={{ width: '100%', height: '700px' }}
             />
           </div>
         )}
         <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
           <p className="text-sm text-blue-800 dark:text-blue-300">
-            <strong>Interpretation:</strong> Lines closer to the diagonal indicate better calibration.
-            Each dot represents a probability bin showing predicted vs actual rates.
+            {t('probabilityAnalysis.calibrationChart.interpretation')}
           </p>
         </div>
       </CardContent>

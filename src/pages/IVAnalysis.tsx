@@ -83,7 +83,7 @@ export const IVAnalysis: React.FC = () => {
         <Alert>
           <Info className="h-4 w-4" />
           <AlertDescription>
-            <strong>Data source:</strong> {t('ivAnalysis.dataSourceNote')}
+            <strong>{t('ivAnalysis.dataSourceLabel')}</strong> {t('ivAnalysis.dataSourceNote')}
           </AlertDescription>
         </Alert>
 

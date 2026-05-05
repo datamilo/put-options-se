@@ -5,6 +5,7 @@
  */
 
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { LowerBoundExpiryStatistic } from '@/types/lowerBound';
 
@@ -19,6 +20,8 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
   stock,
   isLoading = false,
 }) => {
+  const { t, i18n } = useTranslation('pages');
+
   // Get expiry stats for this stock and calculate span percentages
   const spanData = useMemo(() => {
     if (!data || data.length === 0) return [];
@@ -68,8 +71,8 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
     if (spanData.length === 0) {
       return {
         title: 'Prediction Span Percentage (No data)',
-        xaxis: { title: 'Expiry Date' },
-        yaxis: { title: 'Span %' },
+        xaxis: { title: t('lowerBoundAnalysis.chartExpiryDate') },
+        yaxis: { title: t('lowerBoundAnalysis.chartSpanPct') },
         height: 350,
         template: 'plotly_white',
       };
@@ -81,14 +84,14 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
     return {
       title: `<b>${stock} - Prediction Span Percentage by Expiry</b><br><sub>Span % = (Max Bound - Min Bound) / Min Bound × 100</sub>`,
       xaxis: {
-        title: 'Expiry Date',
+        title: t('lowerBoundAnalysis.chartExpiryDate'),
         range: [minDate, maxDate],
         tickformat: '%Y-%m-%d',
         nticks: 20,
         tickangle: -45,
       },
       yaxis: {
-        title: 'Span Percentage (%)',
+        title: t('lowerBoundAnalysis.chartSpanPercentage'),
       },
       height: 350,
       template: 'plotly_white',
@@ -100,12 +103,12 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
         b: 80,
       },
     };
-  }, [spanData, stock]);
+  }, [spanData, stock, i18n.language]);
 
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">Loading span data...</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.chartLoadingSpan')}</p>
       </div>
     );
   }
@@ -113,7 +116,7 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
   if (spanData.length === 0) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">No span data available for this stock</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.chartNoSpanData')}</p>
       </div>
     );
   }
@@ -131,15 +134,9 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
         style={{ width: '100%', height: '350px' }}
       />
       <div className="mt-4 space-y-2 text-sm text-slate-600">
-        <p>
-          <strong>Span Percentage</strong> shows the range of predicted lower bounds as a percentage of the minimum value.
-        </p>
-        <p>
-          <strong>Higher percentages</strong> indicate wider prediction ranges (more uncertainty about the actual bound).
-        </p>
-        <p>
-          <strong>Lower percentages</strong> indicate tighter prediction ranges (more confidence in the bound estimate).
-        </p>
+        <p>{t('lowerBoundAnalysis.chartSpanDesc')}</p>
+        <p>{t('lowerBoundAnalysis.chartHigherPct')}</p>
+        <p>{t('lowerBoundAnalysis.chartLowerPct')}</p>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   Select,
   SelectContent,
@@ -28,19 +29,20 @@ export const StockSelector: React.FC<StockSelectorProps> = ({
   onStockChange,
   isLoading = false,
 }) => {
+  const { t } = useTranslation('pages');
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium text-slate-700">
-        Select Stock
+        {t('lowerBoundAnalysis.selectStock')}
       </label>
       <Select value={selectedStock} onValueChange={onStockChange} disabled={isLoading}>
         <SelectTrigger className="w-full">
-          <SelectValue placeholder="Choose a stock..." />
+          <SelectValue placeholder={t('lowerBoundAnalysis.chooseStock')} />
         </SelectTrigger>
         <SelectContent className="max-h-64">
           {stocks.length === 0 ? (
             <SelectItem value="_none" disabled>
-              No stocks available
+              {t('lowerBoundAnalysis.noStocksAvailable')}
             </SelectItem>
           ) : (
             stocks.map((stock) => (
@@ -64,30 +66,31 @@ export const SummaryMetrics: React.FC<SummaryMetricsProps> = ({
   metrics,
   isLoading = false,
 }) => {
+  const { t } = useTranslation('pages');
   const cards = [
     {
-      title: 'Total Options',
+      title: t('lowerBoundAnalysis.kpiTotalOptions'),
       value: metrics.totalOptions.toLocaleString(),
       icon: Target,
       color: 'bg-blue-50 text-blue-700',
       iconColor: 'text-blue-600',
     },
     {
-      title: 'Overall Hit Rate',
+      title: t('lowerBoundAnalysis.kpiHitRate'),
       value: `${metrics.overallHitRate.toFixed(2)}%`,
       icon: TrendingUp,
       color: 'bg-green-50 text-green-700',
       iconColor: 'text-green-600',
     },
     {
-      title: 'Total Breaches',
+      title: t('lowerBoundAnalysis.kpiTotalBreaches'),
       value: metrics.totalBreaches.toLocaleString(),
       icon: AlertCircle,
       color: 'bg-red-50 text-red-700',
       iconColor: 'text-red-600',
     },
     {
-      title: 'Stocks Analyzed',
+      title: t('lowerBoundAnalysis.kpiStocksAnalyzed'),
       value: metrics.totalStocks.toString(),
       icon: Calendar,
       color: 'bg-purple-50 text-purple-700',
@@ -140,6 +143,7 @@ export const StockSummaryMetrics: React.FC<StockSummaryMetricsProps> = ({
   overallHitRate,
   isLoading = false,
 }) => {
+  const { t } = useTranslation('pages');
   const breachRate = totalPredictions > 0
     ? (totalBreaches / totalPredictions) * 100
     : 0;
@@ -154,7 +158,7 @@ export const StockSummaryMetrics: React.FC<StockSummaryMetricsProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">{stock} - Summary Statistics</CardTitle>
+        <CardTitle className="text-lg">{t('lowerBoundAnalysis.stockSummaryTitle', { stock })}</CardTitle>
       </CardHeader>
       <CardContent>
         {isLoading ? (
@@ -167,7 +171,7 @@ export const StockSummaryMetrics: React.FC<StockSummaryMetricsProps> = ({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="space-y-1">
               <p className="text-xs font-semibold text-slate-600 uppercase">
-                Predictions
+                {t('lowerBoundAnalysis.colPredictions')}
               </p>
               <p className="text-xl font-bold text-slate-900">
                 {totalPredictions.toLocaleString()}
@@ -175,7 +179,7 @@ export const StockSummaryMetrics: React.FC<StockSummaryMetricsProps> = ({
             </div>
             <div className="space-y-1">
               <p className="text-xs font-semibold text-slate-600 uppercase">
-                Breaches
+                {t('lowerBoundAnalysis.colBreaches')}
               </p>
               <p className="text-xl font-bold text-red-600">
                 {totalBreaches.toLocaleString()}
@@ -183,7 +187,7 @@ export const StockSummaryMetrics: React.FC<StockSummaryMetricsProps> = ({
             </div>
             <div className="space-y-1">
               <p className="text-xs font-semibold text-slate-600 uppercase">
-                Breach Rate
+                {t('lowerBoundAnalysis.colBreachRate')}
               </p>
               <p className="text-xl font-bold text-slate-900">
                 {breachRate.toFixed(1)}%
@@ -191,7 +195,7 @@ export const StockSummaryMetrics: React.FC<StockSummaryMetricsProps> = ({
             </div>
             <div className="space-y-1">
               <p className="text-xs font-semibold text-slate-600 uppercase">
-                Hit Rate
+                {t('lowerBoundAnalysis.colHitRate')}
               </p>
               <p className={`text-xl font-bold px-2 py-1 rounded border ${getHitRateColor(overallHitRate)}`}>
                 {overallHitRate.toFixed(1)}%

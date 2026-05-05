@@ -15,8 +15,10 @@ import { DataTimestamp } from '@/components/ui/data-timestamp';
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { Link } from 'react-router-dom';
 import { formatNordicDecimal, formatNordicPercentagePoints } from '@/utils/numberFormatting';
+import { useTranslation } from 'react-i18next';
 
 export const ProbabilityAnalysis: React.FC = () => {
+  const { t } = useTranslation('pages');
   const navigate = useNavigate();
   const [isStockPerformanceExpanded, setIsStockPerformanceExpanded] = React.useState(false);
   const { timestamps } = useTimestamps();
@@ -26,8 +28,6 @@ export const ProbabilityAnalysis: React.FC = () => {
   const error = recoveryError || validationError;
 
   const calibrationPoints = useMemo(() => {
-    // Separate data by type for CalibrationChart to use
-    // CalibrationChart will select the appropriate data based on DTE and Stock filters
     return calibrationData.map(d => ({
       predicted: d.PredictedProb,
       actual: d.ActualRate,
@@ -52,11 +52,9 @@ export const ProbabilityAnalysis: React.FC = () => {
   const kpiMetrics = useMemo(() => {
     if (!scenarios || !scenarios.length || !calibrationData.length) return null;
 
-    // Sum recovery candidates and all options from all scenarios
     const totalRecoveryCandidates = scenarios.reduce((sum, s) => sum + s.RecoveryCandidate_N, 0);
     const totalAllOptions = scenarios.reduce((sum, s) => sum + s.AllOptions_N, 0);
 
-    // Calculate average accuracy from calibration data
     const avgAccuracy = calibrationData.length > 0
       ? (calibrationData.reduce((sum, d) => sum + d.ActualRate, 0) / calibrationData.length) * 100
       : 0;
@@ -74,7 +72,7 @@ export const ProbabilityAnalysis: React.FC = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p>Loading probability analysis data...</p>
+          <p>{t('probabilityAnalysis.loading')}</p>
         </div>
       </div>
     );
@@ -84,7 +82,7 @@ export const ProbabilityAnalysis: React.FC = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center text-destructive">
-          <p className="font-semibold">Error loading data</p>
+          <p className="font-semibold">{t('probabilityAnalysis.errorTitle')}</p>
           <p className="text-sm">{error}</p>
         </div>
       </div>
@@ -98,12 +96,12 @@ export const ProbabilityAnalysis: React.FC = () => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link to="/">Options Dashboard</Link>
+              <Link to="/">{t('probabilityAnalysis.breadcrumbHome')}</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Probability Analysis</BreadcrumbPage>
+            <BreadcrumbPage>{t('probabilityAnalysis.title')}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -111,12 +109,12 @@ export const ProbabilityAnalysis: React.FC = () => {
       {/* Page Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-1">Probability Analysis</h1>
-          <p className="text-muted-foreground">Method validation and recovery opportunities</p>
+          <h1 className="text-3xl font-bold mb-1">{t('probabilityAnalysis.title')}</h1>
+          <p className="text-muted-foreground">{t('probabilityAnalysis.subtitle')}</p>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label="Options data" />
-          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label="Analysis updated" />
+          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label={t('probabilityAnalysis.optionsDataLabel')} />
+          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label={t('common:dataTimestamp.analysisUpdated')} />
           <div className="flex items-center gap-2">
               {/* PoW Legend Info Button */}
               <Dialog>
@@ -133,17 +131,17 @@ export const ProbabilityAnalysis: React.FC = () => {
                 </DialogTrigger>
                 <DialogContent className="max-w-md">
                   <DialogHeader>
-                    <DialogTitle>PoW Legend</DialogTitle>
+                    <DialogTitle>{t('probabilityAnalysis.powLegendTitle')}</DialogTitle>
                   </DialogHeader>
                   <div className="space-y-4">
                     <div>
-                      <p className="font-semibold text-sm mb-2">What is PoW?</p>
+                      <p className="font-semibold text-sm mb-2">{t('probabilityAnalysis.powWhatIsTitle')}</p>
                       <p className="text-sm text-muted-foreground">
-                        <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless.
+                        <strong>PoW = Probability of Worthless</strong> — {t('probabilityAnalysis.powWhatIsDesc')}
                       </p>
                     </div>
                     <div>
-                      <p className="font-semibold text-sm mb-2">The 5 Calculation Methods</p>
+                      <p className="font-semibold text-sm mb-2">{t('probabilityAnalysis.pow5MethodsTitle')}</p>
                       <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
                         <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
                         <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
@@ -164,30 +162,30 @@ export const ProbabilityAnalysis: React.FC = () => {
       {kpiMetrics && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <KPICard
-            title="Recovery Candidates"
+            title={t('probabilityAnalysis.kpi.recoveryCandidates')}
             value={kpiMetrics.totalRecoveryCandidates}
-            subtitle="High probability options"
+            subtitle={t('probabilityAnalysis.kpi.recoveryCandidatesSubtitle')}
             icon={TrendingUp}
             variant="success"
           />
           <KPICard
-            title="All Options (Ground Truth)"
+            title={t('probabilityAnalysis.kpi.allOptions')}
             value={kpiMetrics.totalAllOptions}
-            subtitle="Total options analyzed"
+            subtitle={t('probabilityAnalysis.kpi.allOptionsSubtitle')}
             icon={Activity}
             variant="default"
           />
           <KPICard
-            title="Avg Accuracy"
+            title={t('probabilityAnalysis.kpi.avgAccuracy')}
             value={`${kpiMetrics.avgAccuracy.toFixed(1)}%`}
-            subtitle="Model calibration"
+            subtitle={t('probabilityAnalysis.kpi.avgAccuracySubtitle')}
             icon={Target}
             variant="info"
           />
           <KPICard
-            title="Stocks Analyzed"
+            title={t('probabilityAnalysis.kpi.stocksAnalyzed')}
             value={kpiMetrics.stocksAnalyzed}
-            subtitle="Unique securities"
+            subtitle={t('probabilityAnalysis.kpi.stocksAnalyzedSubtitle')}
             icon={CheckCircle2}
             variant="default"
           />
@@ -203,10 +201,10 @@ export const ProbabilityAnalysis: React.FC = () => {
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-center gap-2">
                   <LineChart className="h-5 w-5 text-blue-600" />
-                  <h3 className="font-semibold">Calibration Analysis</h3>
+                  <h3 className="font-semibold">{t('probabilityAnalysis.sections.calibration')}</h3>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Validates which probability calculation methods are most accurate by comparing predictions against actual market outcomes.
+                  {t('probabilityAnalysis.sections.calibrationCardDesc')}
                 </p>
               </CardContent>
             </Card>
@@ -216,10 +214,10 @@ export const ProbabilityAnalysis: React.FC = () => {
               <CardContent className="pt-6 space-y-3">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="h-5 w-5 text-green-600" />
-                  <h3 className="font-semibold">Probability Recovery</h3>
+                  <h3 className="font-semibold">{t('probabilityAnalysis.sections.recoveryCard')}</h3>
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Identifies recovery opportunities where options previously had high probability levels but have since declined—these statistically expire worthless more often than expected.
+                  {t('probabilityAnalysis.sections.recoveryCardDesc')}
                 </p>
               </CardContent>
             </Card>
@@ -230,8 +228,8 @@ export const ProbabilityAnalysis: React.FC = () => {
           <div className="flex items-center gap-3">
             <LineChart className="h-6 w-6 text-blue-600" />
             <div>
-              <h2 className="text-2xl font-bold">Calibration Analysis</h2>
-              <p className="text-sm text-muted-foreground">Probability Method Accuracy & Validation</p>
+              <h2 className="text-2xl font-bold">{t('probabilityAnalysis.sections.calibration')}</h2>
+              <p className="text-sm text-muted-foreground">{t('probabilityAnalysis.sections.calibrationSubtitle')}</p>
             </div>
           </div>
 
@@ -239,12 +237,12 @@ export const ProbabilityAnalysis: React.FC = () => {
           <Card className="border-l-4 border-l-blue-500">
             <CardContent className="pt-6 space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-3">How to Read the Chart</h3>
+                <h3 className="text-lg font-semibold mb-3">{t('probabilityAnalysis.howToRead')}</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  The chart compares predicted probabilities (horizontal axis) against actual outcomes (vertical axis). The diagonal line represents perfect calibration. Methods above the line are conservative (safer than predicted); methods below are overconfident (riskier than predicted). Colored lines with dots represent different probability calculation methods—larger dots indicate more data points.
+                  {t('probabilityAnalysis.howToReadCalibration1')}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  Use the dropdown menu to filter by individual stocks and see which probability methods are most reliable for your trading.
+                  {t('probabilityAnalysis.howToReadCalibration2')}
                 </p>
               </div>
             </CardContent>
@@ -273,8 +271,8 @@ export const ProbabilityAnalysis: React.FC = () => {
           >
             <LineChart className="h-6 w-6 text-purple-600" />
             <div className="flex-1">
-              <h2 className="text-2xl font-bold">Stock Performance by Method</h2>
-              <p className="text-sm text-muted-foreground">Compare Method Accuracy Across All Stocks</p>
+              <h2 className="text-2xl font-bold">{t('probabilityAnalysis.sections.stockPerformance')}</h2>
+              <p className="text-sm text-muted-foreground">{t('probabilityAnalysis.sections.stockPerformanceSubtitle')}</p>
             </div>
             {isStockPerformanceExpanded ? (
               <ChevronUp className="h-6 w-6 text-muted-foreground" />
@@ -289,12 +287,12 @@ export const ProbabilityAnalysis: React.FC = () => {
               <Card className="border-l-4 border-l-purple-500">
                 <CardContent className="pt-6 space-y-4">
                   <div>
-                    <h3 className="text-lg font-semibold mb-3">How to Read the Chart</h3>
+                    <h3 className="text-lg font-semibold mb-3">{t('probabilityAnalysis.howToRead')}</h3>
                     <p className="text-sm text-muted-foreground mb-4">
-                      This analysis compares how each probability method performs across different stocks. Each cell shows the average calibration error—how much the method's predictions deviate from actual outcomes. Positive values (green) indicate the method is conservative, predicting lower probabilities than actual results. Negative values (red) indicate overconfidence, predicting higher probabilities than actual results.
+                      {t('probabilityAnalysis.howToReadStockPerf1')}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Use the DTE selector to see how method performance changes as options approach expiration. Sort by any column to identify which methods work best for specific stocks.
+                      {t('probabilityAnalysis.howToReadStockPerf2')}
                     </p>
                   </div>
                 </CardContent>
@@ -318,8 +316,8 @@ export const ProbabilityAnalysis: React.FC = () => {
           <div className="flex items-center gap-3">
             <TrendingUp className="h-6 w-6 text-green-600" />
             <div>
-              <h2 className="text-2xl font-bold">Probability Recovery Analysis</h2>
-              <p className="text-sm text-muted-foreground">Identifying Systematic Mispricing Where Options Expire Worthless More Often Than Expected</p>
+              <h2 className="text-2xl font-bold">{t('probabilityAnalysis.sections.recoveryAnalysis')}</h2>
+              <p className="text-sm text-muted-foreground">{t('probabilityAnalysis.sections.recoveryAnalysisSubtitle')}</p>
             </div>
           </div>
 
@@ -327,19 +325,19 @@ export const ProbabilityAnalysis: React.FC = () => {
           <Card className="border-l-4 border-l-green-600 bg-green-50 dark:bg-green-950/30">
             <CardContent className="pt-6 space-y-3">
               <div className="space-y-2">
-                <h3 className="font-semibold text-green-900 dark:text-green-100">Validated Finding: Recovery Candidates Expire Worthless 1.17x More Often</h3>
+                <h3 className="font-semibold text-green-900 dark:text-green-100">{t('probabilityAnalysis.finding')}</h3>
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Recovery candidates:</p>
+                    <p className="text-muted-foreground">{t('probabilityAnalysis.recoveryCandidatesLabel')}</p>
                     <p className="font-bold text-base">{formatNordicDecimal(87.59, 2)}% worthless</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">All options:</p>
+                    <p className="text-muted-foreground">{t('probabilityAnalysis.allOptionsLabel')}</p>
                     <p className="font-bold text-base">{formatNordicDecimal(74.88, 2)}% worthless</p>
                   </div>
                 </div>
                 <p className="text-sm font-semibold text-green-700 dark:text-green-300">{formatNordicPercentagePoints(12.71, 2)} advantage (statistically significant, p &lt; 0,001)</p>
-                <p className="text-xs text-muted-foreground">Based on 1,16M expired options analyzed across all probability methods and thresholds</p>
+                <p className="text-xs text-muted-foreground">{t('probabilityAnalysis.statsFootnote')}</p>
               </div>
             </CardContent>
           </Card>
@@ -348,27 +346,32 @@ export const ProbabilityAnalysis: React.FC = () => {
           <Card className="border-l-4 border-l-green-500">
             <CardContent className="pt-6 space-y-4">
               <div>
-                <h3 className="text-lg font-semibold mb-3">What Are Recovery Candidates?</h3>
+                <h3 className="text-lg font-semibold mb-3">{t('probabilityAnalysis.recoveryWhatTitle')}</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  Recovery candidates are options that previously peaked at high probability (80%+, 85%+, 90%+, or 95%+) but have since declined to lower probability levels. Analysis shows these options expire worthless significantly more often than the probability model predicts—revealing systematic mispricing.
+                  {t('probabilityAnalysis.recoveryWhatDesc')}
                 </p>
                 <p className="text-sm text-muted-foreground mb-4">
-                  <strong>Why this matters:</strong> The probability model underestimates their true worthless rates by {formatNordicPercentagePoints(17.18, 2)} on average, while it underestimates for all options by only {formatNordicPercentagePoints(3.01, 2)}. This {formatNordicPercentagePoints(14.18, 2)} gap proves recovery candidates are systematically mispriced, not just statistical noise.
+                  <strong>{t('probabilityAnalysis.recoveryWhyMattersLabel')}</strong>{' '}
+                  {t('probabilityAnalysis.recoveryWhyMatters', {
+                    adv1: formatNordicPercentagePoints(17.18, 2),
+                    adv2: formatNordicPercentagePoints(3.01, 2),
+                    gap: formatNordicPercentagePoints(14.18, 2),
+                  })}
                 </p>
 
-                <h3 className="text-lg font-semibold mb-3 pt-2">How to Read the Chart</h3>
+                <h3 className="text-lg font-semibold mb-3 pt-2">{t('probabilityAnalysis.howToRead')}</h3>
                 <p className="text-sm text-muted-foreground mb-4">
-                  The chart compares worthless rates (green bars = recovery candidates vs red bars = all options) across different days-to-expiry periods. Higher green bars indicate better opportunities for put sellers.
+                  {t('probabilityAnalysis.howToReadRecovery')}
                 </p>
 
-                <h3 className="text-base font-semibold mb-2">Best Opportunities:</h3>
+                <h3 className="text-base font-semibold mb-2">{t('probabilityAnalysis.bestOpportunitiesTitle')}</h3>
                 <ul className="text-sm text-muted-foreground space-y-1 ml-4 list-disc">
-                  <li><strong>DTE:</strong> 36+ days show {formatNordicPercentagePoints(15.21, 2)} advantage (vs {formatNordicPercentagePoints(7.94, 2)} for 0-7 days)</li>
-                  <li><strong>Probability Bin:</strong> 50-60% show {formatNordicPercentagePoints(23.61, 2)} advantage (vs {formatNordicPercentagePoints(4.46, 2)} for 80-90%)</li>
-                  <li><strong>Method:</strong> Weighted Average shows {formatNordicPercentagePoints(16.06, 2)} advantage (best for identifying recovery opportunities)</li>
+                  <li><strong>DTE:</strong> {t('probabilityAnalysis.bestOpportunitiesDTE', { adv1: formatNordicPercentagePoints(15.21, 2), adv2: formatNordicPercentagePoints(7.94, 2) })}</li>
+                  <li><strong>Probability Bin:</strong> {t('probabilityAnalysis.bestOpportunitiesBin', { adv1: formatNordicPercentagePoints(23.61, 2), adv2: formatNordicPercentagePoints(4.46, 2) })}</li>
+                  <li><strong>Method:</strong> {t('probabilityAnalysis.bestOpportunitiesMethod', { adv1: formatNordicPercentagePoints(16.06, 2) })}</li>
                 </ul>
                 <p className="text-sm text-muted-foreground mt-4">
-                  Use the filters to explore which probability thresholds, methods, and current probability ranges show the strongest recovery advantages on specific stocks.
+                  {t('probabilityAnalysis.bestOpportunitiesFilter')}
                 </p>
               </div>
             </CardContent>

@@ -7,6 +7,7 @@
  */
 
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PlotWrapper as Plot } from '@/components/PlotWrapper';
 import { LowerBoundExpiryStatistic, LowerBoundDailyPrediction } from '@/types/lowerBound';
 import { useStockData } from '@/hooks/useStockData';
@@ -22,6 +23,8 @@ interface LowerBoundDistributionChartProps {
 export const LowerBoundDistributionChart: React.FC<
   LowerBoundDistributionChartProps
 > = ({ data, dailyPredictions: dailyPredictionsProp, stock, isLoading = false }) => {
+  const { t, i18n } = useTranslation('pages');
+
   // Load stock price data for this stock
   const stockDataQuery = useStockData();
 
@@ -142,7 +145,7 @@ export const LowerBoundDistributionChart: React.FC<
         x: breachesOnly.map((s) => s.ExpiryDate),
         y: breachesOnly.map((s) => parseInt(s.BreachCount)),
         type: 'bar',
-        name: 'Breach Count',
+        name: t('lowerBoundAnalysis.chartBreachCount'),
         marker: { color: 'red', opacity: 0.6 },
         yaxis: 'y2',
         xaxis: 'x1',
@@ -173,7 +176,7 @@ export const LowerBoundDistributionChart: React.FC<
             return isNaN(val) ? 0 : val;
           }),
           type: 'violin',
-          name: 'Predictions',
+          name: t('lowerBoundAnalysis.chartPredictions'),
           showlegend: false,
           line: { color: 'blue' },
           fillcolor: 'rgba(100, 149, 237, 0.5)',
@@ -203,7 +206,7 @@ export const LowerBoundDistributionChart: React.FC<
         x: stockPriceData.map((d) => d.date),
         y: stockPriceData.map((d) => d.close),
         mode: 'lines',
-        name: 'Stock Price',
+        name: t('lowerBoundAnalysis.chartStockPrice'),
         line: { color: 'black', width: 2.5 },
         xaxis: 'x1',
         yaxis: 'y1',
@@ -229,7 +232,7 @@ export const LowerBoundDistributionChart: React.FC<
         x: earningsEventDates,
         y: earningsEventPrices,
         mode: 'markers',
-        name: 'Earnings Events',
+        name: t('lowerBoundAnalysis.chartEarningsEvents'),
         marker: {
           color: 'rgb(255, 165, 0)',
           size: 12,
@@ -253,7 +256,7 @@ export const LowerBoundDistributionChart: React.FC<
         x: spanData.map((s) => s.expiryDate),
         y: spanData.map((s) => s.spanPercentage),
         type: 'bar',
-        name: 'Span %',
+        name: t('lowerBoundAnalysis.chartSpanPct'),
         marker: { color: 'rgb(76, 175, 80)', opacity: 0.7 },
         xaxis: 'x2',
         yaxis: 'y3',
@@ -263,14 +266,14 @@ export const LowerBoundDistributionChart: React.FC<
     }
 
     return traces;
-  }, [stockPriceData, expiryStats, dailyPredictions, earningsEventDates, spanData]);
+  }, [stockPriceData, expiryStats, dailyPredictions, earningsEventDates, spanData, i18n.language]);
 
   const layout = useMemo(() => {
     if (stockPriceData.length === 0 && expiryStats.length === 0) {
       return {
         title: `${stock} - Prediction Distribution & Breaches (No data available)`,
         xaxis: { title: 'Date' },
-        yaxis: { title: 'Price (SEK)' },
+        yaxis: { title: t('lowerBoundAnalysis.chartPriceSek') },
         height: 800,
         template: 'plotly_white',
         hovermode: 'x unified',
@@ -312,12 +315,12 @@ export const LowerBoundDistributionChart: React.FC<
         domain: [0, 1],
       },
       yaxis: {
-        title: 'Price (SEK)',
+        title: t('lowerBoundAnalysis.chartPriceSek'),
         side: 'right',
         domain: [0.40, 1], // Start from 0.40 to leave gap
       },
       yaxis2: {
-        title: 'Breach Count',
+        title: t('lowerBoundAnalysis.chartBreachCount'),
         side: 'left',
         overlaying: 'y',
         showgrid: false,
@@ -340,7 +343,7 @@ export const LowerBoundDistributionChart: React.FC<
         anchor: 'y3', // Anchor to yaxis3 so labels appear at bottom of span chart
       },
       yaxis3: {
-        title: 'Span %',
+        title: t('lowerBoundAnalysis.chartSpanPct'),
         side: 'left',
         range: [0, Math.max(maxSpanPercentage * 1.1, 10)],
         domain: [0, 0.35], // Ends at 0.35 to leave gap above
@@ -357,12 +360,12 @@ export const LowerBoundDistributionChart: React.FC<
     };
 
     return layoutObj;
-  }, [stockPriceData, expiryStats, spanData, xAxisTicksData, stock]);
+  }, [stockPriceData, expiryStats, spanData, xAxisTicksData, stock, i18n.language]);
 
   if (isLoading || !isStockDataReady) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">Loading distribution data...</p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.chartLoadingDist')}</p>
       </div>
     );
   }
@@ -370,9 +373,7 @@ export const LowerBoundDistributionChart: React.FC<
   if (stockPriceData.length === 0 && expiryStats.length === 0) {
     return (
       <div className="flex items-center justify-center h-96 bg-slate-50 rounded-lg">
-        <p className="text-slate-500">
-          No distribution data available for this stock
-        </p>
+        <p className="text-slate-500">{t('lowerBoundAnalysis.chartNoDistData')}</p>
       </div>
     );
   }
@@ -394,29 +395,27 @@ export const LowerBoundDistributionChart: React.FC<
 
       <div className="mt-4 space-y-2 text-sm text-slate-600">
         <p>
-          <strong>Date range:</strong>{' '}
-          {stockPriceData.length > 0
-            ? `${stockPriceData[0].date} to ${stockPriceData[stockPriceData.length - 1].date}`
-            : 'N/A'}{' '}
-          | <strong>Total breaches:</strong>{' '}
-          {expiryStats.reduce((sum, d) => sum + d.BreachCount, 0)}
+          {t('lowerBoundAnalysis.chartDateRange', {
+            from: stockPriceData.length > 0 ? stockPriceData[0].date : 'N/A',
+            to: stockPriceData.length > 0 ? stockPriceData[stockPriceData.length - 1].date : 'N/A',
+            breaches: expiryStats.reduce((sum, d) => sum + d.BreachCount, 0),
+          })}
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-black mr-2"></span>
-          <strong>Black line</strong> = Daily stock price (all trading days)
+          {t('lowerBoundAnalysis.chartLegendBlackLine')}
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-blue-500 mr-2"></span>
-          <strong>Blue violin</strong> = Prediction distribution (shown at each
-          expiry date)
+          {t('lowerBoundAnalysis.chartLegendBlueViolin')}
         </p>
         <p>
           <span className="inline-block w-3 h-3 bg-red-500 mr-2"></span>
-          <strong>Red bars</strong> = Breach count per expiry date (left y-axis)
+          {t('lowerBoundAnalysis.chartLegendRedBars')}
         </p>
         <p>
           <span className="inline-block w-3 h-3 mr-2" style={{ backgroundColor: 'rgb(76, 175, 80)' }}></span>
-          <strong>Green bars</strong> = Span percentage (range width: (max - min) / min × 100%, right y-axis)
+          {t('lowerBoundAnalysis.chartLegendGreenBars')}
         </p>
       </div>
     </div>
