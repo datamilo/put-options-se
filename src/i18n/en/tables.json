@@ -1,0 +1,84 @@
+{
+  "options": {
+    "stock": "Stock",
+    "option": "Option",
+    "expiryDate": "Expiry Date",
+    "daysToExpiry": "Days to Expiry",
+    "strikePrice": "Strike Price",
+    "premium": "Premium",
+    "contracts": "Contracts",
+    "probability": "PoW %",
+    "margin": "Est. Margin",
+    "strikeVsStock": "Strike vs Stock %",
+    "annualizedReturn": "Ann. Return %",
+    "riskLevel": "Risk Level",
+    "stockPrice": "Stock Price"
+  },
+  "monthly": {
+    "stock": "Stock",
+    "positiveReturnMonths": "Positive Return Months",
+    "meanReturn": "Mean Return",
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    }
+  },
+  "volatility": {
+    "stock": "Stock",
+    "eventType": "Event Type",
+    "impliedVolatility": "Implied Volatility",
+    "beforeEvent": "Before Event",
+    "afterEvent": "After Event",
+    "change": "Change"
+  },
+  "support": {
+    "stock": "Stock",
+    "supportLevel": "Support Level",
+    "currentPrice": "Current Price",
+    "distanceToSupport": "Distance to Support",
+    "consecutiveBreaks": "Consecutive Breaks",
+    "lastBreakDate": "Last Break Date"
+  },
+  "recommendations": {
+    "stock": "Stock",
+    "option": "Option",
+    "expiryDate": "Expiry Date",
+    "daysToExpiry": "Days to Expiry",
+    "strikePrice": "Strike Price",
+    "premium": "Premium",
+    "probability": "PoW %",
+    "annualizedReturn": "Ann. Return %",
+    "recoveryAdvantage": "Recovery Advantage",
+    "score": "Score"
+  },
+  "scored": {
+    "rank": "Rank",
+    "stock": "Stock",
+    "option": "Option",
+    "score": "Score",
+    "probability": "PoW %",
+    "annualizedReturn": "Ann. Return %",
+    "expiryDate": "Expiry Date",
+    "daysToExpiry": "Days to Expiry",
+    "strikePrice": "Strike Price",
+    "premium": "Premium"
+  },
+  "lowerBound": {
+    "stock": "Stock",
+    "lowerBound": "Lower Bound",
+    "currentPrice": "Current Price",
+    "hitRate": "Hit Rate",
+    "predictions": "Predictions",
+    "expiryDate": "Expiry Date"
+  }
+}

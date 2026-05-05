@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "portfolioGenerator": "Portfolio Generator",
+    "monthlyAnalysis": "Monthly Analysis",
+    "financialReportingVolatility": "Financial Reporting Volatility",
+    "supportLevelAnalysis": "Support Level Analysis",
+    "supportLevelOptionsList": "Support Level Options List",
+    "stockMetricsAndHistory": "Stock Metrics and History",
+    "probabilityAnalysis": "Probability Analysis",
+    "lowerBoundAnalysis": "Lower Bound Analysis",
+    "settings": "Settings",
+    "calculationSettings": "Calculation Settings",
+    "signOut": "Sign out",
+    "toggleTheme": "Toggle Theme",
+    "openMenu": "Open menu",
+    "historicalPerformanceAndVolatility": "Historical Performance and Volatility",
+    "methodValidation": "Method Validation",
+    "automatedAnalysis": "Automated Analysis",
+    "automatedPutOptionRecommendations": "Automated Put Option Recommendations",
+    "impliedVolatilityHistory": "Implied Volatility History",
+    "scoredOptions": "Scored Options",
+    "automaticPortfolioGenerator": "Automatic Portfolio Generator",
+    "switchToDarkMode": "Switch to dark mode",
+    "switchToLightMode": "Switch to light mode"
+  },
+  "language": {
+    "en": "EN",
+    "sv": "SV",
+    "switchLanguage": "Switch language / Byt språk"
+  },
+  "button": {
+    "back": "Back",
+    "reset": "Reset to Default",
+    "export": "Export",
+    "download": "Download",
+    "loadSampleData": "Load Sample Data Instead",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "signOut": "Sign out"
+  },
+  "status": {
+    "loading": "Loading...",
+    "loadingData": "Loading data...",
+    "error": "Error",
+    "errorLoadingData": "Error Loading Data",
+    "noData": "No data",
+    "exportSuccessful": "Export successful"
+  },
+  "filter": {
+    "selectStock": "Select Stock",
+    "selectExpiryDate": "Select expiry date",
+    "selectPeriod": "Select Period",
+    "allStocks": "All Stocks",
+    "allMonths": "All Months",
+    "allExpiryDates": "All Expiry Dates",
+    "searchStocks": "Search stocks...",
+    "searchMonths": "Search months...",
+    "searchDates": "Search dates...",
+    "noStockFound": "No stock found.",
+    "noMonthFound": "No month found.",
+    "noDateFound": "No date found.",
+    "filterByStock": "Filter by Stock",
+    "filterByExpiryDate": "Filter by Expiry Date"
+  },
+  "period": {
+    "1w": "1 Week",
+    "1m": "1 Month",
+    "3m": "3 Months",
+    "6m": "6 Months",
+    "9m": "9 Months",
+    "1y": "1 Year",
+    "today": "Today",
+    "currentWeek": "Current Week",
+    "currentMonth": "Current Month",
+    "currentYear": "Current Year"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "switchToSignUp": "Don't have an account? Sign up",
+    "switchToSignIn": "Already have an account? Sign in",
+    "failedSignIn": "Failed to sign in",
+    "failedSignUp": "Failed to sign up"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "The page you are looking for does not exist.",
+    "backHome": "Back to Home"
+  },
+  "settings": {
+    "title": "Calculation Settings",
+    "underlyingValue": "Underlying Value",
+    "transactionCost": "Transaction Cost"
+  }
+}

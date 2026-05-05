@@ -1,0 +1,49 @@
+{
+  "axes": {
+    "dayOfMonth": "Dag i månaden",
+    "frequency": "Frekvens (antal förekomster)",
+    "hitRate": "Träffkvot (%)",
+    "predictionCount": "Antal prognoser",
+    "predictedProbability": "Förutsedd sannolikhet",
+    "actualRate": "Faktisk frekvens",
+    "return": "Avkastning (%)",
+    "price": "Pris (kr)",
+    "date": "Datum",
+    "stockPrice": "Aktiepris (kr)",
+    "impliedVolatility": "Implicit volatilitet (%)",
+    "probability": "Sannolikhet (%)",
+    "annualizedReturn": "Annualiserad avkastning (%)",
+    "score": "Poäng"
+  },
+  "labels": {
+    "hitRate": "Träffkvot (%)",
+    "predictions": "Prognoser",
+    "positiveMonths": "Positiva månader %",
+    "avgReturn": "Genomsnittlig avk. %",
+    "calibrationLine": "Perfekt kalibrering",
+    "recoveryCandidates": "Återhämtningskandidater",
+    "nonRecovery": "Icke-återhämtning"
+  },
+  "titles": {
+    "calibrationAnalysis": "Kalibringsanalys",
+    "monthlySeasonalityHeatmap": "Månadssäsongsvariation – värmekarta",
+    "timelinePerformance": "Tidslinjeprestanda",
+    "hitRateTrend": "Träffkvotstrend",
+    "lowerBoundPredictions": "Nedre gräns-prognoser",
+    "stockPriceHistory": "Aktiekurshistorik",
+    "impliedVolatilityHistory": "Historik för implicit volatilitet",
+    "probabilityDistribution": "Sannolikhetsfördelning",
+    "returnDistribution": "Avkastningsfördelning",
+    "dayDistribution": "Dagsfördelning"
+  },
+  "methods": {
+    "weightedAverage": "PoW - Viktat genomsnitt",
+    "bayesianCalibrated": "PoW - Bayesiansk kalibrering",
+    "originalBlackScholes": "PoW - Original Black-Scholes",
+    "biasCorreected": "PoW - Biaskorrigerad",
+    "historicalIV": "PoW - Historisk IV"
+  },
+  "tooltip": {
+    "howToReadChart": "Så läser du diagrammet"
+  }
+}

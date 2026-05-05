@@ -1,0 +1,97 @@
+{
+  "nav": {
+    "portfolioGenerator": "Portföljgenerator",
+    "monthlyAnalysis": "Månadsanalys",
+    "financialReportingVolatility": "Volatilitet vid finansiell rapportering",
+    "supportLevelAnalysis": "Stödnivåanalys",
+    "supportLevelOptionsList": "Lista säljoptioner vid stödnivå",
+    "stockMetricsAndHistory": "Aktienyckeltal och historik",
+    "probabilityAnalysis": "Sannolikhetsanalys",
+    "lowerBoundAnalysis": "Nedre gräns-analys",
+    "settings": "Inställningar",
+    "calculationSettings": "Beräkningsinställningar",
+    "signOut": "Logga ut",
+    "toggleTheme": "Växla tema",
+    "openMenu": "Öppna meny",
+    "historicalPerformanceAndVolatility": "Historisk avkastning och volatilitet",
+    "methodValidation": "Metodvalidering",
+    "automatedAnalysis": "Automatiserad analys",
+    "automatedPutOptionRecommendations": "Automatiserade säljoptionsrekommendationer",
+    "impliedVolatilityHistory": "Historik för implicit volatilitet",
+    "scoredOptions": "Rankade optioner",
+    "automaticPortfolioGenerator": "Automatisk portföljgenerator",
+    "switchToDarkMode": "Växla till mörkt läge",
+    "switchToLightMode": "Växla till ljust läge"
+  },
+  "language": {
+    "en": "EN",
+    "sv": "SV",
+    "switchLanguage": "Switch language / Byt språk"
+  },
+  "button": {
+    "back": "Tillbaka",
+    "reset": "Återställ standard",
+    "export": "Exportera",
+    "download": "Ladda ned",
+    "loadSampleData": "Ladda exempeldata istället",
+    "signIn": "Logga in",
+    "signUp": "Skapa konto",
+    "signOut": "Logga ut"
+  },
+  "status": {
+    "loading": "Laddar...",
+    "loadingData": "Laddar data...",
+    "error": "Fel",
+    "errorLoadingData": "Fel vid datainläsning",
+    "noData": "Ingen data",
+    "exportSuccessful": "Export lyckades"
+  },
+  "filter": {
+    "selectStock": "Välj aktie",
+    "selectExpiryDate": "Välj förfallodatum",
+    "selectPeriod": "Välj period",
+    "allStocks": "Alla aktier",
+    "allMonths": "Alla månader",
+    "allExpiryDates": "Alla förfallodatum",
+    "searchStocks": "Sök aktier...",
+    "searchMonths": "Sök månader...",
+    "searchDates": "Sök datum...",
+    "noStockFound": "Ingen aktie hittad.",
+    "noMonthFound": "Ingen månad hittad.",
+    "noDateFound": "Inget datum hittat.",
+    "filterByStock": "Filtrera på aktie",
+    "filterByExpiryDate": "Filtrera på förfallodatum"
+  },
+  "period": {
+    "1w": "1 vecka",
+    "1m": "1 månad",
+    "3m": "3 månader",
+    "6m": "6 månader",
+    "9m": "9 månader",
+    "1y": "1 år",
+    "today": "Idag",
+    "currentWeek": "Innevarande vecka",
+    "currentMonth": "Innevarande månad",
+    "currentYear": "Innevarande år"
+  },
+  "auth": {
+    "email": "E-post",
+    "password": "Lösenord",
+    "signIn": "Logga in",
+    "signUp": "Skapa konto",
+    "switchToSignUp": "Har du inget konto? Registrera dig",
+    "switchToSignIn": "Har du redan ett konto? Logga in",
+    "failedSignIn": "Inloggning misslyckades",
+    "failedSignUp": "Kontoregistrering misslyckades"
+  },
+  "notFound": {
+    "title": "Sidan hittades inte",
+    "message": "Sidan du söker finns inte.",
+    "backHome": "Tillbaka till startsidan"
+  },
+  "settings": {
+    "title": "Beräkningsinställningar",
+    "underlyingValue": "Underliggande värde",
+    "transactionCost": "Transaktionskostnad"
+  }
+}

@@ -30,12 +30,15 @@ import {
 import { useAuth } from "@/auth/AuthProvider";
 import { useState } from "react";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export const HorizontalNavigation = () => {
   const location = useLocation();
   const { signOut } = useAuth();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { setTheme, theme } = useTheme();
+  const { t } = useTranslation('common');
 
   // Helper to determine if a route is active
   const isActive = (path: string) => {
@@ -114,26 +117,26 @@ export const HorizontalNavigation = () => {
       {/* Desktop Horizontal Navigation */}
       <nav className="hidden md:flex items-center gap-1 flex-wrap flex-1">
         {/* Support Level Analysis */}
-        <NavButton path="/consecutive-breaks" icon={ChartNetwork} label="Support Level Analysis" />
+        <NavButton path="/consecutive-breaks" icon={ChartNetwork} label={t('nav.supportLevelAnalysis')} />
 
         {/* Historical Performance and Volatility Dropdown */}
         <NavDropdown
-          label="Historical Performance and Volatility"
+          label={t('nav.historicalPerformanceAndVolatility')}
           icon={Calendar}
           items={[
             {
               path: "/monthly-analysis",
-              label: "Monthly Analysis",
+              label: t('nav.monthlyAnalysis'),
               icon: Calendar,
             },
             {
               path: "/volatility-analysis",
-              label: "Financial Reporting Volatility",
+              label: t('nav.financialReportingVolatility'),
               icon: Activity,
             },
             {
               path: "/iv-analysis",
-              label: "Implied Volatility History",
+              label: t('nav.impliedVolatilityHistory'),
               icon: TrendingUp,
             },
           ]}
@@ -141,17 +144,17 @@ export const HorizontalNavigation = () => {
 
         {/* Method Validation Dropdown */}
         <NavDropdown
-          label="Method Validation"
+          label={t('nav.methodValidation')}
           icon={TrendingUpDown}
           items={[
             {
               path: "/probability-analysis",
-              label: "Probability Analysis",
+              label: t('nav.probabilityAnalysis'),
               icon: TrendingUpDown,
             },
             {
               path: "/lower-bound-analysis",
-              label: "Lower Bound Analysis",
+              label: t('nav.lowerBoundAnalysis'),
               icon: ArrowDown10,
             },
           ]}
@@ -161,31 +164,31 @@ export const HorizontalNavigation = () => {
         <div className="flex-1" />
 
         {/* Stock Metrics and History */}
-        <NavButton path="/stock-analysis" icon={LineChart} label="Stock Metrics and History" />
+        <NavButton path="/stock-analysis" icon={LineChart} label={t('nav.stockMetricsAndHistory')} />
 
         {/* Automated Analysis Dropdown */}
         <NavDropdown
-          label="Automated Analysis"
+          label={t('nav.automatedAnalysis')}
           icon={Zap}
           items={[
             {
               path: "/recommendations",
-              label: "Automated Put Option Recommendations",
+              label: t('nav.automatedPutOptionRecommendations'),
               icon: Sparkles,
             },
             {
               path: "/scored-options",
-              label: "Scored Options",
+              label: t('nav.scoredOptions'),
               icon: Target,
             },
             {
               path: "/portfolio-generator",
-              label: "Automatic Portfolio Generator",
+              label: t('nav.automaticPortfolioGenerator'),
               icon: Bot,
             },
             {
               path: "/support-level-options",
-              label: "Support Level Options List",
+              label: t('nav.supportLevelOptionsList'),
               icon: Target,
             },
           ]}
@@ -198,7 +201,7 @@ export const HorizontalNavigation = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="icon" className="h-9 w-9">
               <Menu className="h-4 w-4" />
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t('nav.openMenu')}</span>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -209,7 +212,7 @@ export const HorizontalNavigation = () => {
             <DropdownMenuItem asChild className="cursor-pointer">
               <Link to="/stock-analysis">
                 <LineChart className="mr-2 h-4 w-4" />
-                Stock Metrics and History
+                {t('nav.stockMetricsAndHistory')}
               </Link>
             </DropdownMenuItem>
 
@@ -219,7 +222,7 @@ export const HorizontalNavigation = () => {
             <DropdownMenuItem asChild className="cursor-pointer">
               <Link to="/consecutive-breaks">
                 <ChartNetwork className="mr-2 h-4 w-4" />
-                Support Level Analysis
+                {t('nav.supportLevelAnalysis')}
               </Link>
             </DropdownMenuItem>
 
@@ -227,30 +230,30 @@ export const HorizontalNavigation = () => {
 
             {/* Automated Analysis Group */}
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
-              Automated Analysis
+              {t('nav.automatedAnalysis')}
             </div>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/recommendations">
                 <Sparkles className="mr-2 h-4 w-4" />
-                Automated Put Option Recommendations
+                {t('nav.automatedPutOptionRecommendations')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/scored-options">
                 <Target className="mr-2 h-4 w-4" />
-                Scored Options
+                {t('nav.scoredOptions')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/portfolio-generator">
                 <Bot className="mr-2 h-4 w-4" />
-                Automatic Portfolio Generator
+                {t('nav.automaticPortfolioGenerator')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/support-level-options">
                 <Target className="mr-2 h-4 w-4" />
-                Support Level Options List
+                {t('nav.supportLevelOptionsList')}
               </Link>
             </DropdownMenuItem>
 
@@ -258,24 +261,24 @@ export const HorizontalNavigation = () => {
 
             {/* Historical Performance and Volatility Group */}
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
-              Historical Performance and Volatility
+              {t('nav.historicalPerformanceAndVolatility')}
             </div>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/monthly-analysis">
                 <Calendar className="mr-2 h-4 w-4" />
-                Monthly Analysis
+                {t('nav.monthlyAnalysis')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/volatility-analysis">
                 <Activity className="mr-2 h-4 w-4" />
-                Financial Reporting Volatility
+                {t('nav.financialReportingVolatility')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/iv-analysis">
                 <TrendingUp className="mr-2 h-4 w-4" />
-                Implied Volatility History
+                {t('nav.impliedVolatilityHistory')}
               </Link>
             </DropdownMenuItem>
 
@@ -283,18 +286,18 @@ export const HorizontalNavigation = () => {
 
             {/* Method Validation Group */}
             <div className="px-2 py-1.5 text-sm font-medium text-muted-foreground">
-              Method Validation
+              {t('nav.methodValidation')}
             </div>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/probability-analysis">
                 <TrendingUpDown className="mr-2 h-4 w-4" />
-                Probability Analysis
+                {t('nav.probabilityAnalysis')}
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild className="cursor-pointer ml-2">
               <Link to="/lower-bound-analysis">
                 <ArrowDown10 className="mr-2 h-4 w-4" />
-                Lower Bound Analysis
+                {t('nav.lowerBoundAnalysis')}
               </Link>
             </DropdownMenuItem>
 
@@ -306,7 +309,7 @@ export const HorizontalNavigation = () => {
               className="cursor-pointer"
             >
               <Settings className="mr-2 h-4 w-4" />
-              Settings
+              {t('nav.settings')}
             </DropdownMenuItem>
 
             <DropdownMenuItem
@@ -318,7 +321,7 @@ export const HorizontalNavigation = () => {
               ) : (
                 <Sun className="mr-2 h-4 w-4" />
               )}
-              Toggle Theme
+              {t('nav.toggleTheme')}
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
@@ -329,23 +332,25 @@ export const HorizontalNavigation = () => {
               className="cursor-pointer text-destructive focus:text-destructive"
             >
               <LogOut className="mr-2 h-4 w-4" />
-              Sign out
+              {t('nav.signOut')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
-      {/* Desktop Utilities (Settings, Theme, Logout) */}
+      {/* Desktop Utilities (Language, Settings, Theme, Logout) */}
       <div className="hidden md:flex items-center gap-1">
+        <LanguageSwitcher />
+
         <Button
           onClick={() => setSettingsOpen(true)}
           variant="ghost"
           size="sm"
           className="flex items-center gap-2"
-          title="Calculation Settings"
+          title={t('nav.calculationSettings')}
         >
           <Settings className="h-4 w-4" />
-          <span className="hidden lg:inline text-sm">Calculation Settings</span>
+          <span className="hidden lg:inline text-sm">{t('nav.calculationSettings')}</span>
         </Button>
 
         <Button
@@ -353,7 +358,7 @@ export const HorizontalNavigation = () => {
           variant="ghost"
           size="icon"
           className="h-9 w-9"
-          title={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+          title={theme === "light" ? t('nav.switchToDarkMode') : t('nav.switchToLightMode')}
         >
           {theme === "light" ? (
             <Moon className="h-4 w-4" />
@@ -367,7 +372,7 @@ export const HorizontalNavigation = () => {
           variant="ghost"
           size="icon"
           className="h-9 w-9 text-destructive hover:text-destructive"
-          title="Sign out"
+          title={t('nav.signOut')}
         >
           <LogOut className="h-4 w-4" />
         </Button>

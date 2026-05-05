@@ -13,6 +13,7 @@ import { useAuth } from "@/auth/AuthProvider";
 import { useState } from "react";
 import { useSettings } from "@/contexts/SettingsContext";
 import { useTheme } from "next-themes";
+import { useTranslation } from "react-i18next";
 
 export const NavigationMenu = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export const NavigationMenu = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { underlyingValue, transactionCost } = useSettings();
   const { setTheme, theme } = useTheme();
+  const { t } = useTranslation('common');
 
   return (
     <>
@@ -39,23 +41,23 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <Bot className="mr-2 h-4 w-4" />
-            Portfolio Generator
+            {t('nav.portfolioGenerator')}
           </DropdownMenuItem>
-          
+
           <DropdownMenuItem
             onClick={() => navigate('/monthly-analysis')}
             className="cursor-pointer"
           >
             <Calendar className="mr-2 h-4 w-4" />
-            Monthly Analysis
+            {t('nav.monthlyAnalysis')}
           </DropdownMenuItem>
-          
+
           <DropdownMenuItem
             onClick={() => navigate('/volatility-analysis')}
             className="cursor-pointer"
           >
             <Activity className="mr-2 h-4 w-4" />
-            Financial Reporting Volatility
+            {t('nav.financialReportingVolatility')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
@@ -63,7 +65,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <ChartNetwork className="mr-2 h-4 w-4" />
-            Support Level Analysis
+            {t('nav.supportLevelAnalysis')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
@@ -71,7 +73,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <Target className="mr-2 h-4 w-4" />
-            Support Level Options List
+            {t('nav.supportLevelOptionsList')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
@@ -79,7 +81,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <LineChart className="mr-2 h-4 w-4" />
-            Stock Metrics and History
+            {t('nav.stockMetricsAndHistory')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
@@ -87,7 +89,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <TrendingUpDown className="mr-2 h-4 w-4" />
-            Probability Analysis
+            {t('nav.probabilityAnalysis')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
@@ -95,7 +97,7 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <ArrowDown10 className="mr-2 h-4 w-4" />
-            Lower Bound Analysis
+            {t('nav.lowerBoundAnalysis')}
           </DropdownMenuItem>
 
           <DropdownMenuItem
@@ -105,9 +107,9 @@ export const NavigationMenu = () => {
             className="cursor-pointer"
           >
             <Settings className="mr-2 h-4 w-4" />
-            Settings
+            {t('nav.settings')}
           </DropdownMenuItem>
-          
+
           <DropdownMenuItem
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             className="cursor-pointer"
@@ -118,15 +120,15 @@ export const NavigationMenu = () => {
               <Sun className="mr-2 h-4 w-4" />
             )}
           </DropdownMenuItem>
-          
+
           <DropdownMenuSeparator />
-          
-          <DropdownMenuItem 
+
+          <DropdownMenuItem
             onClick={signOut}
             className="cursor-pointer text-destructive focus:text-destructive"
           >
             <LogOut className="mr-2 h-4 w-4" />
-            Sign out
+            {t('nav.signOut')}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

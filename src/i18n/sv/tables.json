@@ -1,0 +1,84 @@
+{
+  "options": {
+    "stock": "Aktie",
+    "option": "Option",
+    "expiryDate": "Förfallodatum",
+    "daysToExpiry": "Dagar till förfall",
+    "strikePrice": "Lösenpris",
+    "premium": "Premie",
+    "contracts": "Kontrakt",
+    "probability": "PoW %",
+    "margin": "Uppsk. marginal",
+    "strikeVsStock": "Lösenpris vs aktie %",
+    "annualizedReturn": "Annualiserad avk. %",
+    "riskLevel": "Risknivå",
+    "stockPrice": "Aktiepris"
+  },
+  "monthly": {
+    "stock": "Aktie",
+    "positiveReturnMonths": "Månader med positiv avkastning",
+    "meanReturn": "Genomsnittlig avkastning",
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "Maj",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Okt",
+      "nov": "Nov",
+      "dec": "Dec"
+    }
+  },
+  "volatility": {
+    "stock": "Aktie",
+    "eventType": "Händelsetyp",
+    "impliedVolatility": "Implicit volatilitet",
+    "beforeEvent": "Före händelse",
+    "afterEvent": "Efter händelse",
+    "change": "Förändring"
+  },
+  "support": {
+    "stock": "Aktie",
+    "supportLevel": "Stödnivå",
+    "currentPrice": "Aktuellt pris",
+    "distanceToSupport": "Avstånd till stödnivå",
+    "consecutiveBreaks": "Konsekutiva genombrott",
+    "lastBreakDate": "Senaste genombrott"
+  },
+  "recommendations": {
+    "stock": "Aktie",
+    "option": "Option",
+    "expiryDate": "Förfallodatum",
+    "daysToExpiry": "Dagar till förfall",
+    "strikePrice": "Lösenpris",
+    "premium": "Premie",
+    "probability": "PoW %",
+    "annualizedReturn": "Annualiserad avk. %",
+    "recoveryAdvantage": "Återhämtningsfördel",
+    "score": "Poäng"
+  },
+  "scored": {
+    "rank": "Rang",
+    "stock": "Aktie",
+    "option": "Option",
+    "score": "Poäng",
+    "probability": "PoW %",
+    "annualizedReturn": "Annualiserad avk. %",
+    "expiryDate": "Förfallodatum",
+    "daysToExpiry": "Dagar till förfall",
+    "strikePrice": "Lösenpris",
+    "premium": "Premie"
+  },
+  "lowerBound": {
+    "stock": "Aktie",
+    "lowerBound": "Nedre gräns",
+    "currentPrice": "Aktuellt pris",
+    "hitRate": "Träffkvot",
+    "predictions": "Prognoser",
+    "expiryDate": "Förfallodatum"
+  }
+}

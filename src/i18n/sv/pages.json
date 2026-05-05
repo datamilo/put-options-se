@@ -1,0 +1,133 @@
+{
+  "index": {
+    "title": "Svenska säljoptioner",
+    "subtitle": "Optionsanalys",
+    "tabs": {
+      "table": "Tabellvy",
+      "charts": "Diagram"
+    },
+    "riskLevel": {
+      "heading": "Risknivåklassificering",
+      "high": "Hög risk: ≤60% sannolikhet att förfalla värdelös",
+      "medium": "Medelhög risk: >60% och <80% sannolikhet att förfalla värdelös",
+      "low": "Låg risk: ≥80% sannolikhet att förfalla värdelös"
+    },
+    "filters": {
+      "strikePrice": "Lösenpris",
+      "riskLevel": "Risknivå",
+      "stock": "Aktie",
+      "expiryDate": "Förfallodatum",
+      "probabilityMethod": "Sannolikhetsmetod",
+      "high": "Hög",
+      "medium": "Medel",
+      "low": "Låg",
+      "allRiskLevels": "Alla risknivåer"
+    },
+    "empty": {
+      "title": "Laddar optionsdata",
+      "noOptions": "Inga optioner matchar nuvarande filter."
+    }
+  },
+  "monthlyAnalysis": {
+    "title": "Månadsanalys av aktier",
+    "subtitle": "Historiska säsongsmönster och avkastningsmått",
+    "sections": {
+      "heatmap": "Månadssäsongsvariation – värmekarta",
+      "timeline": "Tidslinjediagram",
+      "statistics": "Detaljerad statistiktabell"
+    },
+    "filters": {
+      "minHistory": "Min historik (månader)",
+      "showTopN": "Visa topp N aktier"
+    }
+  },
+  "stockAnalysis": {
+    "title": "Aktienyckeltal och historik",
+    "noStockSelected": "Ingen aktie vald",
+    "stockNotFound": "Aktie ej hittad",
+    "pleaseSelect": "Välj en aktie att visa.",
+    "sections": {
+      "currentPrice": "Aktuellt pris",
+      "medianDailyVolume": "Median daglig volym",
+      "oneYearRange": "1 årsintervall",
+      "volatility": "Volatilitet",
+      "performanceMetrics": "Avkastningsmått",
+      "priceRanges": "Prisintervall"
+    }
+  },
+  "probabilityAnalysis": {
+    "title": "Sannolikhetsanalys",
+    "subtitle": "Metodvalidering och återhämtningsmöjligheter",
+    "kpi": {
+      "recoveryCandidates": "Återhämtningskandidater",
+      "allOptions": "Alla optioner (facit)",
+      "avgAccuracy": "Genomsnittlig träffsäkerhet",
+      "stocksAnalyzed": "Analyserade aktier"
+    },
+    "sections": {
+      "calibration": "Kalibringsanalys",
+      "stockPerformance": "Aktieprestanda per metod",
+      "recoveryAnalysis": "Sannolikhetsåterhämtningsanalys"
+    },
+    "finding": "Validerat fynd: Återhämtningskandidater förfaller värdelösa 1,17x oftare",
+    "methods": {
+      "weightedAverage": "Viktat genomsnitt",
+      "bayesianCalibrated": "Bayesiansk kalibrering",
+      "originalBlackScholes": "Original Black-Scholes",
+      "biasCorreected": "Biaskorrigerad",
+      "historicalIV": "Historisk IV"
+    },
+    "recoveryCandidatesExplained": {
+      "title": "Vad är återhämtningskandidater?",
+      "dteBins": {
+        "all": "Alla DTE",
+        "0to3": "0–3 dagar",
+        "4to7": "4–7 dagar",
+        "8to14": "8–14 dagar",
+        "15to21": "15–21 dagar",
+        "22to28": "22–28 dagar",
+        "29to35": "29–35 dagar",
+        "35plus": "35+ dagar"
+      }
+    }
+  },
+  "lowerBoundAnalysis": {
+    "title": "Nedre gräns-analys",
+    "subtitle": "Historiska träffkvoter för nedre gräns och prognosanalys"
+  },
+  "volatilityAnalysis": {
+    "title": "Volatilitet vid finansiell rapportering",
+    "loading": "Laddar volatilitetsanalysdata...",
+    "error": "Fel vid inläsning av volatilitetsdata"
+  },
+  "ivAnalysis": {
+    "title": "Historik för implicit volatilitet",
+    "loading": "Laddar IV-analysdata..."
+  },
+  "consecutiveBreaks": {
+    "title": "Stödnivåanalys",
+    "loading": "Laddar stödnivådata..."
+  },
+  "supportLevelOptions": {
+    "title": "Lista säljoptioner vid stödnivå",
+    "loading": "Laddar stödnivåoptioner..."
+  },
+  "recommendations": {
+    "title": "Automatiserade säljoptionsrekommendationer",
+    "loading": "Laddar rekommendationer..."
+  },
+  "scoredOptions": {
+    "title": "Rankade optioner",
+    "loading": "Laddar rankade optioner..."
+  },
+  "portfolioGenerator": {
+    "title": "Automatisk portföljgenerator",
+    "loading": "Laddar portföljgenerator..."
+  },
+  "optionDetails": {
+    "title": "Optionsdetaljer",
+    "loading": "Laddar optionsdata...",
+    "back": "Tillbaka till optioner",
+    "notFound": "Option ej hittad"
+  }
+}

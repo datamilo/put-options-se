@@ -1,0 +1,133 @@
+{
+  "index": {
+    "title": "Swedish Put Options",
+    "subtitle": "Options Analysis",
+    "tabs": {
+      "table": "Table View",
+      "charts": "Charts"
+    },
+    "riskLevel": {
+      "heading": "Risk Level Classification",
+      "high": "High Risk: ≤60% probability of being worthless",
+      "medium": "Medium Risk: >60% and <80% probability of being worthless",
+      "low": "Low Risk: ≥80% probability of being worthless"
+    },
+    "filters": {
+      "strikePrice": "Strike Price",
+      "riskLevel": "Risk Level",
+      "stock": "Stock",
+      "expiryDate": "Expiry Date",
+      "probabilityMethod": "Probability Method",
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "allRiskLevels": "All Risk Levels"
+    },
+    "empty": {
+      "title": "Loading Options Data",
+      "noOptions": "No options match the current filters."
+    }
+  },
+  "monthlyAnalysis": {
+    "title": "Monthly Stock Analysis",
+    "subtitle": "Historical seasonal patterns and performance metrics",
+    "sections": {
+      "heatmap": "Monthly Seasonality Heatmap",
+      "timeline": "Timeline Performance Chart",
+      "statistics": "Detailed Statistics Table"
+    },
+    "filters": {
+      "minHistory": "Min History (months)",
+      "showTopN": "Show Top N Stocks"
+    }
+  },
+  "stockAnalysis": {
+    "title": "Stock Metrics and History",
+    "noStockSelected": "No Stock Selected",
+    "stockNotFound": "Stock Not Found",
+    "pleaseSelect": "Please select a stock to view.",
+    "sections": {
+      "currentPrice": "Current Price",
+      "medianDailyVolume": "Median Daily Volume",
+      "oneYearRange": "1 Year Range",
+      "volatility": "Volatility",
+      "performanceMetrics": "Performance Metrics",
+      "priceRanges": "Price Ranges"
+    }
+  },
+  "probabilityAnalysis": {
+    "title": "Probability Analysis",
+    "subtitle": "Method validation and recovery opportunities",
+    "kpi": {
+      "recoveryCandidates": "Recovery Candidates",
+      "allOptions": "All Options (Ground Truth)",
+      "avgAccuracy": "Avg Accuracy",
+      "stocksAnalyzed": "Stocks Analyzed"
+    },
+    "sections": {
+      "calibration": "Calibration Analysis",
+      "stockPerformance": "Stock Performance by Method",
+      "recoveryAnalysis": "Probability Recovery Analysis"
+    },
+    "finding": "Validated Finding: Recovery Candidates Expire Worthless 1.17x More Often",
+    "methods": {
+      "weightedAverage": "Weighted Average",
+      "bayesianCalibrated": "Bayesian Calibrated",
+      "originalBlackScholes": "Original Black-Scholes",
+      "biasCorreected": "Bias Corrected",
+      "historicalIV": "Historical IV"
+    },
+    "recoveryCandidatesExplained": {
+      "title": "What Are Recovery Candidates?",
+      "dteBins": {
+        "all": "All DTE",
+        "0to3": "0-3 days",
+        "4to7": "4-7 days",
+        "8to14": "8-14 days",
+        "15to21": "15-21 days",
+        "22to28": "22-28 days",
+        "29to35": "29-35 days",
+        "35plus": "35+ days"
+      }
+    }
+  },
+  "lowerBoundAnalysis": {
+    "title": "Lower Bound Analysis",
+    "subtitle": "Historical lower bound hit rates and prediction analysis"
+  },
+  "volatilityAnalysis": {
+    "title": "Financial Reporting Volatility",
+    "loading": "Loading volatility analysis data...",
+    "error": "Error loading volatility data"
+  },
+  "ivAnalysis": {
+    "title": "Implied Volatility History",
+    "loading": "Loading IV analysis data..."
+  },
+  "consecutiveBreaks": {
+    "title": "Support Level Analysis",
+    "loading": "Loading support level data..."
+  },
+  "supportLevelOptions": {
+    "title": "Support Level Options List",
+    "loading": "Loading support level options..."
+  },
+  "recommendations": {
+    "title": "Automated Put Option Recommendations",
+    "loading": "Loading recommendations..."
+  },
+  "scoredOptions": {
+    "title": "Scored Options",
+    "loading": "Loading scored options..."
+  },
+  "portfolioGenerator": {
+    "title": "Automatic Portfolio Generator",
+    "loading": "Loading portfolio generator..."
+  },
+  "optionDetails": {
+    "title": "Option Details",
+    "loading": "Loading option data...",
+    "back": "Back to Options",
+    "notFound": "Option Not Found"
+  }
+}

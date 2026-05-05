@@ -1,0 +1,51 @@
+{
+  "riskLevel": {
+    "title": "Risknivåklassificering",
+    "high": {
+      "label": "Hög risk",
+      "description": "≤60% sannolikhet att förfalla värdelös"
+    },
+    "medium": {
+      "label": "Medelhög risk",
+      "description": ">60% och <80% sannolikhet att förfalla värdelös"
+    },
+    "low": {
+      "label": "Låg risk",
+      "description": "≥80% sannolikhet att förfalla värdelös"
+    }
+  },
+  "probability": {
+    "pow": "Sannolikhet att förfalla värdelös (PoW) — uppskattad sannolikhet att optionen förfaller utan inneboende värde.",
+    "weightedAverage": "Viktat genomsnitt av flera sannolikhetsestimationsmetoder.",
+    "bayesianCalibrated": "Bayesiansk kalibrering justerar råa modellutdata med historisk träffsäkerhetsdata för bättre kalibrerade sannolikheter.",
+    "originalBlackScholes": "Standard Black-Scholes-modellens sannolikhet med användning av implicit volatilitet från optionspriset.",
+    "biasCorreected": "Black-Scholes-sannolikhet korrigerad för systematisk överskattningsbias observerad i historiska data.",
+    "historicalIV": "Sannolikhet beräknad med historisk realiserad volatilitet istället för implicit volatilitet."
+  },
+  "recoveryAdvantage": {
+    "title": "Återhämtningsfördel",
+    "description": "Statistisk fördel från sannolikhetsåterhämtning — optioner där flera metoder är eniga om hög sannolikhet att förfalla värdelösa."
+  },
+  "margin": {
+    "title": "Uppskattad marginal",
+    "description": "Ungefärligt marginalkrav baserat på standardberäkning. Faktisk marginal kan skilja sig mellan mäklare."
+  },
+  "annualizedReturn": {
+    "title": "Annualiserad avkastning",
+    "description": "Mottagen premie dividerat med marginalkrav, omräknat till årstakt."
+  },
+  "supportLevel": {
+    "title": "Stödnivå",
+    "description": "En prisnivå där aktien historiskt sett mött köpintresse och hållits från att sjunka vidare."
+  },
+  "consecutiveBreaks": {
+    "title": "Konsekutiva genombrott",
+    "description": "Antal på varandra följande gånger som aktiekursen brutit igenom stödnivån i närtid."
+  },
+  "calibration": {
+    "howToRead": {
+      "title": "Så läser du diagrammet",
+      "description": "Varje punkt representerar förutsedd sannolikhet mot faktisk förfallofrekvens för optioner i det sannolikhetssegmentet. Punkter närmare diagonallinjen indikerar bättre kalibrerade prediktioner."
+    }
+  }
+}

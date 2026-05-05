@@ -1,0 +1,51 @@
+{
+  "riskLevel": {
+    "title": "Risk Level Classification",
+    "high": {
+      "label": "High Risk",
+      "description": "≤60% probability of being worthless"
+    },
+    "medium": {
+      "label": "Medium Risk",
+      "description": ">60% and <80% probability of being worthless"
+    },
+    "low": {
+      "label": "Low Risk",
+      "description": "≥80% probability of being worthless"
+    }
+  },
+  "probability": {
+    "pow": "Probability of Worthless (PoW) — the estimated probability that the option expires with no intrinsic value.",
+    "weightedAverage": "Weighted average across multiple probability estimation methods.",
+    "bayesianCalibrated": "Bayesian calibration adjusts raw model outputs using historical accuracy data to produce better-calibrated probabilities.",
+    "originalBlackScholes": "Standard Black-Scholes model probability using implied volatility from the option price.",
+    "biasCorreected": "Black-Scholes probability corrected for systematic overestimation bias observed in historical data.",
+    "historicalIV": "Probability estimated using historical realized volatility rather than implied volatility."
+  },
+  "recoveryAdvantage": {
+    "title": "Recovery Advantage",
+    "description": "Statistical advantage from probability recovery — options where multiple methods agree on high probability of expiring worthless."
+  },
+  "margin": {
+    "title": "Estimated Margin",
+    "description": "Approximate margin requirement based on standard calculation. Actual margin may differ by broker."
+  },
+  "annualizedReturn": {
+    "title": "Annualized Return",
+    "description": "Premium received divided by margin requirement, annualized to a per-year basis."
+  },
+  "supportLevel": {
+    "title": "Support Level",
+    "description": "A price level where the stock has historically found buying interest, preventing further decline."
+  },
+  "consecutiveBreaks": {
+    "title": "Consecutive Breaks",
+    "description": "Number of consecutive times the stock price has broken through the support level in recent history."
+  },
+  "calibration": {
+    "howToRead": {
+      "title": "How to Read the Chart",
+      "description": "Each point represents predicted probability vs actual expiry rate for options in that probability bucket. Points closer to the diagonal line indicate better-calibrated predictions."
+    }
+  }
+}

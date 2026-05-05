@@ -1,0 +1,49 @@
+{
+  "axes": {
+    "dayOfMonth": "Day of Month",
+    "frequency": "Frequency (Number of Occurrences)",
+    "hitRate": "Hit Rate (%)",
+    "predictionCount": "Prediction Count",
+    "predictedProbability": "Predicted Probability",
+    "actualRate": "Actual Rate",
+    "return": "Return (%)",
+    "price": "Price (kr)",
+    "date": "Date",
+    "stockPrice": "Stock Price (kr)",
+    "impliedVolatility": "Implied Volatility (%)",
+    "probability": "Probability (%)",
+    "annualizedReturn": "Annualized Return (%)",
+    "score": "Score"
+  },
+  "labels": {
+    "hitRate": "Hit Rate (%)",
+    "predictions": "Predictions",
+    "positiveMonths": "Positive Months %",
+    "avgReturn": "Avg Return %",
+    "calibrationLine": "Perfect Calibration",
+    "recoveryCandidates": "Recovery Candidates",
+    "nonRecovery": "Non-Recovery"
+  },
+  "titles": {
+    "calibrationAnalysis": "Calibration Analysis",
+    "monthlySeasonalityHeatmap": "Monthly Seasonality Heatmap",
+    "timelinePerformance": "Timeline Performance",
+    "hitRateTrend": "Hit Rate Trend",
+    "lowerBoundPredictions": "Lower Bound Predictions",
+    "stockPriceHistory": "Stock Price History",
+    "impliedVolatilityHistory": "Implied Volatility History",
+    "probabilityDistribution": "Probability Distribution",
+    "returnDistribution": "Return Distribution",
+    "dayDistribution": "Day Distribution"
+  },
+  "methods": {
+    "weightedAverage": "PoW - Weighted Average",
+    "bayesianCalibrated": "PoW - Bayesian Calibrated",
+    "originalBlackScholes": "PoW - Original Black-Scholes",
+    "biasCorreected": "PoW - Bias Corrected",
+    "historicalIV": "PoW - Historical IV"
+  },
+  "tooltip": {
+    "howToReadChart": "How to Read the Chart"
+  }
+}
