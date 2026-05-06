@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { VolatilityStats, VolatilityEventData } from '@/types/volatility';
+import { useTranslation } from 'react-i18next';
 
 interface VolatilityStatsChartProps {
   data: VolatilityStats[];
@@ -10,6 +11,7 @@ interface VolatilityStatsChartProps {
 }
 
 export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data, rawData }) => {
+  const { t } = useTranslation('pages');
   // Convert data to percentages and prepare for display
   const chartData = useMemo(() => {
     return data
@@ -47,12 +49,12 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
               </p>
               {stockData && entry.dataKey === 'min_change' && (
                 <p className="text-xs text-muted-foreground">
-                  Event: {stockData.min_event_type} on {stockData.min_event_date}
+                  {t('volatilityAnalysis.tooltipEvent')} {stockData.min_event_type} on {stockData.min_event_date}
                 </p>
               )}
               {stockData && entry.dataKey === 'max_change' && (
                 <p className="text-xs text-muted-foreground">
-                  Event: {stockData.max_event_type} on {stockData.max_event_date}
+                  {t('volatilityAnalysis.tooltipEvent')} {stockData.max_event_type} on {stockData.max_event_date}
                 </p>
               )}
             </div>
@@ -67,31 +69,31 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
     <div className="space-y-4">
       <Tabs defaultValue="volatility" className="w-full">
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="volatility">Mean Volatility</TabsTrigger>
-          <TabsTrigger value="distribution">Distribution Metrics</TabsTrigger>
-          <TabsTrigger value="minmax">Min/Max Changes</TabsTrigger>
+          <TabsTrigger value="volatility">{t('volatilityAnalysis.tabMeanVolatility')}</TabsTrigger>
+          <TabsTrigger value="distribution">{t('volatilityAnalysis.tabDistribution')}</TabsTrigger>
+          <TabsTrigger value="minmax">{t('volatilityAnalysis.tabMinMax')}</TabsTrigger>
         </TabsList>
 
       <TabsContent value="volatility">
         <Card>
           <CardHeader>
-            <CardTitle>Mean Absolute Price Change During Events</CardTitle>
+            <CardTitle>{t('volatilityAnalysis.meanVolTitle')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Average absolute percentage change in closing price during corporate events
+              {t('volatilityAnalysis.meanVolDesc')}
             </p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={topStocks} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45} 
-                  textAnchor="end" 
+                <XAxis
+                  dataKey="name"
+                  angle={-45}
+                  textAnchor="end"
                   height={100}
                   className="text-xs"
                 />
-                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
+                <YAxis className="text-xs" label={{ value: t('volatilityAnalysis.yAxisPercentage'), angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="mean_abs_change" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
               </BarChart>
@@ -103,27 +105,27 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       <TabsContent value="distribution">
         <Card>
           <CardHeader>
-            <CardTitle>Price Change Distribution Metrics</CardTitle>
+            <CardTitle>{t('volatilityAnalysis.distTitle')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Statistical distribution of price changes: 5th percentile, median, and 95th percentile
+              {t('volatilityAnalysis.distDesc')}
             </p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={topStocks} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45} 
-                  textAnchor="end" 
+                <XAxis
+                  dataKey="name"
+                  angle={-45}
+                  textAnchor="end"
                   height={100}
                   className="text-xs"
                 />
-                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
+                <YAxis className="text-xs" label={{ value: t('volatilityAnalysis.yAxisPercentage'), angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="p05" fill="hsl(var(--destructive))" name="5th Percentile" />
-                <Bar dataKey="median_change" fill="hsl(var(--primary))" name="Median" />
-                <Bar dataKey="p95" fill="hsl(220, 70%, 40%)" name="95th Percentile" />
+                <Bar dataKey="p05" fill="hsl(var(--destructive))" name={t('volatilityAnalysis.barFifthPct')} />
+                <Bar dataKey="median_change" fill="hsl(var(--primary))" name={t('volatilityAnalysis.barMedian')} />
+                <Bar dataKey="p95" fill="hsl(220, 70%, 40%)" name={t('volatilityAnalysis.bar95thPct')} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -133,26 +135,26 @@ export const VolatilityStatsChart: React.FC<VolatilityStatsChartProps> = ({ data
       <TabsContent value="minmax">
         <Card>
           <CardHeader>
-            <CardTitle>Min/Max Price Changes During Events</CardTitle>
+            <CardTitle>{t('volatilityAnalysis.minMaxTitle')}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Largest positive and negative percentage changes observed for each stock during events
+              {t('volatilityAnalysis.minMaxDesc')}
             </p>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={topStocks} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                <XAxis 
-                  dataKey="name" 
-                  angle={-45} 
-                  textAnchor="end" 
+                <XAxis
+                  dataKey="name"
+                  angle={-45}
+                  textAnchor="end"
                   height={100}
                   className="text-xs"
                 />
-                <YAxis className="text-xs" label={{ value: 'Percentage (%)', angle: -90, position: 'insideLeft' }} />
+                <YAxis className="text-xs" label={{ value: t('volatilityAnalysis.yAxisPercentage'), angle: -90, position: 'insideLeft' }} />
                 <Tooltip content={<CustomTooltip />} />
-                <Bar dataKey="min_change" fill="hsl(var(--destructive))" name="Min Change" />
-                <Bar dataKey="max_change" fill="hsl(220, 70%, 40%)" name="Max Change" />
+                <Bar dataKey="min_change" fill="hsl(var(--destructive))" name={t('volatilityAnalysis.barMinChange')} />
+                <Bar dataKey="max_change" fill="hsl(220, 70%, 40%)" name={t('volatilityAnalysis.barMaxChange')} />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>

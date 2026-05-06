@@ -8,6 +8,7 @@ import { TrendingDown, TrendingUp, Calendar } from 'lucide-react';
 import { DayDistributionHistogram } from './DayDistributionHistogram';
 import { PeriodComparisonChart } from './PeriodComparisonChart';
 import { WeeklyHeatmap } from './WeeklyHeatmap';
+import { useTranslation } from 'react-i18next';
 
 // TypeScript interfaces for data structures
 export interface DayOfMonthDistribution {
@@ -55,14 +56,13 @@ interface DayOfMonthAnalysisProps {
   minHistory: number;
 }
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
   monthlyData,
   selectedMonths,
   selectedStock,
   minHistory
 }) => {
+  const { t } = useTranslation(['pages', 'common']);
   const [analysisType, setAnalysisType] = useState<'lows' | 'highs'>('lows');
   const [chartType, setChartType] = useState<'histogram' | 'period-comparison' | 'heatmap'>('histogram');
 
@@ -253,18 +253,19 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
     const { modeDay, modeDayFrequency, totalRecords, earlyPct } = dayOfMonthStats;
 
     if (totalRecords === 0) {
-      return 'No data available for the selected filters';
+      return t('pages:monthlyAnalysis.dayOfMonth.noData');
     }
 
     const modePct = totalRecords > 0 ? ((modeDayFrequency / totalRecords) * 100).toFixed(1) : '0';
-    const type = analysisType === 'lows' ? 'lows' : 'highs';
 
     if (selectedStock) {
-      return `${selectedStock} typically hits monthly ${type} on day ${modeDay} (${modePct}% of months)`;
+      const key = analysisType === 'lows' ? 'insightStock_lows' : 'insightStock_highs';
+      return t(`pages:monthlyAnalysis.dayOfMonth.${key}`, { stock: selectedStock, day: modeDay, pct: modePct });
     } else {
-      return `Across all stocks, ${earlyPct.toFixed(1)}% of ${type} occur in days 1-10, with day ${modeDay} being most common (${modePct}%)`;
+      const key = analysisType === 'lows' ? 'insightAll_lows' : 'insightAll_highs';
+      return t(`pages:monthlyAnalysis.dayOfMonth.${key}`, { earlyPct: earlyPct.toFixed(1), day: modeDay, pct: modePct });
     }
-  }, [dayOfMonthStats, analysisType, selectedStock]);
+  }, [dayOfMonthStats, analysisType, selectedStock, t]);
 
   // Stat card component
   const StatCard: React.FC<{ title: string; value: string; subtitle: string; icon?: React.ReactNode }> = ({
@@ -291,11 +292,11 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Day-of-Month Analysis</CardTitle>
+          <CardTitle>{t('pages:monthlyAnalysis.dayOfMonth.title')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center h-64 text-muted-foreground">
-            <p>No data available for the selected filters. Try adjusting your month, stock, or minimum history filters.</p>
+            <p>{t('pages:monthlyAnalysis.dayOfMonth.emptyState')}</p>
           </div>
         </CardContent>
       </Card>
@@ -305,9 +306,9 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Day-of-Month Analysis</CardTitle>
+        <CardTitle>{t('pages:monthlyAnalysis.dayOfMonth.title')}</CardTitle>
         <p className="text-sm text-muted-foreground mt-1">
-          Analyze when stocks typically hit their monthly {analysisType === 'lows' ? 'lows' : 'highs'} during the month
+          {t(`pages:monthlyAnalysis.dayOfMonth.subtitle_${analysisType}`)}
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -315,28 +316,28 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
         <div className="flex flex-wrap items-center gap-6 p-6 bg-gradient-to-r from-muted/10 to-muted/20 rounded-xl border border-border/50">
           {/* Analysis Type Toggle */}
           <div className="flex items-center gap-2">
-            <Label className="text-sm font-medium">Show:</Label>
+            <Label className="text-sm font-medium">{t('pages:monthlyAnalysis.dayOfMonth.showLabel')}</Label>
             <ToggleGroup type="single" value={analysisType} onValueChange={(value: 'lows' | 'highs') => value && setAnalysisType(value)}>
               <ToggleGroupItem value="lows" className="px-4">
-                Low Days
+                {t('pages:monthlyAnalysis.dayOfMonth.lowDays')}
               </ToggleGroupItem>
               <ToggleGroupItem value="highs" className="px-4">
-                High Days
+                {t('pages:monthlyAnalysis.dayOfMonth.highDays')}
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
 
           {/* Chart Type Selector */}
           <div className="flex items-center gap-2">
-            <Label htmlFor="chart-select" className="text-sm font-medium">Chart:</Label>
+            <Label htmlFor="chart-select" className="text-sm font-medium">{t('pages:monthlyAnalysis.dayOfMonth.chartLabel')}</Label>
             <Select value={chartType} onValueChange={(value: any) => setChartType(value)}>
               <SelectTrigger id="chart-select" className="w-48 bg-background">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-background border shadow-lg z-50">
-                <SelectItem value="histogram">Daily Distribution</SelectItem>
-                <SelectItem value="period-comparison">Period Comparison</SelectItem>
-                <SelectItem value="heatmap">Weekly Heatmap</SelectItem>
+                <SelectItem value="histogram">{t('pages:monthlyAnalysis.dayOfMonth.dailyDistribution')}</SelectItem>
+                <SelectItem value="period-comparison">{t('pages:monthlyAnalysis.dayOfMonth.periodComparison')}</SelectItem>
+                <SelectItem value="heatmap">{t('pages:monthlyAnalysis.dayOfMonth.weeklyHeatmap')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -352,7 +353,7 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
                 <TrendingUp className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
               )}
               <div>
-                <p className="text-sm font-medium">Key Pattern Detected</p>
+                <p className="text-sm font-medium">{t('pages:monthlyAnalysis.dayOfMonth.keyPattern')}</p>
                 <p className="text-sm text-muted-foreground mt-1">
                   {insightText}
                 </p>
@@ -390,21 +391,21 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
         {/* Stats Summary */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
           <StatCard
-            title={`Median ${analysisType === 'lows' ? 'Low' : 'High'} Day`}
-            value={`Day ${dayOfMonthStats.medianDay}`}
-            subtitle={`50% of ${analysisType} occur before this day`}
+            title={t(`pages:monthlyAnalysis.dayOfMonth.statMedianTitle_${analysisType}`)}
+            value={t('pages:monthlyAnalysis.dayOfMonth.statMedianValue', { day: dayOfMonthStats.medianDay })}
+            subtitle={t(`pages:monthlyAnalysis.dayOfMonth.statMedianSubtitle_${analysisType}`)}
             icon={<Calendar className="h-5 w-5" />}
           />
           <StatCard
-            title={`Most Common ${analysisType === 'lows' ? 'Low' : 'High'} Day`}
-            value={`Day ${dayOfMonthStats.modeDay}`}
-            subtitle={`${((dayOfMonthStats.modeDayFrequency / dayOfMonthStats.totalRecords) * 100).toFixed(1)}% of months`}
+            title={t(`pages:monthlyAnalysis.dayOfMonth.statModeTitle_${analysisType}`)}
+            value={t('pages:monthlyAnalysis.dayOfMonth.statMedianValue', { day: dayOfMonthStats.modeDay })}
+            subtitle={t('pages:monthlyAnalysis.dayOfMonth.statModeSubtitle', { pct: ((dayOfMonthStats.modeDayFrequency / dayOfMonthStats.totalRecords) * 100).toFixed(1) })}
             icon={<Calendar className="h-5 w-5" />}
           />
           <StatCard
-            title="Early-Month Tendency"
+            title={t('pages:monthlyAnalysis.dayOfMonth.statEarlyTitle')}
             value={`${dayOfMonthStats.earlyPct.toFixed(1)}%`}
-            subtitle={`${analysisType === 'lows' ? 'Lows' : 'Highs'} in days 1-10`}
+            subtitle={t(`pages:monthlyAnalysis.dayOfMonth.statEarlySubtitle_${analysisType}`)}
             icon={<Calendar className="h-5 w-5" />}
           />
         </div>
@@ -412,9 +413,9 @@ export const DayOfMonthAnalysis: React.FC<DayOfMonthAnalysisProps> = ({
         {/* Data Info */}
         <div className="text-xs text-muted-foreground pt-4 border-t border-border/30">
           <p>
-            Analysis based on {dayOfMonthStats.totalRecords} historical monthly records
-            {selectedMonths.length > 0 && ` for ${selectedMonths.map(m => MONTH_NAMES[m - 1]).join(', ')}`}
-            {selectedStock && ` for ${selectedStock}`}
+            {t('pages:monthlyAnalysis.dayOfMonth.dataInfo', { count: dayOfMonthStats.totalRecords })}
+            {selectedMonths.length > 0 && ` ${t('pages:monthlyAnalysis.dayOfMonth.dataInfoMonths', { months: selectedMonths.map(m => t(`common:monthNamesShort.${m}`)).join(', ') })}`}
+            {selectedStock && ` ${t('pages:monthlyAnalysis.dayOfMonth.dataInfoStock', { stock: selectedStock })}`}
           </p>
         </div>
       </CardContent>

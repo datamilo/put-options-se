@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { WeeklyDistribution } from './DayOfMonthAnalysis';
+import { useTranslation } from 'react-i18next';
 
 interface WeeklyHeatmapProps {
   data: WeeklyDistribution[];
@@ -7,14 +8,19 @@ interface WeeklyHeatmapProps {
   selectedMonths: number[];
 }
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const WEEK_LABELS = ['Days 1-7', 'Days 8-14', 'Days 15-21', 'Days 22-31'];
-
 export const WeeklyHeatmap: React.FC<WeeklyHeatmapProps> = ({
   data,
   analysisType,
   selectedMonths
 }) => {
+  const { t } = useTranslation(['pages', 'common']);
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) => t(`common:monthNamesShort.${i + 1}`));
+  const WEEK_LABELS = [
+    t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel1'),
+    t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel2'),
+    t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel3'),
+    t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel4'),
+  ];
   // Filter data by selected months
   const filteredData = useMemo(() => {
     if (selectedMonths.length === 0) return data;
@@ -71,7 +77,7 @@ export const WeeklyHeatmap: React.FC<WeeklyHeatmapProps> = ({
   if (filteredData.length === 0) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        <p>No data available for the selected filters</p>
+        <p>{t('pages:monthlyAnalysis.weeklyHeatmap.noData')}</p>
       </div>
     );
   }
@@ -84,7 +90,7 @@ export const WeeklyHeatmap: React.FC<WeeklyHeatmapProps> = ({
           {/* Header Row */}
           <div className="flex mb-3 pb-2 border-b border-border/50">
             <div className="w-24 flex-shrink-0 text-sm font-semibold text-foreground px-3 py-2">
-              Month
+              {t('pages:monthlyAnalysis.weeklyHeatmap.monthHeader')}
             </div>
             {WEEK_LABELS.map((label, index) => (
               <div
@@ -160,48 +166,48 @@ export const WeeklyHeatmap: React.FC<WeeklyHeatmapProps> = ({
       <div className="space-y-4 p-6 bg-gradient-to-r from-muted/5 to-muted/10 rounded-xl border border-border/50">
         <div className="flex flex-wrap items-center gap-6">
           <span className="text-base font-semibold text-foreground">
-            Intensity Scale - Percentage of {analysisType === 'lows' ? 'Lows' : 'Highs'}
+            {t(`pages:monthlyAnalysis.weeklyHeatmap.intensityScale_${analysisType}`)}
           </span>
 
           {colorThresholds && (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-red-500 to-red-600 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">Lowest 20%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.weeklyHeatmap.lowest20')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-orange-400 to-orange-500 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">20-40%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.weeklyHeatmap.pct2040')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-amber-400 to-amber-500 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">40-60%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.weeklyHeatmap.pct4060')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">60-80%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.weeklyHeatmap.pct6080')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">Top 20%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.weeklyHeatmap.top20')}</span>
               </div>
             </div>
           )}
         </div>
 
         <div className="flex items-center gap-6 text-sm text-muted-foreground pt-2 border-t border-border/30">
-          <span className="font-medium">Data Reliability:</span>
+          <span className="font-medium">{t('pages:monthlyAnalysis.weeklyHeatmap.dataReliability')}</span>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-md opacity-40 shadow-sm"></div>
-            <span>&lt;5 months (limited data)</span>
+            <span>{t('pages:monthlyAnalysis.weeklyHeatmap.reliabilityLow')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-md opacity-70 shadow-sm"></div>
-            <span>5-10 months (moderate)</span>
+            <span>{t('pages:monthlyAnalysis.weeklyHeatmap.reliabilityMed')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-md shadow-sm"></div>
-            <span>10+ months (reliable)</span>
+            <span>{t('pages:monthlyAnalysis.weeklyHeatmap.reliabilityHigh')}</span>
           </div>
         </div>
       </div>

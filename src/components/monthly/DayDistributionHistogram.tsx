@@ -1,6 +1,7 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine, Cell } from 'recharts';
 import { DayOfMonthDistribution } from './DayOfMonthAnalysis';
+import { useTranslation } from 'react-i18next';
 
 interface DayDistributionHistogramProps {
   data: DayOfMonthDistribution[];
@@ -15,9 +16,10 @@ export const DayDistributionHistogram: React.FC<DayDistributionHistogramProps> =
   medianDay,
   modeDay
 }) => {
+  const { t } = useTranslation('pages');
   const formatTooltip = (value: any, name: string) => {
     if (name === 'frequency') {
-      return [`${value} occurrences`, 'Frequency'];
+      return [`${value} ${t('monthlyAnalysis.dayHistogram.tooltipFrequency')}`, t('monthlyAnalysis.dayHistogram.tooltipFrequencyLabel')];
     }
     return [value, name];
   };
@@ -42,7 +44,7 @@ export const DayDistributionHistogram: React.FC<DayDistributionHistogramProps> =
               className="fill-muted-foreground"
               tick={{ fontSize: 11 }}
               label={{
-                value: 'Day of Month',
+                value: t('monthlyAnalysis.dayHistogram.xAxisLabel'),
                 position: 'insideBottom',
                 offset: -10,
                 style: { fontSize: '12px', fill: 'hsl(var(--muted-foreground))' }
@@ -53,7 +55,7 @@ export const DayDistributionHistogram: React.FC<DayDistributionHistogramProps> =
               className="fill-muted-foreground"
               tick={{ fontSize: 11 }}
               label={{
-                value: 'Frequency (Number of Occurrences)',
+                value: t('monthlyAnalysis.dayHistogram.yAxisLabel'),
                 angle: -90,
                 position: 'insideLeft',
                 style: { fontSize: '12px', fill: 'hsl(var(--muted-foreground))' }
@@ -66,7 +68,7 @@ export const DayDistributionHistogram: React.FC<DayDistributionHistogramProps> =
                 border: '1px solid hsl(var(--border))',
                 borderRadius: '6px'
               }}
-              labelFormatter={(label) => `Day ${label}`}
+              labelFormatter={(label) => t('monthlyAnalysis.dayHistogram.tooltipDay', { day: label })}
             />
 
             {/* Reference line for median */}
@@ -77,7 +79,7 @@ export const DayDistributionHistogram: React.FC<DayDistributionHistogramProps> =
                 strokeWidth={2}
                 strokeDasharray="5 5"
                 label={{
-                  value: `Median (Day ${medianDay})`,
+                  value: t('monthlyAnalysis.dayHistogram.medianLabel', { day: medianDay }),
                   position: 'top',
                   style: {
                     fontSize: '11px',

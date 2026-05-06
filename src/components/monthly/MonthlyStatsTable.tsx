@@ -8,6 +8,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { Label } from '@/components/ui/label';
 import { ArrowUpDown, ArrowUp, ArrowDown, Check, ChevronsUpDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface MonthlyStatsTableProps {
   data: MonthlyStockStats[];
@@ -15,12 +16,8 @@ interface MonthlyStatsTableProps {
 
 type SortKey = keyof MonthlyStockStats;
 
-const MONTH_NAMES = [
-  'All Months', 'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
-
 export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) => {
+  const { t } = useTranslation(['pages', 'common']);
   const [sortKey, setSortKey] = useState<SortKey>('pct_pos_return_months');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,6 +26,21 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
   const [selectedStock, setSelectedStock] = useState('');
   const [stockDropdownOpen, setStockDropdownOpen] = useState(false);
   const itemsPerPage = 20;
+
+  const MONTH_NAMES_ALL = [
+    t('common:filter.allMonths'),
+    t('common:monthNames.1'), t('common:monthNames.2'), t('common:monthNames.3'),
+    t('common:monthNames.4'), t('common:monthNames.5'), t('common:monthNames.6'),
+    t('common:monthNames.7'), t('common:monthNames.8'), t('common:monthNames.9'),
+    t('common:monthNames.10'), t('common:monthNames.11'), t('common:monthNames.12')
+  ];
+
+  const SHORT_MONTH_NAMES = [
+    t('common:monthNamesShort.1'), t('common:monthNamesShort.2'), t('common:monthNamesShort.3'),
+    t('common:monthNamesShort.4'), t('common:monthNamesShort.5'), t('common:monthNamesShort.6'),
+    t('common:monthNamesShort.7'), t('common:monthNamesShort.8'), t('common:monthNamesShort.9'),
+    t('common:monthNamesShort.10'), t('common:monthNamesShort.11'), t('common:monthNamesShort.12')
+  ];
 
   // Get unique stock names for dropdown
   const availableStocks = useMemo(() => {
@@ -99,18 +111,14 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
     return value.toFixed(decimals);
   };
 
-  const getMonthName = (month: number) => {
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
-                   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return months[month - 1] || 'All';
-  };
+  const getMonthName = (month: number) => SHORT_MONTH_NAMES[month - 1] || '–';
 
   return (
     <div className="space-y-4">
       {/* Independent Filters */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-muted/20 rounded-lg">
         <div className="space-y-2">
-          <Label>Month Filter</Label>
+          <Label>{t('pages:monthlyAnalysis.statsTable.monthFilter')}</Label>
           <Select value={selectedMonth.toString()} onValueChange={(value) => {
             setSelectedMonth(parseInt(value));
             setCurrentPage(1);
@@ -119,7 +127,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="bg-background border shadow-lg z-50">
-              {MONTH_NAMES.map((month, index) => (
+              {MONTH_NAMES_ALL.map((month, index) => (
                 <SelectItem key={index} value={index.toString()}>
                   {month}
                 </SelectItem>
@@ -129,7 +137,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
         </div>
 
         <div className="space-y-2">
-          <Label>Stock Filter</Label>
+          <Label>{t('pages:monthlyAnalysis.statsTable.stockFilter')}</Label>
           <Popover open={stockDropdownOpen} onOpenChange={setStockDropdownOpen}>
             <PopoverTrigger asChild>
               <Button
@@ -138,15 +146,15 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                 aria-expanded={stockDropdownOpen}
                 className="w-full justify-between"
               >
-                {selectedStock || "All stocks..."}
+                {selectedStock || t('pages:monthlyAnalysis.statsTable.allStocks')}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-full p-0 bg-background border shadow-lg z-50" align="start">
               <Command>
-                <CommandInput placeholder="Search stocks..." />
+                <CommandInput placeholder={t('pages:monthlyAnalysis.statsTable.searchStocks')} />
                 <CommandList>
-                  <CommandEmpty>No stock found.</CommandEmpty>
+                  <CommandEmpty>{t('pages:monthlyAnalysis.statsTable.noStockFound')}</CommandEmpty>
                   <CommandGroup>
                     <CommandItem
                       value=""
@@ -159,7 +167,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                       <Check
                         className={`mr-2 h-4 w-4 ${selectedStock === '' ? "opacity-100" : "opacity-0"}`}
                       />
-                      All stocks
+                      {t('pages:monthlyAnalysis.statsTable.allStocks')}
                     </CommandItem>
                     {availableStocks.map((stock) => (
                       <CommandItem
@@ -185,9 +193,9 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
         </div>
 
         <div className="space-y-2">
-          <Label>Search</Label>
+          <Label>{t('pages:monthlyAnalysis.statsTable.searchLabel')}</Label>
           <Input
-            placeholder="Search stocks..."
+            placeholder={t('pages:monthlyAnalysis.statsTable.searchStocks')}
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -200,10 +208,10 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
       {/* Results count and info */}
       <div className="flex items-center justify-between">
         <div className="text-sm text-muted-foreground">
-          {filteredAndSortedData.length} results
+          {t('pages:monthlyAnalysis.statsTable.resultsCount', { count: filteredAndSortedData.length })}
         </div>
         <div className="text-xs text-muted-foreground italic">
-          Drawdown = decline from month's open to lowest intramonth price
+          {t('pages:monthlyAnalysis.statsTable.drawdownNote')}
         </div>
       </div>
 
@@ -219,7 +227,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('name')}
                     className="h-auto p-0 font-medium"
                   >
-                    Stock {getSortIcon('name')}
+                    {t('pages:monthlyAnalysis.statsTable.colStock')} {getSortIcon('name')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-16" aria-sort={sortKey === 'month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -228,7 +236,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('month')}
                     className="h-auto p-0 font-medium"
                   >
-                    Month {getSortIcon('month')}
+                    {t('pages:monthlyAnalysis.statsTable.colMonth')} {getSortIcon('month')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20" aria-sort={sortKey === 'number_of_months_available' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -237,7 +245,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('number_of_months_available')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    History {getSortIcon('number_of_months_available')}
+                    {t('pages:monthlyAnalysis.statsTable.colHistory')} {getSortIcon('number_of_months_available')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20" aria-sort={sortKey === 'pct_pos_return_months' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -246,7 +254,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('pct_pos_return_months')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Pos % {getSortIcon('pct_pos_return_months')}
+                    {t('pages:monthlyAnalysis.statsTable.colPosPercent')} {getSortIcon('pct_pos_return_months')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20" aria-sort={sortKey === 'return_month_mean_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -255,7 +263,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('return_month_mean_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Avg Ret % {getSortIcon('return_month_mean_pct_return_month')}
+                    {t('pages:monthlyAnalysis.statsTable.colAvgReturn')} {getSortIcon('return_month_mean_pct_return_month')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20" aria-sort={sortKey === 'open_to_low_mean_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -264,7 +272,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('open_to_low_mean_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Avg Drawdown % {getSortIcon('open_to_low_mean_pct_return_month')}
+                    {t('pages:monthlyAnalysis.statsTable.colAvgDrawdown')} {getSortIcon('open_to_low_mean_pct_return_month')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20" aria-sort={sortKey === 'open_to_low_min_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -273,7 +281,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('open_to_low_min_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Worst Drawdown % {getSortIcon('open_to_low_min_pct_return_month')}
+                    {t('pages:monthlyAnalysis.statsTable.colWorstDrawdown')} {getSortIcon('open_to_low_min_pct_return_month')}
                   </Button>
                 </TableHead>
                 <TableHead className="w-20" aria-sort={sortKey === 'open_to_low_max_pct_return_month' ? (sortDirection === 'asc' ? 'ascending' : 'descending') : undefined}>
@@ -282,7 +290,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
                     onClick={() => handleSort('open_to_low_max_pct_return_month')}
                     className="h-auto p-0 font-medium text-xs"
                   >
-                    Best Drawdown % {getSortIcon('open_to_low_max_pct_return_month')}
+                    {t('pages:monthlyAnalysis.statsTable.colBestDrawdown')} {getSortIcon('open_to_low_max_pct_return_month')}
                   </Button>
                 </TableHead>
               </TableRow>
@@ -335,7 +343,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
             onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
           >
-            Previous
+            {t('pages:monthlyAnalysis.statsTable.previous')}
           </Button>
           
           <div className="flex items-center space-x-1">
@@ -371,7 +379,7 @@ export const MonthlyStatsTable: React.FC<MonthlyStatsTableProps> = ({ data }) =>
             onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
             disabled={currentPage === totalPages}
           >
-            Next
+            {t('pages:monthlyAnalysis.statsTable.next')}
           </Button>
         </div>
       )}

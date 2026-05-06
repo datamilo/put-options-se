@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { IVStockSummary } from '@/types/ivAnalysis';
 import { formatNordicDecimal, formatNordicPercentagePoints } from '@/utils/numberFormatting';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
+import { useTranslation } from 'react-i18next';
 
 type SortField = 'stockName' | 'currentIV' | 'ivRank52w' | 'ivRankAllTime' | 'ivChange1d' | 'ivChange5d' | 'currentStockPrice';
 type SortDir = 'asc' | 'desc';
@@ -47,6 +48,7 @@ function formatDelta(val: number | null): string {
 }
 
 export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, onSelectStock }) => {
+  const { t } = useTranslation('pages');
   const [sortField, setSortField] = useState<SortField>('ivRank52w');
   const [sortDir, setSortDir] = useState<SortDir>('desc');
   const [rankMode, setRankMode] = useState<RankMode>('52w');
@@ -112,7 +114,7 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <CardTitle className="text-lg">IV Screening</CardTitle>
+          <CardTitle className="text-lg">{t('ivAnalysis.screeningTitle')}</CardTitle>
           <div className="flex items-center gap-1 border rounded-md p-0.5">
             <Button
               size="sm"
@@ -120,7 +122,7 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
               className="h-7 text-xs px-2"
               onClick={() => setRankMode('52w')}
             >
-              52 Weeks
+              {t('ivAnalysis.btn52Weeks')}
             </Button>
             <Button
               size="sm"
@@ -128,7 +130,7 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
               className="h-7 text-xs px-2"
               onClick={() => setRankMode('allTime')}
             >
-              Historical
+              {t('ivAnalysis.btnHistorical')}
             </Button>
           </div>
         </div>
@@ -138,18 +140,18 @@ export const IVScreeningTable: React.FC<Props> = ({ summaries, selectedStock, on
           <table className="w-full text-sm">
             <thead className="border-b bg-muted/50">
               <tr>
-                <SortHeader field="stockName" label="Stock" />
-                <SortHeader field="currentIV" label="Current IV" />
+                <SortHeader field="stockName" label={t('ivAnalysis.colStock')} />
+                <SortHeader field="currentIV" label={t('ivAnalysis.colCurrentIV')} />
                 <SortHeader
                   field={rankMode === '52w' ? 'ivRank52w' : 'ivRankAllTime'}
-                  label={rankMode === '52w' ? 'IV Rank 52w' : 'IV Rank Hist.'}
+                  label={rankMode === '52w' ? t('ivAnalysis.colIVRank52w') : t('ivAnalysis.colIVRankHist')}
                   tooltip={rankMode === '52w'
-                    ? "Where today's IV sits within this stock's own 52-week range. 100 = IV at 52-week high (expensive options), 0 = IV at 52-week low (cheap options). Useful for comparing relative IV richness across stocks with different baseline volatility."
-                    : "Where today's IV sits within this stock's full historical range in the dataset. 100 = IV at all-time high, 0 = IV at all-time low."}
+                    ? t('ivAnalysis.tooltip52w')
+                    : t('ivAnalysis.tooltipHistorical')}
                 />
-                <SortHeader field="ivChange1d" label="1-day Δ IV" />
-                <SortHeader field="ivChange5d" label="5-day Δ IV" />
-                <SortHeader field="currentStockPrice" label="Price" />
+                <SortHeader field="ivChange1d" label={t('ivAnalysis.col1dDelta')} />
+                <SortHeader field="ivChange5d" label={t('ivAnalysis.col5dDelta')} />
+                <SortHeader field="currentStockPrice" label={t('ivAnalysis.colPrice')} />
               </tr>
             </thead>
             <tbody className="divide-y divide-border">

@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { IVPerStockPerDay } from '@/types/ivAnalysis';
 import { formatNordicDecimal } from '@/utils/numberFormatting';
 import { useEarningsDates } from '@/hooks/useEarningsDates';
+import { useTranslation } from 'react-i18next';
 
 type DateRange = '3M' | '6M' | '1Y' | 'All';
 
@@ -72,6 +73,7 @@ const CustomTooltip = ({
 };
 
 export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
+  const { t } = useTranslation('pages');
   const [range, setRange] = useState<DateRange>('1Y');
   const earningsDates = useEarningsDates(stockName);
 
@@ -171,7 +173,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
             yAxisId="iv"
             type="monotone"
             dataKey="iv"
-            name="IV"
+            name={t('ivAnalysis.ivLineName')}
             stroke="hsl(var(--primary))"
             strokeWidth={2}
             dot={false}
@@ -181,7 +183,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
             yAxisId="price"
             type="monotone"
             dataKey="price"
-            name="Price"
+            name={t('ivAnalysis.priceLineName')}
             stroke="hsl(var(--muted-foreground))"
             strokeWidth={1.5}
             dot={false}
@@ -193,7 +195,7 @@ export const IVDualAxisChart: React.FC<Props> = ({ data, stockName }) => {
       {visibleEarnings.length > 0 && (
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="text-amber-500">▲</span>
-          <span>Earnings report</span>
+          <span>{t('ivAnalysis.earningsReport')}</span>
         </div>
       )}
     </div>

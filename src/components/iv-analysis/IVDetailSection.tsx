@@ -9,6 +9,7 @@ import { Check, ChevronsUpDown } from 'lucide-react';
 import { IVStockSummary, IVPerStockPerDay } from '@/types/ivAnalysis';
 import { IVDualAxisChart } from './IVDualAxisChart';
 import { formatNordicDecimal, formatNordicPercentagePoints } from '@/utils/numberFormatting';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   selectedStock: string;
@@ -43,6 +44,7 @@ function deltaColorClass(val: number | null): string {
 
 export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
   ({ selectedStock, onSelectStock, stockNames, summaries, dataByStock }, ref) => {
+    const { t } = useTranslation('pages');
     const [open, setOpen] = useState(false);
 
     const summary = summaries.find(s => s.stockName === selectedStock) ?? null;
@@ -66,19 +68,19 @@ export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
       <div ref={ref} className="space-y-4">
         {/* Stock selector */}
         <div className="flex items-center gap-3">
-          <span className="text-sm font-medium text-muted-foreground">Select stock:</span>
+          <span className="text-sm font-medium text-muted-foreground">{t('ivAnalysis.selectStockLabel')}</span>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="w-48 justify-between">
-                {selectedStock || 'Select stock...'}
+                {selectedStock || t('ivAnalysis.selectStockPlaceholder')}
                 <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-48 p-0" align="start">
               <Command>
-                <CommandInput placeholder="Search stock..." />
+                <CommandInput placeholder={t('ivAnalysis.searchStockPlaceholder')} />
                 <CommandList>
-                  <CommandEmpty>No stock found.</CommandEmpty>
+                  <CommandEmpty>{t('ivAnalysis.noStockFound')}</CommandEmpty>
                   <CommandGroup>
                     {stockNames.map(name => (
                       <CommandItem
@@ -101,24 +103,24 @@ export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
           <>
             {/* KPI strip */}
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-              <KPICard label="Current IV" value={currentIV} />
+              <KPICard label={t('ivAnalysis.kpiCurrentIV')} value={currentIV} />
               <KPICard
-                label="IV Rank 52w"
+                label={t('ivAnalysis.kpiIVRank52w')}
                 value={ivRank52w}
                 colorClass={ivRankColorClass(summary?.ivRank52w ?? null)}
               />
               <KPICard
-                label="IV Rank Historical"
+                label={t('ivAnalysis.kpiIVRankHistorical')}
                 value={ivRankHist}
                 colorClass={ivRankColorClass(summary?.ivRankAllTime ?? null)}
               />
               <KPICard
-                label="1-day Δ IV"
+                label={t('ivAnalysis.kpi1dDeltaIV')}
                 value={change1d}
                 colorClass={deltaColorClass(summary?.ivChange1d ?? null)}
               />
               <KPICard
-                label="5-day Δ IV"
+                label={t('ivAnalysis.kpi5dDeltaIV')}
                 value={change5d}
                 colorClass={deltaColorClass(summary?.ivChange5d ?? null)}
               />
@@ -127,13 +129,13 @@ export const IVDetailSection = React.forwardRef<HTMLDivElement, Props>(
             {/* Chart */}
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-base">{selectedStock} — IV & Price History</CardTitle>
+                <CardTitle className="text-base">{selectedStock} — {t('ivAnalysis.chartTitle')}</CardTitle>
               </CardHeader>
               <CardContent>
                 {stockData.length > 0 ? (
                   <IVDualAxisChart data={stockData} stockName={selectedStock} />
                 ) : (
-                  <p className="text-muted-foreground text-sm">No data available.</p>
+                  <p className="text-muted-foreground text-sm">{t('ivAnalysis.noData')}</p>
                 )}
               </CardContent>
             </Card>

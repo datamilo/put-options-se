@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { IVPerStockPerDay, IVMarketSummary } from '@/types/ivAnalysis';
 import { formatNordicDecimal, formatNordicPercentagePoints } from '@/utils/numberFormatting';
+import { useTranslation } from 'react-i18next';
 
 type DateRange = '3M' | '6M' | '1Y' | 'All';
 
@@ -56,6 +57,7 @@ const MarketTooltip = ({ active, payload, label }: any) => {
 };
 
 export const MarketIVPanel: React.FC<Props> = ({ marketIVData, marketIVSummary }) => {
+  const { t } = useTranslation('pages');
   const [range, setRange] = useState<DateRange>('1Y');
   const [rankMode, setRankMode] = useState<'52w' | 'allTime'>('52w');
 
@@ -85,7 +87,7 @@ export const MarketIVPanel: React.FC<Props> = ({ marketIVData, marketIVSummary }
     <Card>
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between flex-wrap gap-2">
-          <CardTitle className="text-lg">Swedish Market IV</CardTitle>
+          <CardTitle className="text-lg">{t('ivAnalysis.marketPanelTitle')}</CardTitle>
           <div className="flex items-center gap-1 border rounded-md p-0.5">
             <Button
               size="sm"
@@ -93,7 +95,7 @@ export const MarketIVPanel: React.FC<Props> = ({ marketIVData, marketIVSummary }
               className="h-7 text-xs px-2"
               onClick={() => setRankMode('52w')}
             >
-              52 Weeks
+              {t('ivAnalysis.btn52Weeks')}
             </Button>
             <Button
               size="sm"
@@ -101,7 +103,7 @@ export const MarketIVPanel: React.FC<Props> = ({ marketIVData, marketIVSummary }
               className="h-7 text-xs px-2"
               onClick={() => setRankMode('allTime')}
             >
-              Historical
+              {t('ivAnalysis.btnHistorical')}
             </Button>
           </div>
         </div>
@@ -109,16 +111,16 @@ export const MarketIVPanel: React.FC<Props> = ({ marketIVData, marketIVSummary }
       <CardContent className="space-y-4">
         {/* KPI strip */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          <KPICard label="Current IV" value={currentIVStr} />
+          <KPICard label={t('ivAnalysis.kpiCurrentIV')} value={currentIVStr} />
           <KPICard
-            label={rankMode === '52w' ? 'IV Rank 52w' : 'IV Rank Historical'}
+            label={rankMode === '52w' ? t('ivAnalysis.kpiIVRank52w') : t('ivAnalysis.kpiIVRankHistorical')}
             value={rankStr}
             colorClass={ivRankColorClass(rank)}
           />
-          <KPICard label="1-day Δ IV" value={change1dStr} colorClass={deltaColorClass(s?.ivChange1d ?? null)} />
-          <KPICard label="5-day Δ IV" value={change5dStr} colorClass={deltaColorClass(s?.ivChange5d ?? null)} />
-          <KPICard label="N Stocks" value={nStocksStr} />
-          <KPICard label="N Excluded" value={nExcludedStr} />
+          <KPICard label={t('ivAnalysis.kpi1dDeltaIV')} value={change1dStr} colorClass={deltaColorClass(s?.ivChange1d ?? null)} />
+          <KPICard label={t('ivAnalysis.kpi5dDeltaIV')} value={change5dStr} colorClass={deltaColorClass(s?.ivChange5d ?? null)} />
+          <KPICard label={t('ivAnalysis.kpiNStocks')} value={nStocksStr} />
+          <KPICard label={t('ivAnalysis.kpiNExcluded')} value={nExcludedStr} />
         </div>
 
         {/* Chart */}
@@ -154,7 +156,7 @@ export const MarketIVPanel: React.FC<Props> = ({ marketIVData, marketIVSummary }
               <Line
                 type="monotone"
                 dataKey="iv"
-                name="Market IV"
+                name={t('ivAnalysis.marketPanelTitle')}
                 stroke="hsl(var(--primary))"
                 strokeWidth={2}
                 dot={false}

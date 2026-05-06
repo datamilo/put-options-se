@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
 import { WeeklyDistribution } from './DayOfMonthAnalysis';
+import { useTranslation } from 'react-i18next';
 
 interface PeriodComparisonChartProps {
   data: WeeklyDistribution[];
@@ -8,13 +9,12 @@ interface PeriodComparisonChartProps {
   selectedMonths: number[];
 }
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 export const PeriodComparisonChart: React.FC<PeriodComparisonChartProps> = ({
   data,
   analysisType,
   selectedMonths
 }) => {
+  const { t } = useTranslation(['pages', 'common']);
   // Transform data for stacked bar chart
   const chartData = useMemo(() => {
     // Filter by selected months if any
@@ -23,7 +23,7 @@ export const PeriodComparisonChart: React.FC<PeriodComparisonChartProps> = ({
       : data;
 
     return filteredData.map(d => ({
-      month: MONTH_NAMES[d.month - 1],
+      month: t(`common:monthNamesShort.${d.month}`),
       monthNumber: d.month,
       'Days 1-7': Number(d.week1Pct.toFixed(1)),
       'Days 8-14': Number(d.week2Pct.toFixed(1)),
@@ -93,7 +93,7 @@ export const PeriodComparisonChart: React.FC<PeriodComparisonChartProps> = ({
               className="fill-muted-foreground"
               tick={{ fontSize: 11 }}
               label={{
-                value: 'Percentage of Occurrences',
+                value: t('pages:monthlyAnalysis.periodComparison.yAxisLabel'),
                 angle: -90,
                 position: 'insideLeft',
                 style: { fontSize: '12px', fill: 'hsl(var(--muted-foreground))' }

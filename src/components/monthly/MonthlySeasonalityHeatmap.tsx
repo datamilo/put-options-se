@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface MonthlySeasonalityHeatmapProps {
   data: MonthlyStockStats[];
@@ -15,14 +16,14 @@ interface MonthlySeasonalityHeatmapProps {
 type MetricType = 'pct_pos_return_months' | 'return_month_mean_pct_return_month';
 type SortType = 'pct_pos_return_months' | 'alphabetical' | 'avg_return';
 
-const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
 export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps> = ({
   data,
   selectedMonths = [],
   currentMonth,
   currentMonthPerformance,
 }) => {
+  const { t } = useTranslation(['pages', 'common']);
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) => t(`common:monthNamesShort.${i + 1}`));
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('pct_pos_return_months');
   const [sortBy, setSortBy] = useState<SortType>('pct_pos_return_months');
   const [maxStocks, setMaxStocks] = useState(20);
@@ -234,17 +235,17 @@ Data points: ${stat.number_of_months_available} months`;
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-                  Sorted by {sortByMtd ? mtdLabel : MONTH_NAMES[sortByMonth! - 1]} ({columnSortDir === 'desc' ? '↓' : '↑'})
+                  {t('pages:monthlyAnalysis.seasonalityHeatmap.sortedBy', { col: sortByMtd ? mtdLabel : MONTH_NAMES[sortByMonth! - 1], dir: columnSortDir === 'desc' ? '↓' : '↑' })}
                 </Badge>
                 <span className="text-sm text-muted-foreground">
-                  Click any column header to change sorting or click again to clear
+                  {t('pages:monthlyAnalysis.seasonalityHeatmap.clickToChangeSort')}
                 </span>
               </div>
               <button
                 onClick={() => { setSortByMonth(null); setSortByMtd(false); }}
                 className="text-sm text-muted-foreground hover:text-foreground underline"
               >
-                Clear sorting
+                {t('pages:monthlyAnalysis.seasonalityHeatmap.clearSorting')}
               </button>
             </div>
           </div>
@@ -252,34 +253,34 @@ Data points: ${stat.number_of_months_available} months`;
 
         <div className="flex flex-wrap items-center gap-6 p-6 bg-gradient-to-r from-muted/10 to-muted/20 rounded-xl border border-border/50 shadow-sm">
           <div className="flex items-center gap-2">
-            <Label htmlFor="metric-select" className="text-sm font-medium">Metric:</Label>
+            <Label htmlFor="metric-select" className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.metricLabel')}</Label>
             <Select value={selectedMetric} onValueChange={(value: MetricType) => setSelectedMetric(value)}>
               <SelectTrigger id="metric-select" className="w-44 bg-background">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-background border shadow-lg z-50">
-                <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
-                <SelectItem value="return_month_mean_pct_return_month">Average Return</SelectItem>
+                <SelectItem value="pct_pos_return_months">{t('pages:monthlyAnalysis.seasonalityHeatmap.metricPosMonths')}</SelectItem>
+                <SelectItem value="return_month_mean_pct_return_month">{t('pages:monthlyAnalysis.seasonalityHeatmap.metricAvgReturn')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex items-center gap-2">
-            <Label htmlFor="sort-select" className="text-sm font-medium">Sort by:</Label>
+            <Label htmlFor="sort-select" className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.sortByLabel')}</Label>
             <Select value={sortBy} onValueChange={(value: SortType) => setSortBy(value)}>
               <SelectTrigger id="sort-select" className="w-36 bg-background">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-background border shadow-lg z-50">
-                <SelectItem value="pct_pos_return_months">% Positive Months</SelectItem>
-                <SelectItem value="avg_return">Avg Return</SelectItem>
-                <SelectItem value="alphabetical">Alphabetical</SelectItem>
+                <SelectItem value="pct_pos_return_months">{t('pages:monthlyAnalysis.seasonalityHeatmap.sortPosMonths')}</SelectItem>
+                <SelectItem value="avg_return">{t('pages:monthlyAnalysis.seasonalityHeatmap.sortAvgReturn')}</SelectItem>
+                <SelectItem value="alphabetical">{t('pages:monthlyAnalysis.seasonalityHeatmap.sortAlphabetical')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="flex items-center gap-2">
-            <Label htmlFor="stocks-select" className="text-sm font-medium">Show:</Label>
+            <Label htmlFor="stocks-select" className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.showLabel')}</Label>
             <Select value={maxStocks.toString()} onValueChange={(value) => setMaxStocks(parseInt(value))}>
               <SelectTrigger id="stocks-select" className="w-28 bg-background">
                 <SelectValue />
@@ -301,7 +302,7 @@ Data points: ${stat.number_of_months_available} months`;
           {/* Header Row */}
           <div className="flex mb-3 pb-2 border-b border-border/50">
             <div className="w-40 flex-shrink-0 text-sm font-semibold text-foreground px-3 py-2">
-              Stock Symbol
+              {t('pages:monthlyAnalysis.seasonalityHeatmap.stockSymbolHeader')}
             </div>
             {selectedMonths.length === 0 ? (
               MONTH_NAMES.map((month, index) => {
@@ -522,48 +523,50 @@ Data points: ${stat.number_of_months_available} months`;
       <div className="space-y-4 p-6 bg-gradient-to-r from-muted/5 to-muted/10 rounded-xl border border-border/50">
         <div className="flex flex-wrap items-center gap-6">
           <span className="text-base font-semibold text-foreground">
-            {selectedMetric === 'pct_pos_return_months' ? 'Performance Scale - % Positive Months' : 'Performance Scale - Average Return (%)'}
+            {selectedMetric === 'pct_pos_return_months'
+              ? t('pages:monthlyAnalysis.seasonalityHeatmap.scalePosMonths')
+              : t('pages:monthlyAnalysis.seasonalityHeatmap.scaleAvgReturn')}
           </span>
 
           {colorThresholds && (
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-red-500 to-red-600 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">Lowest 20%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.lowest20')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-orange-400 to-orange-500 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">20-40%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.pct2040')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-amber-400 to-amber-500 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">40-60%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.pct4060')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">60-80%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.pct6080')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-5 h-5 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-md shadow-sm"></div>
-                <span className="text-sm font-medium">Top 20%</span>
+                <span className="text-sm font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.top20')}</span>
               </div>
             </div>
           )}
         </div>
 
         <div className="flex items-center gap-6 text-sm text-muted-foreground pt-2 border-t border-border/30">
-          <span className="font-medium">Data Reliability:</span>
+          <span className="font-medium">{t('pages:monthlyAnalysis.seasonalityHeatmap.dataReliability')}</span>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-md opacity-40 shadow-sm"></div>
-            <span>&lt;5 months (limited data)</span>
+            <span>{t('pages:monthlyAnalysis.seasonalityHeatmap.reliabilityLow')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-md opacity-70 shadow-sm"></div>
-            <span>5-10 months (moderate)</span>
+            <span>{t('pages:monthlyAnalysis.seasonalityHeatmap.reliabilityMed')}</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-5 h-5 bg-primary rounded-md shadow-sm"></div>
-            <span>10+ months (reliable)</span>
+            <span>{t('pages:monthlyAnalysis.seasonalityHeatmap.reliabilityHigh')}</span>
           </div>
         </div>
       </div>

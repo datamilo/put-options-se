@@ -1,12 +1,14 @@
 import React from 'react';
 import { MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { Scatter, ScatterChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 interface RiskReturnScatterProps {
   data: MonthlyStockStats[];
 }
 
 export const RiskReturnScatter: React.FC<RiskReturnScatterProps> = ({ data }) => {
+  const { t } = useTranslation('pages');
   const scatterData = data
     .filter(d => d.number_of_months_available >= 3)
     .slice(0, 50) // Limit to avoid overcrowding
@@ -37,7 +39,7 @@ export const RiskReturnScatter: React.FC<RiskReturnScatterProps> = ({ data }) =>
   if (scatterData.length === 0) {
     return (
       <div className="h-64 flex items-center justify-center text-muted-foreground">
-        No data available for scatter plot
+        {t('monthlyAnalysis.riskReturn.noData')}
       </div>
     );
   }
@@ -72,19 +74,19 @@ export const RiskReturnScatter: React.FC<RiskReturnScatterProps> = ({ data }) =>
                   <div className="bg-background border rounded-lg p-3 shadow-lg">
                     <p className="font-medium">{data.name}</p>
                     <p className="text-primary">
-                      Avg Return: {data.x.toFixed(2)}%
+                      {t('monthlyAnalysis.riskReturn.tooltipAvgReturn')} {data.x.toFixed(2)}%
                     </p>
                     <p className="text-orange-500">
-                      Avg Drawdown: {data.y.toFixed(2)}%
+                      {t('monthlyAnalysis.riskReturn.tooltipAvgDrawdown')} {data.y.toFixed(2)}%
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      History: {data.z} months
+                      {t('monthlyAnalysis.riskReturn.tooltipHistory', { months: data.z })}
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      Score: {data.score}
+                      {t('monthlyAnalysis.riskReturn.tooltipScore')} {data.score}
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      Positive Months: {data.posMonths.toFixed(1)}%
+                      {t('monthlyAnalysis.riskReturn.tooltipPosMonths')} {data.posMonths.toFixed(1)}%
                     </p>
                   </div>
                 );
@@ -108,21 +110,21 @@ export const RiskReturnScatter: React.FC<RiskReturnScatterProps> = ({ data }) =>
       <div className="mt-4 flex flex-wrap items-center justify-center gap-4 text-xs">
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-          <span>High Score (10+)</span>
+          <span>{t('monthlyAnalysis.riskReturn.legendHigh')}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-          <span>Medium Score (5-9)</span>
+          <span>{t('monthlyAnalysis.riskReturn.legendMedium')}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
-          <span>Low Score (2-4)</span>
+          <span>{t('monthlyAnalysis.riskReturn.legendLow')}</span>
         </div>
         <div className="flex items-center gap-1">
           <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-          <span>Very Low (0-1)</span>
+          <span>{t('monthlyAnalysis.riskReturn.legendVeryLow')}</span>
         </div>
-        <span className="text-muted-foreground">• Bubble size = History depth</span>
+        <span className="text-muted-foreground">• {t('monthlyAnalysis.riskReturn.bubbleSizeNote')}</span>
       </div>
     </div>
   );

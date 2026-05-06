@@ -1,6 +1,7 @@
 import React from 'react';
 import { MonthlyStockStats } from '@/hooks/useMonthlyStockData';
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import { useTranslation } from 'react-i18next';
 
 interface TopRankingChartProps {
   data: MonthlyStockStats[];
@@ -9,10 +10,11 @@ interface TopRankingChartProps {
 }
 
 export const TopRankingChart: React.FC<TopRankingChartProps> = ({ data, metric, month }) => {
+  const { t } = useTranslation('pages');
   const metricLabels = {
-    pct_pos_return_months: 'Positive Months %',
-    return_month_mean_pct_return_month: 'Avg Return %',
-    top_5_accumulated_score: 'Score'
+    pct_pos_return_months: t('monthlyAnalysis.topRanking.metricPosMonths'),
+    return_month_mean_pct_return_month: t('monthlyAnalysis.topRanking.metricAvgReturn'),
+    top_5_accumulated_score: t('monthlyAnalysis.topRanking.metricScore')
   };
 
   const getTopPerformers = () => {
@@ -53,7 +55,7 @@ export const TopRankingChart: React.FC<TopRankingChartProps> = ({ data, metric, 
   if (chartData.length === 0) {
     return (
       <div className="h-64 flex items-center justify-center text-muted-foreground">
-        No data available for the selected filters
+        {t('monthlyAnalysis.topRanking.noData')}
       </div>
     );
   }
@@ -87,7 +89,7 @@ export const TopRankingChart: React.FC<TopRankingChartProps> = ({ data, metric, 
                       {metricLabels[metric]}: {formatValue(payload[0].value as number)}
                     </p>
                     <p className="text-muted-foreground text-sm">
-                      History: {data.months} months
+                      {t('monthlyAnalysis.topRanking.tooltipHistory', { months: data.months })}
                     </p>
                   </div>
                 );

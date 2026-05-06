@@ -3,16 +3,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { MonthlyStockData } from '@/hooks/useMonthlyStockData';
+import { useTranslation } from 'react-i18next';
 
 interface TimelinePerformanceChartProps {
   data: MonthlyStockData[];
   selectedStock: string;
 }
-
-const MONTH_NAMES = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
 
 const MONTH_COLORS = [
   '#3B82F6', '#EF4444', '#10B981', '#F59E0B', '#8B5CF6', '#06B6D4',
@@ -23,6 +19,8 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
   data,
   selectedStock
 }) => {
+  const { t } = useTranslation(['pages', 'common']);
+  const MONTH_NAMES = Array.from({ length: 12 }, (_, i) => t(`common:monthNamesShort.${i + 1}`));
   const [visibleMonths, setVisibleMonths] = useState<Set<number>>(new Set([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]));
 
   // Process data for the timeline chart
@@ -123,7 +121,7 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
   if (!selectedStock) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        <p>Please select a stock to view the timeline performance chart</p>
+        <p>{t('pages:monthlyAnalysis.timeline.selectStock')}</p>
       </div>
     );
   }
@@ -131,7 +129,7 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
   if (!chartData.length) {
     return (
       <div className="flex items-center justify-center h-64 text-muted-foreground">
-        <p>No historical data available for {selectedStock}</p>
+        <p>{t('pages:monthlyAnalysis.timeline.noData', { stock: selectedStock })}</p>
       </div>
     );
   }
@@ -141,13 +139,13 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
       {/* Month Toggle Controls */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium">Toggle Months</h4>
+          <h4 className="text-sm font-medium">{t('pages:monthlyAnalysis.timeline.toggleMonths')}</h4>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={showAllMonths}>
-              Show All
+              {t('pages:monthlyAnalysis.timeline.showAll')}
             </Button>
             <Button variant="outline" size="sm" onClick={hideAllMonths}>
-              Hide All
+              {t('pages:monthlyAnalysis.timeline.hideAll')}
             </Button>
           </div>
         </div>
@@ -229,7 +227,7 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
               strokeWidth={2}
               strokeDasharray="5 5"
               label={{
-                value: "0% (Break-even)",
+                value: t('pages:monthlyAnalysis.timeline.breakEven'),
                 position: "insideTopRight",
                 style: {
                   fontSize: '12px',
