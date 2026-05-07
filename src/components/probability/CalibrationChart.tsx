@@ -173,8 +173,8 @@ export const CalibrationChart: React.FC<CalibrationChartProps> = ({
         marker: { color: color, size: 8, line: { color: 'white', width: 1 } },
         hovertemplate:
           '<b>' + displayName + '</b><br>' +
-          'Predicted: %{x:.1%}<br>' +
-          'Actual: %{y:.1%}<br>' +
+          t('probabilityAnalysis.calibrationChart.hoverPredicted') + ' %{x:.1%}<br>' +
+          t('probabilityAnalysis.calibrationChart.hoverActual') + ' %{y:.1%}<br>' +
           'n=%{text}<extra></extra>',
         text: points.map(p => p.count.toLocaleString()),
         showlegend: true

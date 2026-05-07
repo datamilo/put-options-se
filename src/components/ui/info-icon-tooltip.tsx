@@ -1,5 +1,6 @@
 import React from 'react';
 import { Info } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import {
   Tooltip,
   TooltipContent,
@@ -24,13 +25,14 @@ export const InfoIconTooltip: React.FC<InfoIconTooltipProps> = ({
   side = 'right',
   delayDuration = 200,
 }) => {
+  const { t } = useTranslation('common');
   return (
     <TooltipProvider delayDuration={delayDuration}>
       <Tooltip>
         <TooltipTrigger asChild>
           <button
             className="inline-flex items-center justify-center w-5 h-5 rounded-full hover:bg-muted text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-            aria-label={title ? `${title} information` : 'More information'}
+            aria-label={title ? t('infoIcon.titleInfo', { title }) : t('infoIcon.moreInfo')}
           >
             <Info className="h-4 w-4" />
           </button>

@@ -148,7 +148,7 @@ export const ConsecutiveBreaksAnalysis = () => {
           name: t('consecutiveBreaks.traceRollingLowName'),
           line: { color: '#4B5563', width: 2, dash: 'dash' },
           customdata: analysis.data.map((d) => d.last_break_date),
-          hovertemplate: '<b>Running Low:</b> %{y:.2f} kr<br><b>Running Low Date:</b> %{customdata|%Y-%m-%d}<extra></extra>',
+          hovertemplate: t('consecutiveBreaks.hoverRunningLow'),
         },
         // Breaks trace
         {
@@ -158,9 +158,8 @@ export const ConsecutiveBreaksAnalysis = () => {
           y: analysis.breaks.map((b) => b.new_support),
           name: t('consecutiveBreaks.traceSupportBrokenName'),
           marker: { color: '#D97706', size: 5, symbol: 'circle' },
-          text: analysis.breaks.map((b) => `Drop: ${b.drop_pct.toFixed(2)}%`),
-          hovertemplate:
-            '<b>%{x}</b><br>Support: %{y:.2f} kr<br>%{text}<extra></extra>',
+          text: analysis.breaks.map((b) => t('consecutiveBreaks.hoverDropLabel', { pct: b.drop_pct.toFixed(2) })),
+          hovertemplate: t('consecutiveBreaks.hoverSupportLabel'),
         },
         // Earnings events trace
         ...(earningsEvents.length > 0

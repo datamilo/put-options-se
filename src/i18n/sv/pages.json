@@ -295,7 +295,8 @@
       "eventType": "Händelsetyp",
       "category": "Kategori",
       "details": "Detaljer"
-    }
+    },
+    "noDataFor": "Ingen data tillgänglig för \"{{stock}}\"."
   },
   "probabilityAnalysis": {
     "title": "Sannolikhetsanalys",
@@ -389,7 +390,9 @@
       "axisPredicted": "Förutsagd sannolikhet",
       "axisActual": "Faktisk frekvens",
       "noData": "Inga kalibreringsdata tillgängliga för den här filterkombinationen.",
-      "interpretation": "Linjer närmare diagonalen indikerar bättre kalibrering. Varje punkt representerar en sannolikhetshink med förutsagda kontra faktiska frekvenser."
+      "interpretation": "Linjer närmare diagonalen indikerar bättre kalibrering. Varje punkt representerar en sannolikhetshink med förutsagda kontra faktiska frekvenser.",
+      "hoverPredicted": "Förutsagd:",
+      "hoverActual": "Faktisk:"
     },
     "methodComparisonChart": {
       "title": "Aktieprestanda per metod",
@@ -575,7 +578,10 @@
     "supportBreakStatistics": "Stödgenombrottsstatistik",
     "statDaysSinceLastBreak": "Dagar sedan senaste genombrott",
     "statStability": "Stabilitet",
-    "statTradingDaysPerBreak": "Handelsdagar per genombrott"
+    "statTradingDaysPerBreak": "Handelsdagar per genombrott",
+    "hoverRunningLow": "<b>Rullande lågpunkt:</b> %{y:.2f} kr<br><b>Datum för rullande lågpunkt:</b> %{customdata|%Y-%m-%d}<extra></extra>",
+    "hoverDropLabel": "Nedgång: {{pct}}%",
+    "hoverSupportLabel": "<b>%{x}</b><br>Stöd: %{y:.2f} kr<br>%{text}<extra></extra>"
   },
   "supportLevelOptions": {
     "title": "Lista säljoptioner vid stödnivå",
@@ -1367,7 +1373,9 @@
     "chartSpanPercentage": "Spanprocent (%)",
     "chartSpanDesc": "Spanprocent visar bredden av förutsagda nedre gränser som en procent av minimivärdet.",
     "chartHigherPct": "Högre procent indikerar bredare prognosintervall (mer osäkerhet kring det faktiska gränsvärdet).",
-    "chartLowerPct": "Lägre procent indikerar snävare prognosintervall (mer förtroende för gränsvärdesuppskattningen)."
+    "chartLowerPct": "Lägre procent indikerar snävare prognosintervall (mer förtroende för gränsvärdesuppskattningen).",
+    "chartSpanTitleNoData": "Spanprocent för prognos (ingen data)",
+    "chartSpanTitle": "<b>{{stock}} - Spanprocent för prognos per förfallodatum</b><br><sub>Span % = (Max gräns - Min gräns) / Min gräns × 100</sub>"
   },
   "probabilityHistoryChart": {
     "cardTitle": "Sannolikhetshistorik – förfaller värdelös",

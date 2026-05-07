@@ -196,5 +196,24 @@
     "10": "Oct",
     "11": "Nov",
     "12": "Dec"
+  },
+  "infoIcon": {
+    "moreInfo": "More information",
+    "titleInfo": "{{title}} information"
+  },
+  "pagination": {
+    "label": "pagination",
+    "goToPrev": "Go to previous page",
+    "goToNext": "Go to next page",
+    "previous": "Previous",
+    "next": "Next",
+    "morePages": "More pages"
+  },
+  "breadcrumb": {
+    "label": "breadcrumb",
+    "more": "More"
+  },
+  "sidebar": {
+    "toggleSidebar": "Toggle Sidebar"
   }
 }

@@ -196,5 +196,24 @@
     "10": "Okt",
     "11": "Nov",
     "12": "Dec"
+  },
+  "infoIcon": {
+    "moreInfo": "Mer information",
+    "titleInfo": "{{title}} information"
+  },
+  "pagination": {
+    "label": "sidnavigering",
+    "goToPrev": "Gå till föregående sida",
+    "goToNext": "Gå till nästa sida",
+    "previous": "Föregående",
+    "next": "Nästa",
+    "morePages": "Fler sidor"
+  },
+  "breadcrumb": {
+    "label": "brödsmulor",
+    "more": "Mer"
+  },
+  "sidebar": {
+    "toggleSidebar": "Växla sidopanel"
   }
 }

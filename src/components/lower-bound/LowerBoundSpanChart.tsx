@@ -70,7 +70,7 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
   const layout = useMemo(() => {
     if (spanData.length === 0) {
       return {
-        title: 'Prediction Span Percentage (No data)',
+        title: t('lowerBoundAnalysis.chartSpanTitleNoData'),
         xaxis: { title: t('lowerBoundAnalysis.chartExpiryDate') },
         yaxis: { title: t('lowerBoundAnalysis.chartSpanPct') },
         height: 350,
@@ -82,7 +82,7 @@ export const LowerBoundSpanChart: React.FC<LowerBoundSpanChartProps> = ({
     const maxDate = spanData[spanData.length - 1].expiryDate;
 
     return {
-      title: `<b>${stock} - Prediction Span Percentage by Expiry</b><br><sub>Span % = (Max Bound - Min Bound) / Min Bound × 100</sub>`,
+      title: t('lowerBoundAnalysis.chartSpanTitle', { stock }),
       xaxis: {
         title: t('lowerBoundAnalysis.chartExpiryDate'),
         range: [minDate, maxDate],

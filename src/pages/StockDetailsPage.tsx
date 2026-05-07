@@ -216,7 +216,7 @@ const StockDetailsPage = () => {
         <div className="text-center">
           <h2 className="text-2xl font-bold">{t('pages:stockAnalysis.stockNotFound')}</h2>
           <p className="text-muted-foreground mt-2">
-            No data available for "{selectedStock}".
+            {t('pages:stockAnalysis.noDataFor', { stock: selectedStock })}
           </p>
         </div>
       </div>
@@ -267,7 +267,7 @@ const StockDetailsPage = () => {
       <div className="w-full max-w-xs">
         <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
           <SelectTrigger>
-            <SelectValue placeholder="Select a stock..." />
+            <SelectValue placeholder={t('selectPlaceholder.stock')} />
           </SelectTrigger>
           <SelectContent>
             {allStocks.map((stock) => (

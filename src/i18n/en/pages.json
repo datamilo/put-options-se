@@ -295,7 +295,8 @@
       "eventType": "Event Type",
       "category": "Category",
       "details": "Details"
-    }
+    },
+    "noDataFor": "No data available for \"{{stock}}\"."
   },
   "probabilityAnalysis": {
     "title": "Probability Analysis",
@@ -389,7 +390,9 @@
       "axisPredicted": "Predicted Probability",
       "axisActual": "Actual Rate",
       "noData": "No calibration data available for this filter combination.",
-      "interpretation": "Lines closer to the diagonal indicate better calibration. Each dot represents a probability bin showing predicted vs actual rates."
+      "interpretation": "Lines closer to the diagonal indicate better calibration. Each dot represents a probability bin showing predicted vs actual rates.",
+      "hoverPredicted": "Predicted:",
+      "hoverActual": "Actual:"
     },
     "methodComparisonChart": {
       "title": "Stock Performance by Method",
@@ -519,7 +522,9 @@
     "chartSpanPercentage": "Span Percentage (%)",
     "chartSpanDesc": "Span Percentage shows the range of predicted lower bounds as a percentage of the minimum value.",
     "chartHigherPct": "Higher percentages indicate wider prediction ranges (more uncertainty about the actual bound).",
-    "chartLowerPct": "Lower percentages indicate tighter prediction ranges (more confidence in the bound estimate)."
+    "chartLowerPct": "Lower percentages indicate tighter prediction ranges (more confidence in the bound estimate).",
+    "chartSpanTitleNoData": "Prediction Span Percentage (No data)",
+    "chartSpanTitle": "<b>{{stock}} - Prediction Span Percentage by Expiry</b><br><sub>Span % = (Max Bound - Min Bound) / Min Bound × 100</sub>"
   },
   "volatilityAnalysis": {
     "title": "Financial Reporting Volatility",
@@ -669,7 +674,10 @@
     "supportBreakStatistics": "Support Break Statistics",
     "statDaysSinceLastBreak": "Days Since Last Break",
     "statStability": "Stability",
-    "statTradingDaysPerBreak": "Trading Days per Break"
+    "statTradingDaysPerBreak": "Trading Days per Break",
+    "hoverRunningLow": "<b>Running Low:</b> %{y:.2f} kr<br><b>Running Low Date:</b> %{customdata|%Y-%m-%d}<extra></extra>",
+    "hoverDropLabel": "Drop: {{pct}}%",
+    "hoverSupportLabel": "<b>%{x}</b><br>Support: %{y:.2f} kr<br>%{text}<extra></extra>"
   },
   "supportLevelOptions": {
     "title": "Support Level Options List",
