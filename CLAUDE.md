@@ -19,7 +19,7 @@ After making changes to this project:
 
 ## When to Build
 
-**SKIP BUILD for:** chart config, UI styling (CSS/Tailwind), JSX layout/reordering, docs, comments, .gitignore, Plotly/Recharts prop tweaks.
+**SKIP BUILD for:** chart config, UI styling (CSS/Tailwind), JSX layout/reordering, docs, comments, .gitignore, Plotly/Recharts prop tweaks, translation JSON files (`src/i18n/**/*.json`).
 
 **BUILD ONLY for:** new .tsx/.ts files, business logic, hook logic changes (useEffect/useMemo/useCallback), context/state changes, TypeScript interfaces affecting compiled code, new npm packages, CSV parsing changes.
 

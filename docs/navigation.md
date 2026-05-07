@@ -36,6 +36,7 @@ The bar contains:
 
 | Control | Behaviour |
 |---------|-----------|
+| Language Switcher | `EN \| SV` toggle — calls `i18n.changeLanguage()`, persists in `localStorage` key `lang` |
 | Calculation Settings | Opens `SettingsModal` (main page preferences) |
 | Theme Toggle | Cycles between light and dark mode via next-themes |
 | Sign Out | Calls `signOut()` from `AuthProvider` |
