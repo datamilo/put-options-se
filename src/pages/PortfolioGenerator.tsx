@@ -582,7 +582,7 @@ const PortfolioGenerator = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                title="Learn what PoW means and about the probability methods"
+                title={t('portfolioGenerator.powLearnTitle')}
                 className="gap-1"
               >
                 <Info className="h-4 w-4" />
@@ -603,11 +603,11 @@ const PortfolioGenerator = () => {
                 <div>
                   <p className="font-semibold text-sm mb-2">{t('portfolioGenerator.pow5MethodsTitle')}</p>
                   <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
-                    <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
-                    <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
-                    <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
-                    <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
-                    <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+                    <li><strong>PoW - Weighted Average:</strong> {t('portfolioGenerator.powMethod1')}</li>
+                    <li><strong>PoW - Bayesian Calibrated:</strong> {t('portfolioGenerator.powMethod2')}</li>
+                    <li><strong>PoW - Original Black-Scholes:</strong> {t('portfolioGenerator.powMethod3')}</li>
+                    <li><strong>PoW - Bias Corrected:</strong> {t('portfolioGenerator.powMethod4')}</li>
+                    <li><strong>PoW - Historical IV:</strong> {t('portfolioGenerator.powMethod5')}</li>
                   </ul>
                 </div>
               </div>

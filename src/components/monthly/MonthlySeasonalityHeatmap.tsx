@@ -218,12 +218,14 @@ export const MonthlySeasonalityHeatmap: React.FC<MonthlySeasonalityHeatmapProps>
   };
 
   const getTooltipContent = (stock: string, month: number, stat: MonthlyStockStats | undefined) => {
-    if (!stat) return 'No data available';
+    if (!stat) return t('seasonalityHeatmap.tooltipNoData');
 
-    return `${stock} - ${MONTH_NAMES[month - 1]}
-${stat.pct_pos_return_months.toFixed(1)}% positive months
-Avg return: ${stat.return_month_mean_pct_return_month.toFixed(2)}%
-Data points: ${stat.number_of_months_available} months`;
+    return [
+      `${stock} - ${MONTH_NAMES[month - 1]}`,
+      t('seasonalityHeatmap.tooltipPosMonths', { pct: stat.pct_pos_return_months.toFixed(1) }),
+      t('seasonalityHeatmap.tooltipAvgReturn', { val: stat.return_month_mean_pct_return_month.toFixed(2) }),
+      t('seasonalityHeatmap.tooltipDataPoints', { n: stat.number_of_months_available }),
+    ].join('\n');
   };
 
   return (
@@ -286,10 +288,10 @@ Data points: ${stat.number_of_months_available} months`;
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-background border shadow-lg z-50">
-                <SelectItem value="10">Top 10</SelectItem>
-                <SelectItem value="20">Top 20</SelectItem>
-                <SelectItem value="30">Top 30</SelectItem>
-                <SelectItem value="50">Top 50</SelectItem>
+                <SelectItem value="10">{t('common:topN', { n: 10 })}</SelectItem>
+                <SelectItem value="20">{t('common:topN', { n: 20 })}</SelectItem>
+                <SelectItem value="30">{t('common:topN', { n: 30 })}</SelectItem>
+                <SelectItem value="50">{t('common:topN', { n: 50 })}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -321,7 +323,7 @@ Data points: ${stat.number_of_months_available} months`;
                         : 'text-foreground hover:text-primary'
                       }
                     `}
-                    title={`Click to sort by ${month} values`}
+                    title={t('seasonalityHeatmap.clickSortByMonth', { month })}
                   >
                     {month}
                     {isActiveSortColumn && (
@@ -349,7 +351,7 @@ Data points: ${stat.number_of_months_available} months`;
                           : 'text-foreground hover:text-primary'
                         }
                       `}
-                      title={`Click to sort by ${MONTH_NAMES[monthNumber - 1]} values`}
+                      title={t('seasonalityHeatmap.clickSortByMonth', { month: MONTH_NAMES[monthNumber - 1] })}
                     >
                       {MONTH_NAMES[monthNumber - 1]}
                       {isActiveSortColumn && (
@@ -373,7 +375,7 @@ Data points: ${stat.number_of_months_available} months`;
                           : 'text-blue-600 dark:text-blue-400 hover:bg-muted/20'
                         }
                       `}
-                      title="Click to sort by current month performance"
+                      title={t('seasonalityHeatmap.clickSortByMtd')}
                     >
                       <span>{MONTH_NAMES[(currentMonth ?? 1) - 1]}</span>
                       <span className="text-[10px] font-normal opacity-80">MTD</span>

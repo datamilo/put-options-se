@@ -149,8 +149,7 @@ export const LowerBoundDistributionChart: React.FC<
         marker: { color: 'red', opacity: 0.6 },
         yaxis: 'y2',
         xaxis: 'x1',
-        hovertemplate:
-          '<b>%{x|%Y-%m-%d}</b><br>Breaches: %{y}<extra></extra>',
+        hovertemplate: t('lowerBoundAnalysis.chartHoverBreaches'),
       });
     }
 
@@ -183,7 +182,7 @@ export const LowerBoundDistributionChart: React.FC<
           opacity: 0.6,
           meanline: { visible: true },
           points: false,
-          hovertemplate: '%{x|%Y-%m-%d}<br>Prediction Range<extra></extra>',
+          hovertemplate: t('lowerBoundAnalysis.chartHoverPredRange'),
           hoveron: 'violins',
           scalemode: 'width',
           spanmode: 'hard',
@@ -210,7 +209,7 @@ export const LowerBoundDistributionChart: React.FC<
         line: { color: 'black', width: 2.5 },
         xaxis: 'x1',
         yaxis: 'y1',
-        hovertemplate: '<b>%{x|%Y-%m-%d}</b><br>Stock Price: %{y:.2f} SEK<extra></extra>',
+        hovertemplate: t('lowerBoundAnalysis.chartHoverStockPrice'),
       });
     }
 
@@ -244,7 +243,7 @@ export const LowerBoundDistributionChart: React.FC<
         },
         xaxis: 'x1',
         yaxis: 'y1',
-        hovertemplate: '<b>%{x|%Y-%m-%d}</b><br>Earnings Report Price: %{y:.2f} SEK<extra></extra>',
+        hovertemplate: t('lowerBoundAnalysis.chartHoverEarnings'),
       });
     }
 
@@ -260,8 +259,7 @@ export const LowerBoundDistributionChart: React.FC<
         marker: { color: 'rgb(76, 175, 80)', opacity: 0.7 },
         xaxis: 'x2',
         yaxis: 'y3',
-        hovertemplate:
-          '<b>%{x|%Y-%m-%d}</b><br>Span: %{y:.2f}%<extra></extra>',
+        hovertemplate: t('lowerBoundAnalysis.chartHoverSpan'),
       });
     }
 
@@ -271,8 +269,8 @@ export const LowerBoundDistributionChart: React.FC<
   const layout = useMemo(() => {
     if (stockPriceData.length === 0 && expiryStats.length === 0) {
       return {
-        title: `${stock} - Prediction Distribution & Breaches (No data available)`,
-        xaxis: { title: 'Date' },
+        title: t('lowerBoundAnalysis.chartTitleNoData', { stock }),
+        xaxis: { title: t('lowerBoundAnalysis.chartXAxisDate') },
         yaxis: { title: t('lowerBoundAnalysis.chartPriceSek') },
         height: 800,
         template: 'plotly_white',
@@ -300,7 +298,7 @@ export const LowerBoundDistributionChart: React.FC<
       : 100;
 
     const layoutObj: any = {
-      title: `<b>${stock} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution | Red bars = breach count | Orange dots = earnings events | Green bars = span %</sub>`,
+      title: t('lowerBoundAnalysis.chartTitle', { stock }),
 
       // ROW 1: Main chart (top ~65% with bottom margin for spacing)
       xaxis: {

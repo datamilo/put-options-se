@@ -25,7 +25,7 @@ const CURRENT_MONTH_NUMBER = new Date().getMonth() + 1;
 export const MonthlyAnalysis = () => {
   usePageTitle('Monthly Analysis');
   const navigate = useNavigate();
-  const { t } = useTranslation('pages');
+  const { t } = useTranslation(['pages', 'common']);
   const { monthlyData, monthlyStats, isLoading, error } = useMonthlyStockData();
   const { allStockData } = useStockData();
   
@@ -278,7 +278,7 @@ export const MonthlyAnalysis = () => {
                   onClick={() => setSelectedMonths(prev =>
                     prev.length === 1 && prev[0] === CURRENT_MONTH_NUMBER ? [] : [CURRENT_MONTH_NUMBER]
                   )}
-                  title="Filter to current month"
+                  title={t('monthlyAnalysis.filterCurrentMonthTitle')}
                 >
                   {t(`common:monthNames.${CURRENT_MONTH_NUMBER}`)}
                 </Button>
@@ -358,11 +358,11 @@ export const MonthlyAnalysis = () => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="10">Top 10</SelectItem>
-                    <SelectItem value="25">Top 25</SelectItem>
-                    <SelectItem value="50">Top 50</SelectItem>
-                    <SelectItem value="100">Top 100</SelectItem>
-                    <SelectItem value="200">Top 200</SelectItem>
+                    <SelectItem value="10">{t('common:topN', { n: 10 })}</SelectItem>
+                    <SelectItem value="25">{t('common:topN', { n: 25 })}</SelectItem>
+                    <SelectItem value="50">{t('common:topN', { n: 50 })}</SelectItem>
+                    <SelectItem value="100">{t('common:topN', { n: 100 })}</SelectItem>
+                    <SelectItem value="200">{t('common:topN', { n: 200 })}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

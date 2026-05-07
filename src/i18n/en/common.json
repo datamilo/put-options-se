@@ -32,12 +32,16 @@
     "back": "Back",
     "reset": "Reset to Default",
     "export": "Export",
+    "exportAsCSV": "Export as CSV",
+    "exportAsPNG": "Export as PNG",
+    "exportAsPDF": "Export as PDF",
     "download": "Download",
     "loadSampleData": "Load Sample Data Instead",
     "signIn": "Sign In",
     "signUp": "Sign Up",
     "signOut": "Sign out"
   },
+  "topN": "Top {{n}}",
   "status": {
     "loading": "Loading...",
     "loadingData": "Loading data...",

@@ -477,7 +477,7 @@ const Index = () => {
                 variant="ghost"
                 size="sm"
                 className="self-start text-xs text-muted-foreground hover:text-foreground"
-                title="Reset all filters to default (third Friday of next month)"
+                title={t('index.resetToDefaultTitle')}
               >
                 <RotateCcw className="h-3 w-3 mr-1" />
                 {t('index.resetToDefault')}

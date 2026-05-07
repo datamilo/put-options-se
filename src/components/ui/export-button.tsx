@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Download, FileDown, FileText } from "lucide-react"
+import { useTranslation } from "react-i18next"
 import { Button } from "./button"
 import {
   DropdownMenu,
@@ -22,15 +23,17 @@ export function ExportButton({
   onExportCSV,
   onExportPNG,
   onExportPDF,
-  label = "Export",
+  label,
   variant = "outline",
   size = "sm",
   className,
 }: ExportButtonProps) {
+  const { t } = useTranslation('common')
+  const exportLabel = label ?? t('button.export')
   const exportOptions = [
-    { label: "Export as CSV", icon: FileText, onClick: onExportCSV },
-    { label: "Export as PNG", icon: FileDown, onClick: onExportPNG },
-    { label: "Export as PDF", icon: FileDown, onClick: onExportPDF },
+    { label: t('button.exportAsCSV'), icon: FileText, onClick: onExportCSV },
+    { label: t('button.exportAsPNG'), icon: FileDown, onClick: onExportPNG },
+    { label: t('button.exportAsPDF'), icon: FileDown, onClick: onExportPDF },
   ].filter((option) => option.onClick)
 
   // If only one export option, show as simple button
@@ -44,7 +47,7 @@ export function ExportButton({
         className={className}
       >
         <Download className="h-4 w-4 mr-2" />
-        {label}
+        {exportLabel}
       </Button>
     )
   }
@@ -55,7 +58,7 @@ export function ExportButton({
       <DropdownMenuTrigger asChild>
         <Button variant={variant} size={size} className={className}>
           <Download className="h-4 w-4 mr-2" />
-          {label}
+          {exportLabel}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

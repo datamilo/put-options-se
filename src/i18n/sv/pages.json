@@ -51,6 +51,7 @@
       "title": "Laddar optionsdata",
       "noOptions": "Inga optioner matchar nuvarande filter."
     },
+    "resetToDefaultTitle": "Återställ alla filter till standard (tredje fredagen i nästa månad)",
     "toast": {
       "filtersReset": "Filter återställda till standard",
       "mockDataLoaded": "Exempeldata laddad",
@@ -79,6 +80,7 @@
       "statistics": "Detaljerad statistiktabell",
       "statisticsDesc": "Fullständiga månadsavkastningsmått för alla aktier"
     },
+    "filterCurrentMonthTitle": "Filtrera till aktuell månad",
     "filters": {
       "minHistory": "Min historik (månader)",
       "showTopN": "Visa topp N aktier"
@@ -194,7 +196,13 @@
       "dataReliability": "Datakvalitet:",
       "reliabilityLow": "<5 månader (begränsad data)",
       "reliabilityMed": "5–10 månader (måttlig)",
-      "reliabilityHigh": "10+ månader (tillförlitlig)"
+      "reliabilityHigh": "10+ månader (tillförlitlig)",
+      "clickSortByMonth": "Klicka för att sortera efter {{month}}-värden",
+      "clickSortByMtd": "Klicka för att sortera efter aktuell månads avkastning",
+      "tooltipNoData": "Ingen data tillgänglig",
+      "tooltipPosMonths": "{{pct}}% positiva månader",
+      "tooltipAvgReturn": "Snittavkastning: {{val}}%",
+      "tooltipDataPoints": "Datapunkter: {{n}} månader"
     },
     "periodComparison": {
       "yAxisLabel": "Andel händelser (%)"
@@ -297,9 +305,15 @@
     "breadcrumbHome": "Optionsdashboard",
     "optionsDataLabel": "Optionsdata",
     "powLegendTitle": "PoW-förklaring",
+    "powLearnTitle": "Lär dig vad PoW betyder och om sannolikhetsmetoderna",
     "powWhatIsTitle": "Vad är PoW?",
     "powWhatIsDesc": "PoW = Sannolikhet att förfalla värdelös — Sannolikheten att en option förfaller värdelös.",
     "pow5MethodsTitle": "De 5 beräkningsmetoderna",
+    "powMethod1": "Viktad kombination av metoder",
+    "powMethod2": "Bayesiansk sannolikhetskalibrering",
+    "powMethod3": "Klassisk Black-Scholes-modell",
+    "powMethod4": "Kalibrerad med biasjustering",
+    "powMethod5": "Baserad på historisk implicit volatilitet",
     "kpi": {
       "recoveryCandidates": "Återhämtningskandidater",
       "recoveryCandidatesSubtitle": "Optioner med hög sannolikhet",
@@ -1059,9 +1073,15 @@
     "backToOptions": "Tillbaka till optioner",
     "howItWorks": "Hur det fungerar",
     "powLegendTitle": "PoW-förklaring",
+    "powLearnTitle": "Lär dig vad PoW betyder och om sannolikhetsmetoderna",
     "powWhatIsTitle": "Vad är PoW?",
     "powWhatIsDesc": "PoW = Sannolikhet att förfalla värdelös — Sannolikheten att en option förfaller värdelös (vilket innebär att du behåller premien).",
     "pow5MethodsTitle": "De 5 beräkningsmetoderna",
+    "powMethod1": "Viktad kombination av metoder",
+    "powMethod2": "Bayesiansk sannolikhetskalibrering",
+    "powMethod3": "Klassisk Black-Scholes-modell",
+    "powMethod4": "Kalibrerad med biasjustering",
+    "powMethod5": "Baserad på historisk implicit volatilitet",
     "descriptionText": "Portföljgeneratorn utvärderar varje option och rangordnar dem baserat på din valda optimeringsstrategi, och väljer sedan automatiskt ett diversifierat urval (en option per aktie). Maximera avkastning prioriterar högsta riskjusterade avkastning. Minimera kapital prioriterar lägsta kapitalkrav med bibehållen kvalitet. Balanserad optimerar för både avkastning och kapitaleffektivitet. Rankade modeller rangordnar optioner med hjälp av en viktad kombination av V2.1 Sannolikhetsoptimering och TA V3 Teknisk analys-modellpoäng.",
     "configTitle": "Portföljkonfiguration",
     "labelTotalPremium": "Total portföljpremie",
@@ -1275,6 +1295,14 @@
     "chartLegendBlueViolin": "Blå violin = Prognosfördelning (visas vid varje förfallodatum)",
     "chartLegendRedBars": "Röda staplar = Genombrott per förfallodatum (vänster y-axel)",
     "chartLegendGreenBars": "Gröna staplar = Spanprocent (intervallbredd: (max − min) / min × 100%, höger y-axel)",
+    "chartTitleNoData": "{{stock}} - Prediktionsfördelning och genombrott (ingen data)",
+    "chartTitle": "<b>{{stock}} - Nedre gräns prediktionsfördelning och genombrott</b><br><sub>Blå violiner = prediktionsfördelning | Röda staplar = antal genombrott | Orange punkter = rapporteringshändelser | Gröna staplar = span %</sub>",
+    "chartXAxisDate": "Datum",
+    "chartHoverBreaches": "<b>%{x|%Y-%m-%d}</b><br>Genombrott: %{y}<extra></extra>",
+    "chartHoverPredRange": "%{x|%Y-%m-%d}<br>Prognosintervall<extra></extra>",
+    "chartHoverStockPrice": "<b>%{x|%Y-%m-%d}</b><br>Aktiekurs: %{y:.2f} SEK<extra></extra>",
+    "chartHoverEarnings": "<b>%{x|%Y-%m-%d}</b><br>Kurs vid rapport: %{y:.2f} SEK<extra></extra>",
+    "chartHoverSpan": "<b>%{x|%Y-%m-%d}</b><br>Span: %{y:.2f}%<extra></extra>",
     "chartLoadingSpan": "Laddar spandata...",
     "chartNoSpanData": "Ingen spandata tillgänglig för denna aktie",
     "chartExpiryDate": "Förfallodatum",

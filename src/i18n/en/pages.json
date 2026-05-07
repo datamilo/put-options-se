@@ -51,6 +51,7 @@
       "title": "Loading Options Data",
       "noOptions": "No options match the current filters."
     },
+    "resetToDefaultTitle": "Reset all filters to default (third Friday of next month)",
     "toast": {
       "filtersReset": "Filters reset to default",
       "mockDataLoaded": "Mock data loaded",
@@ -79,6 +80,7 @@
       "statistics": "Detailed Statistics Table",
       "statisticsDesc": "Complete monthly performance metrics for all stocks"
     },
+    "filterCurrentMonthTitle": "Filter to current month",
     "filters": {
       "minHistory": "Min History (months)",
       "showTopN": "Show Top N Stocks"
@@ -194,7 +196,13 @@
       "dataReliability": "Data Reliability:",
       "reliabilityLow": "<5 months (limited data)",
       "reliabilityMed": "5-10 months (moderate)",
-      "reliabilityHigh": "10+ months (reliable)"
+      "reliabilityHigh": "10+ months (reliable)",
+      "clickSortByMonth": "Click to sort by {{month}} values",
+      "clickSortByMtd": "Click to sort by current month performance",
+      "tooltipNoData": "No data available",
+      "tooltipPosMonths": "{{pct}}% positive months",
+      "tooltipAvgReturn": "Avg return: {{val}}%",
+      "tooltipDataPoints": "Data points: {{n}} months"
     },
     "periodComparison": {
       "yAxisLabel": "Percentage of Occurrences"
@@ -297,9 +305,15 @@
     "breadcrumbHome": "Options Dashboard",
     "optionsDataLabel": "Options data",
     "powLegendTitle": "PoW Legend",
+    "powLearnTitle": "Learn what PoW means and about the probability methods",
     "powWhatIsTitle": "What is PoW?",
     "powWhatIsDesc": "PoW = Probability of Worthless — The probability that an option will expire worthless.",
     "pow5MethodsTitle": "The 5 Calculation Methods",
+    "powMethod1": "Weighted combination of methods",
+    "powMethod2": "Bayesian probability calibration",
+    "powMethod3": "Classic Black-Scholes model",
+    "powMethod4": "Calibrated with bias correction",
+    "powMethod5": "Based on historical implied volatility",
     "kpi": {
       "recoveryCandidates": "Recovery Candidates",
       "recoveryCandidatesSubtitle": "High probability options",
@@ -491,6 +505,14 @@
     "chartLegendBlueViolin": "Blue violin = Prediction distribution (shown at each expiry date)",
     "chartLegendRedBars": "Red bars = Breach count per expiry date (left y-axis)",
     "chartLegendGreenBars": "Green bars = Span percentage (range width: (max − min) / min × 100%, right y-axis)",
+    "chartTitleNoData": "{{stock}} - Prediction Distribution & Breaches (No data available)",
+    "chartTitle": "<b>{{stock}} - Lower Bound Prediction Distribution & Breaches</b><br><sub>Blue violins = prediction distribution | Red bars = breach count | Orange dots = earnings events | Green bars = span %</sub>",
+    "chartXAxisDate": "Date",
+    "chartHoverBreaches": "<b>%{x|%Y-%m-%d}</b><br>Breaches: %{y}<extra></extra>",
+    "chartHoverPredRange": "%{x|%Y-%m-%d}<br>Prediction Range<extra></extra>",
+    "chartHoverStockPrice": "<b>%{x|%Y-%m-%d}</b><br>Stock Price: %{y:.2f} SEK<extra></extra>",
+    "chartHoverEarnings": "<b>%{x|%Y-%m-%d}</b><br>Earnings Report Price: %{y:.2f} SEK<extra></extra>",
+    "chartHoverSpan": "<b>%{x|%Y-%m-%d}</b><br>Span: %{y:.2f}%<extra></extra>",
     "chartLoadingSpan": "Loading span data...",
     "chartNoSpanData": "No span data available for this stock",
     "chartExpiryDate": "Expiry Date",
@@ -1145,9 +1167,15 @@
     "backToOptions": "Back to Options",
     "howItWorks": "How it works",
     "powLegendTitle": "PoW Legend",
+    "powLearnTitle": "Learn what PoW means and about the probability methods",
     "powWhatIsTitle": "What is PoW?",
     "powWhatIsDesc": "PoW = Probability of Worthless — The probability that an option will expire worthless (meaning you keep the premium).",
     "pow5MethodsTitle": "The 5 Calculation Methods",
+    "powMethod1": "Weighted combination of methods",
+    "powMethod2": "Bayesian probability calibration",
+    "powMethod3": "Classic Black-Scholes model",
+    "powMethod4": "Calibrated with bias correction",
+    "powMethod5": "Based on historical implied volatility",
     "descriptionText": "The Portfolio Generator evaluates each option and ranks them based on your selected optimization strategy, then automatically selects a diversified set (one option per stock). Maximize Returns prioritizes highest risk-adjusted returns. Minimize Capital prioritizes lowest capital requirements while maintaining quality. Balanced optimizes for both return and capital efficiency. Scored Models ranks options using a weighted blend of the V2.1 Probability Optimization and TA V3 Technical Analysis model scores.",
     "configTitle": "Portfolio Configuration",
     "labelTotalPremium": "Total Portfolio Premium",

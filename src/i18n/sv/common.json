@@ -32,12 +32,16 @@
     "back": "Tillbaka",
     "reset": "Återställ standard",
     "export": "Exportera",
+    "exportAsCSV": "Exportera som CSV",
+    "exportAsPNG": "Exportera som PNG",
+    "exportAsPDF": "Exportera som PDF",
     "download": "Ladda ned",
     "loadSampleData": "Ladda exempeldata istället",
     "signIn": "Logga in",
     "signUp": "Skapa konto",
     "signOut": "Logga ut"
   },
+  "topN": "Topp {{n}}",
   "status": {
     "loading": "Laddar...",
     "loadingData": "Laddar data...",
