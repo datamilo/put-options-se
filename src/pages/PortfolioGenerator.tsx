@@ -707,7 +707,7 @@ const PortfolioGenerator = () => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
                   updateSetting('minProbabilityWorthless', value);
                 }}
-                placeholder="40-100% (Optional)"
+                placeholder={t('portfolioGenerator.placeholderOptionalPct')}
               />
             </div>
 
@@ -723,7 +723,7 @@ const PortfolioGenerator = () => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
                   updateSetting('maxProbabilityWorthless', value);
                 }}
-                placeholder="40-100% (Optional)"
+                placeholder={t('portfolioGenerator.placeholderOptionalPct')}
               />
             </div>
 
@@ -841,7 +841,7 @@ const PortfolioGenerator = () => {
                   const value = e.target.value ? parseInt(e.target.value) : null;
                   updateSetting('maxTotalCapital', value);
                 }}
-                placeholder="e.g., 5 000 000 SEK"
+                placeholder={t('portfolioGenerator.placeholderMaxCapital')}
               />
               <p className="text-xs text-muted-foreground">
                 {t('portfolioGenerator.maxCapitalDesc')}

@@ -32,27 +32,32 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { HorizontalNavigation } from "@/components/HorizontalNavigation";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { Home } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
-const PageLoader = () => (
-  <div className="flex items-center justify-center min-h-[60vh]">
-    <div className="flex flex-col items-center gap-3">
-      <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-      <p className="text-sm text-muted-foreground">Loading...</p>
+const PageLoader = () => {
+  const { t } = useTranslation('common');
+  return (
+    <div className="flex items-center justify-center min-h-[60vh]">
+      <div className="flex flex-col items-center gap-3">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        <p className="text-sm text-muted-foreground">{t('status.loading')}</p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const queryClient = new QueryClient();
 
 const AppHeader = () => {
   const { session } = useAuth();
+  const { t } = useTranslation('common');
   return (
     <header className="w-full border-b">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:text-sm focus:font-medium"
       >
-        Skip to main content
+        {t('appShell.skipToMain')}
       </a>
       <div className="flex items-center justify-between px-4 py-3 gap-4">
         {/* Left: Home Button + Navigation */}
@@ -63,7 +68,7 @@ const AppHeader = () => {
                 asChild
                 variant="ghost"
                 size="icon"
-                title="Go to home page"
+                title={t('appShell.goToHome')}
               >
                 <Link to="/">
                   <Home className="h-5 w-5" />
@@ -79,7 +84,7 @@ const AppHeader = () => {
         <div>
           {!session && (
             <Button asChild>
-              <Link to="/auth">Sign in</Link>
+              <Link to="/auth">{t('appShell.signIn')}</Link>
             </Button>
           )}
         </div>

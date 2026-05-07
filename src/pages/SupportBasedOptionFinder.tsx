@@ -357,12 +357,12 @@ export const SupportBasedOptionFinder = () => {
                           <TooltipContent className="max-w-md bg-background border">
                             <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipPatternTitle')}</p>
                             <div className="text-xs space-y-1">
-                              <p><span className="text-green-600 font-semibold">never_breaks:</span> 99.5%+ stability - safest</p>
-                              <p><span className="text-blue-600 font-semibold">exhausted_cascade:</span> Near max breaks - rebound candidate</p>
-                              <p><span className="text-green-600 font-semibold">shallow_breaker:</span> &lt;2% drops - low downside</p>
-                              <p><span className="text-red-600 font-semibold">volatile:</span> Frequent + large drops - high risk</p>
-                              <p><span className="text-green-600">stable:</span> 85%+ stability - reliable</p>
-                              <p><span className="text-gray-600">predictable_cycles:</span> Regular patterns - time entries</p>
+                              <p><span className="text-green-600 font-semibold">never_breaks:</span> {t('supportLevelOptions.tooltipPatternNeverBreaks')}</p>
+                              <p><span className="text-blue-600 font-semibold">exhausted_cascade:</span> {t('supportLevelOptions.tooltipPatternExhausted')}</p>
+                              <p><span className="text-green-600 font-semibold">shallow_breaker:</span> {t('supportLevelOptions.tooltipPatternShallow')}</p>
+                              <p><span className="text-red-600 font-semibold">volatile:</span> {t('supportLevelOptions.tooltipPatternVolatile')}</p>
+                              <p><span className="text-green-600">stable:</span> {t('supportLevelOptions.tooltipPatternStable')}</p>
+                              <p><span className="text-gray-600">predictable_cycles:</span> {t('supportLevelOptions.tooltipPatternPredictable')}</p>
                             </div>
                           </TooltipContent>
                         </Tooltip>
@@ -389,9 +389,9 @@ export const SupportBasedOptionFinder = () => {
                             <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipTrendTitle')}</p>
                             <p className="mb-2">{t('supportLevelOptions.tooltipTrendDesc')}</p>
                             <div className="text-xs space-y-1">
-                              <p><span className="text-green-600">↑ improving:</span> Support strengthening - increasingly safe</p>
-                              <p><span className="text-gray-600">→ stable:</span> Consistent behavior - predictable</p>
-                              <p><span className="text-red-600">↓ weakening:</span> Support deteriorating - increasing risk</p>
+                              <p><span className="text-green-600">↑ improving:</span> {t('supportLevelOptions.tooltipTrendImproving')}</p>
+                              <p><span className="text-gray-600">→ stable:</span> {t('supportLevelOptions.tooltipTrendStableDesc')}</p>
+                              <p><span className="text-red-600">↓ weakening:</span> {t('supportLevelOptions.tooltipTrendWeakening')}</p>
                             </div>
                           </TooltipContent>
                         </Tooltip>
@@ -419,7 +419,7 @@ export const SupportBasedOptionFinder = () => {
                             <p className="mb-2">{t('supportLevelOptions.tooltipMaxConsecDesc')}</p>
                             <div className="text-xs">
                               <p>{t('supportLevelOptions.tooltipMaxConsecScale')}</p>
-                              <p className="mt-1">Shows worst-case scenario if stock starts breaking support.</p>
+                              <p className="mt-1">{t('supportLevelOptions.tooltipMaxConsecWorstCase')}</p>
                             </div>
                           </TooltipContent>
                         </Tooltip>
@@ -446,10 +446,10 @@ export const SupportBasedOptionFinder = () => {
                             <p className="font-semibold mb-1">{t('supportLevelOptions.tooltipCurrConsecTitle')}</p>
                             <p className="mb-2">{t('supportLevelOptions.tooltipCurrConsecDesc')}</p>
                             <div className="text-xs space-y-1">
-                              <p><strong>0:</strong> Support holding normally - safe to write</p>
-                              <p><strong>1-2:</strong> Minor activity - watch</p>
-                              <p><strong>3-5:</strong> Active cascade - caution</p>
-                              <p><strong>6+:</strong> Major cascade - high risk</p>
+                              <p><strong>0:</strong> {t('supportLevelOptions.tooltipCurrConsec0')}</p>
+                              <p><strong>1-2:</strong> {t('supportLevelOptions.tooltipCurrConsec12')}</p>
+                              <p><strong>3-5:</strong> {t('supportLevelOptions.tooltipCurrConsec35')}</p>
+                              <p><strong>6+:</strong> {t('supportLevelOptions.tooltipCurrConsec6plus')}</p>
                               <p className="mt-1 text-blue-600">{t('supportLevelOptions.tooltipCurrConsecNote')}</p>
                             </div>
                           </TooltipContent>
@@ -471,7 +471,7 @@ export const SupportBasedOptionFinder = () => {
                           <button
                             onClick={() => toggleRowExpansion(idx)}
                             className="p-1 hover:bg-accent rounded transition-colors"
-                            aria-label={isExpanded ? "Collapse details" : "Expand details"}
+                            aria-label={isExpanded ? t('supportLevelOptions.ariaCollapseDetails') : t('supportLevelOptions.ariaExpandDetails')}
                           >
                             {isExpanded ? (
                               <ChevronUp className="h-4 w-4" />

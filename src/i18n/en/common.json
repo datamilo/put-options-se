@@ -42,6 +42,11 @@
     "signOut": "Sign out"
   },
   "topN": "Top {{n}}",
+  "appShell": {
+    "skipToMain": "Skip to main content",
+    "goToHome": "Go to home page",
+    "signIn": "Sign in"
+  },
   "status": {
     "loading": "Loading...",
     "loadingData": "Loading data...",

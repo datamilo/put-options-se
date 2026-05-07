@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { SupportLevelMetric } from '@/hooks/useSupportLevelMetrics';
 import { Progress } from '@/components/ui/progress';
@@ -9,6 +10,7 @@ interface SupportMetricsBreakdownProps {
 }
 
 export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = ({ metrics, rollingPeriod }) => {
+  const { t } = useTranslation('pages');
   // Calculate Support Strength Score components
   // Based on the formula from documentation:
   // - Support Stability: 30% weight
@@ -92,20 +94,20 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
     // We don't have the raw first/second half data, but we can show what the trend means
     if (metrics.stability_trend === 'improving') {
       return {
-        description: 'Second half stability exceeds first half by >5%',
-        meaning: 'Support is strengthening recently',
+        description: t('supportLevelOptions.metrics.trendDescImproving'),
+        meaning: t('supportLevelOptions.metrics.trendMeaningImproving'),
         visual: 'upward'
       };
     } else if (metrics.stability_trend === 'weakening') {
       return {
-        description: 'Second half stability is >5% lower than first half',
-        meaning: 'Support is deteriorating recently',
+        description: t('supportLevelOptions.metrics.trendDescWeakening'),
+        meaning: t('supportLevelOptions.metrics.trendMeaningWeakening'),
         visual: 'downward'
       };
     } else {
       return {
-        description: 'Second half stability within ±5% of first half',
-        meaning: 'Support behavior is consistent',
+        description: t('supportLevelOptions.metrics.trendDescStable'),
+        meaning: t('supportLevelOptions.metrics.trendMeaningStable'),
         visual: 'flat'
       };
     }
@@ -119,14 +121,14 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
         {/* Support Strength Score Breakdown */}
         <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Support Strength Score: {metrics.support_strength_score.toFixed(1)}/100</CardTitle>
+          <CardTitle className="text-lg">{t('supportLevelOptions.metrics.scoreTitle', { score: metrics.support_strength_score.toFixed(1) })}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-3">
             {/* Component 1: Stability */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">1. Support Stability (30% weight)</span>
+                <span className="font-medium">{t('supportLevelOptions.metrics.comp1')}</span>
                 <span className="text-muted-foreground">
                   {metrics.support_stability_pct.toFixed(2)}% × 0.30 = {stabilityComponent.toFixed(2)}
                 </span>
@@ -137,7 +139,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
             {/* Component 2: Days Since Break */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">2. Days Since Break (25% weight)</span>
+                <span className="font-medium">{t('supportLevelOptions.metrics.comp2')}</span>
                 <span className="text-muted-foreground">
                   {daysSinceBreak}d → {normalizedDaysSinceBreak.toFixed(1)}% × 0.25 = {daysSinceBreakComponent.toFixed(2)}
                 </span>
@@ -151,7 +153,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
             {/* Component 3: Break Frequency */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">3. Break Frequency (25% weight)</span>
+                <span className="font-medium">{t('supportLevelOptions.metrics.comp3')}</span>
                 <span className="text-muted-foreground">
                   {metrics.trading_days_per_break.toFixed(1)} days/break → {normalizedFrequency.toFixed(1)}% × 0.25 = {frequencyComponent.toFixed(2)}
                 </span>
@@ -165,7 +167,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
             {/* Component 4: Drop Consistency */}
             <div>
               <div className="flex justify-between text-sm mb-1">
-                <span className="font-medium">4. Drop Consistency (20% weight)</span>
+                <span className="font-medium">{t('supportLevelOptions.metrics.comp4')}</span>
                 <span className="text-muted-foreground">
                   StdDev {metrics.drop_std_dev_pct.toFixed(2)}% → {normalizedConsistency.toFixed(1)}% × 0.20 = {consistencyComponent.toFixed(2)}
                 </span>
@@ -179,11 +181,11 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
 
           <div className="border-t pt-3 mt-3">
             <div className="flex justify-between font-semibold">
-              <span>Total Calculated Score:</span>
+              <span>{t('supportLevelOptions.metrics.totalCalculated')}</span>
               <span>{calculatedTotal.toFixed(2)}/100</span>
             </div>
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Actual Score from Data:</span>
+              <span>{t('supportLevelOptions.metrics.actualScore')}</span>
               <span>{metrics.support_strength_score.toFixed(2)}/100</span>
             </div>
           </div>
@@ -205,7 +207,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground mb-4">
-            Pattern is assigned based on first matching rule (evaluated in order):
+            {t('supportLevelOptions.metrics.patternDesc')}
           </p>
           <div className="space-y-2">
             {patternRules.map((rule, idx) => (
@@ -228,7 +230,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
                       {rule.value}
                     </span>
                     {rule.rule === metrics.pattern_type && (
-                      <span className="ml-2 font-semibold text-primary">← Matched!</span>
+                      <span className="ml-2 font-semibold text-primary">{t('supportLevelOptions.metrics.matched')}</span>
                     )}
                   </div>
                 </div>
@@ -254,7 +256,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
             <div className="flex-1">
-              <div className="text-sm font-medium mb-2">First Half of Period</div>
+              <div className="text-sm font-medium mb-2">{t('supportLevelOptions.metrics.firstHalf')}</div>
               <div className="h-16 bg-muted rounded flex items-end justify-center relative">
                 <div
                   className={`w-full transition-all ${
@@ -273,7 +275,7 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
               {metrics.stability_trend === 'improving' ? '→' : metrics.stability_trend === 'weakening' ? '→' : '→'}
             </div>
             <div className="flex-1">
-              <div className="text-sm font-medium mb-2">Second Half of Period</div>
+              <div className="text-sm font-medium mb-2">{t('supportLevelOptions.metrics.secondHalf')}</div>
               <div className="h-16 bg-muted rounded flex items-end justify-center relative">
                 <div
                   className={`w-full transition-all ${
@@ -290,8 +292,8 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
             </div>
           </div>
           <div className="text-sm space-y-1">
-            <p><strong>Calculation:</strong> {trendInfo.description}</p>
-            <p><strong>Meaning:</strong> {trendInfo.meaning}</p>
+            <p><strong>{t('supportLevelOptions.metrics.calcLabel')}</strong> {trendInfo.description}</p>
+            <p><strong>{t('supportLevelOptions.metrics.meaningLabel')}</strong> {trendInfo.meaning}</p>
           </div>
         </CardContent>
       </Card>
@@ -299,14 +301,14 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
       {/* Consecutive Breaks Comparison */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Consecutive Breaks Analysis</CardTitle>
+          <CardTitle className="text-lg">{t('supportLevelOptions.metrics.consecutiveTitle')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-4">
             {/* Max Consecutive */}
             <div>
               <div className="flex justify-between text-sm mb-2">
-                <span className="font-medium">Historical Maximum</span>
+                <span className="font-medium">{t('supportLevelOptions.metrics.historicalMax')}</span>
                 <span className="font-bold">{metrics.max_consecutive_breaks} breaks</span>
               </div>
               <div className="relative h-8 bg-muted rounded-full overflow-hidden">
@@ -318,14 +320,14 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
                 </div>
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                Worst-case scenario: {metrics.max_consecutive_breaks} consecutive breaks in one cluster
+                {t('supportLevelOptions.metrics.worstCase', { max: metrics.max_consecutive_breaks })}
               </p>
             </div>
 
             {/* Current Consecutive */}
             <div>
               <div className="flex justify-between text-sm mb-2">
-                <span className="font-medium">Current Consecutive</span>
+                <span className="font-medium">{t('supportLevelOptions.metrics.currentConsec')}</span>
                 <span className={`font-bold ${metrics.current_consecutive_breaks > 0 ? 'text-orange-600' : 'text-green-600'}`}>
                   {metrics.current_consecutive_breaks} breaks
                 </span>
@@ -340,14 +342,14 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
                   </div>
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-green-700 text-xs font-bold">
-                    No active cluster - Support holding ✓
+                    {t('supportLevelOptions.metrics.noActiveCluster')}
                   </div>
                 )}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 {metrics.current_consecutive_breaks > 0
-                  ? `Active cluster with ${metrics.current_consecutive_breaks} breaks (${((metrics.current_consecutive_breaks / metrics.max_consecutive_breaks) * 100).toFixed(0)}% of max)`
-                  : 'No breaks in recent cluster (last cluster ended >30 days ago)'
+                  ? t('supportLevelOptions.metrics.activeCluster', { current: metrics.current_consecutive_breaks, pct: ((metrics.current_consecutive_breaks / metrics.max_consecutive_breaks) * 100).toFixed(0) })
+                  : t('supportLevelOptions.metrics.noBreaksRecent')
                 }
               </p>
             </div>
@@ -358,10 +360,9 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
                 <div className="flex items-start gap-2">
                   <div className="text-blue-600 text-xl">ℹ️</div>
                   <div className="flex-1">
-                    <div className="font-semibold text-blue-900 text-sm">Exhausted Cascade Pattern Detected!</div>
+                    <div className="font-semibold text-blue-900 text-sm">{t('supportLevelOptions.metrics.exhaustedTitle')}</div>
                     <div className="text-xs text-blue-700 mt-1">
-                      Current breaks ({metrics.current_consecutive_breaks}) ≥ 80% of historical max ({metrics.max_consecutive_breaks}).
-                      This suggests the cascade may be near exhaustion - potential rebound candidate.
+                      {t('supportLevelOptions.metrics.exhaustedDesc', { current: metrics.current_consecutive_breaks, max: metrics.max_consecutive_breaks })}
                     </div>
                   </div>
                 </div>
@@ -371,15 +372,15 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
 
           <div className="border-t pt-3 space-y-2 text-sm">
             <div className="flex justify-between">
-              <span>Total Breaks in Period:</span>
+              <span>{t('supportLevelOptions.metrics.totalBreaks')}</span>
               <span className="font-semibold">{metrics.total_breaks}</span>
             </div>
             <div className="flex justify-between">
-              <span>Number of Clusters:</span>
+              <span>{t('supportLevelOptions.metrics.numClusters')}</span>
               <span className="font-semibold">{metrics.num_clusters}</span>
             </div>
             <div className="flex justify-between">
-              <span>Avg Days Between Breaks:</span>
+              <span>{t('supportLevelOptions.metrics.avgDaysBetween')}</span>
               <span className="font-semibold">{metrics.avg_days_between_breaks?.toFixed(1) ?? 'N/A'}</span>
             </div>
           </div>
@@ -389,31 +390,31 @@ export const SupportMetricsBreakdown: React.FC<SupportMetricsBreakdownProps> = (
       {/* Additional Context */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">Data Summary for {rollingPeriod}-Day Period</CardTitle>
+          <CardTitle className="text-lg">{t('supportLevelOptions.metrics.dataSummaryTitle', { period: rollingPeriod })}</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4 text-sm">
           <div>
-            <div className="text-muted-foreground">Rolling Low</div>
+            <div className="text-muted-foreground">{t('supportLevelOptions.metrics.rollingLow')}</div>
             <div className="font-semibold">{metrics.rolling_low?.toFixed(2)} kr</div>
           </div>
           <div>
-            <div className="text-muted-foreground">Current Price</div>
+            <div className="text-muted-foreground">{t('supportLevelOptions.metrics.currentPrice')}</div>
             <div className="font-semibold">{metrics.current_price.toFixed(2)} kr</div>
           </div>
           <div>
-            <div className="text-muted-foreground">Distance to Support</div>
+            <div className="text-muted-foreground">{t('supportLevelOptions.metrics.distanceToSupport')}</div>
             <div className="font-semibold">{metrics.distance_to_support_pct?.toFixed(2)}%</div>
           </div>
           <div>
-            <div className="text-muted-foreground">Support Stability</div>
+            <div className="text-muted-foreground">{t('supportLevelOptions.metrics.supportStability')}</div>
             <div className="font-semibold">{metrics.support_stability_pct.toFixed(2)}%</div>
           </div>
           <div>
-            <div className="text-muted-foreground">Median Drop/Break</div>
+            <div className="text-muted-foreground">{t('supportLevelOptions.metrics.medianDrop')}</div>
             <div className="font-semibold">{metrics.median_drop_per_break_pct?.toFixed(2)}%</div>
           </div>
           <div>
-            <div className="text-muted-foreground">Days Since Last Break</div>
+            <div className="text-muted-foreground">{t('supportLevelOptions.metrics.daysSinceLastBreak')}</div>
             <div className="font-semibold">{metrics.days_since_last_break ?? 'N/A'}</div>
           </div>
         </CardContent>

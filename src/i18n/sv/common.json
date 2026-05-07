@@ -42,6 +42,11 @@
     "signOut": "Logga ut"
   },
   "topN": "Topp {{n}}",
+  "appShell": {
+    "skipToMain": "Hoppa till huvudinnehåll",
+    "goToHome": "Gå till startsidan",
+    "signIn": "Logga in"
+  },
   "status": {
     "loading": "Laddar...",
     "loadingData": "Laddar data...",
