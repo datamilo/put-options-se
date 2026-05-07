@@ -5,13 +5,15 @@ import { formatNordicDecimal } from '@/utils/numberFormatting';
 import { CheckCircle, XCircle } from 'lucide-react';
 import { InfoIconTooltip } from '@/components/ui/info-icon-tooltip';
 import scoredOptionsTooltips from '@/utils/scoredOptionsTooltips';
+import { useTranslation } from 'react-i18next';
 
 interface AgreementAnalysisProps {
   option: ScoredOptionData;
 }
 
 export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) => {
-  // Determine combined score color
+  const { t } = useTranslation('pages');
+
   const getScoreColor = (score: number) => {
     if (score >= 80) return 'text-green-700';
     if (score >= 70) return 'text-amber-600';
@@ -24,43 +26,38 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
     return 'bg-red-50 dark:bg-red-950';
   };
 
-  // Get agreement strength color
   const getAgreementColor = (strength: string) => {
     if (strength === 'Strong') return 'text-green-700 dark:text-green-300 bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800';
     if (strength === 'Moderate') return 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950 border-amber-200 dark:border-amber-800';
     return 'text-red-700 dark:text-red-300 bg-red-50 dark:bg-red-950 border-red-200 dark:border-red-800';
   };
 
-  // Get agreement explanation
   const getAgreementExplanation = () => {
+    const v21Score = formatNordicDecimal(option.v21_score, 1);
+    const taScore = formatNordicDecimal(option.ta_probability * 100, 1);
+    const diff = formatNordicDecimal(Math.abs(option.v21_score - option.ta_probability * 100), 1);
+
     if (!option.models_agree) {
       const v21Higher = option.v21_score > option.ta_probability * 100;
-      const diff = Math.abs(option.v21_score - option.ta_probability * 100);
-
       return {
-        title: 'Models Disagree',
+        title: t('scoredOptions.agreementAnalysis.modelsDisagreeTitle'),
         icon: <XCircle className="w-5 h-5" />,
         description: v21Higher
-          ? `Probability Optimization Model (${formatNordicDecimal(option.v21_score, 1)}) is bullish, but TA ML Model (${formatNordicDecimal(option.ta_probability * 100, 1)}) is bearish. Difference: ${formatNordicDecimal(diff, 1)} points.`
-          : `TA ML Model (${formatNordicDecimal(option.ta_probability * 100, 1)}) is bullish, but Probability Optimization Model (${formatNordicDecimal(option.v21_score, 1)}) is bearish. Difference: ${formatNordicDecimal(diff, 1)} points.`,
-        recommendation: 'Use with caution. Mixed signals suggest elevated uncertainty. Consider additional confirmation.',
+          ? t('scoredOptions.agreementAnalysis.disagreeDescV21Higher', { v21Score, taScore, diff })
+          : t('scoredOptions.agreementAnalysis.disagreeDescTAHigher', { v21Score, taScore, diff }),
+        recommendation: t('scoredOptions.agreementAnalysis.disagreeRecommendation'),
       };
     }
 
-    const v21Higher = option.v21_score > option.ta_probability * 100;
-    const diff = Math.abs(option.v21_score - option.ta_probability * 100);
-
     return {
-      title: 'Models Agree',
+      title: t('scoredOptions.agreementAnalysis.modelsAgreeTitle'),
       icon: <CheckCircle className="w-5 h-5" />,
-      description:
-        option.agreement_strength === 'Strong'
-          ? `Both models strongly bullish. Probability Optimization: ${formatNordicDecimal(option.v21_score, 1)}, TA ML: ${formatNordicDecimal(option.ta_probability * 100, 1)}. Difference: ${formatNordicDecimal(diff, 1)} points.`
-          : `Both models aligned with moderate conviction. Probability Optimization: ${formatNordicDecimal(option.v21_score, 1)}, TA ML: ${formatNordicDecimal(option.ta_probability * 100, 1)}. Difference: ${formatNordicDecimal(diff, 1)} points.`,
-      recommendation:
-        option.agreement_strength === 'Strong'
-          ? 'High confidence signal. Both models strongly support this position.'
-          : 'Moderate confidence signal. Both models support, but with some variance.',
+      description: option.agreement_strength === 'Strong'
+        ? t('scoredOptions.agreementAnalysis.agreeDescStrong', { v21Score, taScore, diff })
+        : t('scoredOptions.agreementAnalysis.agreeDescModerate', { v21Score, taScore, diff }),
+      recommendation: option.agreement_strength === 'Strong'
+        ? t('scoredOptions.agreementAnalysis.agreeRecommendationStrong')
+        : t('scoredOptions.agreementAnalysis.agreeRecommendationModerate'),
     };
   };
 
@@ -70,26 +67,26 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
     <Card className={`${getScoreBgColor(option.combined_score)}`}>
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Combined Analysis</CardTitle>
+          <CardTitle className="text-lg">{t('scoredOptions.agreementAnalysis.title')}</CardTitle>
           <div className={`text-4xl font-bold ${getScoreColor(option.combined_score)}`}>
             {formatNordicDecimal(option.combined_score, 1)}
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Agreement Status */}
         <div className={`flex items-center gap-3 p-3 rounded-lg border ${getAgreementColor(option.agreement_strength)}`}>
           {agreement.icon}
           <div className="flex-1">
             <div className="font-semibold text-sm">{agreement.title}</div>
-            <div className="text-xs mt-0.5 opacity-90">{option.agreement_strength} Agreement</div>
+            <div className="text-xs mt-0.5 opacity-90">
+              {t('scoredOptions.agreementAnalysis.strengthAgreement', { strength: option.agreement_strength })}
+            </div>
           </div>
         </div>
 
-        {/* Models Agree Field */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-medium">Models Agree</span>
+            <span className="text-sm font-medium">{t('scoredOptions.agreementAnalysis.modelsAgreeField')}</span>
             <InfoIconTooltip
               title={scoredOptionsTooltips.agreement.modelsAgreeField.title}
               content={scoredOptionsTooltips.agreement.modelsAgreeField.content}
@@ -98,15 +95,16 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
           </div>
           <div className="flex justify-between items-center">
             <span className="text-sm font-semibold">
-              {option.models_agree ? 'Yes' : 'No'}
+              {option.models_agree
+                ? t('scoredOptions.agreementAnalysis.yes')
+                : t('scoredOptions.agreementAnalysis.no')}
             </span>
           </div>
         </div>
 
-        {/* Agreement Strength Field */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-medium">Agreement Strength</span>
+            <span className="text-sm font-medium">{t('scoredOptions.agreementAnalysis.agreementStrengthField')}</span>
             <InfoIconTooltip
               title={scoredOptionsTooltips.agreement.agreementStrengthField.title}
               content={scoredOptionsTooltips.agreement.agreementStrengthField.content}
@@ -120,13 +118,11 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
           </div>
         </div>
 
-        {/* Model Scores Comparison */}
         <div className="space-y-2">
-          <div className="text-sm font-medium">Model Scores</div>
+          <div className="text-sm font-medium">{t('scoredOptions.agreementAnalysis.modelScores')}</div>
           <div className="space-y-2">
-            {/* Probability Optimization Score */}
             <div className="flex items-center justify-between">
-              <span className="text-sm">Probability Optimization Model</span>
+              <span className="text-sm">{t('scoredOptions.agreementAnalysis.probOptimizationModel')}</span>
               <div className="flex items-center gap-2">
                 <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div
@@ -140,9 +136,8 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
               </div>
             </div>
 
-            {/* TA Score */}
             <div className="flex items-center justify-between">
-              <span className="text-sm">TA Model</span>
+              <span className="text-sm">{t('scoredOptions.agreementAnalysis.taModel')}</span>
               <div className="flex items-center gap-2">
                 <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
                   <div
@@ -157,16 +152,16 @@ export const AgreementAnalysis: React.FC<AgreementAnalysisProps> = ({ option }) 
             </div>
           </div>
 
-          {/* Score Difference */}
           <div className="text-xs text-muted-foreground mt-2">
-            Difference:{' '}
+            {t('scoredOptions.agreementAnalysis.difference')}{' '}
             <span className="font-semibold">
-              {formatNordicDecimal(Math.abs(option.v21_score - option.ta_probability * 100), 1)} points
+              {t('scoredOptions.agreementAnalysis.diffPoints', {
+                value: formatNordicDecimal(Math.abs(option.v21_score - option.ta_probability * 100), 1),
+              })}
             </span>
           </div>
         </div>
 
-        {/* Agreement Explanation */}
         <div className="border-t pt-3">
           <p className="text-sm text-gray-700 mb-2">{agreement.description}</p>
           <div className="bg-muted/50 p-2 rounded text-xs italic text-muted-foreground">

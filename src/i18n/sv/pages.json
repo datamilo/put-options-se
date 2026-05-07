@@ -613,7 +613,123 @@
     "rollingPeriod90": "90 dagar (3 månader)",
     "rollingPeriod180": "180 dagar (6 månader)",
     "rollingPeriod270": "270 dagar (9 månader)",
-    "rollingPeriod365": "365 dagar (1 år)"
+    "rollingPeriod365": "365 dagar (1 år)",
+    "explanation": {
+      "cardTitle": "Varför denna option rekommenderades",
+      "methodBayesian": "PoW - Bayesiansk kalibrerad",
+      "methodWeighted": "PoW - Viktat genomsnitt",
+      "methodOriginal": "PoW - Ursprunglig Black-Scholes",
+      "methodCalibrated": "PoW - Skevkalibrerad",
+      "methodHistoricalIV": "PoW - Historisk IV",
+      "rollingPeriodYear": "1 år",
+      "rollingPeriodDays": "{{count}} dagar",
+      "dirBelow": "under",
+      "dirAbove": "över",
+      "strengthStrong": "stark",
+      "strengthModerate": "måttlig",
+      "strengthWeak": "svag",
+      "strengthExplStrong": "historiskt hållit tillförlitligt med få brott",
+      "strengthExplModerate": "hållit rimligt väl med enstaka brott",
+      "strengthExplWeak": "brutits frekvent eller inkonsekvent",
+      "intro": "Denna analys förklarar varför {{optionName}} ({{stockName}}) har rekommenderats utifrån flera faktorer.",
+      "supportHeader": "Stödnivåfynd:",
+      "supportText": "Optionen har ett lösenpris på {{strikePrice}} kr, vilket är {{strikeDir}} {{period}}-rullande lägsta stödnivån på {{rollingLow}} kr. Nuvarande kurs ({{currentPrice}} kr) är {{distancePct}}% {{priceDir}} det rullande lägsta. Detta {{period}}-lägsta kan fungera som en stark stödnivå för aktien.",
+      "robustnessHeader": "Stödrobusthet:",
+      "robustnessText": "Stödnivån har inte brutits på {{days}} dagar, vilket är {{aboveBelow}} minimigränsen på {{threshold}} dagar. Stödstyrkepoängen är {{score}}/100, vilket indikerar {{strength}} stödrobusthet — detta innebär att stödnivån har {{strengthExpl}}.",
+      "robustnessExtended": "Den utökade perioden sedan det senaste brottet gör denna stödnivå mer tillförlitlig.",
+      "recoveryHeader": "Återhämtningskandidatanalys:",
+      "recoveryText": "Denna option nådde tidigare en sannolikhetstopp på {{peakPct}}% men har sjunkit till {{currentPct}}% — vilket kvalificerar den som en \"återhämtningskandidat\". Historisk forskning visar att liknande optioner ({{currentProbBin}} sannolikhet med {{dteBin}} dagar till förfall som tidigare toppade över {{thresholdPct}}%) förföll värdelösa {{recoveryRatePct}}% av fallen. Detta är väsentligt högre än den nuvarande sannolikheten {{currentPct}}%, vilket indikerar att marknaden systematiskt undervärderar dessa möjligheter. För säljoptionsutfärdare representerar denna fördel på {{advantage}} procentenheter en statistisk edge. Se sidan Sannolikhetsanalys → \"Sannolikhetsåterhämtningsanalys\" för detaljerad forskning.",
+      "recoverySimpleHeader": "Återhämtningskandidat:",
+      "recoverySimpleText": "Denna option nådde tidigare en sannolikhetstopp på {{peakPct}}% men har sjunkit till {{currentPct}}%, vilket kvalificerar den som en \"återhämtningskandidat\". Forskning visar att sådana optioner typiskt förfaller värdelösa oftare än deras nuvarande sannolikhet antyder, men specifika historiska data för denna sannolikhet/DTE-kombination är begränsade.",
+      "probHistoryHeader": "Sannolikhetshistorik:",
+      "probHistoryAbove": "{{methodName}}-sannolikheten toppade tidigare på {{peakPct}}%, vilket är över tröskeln på {{thresholdPct}}%. Nuvarande sannolikhet är {{currentPct}}%.",
+      "probHistoryBelow": "{{methodName}}-sannolikheten toppade tidigare på {{peakPct}}%, vilket är under tröskeln på {{thresholdPct}}%, varför denna inte klassificeras som återhämtningskandidat. Nuvarande sannolikhet är {{currentPct}}%.",
+      "probAnalysisHeader": "Sannolikhetsanalys:",
+      "probAnalysisText": "Nuvarande sannolikhet på {{currentPct}}% är mycket hög (≥90%). Historiska återhämtningsdata är inte tillgängliga för detta sannolikhetsintervall, vilket begränsar jämförelseanalysen.",
+      "seasonalityHeader": "Månadsbaserad säsongsvariation:",
+      "seasonalityBase": "Historiska data visar att {{stockName}} haft positiv avkastning under {{monthlyPct}}% av alla {{month}}-månader i datasetet ({{monthsCount}} månaders historisk data). ",
+      "seasonalityBaseMultiple": "Historiska data visar att {{stockName}} haft positiv avkastning under {{monthlyPct}}% av alla {{month}}-månader i datasetet (flera månaders historisk data). ",
+      "seasonalityLowDayClose": "Aktien når typiskt månadslägsta dag {{lowDay}} (vilket är mycket nära idag (dag {{today}}), vilket antyder att vi kan vara nära ett månadslägsta). ",
+      "seasonalityLowDayFar": "Aktien når typiskt månadslägsta dag {{lowDay}} (medan idag är dag {{today}}). ",
+      "seasonalityAvgReturn": "Genomsnittlig avkastning för {{month}} är {{return}}.",
+      "perfHeader": "Nuvarande avkastning:",
+      "perfBase": "{{stockName}}:s nuvarande avkastning för {{month}} är {{currentPerf}}%, medan det historiska genomsnittet för denna månad är {{avgReturn}}%. ",
+      "perfUnder": "Aktien underpresterar för närvarande med {{underperf}} procentenheter, vilket kan tyda på potential för en återhämtning.",
+      "perfOver": "Aktien överpresterar för närvarande det historiska genomsnittet med {{overperf}} procentenheter.",
+      "perfInLine": "Aktien presterar i linje med historiska genomsnitt.",
+      "perfWorstDrawdown": " Historiskt har det värsta intramånadliga neddraget för {{month}} varit {{drawdown}}%, vilket ger sammanhang för potentiell nedsiderisk.",
+      "compositeHeader": "Sammansatt poäng:",
+      "compositeBase": "Baserat på alla dessa faktorer kombinerade med anpassade vikter fick denna option en sammansatt poäng på {{score}}/100, vilket indikerar en {{strength}} rekommendation. ",
+      "compositeHigh": "Denna höga poäng antyder att flera gynnsamma villkor sammanfaller för denna option.",
+      "compositeModerate": "Denna måttliga poäng antyder att vissa gynnsamma villkor finns, men att inte alla faktorer är optimala.",
+      "compositeLow": "Denna lägre poäng antyder försiktighet — granska enskilda faktorer för att förstå potentiella bekymmer.",
+      "finalHeader": "Rekommendation:",
+      "finalBase": "{{stockName}}-optionen {{optionName}} med lösenpris {{strikePrice}} kr och förfallodatum {{expiryDate}} ({{daysToExpiry}} dagar) erbjuder en premie på {{premium}} kr. ",
+      "finalHigh": "Kombinationen av stödnivåstabilitet, sannolikhetsåterhämtningspotential och gynnsam säsongsvariation gör denna till en övertygande kandidat för utfärdande av säljoptioner.",
+      "finalModerate": "Denna option visar viss potential utifrån analysen, men enskilda faktorer bör granskas noggrant.",
+      "finalLow": "Överväg att granska alternativa optioner med högre sammansatt poäng, eller justera analysvikter för att matcha din risktolerans."
+    },
+    "scoreBreakdown": {
+      "title": "Poänguppdelning",
+      "basedOnFactors": "Baserat på {{count}}/6 faktorer med data",
+      "compositeScore": "Sammansatt poäng",
+      "notIncluded": "Ej inkluderad",
+      "noData": "Ingen data",
+      "rawValueLabel": "Råvärde:",
+      "notAvailable": "Ej tillgänglig",
+      "normalizedScore": "Normaliserad: {{value}}/100",
+      "contributingYes": "Bidrar: Ja",
+      "contributingNo": "Bidrar: Nej (data saknas)",
+      "noDataWarning": "Ingen data tillgänglig för denna aktie. Poängbidrag: 0 poäng (ej inkluderad)",
+      "howScoringTitle": "Hur poängsättning fungerar:",
+      "howScoringDesc": "Varje faktor normaliseras till en 0-100-skala och viktas sedan efter sin vikt. Endast faktorer med tillgängliga data bidrar till slutpoängen.",
+      "missingDataTitle": "Saknad data:",
+      "missingDataDesc": "Om en faktor saknar historiska data för denna aktie bidrar den med 0 poäng till den sammansatta poängen, oavsett inställd vikt.",
+      "noDataBadgeTitle": "Rött \"Ingen data\"-märke:",
+      "noDataBadgeDesc": "Denna aktie saknar de historiska data som krävs för denna faktor, varför den bidrar med 0 poäng.",
+      "factors": {
+        "supportStrength": {
+          "label": "Stödtillförlitlighetspoäng",
+          "explanation": "Sammansatt mätvärde (0-100) som mäter hur konsekvent stödnivån hållit baserat på stabilitet, brottsfrekvens och fallkonsistens"
+        },
+        "daysSinceBreak": {
+          "label": "Dagar sedan stödbrott",
+          "explanation": "Antal handelsdagar sedan stödnivån senast testades/bröts; högre är bättre"
+        },
+        "recoveryAdvantage": {
+          "label": "Återhämtningskandidatfrekvens",
+          "explanation": "Andel liknande optioner (per sannolikhet/DTE) som återhämtade sig från liknande nivåer i historiska data"
+        },
+        "historicalPeak": {
+          "label": "Historisk topprobabilitet",
+          "explanation": "Högsta sannolikhet för värdelöshet som någonsin setts för denna option; indikerar återhämtningspotential om den toppade över nuvarande tröskel"
+        },
+        "monthlySeasonality": {
+          "label": "Månatlig positiv frekvens",
+          "explanation": "Andel historiska månader med positiv avkastning för denna aktie i aktuell kalendermånad"
+        },
+        "currentPerformance": {
+          "label": "MTD-underprestanda",
+          "explanation": "Hur mycket aktien underpresterar (negativt = bättre för säljoptioner) jämfört med sitt historiska genomsnitt för denna kalendermånad"
+        }
+      },
+      "factorNames": {
+        "recoveryAdvantage": "Återhämtningsfördel",
+        "supportStrength": "Stödstyrka",
+        "daysSinceBreak": "Dagar sedan brott",
+        "historicalPeak": "Historisk topp",
+        "monthlySeasonality": "Månadsbaserad säsongsvariation",
+        "currentPerformance": "Nuvarande avkastning"
+      },
+      "factorDescs": {
+        "recoveryAdvantage": "Historisk värdelöshetsfrekvens för liknande återhämtningskandidater",
+        "supportStrength": "Förkalkylerad sammansatt stödnivåstabilitet",
+        "daysSinceBreak": "Tid sedan stödnivån senast bröts",
+        "historicalPeak": "Återhämtningskandidat baserat på historiska sannolikhetstopper",
+        "monthlySeasonality": "Historisk positiv avkastningsfrekvens för aktuell månad",
+        "currentPerformance": "Nuvarande månadsunderprestanda vs historiskt genomsnitt"
+      }
+    }
   },
   "scoredOptions": {
     "title": "Rankade optioner",
@@ -697,6 +813,192 @@
       "highestConfidenceV21": "Högsta konfidens (80–100 %):",
       "highestConfidenceV3": "Högsta konfidens (90 %+):",
       "ratio": "Kvot:"
+    },
+    "agreementAnalysis": {
+      "title": "Kombinerad analys",
+      "modelsDisagreeTitle": "Modellerna är oense",
+      "modelsAgreeTitle": "Modellerna är överens",
+      "disagreeDescV21Higher": "Sannolikhetsoptimeringsmodellen ({{v21Score}}) är hausse, men TA ML-modellen ({{taScore}}) är baisse. Skillnad: {{diff}} poäng.",
+      "disagreeDescTAHigher": "TA ML-modellen ({{taScore}}) är hausse, men sannolikhetsoptimeringsmodellen ({{v21Score}}) är baisse. Skillnad: {{diff}} poäng.",
+      "disagreeRecommendation": "Använd med försiktighet. Blandade signaler antyder förhöjd osäkerhet. Överväg ytterligare bekräftelse.",
+      "agreeDescStrong": "Båda modellerna starkt hausse. Sannolikhetsoptimering: {{v21Score}}, TA ML: {{taScore}}. Skillnad: {{diff}} poäng.",
+      "agreeDescModerate": "Båda modellerna samstämmiga med måttlig övertygelse. Sannolikhetsoptimering: {{v21Score}}, TA ML: {{taScore}}. Skillnad: {{diff}} poäng.",
+      "agreeRecommendationStrong": "Högt förtroendesignal. Båda modellerna stöder starkt denna position.",
+      "agreeRecommendationModerate": "Måttligt förtroendesignal. Båda modellerna stöder, men med viss variation.",
+      "strengthAgreement": "{{strength}} samstämmighet",
+      "modelsAgreeField": "Modellerna överens",
+      "agreementStrengthField": "Samstämmighetsstyrka",
+      "yes": "Ja",
+      "no": "Nej",
+      "modelScores": "Modellpoäng",
+      "probOptimizationModel": "Sannolikhetsoptimeringsmodell",
+      "taModel": "TA-modell",
+      "difference": "Skillnad:",
+      "diffPoints": "{{value}} poäng"
+    },
+    "bucketCalibration": {
+      "scoreRange": "Poängintervall",
+      "predictedRange": "Predikatintervall",
+      "actualWorthlessPct": "Faktisk värdelös %",
+      "sampleSize": "Urvalsstorlek",
+      "ci95": "95% KI",
+      "notes": "Anteckningar",
+      "optimal": "✓ OPTIMAL"
+    },
+    "keyInsights": {
+      "title": "💡 Nyckelinsikter: Den optimala premieuppsättningszonen",
+      "twoModelsTitle": "Två oberoende modeller:",
+      "twoModelsText": "Vid förutsägelse av 70-80% sannolikhet uppnådde sannolikhetsoptimeringsmodellen 83,8% träffsäkerhet (optioner förföll faktiskt värdelösa), TA ML-modellen 72,42%. Olika marknadstäckning förklarar skillnaden: Sannolikhetsoptimeringsmodellen specialiserar sig på djupspårade optioner (19,8K urval); TA-modellen validerar på heltäckande historiska data (1,4M urval över alla marknadsförhållanden).",
+      "dataMetricsTitle": "Databaserade mätvärden:",
+      "dataMetricsText": "Faktisk värdelös % varierar per modell och förutsägelseintervall. Granska de detaljerade tabellerna nedan för heltäckande prestandadata.",
+      "statisticalPrecisionTitle": "Statistisk precision:",
+      "statisticalPrecisionText": "Stora urvalsstorlekar (1,4M för TA ML-modellen, 19,8K för sannolikhetsmodellen vid 70-80%) ger hög konfidens i uppskattningarna. Konfidensintervall visar intervallet där den verkliga faktiska värdelösa % sannolikt faller.",
+      "riskAssessmentTitle": "Riskbedömning:",
+      "riskAssessmentText": "Lägre faktisk värdelös % indikerar högre risk. Utvärdera modellprestanda över förutsägelseintervall för att stödja dina handelsbeslut.",
+      "source": "Källa: Validerad testning på 1,8M+ svenska aktieoptionsposter (april 2024 – januari 2026)."
+    },
+    "taBreakdown": {
+      "title": "TA ML-modell",
+      "bucket": "Intervall:",
+      "stockLevelIndicators": "Aktienivåindikatorer",
+      "contractLevelIndicators": "Kontraktnivåindikatorer",
+      "indicatorLabels": {
+        "RSI_14": "RSI (14)",
+        "RSI_Slope": "RSI-lutning",
+        "MACD_Hist": "MACD-histogram",
+        "MACD_Slope": "MACD-lutning",
+        "BB_Position": "Bollingerbandsposition",
+        "Dist_SMA50": "Avstånd till SMA50",
+        "Vol_Ratio": "Volymkvot",
+        "ADX_14": "ADX (14)",
+        "ADX_Slope": "ADX-lutning",
+        "ATR_14": "ATR (14)",
+        "Stochastic_K": "Stokastisk K",
+        "Stochastic_D": "Stokastisk D",
+        "Sigma_Distance": "Sigmaavstånd",
+        "Greeks_Delta": "Delta (Greeks)",
+        "Greeks_Vega": "Vega (Greeks)",
+        "Greeks_Theta": "Theta (Greeks)"
+      },
+      "status": {
+        "RSI_14": {
+          "low": { "label": "Översåld", "assessment": "Starkt haussesignal" },
+          "high": { "label": "Överköpt", "assessment": "Svagt haussesignal" },
+          "neutral": { "label": "Neutral", "assessment": "Måttlig signal" }
+        },
+        "RSI_Slope": {
+          "low": { "label": "Fallande", "assessment": "RSI förbättras för säljoptioner" },
+          "high": { "label": "Stigande", "assessment": "RSI försämras för säljoptioner" },
+          "neutral": { "label": "Stabil", "assessment": "RSI förändras långsamt" }
+        },
+        "MACD_Hist": {
+          "low": { "label": "Baisse", "assessment": "Stark baissemomentum" },
+          "high": { "label": "Hausse", "assessment": "Haussemomentum" },
+          "neutral": { "label": "Neutral", "assessment": "Momentum vid korsning" }
+        },
+        "MACD_Slope": {
+          "high": { "label": "Stigande", "assessment": "Momentum stärks" },
+          "low": { "label": "Fallande", "assessment": "Momentum försvagas" },
+          "neutral": { "label": "Platt", "assessment": "Momentum stabilt" }
+        },
+        "BB_Position": {
+          "low": { "label": "Lägre band", "assessment": "Kurs nära stöd" },
+          "high": { "label": "Övre band", "assessment": "Kurs nära motstånd" },
+          "neutral": { "label": "Mitten", "assessment": "Kurs i mitten" }
+        },
+        "Dist_SMA50": {
+          "low": { "label": "Långt under", "assessment": "Långt under glidande medelvärde" },
+          "high": { "label": "Långt över", "assessment": "Långt över glidande medelvärde" },
+          "neutral": { "label": "Nära", "assessment": "Nära glidande medelvärde" }
+        },
+        "Vol_Ratio": {
+          "high": { "label": "Hög volym", "assessment": "Stark handelsaktivitet" },
+          "low": { "label": "Låg volym", "assessment": "Svag handelsaktivitet" },
+          "neutral": { "label": "Normal", "assessment": "Genomsnittlig volym" }
+        },
+        "ADX_14": {
+          "high": { "label": "Stark trend", "assessment": "Utpräglat riktningsmässigt momentum" },
+          "moderate": { "label": "Måttlig trend", "assessment": "Etablerad riktning" },
+          "low": { "label": "Svag trend", "assessment": "Svagt riktningssignal" }
+        },
+        "ADX_Slope": {
+          "high": { "label": "Stärks", "assessment": "Trendmomentum ökar" },
+          "low": { "label": "Försvagas", "assessment": "Trendmomentum minskar" },
+          "neutral": { "label": "Stabil", "assessment": "Trendmomentum stabilt" }
+        },
+        "ATR_14": {
+          "high": { "label": "Hög", "assessment": "Förhöjd volatilitet" },
+          "moderate": { "label": "Måttlig", "assessment": "Normal volatilitet" },
+          "low": { "label": "Låg", "assessment": "Låg volatilitet" }
+        },
+        "Stochastic_K": {
+          "low": { "label": "Översåld", "assessment": "Starkt haussesignal" },
+          "high": { "label": "Överköpt", "assessment": "Svagt haussesignal" },
+          "neutral": { "label": "Neutral", "assessment": "Normalt momentum" }
+        },
+        "Stochastic_D": {
+          "low": { "label": "Översåld", "assessment": "Starkt haussesignal" },
+          "high": { "label": "Överköpt", "assessment": "Svagt haussesignal" },
+          "neutral": { "label": "Neutral", "assessment": "Normalt momentum" }
+        },
+        "Sigma_Distance": {
+          "high": { "label": "Extrem", "assessment": "Kurs vid extremer" },
+          "moderate": { "label": "Signifikant", "assessment": "Anmärkningsvärd rörelse" },
+          "low": { "label": "Normal", "assessment": "Inom normalt intervall" }
+        },
+        "Greeks_Delta": {
+          "high": { "label": "Hög ITM-risk", "assessment": "Option sannolikt ITM" },
+          "moderate": { "label": "Måttlig ITM-risk", "assessment": "Måttlig ITM-sannolikhet" },
+          "low": { "label": "Låg ITM-risk", "assessment": "Låg ITM-sannolikhet" }
+        },
+        "Greeks_Vega": {
+          "high": { "label": "Hög IV-känslighet", "assessment": "Gynnas av volatilitetsökning" },
+          "moderate": { "label": "Måttlig IV-känslighet", "assessment": "Normal IV-exponering" },
+          "low": { "label": "Låg IV-känslighet", "assessment": "Minimal IV-exponering" }
+        },
+        "Greeks_Theta": {
+          "high": { "label": "Gynnsamt tidsförfall", "assessment": "Tidsförfall gynnar utfärdaren" },
+          "neutral": { "label": "Neutralt tidsförfall", "assessment": "Minimal tidsförfallspåverkan" },
+          "low": { "label": "Ogynnsamt tidsförfall", "assessment": "Tidsförfall motverkar utfärdaren" }
+        },
+        "unknown": {
+          "label": "Okänd",
+          "assessment": "Kan ej bedömas"
+        }
+      }
+    },
+    "temporalStability": {
+      "title": "Temporal stabilitetsanalys (Per-fold 70-80%-intervall)",
+      "description": "Denna analys visar hur TA ML-modellens faktiska värdelösa % i förutsägelseintervallet 70-80% varierade över olika marknadsperioder. Varje \"fold\" representerar ett distinkt 3-månaders testfönster i walk-forward-validering. Det samlade genomsnittet över alla perioder är ungefär 77%, men enskilda perioder visar avvikelse på grund av marknadsregimförändringar.",
+      "colFold": "Fold",
+      "colTestPeriod": "Testperiod",
+      "colActualWorthless": "Faktisk värdelös %",
+      "colSampleSize": "Urvalsstorlek",
+      "colDeviation": "Avvikelse från 77%",
+      "keyObservations": "Nyckelobservationer:",
+      "obs1Title": "Fold 1-4:",
+      "obs1Text": "Variation från -12,3pp (Fold 2) till +7,0pp (Fold 3), vilket visar hur marknadsregimer påverkar kalibreringen",
+      "obs2Title": "Fold 2-underprestanda:",
+      "obs2Text": "Dec 2024 – Mar 2025 upplevde signifikant försämring (64,7% faktisk vs 77% förväntat). Detta återspeglar en tillfällig marknadsregimförändring under denna period.",
+      "obs3Title": "Senaste prestanda:",
+      "obs3Text": "Fold 4-5 (jun 2025 – jan 2026) visar förbättring till 79-81%, vilket antyder att modellen är välkalibrerad för nuvarande marknadsförhållanden.",
+      "obs4Title": "Samlat genomsnitt:",
+      "obs4Text": "Över alla perioder sammantaget uppnådde TA ML-modellen 77% faktisk värdelös % vid 70-80% förutsägelser. Denna samlade frekvens maskerar period-till-period-variation. Användare bör förstå att faktisk prestanda varierar med marknadsregimer, men det långsiktiga genomsnittet förblir stabilt."
+    },
+    "v21Breakdown": {
+      "title": "Sannolikhetsoptimeringsmodell",
+      "bucket": "Intervall:",
+      "currentProbability": "Nuvarande sannolikhet",
+      "probWorthlessNote": "Sannolikhet för förfall värdelös",
+      "historicalPeak": "Historisk topp",
+      "historicalPeakNote": "Högsta sannolikhet denna option historiskt visat",
+      "supportStrength": "Stödstyrka",
+      "supportStrengthNote": "Stödnivåns styrka runt lösenpriset",
+      "interp90": "Mycket stark säljoption. Hög sannolikhet för värdelöst förfall. Utmärkt inträde.",
+      "interp80": "Stark säljoption. God sannolikhet för värdelöst förfall. Solid möjlighet.",
+      "interp70": "Måttlig säljoption. Rimlig sannolikhet för värdelöst förfall. Acceptabelt risk/belöning.",
+      "interp60": "Svag säljoption. Lägre sannolikhet för värdelöst förfall. Marginell möjlighet.",
+      "interp0": "Mycket svag säljoption. Låg sannolikhet för värdelöst förfall. Undvik."
     }
   },
   "portfolioGenerator": {

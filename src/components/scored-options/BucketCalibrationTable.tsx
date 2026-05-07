@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/table';
 import { CalibrationBucket } from '@/types/calibration';
 import { formatNordicDecimal, formatNordicNumber } from '@/utils/numberFormatting';
+import { useTranslation } from 'react-i18next';
 
 interface BucketCalibrationTableProps {
   title: string;
@@ -21,8 +22,8 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
   buckets,
   modelType,
 }) => {
-  // For Probability Optimization Model, only show buckets from 50-60% score range and above
-  // Excludes lower ranges with too-small sample sizes or unreliable data
+  const { t } = useTranslation('pages');
+
   const filteredBuckets = modelType === 'v21'
     ? buckets.filter(bucket => bucket.minScore >= 50)
     : buckets;
@@ -49,12 +50,22 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
           <TableHeader>
             <TableRow>
               <TableHead className="text-left font-semibold">
-                {modelType === 'v21' ? 'Score Range' : 'Predicted Range'}
+                {modelType === 'v21'
+                  ? t('scoredOptions.bucketCalibration.scoreRange')
+                  : t('scoredOptions.bucketCalibration.predictedRange')}
               </TableHead>
-              <TableHead className="text-center font-semibold">Actual Worthless %</TableHead>
-              <TableHead className="text-center font-semibold">Sample Size</TableHead>
-              <TableHead className="text-center font-semibold">95% CI</TableHead>
-              <TableHead className="text-left font-semibold">Notes</TableHead>
+              <TableHead className="text-center font-semibold">
+                {t('scoredOptions.bucketCalibration.actualWorthlessPct')}
+              </TableHead>
+              <TableHead className="text-center font-semibold">
+                {t('scoredOptions.bucketCalibration.sampleSize')}
+              </TableHead>
+              <TableHead className="text-center font-semibold">
+                {t('scoredOptions.bucketCalibration.ci95')}
+              </TableHead>
+              <TableHead className="text-left font-semibold">
+                {t('scoredOptions.bucketCalibration.notes')}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -79,7 +90,7 @@ export const BucketCalibrationTable: React.FC<BucketCalibrationTableProps> = ({
                 <TableCell className="text-sm text-gray-600 dark:text-gray-400">
                   {bucket.isPremiumZone && (
                     <span className="inline-block bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 px-2 py-1 rounded text-xs font-semibold mr-2">
-                      ✓ OPTIMAL
+                      {t('scoredOptions.bucketCalibration.optimal')}
                     </span>
                   )}
                   {bucket.expectedNote}

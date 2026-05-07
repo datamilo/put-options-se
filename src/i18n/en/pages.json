@@ -699,7 +699,123 @@
     "rollingPeriod90": "90 days (3-Month)",
     "rollingPeriod180": "180 days (6-Month)",
     "rollingPeriod270": "270 days (9-Month)",
-    "rollingPeriod365": "365 days (1-Year)"
+    "rollingPeriod365": "365 days (1-Year)",
+    "explanation": {
+      "cardTitle": "Why This Option Was Recommended",
+      "methodBayesian": "PoW - Bayesian Calibrated",
+      "methodWeighted": "PoW - Weighted Average",
+      "methodOriginal": "PoW - Original Black-Scholes",
+      "methodCalibrated": "PoW - Bias Corrected",
+      "methodHistoricalIV": "PoW - Historical IV",
+      "rollingPeriodYear": "1 year",
+      "rollingPeriodDays": "{{count}} days",
+      "dirBelow": "below",
+      "dirAbove": "above",
+      "strengthStrong": "strong",
+      "strengthModerate": "moderate",
+      "strengthWeak": "weak",
+      "strengthExplStrong": "historically held reliably with few breaks",
+      "strengthExplModerate": "held reasonably well with occasional breaks",
+      "strengthExplWeak": "broken frequently or inconsistently",
+      "intro": "This analysis explains why {{optionName}} ({{stockName}}) has been recommended based on multiple factors.",
+      "supportHeader": "Support Level Discovery:",
+      "supportText": "The option has a strike price of {{strikePrice}} kr, which is {{strikeDir}} the {{period}} rolling low support level of {{rollingLow}} kr. The current price ({{currentPrice}} kr) is {{distancePct}}% {{priceDir}} the rolling low. This {{period}} low can act as a strong support level for the stock.",
+      "robustnessHeader": "Support Robustness:",
+      "robustnessText": "The support level has not been broken for {{days}} days, which is {{aboveBelow}} the minimum threshold of {{threshold}} days. The support strength score is {{score}}/100, indicating {{strength}} support robustness—this means the support level has {{strengthExpl}}.",
+      "robustnessExtended": "The extended period since the last break makes this support level more reliable.",
+      "recoveryHeader": "Recovery Candidate Analysis:",
+      "recoveryText": "This option previously reached a {{peakPct}}% probability peak but has declined to {{currentPct}}%—qualifying as a \"recovery candidate.\" Historical research shows that similar options ({{currentProbBin}} probability with {{dteBin}} days to expiry that previously peaked above {{thresholdPct}}%) expired worthless {{recoveryRatePct}}% of the time. This is substantially higher than the current {{currentPct}}% probability, indicating the market systematically underestimates these opportunities. For put sellers, this {{advantage}} percentage point advantage represents a statistical edge. See the Probability Analysis page → \"Probability Recovery Analysis\" for detailed research.",
+      "recoverySimpleHeader": "Recovery Candidate:",
+      "recoverySimpleText": "This option previously reached a {{peakPct}}% probability peak but has declined to {{currentPct}}%, qualifying as a \"recovery candidate.\" Research shows such options typically expire worthless more often than their current probability suggests, though specific historical data for this probability/DTE combination is limited.",
+      "probHistoryHeader": "Probability History:",
+      "probHistoryAbove": "The {{methodName}} probability previously peaked at {{peakPct}}%, which is above the {{thresholdPct}}% threshold. The current probability is {{currentPct}}%.",
+      "probHistoryBelow": "The {{methodName}} probability previously peaked at {{peakPct}}%, which is below the {{thresholdPct}}% threshold, so this is not classified as a recovery candidate. The current probability is {{currentPct}}%.",
+      "probAnalysisHeader": "Probability Analysis:",
+      "probAnalysisText": "The current probability of {{currentPct}}% is very high (≥90%). Historical recovery data is not available for this probability bin, limiting comparative analysis.",
+      "seasonalityHeader": "Monthly Seasonality:",
+      "seasonalityBase": "Historical data shows that {{stockName}} has had positive performance during {{monthlyPct}}% of all {{month}} months in the dataset ({{monthsCount}} months of historical data). ",
+      "seasonalityBaseMultiple": "Historical data shows that {{stockName}} has had positive performance during {{monthlyPct}}% of all {{month}} months in the dataset (multiple months of historical data). ",
+      "seasonalityLowDayClose": "The stock typically hits monthly lows on day {{lowDay}} (which is very close to today (day {{today}}), suggesting we may be near a monthly low point). ",
+      "seasonalityLowDayFar": "The stock typically hits monthly lows on day {{lowDay}} (while today is day {{today}}). ",
+      "seasonalityAvgReturn": "The average return for {{month}} is {{return}}.",
+      "perfHeader": "Current Performance:",
+      "perfBase": "{{stockName}}'s current performance for {{month}} is {{currentPerf}}%, while the historical average for this month is {{avgReturn}}%. ",
+      "perfUnder": "The stock is currently underperforming by {{underperf}} percentage points, which could suggest potential for a bounce back.",
+      "perfOver": "The stock is currently outperforming the historical average by {{overperf}} percentage points.",
+      "perfInLine": "The stock is performing in line with historical averages.",
+      "perfWorstDrawdown": " Historically, the worst intra-month drawdown for {{month}} has been {{drawdown}}%, providing context for potential downside risk.",
+      "compositeHeader": "Composite Score:",
+      "compositeBase": "Based on all these factors combined with customized weights, this option received a composite score of {{score}}/100, indicating a {{strength}} recommendation. ",
+      "compositeHigh": "This high score suggests multiple favorable conditions align for this option.",
+      "compositeModerate": "This moderate score suggests some favorable conditions, but not all factors are optimal.",
+      "compositeLow": "This lower score suggests caution - review individual factors to understand potential concerns.",
+      "finalHeader": "Recommendation:",
+      "finalBase": "{{stockName}} option {{optionName}} with strike {{strikePrice}} kr and expiry {{expiryDate}} ({{daysToExpiry}} days) offers a premium of {{premium}} kr. ",
+      "finalHigh": "The combination of support level stability, probability recovery potential, and favorable seasonality makes this a compelling candidate for put option writing.",
+      "finalModerate": "This option shows some promise based on the analysis, though individual factors should be carefully reviewed.",
+      "finalLow": "Consider reviewing alternative options with higher composite scores, or adjust analysis weights to match your risk tolerance."
+    },
+    "scoreBreakdown": {
+      "title": "Score Breakdown",
+      "basedOnFactors": "Based on {{count}}/6 factors with data",
+      "compositeScore": "Composite Score",
+      "notIncluded": "Not Included",
+      "noData": "No Data",
+      "rawValueLabel": "Raw value:",
+      "notAvailable": "Not Available",
+      "normalizedScore": "Normalized: {{value}}/100",
+      "contributingYes": "Contributing: Yes",
+      "contributingNo": "Contributing: No (missing data)",
+      "noDataWarning": "No data available for this stock. Score contribution: 0 points (not included)",
+      "howScoringTitle": "How Scoring Works:",
+      "howScoringDesc": "Each factor is normalized to a 0-100 scale, then weighted according to its importance. Only factors with available data contribute to the final score.",
+      "missingDataTitle": "Missing Data:",
+      "missingDataDesc": "If a factor has no historical data for this stock, it contributes 0 points to the composite score, regardless of its weight setting.",
+      "noDataBadgeTitle": "Red \"No Data\" badge:",
+      "noDataBadgeDesc": "This stock lacks the historical data needed for this factor, so it contributes 0 points.",
+      "factors": {
+        "supportStrength": {
+          "label": "Support reliability score",
+          "explanation": "Composite metric (0-100) measuring how consistently support level has held based on stability, break frequency, and drop consistency"
+        },
+        "daysSinceBreak": {
+          "label": "Days since support break",
+          "explanation": "Number of trading days since support level was last tested/broken; higher is better"
+        },
+        "recoveryAdvantage": {
+          "label": "Recovery candidate rate",
+          "explanation": "Percentage of similar options (by probability/DTE) that recovered from similar levels in historical data"
+        },
+        "historicalPeak": {
+          "label": "Historical peak probability",
+          "explanation": "Highest probability of worthlessness ever seen for this option; indicates recovery potential if peaked above current threshold"
+        },
+        "monthlySeasonality": {
+          "label": "Monthly positive rate",
+          "explanation": "Percentage of historical months with positive returns for this stock in the current calendar month"
+        },
+        "currentPerformance": {
+          "label": "Month-to-date underperformance",
+          "explanation": "How much the stock is underperforming (negative = better for puts) compared to its historical average for this calendar month"
+        }
+      },
+      "factorNames": {
+        "recoveryAdvantage": "Recovery Advantage",
+        "supportStrength": "Support Strength",
+        "daysSinceBreak": "Days Since Break",
+        "historicalPeak": "Historical Peak",
+        "monthlySeasonality": "Monthly Seasonality",
+        "currentPerformance": "Current Performance"
+      },
+      "factorDescs": {
+        "recoveryAdvantage": "Historical worthless rate for similar recovery candidates",
+        "supportStrength": "Pre-calculated composite support level robustness",
+        "daysSinceBreak": "Time since support level was last broken",
+        "historicalPeak": "Recovery candidate based on historical probability peaks",
+        "monthlySeasonality": "Historical positive return rate for current month",
+        "currentPerformance": "Current month underperformance vs historical average"
+      }
+    }
   },
   "scoredOptions": {
     "title": "Scored Options Recommendations",
@@ -783,6 +899,192 @@
       "highestConfidenceV21": "Highest confidence (80-100%):",
       "highestConfidenceV3": "Highest confidence (90%+):",
       "ratio": "Ratio:"
+    },
+    "agreementAnalysis": {
+      "title": "Combined Analysis",
+      "modelsDisagreeTitle": "Models Disagree",
+      "modelsAgreeTitle": "Models Agree",
+      "disagreeDescV21Higher": "Probability Optimization Model ({{v21Score}}) is bullish, but TA ML Model ({{taScore}}) is bearish. Difference: {{diff}} points.",
+      "disagreeDescTAHigher": "TA ML Model ({{taScore}}) is bullish, but Probability Optimization Model ({{v21Score}}) is bearish. Difference: {{diff}} points.",
+      "disagreeRecommendation": "Use with caution. Mixed signals suggest elevated uncertainty. Consider additional confirmation.",
+      "agreeDescStrong": "Both models strongly bullish. Probability Optimization: {{v21Score}}, TA ML: {{taScore}}. Difference: {{diff}} points.",
+      "agreeDescModerate": "Both models aligned with moderate conviction. Probability Optimization: {{v21Score}}, TA ML: {{taScore}}. Difference: {{diff}} points.",
+      "agreeRecommendationStrong": "High confidence signal. Both models strongly support this position.",
+      "agreeRecommendationModerate": "Moderate confidence signal. Both models support, but with some variance.",
+      "strengthAgreement": "{{strength}} Agreement",
+      "modelsAgreeField": "Models Agree",
+      "agreementStrengthField": "Agreement Strength",
+      "yes": "Yes",
+      "no": "No",
+      "modelScores": "Model Scores",
+      "probOptimizationModel": "Probability Optimization Model",
+      "taModel": "TA Model",
+      "difference": "Difference:",
+      "diffPoints": "{{value}} points"
+    },
+    "bucketCalibration": {
+      "scoreRange": "Score Range",
+      "predictedRange": "Predicted Range",
+      "actualWorthlessPct": "Actual Worthless %",
+      "sampleSize": "Sample Size",
+      "ci95": "95% CI",
+      "notes": "Notes",
+      "optimal": "✓ OPTIMAL"
+    },
+    "keyInsights": {
+      "title": "💡 Key Insights: The Premium Collection Sweet Spot",
+      "twoModelsTitle": "Two Independent Models:",
+      "twoModelsText": "When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 72.42%. Different market coverage explains the difference: Probability Optimization Model specializes on deeply-tracked options (19.8K sample); TA Model validates on comprehensive historical data (1.4M sample across all market conditions).",
+      "dataMetricsTitle": "Data-Driven Metrics:",
+      "dataMetricsText": "Actual Worthless % varies by model and prediction range. Review the detailed tables below for comprehensive performance data.",
+      "statisticalPrecisionTitle": "Statistical Precision:",
+      "statisticalPrecisionText": "Large sample sizes (1.4M for TA ML Model, 19.8K for Probability Model at 70-80%) provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless % likely falls.",
+      "riskAssessmentTitle": "Risk Assessment:",
+      "riskAssessmentText": "Lower Actual Worthless % indicates higher risk. Evaluate model performance across prediction ranges to support your trading decisions.",
+      "source": "Source: Validated testing on 1.8M+ Swedish equity option records (April 2024 - January 2026)."
+    },
+    "taBreakdown": {
+      "title": "TA ML Model",
+      "bucket": "Bucket:",
+      "stockLevelIndicators": "Stock-Level Indicators",
+      "contractLevelIndicators": "Contract-Level Indicators",
+      "indicatorLabels": {
+        "RSI_14": "RSI (14)",
+        "RSI_Slope": "RSI Slope",
+        "MACD_Hist": "MACD Histogram",
+        "MACD_Slope": "MACD Slope",
+        "BB_Position": "Bollinger Band Position",
+        "Dist_SMA50": "Distance to SMA50",
+        "Vol_Ratio": "Volume Ratio",
+        "ADX_14": "ADX (14)",
+        "ADX_Slope": "ADX Slope",
+        "ATR_14": "ATR (14)",
+        "Stochastic_K": "Stochastic K",
+        "Stochastic_D": "Stochastic D",
+        "Sigma_Distance": "Sigma Distance",
+        "Greeks_Delta": "Delta (Greeks)",
+        "Greeks_Vega": "Vega (Greeks)",
+        "Greeks_Theta": "Theta (Greeks)"
+      },
+      "status": {
+        "RSI_14": {
+          "low": { "label": "Oversold", "assessment": "Strong bullish signal" },
+          "high": { "label": "Overbought", "assessment": "Weak bullish signal" },
+          "neutral": { "label": "Neutral", "assessment": "Moderate signal" }
+        },
+        "RSI_Slope": {
+          "low": { "label": "Declining", "assessment": "RSI improving for puts" },
+          "high": { "label": "Rising", "assessment": "RSI worsening for puts" },
+          "neutral": { "label": "Stable", "assessment": "RSI changing slowly" }
+        },
+        "MACD_Hist": {
+          "low": { "label": "Bearish", "assessment": "Strong bearish momentum" },
+          "high": { "label": "Bullish", "assessment": "Bullish momentum" },
+          "neutral": { "label": "Neutral", "assessment": "Momentum at crossover" }
+        },
+        "MACD_Slope": {
+          "high": { "label": "Rising", "assessment": "Momentum strengthening" },
+          "low": { "label": "Declining", "assessment": "Momentum weakening" },
+          "neutral": { "label": "Flat", "assessment": "Momentum stable" }
+        },
+        "BB_Position": {
+          "low": { "label": "Lower Band", "assessment": "Price near support" },
+          "high": { "label": "Upper Band", "assessment": "Price near resistance" },
+          "neutral": { "label": "Middle", "assessment": "Price mid-range" }
+        },
+        "Dist_SMA50": {
+          "low": { "label": "Well Below", "assessment": "Far below moving average" },
+          "high": { "label": "Well Above", "assessment": "Far above moving average" },
+          "neutral": { "label": "Near", "assessment": "Close to moving average" }
+        },
+        "Vol_Ratio": {
+          "high": { "label": "High Volume", "assessment": "Strong trading activity" },
+          "low": { "label": "Low Volume", "assessment": "Weak trading activity" },
+          "neutral": { "label": "Normal", "assessment": "Average volume" }
+        },
+        "ADX_14": {
+          "high": { "label": "Strong Trend", "assessment": "Pronounced directional momentum" },
+          "moderate": { "label": "Moderate Trend", "assessment": "Established direction" },
+          "low": { "label": "Weak Trend", "assessment": "Weak directional signal" }
+        },
+        "ADX_Slope": {
+          "high": { "label": "Strengthening", "assessment": "Trend momentum increasing" },
+          "low": { "label": "Weakening", "assessment": "Trend momentum decreasing" },
+          "neutral": { "label": "Stable", "assessment": "Trend momentum steady" }
+        },
+        "ATR_14": {
+          "high": { "label": "High", "assessment": "Elevated volatility" },
+          "moderate": { "label": "Moderate", "assessment": "Normal volatility" },
+          "low": { "label": "Low", "assessment": "Low volatility" }
+        },
+        "Stochastic_K": {
+          "low": { "label": "Oversold", "assessment": "Strong bullish signal" },
+          "high": { "label": "Overbought", "assessment": "Weak bullish signal" },
+          "neutral": { "label": "Neutral", "assessment": "Normal momentum" }
+        },
+        "Stochastic_D": {
+          "low": { "label": "Oversold", "assessment": "Strong bullish signal" },
+          "high": { "label": "Overbought", "assessment": "Weak bullish signal" },
+          "neutral": { "label": "Neutral", "assessment": "Normal momentum" }
+        },
+        "Sigma_Distance": {
+          "high": { "label": "Extreme", "assessment": "Price at extremes" },
+          "moderate": { "label": "Significant", "assessment": "Notable move" },
+          "low": { "label": "Normal", "assessment": "Within normal range" }
+        },
+        "Greeks_Delta": {
+          "high": { "label": "High ITM Risk", "assessment": "Option likely ITM" },
+          "moderate": { "label": "Moderate ITM Risk", "assessment": "Moderate ITM probability" },
+          "low": { "label": "Low ITM Risk", "assessment": "Low ITM probability" }
+        },
+        "Greeks_Vega": {
+          "high": { "label": "High IV Sensitivity", "assessment": "Benefits from volatility increase" },
+          "moderate": { "label": "Moderate IV Sensitivity", "assessment": "Normal IV exposure" },
+          "low": { "label": "Low IV Sensitivity", "assessment": "Minimal IV exposure" }
+        },
+        "Greeks_Theta": {
+          "high": { "label": "Favorable Decay", "assessment": "Time decay benefits seller" },
+          "neutral": { "label": "Neutral Decay", "assessment": "Minimal time decay impact" },
+          "low": { "label": "Unfavorable Decay", "assessment": "Decay works against seller" }
+        },
+        "unknown": {
+          "label": "Unknown",
+          "assessment": "Unable to assess"
+        }
+      }
+    },
+    "temporalStability": {
+      "title": "Temporal Stability Analysis (Per-Fold 70-80% Bucket)",
+      "description": "This analysis shows how the TA ML Model's Actual Worthless % at the 70-80% prediction range varied across different market periods. Each \"fold\" represents a distinct 3-month testing window in walk-forward validation. The overall average across all periods is approximately 77%, but individual periods show deviation due to market regime changes.",
+      "colFold": "Fold",
+      "colTestPeriod": "Test Period",
+      "colActualWorthless": "Actual Worthless %",
+      "colSampleSize": "Sample Size",
+      "colDeviation": "Deviation from 77%",
+      "keyObservations": "Key Observations:",
+      "obs1Title": "Fold 1-4:",
+      "obs1Text": "Variation ranges from -12.3pp (Fold 2) to +7.0pp (Fold 3), showing how market regimes affect calibration",
+      "obs2Title": "Fold 2 Underperformance:",
+      "obs2Text": "Dec 2024 - Mar 2025 experienced significant degradation (64.7% actual vs 77% expected). This reflects a temporary market regime shift during this period.",
+      "obs3Title": "Recent Performance:",
+      "obs3Text": "Folds 4-5 (Jun 2025 - Jan 2026) show improvement to 79-81%, suggesting the model is well-calibrated for current market conditions.",
+      "obs4Title": "Overall Average:",
+      "obs4Text": "Across all periods combined, the TA ML Model achieved 77% Actual Worthless % at 70-80% predictions. This aggregate rate masks period-to-period variation. Users should understand that actual performance fluctuates with market regimes, though the long-term average remains stable."
+    },
+    "v21Breakdown": {
+      "title": "Probability Optimization Model",
+      "bucket": "Bucket:",
+      "currentProbability": "Current Probability",
+      "probWorthlessNote": "Probability of expiration worthless",
+      "historicalPeak": "Historical Peak",
+      "historicalPeakNote": "Highest probability this option has shown historically",
+      "supportStrength": "Support Strength",
+      "supportStrengthNote": "Strength of support level around strike price",
+      "interp90": "Very strong put option. High probability of expiration worthless. Excellent entry point.",
+      "interp80": "Strong put option. Good probability of expiration worthless. Solid opportunity.",
+      "interp70": "Moderate put option. Reasonable probability of expiration worthless. Acceptable risk/reward.",
+      "interp60": "Weak put option. Lower probability of expiration worthless. Marginal opportunity.",
+      "interp0": "Very weak put option. Low probability of expiration worthless. Avoid."
     }
   },
   "portfolioGenerator": {

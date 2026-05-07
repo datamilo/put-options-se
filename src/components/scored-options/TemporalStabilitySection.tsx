@@ -10,24 +10,20 @@ import {
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { TemporalFoldData } from '@/types/calibration';
 import { formatNordicDecimal, formatNordicNumber, formatNordicPercentagePoints } from '@/utils/numberFormatting';
+import { useTranslation } from 'react-i18next';
 
 interface TemporalStabilitySectionProps {
   folds: TemporalFoldData[];
 }
 
 export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> = ({ folds }) => {
+  const { t } = useTranslation('pages');
   const [isExpanded, setIsExpanded] = useState(false);
 
   const getDeviationColor = (deviation: number): string => {
     if (Math.abs(deviation) < 2) return 'text-gray-700 dark:text-gray-300';
     if (deviation > 0) return 'text-green-700 dark:text-green-400';
     return 'text-red-700 dark:text-red-400';
-  };
-
-  const getDeviationWidth = (deviation: number): string => {
-    // Scale from -15pp to +10pp to 0-100%
-    const normalized = ((deviation + 15) / 25) * 100;
-    return Math.max(0, Math.min(100, normalized)) + '%';
   };
 
   return (
@@ -41,25 +37,24 @@ export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> =
         ) : (
           <ChevronDown className="h-5 w-5" />
         )}
-        <span>Temporal Stability Analysis (Per-Fold 70-80% Bucket)</span>
+        <span>{t('scoredOptions.temporalStability.title')}</span>
       </button>
 
       {isExpanded && (
         <div className="space-y-4 mt-4">
           <p className="text-sm text-gray-700 dark:text-gray-300">
-            This analysis shows how the TA ML Model's Actual Worthless % at the 70-80% prediction range varied across
-            different market periods. Each "fold" represents a distinct 3-month testing window in walk-forward validation. The overall average across all periods is approximately 77%, but individual periods show deviation due to market regime changes.
+            {t('scoredOptions.temporalStability.description')}
           </p>
 
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="text-center font-semibold">Fold</TableHead>
-                  <TableHead className="text-left font-semibold">Test Period</TableHead>
-                  <TableHead className="text-center font-semibold">Actual Worthless %</TableHead>
-                  <TableHead className="text-center font-semibold">Sample Size</TableHead>
-                  <TableHead className="text-center font-semibold">Deviation from 77%</TableHead>
+                  <TableHead className="text-center font-semibold">{t('scoredOptions.temporalStability.colFold')}</TableHead>
+                  <TableHead className="text-left font-semibold">{t('scoredOptions.temporalStability.colTestPeriod')}</TableHead>
+                  <TableHead className="text-center font-semibold">{t('scoredOptions.temporalStability.colActualWorthless')}</TableHead>
+                  <TableHead className="text-center font-semibold">{t('scoredOptions.temporalStability.colSampleSize')}</TableHead>
+                  <TableHead className="text-center font-semibold">{t('scoredOptions.temporalStability.colDeviation')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -91,22 +86,25 @@ export const TemporalStabilitySection: React.FC<TemporalStabilitySectionProps> =
           </div>
 
           <div className="space-y-3 bg-white dark:bg-gray-800 rounded p-3">
-            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">Key Observations:</p>
+            <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+              {t('scoredOptions.temporalStability.keyObservations')}
+            </p>
             <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
               <li>
-                <strong>Fold 1-4:</strong> Variation ranges from -12.3pp (Fold 2) to +7.0pp (Fold 3),
-                showing how market regimes affect calibration
+                <strong>{t('scoredOptions.temporalStability.obs1Title')}</strong>{' '}
+                {t('scoredOptions.temporalStability.obs1Text')}
               </li>
               <li>
-                <strong>Fold 2 Underperformance:</strong> Dec 2024 - Mar 2025 experienced significant degradation
-                (64.7% actual vs 77% expected). This reflects a temporary market regime shift during this period.
+                <strong>{t('scoredOptions.temporalStability.obs2Title')}</strong>{' '}
+                {t('scoredOptions.temporalStability.obs2Text')}
               </li>
               <li>
-                <strong>Recent Performance:</strong> Folds 4-5 (Jun 2025 - Jan 2026) show improvement to 79-81%,
-                suggesting the model is well-calibrated for current market conditions.
+                <strong>{t('scoredOptions.temporalStability.obs3Title')}</strong>{' '}
+                {t('scoredOptions.temporalStability.obs3Text')}
               </li>
               <li>
-                <strong>Overall Average:</strong> Across all periods combined, the TA ML Model achieved 77% Actual Worthless % at 70-80% predictions. This aggregate rate masks period-to-period variation. Users should understand that actual performance fluctuates with market regimes, though the long-term average remains stable.
+                <strong>{t('scoredOptions.temporalStability.obs4Title')}</strong>{' '}
+                {t('scoredOptions.temporalStability.obs4Text')}
               </li>
             </ul>
           </div>
