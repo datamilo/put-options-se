@@ -1,6 +1,7 @@
 import * as XLSX from 'xlsx';
 import { OptionData } from '@/types/options';
 import { formatNumber } from '@/lib/utils';
+import i18n from '@/i18n/index';
 
 interface ExportOptions {
   filename: string;
@@ -9,34 +10,9 @@ interface ExportOptions {
 }
 
 export const exportToExcel = ({ filename, visibleColumns, data }: ExportOptions) => {
-  // Format column names for Excel headers
-  const formatColumnName = (field: string) => {
-    const fieldMappings: { [key: string]: string } = {
-      'IV_ClosestToStrike': 'IV Closest To Strike',
-      'IV_UntilExpiryClosestToStrike': 'IV Until Expiry Closest To Strike',
-      'LowerBoundClosestToStrike': 'Lower Bound Closest To Strike',
-      'LowerBoundDistanceFromCurrentPrice': 'Lower Bound Distance From Current Price',
-      'LowerBoundDistanceFromStrike': 'Lower Bound Distance From Strike',
-      'ImpliedDownPct': 'Implied Down %',
-      'ToStrikePct': 'To Strike %',
-      'SafetyMultiple': 'Safety Multiple',
-      'SigmasToStrike': 'Sigmas To Strike',
-      'ProbAssignment': 'Prob Assignment',
-      'SafetyCategory': 'Safety Category',
-      'CushionMinusIVPct': 'Cushion Minus IV %',
-      'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound',
-      'recalculatedNumberOfContracts': 'Number Of Contracts',
-      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
-      'BreakevenDecline': 'Breakeven Decline',
-      'CVaR10pct_Decline': 'CVaR 10% Decline',
-      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
-      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
-    };
-    
-    if (fieldMappings[field]) {
-      return fieldMappings[field];
-    }
-    
+  const formatColumnName = (field: string): string => {
+    const translated = i18n.t(`tables:options.fields.${field}`, { defaultValue: '' });
+    if (translated) return translated;
     return field
       .replace(/([A-Z])/g, ' $1')
       .replace(/_/g, ' ')
@@ -49,7 +25,7 @@ export const exportToExcel = ({ filename, visibleColumns, data }: ExportOptions)
     // Header row
     visibleColumns.map(col => formatColumnName(col)),
     // Data rows
-    ...data.map(option => 
+    ...data.map(option =>
       visibleColumns.map(col => {
         const value = option[col];
         // Format the value for Excel display
@@ -81,7 +57,7 @@ export const exportToExcel = ({ filename, visibleColumns, data }: ExportOptions)
     );
     return { wch: Math.min(Math.max(maxLength + 2, 10), 50) };
   });
-  
+
   worksheet['!cols'] = columnWidths;
 
   // Add the worksheet to the workbook

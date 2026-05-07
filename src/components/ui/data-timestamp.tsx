@@ -2,6 +2,7 @@ import * as React from "react"
 import { Clock, RefreshCw } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "./button"
+import { useTranslation } from "react-i18next"
 
 export interface DataTimestampProps {
   timestamp?: Date | string
@@ -26,11 +27,13 @@ export function DataTimestamp({
   onRefresh,
   className,
 }: DataTimestampProps) {
+  const { t } = useTranslation('common');
+
   if (!timestamp) {
     return (
       <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
         <Clock className="h-4 w-4" />
-        <span>{label}: <span className="font-medium">Loading...</span></span>
+        <span>{label}: <span className="font-medium">{t('status.loading')}</span></span>
       </div>
     )
   }
@@ -42,7 +45,7 @@ export function DataTimestamp({
     return (
       <div className={cn("flex items-center gap-2 text-sm text-muted-foreground", className)}>
         <Clock className="h-4 w-4" />
-        <span>{label}: <span className="font-medium">Invalid date</span></span>
+        <span>{label}: <span className="font-medium">{t('dataTimestamp.invalidDate')}</span></span>
       </div>
     )
   }
@@ -67,10 +70,10 @@ export function DataTimestamp({
           size="icon"
           className="h-6 w-6"
           onClick={onRefresh}
-          title="Refresh data"
+          title={t('dataTimestamp.refresh')}
         >
           <RefreshCw className="h-3 w-3" />
-          <span className="sr-only">Refresh data</span>
+          <span className="sr-only">{t('dataTimestamp.refresh')}</span>
         </Button>
       )}
     </div>

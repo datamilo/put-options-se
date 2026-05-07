@@ -60,7 +60,7 @@ export const PortfolioOptionsTable = ({
   isScoredStrategy = false,
   selectedProbabilityField
 }: PortfolioOptionsTableProps) => {
-  const { t } = useTranslation('pages');
+  const { t } = useTranslation(['pages', 'tables']);
   const { columnPreferences, isLoading } = usePortfolioPreferences();
   const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -129,55 +129,9 @@ export const PortfolioOptionsTable = ({
     }
   }, [activeFilter, enableFiltering]);
 
-  const formatColumnName = (field: string) => {
-    // Special case for recalculatedNumberOfContracts
-    if (field === 'recalculatedNumberOfContracts') {
-      return 'Number Of Contracts';
-    }
-
-    // Special formatting for IV fields
-    const fieldMappings: { [key: string]: string } = {
-      'IV_ClosestToStrike': 'IV Closest To Strike',
-      'IV_UntilExpiryClosestToStrike': 'IV Until Expiry Closest To Strike',
-      'LowerBoundClosestToStrike': 'Lower Bound Closest To Strike',
-      'LowerBoundDistanceFromCurrentPrice': 'Lower Bound Distance From Current Price',
-      'LowerBoundDistanceFromStrike': 'Lower Bound Distance From Strike',
-      'ImpliedDownPct': 'Implied Down %',
-      'ToStrikePct': 'To Strike %',
-      'SafetyMultiple': 'Safety Multiple',
-      'SigmasToStrike': 'Sigmas To Strike',
-      'ProbAssignment': 'Prob Assignment',
-      'SafetyCategory': 'Safety Category',
-      'CushionMinusIVPct': 'Cushion Minus IV %',
-      'PotentialLossAtLowerBound': 'Potential Loss At IV Lower Bound',
-      'EstTotalMargin': 'Est. Total Margin',
-      'Est_Margin_SEK': 'Est. Margin per Contract',
-      'Prob_Normal_2SD_Decline_Pct': 'Probability Normal 2SD Decline %',
-      'Hist_Worst_Decline_Pct': 'Historical Worst Decline %',
-      'SRI_Base': 'SRI Base',
-      'Event_Buffer': 'Event Buffer',
-      'Final_SRI': 'Final Safety-Risk Index',
-      'OTM_Amount': 'OTM Amount',
-      'Margin_A_Broker_Proxy': 'Margin A Broker Proxy',
-      'Margin_B_Historical_Floor': 'Margin B Historical Floor',
-      'Margin_Floor_15pct': 'Margin Floor 15%',
-      'Net_Premium_After_Costs': 'Net Premium After Costs',
-      'Annualized_ROM_Pct': 'Annualized Return on Margin %',
-      'combined_score': 'Combined Score',
-      'v21_score': 'Probability Score',
-      'ta_probability': 'TA Probability',
-      'agreement_strength': 'Agreement',
-      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
-      'BreakevenDecline': 'Breakeven Decline',
-      'CVaR10pct_Decline': 'CVaR 10% Decline',
-      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
-      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
-    };
-
-    if (fieldMappings[field]) {
-      return fieldMappings[field];
-    }
-
+  const formatColumnName = (field: string): string => {
+    const translated = t(`tables:options.fields.${field}`, { defaultValue: '' });
+    if (translated) return translated;
     return field
       .replace(/([A-Z])/g, ' $1')
       .replace(/_/g, ' ')

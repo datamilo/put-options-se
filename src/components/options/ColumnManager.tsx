@@ -37,7 +37,7 @@ const SortableColumnItem: React.FC<{
   column: ColumnPreference;
   onVisibilityChange: (visible: boolean) => void;
 }> = ({ column, onVisibilityChange }) => {
-  const { t } = useTranslation('pages');
+  const { t } = useTranslation(['pages', 'tables']);
   const {
     attributes,
     listeners,
@@ -54,62 +54,8 @@ const SortableColumnItem: React.FC<{
   };
 
   const formatColumnName = (key: string): string => {
-    // Probability field mappings
-    const probabilityMappings: { [key: string]: string } = {
-      '1_2_3_ProbOfWorthless_Weighted': 'PoW - Weighted Average',
-      'ProbWorthless_Bayesian_IsoCal': 'PoW - Bayesian Calibrated',
-      '1_ProbOfWorthless_Original': 'PoW - Original Black-Scholes',
-      '2_ProbOfWorthless_Calibrated': 'PoW - Bias Corrected',
-      '3_ProbOfWorthless_Historical_IV': 'PoW - Historical IV'
-    };
-
-    // Timing field mappings
-    const timingMappings: { [key: string]: string } = {
-      'DaysToExpiry': 'Days to Expiry (business days)',
-    };
-
-    // Margin requirements field mappings
-    const marginMappings: { [key: string]: string } = {
-      'EstTotalMargin': 'Est. Total Margin',
-      'Est_Margin_SEK': 'Est. Margin per Contract',
-      'Prob_Normal_2SD_Decline_Pct': 'Probability Normal 2SD Decline %',
-      'Hist_Worst_Decline_Pct': 'Historical Worst Decline %',
-      'SRI_Base': 'SRI Base',
-      'Event_Buffer': 'Event Buffer',
-      'Final_SRI': 'Final Safety-Risk Index',
-      'OTM_Amount': 'OTM Amount',
-      'Margin_A_Broker_Proxy': 'Margin A Broker Proxy',
-      'Margin_B_Historical_Floor': 'Margin B Historical Floor',
-      'Margin_Floor_15pct': 'Margin Floor 15%',
-      'Net_Premium_After_Costs': 'Net Premium After Costs',
-      'Annualized_ROM_Pct': 'Annualized Return on Margin %'
-    };
-
-    // New stress test field mappings
-    const stressTestMappings: { [key: string]: string } = {
-      'IV_2sigma_Decline': 'IV 2-Sigma Decline',
-      'BreakevenDecline': 'Breakeven Decline',
-      'CVaR10pct_Decline': 'CVaR 10% Decline',
-      'LossAtIV2sigmaDecline': 'Loss at IV 2-Sigma',
-      'LossAtCVaR10pctDecline': 'Loss at CVaR 10%'
-    };
-
-    if (probabilityMappings[key]) {
-      return probabilityMappings[key];
-    }
-
-    if (timingMappings[key]) {
-      return timingMappings[key];
-    }
-
-    if (marginMappings[key]) {
-      return marginMappings[key];
-    }
-
-    if (stressTestMappings[key]) {
-      return stressTestMappings[key];
-    }
-
+    const translated = t(`tables:options.fields.${key}`, { defaultValue: '' });
+    if (translated) return translated;
     return key
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, str => str.toUpperCase())
@@ -152,7 +98,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   onVisibilityChange,
   onColumnOrderChange,
 }) => {
-  const { t } = useTranslation('pages');
+  const { t } = useTranslation(['pages', 'tables']);
   const [isOpen, setIsOpen] = useState(false);
   const { columnPreferences, saveColumnPreferences, isLoading } = useUserPreferences();
   const [localPreferences, setLocalPreferences] = useState<ColumnPreference[]>([]);

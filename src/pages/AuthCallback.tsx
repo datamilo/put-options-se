@@ -2,9 +2,11 @@ import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "react-i18next";
 
 const AuthCallback = () => {
   usePageTitle('Authentication');
+  const { t } = useTranslation('common');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,9 +21,9 @@ const AuthCallback = () => {
 
   return (
     <div className="p-6">
-      <p>Finishing sign in…</p>
+      <p>{t('authCallback.signingIn')}</p>
       <p className="mt-2">
-        If you are not redirected, <Link to="/auth" className="underline">go to login</Link>.
+        {t('authCallback.notRedirected')} <Link to="/auth" className="underline">{t('authCallback.goToLogin')}</Link>.
       </p>
     </div>
   );

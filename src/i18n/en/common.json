@@ -133,7 +133,27 @@
   "dataTimestamp": {
     "stockData": "Stock data",
     "analysisUpdated": "Analysis updated",
-    "dataUpdated": "Data updated"
+    "dataUpdated": "Data updated",
+    "invalidDate": "Invalid date",
+    "refresh": "Refresh data"
+  },
+  "errorBoundary": {
+    "heading": "Something went wrong",
+    "desc": "The application encountered an error and couldn't render properly.",
+    "details": "Error details",
+    "reload": "Reload Page"
+  },
+  "timestampDisplay": {
+    "loading": "Loading timestamp information...",
+    "error": "Failed to load timestamps",
+    "lastUpdated": "Last Updated",
+    "options": "Options",
+    "stocks": "Stocks"
+  },
+  "authCallback": {
+    "signingIn": "Finishing sign in…",
+    "notRedirected": "If you are not redirected,",
+    "goToLogin": "go to login"
   },
   "selectPlaceholder": {
     "stock": "Select a stock...",

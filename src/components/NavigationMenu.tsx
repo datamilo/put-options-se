@@ -29,7 +29,7 @@ export const NavigationMenu = () => {
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="icon" className="h-9 w-9">
             <Menu className="h-4 w-4" />
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">{t('nav.openMenu')}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent 

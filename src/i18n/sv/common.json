@@ -133,7 +133,27 @@
   "dataTimestamp": {
     "stockData": "Aktiedata",
     "analysisUpdated": "Analys uppdaterad",
-    "dataUpdated": "Data uppdaterad"
+    "dataUpdated": "Data uppdaterad",
+    "invalidDate": "Ogiltigt datum",
+    "refresh": "Uppdatera data"
+  },
+  "errorBoundary": {
+    "heading": "Något gick fel",
+    "desc": "Applikationen stötte på ett fel och kunde inte renderas korrekt.",
+    "details": "Felinformation",
+    "reload": "Ladda om sidan"
+  },
+  "timestampDisplay": {
+    "loading": "Laddar tidsstämpelinformation...",
+    "error": "Det gick inte att ladda tidsstämplar",
+    "lastUpdated": "Senast uppdaterad",
+    "options": "Optioner",
+    "stocks": "Aktier"
+  },
+  "authCallback": {
+    "signingIn": "Slutför inloggning…",
+    "notRedirected": "Om du inte omdirigeras,",
+    "goToLogin": "gå till inloggning"
   },
   "selectPlaceholder": {
     "stock": "Välj aktie...",
