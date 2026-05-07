@@ -13,6 +13,7 @@
 | State / preferences | React Context + Supabase (authenticated) + localStorage (guest) |
 | Auth | Supabase Auth |
 | Routing | React Router 6 |
+| Internationalisation | i18next + react-i18next + i18next-browser-languagedetector |
 | Node.js polyfills | vite-plugin-node-polyfills (required for Plotly's `buffer` dependency) |
 
 ---
@@ -38,6 +39,17 @@ put-options-se-1/
 │   │   ├── stock/                # Candlestick and line charts
 │   │   ├── volatility/           # Volatility stats chart
 │   │   └── HorizontalNavigation.tsx
+│   ├── i18n/                     # i18next initialisation + translation JSON
+│   │   ├── index.ts              # Init: namespaces, language detector, localStorage key
+│   │   ├── en/                   # English translations (5 namespaces)
+│   │   │   ├── common.json       # Nav, buttons, status, filters, auth, settings
+│   │   │   ├── pages.json        # Page titles, section headings, subtitles
+│   │   │   ├── tables.json       # Table column headers
+│   │   │   ├── charts.json       # Chart axis labels, legend entries
+│   │   │   └── tooltips.json     # Explanatory text, methodology descriptions
+│   │   └── sv/                   # Swedish translations (same 5 namespaces)
+│   ├── components/
+│   │   ├── LanguageSwitcher.tsx  # EN | SV toggle in navigation bar
 │   ├── contexts/                 # SettingsContext
 │   ├── hooks/                    # All data-fetching and calculation hooks
 │   ├── pages/                    # One file per route

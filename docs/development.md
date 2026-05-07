@@ -146,6 +146,62 @@ Both hooks use a `hasLoadedFromSupabase` flag to prevent continuous reloading wh
 
 ---
 
+## Internationalisation (i18n)
+
+The app supports English and Swedish via **react-i18next**. Language preference persists in `localStorage` under the key `lang`.
+
+### Namespaces
+
+| Namespace | Contents |
+|-----------|----------|
+| `common`  | Nav labels, buttons, status messages, filters, auth, settings, month names |
+| `pages`   | Page titles, section headings, all page-level text |
+| `tables`  | Table column headers |
+| `charts`  | Chart axis labels, legend entries |
+| `tooltips`| Explanatory text, methodology descriptions |
+
+Default namespace is `common`. The `pages` namespace holds the most keys.
+
+### Usage in components
+
+Single namespace (most common):
+```tsx
+const { t } = useTranslation('pages');
+// key within 'pages' namespace:
+t('recommendations.title')
+```
+
+Multiple namespaces:
+```tsx
+const { t } = useTranslation(['pages', 'common']);
+// cross-namespace reference requires prefix:
+t('common:monthNamesShort.5')   // "May" / "Maj"
+t('pages:monthlyAnalysis.statsTable.colStock')
+```
+
+### Adding new strings
+
+1. Add the key to `src/i18n/en/<namespace>.json` and `src/i18n/sv/<namespace>.json`
+2. Use `t('key')` or `t('key', { var: value })` for interpolation
+3. Month names: always use `t('common:monthNames.N')` or `t('common:monthNamesShort.N')` (1-indexed)
+4. Dynamic keys via template literals: `` t(`pages:section.variant_${type}`) `` — ensure all variants exist in JSON
+
+### Recharts labels
+
+Recharts re-renders on language change (component re-mounts). Use `t()` directly in `name` props, axis `label` objects, and `ReferenceLine` label values — no special handling needed.
+
+### Plotly layouts
+
+Plotly does not re-render automatically. Wrap the layout config in `useMemo` with `i18n.language` as a dependency:
+```tsx
+const { t, i18n } = useTranslation('pages');
+const layout = useMemo(() => ({
+  xaxis: { title: t('charts.xAxisLabel') },
+}), [t, i18n.language]);
+```
+
+---
+
 ## Accessibility Patterns
 
 The following accessibility attributes are applied consistently:
