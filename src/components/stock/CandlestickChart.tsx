@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { StockData } from "@/types/stock";
+import { useTranslation } from "react-i18next";
 import {
   ComposedChart,
   XAxis,
@@ -141,6 +142,7 @@ const EarningsMarkerShape = (props: any) => {
 };
 
 export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => {
+  const { t } = useTranslation('pages');
   const [timeRange, setTimeRange] = useState<'1M' | '3M' | '6M' | '1Y' | 'ALL'>('6M');
   const [showVolume, setShowVolume] = useState<boolean>(false);
   const [dateFrom, setDateFrom] = useState<string>('');
@@ -316,31 +318,31 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
             <div className="mb-2 pb-2 border-b">
               <p className="flex items-center gap-2 text-sm font-semibold text-indigo-600">
                 <FileText size={16} />
-                <span>Earnings Event</span>
+                <span>{t('stockAnalysis.candlestickChart.earningsEvent')}</span>
               </p>
             </div>
           )}
           <div className="space-y-1 text-sm">
             <p className="flex justify-between gap-4">
-              <span className="text-muted-foreground">Open:</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.candlestickChart.open')}</span>
               <span className="font-medium">{data.open.toFixed(2)}</span>
             </p>
             <p className="flex justify-between gap-4">
-              <span className="text-muted-foreground">High:</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.candlestickChart.high')}</span>
               <span className="font-medium">{data.high.toFixed(2)}</span>
             </p>
             <p className="flex justify-between gap-4">
-              <span className="text-muted-foreground">Low:</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.candlestickChart.low')}</span>
               <span className="font-medium">{data.low.toFixed(2)}</span>
             </p>
             <p className="flex justify-between gap-4">
-              <span className="text-muted-foreground">Close:</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.candlestickChart.close')}</span>
               <span className={`font-medium ${isPositive ? 'text-green-600' : 'text-red-600'}`}>
                 {data.close.toFixed(2)}
               </span>
             </p>
             <p className="flex justify-between gap-4">
-              <span className="text-muted-foreground">Volume:</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.candlestickChart.volume')}</span>
               <span className="font-medium">{data.volume.toLocaleString('sv-SE')}</span>
             </p>
           </div>
@@ -435,7 +437,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
       <CardHeader className="space-y-4">
         <CardTitle className="flex items-center gap-2">
           <Activity className="h-5 w-5" />
-          {stockName} Candlestick Chart
+          {t('stockAnalysis.candlestickChart.title', { stockName })}
         </CardTitle>
 
         <div className="flex flex-wrap gap-4 items-end">
@@ -457,7 +459,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
           <div className="flex gap-2 items-end">
             <div className="flex flex-col gap-1">
               <Label htmlFor="chart-date-from" className="text-xs font-semibold">
-                From Date
+                {t('stockAnalysis.candlestickChart.fromDate')}
               </Label>
               <Input
                 id="chart-date-from"
@@ -470,7 +472,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
 
             <div className="flex flex-col gap-1">
               <Label htmlFor="chart-date-to" className="text-xs font-semibold">
-                To Date
+                {t('stockAnalysis.candlestickChart.toDate')}
               </Label>
               <Input
                 id="chart-date-to"
@@ -488,7 +490,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
             onClick={() => setShowVolume(!showVolume)}
           >
             <BarChart3 className="h-4 w-4 mr-1" />
-            Volume
+            {t('stockAnalysis.candlestickChart.volumeBtn')}
           </Button>
         </div>
       </CardHeader>

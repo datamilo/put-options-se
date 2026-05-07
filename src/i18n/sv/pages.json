@@ -223,18 +223,70 @@
   },
   "stockAnalysis": {
     "title": "Aktienyckeltal och historik",
+    "subtitle": "Aktieanalys",
     "loading": "Laddar aktiedata...",
     "noStockSelected": "Ingen aktie vald",
     "stockNotFound": "Aktie ej hittad",
     "pleaseSelect": "Välj en aktie att visa.",
     "optionsDashboard": "Optionsinstrumentpanel",
+    "noData": "Ingen data",
     "sections": {
       "currentPrice": "Aktuellt pris",
       "medianDailyVolume": "Median daglig volym",
       "oneYearRange": "1 årsintervall",
       "volatility": "Volatilitet",
       "performanceMetrics": "Avkastningsmått",
-      "priceRanges": "Prisintervall"
+      "priceRanges": "Prisintervall",
+      "today": "Idag",
+      "currentWeek": "Innevarande vecka",
+      "currentMonth": "Innevarande månad",
+      "currentYear": "Innevarande år",
+      "yearHigh": "52-veckors högsta",
+      "yearLow": "52-veckors lägsta",
+      "distFromYearHigh": "Avstånd från 52-veckors högsta",
+      "distFromYearLow": "Avstånd från 52-veckors lägsta",
+      "riskMetrics": "Riskmått",
+      "annualizedVolatility": "Annualiserad volatilitet",
+      "medianVolume": "Medianvolym",
+      "priceRange1Y": "Prisintervall (1 år)",
+      "rangeRatio": "Intervallkvot"
+    },
+    "timePeriods": {
+      "1w": "1 vecka",
+      "1m": "1 månad",
+      "3m": "3 månader",
+      "6m": "6 månader",
+      "9m": "9 månader",
+      "1y": "1 år"
+    },
+    "stockChart": {
+      "title": "{{stockName}} aktiekursdiagram",
+      "priceBtn": "Kurs",
+      "volumeBtn": "Volym",
+      "bothBtn": "Båda",
+      "priceLegend": "Kurs",
+      "volumeLegend": "Volym"
+    },
+    "candlestickChart": {
+      "title": "{{stockName}} ljusstakediagram",
+      "fromDate": "Från datum",
+      "toDate": "Till datum",
+      "volumeBtn": "Volym",
+      "earningsEvent": "Resultatrapport",
+      "open": "Öppning:",
+      "high": "Högsta:",
+      "low": "Lägsta:",
+      "close": "Stängning:",
+      "volume": "Volym:"
+    },
+    "upcomingEvent": {
+      "title": "Kommande händelse",
+      "days_one": "{{count}} dag",
+      "days_other": "{{count}} dagar",
+      "eventDate": "Händelsedatum",
+      "eventType": "Händelsetyp",
+      "category": "Kategori",
+      "details": "Detaljer"
     }
   },
   "probabilityAnalysis": {
@@ -1064,7 +1116,86 @@
     "title": "Optionsdetaljer",
     "loading": "Laddar optionsdata...",
     "back": "Tillbaka till optioner",
-    "notFound": "Option ej hittad"
+    "notFound": "Option ej hittad",
+    "riskLevel": {
+      "high": "Hög risk",
+      "medium": "Medelhög risk",
+      "low": "Låg risk"
+    },
+    "kpi": {
+      "premium": "Premie",
+      "strikePrice": "Lösenpris",
+      "daysToExpiry": "Dagar till förfall",
+      "stockPrice": "Aktiekurs",
+      "strikeVsStock": "Lösenpris vs aktie %"
+    },
+    "pricing": {
+      "title": "Prissättning",
+      "recalculatedFor": "Omräknad för {{value}}",
+      "underlyingValue": "Underliggande värde (investering)",
+      "contracts": "Antal kontrakt baserat på limit",
+      "bid": "Köpkurs",
+      "ask": "Säljkurs",
+      "midPrice": "Köp/sälj mittkurs",
+      "optionPriceMin": "Optionspris minimum",
+      "originalVsRecalc": "Ursprungliga vs omräknade värden",
+      "originalPremium": "Ursprunglig premie:",
+      "currentPremium": "Aktuell premie:"
+    },
+    "events": {
+      "title": "Händelser före förfallodagen",
+      "financialReport": "Finansiell rapport",
+      "xDay": "X-dag"
+    },
+    "riskMetrics": {
+      "title": "Riskmått",
+      "hist100Decline": "Historisk sämsta nedgång 100 dagar",
+      "hist50Decline": "Historisk sämsta nedgång 50 dagar",
+      "year2008_100Decline": "2008 sämsta nedgång 100 dagar",
+      "year2008_50Decline": "2008 sämsta nedgång 50 dagar",
+      "worstHistDecline": "Sämsta historiska nedgång",
+      "badHistDecline": "Dålig historisk nedgång",
+      "priceAfter100Day": "Aktiekurs efter sämsta 100-dagarsfall",
+      "priceAfter50Day": "Aktiekurs efter sämsta 50-dagarsfall",
+      "priceAfter2008_50Day": "Aktiekurs efter 2008:s sämsta 50-dagarsfall",
+      "priceAfter2008_100Day": "Aktiekurs efter 2008:s sämsta 100-dagarsfall",
+      "maxPrice100Day": "Maxkurs 100 dagar",
+      "maxPriceDate100Day": "Datum maxkurs 100 dagar",
+      "maxPrice50Day": "Maxkurs 50 dagar",
+      "maxPriceDate50Day": "Datum maxkurs 50 dagar"
+    },
+    "riskMetricsAbs": {
+      "title": "Riskmått (absoluta värden)",
+      "figuresAssume": "Siffrorna förutsätter underliggande värde",
+      "loss100kMean": "Genomsnittlig förlust vid 100k investering",
+      "lossLeastBad": "Minst dålig förlust",
+      "lossAt2008_100Day": "Förlust vid 2008:s sämsta 100-dagarsfall",
+      "lossAt2008_50Day": "Förlust vid 2008:s sämsta 50-dagarsfall",
+      "lossAt100Day": "Förlust vid sämsta 100-dagarsfall",
+      "lossAt50Day": "Förlust vid sämsta 50-dagarsfall"
+    },
+    "volatilityCard": {
+      "title": "Volatilitet",
+      "ivCurrent": "Implicit volatilitet (aktuell)",
+      "ivCurrentTooltip": "Aktuell option",
+      "ivMarketMedian": "Implicit volatilitet (marknadsmedian)",
+      "ivMarketMedianTooltip": "Median alla aktieoptioner närmaste lösenpris, ≤ 100 dagar till förfall",
+      "ivStockMedian": "Implicit volatilitet (aktiemedian)",
+      "ivStockMedianTooltip": "Median alla aktieoptioner, ≤ 100 dagar till förfall",
+      "lowerBound": "Undre gräns",
+      "lowerBoundAtAccuracy": "Undre gräns vid noggrannhet",
+      "lowerBoundHistMedian": "Undre gräns hist. median IV",
+      "lowerBoundHistMedianAtAccuracy": "Undre gräns hist. median IV vid noggrannhet",
+      "ivUntilExpiry": "Implicit volatilitet till förfall"
+    },
+    "powSimulation": {
+      "title": "Sannolikhet att förfalla värdelös – bayesiansk kalibrerad Monte Carlo-simulering",
+      "meanEarnings": "Genomsnittliga intäkter",
+      "statsMedianLoss": "Medianförlust (statistik)",
+      "statsMedianLossPct": "Medianförlust % (statistik)",
+      "statsWorstLoss": "Sämsta förlust (statistik)",
+      "statsWorstLossPct": "Sämsta förlust % (statistik)"
+    }
   },
   "lowerBoundAnalysis": {
     "title": "Nedre gräns-valideringsanalys",
@@ -1151,5 +1282,22 @@
     "chartSpanDesc": "Spanprocent visar bredden av förutsagda nedre gränser som en procent av minimivärdet.",
     "chartHigherPct": "Högre procent indikerar bredare prognosintervall (mer osäkerhet kring det faktiska gränsvärdet).",
     "chartLowerPct": "Lägre procent indikerar snävare prognosintervall (mer förtroende för gränsvärdesuppskattningen)."
+  },
+  "probabilityHistoryChart": {
+    "cardTitle": "Sannolikhetshistorik – förfaller värdelös",
+    "loadingTitle": "Sannolikhetshistorikdiagram",
+    "loading": "Laddar sannolikhetshistorik...",
+    "error": "Fel vid laddning av sannolikhetshistorik: {{error}}",
+    "noData": "Ingen sannolikhetshistorik tillgänglig för denna option",
+    "selectTypes": "Välj sannolikhetstyper att visa:"
+  },
+  "optionsChart": {
+    "tabRiskVsPremium": "Risk vs premie",
+    "tabRiskDistribution": "Riskdistribution",
+    "scatterTitle": "Premie vs sannolikhet att förfalla värdelös",
+    "selectProbFields": "Välj sannolikhetsfält:",
+    "distributionTitle": "Optioners riskdistribution",
+    "tooltipPremium": "Premie:",
+    "tooltipDaysToExpiry": "Dagar till förfall:"
   }
 }

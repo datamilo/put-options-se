@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, TrendingDown, BarChart3, Activity, BarChart2, ArrowUpDown } from "lucide-react";
 import { formatNumber } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface StockDetailsProps {
   stockData: StockData[];
@@ -12,16 +13,17 @@ interface StockDetailsProps {
 }
 
 export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => {
+  const { t } = useTranslation('pages');
   const isPositiveChange = stockSummary.priceChange >= 0;
   const { getPriceRangeForPeriod } = useStockData();
 
   const timePeriodOptions = [
-    { label: "1 Week", days: 7 },
-    { label: "1 Month", days: 30 },
-    { label: "3 Months", days: 90 },
-    { label: "6 Months", days: 180 },
-    { label: "9 Months", days: 270 },
-    { label: "1 Year", days: 365 },
+    { labelKey: "1w", days: 7 },
+    { labelKey: "1m", days: 30 },
+    { labelKey: "3m", days: 90 },
+    { labelKey: "6m", days: 180 },
+    { labelKey: "9m", days: 270 },
+    { labelKey: "1y", days: 365 },
   ];
 
   return (
@@ -34,7 +36,7 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
               <BarChart3 className="h-6 w-6" />
               <div>
                 <h2 className="text-2xl font-bold">{stockSummary.name}</h2>
-                <p className="text-muted-foreground">Stock Analysis</p>
+                <p className="text-muted-foreground">{t('stockAnalysis.subtitle')}</p>
               </div>
             </div>
             <Badge variant={isPositiveChange ? "default" : "destructive"} className="text-lg px-3 py-1">
@@ -50,35 +52,35 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Current Price</p>
+              <p className="text-sm text-muted-foreground">{t('stockAnalysis.sections.currentPrice')}</p>
               <p className="text-2xl font-bold">{stockSummary.currentPrice.toFixed(2)}</p>
               <p className={`text-sm ${isPositiveChange ? 'text-green-600' : 'text-red-600'}`}>
                 {isPositiveChange ? '+' : ''}{stockSummary.priceChange.toFixed(2)}
               </p>
             </div>
-            
+
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
                 <BarChart2 className="h-4 w-4" />
-                Median Daily Volume
+                {t('stockAnalysis.sections.medianDailyVolume')}
               </p>
               <p className="text-xl font-semibold">{formatNumber(stockSummary.medianVolume, 'volume')}</p>
             </div>
-            
+
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
                 <ArrowUpDown className="h-4 w-4" />
-                1 Year Range
+                {t('stockAnalysis.sections.oneYearRange')}
               </p>
               <p className="text-lg font-medium">
                 {stockSummary.lowPrice52Week.toFixed(2)} - {stockSummary.highPrice52Week.toFixed(2)}
               </p>
             </div>
-            
+
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground flex items-center gap-1">
                 <Activity className="h-4 w-4" />
-                Volatility
+                {t('stockAnalysis.sections.volatility')}
               </p>
               <p className="text-xl font-semibold">{stockSummary.volatility.toFixed(1)}%</p>
             </div>
@@ -91,7 +93,7 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <ArrowUpDown className="h-5 w-5" />
-            Price Ranges
+            {t('stockAnalysis.sections.priceRanges')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -100,13 +102,13 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
               const range = getPriceRangeForPeriod(stockSummary.name, period.days);
               return (
                 <div key={period.days} className="space-y-1">
-                  <p className="text-xs text-muted-foreground font-medium">{period.label}</p>
+                  <p className="text-xs text-muted-foreground font-medium">{t(`stockAnalysis.timePeriods.${period.labelKey}`)}</p>
                   {range ? (
                     <p className="text-sm font-semibold">
                       {range.low.toFixed(2)} - {range.high.toFixed(2)}
                     </p>
                   ) : (
-                    <p className="text-xs text-muted-foreground">No data</p>
+                    <p className="text-xs text-muted-foreground">{t('stockAnalysis.noData')}</p>
                   )}
                 </div>
               );
@@ -124,50 +126,50 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Performance Metrics
+              {t('stockAnalysis.sections.performanceMetrics')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Today</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.today')}</span>
               <span className={isPositiveChange ? 'text-green-600' : 'text-red-600'}>
                 {isPositiveChange ? '+' : ''}{stockSummary.priceChangePercent.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Current Week</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.currentWeek')}</span>
               <span className={stockSummary.priceChangePercentWeek >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {stockSummary.priceChangePercentWeek >= 0 ? '+' : ''}{stockSummary.priceChangePercentWeek.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Current Month</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.currentMonth')}</span>
               <span className={stockSummary.priceChangePercentMonth >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {stockSummary.priceChangePercentMonth >= 0 ? '+' : ''}{stockSummary.priceChangePercentMonth.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Current Year</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.currentYear')}</span>
               <span className={stockSummary.priceChangePercentYear >= 0 ? 'text-green-600' : 'text-red-600'}>
                 {stockSummary.priceChangePercentYear >= 0 ? '+' : ''}{stockSummary.priceChangePercentYear.toFixed(2)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">1-Year High</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.yearHigh')}</span>
               <span className="font-medium">{stockSummary.highPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">1-Year Low</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.yearLow')}</span>
               <span className="font-medium">{stockSummary.lowPrice52Week.toFixed(2)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Distance from 1-Year High</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.distFromYearHigh')}</span>
               <span className="font-medium">
                 {(((stockSummary.currentPrice - stockSummary.highPrice52Week) / stockSummary.highPrice52Week) * 100).toFixed(1)}%
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Distance from 1-Year Low</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.distFromYearLow')}</span>
               <span className="font-medium">
                 {(((stockSummary.currentPrice - stockSummary.lowPrice52Week) / stockSummary.lowPrice52Week) * 100).toFixed(1)}%
               </span>
@@ -179,26 +181,26 @@ export const StockDetails = ({ stockData, stockSummary }: StockDetailsProps) => 
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Activity className="h-5 w-5" />
-              Risk Metrics
+              {t('stockAnalysis.sections.riskMetrics')}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Annualized Volatility</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.annualizedVolatility')}</span>
               <span className="font-medium">{stockSummary.volatility.toFixed(1)}%</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Median Volume</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.medianVolume')}</span>
               <span className="font-medium">{formatNumber(stockSummary.medianVolume, 'volume')}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Price Range (1Y)</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.priceRange1Y')}</span>
               <span className="font-medium">
                 {(stockSummary.highPrice52Week - stockSummary.lowPrice52Week).toFixed(2)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-muted-foreground">Range Ratio</span>
+              <span className="text-muted-foreground">{t('stockAnalysis.sections.rangeRatio')}</span>
               <span className="font-medium">
                 {(stockSummary.highPrice52Week / stockSummary.lowPrice52Week).toFixed(2)}x
               </span>

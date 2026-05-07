@@ -1,66 +1,55 @@
 import { useState } from "react";
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Activity } from "lucide-react";
 import { useProbabilityHistory } from "@/hooks/useProbabilityHistory";
+import { useTranslation } from "react-i18next";
 
 interface ProbabilityHistoryChartProps {
   optionName: string;
 }
 
-const PROBABILITY_LINES = [
-  {
-    key: '1_2_3_ProbOfWorthless_Weighted',
-    name: 'PoW - Weighted Average',
-    color: 'hsl(var(--chart-1))' // Blue
-  },
-  {
-    key: 'ProbWorthless_Bayesian_IsoCal',
-    name: 'PoW - Bayesian Calibrated',
-    color: 'hsl(var(--chart-4))' // Pink/Red
-  },
-  {
-    key: '1_ProbOfWorthless_Original',
-    name: 'PoW - Original Black-Scholes',
-    color: 'hsl(var(--chart-2))' // Green
-  },
-  {
-    key: '2_ProbOfWorthless_Calibrated',
-    name: 'PoW - Bias Corrected',
-    color: 'hsl(var(--chart-5))' // Orange
-  },
-  {
-    key: '3_ProbOfWorthless_Historical_IV',
-    name: 'PoW - Historical IV',
-    color: 'hsl(var(--chart-3))' // Purple
-  }
+const PROBABILITY_LINE_DEFS = [
+  { key: '1_2_3_ProbOfWorthless_Weighted', color: 'hsl(var(--chart-1))' },
+  { key: 'ProbWorthless_Bayesian_IsoCal', color: 'hsl(var(--chart-4))' },
+  { key: '1_ProbOfWorthless_Original', color: 'hsl(var(--chart-2))' },
+  { key: '2_ProbOfWorthless_Calibrated', color: 'hsl(var(--chart-5))' },
+  { key: '3_ProbOfWorthless_Historical_IV', color: 'hsl(var(--chart-3))' },
 ];
 
 export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartProps) => {
+  const { t } = useTranslation('pages');
   const { optionData, isLoading, error } = useProbabilityHistory(optionName);
   const [visibleLines, setVisibleLines] = useState<Set<string>>(
-    new Set(PROBABILITY_LINES.map(line => line.key))
+    new Set(PROBABILITY_LINE_DEFS.map(line => line.key))
   );
+
+  const PROBABILITY_LINES = [
+    { key: '1_2_3_ProbOfWorthless_Weighted', name: t('recommendations.explanation.methodWeighted'), color: 'hsl(var(--chart-1))' },
+    { key: 'ProbWorthless_Bayesian_IsoCal', name: t('recommendations.explanation.methodBayesian'), color: 'hsl(var(--chart-4))' },
+    { key: '1_ProbOfWorthless_Original', name: t('recommendations.explanation.methodOriginal'), color: 'hsl(var(--chart-2))' },
+    { key: '2_ProbOfWorthless_Calibrated', name: t('recommendations.explanation.methodCalibrated'), color: 'hsl(var(--chart-5))' },
+    { key: '3_ProbOfWorthless_Historical_IV', name: t('recommendations.explanation.methodHistoricalIV'), color: 'hsl(var(--chart-3))' },
+  ];
 
   if (isLoading) {
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Probability History Chart</CardTitle>
+          <CardTitle>{t('probabilityHistoryChart.loadingTitle')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-96 flex items-center justify-center">
-            Loading probability history...
+            {t('probabilityHistoryChart.loading')}
           </div>
         </CardContent>
       </Card>
@@ -71,11 +60,11 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Probability History Chart</CardTitle>
+          <CardTitle>{t('probabilityHistoryChart.loadingTitle')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-96 flex items-center justify-center text-muted-foreground">
-            Error loading probability history: {error}
+            {t('probabilityHistoryChart.error', { error })}
           </div>
         </CardContent>
       </Card>
@@ -86,35 +75,34 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Probability History Chart</CardTitle>
+          <CardTitle>{t('probabilityHistoryChart.loadingTitle')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-96 flex items-center justify-center text-muted-foreground">
-            No probability history data available for this option
+            {t('probabilityHistoryChart.noData')}
           </div>
         </CardContent>
       </Card>
     );
   }
 
-  // Calculate dynamic Y-axis domain based on data
   const getYAxisDomain = () => {
-    const visibleData = optionData.flatMap(item => 
+    const visibleData = optionData.flatMap(item =>
       PROBABILITY_LINES
         .filter(line => visibleLines.has(line.key))
         .map(line => item[line.key as keyof typeof item])
         .filter(value => value !== null && value !== undefined) as number[]
     );
-    
+
     if (visibleData.length === 0) return [0, 1];
-    
+
     const min = Math.min(...visibleData);
     const max = Math.max(...visibleData);
     const padding = (max - min) * 0.1;
-    
+
     const yMin = Math.max(0, min - padding);
     const yMax = Math.min(1, max + padding);
-    
+
     return [yMin, yMax];
   };
 
@@ -129,7 +117,7 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
 
   const formatXAxisLabel = (tickItem: string) => {
     const date = new Date(tickItem);
-    return date.toISOString().split('T')[0]; // Returns YYYY-MM-DD format
+    return date.toISOString().split('T')[0];
   };
 
   const toggleLineVisibility = (lineKey: string) => {
@@ -147,12 +135,11 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
       <CardHeader className="space-y-4">
         <CardTitle className="flex items-center gap-2">
           <Activity className="h-5 w-5" />
-          Probability of Worthless History
+          {t('probabilityHistoryChart.cardTitle')}
         </CardTitle>
-        
 
         <div className="space-y-2">
-          <p className="text-sm text-muted-foreground">Select probability types to display:</p>
+          <p className="text-sm text-muted-foreground">{t('probabilityHistoryChart.selectTypes')}</p>
           <div className="flex flex-wrap gap-4">
             {PROBABILITY_LINES.map(line => (
               <div key={line.key} className="flex items-center space-x-2">
@@ -165,8 +152,8 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
                   htmlFor={line.key}
                   className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                 >
-                  <span 
-                    className="inline-block w-3 h-3 mr-2 rounded-full" 
+                  <span
+                    className="inline-block w-3 h-3 mr-2 rounded-full"
                     style={{ backgroundColor: line.color }}
                   />
                   {line.name}
@@ -176,26 +163,26 @@ export const ProbabilityHistoryChart = ({ optionName }: ProbabilityHistoryChartP
           </div>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <div className="h-[480px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={optionData}>
               <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-              <XAxis 
-                dataKey="Update_date" 
+              <XAxis
+                dataKey="Update_date"
                 tickFormatter={formatXAxisLabel}
                 className="text-muted-foreground"
                 angle={-45}
                 textAnchor="end"
                 height={80}
               />
-              <YAxis 
-                className="text-muted-foreground" 
+              <YAxis
+                className="text-muted-foreground"
                 domain={getYAxisDomain()}
                 tickFormatter={formatYAxisLabel}
               />
-              <Tooltip 
+              <Tooltip
                 formatter={formatTooltipValue}
                 labelFormatter={(label) => new Date(label).toISOString().split('T')[0]}
                 contentStyle={{

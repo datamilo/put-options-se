@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { StockData } from "@/types/stock";
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  Legend, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
   ResponsiveContainer,
   ComposedChart,
   Bar
@@ -15,6 +15,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { TrendingUp, TrendingDown, BarChart3, Activity } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface StockChartProps {
   data: StockData[];
@@ -22,6 +23,7 @@ interface StockChartProps {
 }
 
 export const StockChart = ({ data, stockName }: StockChartProps) => {
+  const { t } = useTranslation('pages');
   const [timeRange, setTimeRange] = useState<'1M' | '3M' | '6M' | '1Y' | 'ALL'>('6M');
   const [chartType, setChartType] = useState<'price' | 'volume' | 'both'>('price');
 
@@ -91,10 +93,10 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
   
   const formatTooltipValue = (value: number, name: string) => {
     if (name === 'close') {
-      return [`${value.toFixed(2)}`, 'Price'];
+      return [`${value.toFixed(2)}`, t('stockAnalysis.stockChart.priceLegend')];
     }
     if (name === 'volume') {
-      return [value.toLocaleString('sv-SE'), 'Volume'];
+      return [value.toLocaleString('sv-SE'), t('stockAnalysis.stockChart.volumeLegend')];
     }
     return [value, name];
   };
@@ -132,7 +134,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
       <CardHeader className="space-y-4">
         <CardTitle className="flex items-center gap-2">
           <Activity className="h-5 w-5" />
-          {stockName} Stock Price Chart
+          {t('stockAnalysis.stockChart.title', { stockName })}
         </CardTitle>
         
         <div className="flex flex-wrap gap-2">
@@ -156,7 +158,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
               onClick={() => setChartType('price')}
             >
               <TrendingUp className="h-4 w-4 mr-1" />
-              Price
+              {t('stockAnalysis.stockChart.priceBtn')}
             </Button>
             <Button
               variant={chartType === 'volume' ? "default" : "outline"}
@@ -164,14 +166,14 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
               onClick={() => setChartType('volume')}
             >
               <BarChart3 className="h-4 w-4 mr-1" />
-              Volume
+              {t('stockAnalysis.stockChart.volumeBtn')}
             </Button>
             <Button
               variant={chartType === 'both' ? "default" : "outline"}
               size="sm"
               onClick={() => setChartType('both')}
             >
-              Both
+              {t('stockAnalysis.stockChart.bothBtn')}
             </Button>
           </div>
         </div>
@@ -218,14 +220,14 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                   stroke="hsl(var(--primary))"
                   strokeWidth={2}
                   dot={false}
-                  name="Price"
+                  name={t('stockAnalysis.stockChart.priceLegend')}
                 />
                 <Bar
                   yAxisId="volume"
                   dataKey="volume"
                   fill="hsl(var(--muted-foreground))"
                   fillOpacity={0.3}
-                  name="Volume"
+                  name={t('stockAnalysis.stockChart.volumeLegend')}
                 />
               </ComposedChart>
             ) : (
@@ -257,7 +259,7 @@ export const StockChart = ({ data, stockName }: StockChartProps) => {
                   stroke="hsl(var(--primary))"
                   strokeWidth={2}
                   dot={false}
-                  name={chartType === 'price' ? 'Price' : 'Volume'}
+                  name={chartType === 'price' ? t('stockAnalysis.stockChart.priceLegend') : t('stockAnalysis.stockChart.volumeLegend')}
                 />
               </LineChart>
             )}

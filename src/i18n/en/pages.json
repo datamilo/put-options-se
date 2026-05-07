@@ -223,18 +223,70 @@
   },
   "stockAnalysis": {
     "title": "Stock Metrics and History",
+    "subtitle": "Stock Analysis",
     "loading": "Loading stock data...",
     "noStockSelected": "No Stock Selected",
     "stockNotFound": "Stock Not Found",
     "pleaseSelect": "Please select a stock to view.",
     "optionsDashboard": "Options Dashboard",
+    "noData": "No data",
     "sections": {
       "currentPrice": "Current Price",
       "medianDailyVolume": "Median Daily Volume",
       "oneYearRange": "1 Year Range",
       "volatility": "Volatility",
       "performanceMetrics": "Performance Metrics",
-      "priceRanges": "Price Ranges"
+      "priceRanges": "Price Ranges",
+      "today": "Today",
+      "currentWeek": "Current Week",
+      "currentMonth": "Current Month",
+      "currentYear": "Current Year",
+      "yearHigh": "1-Year High",
+      "yearLow": "1-Year Low",
+      "distFromYearHigh": "Distance from 1-Year High",
+      "distFromYearLow": "Distance from 1-Year Low",
+      "riskMetrics": "Risk Metrics",
+      "annualizedVolatility": "Annualized Volatility",
+      "medianVolume": "Median Volume",
+      "priceRange1Y": "Price Range (1Y)",
+      "rangeRatio": "Range Ratio"
+    },
+    "timePeriods": {
+      "1w": "1 Week",
+      "1m": "1 Month",
+      "3m": "3 Months",
+      "6m": "6 Months",
+      "9m": "9 Months",
+      "1y": "1 Year"
+    },
+    "stockChart": {
+      "title": "{{stockName}} Stock Price Chart",
+      "priceBtn": "Price",
+      "volumeBtn": "Volume",
+      "bothBtn": "Both",
+      "priceLegend": "Price",
+      "volumeLegend": "Volume"
+    },
+    "candlestickChart": {
+      "title": "{{stockName}} Candlestick Chart",
+      "fromDate": "From Date",
+      "toDate": "To Date",
+      "volumeBtn": "Volume",
+      "earningsEvent": "Earnings Event",
+      "open": "Open:",
+      "high": "High:",
+      "low": "Low:",
+      "close": "Close:",
+      "volume": "Volume:"
+    },
+    "upcomingEvent": {
+      "title": "Upcoming Event",
+      "days_one": "{{count}} day",
+      "days_other": "{{count}} days",
+      "eventDate": "Event Date",
+      "eventType": "Event Type",
+      "category": "Category",
+      "details": "Details"
     }
   },
   "probabilityAnalysis": {
@@ -1150,7 +1202,86 @@
     "title": "Option Details",
     "loading": "Loading option data...",
     "back": "Back to Options",
-    "notFound": "Option Not Found"
+    "notFound": "Option Not Found",
+    "riskLevel": {
+      "high": "High Risk",
+      "medium": "Medium Risk",
+      "low": "Low Risk"
+    },
+    "kpi": {
+      "premium": "Premium",
+      "strikePrice": "Strike Price",
+      "daysToExpiry": "Days to Expiry",
+      "stockPrice": "Stock Price",
+      "strikeVsStock": "Strike vs Stock %"
+    },
+    "pricing": {
+      "title": "Pricing",
+      "recalculatedFor": "Recalculated for {{value}}",
+      "underlyingValue": "Underlying Value (Investment)",
+      "contracts": "Number of Contracts Based on Limit",
+      "bid": "Bid Price",
+      "ask": "Ask Price",
+      "midPrice": "Bid-Ask Mid Price",
+      "optionPriceMin": "Option Price Min",
+      "originalVsRecalc": "Original vs Recalculated Values",
+      "originalPremium": "Original Premium:",
+      "currentPremium": "Current Premium:"
+    },
+    "events": {
+      "title": "Events Before Expiry Day",
+      "financialReport": "Financial Report",
+      "xDay": "X-Day"
+    },
+    "riskMetrics": {
+      "title": "Risk Metrics",
+      "hist100Decline": "Historical 100Days Worst Decline",
+      "hist50Decline": "Historical 50Days Worst Decline",
+      "year2008_100Decline": "2008 100Days Worst Decline",
+      "year2008_50Decline": "2008 50Days Worst Decline",
+      "worstHistDecline": "Worst Historical Decline",
+      "badHistDecline": "Bad Historical Decline",
+      "priceAfter100Day": "Stock Price After 100Day Worst Decline",
+      "priceAfter50Day": "Stock Price After 50Day Worst Decline",
+      "priceAfter2008_50Day": "Stock Price After 2008 50Day Worst Decline",
+      "priceAfter2008_100Day": "Stock Price After 2008 100Day Worst Decline",
+      "maxPrice100Day": "100Day Max Price",
+      "maxPriceDate100Day": "100Day Max Price Date",
+      "maxPrice50Day": "50Day Max Price",
+      "maxPriceDate50Day": "50Day Max Price Date"
+    },
+    "riskMetricsAbs": {
+      "title": "Risk Metrics (Absolute Values)",
+      "figuresAssume": "Figures Assume Underlying Value",
+      "loss100kMean": "100k Invested Loss Mean",
+      "lossLeastBad": "Loss Least Bad",
+      "lossAt2008_100Day": "Loss At 2008 100Day Worst Decline",
+      "lossAt2008_50Day": "Loss At 2008 50Day Worst Decline",
+      "lossAt100Day": "Loss At 100Day Worst Decline",
+      "lossAt50Day": "Loss At 50Day Worst Decline"
+    },
+    "volatilityCard": {
+      "title": "Volatility",
+      "ivCurrent": "Implied Volatility (Current)",
+      "ivCurrentTooltip": "Current Option",
+      "ivMarketMedian": "Implied Volatility (Market Median)",
+      "ivMarketMedianTooltip": "Median All Stock Options Nearest Strike, ≤ 100 Days to Expiry",
+      "ivStockMedian": "Implied Volatility (Stock Median)",
+      "ivStockMedianTooltip": "Median All Stock Options, ≤ 100 Days to Expiry",
+      "lowerBound": "Lower Bound",
+      "lowerBoundAtAccuracy": "Lower Bound at Accuracy",
+      "lowerBoundHistMedian": "Lower Bound Hist Median IV",
+      "lowerBoundHistMedianAtAccuracy": "Lower Bound Hist Median IV at Accuracy",
+      "ivUntilExpiry": "Implied Volatility Until Expiry"
+    },
+    "powSimulation": {
+      "title": "Probability of Worthless Bayesian Calibrated Monte Carlo Simulation",
+      "meanEarnings": "Mean Earnings",
+      "statsMedianLoss": "Stats Median Loss",
+      "statsMedianLossPct": "Stats Median Loss Pct",
+      "statsWorstLoss": "Stats Worst Loss",
+      "statsWorstLossPct": "Stats Worst Loss Pct"
+    }
   },
   "lowerBoundAnalysis": {
     "title": "Lower Bound Validation Analysis",
@@ -1177,5 +1308,22 @@
     "predictionDesc": "Prediction ranges, span percentages, breach counts, and stock prices",
     "expiryStatistics": "Expiry Statistics — {{stock}}",
     "expiryStatsDesc": "Click column headers to sort. Hit rate color-coded: green (85%+), blue (75–85%), yellow (65–75%), red (<65%)"
+  },
+  "probabilityHistoryChart": {
+    "cardTitle": "Probability of Worthless History",
+    "loadingTitle": "Probability History Chart",
+    "loading": "Loading probability history...",
+    "error": "Error loading probability history: {{error}}",
+    "noData": "No probability history data available for this option",
+    "selectTypes": "Select probability types to display:"
+  },
+  "optionsChart": {
+    "tabRiskVsPremium": "Risk vs Premium",
+    "tabRiskDistribution": "Risk Distribution",
+    "scatterTitle": "Premium vs Probability of Worthless",
+    "selectProbFields": "Select Probability Fields:",
+    "distributionTitle": "Options Risk Distribution",
+    "tooltipPremium": "Premium:",
+    "tooltipDaysToExpiry": "Days to Expiry:"
   }
 }

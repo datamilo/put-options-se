@@ -16,30 +16,32 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface OptionsChartProps {
   data: OptionData[];
 }
 
 export const OptionsChart = ({ data }: OptionsChartProps) => {
+  const { t } = useTranslation('pages');
   const [selectedProbFields, setSelectedProbFields] = useState<string[]>(['ProbWorthless_Bayesian_IsoCal']);
-  
+
   const probabilityFields = [
-    { value: '1_2_3_ProbOfWorthless_Weighted', label: 'PoW - Weighted Average' },
-    { value: 'ProbWorthless_Bayesian_IsoCal', label: 'PoW - Bayesian Calibrated' },
-    { value: '1_ProbOfWorthless_Original', label: 'PoW - Original Black-Scholes' },
-    { value: '2_ProbOfWorthless_Calibrated', label: 'PoW - Bias Corrected' },
-    { value: '3_ProbOfWorthless_Historical_IV', label: 'PoW - Historical IV' },
+    { value: '1_2_3_ProbOfWorthless_Weighted', label: t('recommendations.explanation.methodWeighted') },
+    { value: 'ProbWorthless_Bayesian_IsoCal', label: t('recommendations.explanation.methodBayesian') },
+    { value: '1_ProbOfWorthless_Original', label: t('recommendations.explanation.methodOriginal') },
+    { value: '2_ProbOfWorthless_Calibrated', label: t('recommendations.explanation.methodCalibrated') },
+    { value: '3_ProbOfWorthless_Historical_IV', label: t('recommendations.explanation.methodHistoricalIV') },
   ];
 
   const colors = [
-    'hsl(var(--chart-1))', // Blue
-    'hsl(var(--chart-2))', // Green
-    'hsl(var(--chart-3))', // Purple
-    'hsl(var(--chart-4))', // Pink
-    'hsl(var(--chart-5))', // Orange
+    'hsl(var(--chart-1))',
+    'hsl(var(--chart-2))',
+    'hsl(var(--chart-3))',
+    'hsl(var(--chart-4))',
+    'hsl(var(--chart-5))',
   ];
-  
+
   const scatterData = data.map(option => {
     const dataPoint: any = {
       name: option.OptionName,
@@ -47,34 +49,37 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
       z: option.DaysToExpiry,
       stockName: option.StockName,
     };
-    
-    // Add selected probability fields as separate y values
+
     selectedProbFields.forEach(field => {
       dataPoint[field] = option[field as keyof OptionData] as number;
     });
-    
+
     return dataPoint;
   });
 
-  // Use Bayesian field first, then weighted field as fallback
   const riskDistribution = data.reduce((acc, option) => {
     const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
-    const riskLevel = 
-      probValue <= 0.6 ? 'High Risk' :
-      probValue < 0.8 ? 'Medium Risk' : 'Low Risk';
-    
-    acc[riskLevel] = (acc[riskLevel] || 0) + 1;
+    const riskKey =
+      probValue <= 0.6 ? 'high' :
+      probValue < 0.8 ? 'medium' : 'low';
+
+    acc[riskKey] = (acc[riskKey] || 0) + 1;
     return acc;
   }, {} as Record<string, number>);
 
-  const riskData = Object.entries(riskDistribution).map(([risk, count]) => ({
-    risk,
+  const riskData = Object.entries(riskDistribution).map(([riskKey, count]) => ({
+    risk: t(`optionDetails.riskLevel.${riskKey}`),
     count,
   }));
 
+  const getPowLabel = (fieldValue: string): string => {
+    const field = probabilityFields.find(f => f.value === fieldValue);
+    return field ? field.label : fieldValue;
+  };
+
   const toggleProbField = (field: string) => {
-    setSelectedProbFields(prev => 
-      prev.includes(field) 
+    setSelectedProbFields(prev =>
+      prev.includes(field)
         ? prev.filter(f => f !== field)
         : [...prev, field]
     );
@@ -83,16 +88,16 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
   return (
     <Tabs defaultValue="scatter" className="w-full">
       <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="scatter">Risk vs Premium</TabsTrigger>
-        <TabsTrigger value="distribution">Risk Distribution</TabsTrigger>
+        <TabsTrigger value="scatter">{t('optionsChart.tabRiskVsPremium')}</TabsTrigger>
+        <TabsTrigger value="distribution">{t('optionsChart.tabRiskDistribution')}</TabsTrigger>
       </TabsList>
-      
+
       <TabsContent value="scatter">
         <Card>
           <CardHeader className="space-y-4">
-            <CardTitle>Premium vs Probability of Worthless</CardTitle>
+            <CardTitle>{t('optionsChart.scatterTitle')}</CardTitle>
             <div className="space-y-2">
-              <Label>Select Probability Fields:</Label>
+              <Label>{t('optionsChart.selectProbFields')}</Label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {probabilityFields.map((field) => (
                   <div key={field.value} className="flex items-center space-x-2">
@@ -115,18 +120,18 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                 margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis 
-                  type="number" 
-                  dataKey="x" 
-                  name="Premium" 
+                <XAxis
+                  type="number"
+                  dataKey="x"
+                  name={t('optionDetails.kpi.premium')}
                   domain={['dataMin', 'dataMax']}
                 />
-                <YAxis 
-                  type="number" 
+                <YAxis
+                  type="number"
                   name="Prob of Worthless"
                   tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                 />
-                <Tooltip 
+                <Tooltip
                   cursor={{ strokeDasharray: '3 3' }}
                   content={({ active, payload }) => {
                     if (active && payload && payload.length > 0) {
@@ -138,15 +143,15 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                           </div>
                           <div className="space-y-1">
                             <div className="text-sm">
-                              <span className="font-medium">Premium:</span> {Number(data.x).toLocaleString('sv-SE')}
+                              <span className="font-medium">{t('optionsChart.tooltipPremium')}</span> {Number(data.x).toLocaleString('sv-SE')}
                             </div>
                             {selectedProbFields.map((field) => (
                               <div key={field} className="text-sm">
-                                <span className="font-medium">{field}:</span> {(Number(data[field]) * 100).toFixed(2)}%
+                                <span className="font-medium">{getPowLabel(field)}:</span> {(Number(data[field]) * 100).toFixed(2)}%
                               </div>
                             ))}
                             <div className="text-sm">
-                              <span className="font-medium">Days to Expiry:</span> {data.z}
+                              <span className="font-medium">{t('optionsChart.tooltipDaysToExpiry')}</span> {data.z}
                             </div>
                           </div>
                         </div>
@@ -157,12 +162,12 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                 />
                 <Legend />
                 {selectedProbFields.map((field, index) => (
-                  <Scatter 
+                  <Scatter
                     key={field}
-                    name={field} 
+                    name={getPowLabel(field)}
                     data={scatterData}
-                    dataKey={field} 
-                    fill={colors[index % colors.length]} 
+                    dataKey={field}
+                    fill={colors[index % colors.length]}
                   />
                 ))}
               </ScatterChart>
@@ -170,11 +175,11 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
           </CardContent>
         </Card>
       </TabsContent>
-      
+
       <TabsContent value="distribution">
         <Card>
           <CardHeader>
-            <CardTitle>Options Risk Distribution</CardTitle>
+            <CardTitle>{t('optionsChart.distributionTitle')}</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={500}>
