@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { OptionData } from "@/types/options";
 import { ScoredOptionData } from "@/types/scoredOptions";
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableBody,
@@ -59,6 +60,7 @@ export const PortfolioOptionsTable = ({
   isScoredStrategy = false,
   selectedProbabilityField
 }: PortfolioOptionsTableProps) => {
+  const { t } = useTranslation('pages');
   const { columnPreferences, isLoading } = usePortfolioPreferences();
   const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -332,7 +334,7 @@ export const PortfolioOptionsTable = ({
             <div className="flex items-center space-x-2">
               <Filter className="h-4 w-4" />
               <span className="text-sm text-muted-foreground">
-                Click on column headers to filter
+                {t('optionsTable.filterHint')}
               </span>
             </div>
           )}
@@ -345,7 +347,7 @@ export const PortfolioOptionsTable = ({
               className="flex items-center gap-2"
             >
               <Download className="h-4 w-4" />
-              Export to Excel
+              {t('optionsTable.exportExcel')}
             </Button>
             <PortfolioColumnManager
               visibleColumns={visibleColumns}
@@ -395,11 +397,11 @@ export const PortfolioOptionsTable = ({
                                 <div className="font-medium"></div>
                                 <div className="flex items-center gap-2">
                                   <div className="w-3 h-3 bg-orange-500 rounded"></div>
-                                  <span>Financial Report</span>
+                                  <span>{t('portfolioOptionsTable.financialReport')}</span>
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <div className="w-3 h-3 bg-red-500 rounded"></div>
-                                  <span>Ex-Dividend Day</span>
+                                  <span>{t('portfolioOptionsTable.exDividendDay')}</span>
                                 </div>
                               </div>
                             </TooltipContent>
@@ -423,12 +425,12 @@ export const PortfolioOptionsTable = ({
                               }}
                             >
                               <div className="text-xs leading-relaxed p-3" style={{ width: 'auto', minWidth: 'max-content' }}>
-                                <div className="font-medium mb-2">How this field is calculated:</div>
-                                <div className="mb-2">This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.</div>
+                                <div className="font-medium mb-2">{t('portfolioOptionsTable.howCalculated')}</div>
+                                <div className="mb-2">{t('portfolioOptionsTable.potentialLossDesc1')}</div>
                                 <div className="mb-2 font-mono text-xs bg-muted/50 p-2 rounded">
-                                  Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)
+                                  {t('portfolioOptionsTable.potentialLossFormula')}
                                 </div>
-                                <div>The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position.</div>
+                                <div>{t('portfolioOptionsTable.potentialLossDesc2')}</div>
                               </div>
                             </TooltipContent>
                           </Tooltip>
@@ -444,7 +446,7 @@ export const PortfolioOptionsTable = ({
                             className="h-9 w-full text-xs"
                           >
                             <Filter className="h-3 w-3 mr-1" />
-                            {hasFilter ? 'Filtered' : 'Filter'}
+                            {hasFilter ? t('optionsTable.filtered') : t('optionsTable.filter')}
                           </Button>
 
                           {activeFilter === column && (
@@ -454,7 +456,7 @@ export const PortfolioOptionsTable = ({
                             >
                               {fieldType === 'text' ? (
                                 <Input
-                                  placeholder="Search..."
+                                  placeholder={t('optionsTable.searchPlaceholder')}
                                   aria-label={`Search ${formatColumnName(column)}`}
                                   value={filter?.textValue || ''}
                                   onChange={(e) => updateColumnFilter(column, { textValue: e.target.value.slice(0, 100) })}
@@ -466,7 +468,7 @@ export const PortfolioOptionsTable = ({
                                 <div className="space-y-2">
                                   <Input
                                     type="number"
-                                    placeholder="Min value"
+                                    placeholder={t('optionsTable.minValue')}
                                     aria-label={`Minimum ${formatColumnName(column)}`}
                                     value={filter?.minValue || ''}
                                     onChange={(e) => {
@@ -480,7 +482,7 @@ export const PortfolioOptionsTable = ({
                                   />
                                   <Input
                                     type="number"
-                                    placeholder="Max value"
+                                    placeholder={t('optionsTable.maxValue')}
                                     aria-label={`Maximum ${formatColumnName(column)}`}
                                     value={filter?.maxValue || ''}
                                     onChange={(e) => {
@@ -503,7 +505,7 @@ export const PortfolioOptionsTable = ({
                                 }}
                                 className="mt-2 h-9 w-full text-xs"
                               >
-                                Clear
+                                {t('optionsTable.clear')}
                               </Button>
                             </div>
                           )}

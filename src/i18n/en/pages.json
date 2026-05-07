@@ -1325,5 +1325,49 @@
     "distributionTitle": "Options Risk Distribution",
     "tooltipPremium": "Premium:",
     "tooltipDaysToExpiry": "Days to Expiry:"
+  },
+  "optionsTable": {
+    "filterHint": "Click on column headers to filter",
+    "powBtnTitle": "Learn what PoW means and about the probability methods",
+    "powBtnLabel": "PoW ?",
+    "powLegendTitle": "PoW Legend",
+    "powWhatIs": "What is PoW?",
+    "powDesc": "PoW = Probability of Worthless — The probability that an option will expire worthless (meaning you keep the premium).",
+    "powMethodsTitle": "The 5 Calculation Methods",
+    "powMethod1": "Weighted combination of methods",
+    "powMethod2": "Bayesian probability calibration",
+    "powMethod3": "Classic Black-Scholes model",
+    "powMethod4": "Calibrated with bias correction",
+    "powMethod5": "Based on historical implied volatility",
+    "exportExcel": "Export to Excel",
+    "filtered": "Filtered",
+    "filter": "Filter",
+    "searchPlaceholder": "Search...",
+    "minValue": "Min value",
+    "maxValue": "Max value",
+    "clear": "Clear"
+  },
+  "columnManager": {
+    "visible": "Visible",
+    "hidden": "Hidden",
+    "columnsBtn": "Columns ({{count}})",
+    "title": "Manage Table Columns",
+    "description": "Drag to reorder columns and check/uncheck to show/hide them. Click Save to persist your preferences.",
+    "columnsVisible": "{{visible}} of {{total}} columns visible",
+    "cancel": "Cancel",
+    "savePreferences": "Save Preferences"
+  },
+  "portfolioColumnManager": {
+    "columnsBtn": "Portfolio Columns ({{count}})",
+    "title": "Manage Portfolio Table Columns",
+    "description": "Drag to reorder columns and check/uncheck to show/hide them. These settings are independent from the main options table. Click Save to persist your preferences."
+  },
+  "portfolioOptionsTable": {
+    "financialReport": "Financial Report",
+    "exDividendDay": "Ex-Dividend Day",
+    "howCalculated": "How this field is calculated:",
+    "potentialLossDesc1": "This field represents the maximum potential loss if the stock price falls to its IV-based lower bound at expiration.",
+    "potentialLossFormula": "Premium + (LowerBoundValue × Contracts × 100) - (StrikePrice × Contracts × 100)",
+    "potentialLossDesc2": "The lower bound is derived from implied volatility analysis to estimate worst-case scenarios for the option position."
   }
 }

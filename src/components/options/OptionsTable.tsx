@@ -20,6 +20,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { exportToExcel } from "@/utils/excelExport";
 import { FieldInfoTooltip } from "@/components/ui/field-info-tooltip";
+import { useTranslation } from "react-i18next";
 
 interface OptionsTableProps {
   data: OptionData[];
@@ -41,17 +42,18 @@ interface ColumnFilter {
   maxValue?: number;
 }
 
-export const OptionsTable = ({ 
-  data, 
-  onRowClick, 
-  onStockClick, 
-  columnFilters = [], 
-  onColumnFiltersChange = () => {}, 
-  sortField, 
-  sortDirection, 
+export const OptionsTable = ({
+  data,
+  onRowClick,
+  onStockClick,
+  columnFilters = [],
+  onColumnFiltersChange = () => {},
+  sortField,
+  sortDirection,
   onSortChange,
-  enableFiltering = true 
+  enableFiltering = true
 }: OptionsTableProps) => {
+  const { t } = useTranslation('pages');
   const { columnPreferences, isLoading } = useUserPreferences();
   const [visibleColumns, setVisibleColumns] = useState<(keyof OptionData)[]>([]);
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
@@ -308,7 +310,7 @@ export const OptionsTable = ({
             <div className="flex items-center space-x-2">
               <Filter className="h-4 w-4" />
               <span className="text-sm text-muted-foreground">
-                Click on column headers to filter
+                {t('optionsTable.filterHint')}
               </span>
             </div>
           )}
@@ -320,32 +322,32 @@ export const OptionsTable = ({
                 <Button
                   variant="ghost"
                   size="sm"
-                  title="Learn what PoW means and about the probability methods"
+                  title={t('optionsTable.powBtnTitle')}
                   className="gap-1"
                 >
                   <Info className="h-4 w-4" />
-                  <span className="text-xs">PoW ?</span>
+                  <span className="text-xs">{t('optionsTable.powBtnLabel')}</span>
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-md">
                 <DialogHeader>
-                  <DialogTitle>PoW Legend</DialogTitle>
+                  <DialogTitle>{t('optionsTable.powLegendTitle')}</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-4">
                   <div>
-                    <p className="font-semibold text-sm mb-2">What is PoW?</p>
+                    <p className="font-semibold text-sm mb-2">{t('optionsTable.powWhatIs')}</p>
                     <p className="text-sm text-muted-foreground">
-                      <strong>PoW = Probability of Worthless</strong> — The probability that an option will expire worthless (meaning you keep the premium).
+                      <strong>{t('optionsTable.powDesc')}</strong>
                     </p>
                   </div>
                   <div>
-                    <p className="font-semibold text-sm mb-2">The 5 Calculation Methods</p>
+                    <p className="font-semibold text-sm mb-2">{t('optionsTable.powMethodsTitle')}</p>
                     <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
-                      <li><strong>PoW - Weighted Average:</strong> Weighted combination of methods</li>
-                      <li><strong>PoW - Bayesian Calibrated:</strong> Bayesian probability calibration</li>
-                      <li><strong>PoW - Original Black-Scholes:</strong> Classic Black-Scholes model</li>
-                      <li><strong>PoW - Bias Corrected:</strong> Calibrated with bias correction</li>
-                      <li><strong>PoW - Historical IV:</strong> Based on historical implied volatility</li>
+                      <li><strong>{t('recommendations.explanation.methodWeighted')}:</strong> {t('optionsTable.powMethod1')}</li>
+                      <li><strong>{t('recommendations.explanation.methodBayesian')}:</strong> {t('optionsTable.powMethod2')}</li>
+                      <li><strong>{t('recommendations.explanation.methodOriginal')}:</strong> {t('optionsTable.powMethod3')}</li>
+                      <li><strong>{t('recommendations.explanation.methodCalibrated')}:</strong> {t('optionsTable.powMethod4')}</li>
+                      <li><strong>{t('recommendations.explanation.methodHistoricalIV')}:</strong> {t('optionsTable.powMethod5')}</li>
                     </ul>
                   </div>
                 </div>
@@ -359,7 +361,7 @@ export const OptionsTable = ({
               className="flex items-center gap-2"
             >
               <Download className="h-4 w-4" />
-              Export to Excel
+              {t('optionsTable.exportExcel')}
             </Button>
             <ColumnManager
               visibleColumns={visibleColumns}
@@ -423,17 +425,17 @@ export const OptionsTable = ({
                             className="h-9 w-full text-xs"
                           >
                             <Filter className="h-3 w-3 mr-1" />
-                            {hasFilter ? 'Filtered' : 'Filter'}
+                            {hasFilter ? t('optionsTable.filtered') : t('optionsTable.filter')}
                           </Button>
-                          
+
                           {activeFilter === column && (
-                            <div 
+                            <div
                               ref={filterRef}
                               className="absolute top-8 left-0 z-50 bg-background border rounded-md shadow-md p-2 min-w-48"
                             >
                               {fieldType === 'text' ? (
                                 <Input
-                                  placeholder="Search..."
+                                  placeholder={t('optionsTable.searchPlaceholder')}
                                   aria-label={`Search ${formatColumnName(column)}`}
                                   value={filter?.textValue || ''}
                                   onChange={(e) => updateColumnFilter(column, { textValue: e.target.value.slice(0, 100) })}
@@ -446,13 +448,13 @@ export const OptionsTable = ({
                                   <Input
                                     type="text"
                                     inputMode="decimal"
-                                    placeholder="Min value"
+                                    placeholder={t('optionsTable.minValue')}
                                     aria-label={`Minimum ${formatColumnName(column)}`}
                                     value={filterInputs.minValue}
                                     onChange={(e) => {
                                       const inputValue = e.target.value;
                                       setFilterInputs(prev => ({ ...prev, minValue: inputValue }));
-                                      
+
                                       const normalizedValue = inputValue.replace(',', '.');
                                       if (normalizedValue === '') {
                                         updateColumnFilter(column, { minValue: undefined });
@@ -469,13 +471,13 @@ export const OptionsTable = ({
                                   <Input
                                     type="text"
                                     inputMode="decimal"
-                                    placeholder="Max value"
+                                    placeholder={t('optionsTable.maxValue')}
                                     aria-label={`Maximum ${formatColumnName(column)}`}
                                     value={filterInputs.maxValue}
                                     onChange={(e) => {
                                       const inputValue = e.target.value;
                                       setFilterInputs(prev => ({ ...prev, maxValue: inputValue }));
-                                      
+
                                       const normalizedValue = inputValue.replace(',', '.');
                                       if (normalizedValue === '') {
                                         updateColumnFilter(column, { maxValue: undefined });
@@ -500,7 +502,7 @@ export const OptionsTable = ({
                                 }}
                                 className="mt-2 h-9 w-full text-xs"
                               >
-                                Clear
+                                {t('optionsTable.clear')}
                               </Button>
                             </div>
                           )}

@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Settings, GripVertical, Save } from 'lucide-react';
 import { ColumnPreference, useUserPreferences } from '@/hooks/useUserPreferences';
 import { OptionData } from '@/types/options';
+import { useTranslation } from 'react-i18next';
 import {
   DndContext,
   closestCenter,
@@ -36,6 +37,7 @@ const SortableColumnItem: React.FC<{
   column: ColumnPreference;
   onVisibilityChange: (visible: boolean) => void;
 }> = ({ column, onVisibilityChange }) => {
+  const { t } = useTranslation('pages');
   const {
     attributes,
     listeners,
@@ -139,7 +141,7 @@ const SortableColumnItem: React.FC<{
       </span>
       
       <Badge variant={column.visible ? "default" : "secondary"} className="text-xs">
-        {column.visible ? "Visible" : "Hidden"}
+        {column.visible ? t('columnManager.visible') : t('columnManager.hidden')}
       </Badge>
     </div>
   );
@@ -150,6 +152,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   onVisibilityChange,
   onColumnOrderChange,
 }) => {
+  const { t } = useTranslation('pages');
   const [isOpen, setIsOpen] = useState(false);
   const { columnPreferences, saveColumnPreferences, isLoading } = useUserPreferences();
   const [localPreferences, setLocalPreferences] = useState<ColumnPreference[]>([]);
@@ -283,15 +286,15 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
       <DialogTrigger asChild>
         <Button variant="outline" size="sm" className="ml-2">
           <Settings className="h-4 w-4 mr-1" />
-          Columns ({visibleCount})
+          {t('columnManager.columnsBtn', { count: visibleCount })}
         </Button>
       </DialogTrigger>
       
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden flex flex-col">
         <DialogHeader>
-          <DialogTitle>Manage Table Columns</DialogTitle>
+          <DialogTitle>{t('columnManager.title')}</DialogTitle>
           <p className="text-sm text-muted-foreground">
-            Drag to reorder columns and check/uncheck to show/hide them. Click Save to persist your preferences.
+            {t('columnManager.description')}
           </p>
         </DialogHeader>
         
@@ -324,16 +327,16 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
         
         <div className="flex justify-between items-center pt-4 border-t">
           <p className="text-sm text-muted-foreground">
-            {visibleCount} of {localPreferences.length} columns visible
+            {t('columnManager.columnsVisible', { visible: visibleCount, total: localPreferences.length })}
           </p>
-          
+
           <div className="flex space-x-2">
             <Button variant="outline" onClick={() => setIsOpen(false)}>
-              Cancel
+              {t('columnManager.cancel')}
             </Button>
             <Button onClick={handleSave} disabled={isLoading}>
               <Save className="h-4 w-4 mr-1" />
-              Save Preferences
+              {t('columnManager.savePreferences')}
             </Button>
           </div>
         </div>

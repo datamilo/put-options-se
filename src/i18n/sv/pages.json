@@ -1299,5 +1299,49 @@
     "distributionTitle": "Optioners riskdistribution",
     "tooltipPremium": "Premie:",
     "tooltipDaysToExpiry": "Dagar till förfall:"
+  },
+  "optionsTable": {
+    "filterHint": "Klicka på kolumnrubriker för att filtrera",
+    "powBtnTitle": "Läs om vad PoW betyder och om sannolikhetsmetoderna",
+    "powBtnLabel": "PoW ?",
+    "powLegendTitle": "PoW-förklaring",
+    "powWhatIs": "Vad är PoW?",
+    "powDesc": "PoW = Sannolikhet att förfalla värdelös — Sannolikheten att en option förfaller värdelös (vilket innebär att du behåller premien).",
+    "powMethodsTitle": "De 5 beräkningsmetoderna",
+    "powMethod1": "Viktad kombination av metoder",
+    "powMethod2": "Bayesiansk sannolikhetskalibrering",
+    "powMethod3": "Klassisk Black-Scholes-modell",
+    "powMethod4": "Kalibrerad med biaskorrigering",
+    "powMethod5": "Baserad på historisk implicit volatilitet",
+    "exportExcel": "Exportera till Excel",
+    "filtered": "Filtrerad",
+    "filter": "Filtrera",
+    "searchPlaceholder": "Sök...",
+    "minValue": "Minvärde",
+    "maxValue": "Maxvärde",
+    "clear": "Rensa"
+  },
+  "columnManager": {
+    "visible": "Synlig",
+    "hidden": "Dold",
+    "columnsBtn": "Kolumner ({{count}})",
+    "title": "Hantera tabellkolumner",
+    "description": "Dra för att ändra ordning och markera/avmarkera för att visa/dölja kolumner. Klicka på Spara för att spara inställningarna.",
+    "columnsVisible": "{{visible}} av {{total}} kolumner synliga",
+    "cancel": "Avbryt",
+    "savePreferences": "Spara inställningar"
+  },
+  "portfolioColumnManager": {
+    "columnsBtn": "Portföljkolumner ({{count}})",
+    "title": "Hantera portföljtabellkolumner",
+    "description": "Dra för att ändra ordning och markera/avmarkera för att visa/dölja kolumner. Dessa inställningar är oberoende från den vanliga optionstabellen. Klicka på Spara för att spara inställningarna."
+  },
+  "portfolioOptionsTable": {
+    "financialReport": "Finansiell rapport",
+    "exDividendDay": "Ex-utdelningsdag",
+    "howCalculated": "Hur detta fält beräknas:",
+    "potentialLossDesc1": "Detta fält representerar den maximala potentiella förlusten om aktiekursen faller till sin IV-baserade nedre gräns vid förfallodagen.",
+    "potentialLossFormula": "Premie + (Nedre_gränsvärde × Kontrakt × 100) - (Lösenpris × Kontrakt × 100)",
+    "potentialLossDesc2": "Den nedre gränsen härleds från implicit volatilitetsanalys för att uppskatta värsta scenarion för optionspositionen."
   }
 }
