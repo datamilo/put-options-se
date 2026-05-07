@@ -215,5 +215,24 @@
   },
   "sidebar": {
     "toggleSidebar": "Toggle Sidebar"
+  },
+  "activeFilters": {
+    "label": "Active filters:",
+    "removeFilter": "Remove {{label}} filter",
+    "clearAll": "Clear all",
+    "showing": "Showing {{count}} of {{total}} ({{pct}}%)"
+  },
+  "fieldInfoTooltip": {
+    "whatItIs": "What it is:",
+    "whyItMatters": "Why it matters:",
+    "unit": "Unit:",
+    "example": "Example:"
+  },
+  "dialog": {
+    "close": "Close"
+  },
+  "carousel": {
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide"
   }
 }

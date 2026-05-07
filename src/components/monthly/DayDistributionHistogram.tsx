@@ -106,16 +106,16 @@ export const DayDistributionHistogram: React.FC<DayDistributionHistogramProps> =
       {/* Chart Information */}
       <div className="text-xs text-muted-foreground space-y-1 pt-2 border-t border-border/30">
         <p>
-          • Each bar shows how many times stocks hit their monthly {analysisType === 'lows' ? 'low' : 'high'} on that specific day
+          • {t(`monthlyAnalysis.chartInfo.dayHistInfo1`, { type: analysisType === 'lows' ? t('monthlyAnalysis.chartInfo.analysisTypeLow') : t('monthlyAnalysis.chartInfo.analysisTypeHigh') })}
         </p>
         <p>
-          • <span className="font-semibold">Darker bar</span> indicates the most common day (mode) = Day {modeDay}
+          • <span className="font-semibold">{t('monthlyAnalysis.chartInfo.dayHistInfo2Bold')}</span> {t('monthlyAnalysis.chartInfo.dayHistInfo2Text', { modeDay })}
         </p>
         <p>
-          • <span className="text-primary font-semibold">Dashed line</span> shows the median day = Day {medianDay} (50% occur before this day)
+          • <span className="text-primary font-semibold">{t('monthlyAnalysis.chartInfo.dayHistInfo3Bold')}</span> {t('monthlyAnalysis.chartInfo.dayHistInfo3Text', { medianDay })}
         </p>
         <p>
-          • Hover over bars for exact frequency counts
+          • {t('monthlyAnalysis.chartInfo.dayHistInfo4')}
         </p>
       </div>
     </div>

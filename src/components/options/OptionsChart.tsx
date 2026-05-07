@@ -128,7 +128,7 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
                 />
                 <YAxis
                   type="number"
-                  name="Prob of Worthless"
+                  name={t('optionsChart.probAxisName')}
                   tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
                 />
                 <Tooltip

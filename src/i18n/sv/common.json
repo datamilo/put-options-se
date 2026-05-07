@@ -215,5 +215,24 @@
   },
   "sidebar": {
     "toggleSidebar": "Växla sidopanel"
+  },
+  "activeFilters": {
+    "label": "Aktiva filter:",
+    "removeFilter": "Ta bort {{label}}-filter",
+    "clearAll": "Rensa alla",
+    "showing": "Visar {{count}} av {{total}} ({{pct}}%)"
+  },
+  "fieldInfoTooltip": {
+    "whatItIs": "Vad det är:",
+    "whyItMatters": "Varför det spelar roll:",
+    "unit": "Enhet:",
+    "example": "Exempel:"
+  },
+  "dialog": {
+    "close": "Stäng"
+  },
+  "carousel": {
+    "previousSlide": "Föregående bild",
+    "nextSlide": "Nästa bild"
   }
 }

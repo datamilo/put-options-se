@@ -218,7 +218,9 @@
       "tooltipAvgDrawdown": "Avg Drawdown:",
       "tooltipHistory": "History: {{months}} months",
       "tooltipScore": "Score:",
-      "tooltipPosMonths": "Positive Months:"
+      "tooltipPosMonths": "Positive Months:",
+      "axisAvgReturn": "Avg Return",
+      "axisAvgDrawdown": "Avg Drawdown"
     },
     "dayHistogram": {
       "xAxisLabel": "Day of Month",
@@ -227,6 +229,44 @@
       "tooltipFrequencyLabel": "Frequency",
       "tooltipDay": "Day {{day}}",
       "medianLabel": "Median (Day {{day}})"
+    },
+    "chartInfo": {
+      "analysisTypeLow": "low",
+      "analysisTypeHigh": "high",
+      "analysisTypeLows": "lows",
+      "analysisTypeHighs": "highs",
+      "yearLabel": "Year: {{year}}",
+      "dayHistInfo1": "Each bar shows how many times stocks hit their monthly {{type}} on that specific day",
+      "dayHistInfo2Bold": "Darker bar",
+      "dayHistInfo2Text": "indicates the most common day (mode) = Day {{modeDay}}",
+      "dayHistInfo3Bold": "Dashed line",
+      "dayHistInfo3Text": "shows the median day = Day {{medianDay}} (50% occur before this day)",
+      "dayHistInfo4": "Hover over bars for exact frequency counts",
+      "periodCompInfo1": "Bars are stacked to show the distribution of {{type}} across weeks within each calendar month",
+      "periodCompInfo2Prefix": "Each segment represents a week:",
+      "periodCompInfo3": "Percentages sum to 100% for each month",
+      "periodCompInfo4": "Hover over segments to see exact percentages and occurrence counts",
+      "periodCompExPrefix": "Example insights: Large",
+      "periodCompExPink": "pink",
+      "periodCompExMid": "segments = late-month {{type}}, large",
+      "periodCompExBlue": "blue",
+      "periodCompExSuffix": "segments = early-month {{type}}",
+      "timelineInfo1": "Shows monthly percentage returns for {{stock}} over time",
+      "timelineInfo2": "Each line represents a different calendar month across multiple years",
+      "timelineInfo3Green": "Green shaded area",
+      "timelineInfo3Mid": "= positive returns,",
+      "timelineInfo3Red": "red shaded area",
+      "timelineInfo3End": "= negative returns",
+      "timelineInfo4": "Dashed line at 0% shows break-even point",
+      "timelineInfo5": "Click month badges above to toggle visibility • Hover over data points for detailed values",
+      "heatmapInfo1": "Each cell shows what percentage of {{type}} occurred in that week of that month",
+      "heatmapInfo2Label": "Green cells",
+      "heatmapInfo2Text": "= high frequency (this week is common for {{type}})",
+      "heatmapInfo3Label": "Red cells",
+      "heatmapInfo3Text": "= low frequency (this week is rare for {{type}})",
+      "heatmapInfo4": "Hover over cells for exact percentages and occurrence counts",
+      "heatmapExPrefix": "Example insight: If December shows high green in \"Days 22-31\", it means December",
+      "heatmapExSuffix": "tend to occur late in the month"
     }
   },
   "stockAnalysis": {
@@ -285,7 +325,8 @@
       "high": "High:",
       "low": "Low:",
       "close": "Close:",
-      "volume": "Volume:"
+      "volume": "Volume:",
+      "earningsName": "Earnings"
     },
     "upcomingEvent": {
       "title": "Upcoming Event",
@@ -1418,7 +1459,8 @@
     "selectProbFields": "Select Probability Fields:",
     "distributionTitle": "Options Risk Distribution",
     "tooltipPremium": "Premium:",
-    "tooltipDaysToExpiry": "Days to Expiry:"
+    "tooltipDaysToExpiry": "Days to Expiry:",
+    "probAxisName": "Prob of Worthless"
   },
   "optionsTable": {
     "filterHint": "Click on column headers to filter",

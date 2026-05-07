@@ -195,7 +195,7 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
             />
             <Tooltip
               formatter={formatTooltip}
-              labelFormatter={(label) => `Year: ${label}`}
+              labelFormatter={(label) => t('pages:monthlyAnalysis.chartInfo.yearLabel', { year: label })}
               contentStyle={{
                 backgroundColor: 'hsl(var(--background))',
                 border: '1px solid hsl(var(--border))',
@@ -264,19 +264,19 @@ export const TimelinePerformanceChart: React.FC<TimelinePerformanceChartProps> =
       {/* Chart Information */}
       <div className="text-xs text-muted-foreground space-y-1">
         <p>
-          • Shows monthly percentage returns for <strong>{selectedStock}</strong> over time
+          • {t('pages:monthlyAnalysis.chartInfo.timelineInfo1', { stock: selectedStock })}
         </p>
         <p>
-          • Each line represents a different calendar month across multiple years
+          • {t('pages:monthlyAnalysis.chartInfo.timelineInfo2')}
         </p>
         <p>
-          • <span className="text-green-600 dark:text-green-400">Green shaded area</span> = positive returns, <span className="text-red-600 dark:text-red-400">red shaded area</span> = negative returns
+          • <span className="text-green-600 dark:text-green-400">{t('pages:monthlyAnalysis.chartInfo.timelineInfo3Green')}</span> {t('pages:monthlyAnalysis.chartInfo.timelineInfo3Mid')} <span className="text-red-600 dark:text-red-400">{t('pages:monthlyAnalysis.chartInfo.timelineInfo3Red')}</span> {t('pages:monthlyAnalysis.chartInfo.timelineInfo3End')}
         </p>
         <p>
-          • Dashed line at 0% shows break-even point
+          • {t('pages:monthlyAnalysis.chartInfo.timelineInfo4')}
         </p>
         <p>
-          • Click month badges above to toggle visibility • Hover over data points for detailed values
+          • {t('pages:monthlyAnalysis.chartInfo.timelineInfo5')}
         </p>
       </div>
     </div>

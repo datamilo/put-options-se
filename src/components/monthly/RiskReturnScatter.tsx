@@ -54,14 +54,14 @@ export const RiskReturnScatter: React.FC<RiskReturnScatterProps> = ({ data }) =>
           <XAxis 
             type="number" 
             dataKey="x" 
-            name="Avg Return"
+            name={t('monthlyAnalysis.riskReturn.axisAvgReturn')}
             unit="%"
             domain={['dataMin - 1', 'dataMax + 1']}
           />
           <YAxis 
             type="number" 
             dataKey="y" 
-            name="Avg Drawdown"
+            name={t('monthlyAnalysis.riskReturn.axisAvgDrawdown')}
             unit="%"
             domain={[0, 'dataMax + 1']}
           />

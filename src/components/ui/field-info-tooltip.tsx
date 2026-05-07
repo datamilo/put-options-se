@@ -1,4 +1,5 @@
 import { Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   Tooltip,
   TooltipContent,
@@ -13,6 +14,7 @@ interface FieldInfoTooltipProps {
 }
 
 export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps) {
+  const { t } = useTranslation("common");
   const fieldInfo = getFieldInfo(fieldName);
 
   if (!fieldInfo) {
@@ -33,25 +35,25 @@ export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps
           
           <div className="space-y-1.5">
             <div>
-              <span className="font-medium text-xs">What it is:</span>
+              <span className="font-medium text-xs">{t("fieldInfoTooltip.whatItIs")}</span>
               <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.whatItIs}</p>
             </div>
             
             <div>
-              <span className="font-medium text-xs">Why it matters:</span>
+              <span className="font-medium text-xs">{t("fieldInfoTooltip.whyItMatters")}</span>
               <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.whyItMatters}</p>
             </div>
             
             {fieldInfo.unit && (
               <div>
-                <span className="font-medium text-xs">Unit:</span>
+                <span className="font-medium text-xs">{t("fieldInfoTooltip.unit")}</span>
                 <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.unit}</p>
               </div>
             )}
             
             {fieldInfo.example && (
               <div>
-                <span className="font-medium text-xs">Example:</span>
+                <span className="font-medium text-xs">{t("fieldInfoTooltip.example")}</span>
                 <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.example}</p>
               </div>
             )}

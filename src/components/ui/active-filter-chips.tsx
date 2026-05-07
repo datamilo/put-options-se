@@ -1,5 +1,6 @@
 import * as React from "react"
 import { X } from "lucide-react"
+import { useTranslation } from "react-i18next"
 import { Badge } from "./badge"
 import { Button } from "./button"
 import { cn } from "@/lib/utils"
@@ -27,11 +28,12 @@ export function ActiveFilterChips({
   totalCount,
   className,
 }: ActiveFilterChipsProps) {
+  const { t } = useTranslation("common")
   if (filters.length === 0) return null
 
   return (
     <div className={cn("flex flex-wrap items-center gap-2", className)}>
-      <span className="text-sm text-muted-foreground">Active filters:</span>
+      <span className="text-sm text-muted-foreground">{t("activeFilters.label")}</span>
       {filters.map((filter) => (
         <Badge
           key={filter.id}
@@ -48,7 +50,7 @@ export function ActiveFilterChips({
             onClick={() => onRemove(filter.id)}
           >
             <X className="h-3 w-3" />
-            <span className="sr-only">Remove {filter.label} filter</span>
+            <span className="sr-only">{t("activeFilters.removeFilter", { label: filter.label })}</span>
           </Button>
         </Badge>
       ))}
@@ -59,14 +61,16 @@ export function ActiveFilterChips({
           className="h-6 text-xs"
           onClick={onClearAll}
         >
-          Clear all
+          {t("activeFilters.clearAll")}
         </Button>
       )}
       {resultCount !== undefined && totalCount !== undefined && (
         <span className="text-sm text-muted-foreground ml-2">
-          Showing <span className="font-semibold font-mono">{resultCount}</span> of{" "}
-          <span className="font-semibold font-mono">{totalCount}</span> (
-          {((resultCount / totalCount) * 100).toFixed(1)}%)
+          {t("activeFilters.showing", {
+            count: resultCount,
+            total: totalCount,
+            pct: ((resultCount / totalCount) * 100).toFixed(1),
+          })}
         </span>
       )}
     </div>

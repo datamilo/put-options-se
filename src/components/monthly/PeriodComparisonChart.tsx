@@ -118,19 +118,19 @@ export const PeriodComparisonChart: React.FC<PeriodComparisonChartProps> = ({
       {/* Chart Information */}
       <div className="text-xs text-muted-foreground space-y-1 pt-2 border-t border-border/30">
         <p>
-          • Bars are stacked to show the distribution of {analysisType === 'lows' ? 'lows' : 'highs'} across weeks within each calendar month
+          • {t('pages:monthlyAnalysis.chartInfo.periodCompInfo1', { type: analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs') })}
         </p>
         <p>
-          • Each segment represents a week: <span className="font-semibold text-[#3b82f6]">Days 1-7</span>, <span className="font-semibold text-[#f59e0b]">Days 8-14</span>, <span className="font-semibold text-[#8b5cf6]">Days 15-21</span>, <span className="font-semibold text-[#ec4899]">Days 22-31</span>
+          • {t('pages:monthlyAnalysis.chartInfo.periodCompInfo2Prefix')} <span className="font-semibold text-[#3b82f6]">{t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel1')}</span>, <span className="font-semibold text-[#f59e0b]">{t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel2')}</span>, <span className="font-semibold text-[#8b5cf6]">{t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel3')}</span>, <span className="font-semibold text-[#ec4899]">{t('pages:monthlyAnalysis.weeklyHeatmap.weekLabel4')}</span>
         </p>
         <p>
-          • Percentages sum to 100% for each month
+          • {t('pages:monthlyAnalysis.chartInfo.periodCompInfo3')}
         </p>
         <p>
-          • Hover over segments to see exact percentages and occurrence counts
+          • {t('pages:monthlyAnalysis.chartInfo.periodCompInfo4')}
         </p>
         <p className="pt-1 font-medium">
-          Example insights: Large <span className="text-[#ec4899]">pink</span> segments = late-month {analysisType}, large <span className="text-[#3b82f6]">blue</span> segments = early-month {analysisType}
+          {t('pages:monthlyAnalysis.chartInfo.periodCompExPrefix')} <span className="text-[#ec4899]">{t('pages:monthlyAnalysis.chartInfo.periodCompExPink')}</span> {t('pages:monthlyAnalysis.chartInfo.periodCompExMid', { type: analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs') })} <span className="text-[#3b82f6]">{t('pages:monthlyAnalysis.chartInfo.periodCompExBlue')}</span> {t('pages:monthlyAnalysis.chartInfo.periodCompExSuffix', { type: analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs') })}
         </p>
       </div>
     </div>

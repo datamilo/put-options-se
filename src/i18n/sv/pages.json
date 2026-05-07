@@ -218,7 +218,9 @@
       "tooltipAvgDrawdown": "Snitt-drawdown:",
       "tooltipHistory": "Historik: {{months}} månader",
       "tooltipScore": "Poäng:",
-      "tooltipPosMonths": "Positiva månader:"
+      "tooltipPosMonths": "Positiva månader:",
+      "axisAvgReturn": "Genomsnittlig avkastning",
+      "axisAvgDrawdown": "Genomsnittlig nedgång"
     },
     "dayHistogram": {
       "xAxisLabel": "Dag i månaden",
@@ -227,6 +229,44 @@
       "tooltipFrequencyLabel": "Frekvens",
       "tooltipDay": "Dag {{day}}",
       "medianLabel": "Median (dag {{day}})"
+    },
+    "chartInfo": {
+      "analysisTypeLow": "lågpunkt",
+      "analysisTypeHigh": "höjdpunkt",
+      "analysisTypeLows": "lågpunkter",
+      "analysisTypeHighs": "höjdpunkter",
+      "yearLabel": "År: {{year}}",
+      "dayHistInfo1": "Varje stapel visar hur många gånger aktier nådde sin månads{{type}} på den specifika dagen",
+      "dayHistInfo2Bold": "Mörkare stapel",
+      "dayHistInfo2Text": "indikerar den vanligaste dagen (typvärdet) = Dag {{modeDay}}",
+      "dayHistInfo3Bold": "Streckad linje",
+      "dayHistInfo3Text": "visar mediandagen = Dag {{medianDay}} (50% inträffar före denna dag)",
+      "dayHistInfo4": "Håll muspekaren över staplar för exakta frekvenstal",
+      "periodCompInfo1": "Staplar är staplade för att visa fördelningen av {{type}} över veckor inom varje kalendermånad",
+      "periodCompInfo2Prefix": "Varje segment representerar en vecka:",
+      "periodCompInfo3": "Procentsatserna summerar till 100% för varje månad",
+      "periodCompInfo4": "Håll muspekaren över segment för exakta procenttal och antal förekomster",
+      "periodCompExPrefix": "Exempelinsikter: Stora",
+      "periodCompExPink": "rosa",
+      "periodCompExMid": "segment = {{type}} sent i månaden, stora",
+      "periodCompExBlue": "blå",
+      "periodCompExSuffix": "segment = {{type}} tidigt i månaden",
+      "timelineInfo1": "Visar månadsvis procentuell avkastning för {{stock}} över tid",
+      "timelineInfo2": "Varje linje representerar en annan kalendermånad över flera år",
+      "timelineInfo3Green": "Grön skuggad yta",
+      "timelineInfo3Mid": "= positiv avkastning,",
+      "timelineInfo3Red": "röd skuggad yta",
+      "timelineInfo3End": "= negativ avkastning",
+      "timelineInfo4": "Streckad linje vid 0% visar break-even",
+      "timelineInfo5": "Klicka på månadsemblem ovan för att växla synlighet • Håll muspekaren över datapunkter för detaljerade värden",
+      "heatmapInfo1": "Varje cell visar hur stor andel av {{type}} som inträffade i den veckan av den månaden",
+      "heatmapInfo2Label": "Gröna celler",
+      "heatmapInfo2Text": "= hög frekvens (denna vecka är vanlig för {{type}})",
+      "heatmapInfo3Label": "Röda celler",
+      "heatmapInfo3Text": "= låg frekvens (denna vecka är ovanlig för {{type}})",
+      "heatmapInfo4": "Håll muspekaren över celler för exakta procenttal och antal förekomster",
+      "heatmapExPrefix": "Exempelinsikt: Om december visar hög grön i \"Dagar 22–31\" innebär det att decembers",
+      "heatmapExSuffix": "tenderar att inträffa sent i månaden"
     }
   },
   "stockAnalysis": {
@@ -285,7 +325,8 @@
       "high": "Högsta:",
       "low": "Lägsta:",
       "close": "Stängning:",
-      "volume": "Volym:"
+      "volume": "Volym:",
+      "earningsName": "Rapport"
     },
     "upcomingEvent": {
       "title": "Kommande händelse",
@@ -1392,7 +1433,8 @@
     "selectProbFields": "Välj sannolikhetsfält:",
     "distributionTitle": "Optioners riskdistribution",
     "tooltipPremium": "Premie:",
-    "tooltipDaysToExpiry": "Dagar till förfall:"
+    "tooltipDaysToExpiry": "Dagar till förfall:",
+    "probAxisName": "Sannolikhet att förfalla värdelös"
   },
   "optionsTable": {
     "filterHint": "Klicka på kolumnrubriker för att filtrera",

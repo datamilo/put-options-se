@@ -215,19 +215,19 @@ export const WeeklyHeatmap: React.FC<WeeklyHeatmapProps> = ({
       {/* Chart Information */}
       <div className="text-xs text-muted-foreground space-y-1">
         <p>
-          • Each cell shows what percentage of {analysisType} occurred in that week of that month
+          • {t('pages:monthlyAnalysis.chartInfo.heatmapInfo1', { type: analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs') })}
         </p>
         <p>
-          • <span className="font-semibold text-green-600 dark:text-green-400">Green cells</span> = high frequency (this week is common for {analysisType})
+          • <span className="font-semibold text-green-600 dark:text-green-400">{t('pages:monthlyAnalysis.chartInfo.heatmapInfo2Label')}</span> {t('pages:monthlyAnalysis.chartInfo.heatmapInfo2Text', { type: analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs') })}
         </p>
         <p>
-          • <span className="font-semibold text-red-600 dark:text-red-400">Red cells</span> = low frequency (this week is rare for {analysisType})
+          • <span className="font-semibold text-red-600 dark:text-red-400">{t('pages:monthlyAnalysis.chartInfo.heatmapInfo3Label')}</span> {t('pages:monthlyAnalysis.chartInfo.heatmapInfo3Text', { type: analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs') })}
         </p>
         <p>
-          • Hover over cells for exact percentages and occurrence counts
+          • {t('pages:monthlyAnalysis.chartInfo.heatmapInfo4')}
         </p>
         <p className="pt-1 font-medium">
-          Example insight: If December shows high green in "Days 22-31", it means December {analysisType} tend to occur late in the month
+          {t('pages:monthlyAnalysis.chartInfo.heatmapExPrefix')} {analysisType === 'lows' ? t('pages:monthlyAnalysis.chartInfo.analysisTypeLows') : t('pages:monthlyAnalysis.chartInfo.analysisTypeHighs')} {t('pages:monthlyAnalysis.chartInfo.heatmapExSuffix')}
         </p>
       </div>
     </div>

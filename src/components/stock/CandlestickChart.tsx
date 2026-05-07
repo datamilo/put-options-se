@@ -534,7 +534,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
                   dataKey="volume"
                   fill="hsl(var(--muted-foreground))"
                   fillOpacity={0.3}
-                  name="Volume"
+                  name={t('stockAnalysis.candlestickChart.volumeBtn')}
                 />
               )}
               <Scatter
@@ -542,7 +542,7 @@ export const CandlestickChart = ({ data, stockName }: CandlestickChartProps) => 
                 dataKey="earningsMarker"
                 fill="#818cf8"
                 shape={<EarningsMarkerShape fill="#818cf8" />}
-                name="Earnings"
+                name={t('stockAnalysis.candlestickChart.earningsName')}
                 isAnimationActive={false}
               />
             </ComposedChart>

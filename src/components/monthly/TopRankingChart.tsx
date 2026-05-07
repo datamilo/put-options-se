@@ -78,7 +78,7 @@ export const TopRankingChart: React.FC<TopRankingChartProps> = ({ data, metric, 
           />
           <Tooltip 
             formatter={(value: number, name) => [formatValue(value), metricLabels[metric]]}
-            labelFormatter={(label) => `Stock: ${label}`}
+            labelFormatter={(label) => t('monthlyAnalysis.topRanking.tooltipStock', { label })}
             content={({ active, payload, label }) => {
               if (active && payload && payload.length) {
                 const data = payload[0].payload;
