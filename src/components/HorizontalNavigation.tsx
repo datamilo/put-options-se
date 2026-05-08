@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { SettingsModal } from "@/components/SettingsModal";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,15 +28,12 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/auth/AuthProvider";
-import { useState } from "react";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-export const HorizontalNavigation = () => {
+export const HorizontalNavigation = ({ onOpenSettings }: { onOpenSettings: () => void }) => {
   const location = useLocation();
   const { signOut } = useAuth();
-  const [settingsOpen, setSettingsOpen] = useState(false);
   const { setTheme, theme } = useTheme();
   const { t } = useTranslation('common');
 
@@ -314,7 +310,7 @@ export const HorizontalNavigation = () => {
 
             {/* Settings & Theme */}
             <DropdownMenuItem
-              onClick={() => setSettingsOpen(true)}
+              onClick={onOpenSettings}
               className="cursor-pointer"
             >
               <Settings className="mr-2 h-4 w-4" />
@@ -347,51 +343,6 @@ export const HorizontalNavigation = () => {
         </DropdownMenu>
       </div>
 
-      {/* Desktop Utilities (Language, Settings, Theme, Logout) */}
-      <div className="hidden md:flex items-center gap-1">
-        <LanguageSwitcher />
-
-        <Button
-          onClick={() => setSettingsOpen(true)}
-          variant="ghost"
-          size="sm"
-          className="flex items-center gap-2"
-          title={t('nav.calculationSettings')}
-        >
-          <Settings className="h-4 w-4" />
-          <span className="hidden lg:inline text-sm">{t('nav.calculationSettings')}</span>
-        </Button>
-
-        <Button
-          onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9"
-          title={theme === "light" ? t('nav.switchToDarkMode') : t('nav.switchToLightMode')}
-        >
-          {theme === "light" ? (
-            <Moon className="h-4 w-4" />
-          ) : (
-            <Sun className="h-4 w-4" />
-          )}
-        </Button>
-
-        <Button
-          onClick={signOut}
-          variant="ghost"
-          size="icon"
-          className="h-9 w-9 text-destructive hover:text-destructive"
-          title={t('nav.signOut')}
-        >
-          <LogOut className="h-4 w-4" />
-        </Button>
-      </div>
-
-      <SettingsModal
-        isOpen={settingsOpen}
-        onOpenChange={setSettingsOpen}
-        triggerButton={false}
-      />
     </TooltipProvider>
   );
 };

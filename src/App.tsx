@@ -31,7 +31,11 @@ import { Button } from "@/components/ui/button";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { HorizontalNavigation } from "@/components/HorizontalNavigation";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
-import { Home } from "lucide-react";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { SettingsModal } from "@/components/SettingsModal";
+import { Home, Settings, Sun, Moon, LogOut } from "lucide-react";
+import { useState } from "react";
+import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
 
 const PageLoader = () => {
@@ -49,8 +53,10 @@ const PageLoader = () => {
 const queryClient = new QueryClient();
 
 const AppHeader = () => {
-  const { session } = useAuth();
+  const { session, signOut } = useAuth();
   const { t } = useTranslation('common');
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
   return (
     <header className="w-full border-b">
       <a
@@ -59,36 +65,65 @@ const AppHeader = () => {
       >
         {t('appShell.skipToMain')}
       </a>
-      <div className="flex items-center justify-between px-4 py-3 gap-4">
-        {/* Left: Home Button + Navigation */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {session && (
-            <>
+      <div className="flex items-center px-4 py-3 gap-2">
+        {session ? (
+          <>
+            <Button
+              asChild
+              variant="ghost"
+              size="icon"
+              title={t('appShell.goToHome')}
+            >
+              <Link to="/">
+                <Home className="h-5 w-5" />
+              </Link>
+            </Button>
+            <div className="h-6 w-px bg-border hidden md:block" />
+            <HorizontalNavigation onOpenSettings={() => setSettingsOpen(true)} />
+            {/* Desktop utilities — far right */}
+            <div className="hidden md:flex items-center gap-1 ml-auto">
+              <LanguageSwitcher />
               <Button
-                asChild
+                onClick={() => setSettingsOpen(true)}
+                variant="ghost"
+                size="sm"
+                className="flex items-center gap-2"
+                title={t('nav.calculationSettings')}
+              >
+                <Settings className="h-4 w-4" />
+                <span className="hidden lg:inline text-sm">{t('nav.calculationSettings')}</span>
+              </Button>
+              <Button
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
                 variant="ghost"
                 size="icon"
-                title={t('appShell.goToHome')}
+                className="h-9 w-9"
+                title={theme === "light" ? t('nav.switchToDarkMode') : t('nav.switchToLightMode')}
               >
-                <Link to="/">
-                  <Home className="h-5 w-5" />
-                </Link>
+                {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
               </Button>
-              <div className="h-6 w-px bg-border hidden md:block" />
-              <HorizontalNavigation />
-            </>
-          )}
-        </div>
-
-        {/* Right: Sign In (if not authenticated) */}
-        <div>
-          {!session && (
-            <Button asChild>
-              <Link to="/auth">{t('appShell.signIn')}</Link>
-            </Button>
-          )}
-        </div>
+              <Button
+                onClick={signOut}
+                variant="ghost"
+                size="icon"
+                className="h-9 w-9 text-destructive hover:text-destructive"
+                title={t('nav.signOut')}
+              >
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          </>
+        ) : (
+          <Button asChild className="ml-auto">
+            <Link to="/auth">{t('appShell.signIn')}</Link>
+          </Button>
+        )}
       </div>
+      <SettingsModal
+        isOpen={settingsOpen}
+        onOpenChange={setSettingsOpen}
+        triggerButton={false}
+      />
     </header>
   );
 };
