@@ -226,7 +226,8 @@
     "whatItIs": "What it is:",
     "whyItMatters": "Why it matters:",
     "unit": "Unit:",
-    "example": "Example:"
+    "example": "Example:",
+    "colorCoding": "Color coding:"
   },
   "dialog": {
     "close": "Close"

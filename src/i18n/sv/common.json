@@ -226,7 +226,8 @@
     "whatItIs": "Vad det är:",
     "whyItMatters": "Varför det spelar roll:",
     "unit": "Enhet:",
-    "example": "Exempel:"
+    "example": "Exempel:",
+    "colorCoding": "Färgkodning:"
   },
   "dialog": {
     "close": "Stäng"

@@ -5,6 +5,7 @@ export interface FieldInfo {
   whyItMatters: string;
   example?: string;
   unit?: string;
+  colorCoding?: Array<{ color: string; label: string }>;
 }
 
 export const fieldInfoMap: Record<string, FieldInfo> = {
@@ -15,6 +16,10 @@ export const fieldInfoMap: Record<string, FieldInfo> = {
     whatItIs: "Unique code identifying this specific put option contract",
     whyItMatters: "Standard identifier for options trading and market data systems",
     example: "ERICB6U45 (Ericsson B-share, expiry code 6U, strike 45 SEK)",
+    colorCoding: [
+      { color: "bg-orange-500", label: "Financial report falls within option lifetime" },
+      { color: "bg-red-500", label: "Ex-dividend date falls within option lifetime" },
+    ],
   },
   StockName: {
     name: "Stock Name",

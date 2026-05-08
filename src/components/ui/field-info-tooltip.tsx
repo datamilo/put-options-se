@@ -57,6 +57,20 @@ export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps
                 <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.example}</p>
               </div>
             )}
+
+            {fieldInfo.colorCoding && (
+              <div>
+                <span className="font-medium text-xs">{t("fieldInfoTooltip.colorCoding")}</span>
+                <div className="mt-0.5 space-y-1">
+                  {fieldInfo.colorCoding.map((item, i) => (
+                    <div key={i} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <span className={`inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0 ${item.color}`} />
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </TooltipContent>
       </Tooltip>
