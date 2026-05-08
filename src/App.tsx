@@ -86,12 +86,11 @@ const AppHeader = () => {
               <Button
                 onClick={() => setSettingsOpen(true)}
                 variant="ghost"
-                size="sm"
-                className="flex items-center gap-2"
+                size="icon"
+                className="h-9 w-9"
                 title={t('nav.calculationSettings')}
               >
                 <Settings className="h-4 w-4" />
-                <span className="hidden lg:inline text-sm">{t('nav.calculationSettings')}</span>
               </Button>
               <Button
                 onClick={() => setTheme(theme === "light" ? "dark" : "light")}

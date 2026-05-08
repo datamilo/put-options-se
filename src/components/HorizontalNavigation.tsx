@@ -165,9 +165,6 @@ export const HorizontalNavigation = ({ onOpenSettings }: { onOpenSettings: () =>
           ]}
         />
 
-        {/* Spacer to push Stock Metrics to the right */}
-        <div className="flex-1" />
-
         {/* Stock Metrics and History */}
         <NavButton path="/stock-analysis" icon={LineChart} label={t('nav.stockMetricsAndHistory')} />
 
