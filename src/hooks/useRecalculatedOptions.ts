@@ -38,6 +38,7 @@ export const useRecalculatedOptions = (options: OptionData[]): RecalculatedOptio
         // Override the Premium field with the recalculated value
         Premium: recalculatedPremium,
         NumberOfContractsBasedOnLimit: numberOfContractsBasedOnLimit,
+        Underlying_Value: numberOfContractsBasedOnLimit * option.StrikePrice * 100,
         Bid_Ask_Mid_Price: bidAskMidPrice,
         LossAtIV2sigmaDecline: calcLossAtDecline(option.IV_2sigma_Decline),
         LossAtCVaR10pctDecline: calcLossAtDecline(option.CVaR10pct_Decline),
