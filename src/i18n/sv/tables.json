@@ -63,6 +63,7 @@
       "IV_2sigma_Decline": "IV 2-sigma nedgång",
       "BreakevenDecline": "Breakeven-nedgång",
       "CVaR10pct_Decline": "CVaR 10% nedgång",
+      "Underlying_Value": "Underliggande värde",
       "LossAtIV2sigmaDecline": "Förlust vid IV 2-sigma",
       "LossAtCVaR10pctDecline": "Förlust vid CVaR 10%",
       "combined_score": "Kombinerad poäng",

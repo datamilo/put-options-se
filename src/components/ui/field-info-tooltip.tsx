@@ -31,7 +31,7 @@ export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps
         <TooltipTrigger asChild>
           <Info className={`h-4 w-4 text-muted-foreground hover:text-foreground cursor-help transition-colors ${className || ""}`} />
         </TooltipTrigger>
-        <TooltipContent side="right" className="max-w-sm p-4 space-y-2">
+        <TooltipContent className="max-w-sm max-h-[80vh] overflow-y-auto p-4 space-y-2">
           <div>
             <div className="font-semibold text-sm mb-1">{t(`${fieldName}.name`)}</div>
             <div className="text-xs text-muted-foreground mb-2">{t(`${fieldName}.category`)}</div>
