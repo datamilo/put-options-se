@@ -14,12 +14,16 @@ interface FieldInfoTooltipProps {
 }
 
 export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps) {
-  const { t } = useTranslation("common");
-  const fieldInfo = getFieldInfo(fieldName);
+  const { t: tCommon } = useTranslation("common");
+  const { t, i18n } = useTranslation("fieldInfo");
 
-  if (!fieldInfo) {
-    return null;
-  }
+  const fieldMeta = getFieldInfo(fieldName);
+  if (!fieldMeta) return null;
+
+  if (!i18n.exists(`${fieldName}.whatItIs`, { ns: "fieldInfo" })) return null;
+
+  const unit = i18n.exists(`${fieldName}.unit`, { ns: "fieldInfo" }) ? t(`${fieldName}.unit`) : null;
+  const example = i18n.exists(`${fieldName}.example`, { ns: "fieldInfo" }) ? t(`${fieldName}.example`) : null;
 
   return (
     <TooltipProvider>
@@ -29,43 +33,43 @@ export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps
         </TooltipTrigger>
         <TooltipContent side="right" className="max-w-sm p-4 space-y-2">
           <div>
-            <div className="font-semibold text-sm mb-1">{fieldInfo.name}</div>
-            <div className="text-xs text-muted-foreground mb-2">{fieldInfo.category}</div>
+            <div className="font-semibold text-sm mb-1">{t(`${fieldName}.name`)}</div>
+            <div className="text-xs text-muted-foreground mb-2">{t(`${fieldName}.category`)}</div>
           </div>
-          
+
           <div className="space-y-1.5">
             <div>
-              <span className="font-medium text-xs">{t("fieldInfoTooltip.whatItIs")}</span>
-              <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.whatItIs}</p>
+              <span className="font-medium text-xs">{tCommon("fieldInfoTooltip.whatItIs")}</span>
+              <p className="text-xs text-muted-foreground mt-0.5">{t(`${fieldName}.whatItIs`)}</p>
             </div>
-            
+
             <div>
-              <span className="font-medium text-xs">{t("fieldInfoTooltip.whyItMatters")}</span>
-              <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.whyItMatters}</p>
+              <span className="font-medium text-xs">{tCommon("fieldInfoTooltip.whyItMatters")}</span>
+              <p className="text-xs text-muted-foreground mt-0.5">{t(`${fieldName}.whyItMatters`)}</p>
             </div>
-            
-            {fieldInfo.unit && (
+
+            {unit && (
               <div>
-                <span className="font-medium text-xs">{t("fieldInfoTooltip.unit")}</span>
-                <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.unit}</p>
-              </div>
-            )}
-            
-            {fieldInfo.example && (
-              <div>
-                <span className="font-medium text-xs">{t("fieldInfoTooltip.example")}</span>
-                <p className="text-xs text-muted-foreground mt-0.5">{fieldInfo.example}</p>
+                <span className="font-medium text-xs">{tCommon("fieldInfoTooltip.unit")}</span>
+                <p className="text-xs text-muted-foreground mt-0.5">{unit}</p>
               </div>
             )}
 
-            {fieldInfo.colorCoding && (
+            {example && (
               <div>
-                <span className="font-medium text-xs">{t("fieldInfoTooltip.colorCoding")}</span>
+                <span className="font-medium text-xs">{tCommon("fieldInfoTooltip.example")}</span>
+                <p className="text-xs text-muted-foreground mt-0.5">{example}</p>
+              </div>
+            )}
+
+            {fieldMeta.colorCoding && (
+              <div>
+                <span className="font-medium text-xs">{tCommon("fieldInfoTooltip.colorCoding")}</span>
                 <div className="mt-0.5 space-y-1">
-                  {fieldInfo.colorCoding.map((item, i) => (
-                    <div key={i} className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  {fieldMeta.colorCoding.map((item) => (
+                    <div key={item.labelKey} className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <span className={`inline-block w-2.5 h-2.5 rounded-sm flex-shrink-0 ${item.color}`} />
-                      {item.label}
+                      {t(item.labelKey)}
                     </div>
                   ))}
                 </div>

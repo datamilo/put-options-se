@@ -7,12 +7,14 @@ import enPages from './en/pages.json';
 import enTables from './en/tables.json';
 import enCharts from './en/charts.json';
 import enTooltips from './en/tooltips.json';
+import enFieldInfo from './en/fieldInfo.json';
 
 import svCommon from './sv/common.json';
 import svPages from './sv/pages.json';
 import svTables from './sv/tables.json';
 import svCharts from './sv/charts.json';
 import svTooltips from './sv/tooltips.json';
+import svFieldInfo from './sv/fieldInfo.json';
 
 i18n
   .use(LanguageDetector)
@@ -25,6 +27,7 @@ i18n
         tables: enTables,
         charts: enCharts,
         tooltips: enTooltips,
+        fieldInfo: enFieldInfo,
       },
       sv: {
         common: svCommon,
@@ -32,6 +35,7 @@ i18n
         tables: svTables,
         charts: svCharts,
         tooltips: svTooltips,
+        fieldInfo: svFieldInfo,
       },
     },
     fallbackLng: 'en',

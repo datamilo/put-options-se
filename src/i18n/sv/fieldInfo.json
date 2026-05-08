@@ -1,0 +1,603 @@
+{
+  "OptionName": {
+    "name": "Optionsnamn",
+    "category": "Identifiering",
+    "whatItIs": "Unik kod som identifierar detta specifika säljoptionskontrakt",
+    "whyItMatters": "Standardidentifierare för optionshandel och marknadsdata",
+    "example": "ERICB6U45 (Ericsson B-aktie, utgångskod 6U, lösenpris 45 SEK)",
+    "colorCoding_0": "Finansiell rapport infaller under optionens löptid",
+    "colorCoding_1": "Ex-utdelningsdatum infaller under optionens löptid"
+  },
+  "StockName": {
+    "name": "Aktienamn",
+    "category": "Identifiering",
+    "whatItIs": "Företagsnamn (svensk konvention)",
+    "whyItMatters": "Identifierar den underliggande aktien för optionskontraktet",
+    "example": "ERIC B för Ericsson B-aktier"
+  },
+  "ExpiryDate": {
+    "name": "Förfallodatum",
+    "category": "Identifiering",
+    "whatItIs": "Sista dag optionen är giltig",
+    "whyItMatters": "Bestämmer återstående tid till kontraktets utgång; påverkar alla tidsberoende beräkningar",
+    "unit": "ÅÅÅÅ-MM-DD"
+  },
+  "FinancialReport": {
+    "name": "Finansiell rapport",
+    "category": "Identifiering",
+    "whatItIs": "'Y' om bolaget publicerar kvartals- eller årsrapport före förfall",
+    "whyItMatters": "Markerar kontrakt med resultatpublicering före utgång"
+  },
+  "X-Day": {
+    "name": "X-Dag",
+    "category": "Identifiering",
+    "whatItIs": "'Y' om ex-utdelningsdatum infaller före förfall",
+    "whyItMatters": "Markerar kontrakt med utdelningshändelse före utgång; premieberäkningar tar hänsyn till utdelningseffekten"
+  },
+  "Premium": {
+    "name": "Premie",
+    "category": "Prissättning",
+    "whatItIs": "Total intäkt från att sälja optionspositionen (Bud-Ask-Mittpris × Antal kontrakt × 100)",
+    "whyItMatters": "Bruttointäkt vid kontraktsförsäljning för hela positionen",
+    "unit": "SEK (baserat på konfigurerad positionsgräns)"
+  },
+  "Bid_Ask_Mid_Price": {
+    "name": "Bud-Ask-Mittpris",
+    "category": "Prissättning",
+    "whatItIs": "Genomsnittet av vad köpare erbjuder (bud) och vad säljare begär (ask)",
+    "whyItMatters": "Marknadsmässigt pris för en option. Används för att beräkna premien",
+    "unit": "SEK per optionskontrakt (1 kontrakt = 100 aktier)"
+  },
+  "Option_Price_Min": {
+    "name": "Lägsta optionspris",
+    "category": "Prissättning",
+    "whatItIs": "Lägsta pris per option för att nå break-even efter transaktionskostnader",
+    "whyItMatters": "Break-even-gräns för optionskontraktet",
+    "unit": "SEK per option"
+  },
+  "NumberOfContractsBasedOnLimit": {
+    "name": "Antal kontrakt",
+    "category": "Prissättning",
+    "whatItIs": "Antal optionskontrakt att sälja baserat på den konfigurerade positionsgränsen",
+    "whyItMatters": "Alla förlust- och premieberäkningar utgår från denna positionsstorlek"
+  },
+  "Bid": {
+    "name": "Bud",
+    "category": "Prissättning",
+    "whatItIs": "Högsta pris köpare för närvarande erbjuder",
+    "whyItMatters": "Aktuellt marknadsbud för optionskontraktet",
+    "unit": "SEK per option"
+  },
+  "Ask": {
+    "name": "Ask",
+    "category": "Prissättning",
+    "whatItIs": "Lägsta pris säljare för närvarande begär",
+    "whyItMatters": "Aktuellt marknadsask för optionskontraktet",
+    "unit": "SEK per option"
+  },
+  "AskBidSpread": {
+    "name": "Ask-Bud-Spread",
+    "category": "Prissättning",
+    "whatItIs": "Skillnad mellan Ask- och Bud-pris",
+    "whyItMatters": "Marknadslikviditet; indikerar gapet mellan köp- och säljpris",
+    "unit": "SEK"
+  },
+  "1_2_3_ProbOfWorthless_Weighted": {
+    "name": "Viktad sannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Ensemblsannolikhet som kombinerar Black-Scholes, kalibrerad och historisk IV-metod",
+    "whyItMatters": "Sammanvägd uppskattning från tre oberoende beräkningsmetoder",
+    "unit": "0,0 till 1,0 (0% till 100%)"
+  },
+  "1_ProbOfWorthless_Original": {
+    "name": "Black-Scholes-sannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Sannolikhet enligt Black-Scholes matematiska modell",
+    "whyItMatters": "Ren matematisk beräkning. Ingår i viktad sannolikhet men kan över- eller underskatta",
+    "unit": "0,0 till 1,0"
+  },
+  "2_ProbOfWorthless_Calibrated": {
+    "name": "Kalibrerad sannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Black-Scholes justerad med historisk noggrannhet för denna aktie",
+    "whyItMatters": "Korrigerar för systematisk över- eller underskattning. Mer träffsäker än rå Black-Scholes",
+    "unit": "0,0 till 1,0"
+  },
+  "3_ProbOfWorthless_Historical_IV": {
+    "name": "Historisk IV-sannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Sannolikhet baserad på hur träffsäker implicit volatilitet historiskt har varit",
+    "whyItMatters": "Använder verkliga marknadsdata för att uppskatta sannolikhet",
+    "unit": "0,0 till 1,0"
+  },
+  "ProbWorthless_Bayesian_IsoCal": {
+    "name": "Bayesiansk sannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Sofistikerad statistisk justering baserad på liknande historiska optioner",
+    "whyItMatters": "Grupperar liknande optioner (efter sannolikhetsbucket och tid till förfall) och lär av utfall",
+    "unit": "0,0 till 1,0"
+  },
+  "PoW_Simulation_Mean_Earnings": {
+    "name": "Simulerat medelvärde",
+    "category": "Sannolikhet",
+    "whatItIs": "Genomsnittlig vinst/förlust från 1 000 Monte Carlo-simuleringar",
+    "whyItMatters": "Simulerat långsiktigt genomsnitt. Positivt = lönsam strategi över många affärer",
+    "unit": "SEK"
+  },
+  "PoW_Stats_MedianLossPct": {
+    "name": "Medianförlust %",
+    "category": "Sannolikhet",
+    "whatItIs": "Typisk förlustprocent när det går fel (historiska optioner med hög sannolikhet)",
+    "whyItMatters": "Visar vad som faktiskt hände med liknande optioner historiskt",
+    "unit": "Procent"
+  },
+  "PoW_Stats_WorstLossPct": {
+    "name": "Värsta förlust %",
+    "category": "Sannolikhet",
+    "whatItIs": "Värsta historiska förlustprocent (från liknande högprobabilitetsoptioner)",
+    "whyItMatters": "Verklighetscheck på worst-case-scenarier",
+    "unit": "Procent"
+  },
+  "PoW_Stats_MedianLoss": {
+    "name": "Medianförlust",
+    "category": "Sannolikhet",
+    "whatItIs": "Typiskt förlustbelopp när det går fel",
+    "whyItMatters": "Historisk verklighetscheck i SEK",
+    "unit": "SEK"
+  },
+  "PoW_Stats_WorstLoss": {
+    "name": "Värsta förlust",
+    "category": "Sannolikhet",
+    "whatItIs": "Värsta historiska förlustbelopp",
+    "whyItMatters": "Visar maximal förlust i SEK från liknande historiska optioner",
+    "unit": "SEK"
+  },
+  "PoW_Stats_MedianProbOfWorthless": {
+    "name": "Medianssannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Typiskt sannolikhetsvärde i denna historiska grupp",
+    "whyItMatters": "Referenspunkt för liknande optioner",
+    "unit": "0,0 till 1,0"
+  },
+  "PoW_Stats_MinProbOfWorthless": {
+    "name": "Minimisannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Lägsta sannolikhet i historisk grupp",
+    "whyItMatters": "Visar spridning bland liknande optioner",
+    "unit": "0,0 till 1,0"
+  },
+  "PoW_Stats_MaxProbOfWorthless": {
+    "name": "Maximisannolikhet",
+    "category": "Sannolikhet",
+    "whatItIs": "Högsta sannolikhet i historisk grupp",
+    "whyItMatters": "Visar spridning bland liknande optioner",
+    "unit": "0,0 till 1,0"
+  },
+  "Lower_Bound_at_Accuracy": {
+    "name": "Nedre gräns (80% noggrannhet)",
+    "category": "Riskskydd",
+    "whatItIs": "Aktiekursnivå beräknad med 80% historisk noggrannhetströskel",
+    "whyItMatters": "Ger riskgränsuppskattning baserad på historiska volatilitetsmönster",
+    "unit": "SEK"
+  },
+  "Lower_Bound_HistMedianIV_at_Accuracy": {
+    "name": "Nedre gräns (historisk median-IV)",
+    "category": "Riskskydd",
+    "whatItIs": "Nedre gräns med historisk median-implicit volatilitet (vid 80% noggrannhet)",
+    "whyItMatters": "Alternativ beräkningsmetod med långsiktig volatilitetsbaseline",
+    "unit": "SEK"
+  },
+  "Lower_Bound": {
+    "name": "Nedre gräns",
+    "category": "Riskskydd",
+    "whatItIs": "Grundläggande nedre gränsberäkning med aktuell implicit volatilitet",
+    "whyItMatters": "Enklaste uppskattningen. Jämför med andra nedre gränser för fullständig bild",
+    "unit": "SEK"
+  },
+  "Lower_Bound_HistMedianIV": {
+    "name": "Nedre gräns (hist. median)",
+    "category": "Riskskydd",
+    "whatItIs": "Nedre gräns med historisk median-IV (utan noggrannhetsjustering)",
+    "whyItMatters": "Visar typiskt volatilitetsintervall utan noggrannhetsviktning",
+    "unit": "SEK"
+  },
+  "ExpiryDate_Lower_Bound_Minus_Pct_Based_on_Accuracy": {
+    "name": "Nedre gränsjustering %",
+    "category": "Riskskydd",
+    "whatItIs": "Procentuell justering som används i nedre gränsberäkningar",
+    "whyItMatters": "Tekniskt fält som visar hur stor volatilitetsbuffert som tillämpas",
+    "unit": "Decimal (0,35 = 35%)"
+  },
+  "StrikeBelowLowerAtAcc": {
+    "name": "Lösenpris under nedre gräns",
+    "category": "Riskskydd",
+    "whatItIs": "'Y' om lösenpriset är under Lower_Bound_at_Accuracy OCH spreaden är rimlig (≤10 SEK)",
+    "whyItMatters": "Flagga som indikerar lösenprisets läge relativt beräknad nedre gräns med tillräcklig likviditet"
+  },
+  "LossAtBadDecline": {
+    "name": "Förlust vid dåligt fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien upplever ett dåligt historiskt fall (10:e–20:e percentilen sämst)",
+    "whyItMatters": "Historiskt förlustscenario vid måttlig negativ marknadsrörelse",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "LossAtWorstDecline": {
+    "name": "Förlust vid värsta fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien upplever sitt enskilt värsta historiska fall",
+    "whyItMatters": "Absolut värsta fall i denna akties historia. Mycket sällsynt men möjligt",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "LossAt100DayWorstDecline": {
+    "name": "Förlust vid 100-dagars värsta",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien faller som under dess värsta 100-dagarsperiod någonsin",
+    "whyItMatters": "Tidsmatchad risk (om optionen har ~100 dagar visar det relevant historisk jämförelse)",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "LossAt_2008_100DayWorstDecline": {
+    "name": "Förlust vid 2008 (100-dagars)",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien faller som den gjorde under finanskrisen 2008 (100-dagarsfönster)",
+    "whyItMatters": "Stresstest mot global finanskris. Extremt men har inträffat",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "LossAt50DayWorstDecline": {
+    "name": "Förlust vid 50-dagars värsta",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien faller som under dess värsta 50-dagarsperiod någonsin",
+    "whyItMatters": "För kortare optioner (~50 dagar till förfall)",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "LossAt_2008_50DayWorstDecline": {
+    "name": "Förlust vid 2008 (50-dagars)",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien faller som den gjorde under krisen 2008 (50-dagarsfönster)",
+    "whyItMatters": "Kortare stresstest mot finanskrisen 2008",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "Loss_Least_Bad": {
+    "name": "Minst dålig förlust",
+    "category": "Förlustscenarier",
+    "whatItIs": "Den minsta förlusten bland dåliga, värsta och 100-dagarsscenarier",
+    "whyItMatters": "Det mest optimistiska av de realistiska dåliga scenarierna",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "WorstHistoricalDecline": {
+    "name": "Värsta historiska fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "Procentuellt fall aktien upplevde under sin värsta historiska period",
+    "whyItMatters": "Visar aktiens maximala smärtpunkt",
+    "unit": "Decimal (0,45 = 45% fall)"
+  },
+  "BadHistoricalDecline": {
+    "name": "Dåligt historiskt fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "Procentuellt fall aktien upplevde under en 'dålig' historisk period",
+    "whyItMatters": "Typiskt signifikant fall för denna aktie",
+    "unit": "Decimal (0,25 = 25% fall)"
+  },
+  "100DayMaxPrice": {
+    "name": "Maxpris 100 dagar",
+    "category": "Förlustscenarier",
+    "whatItIs": "Högsta aktiekurs de senaste 100 dagarna",
+    "whyItMatters": "Visar nära toppen. Aktuellt pris vs detta = hur mycket aktien redan fallit",
+    "unit": "SEK"
+  },
+  "100DayMaxPriceDate": {
+    "name": "Datum maxpris 100 dagar",
+    "category": "Förlustscenarier",
+    "whatItIs": "Datum när aktien nådde sitt 100-dagarsmaximum",
+    "whyItMatters": "Nära topptiming. Om igår = nära topp, om för 95 dagar sedan = redan fallit",
+    "unit": "ÅÅÅÅ-MM-DD"
+  },
+  "50DayMaxPrice": {
+    "name": "Maxpris 50 dagar",
+    "category": "Förlustscenarier",
+    "whatItIs": "Högsta aktiekurs de senaste 50 dagarna",
+    "whyItMatters": "Kortsiktig toppnivåreferens",
+    "unit": "SEK"
+  },
+  "50DayMaxPriceDate": {
+    "name": "Datum maxpris 50 dagar",
+    "category": "Förlustscenarier",
+    "whatItIs": "Datum när aktien nådde sitt 50-dagarsmaximum",
+    "whyItMatters": "Indikator för nära trendrörelse",
+    "unit": "ÅÅÅÅ-MM-DD"
+  },
+  "Historical100DaysWorstDecline": {
+    "name": "Historiskt 100-dagars värsta",
+    "category": "Förlustscenarier",
+    "whatItIs": "Värsta fallprocenten under valfri 100-dagarsperiod i aktiens historia",
+    "whyItMatters": "Historisk volatilitetsreferens för 100-dagarsperiod",
+    "unit": "Decimal (negativt, t.ex. -0,45 = -45%)"
+  },
+  "Historical50DaysWorstDecline": {
+    "name": "Historiskt 50-dagars värsta",
+    "category": "Förlustscenarier",
+    "whatItIs": "Värsta fallprocenten under valfri 50-dagarsperiod i aktiens historia",
+    "whyItMatters": "Historisk volatilitetsreferens för 50-dagarsperiod",
+    "unit": "Decimal (negativt)"
+  },
+  "2008_100DaysWorstDecline": {
+    "name": "2008 100-dagars värsta",
+    "category": "Förlustscenarier",
+    "whatItIs": "Värsta 100-dagarsfallet under finanskrisen 2008",
+    "whyItMatters": "Krishriktmärke för 100-dagarsperiod",
+    "unit": "Decimal (negativt)"
+  },
+  "2008_50DaysWorstDecline": {
+    "name": "2008 50-dagars värsta",
+    "category": "Förlustscenarier",
+    "whatItIs": "Värsta 50-dagarsfallet under finanskrisen 2008",
+    "whyItMatters": "Krishriktmärke för 50-dagarsperiod",
+    "unit": "Decimal (negativt)"
+  },
+  "IV_2sigma_Decline": {
+    "name": "IV 2-sigma fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "IV-implicerat 2-sigma nedåtrörelse över återstående DTE: −2 × IV × √(DTE / 252)",
+    "whyItMatters": "Vad optionsmarknaden för närvarande prissätter som ett kraftigt fall. Stiger automatiskt i högt IV-klimat",
+    "unit": "Decimal (negativt, t.ex. -0,207 = -20,7%)"
+  },
+  "BreakevenDecline": {
+    "name": "Break-even-fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "Aktien måste falla minst så mycket innan säljoptionen ger monetär förlust: (Lösenpris − Premie) / Aktiekurs − 1",
+    "whyItMatters": "Tröskeln som förankrar alla andra stressscenarier",
+    "unit": "Decimal (negativt, t.ex. -0,125 = -12,5%)"
+  },
+  "CVaR10pct_Decline": {
+    "name": "CVaR 10% fall",
+    "category": "Förlustscenarier",
+    "whatItIs": "Genomsnittet av de sämsta 10% av historiska fall (Expected Shortfall), DTE-matchat. Mer robust än en enskild worst-case-datapunkt",
+    "whyItMatters": "Svanriskuppskattning: inte bara 10:e-percentilgränsen utan genomsnittligt utfall när förluster är i den sämsta 10%",
+    "unit": "Decimal (negativt)"
+  },
+  "LossAtIV2sigmaDecline": {
+    "name": "Förlust vid IV 2-sigma",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien faller med det IV-implicerade 2-sigma-rörelsen",
+    "whyItMatters": "SEK-ekvivalent för IV 2-sigma stresscenario vid aktuell positionsstorlek",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "LossAtCVaR10pctDecline": {
+    "name": "Förlust vid CVaR 10%",
+    "category": "Förlustscenarier",
+    "whatItIs": "Förlust om aktien faller med CVaR 10% historiskt svanfall",
+    "whyItMatters": "SEK-ekvivalent för CVaR svanriskscenario vid aktuell positionsstorlek",
+    "unit": "SEK (negativt = förlust)"
+  },
+  "ProfitLossPctLeastBad": {
+    "name": "Vinst/förlust % (minst dåligt)",
+    "category": "Vinstförhållanden",
+    "whatItIs": "Premie ÷ Minst dålig förlust (minsta av de dåliga scenarierna)",
+    "whyItMatters": "Risk/avkastning-förhållande för det mest optimistiska dåliga scenariot. Högre = bättre",
+    "unit": "Kvot",
+    "example": "0,25 = premien är 25% av potentiell förlust"
+  },
+  "ProfitLossPctBad": {
+    "name": "Vinst/förlust % (dåligt)",
+    "category": "Vinstförhållanden",
+    "whatItIs": "Premie ÷ Förlust vid dåligt fall",
+    "whyItMatters": "Typiskt dåligt scenarios risk/avkastning",
+    "unit": "Kvot",
+    "example": "0,20 = du får 20% av potentiell förlust som premie"
+  },
+  "ProfitLossPctWorst": {
+    "name": "Vinst/förlust % (värst)",
+    "category": "Vinstförhållanden",
+    "whatItIs": "Premie ÷ Förlust vid värsta fall",
+    "whyItMatters": "Absolut worst-case risk/avkastning. Mycket lågt = stora förluster möjliga",
+    "unit": "Kvot",
+    "example": "0,10 = premien är 10% av worst-case-förlusten"
+  },
+  "ProfitLossPct100DayWorst": {
+    "name": "Vinst/förlust % (100-dagars)",
+    "category": "Vinstförhållanden",
+    "whatItIs": "Premie ÷ Förlust vid 100-dagars värsta fall",
+    "whyItMatters": "Tidsmatchad risk/avkastning för 100-dagarsscenarier",
+    "unit": "Kvot"
+  },
+  "ImpliedVolatility": {
+    "name": "Implicit volatilitet",
+    "category": "Volatilitet",
+    "whatItIs": "Marknadens förväntning på framtida aktiekursvolatilitet (annualiserad)",
+    "whyItMatters": "Viktig prissättningsindata. Högre IV = högre premier men mer risk",
+    "unit": "Decimal (0,30 = 30%)",
+    "example": "0,30 innebär att marknaden förväntar sig att aktien rör sig ±30% under ett år"
+  },
+  "ImpliedVolatilityUntilExpiry": {
+    "name": "IV till förfall",
+    "category": "Volatilitet",
+    "whatItIs": "Implicit volatilitet skalad till faktisk tid till förfall",
+    "whyItMatters": "Mer exakt volatilitetsmått för kortare tidsperioder",
+    "unit": "Decimal"
+  },
+  "TodayStockMedianIV_Maximum100DaysToExp": {
+    "name": "Dagens median-IV",
+    "category": "Volatilitet",
+    "whatItIs": "Dagens median-implicit volatilitet för alla optioner på denna aktie (≤100 dagar till förfall)",
+    "whyItMatters": "Visar dagens övergripande volatilitetsnivå för denna aktie",
+    "unit": "Decimal"
+  },
+  "AllMedianIV_Maximum100DaysToExp": {
+    "name": "Historisk median-IV",
+    "category": "Volatilitet",
+    "whatItIs": "Historisk median-implicit volatilitet för denna aktie (alla tider, ≤100 dagar till förfall)",
+    "whyItMatters": "Volatilitetsbaseline. Aktuell IV över detta = förhöjda premier",
+    "unit": "Decimal"
+  },
+  "IV_AllMedianIV_Maximum100DaysToExp_Ratio": {
+    "name": "IV-kvot",
+    "category": "Volatilitet",
+    "whatItIs": "Aktuell IV ÷ Historisk median-IV",
+    "whyItMatters": "Volatilitetsindikator. >1,2 = hög volatilitet (bra premier), <0,8 = låg volatilitet (dåliga premier)",
+    "unit": "Kvot",
+    "example": "1,5 = aktuell volatilitet är 50% högre än normalt"
+  },
+  "StockPrice": {
+    "name": "Aktiekurs",
+    "category": "Positionsstorlek",
+    "whatItIs": "Aktuell aktiekurs (justerad för utdelning om X-Dag = 'Y')",
+    "whyItMatters": "Referenskurs för lösenprisjämförelse och nedre gränser",
+    "unit": "SEK"
+  },
+  "StrikePrice": {
+    "name": "Lösenpris",
+    "category": "Positionsstorlek",
+    "whatItIs": "Pris till vilket du måste köpa aktien om optionen utnyttjas",
+    "whyItMatters": "Avgörande beslutspunkt. Aktien måste falla under lösenpriset innan du förlorar pengar",
+    "unit": "SEK",
+    "example": "Lösenpris = 100 SEK innebär att du köper aktien för 100 om den faller under det"
+  },
+  "Underlying_Value": {
+    "name": "Underliggande värde",
+    "category": "Positionsstorlek",
+    "whatItIs": "Totalt värde av aktier du måste köpa om optionen utnyttjas",
+    "whyItMatters": "Visar kapitalbehovet om du tilldelas",
+    "unit": "SEK",
+    "example": "Lösenpris × Antal kontrakt × 100"
+  },
+  "StockPrice_After_2008_100DayWorstDecline": {
+    "name": "Aktiekurs efter 2008 (100-dagars)",
+    "category": "Positionsstorlek",
+    "whatItIs": "Var aktien skulle befinna sig efter ett krascht likt 2008 (100-dagarsfönster)",
+    "whyItMatters": "Konkret kursnivå för worst-case-scenario",
+    "unit": "SEK"
+  },
+  "StockPrice_After_100DayWorstDecline": {
+    "name": "Aktiekurs efter 100-dagars värsta",
+    "category": "Positionsstorlek",
+    "whatItIs": "Var aktien skulle befinna sig efter sitt historiskt värsta 100-dagarsfall",
+    "whyItMatters": "Historiskt worst-case-kursnivå",
+    "unit": "SEK"
+  },
+  "StockPrice_After_50DayWorstDecline": {
+    "name": "Aktiekurs efter 50-dagars värsta",
+    "category": "Positionsstorlek",
+    "whatItIs": "Var aktien skulle befinna sig efter sitt historiskt värsta 50-dagarsfall",
+    "whyItMatters": "Kortare worst-case-kursnivå",
+    "unit": "SEK"
+  },
+  "StockPrice_After_2008_50DayWorstDecline": {
+    "name": "Aktiekurs efter 2008 (50-dagars)",
+    "category": "Positionsstorlek",
+    "whatItIs": "Var aktien skulle befinna sig efter ett krascht likt 2008 (50-dagarsfönster)",
+    "whyItMatters": "Kortare 2008-kriskursnivå",
+    "unit": "SEK"
+  },
+  "DaysToExpiry": {
+    "name": "Dagar till förfall",
+    "category": "Timing",
+    "whatItIs": "Kalenderdagar till optionens förfall",
+    "whyItMatters": "Fler dagar = mer premie men mer tid för att något ska gå fel. Optimalt intervall ofta 30–90 dagar",
+    "unit": "Dagar"
+  },
+  "Mean_Accuracy": {
+    "name": "Medelnoggrannhet",
+    "category": "Timing",
+    "whatItIs": "Historisk noggrannhet för implicit volatilitetsprognoser för denna aktie/tidsram",
+    "whyItMatters": "Konfidensindikator. Högre = mer tillförlitliga sannolikhetsuppskattningar",
+    "unit": "0,0 till 1,0 (0% till 100%)",
+    "example": "0,80 = implicit volatilitet var träffsäker 80% av fallen historiskt"
+  },
+  "100k_Invested_Loss_Mean": {
+    "name": "Genomsnittlig förlust 100k investerat",
+    "category": "Timing",
+    "whatItIs": "Genomsnittlig förlust för 100k SEK-positioner med liknande sannolikhet/förfall, baserat på historiska utfall",
+    "whyItMatters": "Verkliga resultat från liknande historiska affärer. Verklighetscheck på dina uppskattningar",
+    "unit": "SEK"
+  },
+  "EstTotalMargin": {
+    "name": "Uppskattad total marginal",
+    "category": "Marginal och kapital",
+    "whatItIs": "UPPSKATTAD total marginalsäkerhet som krävs för denna position (Uppskattad marginal per kontrakt × Antal kontrakt). VIKTIGT: Konservativ uppskattning med SRI-metodik, INTE det exakta kravet från Nasdaq Stockholm",
+    "whyItMatters": "Visar hur mycket köpkraft som är bunden. Lägre marginal = effektivare kapitalanvändning. Använd för att planera positioner och förstå kapitaleffektivitet (ROM)",
+    "unit": "SEK"
+  },
+  "Est_Margin_SEK": {
+    "name": "Uppskattad marginal per kontrakt",
+    "category": "Marginal och kapital",
+    "whatItIs": "UPPSKATTAD marginalsäkerhet för ett optionskontrakt (100 aktier) med Syntetisk Riskintervall-metodik (SRI). NOTERA: Uppskattning, inte Nasdaqs exakta krav",
+    "whyItMatters": "Grundmarginalsumma per kontrakt. Total marginal = detta fält × antal kontrakt. Hjälper att förstå kapitaleffektivitet",
+    "unit": "SEK per kontrakt"
+  },
+  "Final_SRI": {
+    "name": "Slutligt säkerhets-riskindex",
+    "category": "Marginal och kapital",
+    "whatItIs": "Konservativt riskmått som kombinerar volatilitet och händelserisk. Används som bas för marginalberäkningar",
+    "whyItMatters": "Högre SRI = mer konservativ marginal = säkrare men kräver mer kapital",
+    "unit": "Decimal"
+  },
+  "Annualized_ROM_Pct": {
+    "name": "Annualiserad avkastning på marginal %",
+    "category": "Marginal och kapital",
+    "whatItIs": "Premie som annualiserad procentandel av uppskattad marginalsäkerhet. Visar kapitaleffektivitet",
+    "whyItMatters": "Nyckeleffektivitetsmått. Högre = bättre kapitalutnyttjande",
+    "unit": "Procent"
+  },
+  "Net_Premium_After_Costs": {
+    "name": "Nettopremie efter kostnader",
+    "category": "Marginal och kapital",
+    "whatItIs": "Premie minus transaktionskostnader. Representerar faktisk vinst om optionen förfaller värdelös",
+    "whyItMatters": "Mer realistisk än bruttopremien",
+    "unit": "SEK"
+  },
+  "SRI_Base": {
+    "name": "SRI-bas",
+    "category": "Marginal och kapital",
+    "whatItIs": "Startande säkerhets-riskindex före händelsejusteringar",
+    "whyItMatters": "Byggsten för marginalberäkning",
+    "unit": "Decimal"
+  },
+  "Event_Buffer": {
+    "name": "Händelsebuffert",
+    "category": "Marginal och kapital",
+    "whatItIs": "Ytterligare marginalbuffert om resultatrapport eller utdelningshändelse inträffar före förfall",
+    "whyItMatters": "Händelser ökar volatilitet och risk",
+    "unit": "Decimal"
+  },
+  "OTM_Amount": {
+    "name": "OTM-belopp",
+    "category": "Marginal och kapital",
+    "whatItIs": "Hur långt out-of-the-money lösenpriset är (Aktiekurs − Lösenpris)",
+    "whyItMatters": "Större OTM-buffert = mer säkerhet = potentiellt lägre marginal",
+    "unit": "SEK"
+  },
+  "Margin_A_Broker_Proxy": {
+    "name": "Marginal A mäklarproxy",
+    "category": "Marginal och kapital",
+    "whatItIs": "Marginalberäkningskomponent baserad på mäklarliknande formel",
+    "whyItMatters": "En metod för att uppskatta marginal",
+    "unit": "SEK"
+  },
+  "Margin_B_Historical_Floor": {
+    "name": "Marginal B historiskt golv",
+    "category": "Marginal och kapital",
+    "whatItIs": "Marginalberäkning baserad på historiskt worst-case-fall",
+    "whyItMatters": "Säkerställer att marginalen täcker faktiska historiska worst-case-scenarier",
+    "unit": "SEK"
+  },
+  "Margin_Floor_15pct": {
+    "name": "Marginalgolv 15%",
+    "category": "Marginal och kapital",
+    "whatItIs": "Regulatoriskt golv: minimum 15% av lösenpriset (svensk regleringsminimum)",
+    "whyItMatters": "Säkerställer efterlevnad av svenska regulatoriska minimimarginaler",
+    "unit": "SEK"
+  },
+  "Prob_Normal_2SD_Decline_Pct": {
+    "name": "Sannolikhet normal 2SD fall %",
+    "category": "Marginal och kapital",
+    "whatItIs": "Statistisk 2-standardavvikelse-fallsannolikhet från implicit volatilitet",
+    "whyItMatters": "Matematisk grund för marginalberäkningar",
+    "unit": "Procent"
+  },
+  "Hist_Worst_Decline_Pct": {
+    "name": "Historiskt värsta fall %",
+    "category": "Marginal och kapital",
+    "whatItIs": "Faktisk värsta historiska fallprocent för denna aktie",
+    "whyItMatters": "Verklig datapunkt som används i marginalberäkningar",
+    "unit": "Procent"
+  }
+}
