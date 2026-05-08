@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef, useCallback } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
@@ -20,9 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { BarChart3, Table, FileSpreadsheet, ChevronDown, Info, TrendingUp, RotateCcw } from "lucide-react";
+import { BarChart3, Table, FileSpreadsheet, ChevronDown, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { DataTimestamp } from "@/components/ui/data-timestamp";
@@ -51,19 +49,6 @@ const Index = () => {
     const period = searchParams.get('strikeBelowPeriod');
     return period ? parseInt(period, 10) : null;
   });
-  const [selectedRiskLevels, setSelectedRiskLevels] = useState<string[]>(() => {
-    const riskLevels = searchParams.get('riskLevels');
-    if (!riskLevels) return [];
-    
-    try {
-      const decodedRiskLevels = decodeURIComponent(riskLevels);
-      const result = JSON.parse(decodedRiskLevels);
-      return Array.isArray(result) ? result : [];
-    } catch {
-      // Fallback to comma split for backward compatibility
-      return riskLevels.split(',').filter(Boolean);
-    }
-  });
   const [sortField, setSortField] = useState<keyof OptionData | null>(() => {
     const field = searchParams.get('sortField');
     return field as keyof OptionData || null;
@@ -82,81 +67,16 @@ const Index = () => {
     { label: t('index.timePeriods.1y'), days: 365 },
   ];
 
-  const riskLevelOptions = [
-    { value: "High Risk", label: t('index.riskLevelNames.High Risk') },
-    { value: "Medium Risk", label: t('index.riskLevelNames.Medium Risk') },
-    { value: "Low Risk", label: t('index.riskLevelNames.Low Risk') },
-  ];
-
-  const getRiskLevel = useCallback((option: OptionData) => {
-    const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
-    if (probValue <= 0.6) return 'High Risk';
-    if (probValue < 0.8) return 'Medium Risk';
-    return 'Low Risk';
-  }, []);
-
-  // Risk info component that works on both desktop and mobile
-  const RiskInfoButton = () => (
-    <>
-      {/* Desktop tooltip */}
-      <div className="hidden md:block">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Info className="h-3 w-3 text-muted-foreground cursor-help" />
-            </TooltipTrigger>
-            <TooltipContent className="max-w-sm bg-background border z-50">
-              <div className="space-y-2 text-sm">
-                <p className="font-medium">{t('index.riskLevel.heading')}:</p>
-                <div className="space-y-1">
-                  <p><strong>{t('index.riskLevelNames.High Risk')}:</strong> ≤60% {t('tooltips:riskLevel.high.description', 'probability of being worthless')}</p>
-                  <p><strong>{t('index.riskLevelNames.Medium Risk')}:</strong> {">"}60% and {"<"}80% {t('tooltips:riskLevel.high.description', 'probability of being worthless')}</p>
-                  <p><strong>{t('index.riskLevelNames.Low Risk')}:</strong> ≥80% {t('tooltips:riskLevel.high.description', 'probability of being worthless')}</p>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  {t('index.riskLevel.note')}
-                </p>
-              </div>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-      
-      {/* Mobile dialog */}
-      <div className="md:hidden">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Info className="h-3 w-3 text-muted-foreground cursor-pointer" />
-          </DialogTrigger>
-          <DialogContent className="max-w-sm">
-            <div className="space-y-3">
-              <h3 className="font-medium">{t('index.riskLevel.heading')}</h3>
-              <div className="space-y-2 text-sm">
-                <p><strong>{t('index.riskLevelNames.High Risk')}:</strong> {t('index.riskLevel.high')}</p>
-                <p><strong>{t('index.riskLevelNames.Medium Risk')}:</strong> {t('index.riskLevel.medium')}</p>
-                <p><strong>{t('index.riskLevelNames.Low Risk')}:</strong> {t('index.riskLevel.low')}</p>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {t('index.riskLevel.note')}
-              </p>
-            </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </>
-  );
-
   // Handle URL parameters for sharing (only on initial load)
   useEffect(() => {
     if (urlParamsProcessed.current || !data.length) return;
     
-    const hasUrlParams = searchParams.has('stocks') || searchParams.has('expiryDates') || searchParams.has('riskLevels');
+    const hasUrlParams = searchParams.has('stocks') || searchParams.has('expiryDates');
     if (hasUrlParams) {
       // Process URL params for sharing
       const stocks = searchParams.get('stocks');
       const dates = searchParams.get('expiryDates');
-      const riskLevels = searchParams.get('riskLevels');
-      
+
       if (stocks) {
         try {
           const result = JSON.parse(decodeURIComponent(stocks));
@@ -172,15 +92,6 @@ const Index = () => {
           if (Array.isArray(result)) setSelectedExpiryDates(result);
         } catch {
           setSelectedExpiryDates(dates.split(',').filter(Boolean));
-        }
-      }
-      
-      if (riskLevels) {
-        try {
-          const result = JSON.parse(decodeURIComponent(riskLevels));
-          if (Array.isArray(result)) setSelectedRiskLevels(result);
-        } catch {
-          setSelectedRiskLevels(riskLevels.split(',').filter(Boolean));
         }
       }
       
@@ -220,7 +131,6 @@ const Index = () => {
     
     setSelectedStocks(validSavedStocks);
     setSelectedExpiryDates(expiryDatesToUse);
-    setSelectedRiskLevels(savedFilters.selectedRiskLevels);
     setStrikeBelowPeriod(savedFilters.strikeBelowPeriod || null);
 
     console.log('📝 Applied filters - stocks:', validSavedStocks, 'dates:', expiryDatesToUse, 'risk:', savedFilters.selectedRiskLevels, 'strikeBelowPeriod:', savedFilters.strikeBelowPeriod);
@@ -264,7 +174,6 @@ const Index = () => {
     
     setSelectedStocks([]);
     setSelectedExpiryDates(defaultDate ? [defaultDate] : []);
-    setSelectedRiskLevels([]);
     setStrikeBelowPeriod(null);
     
     toast.success(t('index.toast.filtersReset'));
@@ -277,21 +186,20 @@ const Index = () => {
         console.log('💾 Saving preferences to Supabase:', {
           selectedStocks,
           selectedExpiryDates,
-          selectedRiskLevels,
           strikeBelowPeriod
         });
         saveFilterSettings({
           selectedStocks,
           selectedExpiryDates,
-          selectedRiskLevels,
-          strikePriceFilter: 'all', // Not used, keeping for compatibility
+          selectedRiskLevels: [],
+          strikePriceFilter: 'all',
           strikeBelowPeriod
         });
       }, 500); // Debounce to avoid saving too frequently
 
       return () => clearTimeout(timeoutId);
     }
-  }, [selectedStocks, selectedExpiryDates, selectedRiskLevels, strikeBelowPeriod, isLoadingPreferences, data.length, saveFilterSettings]);
+  }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, isLoadingPreferences, data.length, saveFilterSettings]);
   
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
@@ -325,12 +233,9 @@ const Index = () => {
         }
       }
       
-      // Risk level filter
-      const matchesRiskLevel = selectedRiskLevels.length === 0 || selectedRiskLevels.includes(getRiskLevel(option));
-      
-      return matchesStock && matchesExpiry && matchesRiskLevel;
+      return matchesStock && matchesExpiry;
     });
-  }, [data, selectedStocks, selectedExpiryDates, strikeBelowPeriod, selectedRiskLevels, lowPricesCache, getRiskLevel]);
+  }, [data, selectedStocks, selectedExpiryDates, strikeBelowPeriod, lowPricesCache]);
 
   // Memoized filtered stocks
   const filteredStocks = useMemo(() => {
@@ -528,71 +433,6 @@ const Index = () => {
                 </DropdownMenu>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center gap-1 min-h-5">
-                  <Label>{t('index.filters.riskLevel')}</Label>
-                  <RiskInfoButton />
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="min-w-[200px] justify-between">
-                      {selectedRiskLevels.length === 0
-                        ? t('index.filters.allRiskLevels')
-                        : selectedRiskLevels.length === 1
-                        ? riskLevelOptions.find(r => r.value === selectedRiskLevels[0])?.label ?? selectedRiskLevels[0]
-                        : t('index.levelsSelected', { count: selectedRiskLevels.length })}
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] p-3 bg-background z-50">
-                    <div className="space-y-2">
-                      <div className="flex items-center space-x-2 border-b pb-2">
-                        <Checkbox
-                          id="select-all-risk"
-                          checked={selectedRiskLevels.length === riskLevelOptions.length}
-                          onCheckedChange={(checked) => {
-                            const newValue = checked ? riskLevelOptions.map(r => r.value) : [];
-                            trackFilterChange('filter_risk_levels_changed', {
-                              filter_type: 'risk_levels',
-                              old_value: selectedRiskLevels,
-                              new_value: newValue,
-                              page: 'index',
-                            });
-                            setSelectedRiskLevels(newValue);
-                          }}
-                        />
-                        <label htmlFor="select-all-risk" className="text-sm cursor-pointer font-medium">
-                          {t('index.selectAll')}
-                        </label>
-                      </div>
-                      {riskLevelOptions.map(risk => (
-                        <div key={risk.value} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`risk-${risk.value}`}
-                            checked={selectedRiskLevels.includes(risk.value)}
-                            onCheckedChange={(checked) => {
-                              const newValue = checked
-                                ? [...selectedRiskLevels, risk.value]
-                                : selectedRiskLevels.filter(r => r !== risk.value);
-                              trackFilterChange('filter_risk_levels_changed', {
-                                filter_type: 'risk_levels',
-                                old_value: selectedRiskLevels,
-                                new_value: newValue,
-                                page: 'index',
-                              });
-                              setSelectedRiskLevels(newValue);
-                            }}
-                          />
-                          <label htmlFor={`risk-${risk.value}`} className="text-sm cursor-pointer">
-                            {risk.label}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-              
               <div className="space-y-2">
                 <div className="flex items-center gap-1 min-h-5">
                   <Label>{t('index.filters.filterByStock')}</Label>
