@@ -19,6 +19,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { SettingsModal } from "@/components/SettingsModal";
 import {
   DropdownMenu,
@@ -51,17 +52,21 @@ export const HorizontalNavigation = () => {
 
   // Navigation button component for standalone pages
   const NavButton = ({ path, icon: Icon, label }: { path: string; icon: any; label: string }) => (
-    <Button
-      asChild
-      variant={isActive(path) ? "default" : "ghost"}
-      size="sm"
-      className="flex items-center gap-2 whitespace-nowrap"
-    >
-      <Link to={path}>
-        <Icon className="h-4 w-4" />
-        <span className="hidden sm:inline">{label}</span>
-      </Link>
-    </Button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <Button
+          asChild
+          variant={isActive(path) ? "default" : "ghost"}
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Link to={path}>
+            <Icon className="h-4 w-4" />
+          </Link>
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{label}</TooltipContent>
+    </Tooltip>
   );
 
   // Dropdown group component
@@ -77,17 +82,21 @@ export const HorizontalNavigation = () => {
     const isDropdownActive = isGroupActive(items.map(i => i.path));
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant={isDropdownActive ? "default" : "ghost"}
-            size="sm"
-            className="flex items-center gap-1 whitespace-nowrap"
-          >
-            <Icon className="h-4 w-4" />
-            <span className="hidden sm:inline">{label}</span>
-            <ChevronDown className="h-3 w-3" />
-          </Button>
-        </DropdownMenuTrigger>
+        <Tooltip>
+          <DropdownMenuTrigger asChild>
+            <TooltipTrigger asChild>
+              <Button
+                variant={isDropdownActive ? "default" : "ghost"}
+                size="sm"
+                className="flex items-center gap-1"
+              >
+                <Icon className="h-4 w-4" />
+                <ChevronDown className="h-3 w-3" />
+              </Button>
+            </TooltipTrigger>
+          </DropdownMenuTrigger>
+          <TooltipContent>{label}</TooltipContent>
+        </Tooltip>
         <DropdownMenuContent align="start" className="w-56 bg-background border shadow-lg">
           {items.map(item => {
             const ItemIcon = item.icon;
@@ -113,7 +122,7 @@ export const HorizontalNavigation = () => {
   };
 
   return (
-    <>
+    <TooltipProvider>
       {/* Desktop Horizontal Navigation */}
       <nav className="hidden md:flex items-center gap-1 flex-wrap flex-1">
         {/* Support Level Analysis */}
@@ -383,6 +392,6 @@ export const HorizontalNavigation = () => {
         onOpenChange={setSettingsOpen}
         triggerButton={false}
       />
-    </>
+    </TooltipProvider>
   );
 };
