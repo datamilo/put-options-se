@@ -358,9 +358,9 @@
     "powMethod5": "Based on historical implied volatility",
     "kpi": {
       "recoveryCandidates": "Recovery Candidates",
-      "recoveryCandidatesSubtitle": "High probability options",
+      "recoveryCandidatesSubtitle": "Observations",
       "allOptions": "All Options (Ground Truth)",
-      "allOptionsSubtitle": "Total options analyzed",
+      "allOptionsSubtitle": "Total observations",
       "avgAccuracy": "Avg Accuracy",
       "avgAccuracySubtitle": "Model calibration",
       "stocksAnalyzed": "Stocks Analyzed",

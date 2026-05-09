@@ -358,9 +358,9 @@
     "powMethod5": "Baserad på historisk implicit volatilitet",
     "kpi": {
       "recoveryCandidates": "Återhämtningskandidater",
-      "recoveryCandidatesSubtitle": "Optioner med hög sannolikhet",
+      "recoveryCandidatesSubtitle": "Observationer",
       "allOptions": "Alla optioner (facit)",
-      "allOptionsSubtitle": "Totalt analyserade optioner",
+      "allOptionsSubtitle": "Totala observationer",
       "avgAccuracy": "Genomsnittlig träffsäkerhet",
       "avgAccuracySubtitle": "Modellkalibrering",
       "stocksAnalyzed": "Analyserade aktier",
