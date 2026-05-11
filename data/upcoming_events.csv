@@ -1,6 +1,6 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-05-11|AAK|Ex-Date|Dividend|0|False|3.85 SEK
-2026-05-11|Sagax B|Ex-Date|Dividend|0|False|3.7 SEK
+2026-05-11|AAK|Ex-Date|Dividend|-1|False|3.85 SEK
+2026-05-11|Sagax B|Ex-Date|Dividend|-1|False|3.7 SEK
 2026-05-12|Latour, Investmentab B|Ex-Date|Dividend|1|False|5.1 SEK
 2026-05-12|Coffee Stain Group B|Earnings Report|Earnings-FY|1|True|Fourth quarter earnings results
 2026-05-13|EQT|Ex-Date|Dividend|2|False|2.5 SEK
