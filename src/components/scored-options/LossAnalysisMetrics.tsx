@@ -70,7 +70,7 @@ export const LossAnalysisMetrics: React.FC = () => {
             </button>
           </div>
 
-          {/* V2.1 Loss Analysis Tab */}
+          {/* Probability Optimization Model Loss Analysis Tab */}
           {activeTab === 'v21' && (
             <div className="space-y-6">
               <div className="overflow-x-auto border rounded-lg">
@@ -141,7 +141,7 @@ export const LossAnalysisMetrics: React.FC = () => {
             </div>
           )}
 
-          {/* TA Model V3 Loss Analysis Tab */}
+          {/* TA ML Model Loss Analysis Tab */}
           {activeTab === 'v3' && (
             <div className="space-y-6">
               <div className="overflow-x-auto border rounded-lg">

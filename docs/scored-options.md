@@ -8,7 +8,7 @@
 
 ## Overview
 
-The **Scored Options Recommendations** page provides dual-model analysis combining Probability Optimization Score predictions with TA ML Model technical analysis indicators to identify high-probability put writing opportunities. The page validates model agreement between two independent analysis approaches and filters options based on score thresholds and model consensus.
+The **Scored Options Recommendations** page provides dual-model analysis combining Probability Optimization Model predictions with TA ML Model technical analysis indicators to identify high-probability put writing opportunities. The page validates model agreement between two independent analysis approaches and filters options based on score thresholds and model consensus.
 
 **Key Concept:** Two independent models score each option:
 - **Probability Optimization Model** - Probability-based scoring using current market probability (60%), historical peak probability (30%), and support strength (10%)
@@ -88,16 +88,16 @@ The other two cards remain static:
 
 | Column | Type | Description |
 |--------|------|-------------|
-| **Details** | Button | Expandable row showing Probability Optimization breakdown, TA ML Model breakdown, and agreement analysis |
+| **Details** | Button | Expandable row showing Probability Optimization Model breakdown, TA ML Model breakdown, and agreement analysis |
 | **Stock** | Link | Stock ticker (linked to stock details page) |
 | **Option** | Link | Option contract name (linked to option details page) |
 | **Strike** | Number | Strike price of the option |
 | **Expiry** | Date | Option expiration date (Swedish format: YYYY-MM-DD) |
 | **DTE** | Number | Days to expiration |
 | **Premium** | Currency | Current option premium in SEK |
-| **Probability Score** | Number (0-100) | Probability Optimization Score (may show "-" if missing) |
+| **Probability Score** | Number (0-100) | Probability Optimization Model Score (may show "-" if missing) |
 | **TA Prob** | Percentage (0-100%) | TA ML Model probability (may show "-" if missing) |
-| **Combined** | Score (0-100) | Average of Probability and TA scores with color coding |
+| **Combined** | Score (0-100) | Average of Probability Optimization Model and TA ML Model scores with color coding |
 | **Agree** | Symbol | ✓ (agree) or ✕ (disagree) |
 | **Strength** | Text | Strong / Moderate / Weak (only when models agree) |
 
@@ -121,9 +121,9 @@ The other two cards remain static:
 
 ## Expandable Row Details
 
-### Probability Optimization Breakdown Section
+### Probability Optimization Model Breakdown Section
 
-Detailed Probability Optimization model calculations:
+Detailed Probability Optimization Model calculations:
 - **Probability Score** - Overall probability score (displayed as percentage, e.g., "85,5%")
 - **Probability Bucket** - Risk categorization (e.g., "High", "Medium", "Low")
 - **Current Probability** - Current probability of value decay (displayed as percentage, e.g., "85,50%")
@@ -198,12 +198,12 @@ The page displays comprehensive bucket-based calibration metrics showing actual 
 
 **Two Independent Models, Side-by-Side Comparison:**
 
-**Probability Optimization Model (V2.1):**
+**Probability Optimization Model:**
 - Hit rates by score range from <50% to 90-100%
 - Based on 934K+ expired options over 21+ months (April 2024 - January 2026)
 - Shows stable 76-78% hit rate at the 70-80% optimal range
 
-**TA Model V3 (Technical + Machine Learning):**
+**TA ML Model (Technical + Machine Learning):**
 - Hit rates by predicted probability range
 - Based on 1.59M walk-forward validated out-of-sample predictions
 - Shows 77.1% hit rate at 70-80% range with tight 95% confidence intervals [77.0%-77.2%]
@@ -219,11 +219,11 @@ Both models independently score highly at the 70-80% prediction range:
 | **Confidence Interval** | [83.3%-84.3%] | [72.34%-72.49%] |
 | **Note** | Stable across all expirations | Varies by DTE (see below) |
 
-**Important:** TA Model V3 hit rate of 72.42% is a **weighted average** across all expiration dates. Performance varies dramatically by days to expiration—see critical DTE cliff finding below.
+**Important:** TA ML Model hit rate of 72.42% is a **weighted average** across all expiration dates. Performance varies dramatically by days to expiration—see critical DTE cliff finding below.
 
 ### 🚨 CRITICAL: DTE Performance Cliff
 
-TA Model V3 performance drops sharply beyond 35 days to expiration:
+TA ML Model performance drops sharply beyond 35 days to expiration:
 
 | DTE Range | Hit Rate (70-80% bucket) | Sample Size | Performance Level |
 |---|---|---|---|
@@ -244,7 +244,7 @@ TA Model V3 performance drops sharply beyond 35 days to expiration:
 
 ### Temporal Stability Analysis
 
-TA Model V3 calibration varies across different market periods (per-fold analysis):
+TA ML Model calibration varies across different market periods (per-fold analysis):
 
 - **Fold 1 (Aug-Dec 2024):** 73.8% (-3.2pp)
 - **Fold 2 (Dec 2024-Mar 2025):** 64.7% (-12.3pp) - Market regime shift
@@ -260,13 +260,13 @@ Beyond predicting success rates, both models demonstrate **risk-adjusted scoring
 
 #### Loss Validation Results
 
-**V2.1 Loss Analysis by Confidence Level:**
+**Probability Optimization Model Loss Analysis by Confidence Level:**
 - **Highest confidence (80-100% score):** 4,64% average loss when wrong
 - **Medium confidence (70-80% score):** 5,94% average loss when wrong
 - **Lowest confidence (<50% score):** 11,63% average loss when wrong
 - **Loss Ratio:** 2,51x (low-confidence losses are 2.5 times higher than high-confidence losses)
 
-**TA Model V3 Loss Analysis by Confidence Level:**
+**TA ML Model Loss Analysis by Confidence Level:**
 - **Highest confidence (90%+ predicted):** 6,44% average loss when wrong
 - **Medium confidence (70-80% predicted):** 6,64% average loss when wrong
 - **Lowest confidence (<50% predicted):** 12,16% average loss when wrong
@@ -280,7 +280,7 @@ When selling puts with a fixed premium (e.g., 2,5%), expected return combines:
 - **Profit from successes:** (Hit Rate) × (Premium Collected)
 - **Loss from failures:** (Failure Rate) × (Average Loss When Wrong)
 
-**V2.1 Expected Returns by Score Bucket (assuming 2,5% premium):**
+**Probability Optimization Model Expected Returns by Score Bucket (assuming 2,5% premium):**
 
 | Score Bucket | Hit Rate | Avg Loss When Wrong | Expected Return | Trading Recommendation |
 |---|---|---|---|---|
@@ -290,7 +290,7 @@ When selling puts with a fixed premium (e.g., 2,5%), expected return combines:
 | 50-60% | 38,93% | 9,12% | **-3,68%** | ❌ High loss—avoid |
 | <50% | 23,80% | 11,63% | **-8,27%** | ❌ Avoid entirely |
 
-**TA Model V3 Expected Returns by Score Bucket (assuming 2,5% premium):**
+**TA ML Model Expected Returns by Score Bucket (assuming 2,5% premium):**
 
 | Predicted Range | Hit Rate | Avg Loss When Wrong | Expected Return | Trading Recommendation |
 |---|---|---|---|---|
@@ -309,7 +309,7 @@ When selling puts with a fixed premium (e.g., 2,5%), expected return combines:
 
 At 2,5% premium collected, the models show the following expected returns by confidence level:
 
-**V2.1 Model Expected Returns by Score Bucket:**
+**Probability Optimization Model Expected Returns by Score Bucket:**
 
 | Score Bucket | Hit Rate | Avg Loss When Wrong | Expected Return |
 |---|---|---|---|
@@ -319,7 +319,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 | 50-60% | 38,93% | 9,12% | -3,68% |
 | <50% | 23,80% | 11,63% | -8,27% |
 
-**TA Model V3 Expected Returns by Score Bucket:**
+**TA ML Model Expected Returns by Score Bucket:**
 
 | Predicted Range | Hit Rate | Avg Loss When Wrong | Expected Return |
 |---|---|---|---|
@@ -335,33 +335,33 @@ At 2,5% premium collected, the models show the following expected returns by con
 #### Loss Magnitude Data
 
 **Maximum and Median Losses Observed:**
-- **V2.1 Model:** Maximum loss 73,48%, Median loss (70-80% bucket) 3,87%
-- **TA Model V3:** Maximum loss 67,59%, Median loss (70-80% bucket) 4,62%
+- **Probability Optimization Model:** Maximum loss 73,48%, Median loss (70-80% bucket) 3,87%
+- **TA ML Model:** Maximum loss 67,59%, Median loss (70-80% bucket) 4,62%
 
 **Loss Distribution by Confidence Level:**
 - Higher confidence predictions (80%+): Average loss when wrong 4,6-6,6%
 - Lower confidence predictions (<50%): Average loss when wrong 11,6-12,2%
 - Loss increases systematically as prediction confidence decreases
 
-### Model Comparison: V2.1 vs TA Model V3
+### Model Comparison: Probability Optimization Model vs TA ML Model
 
-| Metric | V2.1 | TA Model V3 | Interpretation |
+| Metric | Probability Optimization Model | TA ML Model | Interpretation |
 |--------|------|-----------|--------|
 | **Hit Rate (70-80%)** | **83.8%** | **72.42%** | Both well-calibrated; different market coverage scope |
 | **Sample Size (70-80%)** | 19,830 | 1,425,565 | 72x larger sample for TA; tighter precision |
 | **Total Tested** | 72,469 options | 8,821,601 options | TA V3 covers entire production distribution |
 | **Confidence Interval** | 83.3%-84.3% | 72.34%-72.49% | Both highly precise ±0.15-0.5pp |
-| **Data Coverage** | Deep tracking on 3.9% of options | Works on 100% of options | V2.1 specialized; TA V3 universal |
-| **DTE Stability** | Consistent across all expirations | 77% (0-35 DTE) vs 54% (36+ DTE) | V2.1 reliable; TA V3 DTE-dependent |
+| **Data Coverage** | Deep tracking on 3.9% of options | Works on 100% of options | Probability Optimization Model specialized; TA ML Model universal |
+| **DTE Stability** | Consistent across all expirations | 77% (0-35 DTE) vs 54% (36+ DTE) | Probability Optimization Model reliable; TA ML Model DTE-dependent |
 | **Calibration Error** | 2.4% mean | 2.2% mean (ECE) | Both excellently calibrated |
 
-**Key Insight:** V2.1 achieves higher hit rate on its specialized tracking subset (83.8%). TA Model V3 achieves solid hit rate on universal coverage (72.42%). Different data sources provide genuinely independent perspectives. When both models predict 70%+ probability, combined confidence is higher than either alone.
+**Key Insight:** Probability Optimization Model achieves higher hit rate on its specialized tracking subset (83.8%). TA ML Model achieves solid hit rate on universal coverage (72.42%). Different data sources provide genuinely independent perspectives. When both models predict 70%+ probability, combined confidence is higher than either alone.
 
 ### Trust Indicators
 
 - ✓ **Dual-Model Validation** - Two independent analytical approaches (probability-based vs. technical) provide confirmation
-- ✓ **Large Sample Sizes** - TA V3: 1.4M options at 70-80% range; V2.1: 19.8K deeply tracked options (high precision)
-- ✓ **Comprehensive Testing** - TA V3: 8.8M historical options; V2.1: 72.5K with known outcomes (21+ months)
+- ✓ **Large Sample Sizes** - TA ML Model: 1.4M options at 70-80% range; Probability Optimization Model: 19.8K deeply tracked options (high precision)
+- ✓ **Comprehensive Testing** - TA ML Model: 8.8M historical options; Probability Optimization Model: 72.5K with known outcomes (21+ months)
 - ✓ **Calibration Accuracy** - 2.4% mean error between predicted and actual outcomes (excellent)
 
 ---
@@ -371,7 +371,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 **CSV File:** `current_options_scored.csv`
 **Location:** `/data/current_options_scored.csv`
 **Format:** Pipe-delimited (`|`) text file
-**Columns:** 33 fields including stock name, expiry date, Probability Optimization scores, 17 TA indicators (12 stock-level + 4 contract-level + sigma distance), and agreement metrics
+**Columns:** 33 fields including stock name, expiry date, Probability Optimization Model scores, 17 TA indicators (12 stock-level + 4 contract-level + sigma distance), and agreement metrics
 
 **Enrichment:**
 - Premium values are enriched from live website data (not CSV data)
@@ -388,7 +388,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 2. Set "Model Agreement" to "Models Agree"
 3. Set "Min Combined Score" to 70+
 4. Review "Strong Agreement" options first
-5. Click row to view Probability Optimization and TA breakdowns
+5. Click row to view Probability Optimization Model and TA ML Model breakdowns
 
 ### Workflow 2: Compare Model Disagreements
 
@@ -397,19 +397,19 @@ At 2,5% premium collected, the models show the following expected returns by con
 3. Expand rows to see why models diverged
 4. Analyze which model factors contribute to disagreement
 
-### Workflow 3: Focus on Probability Model
+### Workflow 3: Focus on Probability Optimization Model
 
 1. Select expiry date
 2. Set "Min Probability Optimization Score" to 60+
 3. Leave "Min TA Prob" at 0%
-4. Review options favored by probability model regardless of TA consensus
+4. Review options favored by Probability Optimization Model regardless of TA ML Model consensus
 
 ### Workflow 4: Focus on Technical Analysis
 
 1. Select expiry date
 2. Leave "Min Probability Optimization Score" at 0
 3. Set "Min TA Prob" to 50%+
-4. Review options favored by technical analysis regardless of probability consensus
+4. Review options favored by TA ML Model regardless of Probability Optimization Model consensus
 
 ---
 
@@ -427,7 +427,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 ### Data Processing
 
-**Probability Optimization and TA Probability Handling:**
+**Probability Optimization Model and TA ML Model Probability Handling:**
 - Missing or invalid values from CSV are converted to `null` during parsing
 - `parseFloat("-")` and other invalid strings produce NaN, which is converted to null
 - Null values display as "-" in the table but are handled distinctly in filtering/sorting
@@ -439,8 +439,8 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 **Filtering Logic:**
 - Minimum score filters only exclude rows with null values when the filter is set to a value greater than 0
-- Example: "Min Probability Optimization Score: 0" includes rows where v21_score is null or >= 0
-- Example: "Min Probability Optimization Score: 27" excludes any row where v21_score is null or < 27
+- Example: "Min Probability Optimization Score: 0" includes rows where Probability Optimization Model score is null or >= 0
+- Example: "Min Probability Optimization Score: 27" excludes any row where Probability Optimization Model score is null or < 27
 - Combined Score filter is applied regardless of null values (has default 0 fallback)
 
 ### Performance Notes
@@ -454,7 +454,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 ## Related Pages
 
-- **[portfolio-generator.md](portfolio-generator.md)** - Portfolio Generator's "Scored Models" strategy uses the same scored data and reuses V21Breakdown/TABreakdown components
+- **[portfolio-generator.md](portfolio-generator.md)** - Portfolio Generator's "Scored Models" strategy uses the same scored data and reuses Probability Optimization Model Breakdown / TA ML Model Breakdown components
 - **[recommendations.md](recommendations.md)** - Alternative "Automated Put Option Recommendations" with weighted 6-factor analysis
 - **[stock-analysis.md](stock-analysis.md)** - Individual stock metrics and history
 - **[probability-analysis.md](probability-analysis.md)** - Probability method validation and accuracy testing
@@ -530,6 +530,18 @@ Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (February 9, 2026)
 - Updated data parsing to handle new CSV fields with proper null safety
 - Updated Excel export to include all new indicators (33 total fields)
 
+**January 30, 2026 (TA Model V3 Integration with Full 17-Feature Set):**
+
+**TA ML Model Enhancements:**
+- Integrated TA ML Model with expanded 17-feature set as per DOWNSTREAM_TEAM_TA_MODEL_INTEGRATION_GUIDE.md
+- Added 5 new stock-level technical indicators: ADX (14), ADX Slope, ATR (14), Stochastic K, Stochastic D
+- Added 3 new contract-level Greeks indicators: Delta, Vega, Theta
+- Organized TA breakdown into two sections: Stock-Level Indicators and Contract-Level Indicators
+- Removed HV Annual field (replaced by expanded TA feature set)
+- Added status interpretation (🟢 Favorable, 🟡 Neutral, 🔴 Unfavorable) for all indicators
+- Updated data parsing to handle new CSV fields with proper null safety
+- Updated Excel export to include all new indicators (33 total fields)
+
 **Previous Changes (January 2026 - Complete Filtering & Formatting Fix):**
 
 **Filtering Improvements:**
@@ -537,13 +549,13 @@ Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (February 9, 2026)
 - Min Probability Optimization Score: Now includes missing values when set to 0, excludes only when > 0
 - Min TA Prob: Now includes missing values when set to 0%, excludes only when > 0%
 - Min Combined Score: Now includes missing values when set to 0, excludes only when > 0
-  - Combined score is calculated from available Probability Optimization or TA scores if missing from CSV
-  - Example: Options with only TA score use TA score as combined score
+  - Combined score is calculated from available Probability Optimization Model or TA ML Model scores if missing from CSV
+  - Example: Options with only TA ML Model score use TA ML Model score as combined score
 - Resolved discrepancy between KPI count and displayed table rows
 - Removed duplicate filtering logic that was causing inconsistent behavior
 
 **Formatting Standardization:**
-- Probability Optimization Score: Now displays as percentage (e.g., "85,5%") to match TA Probability format
+- Probability Optimization Model Score: Now displays as percentage (e.g., "85,5%") to match TA ML Model Probability format
 - Historical Peak: Changed from decimal to percentage format (e.g., "85,50%") for consistency with Current Probability
 - Support Strength: Changed from decimal to percentage format (e.g., "85,50%") to reflect 0-1 scale
 - HV Annual: Changed from decimal to percentage format (e.g., "45,67%")

@@ -53,7 +53,7 @@ export const kpiTooltips: TooltipSection = {
   },
   sampleSize: {
     title: 'Sample Size for Score Range',
-    content: 'Historical validation sample size for the score range of your filtered options. Larger samples provide higher statistical confidence in the models\' predictions. Our TA Model V3 is validated on 8.8M historical options, and the Probability Optimization Model on 934K+ historical options.',
+    content: 'Historical validation sample size for the score range of your filtered options. Larger samples provide higher statistical confidence in the models\' predictions. Our TA ML Model is validated on 8.8M historical options, and the Probability Optimization Model on 934K+ historical options.',
   },
   showing: {
     title: 'Showing Results',
@@ -77,7 +77,7 @@ export const filterTooltips: TooltipSection = {
   modelAgreement: {
     title: 'Model Agreement Filter',
     content:
-      'Filter by proximity-based model agreement (how close are the scores?):\n\n**Strong Agreement:** Scores within ±2% of each other (excellent consensus)\n**Moderate Agreement:** Scores within ±2% to ±5% (good consensus)\n**Weak Agreement:** Scores within ±5% but separated (disagreement)\n**Models Disagree:** Scores separated by >±5% (conflicting signals)\n\n**How It Works:** Relative difference = |V2.1 - TA| / average score. When <5%, models agree.',
+      'Filter by proximity-based model agreement (how close are the scores?):\n\n**Strong Agreement:** Scores within ±2% of each other (excellent consensus)\n**Moderate Agreement:** Scores within ±2% to ±5% (good consensus)\n**Weak Agreement:** Scores within ±5% but separated (disagreement)\n**Models Disagree:** Scores separated by >±5% (conflicting signals)\n\n**How It Works:** Relative difference = |Probability Optimization - TA ML| / average score. When <5%, models agree.',
   },
   minCombinedScore: {
     title: 'Minimum Combined Score',
@@ -117,7 +117,7 @@ export const columnTooltips: TooltipSection = {
   agree: {
     title: 'Models Agree',
     content:
-      'Boolean flag indicating whether the two independent models have SIMILAR predictions (within ±5% relative difference).\n\n**Yes = Models Agree:** Scores are within ±5% proximity (consensus between models)\n**No = Models Disagree:** Scores separated by >±5% (conflicting predictions)\n\n**Formula:** Relative difference = |V2.1 Score - (TA Probability × 100)| / average score ≤ 0.05\n\nThis measures AGREEMENT (similarity), not absolute score levels.',
+      'Boolean flag indicating whether the two independent models have SIMILAR predictions (within ±5% relative difference).\n\n**Yes = Models Agree:** Scores are within ±5% proximity (consensus between models)\n**No = Models Disagree:** Scores separated by >±5% (conflicting predictions)\n\n**Formula:** Relative difference = |Probability Optimization Score - (TA ML Probability × 100)| / average score ≤ 0.05\n\nThis measures AGREEMENT (similarity), not absolute score levels.',
   },
   strength: {
     title: 'Agreement Strength',

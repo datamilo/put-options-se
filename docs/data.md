@@ -9,7 +9,7 @@ All CSV files live in the `/data` folder and are served at runtime from GitHub r
 | `data.csv` | ~3.6 MB | Main options data (67 fields per contract) | `useOptionsData` |
 | `stock_data.csv` | ~8.2 MB | OHLC stock price history | `useStockData` |
 | `margin_requirements.csv` | ~557 KB | SRI-based margin estimates (13 fields) | `useMarginRequirementsData` |
-| `current_options_scored.csv` | varies | Dual-model V2.1 + TA Analysis scores | `useScoredOptionsData` |
+| `current_options_scored.csv` | varies | Dual-model Probability Optimization Model + TA ML Model Analysis scores | `useScoredOptionsData` |
 | `recovery_report_data.csv` | ~3.6 MB | Probability recovery scenario analysis | `useProbabilityRecoveryData` |
 | `validation_report_data.csv` | ~3.6 MB | Probability method validation data | `useProbabilityValidationData` |
 | `hit_rate_trends_by_stock.csv` | ~248 KB | Lower bound monthly trends (1,071 rows) | `useLowerBoundData` |
@@ -138,8 +138,8 @@ Loaded by `useIVData`, joined into `useEnrichedOptionsData` for the Options Dash
 ## Scored Options Data (`current_options_scored.csv`)
 
 Contains dual-model scores for options currently in the universe:
-- `V2.1_Score` — probability-based score (may be `"-"` for options without sufficient history)
+- `Probability_Optimization_Score` — probability-based score (may be `"-"` for options without sufficient history)
 - `TA_Probability` — technical analysis model score (may be `"-"`)
-- Various TA indicator fields used in the expanded row breakdown
+- Various TA ML Model indicator fields used in the expanded row breakdown
 
-When `V2.1_Score` or `TA_Probability` is `"-"`, the option is parsed with `null` for that field. Minimum-threshold filters automatically exclude null-valued options.
+When `Probability_Optimization_Score` or `TA_Probability` is `"-"`, the option is parsed with `null` for that field. Minimum-threshold filters automatically exclude null-valued options.

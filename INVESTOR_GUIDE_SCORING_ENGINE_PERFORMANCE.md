@@ -12,8 +12,8 @@
 The Swedish Put Options Scoring Engine identifies equity options most likely to expire worthless (out-of-the-money). When an investor writes (sells) a put option, profitability depends entirely on the option expiring worthless—the full premium is retained if the underlying stock stays above the strike price.
 
 The system employs two independent models:
-- **V2.1 Premium Optimization:** 3-factor weighted model (50% Current Probability, 30% Historical Peak, 20% Support Strength)
-- **TA Model V3:** Machine learning Random Forest with 17 technical and options-specific features
+- **Probability Optimization Model:** 3-factor weighted model (50% Current Probability, 30% Historical Peak, 20% Support Strength)
+- **TA ML Model:** Machine learning Random Forest with 17 technical and options-specific features
 
 Both models are validated through different testing methodologies on historical data spanning April 2024 - January 2026:
 - **V2.1:** In-sample calibration on 72,469 tracked options (probability tracking system)
@@ -22,13 +22,13 @@ Both models are validated through different testing methodologies on historical 
 
 ---
 
-## Section 1: V2.1 Premium Optimization Model Performance
+## Section 1: Probability Optimization Model Performance
 
 ### Model Specification
 
 **Composite Score Formula:**
 ```
-V2.1_Score = (Current_Probability × 0.50) + (Historical_Peak × 0.30) + (Support_Strength × 0.20)
+Probability_Optimization_Score = (Current_Probability × 0.50) + (Historical_Peak × 0.30) + (Support_Strength × 0.20)
 ```
 
 **Factors:**
@@ -45,14 +45,14 @@ V2.1_Score = (Current_Probability × 0.50) + (Historical_Peak × 0.30) + (Suppor
 
 **Output Range:** 0-100 (probability of expiration worthless)
 
-### V2.1 Training Data & Methodology
+### Probability Optimization Model Training Data & Methodology
 
 **Training Period:** April 2024 - January 2026 (21+ months)
 **Data Volume:** 1.7M+ option snapshots
 **Expired Options Analyzed:** 934K+ with known outcomes
 **Test Data:** 72,469 options with complete expiry outcomes
 
-### V2.1 Per-Bucket Hit Rate Performance
+### Probability Optimization Model Per-Bucket Hit Rate Performance
 
 This table shows actual hit rates by score range, validated on 72,469 historical options with known expiration outcomes:
 
@@ -68,16 +68,16 @@ This table shows actual hit rates by score range, validated on 72,469 historical
 | 20-30 | 194 | 1.5% | 3 / 194 | 0.5% - 4.4% |
 | 10-20 | 5 | 40.0% | 2 / 5 | 11.8% - 76.9% |
 
-**Methodology:** These hit rates come from analyzing all 72,469 options in test dataset. Each option received a V2.1 score when it was predicted (before expiration), then the actual outcome was recorded when the option expired. Hit rate = (number that expired worthless) / (total in score range).
+**Methodology:** These hit rates come from analyzing all 72,469 options in test dataset. Each option received a Probability Optimization Model score when it was predicted (before expiration), then the actual outcome was recorded when the option expired. Hit rate = (number that expired worthless) / (total in score range).
 
 **Statistical Interpretation:**
 - The 70-80% score range contains 19,830 options (27% of total), the largest sample size
 - 95% confidence intervals shown reflect binomial proportions on these large sample sizes
 - Intervals are tight (<1 percentage point), indicating high statistical precision
 
-### V2.1 Calibration Analysis
+### Probability Optimization Model Calibration Analysis
 
-**Calibration Definition:** When V2.1 predicts a score of X%, do approximately X% of those options actually expire worthless?
+**Calibration Definition:** When Probability Optimization Model predicts a score of X%, do approximately X% of those options actually expire worthless?
 
 **Calibration Results (Predicted vs. Actual):**
 
@@ -95,7 +95,7 @@ This table shows actual hit rates by score range, validated on 72,469 historical
 
 **Expected Calibration Error:** Predictions match actual outcomes within 2.4 percentage points across score ranges.
 
-### V2.1 Validation Metrics
+### Probability Optimization Model Validation Metrics
 
 | Metric | Value | Interpretation |
 |--------|-------|---|
@@ -111,22 +111,22 @@ This table shows actual hit rates by score range, validated on 72,469 historical
 
 ### The Core Numbers
 
-- **V2.1 Model:** 72,469 options available for testing
-- **TA Model V3:** 8,821,601 options available for testing
-- **Difference:** TA Model has 121.8x more options
+- **Probability Optimization Model:** 72,469 options available for testing
+- **TA ML Model:** 8,821,601 options available for testing
+- **Difference:** TA ML Model has 121.8x more options
 
 ### Understanding the Root Cause: Different Data Creation Processes
 
 The key to understanding why these numbers are so different is understanding how each dataset is created. Think of it like this:
 
-**V2.1's Dataset:** Created through a specialized 2-step process
-**TA Model's Dataset:** Uses a simpler calculation from existing data
+**Probability Optimization Model's Dataset:** Created through a specialized 2-step process
+**TA ML Model's Dataset:** Uses a simpler calculation from existing data
 
 Let me walk you through exactly what happens.
 
 ---
 
-## How V2.1's Dataset is Created (The Complete Process)
+## How Probability Optimization Model's Dataset is Created (The Complete Process)
 
 ### Starting Point: 1.86 Million Historical Options
 
@@ -134,7 +134,7 @@ Both models start with the same historical options database: 1.86 million Swedis
 
 ### Step 1: Calculate Probabilities Using Multiple Methods
 
-For V2.1, we don't use simple mathematical formulas. Instead, we calculate probabilities using **5 different methods**, then combine them. Here's what happens:
+For Probability Optimization Model, we don't use simple mathematical formulas. Instead, we calculate probabilities using **5 different methods**, then combine them. Here's what happens:
 
 **Method 1: Black-Scholes Mathematical Formula**
 - Take the current stock price, strike price, days until expiration, and market volatility
@@ -172,7 +172,7 @@ For V2.1, we don't use simple mathematical formulas. Instead, we calculate proba
 
 ### Step 2: Gather Supporting Information for Each Option
 
-For each option, we now have 5 different probability estimates. But V2.1 also needs other information:
+For each option, we now have 5 different probability estimates. But Probability Optimization Model also needs other information:
 
 **Current Probability:** The most recent probability value calculated
 **Historical Peak:** The highest probability this specific option ever reached (tracked over months)
@@ -181,13 +181,13 @@ For each option, we now have 5 different probability estimates. But V2.1 also ne
 
 ### Step 3: Identify Which Options Have Complete Data
 
-Here's where the filtering starts. For V2.1 to work, it needs **ALL FOUR** of these pieces of information:
+Here's where the filtering starts. For Probability Optimization Model to work, it needs **ALL FOUR** of these pieces of information:
 1. ✓ Current probability calculated
 2. ✓ Historical peak recorded (requires months of data history)
 3. ✓ Support strength score calculated
 4. ✓ Final outcome known (stock price at expiration)
 
-If ANY of these four is missing, the option is excluded. Not for a quality reason—just because V2.1 needs all four pieces.
+If ANY of these four is missing, the option is excluded. Not for a quality reason—just because Probability Optimization Model needs all four pieces.
 
 **Examples of what gets excluded:**
 - Options with less than 3 months of history (no historical peak to measure)
@@ -199,19 +199,19 @@ If ANY of these four is missing, the option is excluded. Not for a quality reaso
 
 Of the original 1.86 million options, only **72,469 have all 4 required data elements**. This is 3.9% of the total.
 
-That's where V2.1's sample size comes from.
+That's where Probability Optimization Model's sample size comes from.
 
 ---
 
-## How TA Model V3's Dataset is Created (The Simpler Process)
+## How TA ML Model's Dataset is Created (The Simpler Process)
 
 ### Starting Point: Same 1.86 Million Options
 
-TA Model V3 also starts with the same 1.86 million Swedish options.
+TA ML Model also starts with the same 1.86 million Swedish options.
 
 ### Step 1: Calculate Technical Analysis Features
 
-TA Model V3 doesn't use the complex 5-method probability process. Instead, it calculates 17 different technical analysis features. These are much simpler calculations:
+TA ML Model doesn't use the complex 5-method probability process. Instead, it calculates 17 different technical analysis features. These are much simpler calculations:
 
 **Stock-Level Technical Indicators (calculated from historical price data):**
 1. RSI (Relative Strength Index) - How overbought or oversold is the stock?
@@ -234,7 +234,7 @@ Plus 4 more similar technical indicators calculated from standard price data (hi
 
 ### Step 2: Check Data Completeness
 
-For TA Model V3, all these features can be calculated from:
+For TA ML Model, all these features can be calculated from:
 - Daily stock price data (open, high, low, close)
 - Current implied volatility data
 - Option parameters (strike, days to expiry)
@@ -245,19 +245,19 @@ These data sources are **widely available for nearly all options**. Unlike the p
 
 Almost all 8.8 million options have complete technical feature data available for analysis. Why? Because you only need basic daily price data, which is standard market data for every stock.
 
-This is why TA Model V3 uses **121.8x more options** than V2.1.
+This is why TA ML Model uses **121.8x more options** than Probability Optimization Model.
 
 ---
 
 ## The 121.8x Difference Explained in One Sentence
 
-**V2.1 requires months of special historical probability tracking data that only 3.9% of options have. TA Model V3 requires only standard daily price data that 100% of options have.**
+**Probability Optimization Model requires months of special historical probability tracking data that only 3.9% of options have. TA ML Model requires only standard daily price data that 100% of options have.**
 
 ---
 
 ## Detailed Sample Size Breakdown
 
-### V2.1 Filtering Waterfall (72,469 Options)
+### Probability Optimization Model Filtering Waterfall (72,469 Options)
 
 Starting universe: **1,860,935 options**
 
@@ -268,11 +268,11 @@ Starting universe: **1,860,935 options**
 | Step 2: Has historical peak? | 15,200 | 57,269 | 3.1% |
 | Step 3: Has support metrics? | 8,500 | 48,769 | 2.6% |
 | Step 4: Has known outcome? | 23,700 | **72,469** | **3.9%** |
-| **Final V2.1 Sample** | — | **72,469** | **3.9%** |
+| **Final Probability Optimization Model Sample** | — | **72,469** | **3.9%** |
 
 Note: The numbers above are illustrative of the filtering logic. The actual result is 72,469 options that pass all four requirements.
 
-### TA Model V3 Filtering (1,860,935 Options)
+### TA ML Model Filtering (1,860,935 Options)
 
 Starting universe: **1,860,935 options**
 
@@ -282,13 +282,13 @@ Starting universe: **1,860,935 options**
 | Step 1: Has complete price history? | <15,000 | ~1,845,935 | 99.2% |
 | Step 2: Has volatility data? | <5,000 | ~1,840,935 | 98.9% |
 | Step 3: Edge cases (missing data)? | <100,000 | ~1,860,935 | ~100% |
-| **Final TA Model Sample** | — | **~1,860,935** | **~100%** |
+| **Final TA ML Model Sample** | — | **~1,860,935** | **~100%** |
 
 Note: TA Model excludes very few options. Standard market data is available for essentially all stocks.
 
 ---
 
-## Why V2.1's "Probability Tracking System" Requires More Work
+## Why Probability Optimization Model's "Probability Tracking System" Requires More Work
 
 ### What is "Probability Tracking"?
 
@@ -308,9 +308,9 @@ Think of it as maintaining a detailed history file for each option. Imagine a no
 - Some stocks don't have enough data points
 - The computational cost is high, so it's done selectively
 
-### Why TA Model V3 Doesn't Need This
+### Why TA ML Model Doesn't Need This
 
-TA Model V3 was built differently:
+TA ML Model was built differently:
 1. It trains once on all available historical data (using machine learning)
 2. For any new option, it just calculates the 17 technical features
 3. Those features come from standard market data everyone has
@@ -321,7 +321,7 @@ TA Model V3 was built differently:
 
 ## Model Characteristics
 
-### V2.1: Deep Historical Data Requirements
+### Probability Optimization Model: Deep Historical Data Requirements
 
 **Data used:** Current probability + Historical peak + Support strength
 
@@ -329,7 +329,7 @@ TA Model V3 was built differently:
 
 **Hit rate:** 83.8% (70-80% score range, n=19,830)
 
-### TA Model V3: Standard Market Data Only
+### TA ML Model: Standard Market Data Only
 
 **Data used:** 17 technical indicators from standard daily price data
 
@@ -341,7 +341,7 @@ TA Model V3 was built differently:
 
 ---
 
-## Section 2: TA Model V3 (Machine Learning Validation)
+## Section 2: TA ML Model (Machine Learning Validation)
 
 ### Model Architecture
 
@@ -355,7 +355,7 @@ TA Model V3 was built differently:
 **Calibration:** Isotonic regression on probability predictions
 **Analysis Date:** February 9, 2026
 
-### TA Model V3 Feature Importance (Empirically Learned)
+### TA ML Model Feature Importance (Empirically Learned)
 
 This ranking shows which features the model learned were most predictive of worthless expiration through analysis of 8.8M historical options:
 
@@ -375,9 +375,9 @@ This ranking shows which features the model learned were most predictive of wort
 - **Mean reversion (Dist_SMA50 + BB_Position)** explains majority of predictive value
 - Stock-level technical indicators dominate when applied across all option types and expiration dates
 
-### TA Model V3 Per-Bucket Hit Rate Performance
+### TA ML Model Per-Bucket Hit Rate Performance
 
-This table shows TA Model V3 actual hit rates analyzed across 8.8M historical options:
+This table shows TA ML Model actual hit rates analyzed across 8.8M historical options:
 
 | Predicted Range | Actual Hit Rate | Number of Options | 95% Confidence Interval | Calibration Status |
 |---|---|---|---|---|
@@ -394,7 +394,7 @@ This table shows TA Model V3 actual hit rates analyzed across 8.8M historical op
 - 70-80% range: 1,425,565 options (large bucket enabling tight confidence intervals)
 - Total options analyzed: 8.8M across all buckets
 
-### TA Model V3 Validation Metrics
+### TA ML Model Validation Metrics
 
 | Metric | Value | Interpretation |
 |--------|-------|---|
@@ -404,7 +404,7 @@ This table shows TA Model V3 actual hit rates analyzed across 8.8M historical op
 | Maximum Calibration Error (MCE) | 0.0524 | - |
 | Sample Size | 8,821,601 | All options across full real-world distribution |
 
-### TA Model V3 Performance by Days to Expiration (Critical Finding)
+### TA ML Model Performance by Days to Expiration (Critical Finding)
 
 The most important finding: Model performance varies dramatically based on how much time remains until expiration:
 
@@ -420,11 +420,11 @@ The most important finding: Model performance varies dramatically based on how m
 
 ---
 
-## Section 3: Model Comparison - V2.1 vs TA Model V3
+## Section 3: Model Comparison - Probability Optimization Model vs TA ML Model
 
 ### Performance at 70-80% Score Range (Primary Operating Zone)
 
-| Metric | V2.1 | TA Model V3 |
+| Metric | Probability Optimization Model | TA ML Model |
 |--------|------|-----------|
 | Hit Rate | 83.8% | 72.42% |
 | Sample Size | 19,830 | 1,425,565 |
@@ -448,11 +448,11 @@ When both models predict ≥70% probability:
 
 ## Section 4: Detailed Bucket-by-Bucket Comparison
 
-### Complete V2.1 Hit Rate Table (All Ranges)
+### Complete Probability Optimization Model Hit Rate Table (All Ranges)
 
 From analysis of 72,469 options with known outcomes:
 
-| V2.1 Score | Hit Rate | Options | Worthless Count | CI Lower | CI Upper |
+| Probability Optimization Score | Hit Rate | Options | Worthless Count | CI Lower | CI Upper |
 |---|---|---|---|---|---|
 | 90-100 | 99.9% | 1,878 | 1,877 | 99.7% | 99.99% |
 | 80-90 | 98.1% | 27,082 | 26,559 | 97.9% | 98.2% |
@@ -464,11 +464,11 @@ From analysis of 72,469 options with known outcomes:
 | 20-30 | 1.5% | 194 | 3 | 0.5% | 4.4% |
 | 10-20 | 40.0% | 5 | 2 | 11.8% | 76.9% |
 
-### Complete TA Model V3 Hit Rate Table (All Ranges)
+### Complete TA ML Model Hit Rate Table (All Ranges)
 
 From analysis across 8.8M historical options:
 
-| TA V3 Predicted | Hit Rate | Options | Worthless Count | CI Lower | CI Upper |
+| TA ML Model Predicted | Hit Rate | Options | Worthless Count | CI Lower | CI Upper |
 |---|---|---|---|---|---|
 | 90%+ | 98.24% | 587,666 | 577,373 | 98.20% | 98.27% |
 | 80-90% | 85.25% | 1,766,411 | 1,506,033 | 85.20% | 85.30% |
@@ -494,11 +494,11 @@ From analysis across 8.8M historical options:
 - Losses occur despite moderate-to-high probability prediction
 - Position sizing must account for 27-28% failure rate (not 16-23%)
 - Risk management essential for all positions
-- **Important:** Hit rate drops to 54% for options expiring after 35 days; require V2.1 agreement for far-dated positions
+- **Important:** Hit rate drops to 54% for options expiring after 35 days; require Probability Optimization Model agreement for far-dated positions
 
 **Disagreement Between Models:**
 - Occurs in approximately 70% of options
-- Root cause: V2.1 uses probability-tracking features; TA Model V3 uses technical indicators
+- Root cause: Probability Optimization Model uses probability-tracking features; TA ML Model uses technical indicators
 - Both models independently validated; disagreement indicates different data sources producing different predictions
 
 ### Data Limitations
@@ -558,7 +558,7 @@ From analysis across 8.8M historical options:
 
 ### Calibration Validation (Monthly Process)
 
-V2.1 and TA V3 models are calibrated monthly using newly expired options. Each month approximately 900 options expire with known outcomes, which are added to the calibration dataset.
+Probability Optimization Model and TA ML Model are calibrated monthly using newly expired options. Each month approximately 900 options expire with known outcomes, which are added to the calibration dataset.
 
 **Calibration Methodology:**
 1. Group predictions by score range
@@ -567,12 +567,12 @@ V2.1 and TA V3 models are calibrated monthly using newly expired options. Each m
 4. Apply calibration curve to all future predictions
 5. Repeat monthly as new expiration data arrives
 
-**V2.1 Calibration Status:** Well-calibrated across all ranges (2.4% mean error)
-**TA V3 Calibration Status:** Well-calibrated across business-relevant ranges (70-80%: within 0.1pp)
+**Probability Optimization Model Calibration Status:** Well-calibrated across all ranges (2.4% mean error)
+**TA ML Model Calibration Status:** Well-calibrated across business-relevant ranges (70-80%: within 0.1pp)
 
 ### Month-to-Month Performance Consistency
 
-V2.1 hit rate in 70-80% range remains stable across 21-month testing period:
+Probability Optimization Model hit rate in 70-80% range remains stable across 21-month testing period:
 
 | Time Period | Hit Rate | Monthly Count |
 |---|---|---|
@@ -597,7 +597,7 @@ V2.1 hit rate in 70-80% range remains stable across 21-month testing period:
 
 When an option expires in-the-money (ITM), the option does not expire worthless and the model prediction fails. This section provides loss statistics for ITM expirations.
 
-### V2.1 Loss Statistics by Score Bucket (Cleaned Data)
+### Probability Optimization Model Loss Statistics by Score Bucket (Cleaned Data)
 
 Data source: `v2_1_loss_analysis_summary_cleaned.csv` (263,723 ITM options after removing 2,957 Embracer stock split artifacts)
 
@@ -611,7 +611,7 @@ Data source: `v2_1_loss_analysis_summary_cleaned.csv` (263,723 ITM options after
 
 **Data Quality Note:** Dataset cleaned on February 8, 2026 by removing 2,957 Embracer Group AB options with artificial losses from stock split event (stock_price_at_expiry = 58.34 applied to pre-split strikes). Real Embracer losses from other stock prices retained.
 
-### TA Model V3 Loss Statistics by Score Bucket
+### TA ML Model Loss Statistics by Score Bucket
 
 Data source: `ta_v3_calibration_results.csv` (walk-forward validation on 2.3M+ ITM options)
 
@@ -626,7 +626,7 @@ Data source: `ta_v3_calibration_results.csv` (walk-forward validation on 2.3M+ I
 
 ### Loss Distribution Summary (70-80% Primary Operating Zone)
 
-| Metric | V2.1 | TA Model V3 |
+| Metric | Probability Optimization Model | TA ML Model |
 |--------|------|-------------|
 | Hit Rate | 62.51% | 70.16% |
 | ITM Failure Rate | 37.49% | 29.84% |
@@ -637,12 +637,12 @@ Data source: `ta_v3_calibration_results.csv` (walk-forward validation on 2.3M+ I
 
 ### Loss Scaling by Confidence Level
 
-V2.1 model demonstrates loss scaling with confidence:
+Probability Optimization Model demonstrates loss scaling with confidence:
 - Lowest confidence (<50%): 11.62% average loss
 - Highest confidence (80-100%): 4.63% average loss
 - Ratio: 2.51x (low-confidence losses larger than high-confidence)
 
-TA Model V3 loss scaling:
+TA ML Model loss scaling:
 - Lowest confidence (<50%): 12.16% average loss
 - Highest confidence (90%+): 6.44% average loss
 - Ratio: 1.89x
@@ -663,9 +663,9 @@ TA Model V3 loss scaling:
 - 0.8-0.9: Excellent prediction
 
 **Our Results:**
-- V2.1 Test AUC: 0.78-0.79 (good discrimination on recent data)
-- TA V3 Model AUC: 0.7933 (good discrimination across all market conditions)
-- V2.1 Walk-Forward AUC: 0.651 (realistic generalization to future periods)
+- Probability Optimization Model Test AUC: 0.78-0.79 (good discrimination on recent data)
+- TA ML Model AUC: 0.7933 (good discrimination across all market conditions)
+- Probability Optimization Model Walk-Forward AUC: 0.651 (realistic generalization to future periods)
 
 ### Walk-Forward Validation
 
@@ -687,7 +687,7 @@ TA Model V3 loss scaling:
 
 **Scale:** 0.0 (perfect) to 0.25 (random guessing)
 
-**Our Score:** 0.15-0.1519 (well-calibrated probabilities)
+**Our Score:** 0.15-0.1519 (well-calibrated probabilities for Probability Optimization Model)
 
 ### Expected Calibration Error (ECE)
 
@@ -708,7 +708,7 @@ TA Model V3 loss scaling:
 **Recalibration:** Monthly (automatic)
 
 **Scope:**
-- V2.1 Model: 72,469 deeply-tracked options with complete data
-- TA Model V3: 8,821,601 historical options (all moneyness, all expiration dates)
+- Probability Optimization Model: 72,469 deeply-tracked options with complete data
+- TA ML Model: 8,821,601 historical options (all moneyness, all expiration dates)
 - Both models: Swedish put options only
 - Data: April 2024 - January 2026 (21 months of production history)

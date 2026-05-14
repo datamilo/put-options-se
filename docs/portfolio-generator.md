@@ -29,19 +29,19 @@ Prioritizes lowest capital requirements: `capitalEfficiencyScore × (prob × 2)`
 Combines both: `(riskAdjustedScore × 0.6) + (capitalEfficiencyScore × 0.4)`
 
 ### 4. Scored Models (`scored`)
-Ranks options using a weighted blend of V2.1 Probability Optimization and TA V3 Technical Analysis model scores from `current_options_scored.csv`.
+Ranks options using a weighted blend of Probability Optimization Model and TA ML Model Technical Analysis model scores from `current_options_scored.csv`.
 
 **Scoring formula:**
 ```
-finalScore = (v21Weight / 100) × v21_score + ((100 - v21Weight) / 100) × (ta_probability × 100)
+finalScore = (probabilityOptimizationWeight / 100) × probabilityOptimizationScore + ((100 - probabilityOptimizationWeight) / 100) × (taMLModelProbability × 100)
 ```
 
 **Key behaviors:**
 - Only options present in `current_options_scored.csv` are eligible
-- User-configurable V2.1/TA weight via slider (default 50/50, steps of 5)
+- User-configurable Probability Optimization Model/TA ML Model weight via slider (default 50/50, steps of 5)
 - Weight slider only visible when Scored Models strategy is selected
-- Table shows scored-specific columns: selected PoW field, Combined Score, V2.1 Score, TA Probability
-- Each row has an expandable detail showing V2.1 Breakdown and TA Breakdown panels
+- Table shows scored-specific columns: selected PoW field, Combined Score, Probability Optimization Model Score, TA ML Model Probability
+- Each row has an expandable detail showing Probability Optimization Model Breakdown and TA ML Model Breakdown panels
 
 ## Algorithm
 1. **Data Loading** - Load options and stock data (+ scored options data for Scored Models)
@@ -74,7 +74,7 @@ finalScore = (v21Weight / 100) × v21_score + ((100 - v21Weight) / 100) × (ta_p
 StockName, OptionName, ExpiryDate, DaysToExpiry, StrikePrice, Premium, NumberOfContractsBasedOnLimit, 1_2_3_ProbOfWorthless_Weighted, PotentialLossAtLowerBound, EstTotalMargin
 
 **Scored Models strategy:**
-StockName, OptionName, ExpiryDate, DaysToExpiry, StrikePrice, Premium, NumberOfContractsBasedOnLimit, [selected PoW field], Combined Score, V2.1 Score, TA Probability
+StockName, OptionName, ExpiryDate, DaysToExpiry, StrikePrice, Premium, NumberOfContractsBasedOnLimit, [selected PoW field], Combined Score, Probability Optimization Model Score, TA ML Model Probability
 
 All score values formatted as Nordic decimal with 1 decimal place.
 
@@ -86,4 +86,4 @@ Users can click on stock names or option names in the results table to open deta
 - **Table Component**: `src/components/options/PortfolioOptionsTable.tsx`
 - **Preferences Hook**: `src/hooks/usePortfolioGeneratorPreferences.ts`
 - **Scored Data Hook**: `src/hooks/useScoredOptionsData.ts` (shared with Scored Options page)
-- **Expandable Detail**: `src/components/scored-options/V21Breakdown.tsx`, `src/components/scored-options/TABreakdown.tsx`
+- **Expandable Detail**: `src/components/scored-options/ProbabilityOptimizationBreakdown.tsx`, `src/components/scored-options/TAMLModelBreakdown.tsx`

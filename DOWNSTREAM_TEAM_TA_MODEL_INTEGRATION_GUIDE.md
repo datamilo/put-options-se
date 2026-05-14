@@ -8,10 +8,10 @@
 
 ## Executive Summary
 
-The options scoring system has been enhanced with a **second independent model (TA Model)** that validates predictions from our primary model **(V2.1 Premium Optimization - unchanged)**. This guide explains:
+The options scoring system has been enhanced with a **second independent model (TA ML Model)** that validates predictions from our primary model **(Probability Optimization Model - unchanged)**. This guide explains:
 
-1. **What changed**: Added TA Model as validation layer (V2.1 itself has NOT changed)
-2. **Why we added the TA Model**: Risk management and cross-validation
+1. **What changed**: Added TA ML Model as validation layer (Probability Optimization Model itself has NOT changed)
+2. **Why we added the TA ML Model**: Risk management and cross-validation
 3. **What each field means** (field reference)
 4. **How well the models perform** (performance metrics)
 5. **How to use the agreement flag** (practical decision-making)
@@ -20,14 +20,14 @@ The options scoring system has been enhanced with a **second independent model (
 
 ## Section 1: What Changed?
 
-### Previous System (V2.1 Only)
-- **Scoring model**: V2.1 Premium Optimization (3-factor weighting)
+### Previous System (Probability Optimization Model Only)
+- **Scoring model**: Probability Optimization Model (3-factor weighting)
 - **Output**: Probability score for each option
 - **Risk**: No independent validation
 
-### New System (V2.1 + TA Model Dual-Validation)
-- **Primary model**: V2.1 Premium Optimization (UNCHANGED - still uses 3-factor weighting)
-- **Secondary model**: TA Model (NEW - machine learning validation)
+### New System (Probability Optimization Model + TA ML Model Dual-Validation)
+- **Primary model**: Probability Optimization Model (UNCHANGED - still uses 3-factor weighting)
+- **Secondary model**: TA ML Model (NEW - machine learning validation)
 - **Output**: Both probabilities + agreement flag
 - **Benefit**: Cross-validation between different methodologies, confidence ranking
 
@@ -37,11 +37,11 @@ The options scoring system has been enhanced with a **second independent model (
 
 ### The Problem We Solved
 
-**V2.1 alone** optimizes for maximizing premiums (70-80% probability sweet spot), which is excellent for **business value** but relies on a single methodology.
+**Probability Optimization Model alone** optimizes for maximizing premiums (70-80% probability sweet spot), which is excellent for **business value** but relies on a single methodology.
 
-**TA Model** provides **independent technical analysis validation** using a completely different approach:
-- **V2.1 Premium Optimization**: Probabilistic weighting (Current Probability, Historical Peak, Support)
-- **TA Model**: Machine learning classifier (learns patterns from 1.8M historical option expiration records)
+**TA ML Model** provides **independent technical analysis validation** using a completely different approach:
+- **Probability Optimization Model**: Probabilistic weighting (Current Probability, Historical Peak, Support)
+- **TA ML Model**: Machine learning classifier (learns patterns from 1.8M historical option expiration records)
 
 ### When Agreement Matters
 
@@ -69,14 +69,14 @@ When **models disagree** (one <70%, one ≥70%):
 | `current_price` | Stock price at calculation | Data | Updated daily |
 | `days_to_expiry` | Business days until expiration | Calculated | 252-day year basis |
 
-### V2.1 Premium Optimization Model (UNCHANGED)
+### Probability Optimization Model (UNCHANGED)
 
 | Field | Meaning | Range | Interpretation |
 |-------|---------|-------|-----------------|
-| `v21_probability` | V2.1 predicted probability of expiration worthless | 0.0 - 1.0 | Higher = more confident option will expire worthless |
-| `v21_bucket` | V2.1 confidence bucket | <60%, 60-70%, 70-80%, 80-90%, 90%+ | Categorical probability ranges |
+| `probability_optimization_probability` | Probability Optimization Model predicted probability of expiration worthless | 0.0 - 1.0 | Higher = more confident option will expire worthless |
+| `probability_optimization_bucket` | Probability Optimization Model confidence bucket | <60%, 60-70%, 70-80%, 80-90%, 90%+ | Categorical probability ranges |
 
-**V2.1 Model Details (NO UPDATES - This Model is Unchanged):**
+**Probability Optimization Model Details (NO UPDATES - This Model is Unchanged):**
 - Type: Weighted composite scoring (3 factors)
 - Factors:
   - **Current Probability** (60% weight): Market-derived probability
@@ -84,16 +84,16 @@ When **models disagree** (one <70%, one ≥70%):
   - **Support Strength** (10% weight): Distance to nearest support level
 - Performance: AUC = 0.78-0.79 on validation set
 - Optimization: Designed for 70-80% probability "sweet spot" (highest premiums)
-- **Status**: V2.1 has NOT been modified and remains your primary scoring model
+- **Status**: Probability Optimization Model has NOT been modified and remains your primary scoring model
 
-### TA Model (NEW - Independent Validation Layer)
+### TA ML Model (NEW - Independent Validation Layer)
 
 | Field | Meaning | Range | Interpretation |
 |-------|---------|-------|-----------------|
-| `ta_probability` | TA Model predicted probability | 0.0 - 1.0 | Independent ML-based prediction using different methodology |
-| `ta_bucket` | TA Model confidence bucket | <60%, 60-70%, 70-80%, 80-90%, 90%+ | Same categorical ranges as V2.1 |
+| `ta_probability` | TA ML Model predicted probability | 0.0 - 1.0 | Independent ML-based prediction using different methodology |
+| `ta_bucket` | TA ML Model confidence bucket | <60%, 60-70%, 70-80%, 80-90%, 90%+ | Same categorical ranges as Probability Optimization Model |
 
-**TA Model Details (NEW Addition - Not a modification to V2.1):**
+**TA ML Model Details (NEW Addition - Not a modification to Probability Optimization Model):**
 - Type: Random Forest machine learning classifier (17 features)
 - Trained on: 1.8M historical option records
 - Features:
@@ -101,15 +101,15 @@ When **models disagree** (one <70%, one ≥70%):
   - **Contract-level factors** (5): Strike distance, time to expiry, option Greeks (Delta, Vega, Theta)
 - Performance: AUC = 0.85 (independent validation model)
 - Approach: Technical analysis based, learns from historical patterns
-- **Purpose**: Provides independent validation of V2.1 predictions; works alongside V2.1 (not as a replacement)
+- **Purpose**: Provides independent validation of Probability Optimization Model predictions; works alongside Probability Optimization Model (not as a replacement)
 
 ### Agreement & Confidence Fields (Dual-Model Validation)
 
 | Field | Meaning | Values | Use For |
 |-------|---------|--------|---------|
-| `models_agree` | Do V2.1 AND TA Model both predict ≥70%? | Yes/No (boolean) | **Primary filter** - highest confidence |
-| `agreement_strength` | Categorical agreement between V2.1 and TA Model | Strong, Moderate, Weak | Risk assessment and decision-making |
-| `combined_score` | Weighted combination of V2.1 and TA Model scores | 0.0 - 1.0 | Overall prediction confidence |
+| `models_agree` | Do Probability Optimization Model AND TA ML Model both predict ≥70%? | Yes/No (boolean) | **Primary filter** - highest confidence |
+| `agreement_strength` | Categorical agreement between Probability Optimization Model and TA ML Model | Strong, Moderate, Weak | Risk assessment and decision-making |
+| `combined_score` | Weighted combination of Probability Optimization Model and TA ML Model scores | 0.0 - 1.0 | Overall prediction confidence |
 
 ---
 
@@ -131,17 +131,17 @@ agreement_strength: Strong
 
 ---
 
-### Scenario 2: V2.1 Bullish, V3 Cautious (INVESTIGATE)
+### Scenario 2: Probability Optimization Model Bullish, TA ML Model Cautious (INVESTIGATE)
 
 ```
-v21_probability: 0.78 (HIGH)
+probability_optimization_probability: 0.78 (HIGH)
 ta_probability:  0.65 (MODERATE)
 models_agree: No
 agreement_strength: Weak
 ```
 
 **Interpretation**:
-- ⚠️ V2.1 sees good opportunity, but V3 is less confident
+- ⚠️ Probability Optimization Model sees good opportunity, but TA ML Model is less confident
 - ⚠️ May indicate option near key technical level
 - ⚠️ Could be underpriced (opportunity) or risky (volatility)
 - 💡 **Action**: Review technical chart, check support levels
@@ -151,7 +151,7 @@ agreement_strength: Weak
 ### Scenario 3: Disagreement (USE CAUTION)
 
 ```
-v21_probability: 0.75 (HIGH)
+probability_optimization_probability: 0.75 (HIGH)
 ta_probability:  0.52 (LOW)
 models_agree: No
 agreement_strength: Weak
@@ -167,7 +167,7 @@ agreement_strength: Weak
 ### Scenario 4: Both Models Conservative (SAFE)
 
 ```
-v21_probability: 0.55 (LOW)
+probability_optimization_probability: 0.55 (LOW)
 ta_probability:  0.48 (LOW)
 models_agree: No
 agreement_strength: Weak
@@ -182,7 +182,7 @@ agreement_strength: Weak
 
 ## Section 5: Model Performance Metrics
 
-### V2.1 Premium Optimization Model (UNCHANGED)
+### Probability Optimization Model (UNCHANGED)
 
 | Metric | Value | Interpretation |
 |--------|-------|-----------------|
@@ -198,15 +198,15 @@ agreement_strength: Weak
 - 0.85+ = Excellent
 - 0.65+ = Useful for filtering
 
-### TA Model (NEW)
+### TA ML Model (NEW)
 
 | Metric | Value | Interpretation |
 |--------|-------|-----------------|
 | **Test AUC** | 0.850 | Excellent discrimination on recent data |
-| **Walk-Forward AUC** | 0.651 | Equivalent temporal stability to V2.1 |
+| **Walk-Forward AUC** | 0.651 | Equivalent temporal stability to Probability Optimization Model |
 | **Training Data** | 1.8M option records | Large dataset spanning 18+ months |
-| **Primary Use** | Independent validation | Confirms V2.1 predictions using different approach |
-| **Status** | NEW ADDITION | This model is added alongside V2.1 for dual-model validation |
+| **Primary Use** | Independent validation | Confirms Probability Optimization Model predictions using different approach |
+| **Status** | NEW ADDITION | This model is added alongside Probability Optimization Model for dual-model validation |
 
 ### Dual-Model Agreement Statistics
 
@@ -225,9 +225,9 @@ agreement_strength: Weak
 
 ## Section 6: Understanding the Models
 
-### V2.1 Premium Optimization: How It Works (UNCHANGED)
+### Probability Optimization Model: How It Works (UNCHANGED)
 
-V2.1 combines three factors to identify options that will expire worthless. **This methodology has NOT been changed:**
+Probability Optimization Model combines three factors to identify options that will expire worthless. **This methodology has NOT been changed:**
 
 1. **Current Probability** (60% weight)
    - What does the market currently price this option's probability at?
@@ -247,9 +247,9 @@ V2.1 combines three factors to identify options that will expire worthless. **Th
 
 ---
 
-### TA Model: How It Works (NEW ADDITION)
+### TA ML Model: How It Works (NEW ADDITION)
 
-The TA Model uses machine learning to recognize patterns in historical option data. **This is a new addition to your system (not a modification to V2.1):**
+The TA ML Model uses machine learning to recognize patterns in historical option data. **This is a new addition to your system (not a modification to Probability Optimization Model):**
 
 **Stock-Level Technical Signals** (What the stock is doing):
 - RSI (Relative Strength Index): Overbought/oversold conditions
@@ -266,13 +266,13 @@ The TA Model uses machine learning to recognize patterns in historical option da
 - Vega: How much option price moves with volatility changes
 - Theta: Time decay per day
 
-**Result**: The TA Model recognizes which combinations of these signals historically preceded options expiring worthless, providing independent validation of V2.1 predictions.
+**Result**: The TA ML Model recognizes which combinations of these signals historically preceded options expiring worthless, providing independent validation of Probability Optimization Model predictions.
 
 ---
 
 ## Section 7: Decision Framework (Using Dual-Model System)
 
-### Recommended Usage by Scenario (V2.1 + TA Model Agreement)
+### Recommended Usage by Scenario (Probability Optimization Model + TA ML Model Agreement)
 
 **TIER 1: Best Opportunities** (models_agree = Yes AND agreement_strength = 'Strong')
 - ✅ Action: **HIGH PRIORITY** for trade evaluation
@@ -298,11 +298,11 @@ The TA Model uses machine learning to recognize patterns in historical option da
 
 ## Section 8: Frequently Asked Questions
 
-### Q: Why are there now two different models in the output (V2.1 and TA Model)?
+### Q: Why are there now two different models in the output (Probability Optimization Model and TA ML Model)?
 
 **A**: Different methodologies catch different signals:
-- **V2.1 Premium Optimization** (unchanged): Focuses on **current market conditions**, **historical probability peaks**, and **support levels**
-- **TA Model** (NEW): Focuses on **technical chart patterns** and **contract-level dynamics (Greeks)**
+- **Probability Optimization Model** (unchanged): Focuses on **current market conditions**, **historical probability peaks**, and **support levels**
+- **TA ML Model** (NEW): Focuses on **technical chart patterns** and **contract-level dynamics (Greeks)**
 
 Both valid approaches - when they agree, confidence is high. When they disagree, it means you should investigate further.
 
@@ -357,15 +357,15 @@ If performance degrades, we'll update this guide and notify your team.
 - 18+ months of historical data retained
 
 ### Model Retraining Schedule
-- V2.1: Monthly recalibration
-- V3: Quarterly retraining
+- Probability Optimization Model: Monthly recalibration
+- TA ML Model: Quarterly retraining
 - Automatic validation against walk-forward benchmark
 
 ### Historical Changes
 
 | Date | Change | Impact |
 |------|--------|--------|
-| Jan 29, 2026 | Added V3 TA Model validation | Introduced `ta_probability` and agreement fields |
+| Jan 29, 2026 | Added TA ML Model validation | Introduced `ta_probability` and agreement fields |
 | (Future) | Model improvements | Will be communicated in advance |
 
 ---
@@ -389,7 +389,7 @@ If performance degrades, we'll update this guide and notify your team.
 
 ## Summary
 
-The addition of the **TA Model** provides **independent validation** of your **unchanged V2.1 predictions**:
+The addition of the **TA ML Model** provides **independent validation** of your **unchanged Probability Optimization Model predictions**:
 
 | Aspect | Benefit |
 |--------|---------|
@@ -397,7 +397,7 @@ The addition of the **TA Model** provides **independent validation** of your **u
 | **Risk Management** | Disagreement flags alert you to investigate further |
 | **Opportunity** | No options filtered out - you choose the tier |
 | **Stability** | Both models tested on future data (walk-forward validation) |
-| **No Breaking Changes** | V2.1 remains your primary model, TA Model is a validation layer |
+| **No Breaking Changes** | Probability Optimization Model remains your primary model, TA ML Model is a validation layer |
 
 **Best Practice**: Use the `models_agree` flag and `agreement_strength` field to **prioritize** your analysis. Options with `models_agree = Yes` and `agreement_strength = 'Strong'` deserve first attention.
 

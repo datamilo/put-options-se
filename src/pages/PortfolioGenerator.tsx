@@ -352,7 +352,7 @@ const PortfolioGenerator = () => {
         (option as any).capitalRequired = capitalRequired;
 
         if (isScored) {
-          // Scored Models strategy: rank by weighted blend of V2.1 and TA scores
+          // Scored Models strategy: rank by weighted blend of Probability Optimization Model and TA ML Model scores
           const scored = scoredDataMap.get(option.OptionName)!;
           const v21 = scored.v21_score ?? 0;
           const ta = (scored.ta_probability ?? 0) * 100; // Scale 0-1 to 0-100
@@ -496,7 +496,7 @@ const PortfolioGenerator = () => {
       // Add strategy info to message
       const strategyLabel = optimizationStrategyOptions.find(s => s.value === settings.optimizationStrategy)?.label;
       if (isScored) {
-        message += ` Strategy: ${strategyLabel} (V2.1: ${settings.v21Weight}% / TA: ${100 - settings.v21Weight}%).`;
+        message += ` Strategy: ${strategyLabel} (Probability Optimization: ${settings.v21Weight}% / TA ML: ${100 - settings.v21Weight}%).`;
       } else {
         const avgCapitalEfficiency = selectedOptions.length > 0
           ? selectedOptions.reduce((sum, opt) => sum + ((opt as any).capitalEfficiencyScore || 0), 0) / selectedOptions.length
@@ -812,8 +812,8 @@ const PortfolioGenerator = () => {
                 <Label>{t('portfolioGenerator.labelModelWeight')}</Label>
                 <div className="space-y-3">
                   <div className="flex justify-between text-sm">
-                    <span>V2.1: {settings.v21Weight}%</span>
-                    <span>TA: {100 - settings.v21Weight}%</span>
+                    <span>Prob Optimization: {settings.v21Weight}%</span>
+                    <span>TA ML: {100 - settings.v21Weight}%</span>
                   </div>
                   <Slider
                     value={[settings.v21Weight]}
