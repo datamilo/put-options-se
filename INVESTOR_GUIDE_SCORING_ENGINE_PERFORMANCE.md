@@ -16,8 +16,8 @@ The system employs two independent models:
 - **TA ML Model:** Machine learning Random Forest with 17 technical and options-specific features
 
 Both models are validated through different testing methodologies on historical data spanning April 2024 - January 2026:
-- **V2.1:** In-sample calibration on 72,469 tracked options (probability tracking system)
-- **TA Model V3:** Evaluated on 8.8M historical options (all moneyness ranges, all expiration dates)
+- **Probability Optimization Model:** In-sample calibration on 72,469 tracked options (probability tracking system)
+- **TA ML Model:** Evaluated on 8.8M historical options (all moneyness ranges, all expiration dates)
 - **Key Note:** The 121x difference in test samples reflects different validation goals, not data quality. See "Section 2A: Why Sample Sizes Differ" for complete explanation.
 
 ---
@@ -553,8 +553,8 @@ From analysis across 8.8M historical options:
 | Options Analyzed | 8.8M historical options |
 | Unique Stocks | 75 Swedish equities |
 | Expired Options | 934K+ with known outcomes |
-| V2.1 Test Sample | 72,469 options with complete data |
-| TA Model Sample | 8,821,601 options across all distributions |
+| Probability Optimization Model Test Sample | 72,469 options with complete data |
+| TA ML Model Sample | 8,821,601 options across all distributions |
 
 ### Calibration Validation (Monthly Process)
 

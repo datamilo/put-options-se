@@ -60,7 +60,7 @@ finalScore = (probabilityOptimizationWeight / 100) × probabilityOptimizationSco
 | `portfolioUnderlyingValue` | 100,000 | 10,000–1,000,000 SEK | Underlying value per option |
 | `selectedProbabilityField` | `ProbWorthless_Bayesian_IsoCal` | 5 PoW methods | Probability field for filtering and display |
 | `optimizationStrategy` | `returns` | returns, capital, balanced, scored | Optimization approach |
-| `v21Weight` | 50 | 0–100 | V2.1 vs TA weight (scored strategy only) |
+| `v21Weight` | 50 | 0–100 | Probability Optimization Model vs TA ML Model weight (scored strategy only) |
 | `strikeBelowPeriod` | null | 7–365 days | Optional strike below period low filter |
 | `minProbabilityWorthless` | null | 40–100% | Optional minimum probability floor |
 | `maxProbabilityWorthless` | null | 40–100% | Optional maximum probability ceiling |

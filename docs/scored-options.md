@@ -177,7 +177,7 @@ models_agree = relative_diff ≤ 0.05 (5%)
 - Relative difference: 2 / 76 = 0.026 (2.6%)
 - Result: **Models Agree** ✓ (2.6% < 5%)
 
-This approach measures **consensus** between models, not "both models high." A V2.1 score of 55% and TA Probability of 57% would also agree (2% relative difference), while a V2.1 score of 75% and TA Probability of 73% would disagree (2.6% is close but relative difference matters more than absolute difference).
+This approach measures **consensus** between models, not "both models high." A Probability Optimization Model score of 55% and TA Probability of 57% would also agree (2% relative difference), while a Probability Optimization Model score of 75% and TA Probability of 73% would disagree (2.6% is close but relative difference matters more than absolute difference).
 
 #### Agreement Fields in Expandable Row
 
@@ -240,7 +240,7 @@ TA ML Model performance drops sharply beyond 35 days to expiration:
 - Time decay behavior differs fundamentally between short and far-dated options
 - Technical signals become less predictive for options with months to expiration
 
-**Observation:** The 36-day expiration boundary reflects a fundamental shift in how technical indicators behave. When both V2.1 and TA Model V3 independently predict 70%+ probability, the historical data shows higher empirical accuracy than either model alone. This provides evidence for why analyzing model agreement can be valuable.
+**Observation:** The 36-day expiration boundary reflects a fundamental shift in how technical indicators behave. When both Probability Optimization Model and TA ML Model independently predict 70%+ probability, the historical data shows higher empirical accuracy than either model alone. This provides evidence for why analyzing model agreement can be valuable.
 
 ### Temporal Stability Analysis
 
@@ -302,8 +302,8 @@ When selling puts with a fixed premium (e.g., 2,5%), expected return combines:
 | <50% | 15,80% | 12,16% | **-9,84%** | ❌ Avoid entirely |
 
 **Critical Insight - Premium Requirement:** At 2,5% premium, only the highest confidence buckets generate positive expected returns:
-- **V2.1:** Only 80-100% bucket is profitable
-- **TA Model V3:** Only 80-90% and 90%+ buckets are profitable
+- **Probability Optimization Model:** Only 80-100% bucket is profitable
+- **TA ML Model:** Only 80-90% and 90%+ buckets are profitable
 
 #### Expected Return Analysis: Factual Observations
 
@@ -349,7 +349,7 @@ At 2,5% premium collected, the models show the following expected returns by con
 |--------|------|-----------|--------|
 | **Hit Rate (70-80%)** | **83.8%** | **72.42%** | Both well-calibrated; different market coverage scope |
 | **Sample Size (70-80%)** | 19,830 | 1,425,565 | 72x larger sample for TA; tighter precision |
-| **Total Tested** | 72,469 options | 8,821,601 options | TA V3 covers entire production distribution |
+| **Total Tested** | 72,469 options | 8,821,601 options | TA ML Model covers entire production distribution |
 | **Confidence Interval** | 83.3%-84.3% | 72.34%-72.49% | Both highly precise ±0.15-0.5pp |
 | **Data Coverage** | Deep tracking on 3.9% of options | Works on 100% of options | Probability Optimization Model specialized; TA ML Model universal |
 | **DTE Stability** | Consistent across all expirations | 77% (0-35 DTE) vs 54% (36+ DTE) | Probability Optimization Model reliable; TA ML Model DTE-dependent |
