@@ -1283,7 +1283,7 @@
     "powMethod5": "Based on historical implied volatility",
     "placeholderOptionalPct": "40–100% (Optional)",
     "placeholderMaxCapital": "e.g., 5 000 000 SEK",
-    "descriptionText": "The Portfolio Generator evaluates each option and ranks them based on your selected optimization strategy, then automatically selects a diversified set (one option per stock). Maximize Returns prioritizes highest risk-adjusted returns. Minimize Capital prioritizes lowest capital requirements while maintaining quality. Balanced optimizes for both return and capital efficiency. Scored Models ranks options using a weighted blend of the V2.1 Probability Optimization and TA V3 Technical Analysis model scores.",
+    "descriptionText": "The Portfolio Generator evaluates each option and ranks them based on your selected optimization strategy, then automatically selects a diversified set (one option per stock). Maximize Returns prioritizes highest risk-adjusted returns. Minimize Capital prioritizes lowest capital requirements while maintaining quality. Balanced optimizes for both return and capital efficiency. Scored Models ranks options using a weighted blend of the Probability Optimization Model and TA ML Model scores.",
     "configTitle": "Portfolio Configuration",
     "labelTotalPremium": "Total Portfolio Premium",
     "rangeTotalPremium": "Range: 500 - 1 000 000 SEK",

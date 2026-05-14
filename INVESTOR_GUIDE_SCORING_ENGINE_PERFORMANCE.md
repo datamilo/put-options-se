@@ -388,7 +388,7 @@ This table shows TA ML Model actual hit rates analyzed across 8.8M historical op
 | 50-60% | 54.32% | 915,790 | 54.21% - 54.42% | Well-calibrated |
 | <50% | 31.04% | 2,999,840 | 30.98% - 31.09% | Well-calibrated |
 
-**Methodology:** Analysis across all historical options in the dataset. Each option received a TA Model V3 probability prediction. Options were grouped into ranges shown above, and actual worthless rates (hit rates) were calculated for each range. This represents real-world performance across the full distribution.
+**Methodology:** Analysis across all historical options in the dataset. Each option received a TA ML Model probability prediction. Options were grouped into ranges shown above, and actual worthless rates (hit rates) were calculated for each range. This represents real-world performance across the full distribution.
 
 **Sample Sizes:**
 - 70-80% range: 1,425,565 options (large bucket enabling tight confidence intervals)

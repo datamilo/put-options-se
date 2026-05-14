@@ -165,13 +165,13 @@ The Agreement Analysis section displays how closely the two independent models a
 Agreement uses a **relative difference formula** to measure score proximity:
 
 ```
-relative_diff = |V2.1_Score - (TA_Probability × 100)| / average_score
+relative_diff = |Probability Optimization Score - (TA ML Probability × 100)| / average_score
 models_agree = relative_diff ≤ 0.05 (5%)
 ```
 
 **Example:**
-- V2.1 Score: 75%
-- TA Probability: 77%
+- Probability Optimization Score: 75%
+- TA ML Probability: 77%
 - Difference: |75 - 77| = 2
 - Average: (75 + 77) / 2 = 76
 - Relative difference: 2 / 76 = 0.026 (2.6%)
@@ -212,7 +212,7 @@ The page displays comprehensive bucket-based calibration metrics showing actual 
 
 Both models independently score highly at the 70-80% prediction range:
 
-| Metric | V2.1 | TA Model V3 |
+| Metric | Probability Optimization | TA ML Model |
 |--------|------|-----------|
 | **Hit Rate (70-80%)** | 83.8% | 72.42% |
 | **Sample Size** | 19,830 | 1,425,565 |
@@ -463,12 +463,12 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 ## Version History
 
-**February 9, 2026 (Latest - Comprehensive TA Model V3 Update with Loss Analysis):**
+**February 9, 2026 (Latest - Comprehensive TA ML Model Update with Loss Analysis):**
 
 **Major Update: New 8.8M Sample Backtesting Results & Risk Analysis:**
-- Updated TA Model V3 calibration data from 1.59M predictions to comprehensive 8.8M historical options analysis
-- TA Model V3 (70-80% bucket): Hit rate updated from 76.6% to **72.42%** with tighter confidence intervals [72.34%-72.49%]
-- All TA Model V3 buckets recalculated with new sample sizes:
+- Updated TA ML Model calibration data from 1.59M predictions to comprehensive 8.8M historical options analysis
+- TA ML Model (70-80% bucket): Hit rate updated from 76.6% to **72.42%** with tighter confidence intervals [72.34%-72.49%]
+- All TA ML Model buckets recalculated with new sample sizes:
   - 90%+: 98.24% (587,666 samples)
   - 80-90%: 85.25% (1,766,411 samples)
   - 70-80%: 72.42% (1,425,565 samples)
@@ -478,14 +478,14 @@ At 2,5% premium collected, the models show the following expected returns by con
 - **CRITICAL: Added DTE Performance Cliff Finding:**
   - Short-dated options (0-35 DTE): 77% hit rate ✅
   - Far-dated options (36+ DTE): 54% hit rate ⚠️ (below threshold)
-  - Action: Require V2.1 model agreement for far-dated options
+  - Action: Require Probability Optimization Model agreement for far-dated options
 - **NEW: Comprehensive Loss Analysis Section:**
-  - V2.1: 4.64% average loss (high confidence) to 11.63% (low confidence); 2.51x loss ratio
-  - TA Model V3: 6.44% to 12.16% average losses; 1.89x loss ratio
+  - Probability Optimization Model: 4.64% average loss (high confidence) to 11.63% (low confidence); 2.51x loss ratio
+  - TA ML Model: 6.44% to 12.16% average losses; 1.89x loss ratio
   - Expected return analysis by bucket at 2.5% premium
   - Capital allocation framework (Tiers 1-4 based on expected returns)
   - Risk management: 15-20% capital reserve for worst-case scenarios
-  - Maximum observed losses: V2.1 73.48%, TA Model V3 67.59%
+  - Maximum observed losses: Probability Optimization Model 73.48%, TA ML Model 67.59%
 - Updated Model Comparison section with new metrics and DTE considerations
 - Added "Models Agree" validation criteria and confluence analysis
 - Updated "Trust Indicators" with new sample size and testing scope metrics
@@ -500,7 +500,7 @@ Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (February 9, 2026)
 **Major Redesign: From AUC to Bucket-Based Calibration:**
 - Replaced single "Walk-Forward AUC 0.651" metric with comprehensive bucket-based calibration tables
 - Removed 4 KPI cards (Walk-Forward AUC, Hit Rate, Calibration Error, Coverage) and replaced with rich CalibrationMetrics component
-- Added side-by-side comparison tables showing Probability Optimization Model vs TA Model V3
+- Added side-by-side comparison tables showing Probability Optimization Model vs TA ML Model
 - Each table displays: Score Range, Hit Rate %, Sample Size, 95% Confidence Intervals, and Notes
 - Added "Key Insights" summary highlighting 70-80% premium zone convergence (both models: 77% hit rate)
 - Added expandable Temporal Stability section showing per-fold variation across 5 market periods (Fold 2 underperformance noted)
@@ -512,13 +512,13 @@ Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (February 9, 2026)
 **Previous Session - Transparency & Naming Updates (January 31, 2026):**
 
 **Clarity Improvements:**
-- Renamed "V2.1 Score" to "Probability Optimization Score" for better user understanding
-- Renamed "TA Model V3" to "TA ML Model" to clarify it's machine learning-based
+- Column labels updated to "Probability Optimization Score" for clarity
+- Model references updated to "TA ML Model" to clarify it's machine learning-based
 - Clarified that validation metrics (Walk-Forward AUC, Hit Rate, Calibration Error) apply to both models equally
 - Updated "Total Options Available" KPI to explain daily variation (4,500-5,500) due to OTM/ATM filtering
 - Improved expandable row layout for better responsiveness on lower-resolution monitors
 
-**January 30, 2026 (TA Model V3 Integration with Full 17-Feature Set):**
+**January 30, 2026 (TA ML Model Integration with Full 17-Feature Set):**
 
 **TA ML Model Enhancements:**
 - Integrated TA ML Model with expanded 17-feature set as per DOWNSTREAM_TEAM_TA_MODEL_INTEGRATION_GUIDE.md
@@ -530,7 +530,7 @@ Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (February 9, 2026)
 - Updated data parsing to handle new CSV fields with proper null safety
 - Updated Excel export to include all new indicators (33 total fields)
 
-**January 30, 2026 (TA Model V3 Integration with Full 17-Feature Set):**
+**January 30, 2026 (TA ML Model Integration with Full 17-Feature Set):**
 
 **TA ML Model Enhancements:**
 - Integrated TA ML Model with expanded 17-feature set as per DOWNSTREAM_TEAM_TA_MODEL_INTEGRATION_GUIDE.md

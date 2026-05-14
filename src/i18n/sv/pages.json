@@ -1187,7 +1187,7 @@
     "powMethod5": "Baserad på historisk implicit volatilitet",
     "placeholderOptionalPct": "40–100% (valfritt)",
     "placeholderMaxCapital": "t.ex. 5 000 000 SEK",
-    "descriptionText": "Portföljgeneratorn utvärderar varje option och rangordnar dem baserat på din valda optimeringsstrategi, och väljer sedan automatiskt ett diversifierat urval (en option per aktie). Maximera avkastning prioriterar högsta riskjusterade avkastning. Minimera kapital prioriterar lägsta kapitalkrav med bibehållen kvalitet. Balanserad optimerar för både avkastning och kapitaleffektivitet. Rankade modeller rangordnar optioner med hjälp av en viktad kombination av V2.1 Sannolikhetsoptimering och TA V3 Teknisk analys-modellpoäng.",
+    "descriptionText": "Portföljgeneratorn utvärderar varje option och rangordnar dem baserat på din valda optimeringsstrategi, och väljer sedan automatiskt ett diversifierat urval (en option per aktie). Maximera avkastning prioriterar högsta riskjusterade avkastning. Minimera kapital prioriterar lägsta kapitalkrav med bibehållen kvalitet. Balanserad optimerar för både avkastning och kapitaleffektivitet. Rankade modeller rangordnar optioner med hjälp av en viktad kombination av Sannolikhetsoptimeringsmodellen och TA ML-modellen poäng.",
     "configTitle": "Portföljkonfiguration",
     "labelTotalPremium": "Total portföljpremie",
     "rangeTotalPremium": "Intervall: 500 – 1 000 000 SEK",

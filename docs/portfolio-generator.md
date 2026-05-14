@@ -13,7 +13,7 @@ Portfolio optimization tools with independent settings for generating optimized 
 ## Data Hooks
 - **useEnrichedOptionsData** - Main hook combining options data with user calculations and margin requirements
 - **useMarginRequirementsData** - Loads margin requirements data from CSV (via LEFT JOIN in enrichment)
-- **useScoredOptionsData** - Loads `current_options_scored.csv` with V2.1 and TA model scores (used by Scored Models strategy)
+- **useScoredOptionsData** - Loads `current_options_scored.csv` with Probability Optimization Model and TA ML model scores (used by Scored Models strategy)
 - **usePortfolioGeneratorPreferences** - Independent settings for portfolio generator page
   - **Critical**: Uses `hasLoadedFromSupabase` flag to prevent continuous reloading and value reversion
 
