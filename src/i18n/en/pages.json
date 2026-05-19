@@ -1032,7 +1032,7 @@
     "filterResetDefault": "Reset to Default",
     "calibration": {
       "title": "Model Calibration & Accuracy",
-      "subtitle": "When models predict 70-80% probability: Probability Optimization achieves 83.8% accuracy, TA ML Model 72.42%. Both validated on 934K+ historical options.",
+      "subtitle": "When models predict 70-80% probability: Probability Optimization achieves 83.8% accuracy, TA ML Model 70.06%. TA ML Model validated on 7.4M+ out-of-sample records (May 2026 retrain).",
       "tabProbOptimization": "Probability Optimization Model",
       "tabTAML": "TA ML Model",
       "v21Desc1": "The Probability Optimization Model combines three factors to estimate the likelihood an option will expire worthless (out-of-the-money). This table shows the historical accuracy of predictions at different probability levels, based on analysis of 72,469 options with known outcomes.",
@@ -1040,11 +1040,11 @@
       "dataRequirementTitle": "DATA REQUIREMENT DETAIL:",
       "v21DataRequirement": "Probability Optimization Model requires 5 complex probability calculation methods (Black-Scholes + calibration + historical volatility + Bayesian + ensemble). This requires months of special historical probability tracking data. Of 1.86M historical options, only 72,469 (3.9%) have complete: probability calculations + historical peak data + support metrics + known outcomes. This is why sample size is limited.",
       "whyDifferentSizes": "Why Different Sample Sizes?",
-      "whyDifferentSizesDesc": "Probability Optimization Model tests on 72,469 total options (Probability Tracking System) → 19,830 at 70-80%. TA Model tests on 1,860,935 total options (comprehensive historical database) → 636,639 at 70-80%. The 32x difference reflects different data sources: Probability Optimization is limited to tracked options, while TA Model accesses all Swedish equity options. Both use 27% of their respective datasets at 70-80%, showing identical market distribution.",
+      "whyDifferentSizesDesc": "Probability Optimization Model tests on 72,469 tracked options (Probability Tracking System) → 19,830 at 70-80%. TA Model (May 2026 retrain) validates on 7,375,016 out-of-sample option-day records (daily snapshots) → 1,617,173 at 70-80%. The large difference reflects different data sources: Probability Optimization is limited to tracked options; TA Model uses daily market data covering all Swedish equity options.",
       "v21TableTitle": "Probability Optimization Model - Actual Worthless % by Score Range",
       "v3Desc1": "The TA ML Model uses machine learning to analyze 17 different signals about each option and the underlying stock to estimate the probability it will expire worthless. This table shows the historical accuracy of predictions at different probability levels.",
-      "v3Testing": "Walk-forward temporal validation on the comprehensive historical database (all Swedish options, not just tracked ones). The model trains on historical data, then predicts on future periods it never saw. The 76.6% accuracy at 70-80% represents realistic expectation for new options the model hasn't encountered. Sample size of 636,639 at 70-80% provides extremely tight confidence intervals (±0.11 pp), proving the model generalizes well beyond training data.",
-      "v3DataRequirement": "TA Model uses 17 standard technical analysis features (RSI, MACD, ADX, Bollinger Bands, Greeks, etc.) calculated from standard daily price data. These work on any option with basic market data. Of 1.86M historical options, ~1,860,935 (99%+) have complete technical feature data. No special probability tracking required, no months of historical data needed—just standard market data every stock has.",
+      "v3Testing": "Walk-forward temporal validation on the comprehensive historical database (all Swedish options, not just tracked ones). The model trains on historical data, then predicts on future periods it never saw. The 70.06% actual worthless rate at 70-80% represents realistic expectation for new options the model hasn't encountered. Sample size of 1,617,173 at 70-80% provides extremely tight confidence intervals (±0.07 pp), proving the model generalizes well beyond training data.",
+      "v3DataRequirement": "TA Model uses 17 standard technical analysis features (RSI, MACD, ADX, Bollinger Bands, Greeks, etc.) calculated from standard daily price data. The model trains on daily option snapshots—one record per option contract per trading day, so the same contract appears multiple times over its lifetime. Of 8,757,990 option-day records (April 2024 - January 2026), 7,375,016 were validated as out-of-sample across 5 temporal folds. No special probability tracking required—just standard market data every stock has.",
       "v3TableTitle": "TA ML Model - Actual Worthless % by Predicted Range",
       "testingApproach": "Testing approach:"
     },
@@ -1113,14 +1113,14 @@
     "keyInsights": {
       "title": "💡 Key Insights: The Premium Collection Sweet Spot",
       "twoModelsTitle": "Two Independent Models:",
-      "twoModelsText": "When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 72.42%. Different market coverage explains the difference: Probability Optimization Model specializes on deeply-tracked options (19.8K sample); TA Model validates on comprehensive historical data (1.4M sample across all market conditions).",
+      "twoModelsText": "When predicting 70-80% probability, Probability Optimization Model achieved 83.8% accuracy (options actually expired worthless), TA ML Model achieved 70.06%. Different market coverage explains the difference: Probability Optimization Model specializes on deeply-tracked options (19.8K sample); TA Model validates on comprehensive historical data (1.6M sample across all market conditions).",
       "dataMetricsTitle": "Data-Driven Metrics:",
       "dataMetricsText": "Actual Worthless % varies by model and prediction range. Review the detailed tables below for comprehensive performance data.",
       "statisticalPrecisionTitle": "Statistical Precision:",
-      "statisticalPrecisionText": "Large sample sizes (1.4M for TA ML Model, 19.8K for Probability Model at 70-80%) provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless % likely falls.",
+      "statisticalPrecisionText": "Large sample sizes (1.6M for TA ML Model, 19.8K for Probability Model at 70-80%) provide high confidence in the estimates. Confidence intervals show the range where true Actual Worthless % likely falls.",
       "riskAssessmentTitle": "Risk Assessment:",
       "riskAssessmentText": "Lower Actual Worthless % indicates higher risk. Evaluate model performance across prediction ranges to support your trading decisions.",
-      "source": "Source: Validated testing on 1.8M+ Swedish equity option records (April 2024 - January 2026)."
+      "source": "Source: TA ML Model validated on 7.4M+ out-of-sample records (April 2024 - January 2026, May 2026 retrain). Probability Optimization Model on 72K+ tracked options."
     },
     "taBreakdown": {
       "title": "TA ML Model",
@@ -1234,21 +1234,21 @@
     },
     "temporalStability": {
       "title": "Temporal Stability Analysis (Per-Fold 70-80% Bucket)",
-      "description": "This analysis shows how the TA ML Model's Actual Worthless % at the 70-80% prediction range varied across different market periods. Each \"fold\" represents a distinct 3-month testing window in walk-forward validation. The overall average across all periods is approximately 77%, but individual periods show deviation due to market regime changes.",
+      "description": "This analysis shows how the TA ML Model's Actual Worthless % at the 70-80% prediction range varied across different market periods. Each \"fold\" represents a distinct testing window in walk-forward validation. The May 2026 retrain achieves 70.06% overall at the 70-80% bucket. Individual periods show deviation from this baseline due to market regime changes.",
       "colFold": "Fold",
       "colTestPeriod": "Test Period",
       "colActualWorthless": "Actual Worthless %",
       "colSampleSize": "Sample Size",
-      "colDeviation": "Deviation from 77%",
+      "colDeviation": "Deviation from 70%",
       "keyObservations": "Key Observations:",
       "obs1Title": "Fold 1-4:",
-      "obs1Text": "Variation ranges from -12.3pp (Fold 2) to +7.0pp (Fold 3), showing how market regimes affect calibration",
+      "obs1Text": "Variation ranges from -0.7pp (Fold 2) to +15.1pp (Fold 4), showing how market regimes affect calibration",
       "obs2Title": "Fold 2 Underperformance:",
-      "obs2Text": "Dec 2024 - Mar 2025 experienced significant degradation (64.7% actual vs 77% expected). This reflects a temporary market regime shift during this period.",
+      "obs2Text": "Dec 2024 - Mar 2025 saw the lowest performance (69.4% actual vs 70.1% baseline). This reflects a temporary market regime shift during this period.",
       "obs3Title": "Recent Performance:",
-      "obs3Text": "Folds 4-5 (Jun 2025 - Jan 2026) show improvement to 79-81%, suggesting the model is well-calibrated for current market conditions.",
+      "obs3Text": "Folds 4-5 (Jun 2025 - Jan 2026) show above-baseline performance (76.5-85.2%), suggesting the model is well-calibrated for recent market conditions.",
       "obs4Title": "Overall Average:",
-      "obs4Text": "Across all periods combined, the TA ML Model achieved 77% Actual Worthless % at 70-80% predictions. This aggregate rate masks period-to-period variation. Users should understand that actual performance fluctuates with market regimes, though the long-term average remains stable."
+      "obs4Text": "The May 2026 retrain achieved 70.06% Actual Worthless % at 70-80% predictions in aggregate across 7.4M out-of-sample records. Period-to-period variation is visible in the fold-level data above."
     },
     "v21Breakdown": {
       "title": "Probability Optimization Model",

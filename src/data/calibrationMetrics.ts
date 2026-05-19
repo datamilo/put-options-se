@@ -1,9 +1,14 @@
 /**
  * Calibration metrics data for Probability Optimization Model and TA ML Model
- * Source: INVESTOR_GUIDE_SCORING_ENGINE_PERFORMANCE.md (January 31, 2026)
+ * Source: ta_ml_model_all_options_analysis.md (May 16, 2026)
  *
  * This data shows actual hit rates (percentage of options that expired worthless)
  * achieved at different predicted probability levels.
+ *
+ * TA ML Model: May 2026 retrain on 8,757,990 option-day records (April 2024 - January 2026).
+ * One record per option contract per trading day — same contract can appear multiple times.
+ * Calibration backtest on 7,375,016 out-of-sample records across 5 temporal folds.
+ * Bug fixes applied: 100K sampling cap removed, DTE now calculated in business days.
  *
  * CRITICAL: Only includes verified data from source document.
  * NO premium multiplier claims, NO "optimal" designations, NO recommendations.
@@ -111,61 +116,61 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       rangeLabel: '90%+',
       minScore: 90,
       maxScore: 100,
-      hitRate: 0.9824,
-      sampleSize: 587666,
-      confidenceIntervalLower: 0.9820,
-      confidenceIntervalUpper: 0.9827,
-      expectedNote: 'Actual Worthless %: 98.24%',
+      hitRate: 0.8622,
+      sampleSize: 479492,
+      confidenceIntervalLower: 0.8612,
+      confidenceIntervalUpper: 0.8631,
+      expectedNote: 'Actual Worthless %: 86.22%',
     },
     {
       rangeLabel: '80-90%',
       minScore: 80,
       maxScore: 90,
-      hitRate: 0.8525,
-      sampleSize: 1766411,
-      confidenceIntervalLower: 0.8520,
-      confidenceIntervalUpper: 0.8530,
-      expectedNote: 'Actual Worthless %: 85.25%',
+      hitRate: 0.7654,
+      sampleSize: 1153766,
+      confidenceIntervalLower: 0.7646,
+      confidenceIntervalUpper: 0.7661,
+      expectedNote: 'Actual Worthless %: 76.54%',
     },
     {
       rangeLabel: '70-80%',
       minScore: 70,
       maxScore: 80,
-      hitRate: 0.7242,
-      sampleSize: 1425565,
-      confidenceIntervalLower: 0.7234,
-      confidenceIntervalUpper: 0.7249,
-      expectedNote: 'Actual Worthless %: 72.42%',
+      hitRate: 0.7006,
+      sampleSize: 1617173,
+      confidenceIntervalLower: 0.6999,
+      confidenceIntervalUpper: 0.7013,
+      expectedNote: 'Actual Worthless %: 70.06%',
     },
     {
       rangeLabel: '60-70%',
       minScore: 60,
       maxScore: 70,
-      hitRate: 0.6285,
-      sampleSize: 1126329,
-      confidenceIntervalLower: 0.6276,
-      confidenceIntervalUpper: 0.6293,
-      expectedNote: 'Actual Worthless %: 62.85%',
+      hitRate: 0.5791,
+      sampleSize: 2109577,
+      confidenceIntervalLower: 0.5784,
+      confidenceIntervalUpper: 0.5798,
+      expectedNote: 'Actual Worthless %: 57.91%',
     },
     {
       rangeLabel: '50-60%',
       minScore: 50,
       maxScore: 60,
-      hitRate: 0.5432,
-      sampleSize: 915790,
-      confidenceIntervalLower: 0.5421,
-      confidenceIntervalUpper: 0.5442,
-      expectedNote: 'Actual Worthless %: 54.32%',
+      hitRate: 0.3878,
+      sampleSize: 1400572,
+      confidenceIntervalLower: 0.3870,
+      confidenceIntervalUpper: 0.3886,
+      expectedNote: 'Actual Worthless %: 38.78%',
     },
     {
       rangeLabel: '<50%',
       minScore: 0,
       maxScore: 50,
-      hitRate: 0.3104,
-      sampleSize: 2999840,
-      confidenceIntervalLower: 0.3098,
-      confidenceIntervalUpper: 0.3109,
-      expectedNote: 'Actual Worthless %: 31.04%',
+      hitRate: 0.1575,
+      sampleSize: 614436,
+      confidenceIntervalLower: 0.1566,
+      confidenceIntervalUpper: 0.1584,
+      expectedNote: 'Actual Worthless %: 15.75%',
     },
   ],
 
@@ -175,35 +180,35 @@ export const calibrationMetricsData: CalibrationMetricsData = {
       testPeriod: 'Aug 29 - Dec 2, 2024',
       hitRate: 0.750,
       sampleCount: 72253,
-      deviation: -1.6,
+      deviation: 4.9,
     },
     {
       fold: 2,
       testPeriod: 'Dec 3, 2024 - Mar 14, 2025',
       hitRate: 0.694,
       sampleCount: 110180,
-      deviation: -7.2,
+      deviation: -0.7,
     },
     {
       fold: 3,
       testPeriod: 'Mar 17 - Jun 26, 2025',
       hitRate: 0.748,
       sampleCount: 108676,
-      deviation: -1.8,
+      deviation: 4.7,
     },
     {
       fold: 4,
       testPeriod: 'Jun 27 - Sep 30, 2025',
       hitRate: 0.852,
       sampleCount: 130333,
-      deviation: 8.6,
+      deviation: 15.1,
     },
     {
       fold: 5,
       testPeriod: 'Oct 1, 2025 - Jan 12, 2026',
       hitRate: 0.765,
       sampleCount: 215197,
-      deviation: -0.1,
+      deviation: 6.4,
     },
   ],
 };

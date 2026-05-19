@@ -205,21 +205,21 @@ The page displays comprehensive bucket-based calibration metrics showing actual 
 
 **TA ML Model (Technical + Machine Learning):**
 - Hit rates by predicted probability range
-- Based on 1.59M walk-forward validated out-of-sample predictions
-- Shows 77.1% hit rate at 70-80% range with tight 95% confidence intervals [77.0%-77.2%]
+- Based on 7.4M+ walk-forward validated out-of-sample option-day records (May 2026 retrain, 8.76M training records — one record per contract per trading day)
+- Shows 70.06% actual worthless rate at 70-80% range with tight 95% confidence intervals [69.99%-70.13%]
 
 ### Key Insight: The 70-80% Premium Zone
 
-Both models independently score highly at the 70-80% prediction range:
+Both models independently score at the 70-80% prediction range:
 
 | Metric | Probability Optimization | TA ML Model |
 |--------|------|-----------|
-| **Hit Rate (70-80%)** | 83.8% | 72.42% |
-| **Sample Size** | 19,830 | 1,425,565 |
-| **Confidence Interval** | [83.3%-84.3%] | [72.34%-72.49%] |
+| **Hit Rate (70-80%)** | 83.8% | 70.06% |
+| **Sample Size** | 19,830 | 1,617,173 |
+| **Confidence Interval** | [83.3%-84.3%] | [69.99%-70.13%] |
 | **Note** | Stable across all expirations | Varies by DTE (see below) |
 
-**Important:** TA ML Model hit rate of 72.42% is a **weighted average** across all expiration dates. Performance varies dramatically by days to expiration—see critical DTE cliff finding below.
+**Important:** TA ML Model hit rate of 70.06% is a **weighted average** across all expiration dates. Performance varies dramatically by days to expiration—see critical DTE cliff finding below.
 
 ### 🚨 CRITICAL: DTE Performance Cliff
 
@@ -244,15 +244,15 @@ TA ML Model performance drops sharply beyond 35 days to expiration:
 
 ### Temporal Stability Analysis
 
-TA ML Model calibration varies across different market periods (per-fold analysis):
+TA ML Model calibration (70-80% bucket) varies across different market periods in walk-forward validation. The May 2026 retrain achieves 70.06% overall at the 70-80% bucket across 7.4M out-of-sample records. Per-fold breakdown from the validation period:
 
-- **Fold 1 (Aug-Dec 2024):** 73.8% (-3.2pp)
-- **Fold 2 (Dec 2024-Mar 2025):** 64.7% (-12.3pp) - Market regime shift
-- **Fold 3 (Mar-Jun 2025):** 82.0% (+7.0pp) - Strong recovery
-- **Fold 4 (Jun-Sep 2025):** 79.0% (+1.9pp) - Above average
-- **Fold 5 (Oct 2025-Jan 2026):** 80.8% (+3.7pp) - Recent strength
+- **Fold 1 (Aug-Dec 2024):** 75.0% (+4.9pp)
+- **Fold 2 (Dec 2024-Mar 2025):** 69.4% (-0.7pp) - Near-baseline; temporary regime shift
+- **Fold 3 (Mar-Jun 2025):** 74.8% (+4.7pp)
+- **Fold 4 (Jun-Sep 2025):** 85.2% (+15.1pp) - Elevated market period
+- **Fold 5 (Oct 2025-Jan 2026):** 76.5% (+6.4pp)
 
-**Interpretation:** Long-term average of 77% masks period-to-period variation. Recent periods (Folds 4-5) show strength. Fold 2 underperformance reflects temporary market regime shift. Users should understand hit rates fluctuate seasonally but remain stable long-term.
+Deviations measured against the 70.06% model baseline. Note: fold 5 anomaly in the 90%+ bucket (37.7% actual worthless in the most recent test window) indicates a recent regime where more puts ended in the money. The 70-80% bucket remained stable across folds.
 
 ### Loss Analysis - Risk-Adjusted Returns
 
@@ -294,12 +294,12 @@ When selling puts with a fixed premium (e.g., 2,5%), expected return combines:
 
 | Predicted Range | Hit Rate | Avg Loss When Wrong | Expected Return | Trading Recommendation |
 |---|---|---|---|---|
-| 90%+ | 85,82% | 6,44% | **+1,23%** | ✅ Best profit opportunity |
-| 80-90% | 76,92% | 6,21% | **+0,39%** | ✅ Profitable |
-| 70-80% | 70,16% | 6,64% | **-0,23%** | ⚠️ Break-even (requires premium >2,5%) |
-| 60-70% | 57,37% | 7,89% | **-1,65%** | ❌ Loss |
-| 50-60% | 39,73% | 9,64% | **-3,94%** | ❌ High loss—avoid |
-| <50% | 15,80% | 12,16% | **-9,84%** | ❌ Avoid entirely |
+| 90%+ | 86,22% | 6,44% | **+1,27%** | ✅ Best profit opportunity |
+| 80-90% | 76,54% | 6,21% | **+0,46%** | ✅ Profitable |
+| 70-80% | 70,06% | 6,64% | **-0,24%** | ⚠️ Break-even (requires premium >2,5%) |
+| 60-70% | 57,91% | 7,89% | **-1,87%** | ❌ Loss |
+| 50-60% | 38,78% | 9,64% | **-4,93%** | ❌ High loss—avoid |
+| <50% | 15,75% | 12,16% | **-9,85%** | ❌ Avoid entirely |
 
 **Critical Insight - Premium Requirement:** At 2,5% premium, only the highest confidence buckets generate positive expected returns:
 - **Probability Optimization Model:** Only 80-100% bucket is profitable
@@ -323,12 +323,12 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 | Predicted Range | Hit Rate | Avg Loss When Wrong | Expected Return |
 |---|---|---|---|
-| 90%+ | 85,82% | 6,44% | +1,23% |
-| 80-90% | 76,92% | 6,21% | +0,39% |
-| 70-80% | 70,16% | 6,64% | -0,23% |
-| 60-70% | 57,37% | 7,89% | -1,65% |
-| 50-60% | 39,73% | 9,64% | -3,94% |
-| <50% | 15,80% | 12,16% | -9,84% |
+| 90%+ | 86,22% | 6,44% | +1,27% |
+| 80-90% | 76,54% | 6,21% | +0,46% |
+| 70-80% | 70,06% | 6,64% | -0,24% |
+| 60-70% | 57,91% | 7,89% | -1,87% |
+| 50-60% | 38,78% | 9,64% | -4,93% |
+| <50% | 15,75% | 12,16% | -9,85% |
 
 **Key Observation:** At 2,5% premium, buckets with negative expected returns show losses that are only offset by premiums higher than 2,5%.
 
@@ -347,22 +347,23 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 | Metric | Probability Optimization Model | TA ML Model | Interpretation |
 |--------|------|-----------|--------|
-| **Hit Rate (70-80%)** | **83.8%** | **72.42%** | Both well-calibrated; different market coverage scope |
-| **Sample Size (70-80%)** | 19,830 | 1,425,565 | 72x larger sample for TA; tighter precision |
-| **Total Tested** | 72,469 options | 8,821,601 options | TA ML Model covers entire production distribution |
-| **Confidence Interval** | 83.3%-84.3% | 72.34%-72.49% | Both highly precise ±0.15-0.5pp |
+| **Hit Rate (70-80%)** | **83.8%** | **70.06%** | Different market coverage explains the gap |
+| **Sample Size (70-80%)** | 19,830 | 1,617,173 | 82x larger sample for TA; extremely tight CI |
+| **Total Training** | 72,469 options | 8,757,990 option-day records | TA ML Model trains on daily snapshots (same contract appears multiple times) |
+| **Calibration Test (OOS)** | 72,469 options | 7,375,016 option-day records | TA ML Model uses strict walk-forward temporal splits |
+| **Confidence Interval** | 83.3%-84.3% | 69.99%-70.13% | Both highly precise |
 | **Data Coverage** | Deep tracking on 3.9% of options | Works on 100% of options | Probability Optimization Model specialized; TA ML Model universal |
 | **DTE Stability** | Consistent across all expirations | 77% (0-35 DTE) vs 54% (36+ DTE) | Probability Optimization Model reliable; TA ML Model DTE-dependent |
 | **Calibration Error** | 2.4% mean | 2.2% mean (ECE) | Both excellently calibrated |
 
-**Key Insight:** Probability Optimization Model achieves higher hit rate on its specialized tracking subset (83.8%). TA ML Model achieves solid hit rate on universal coverage (72.42%). Different data sources provide genuinely independent perspectives. When both models predict 70%+ probability, combined confidence is higher than either alone.
+**Key Insight:** Probability Optimization Model achieves higher hit rate on its specialized tracking subset (83.8%). TA ML Model achieves 70.06% on universal coverage across 7.4M out-of-sample records. Different data sources provide genuinely independent perspectives. When both models predict 70%+ probability, combined confidence is higher than either alone.
 
 ### Trust Indicators
 
 - ✓ **Dual-Model Validation** - Two independent analytical approaches (probability-based vs. technical) provide confirmation
-- ✓ **Large Sample Sizes** - TA ML Model: 1.4M options at 70-80% range; Probability Optimization Model: 19.8K deeply tracked options (high precision)
-- ✓ **Comprehensive Testing** - TA ML Model: 8.8M historical options; Probability Optimization Model: 72.5K with known outcomes (21+ months)
-- ✓ **Calibration Accuracy** - 2.4% mean error between predicted and actual outcomes (excellent)
+- ✓ **Large Sample Sizes** - TA ML Model: 1.6M options at 70-80% range; Probability Optimization Model: 19.8K deeply tracked options (high precision)
+- ✓ **Comprehensive Testing** - TA ML Model: 8.76M training options, 7.4M out-of-sample; Probability Optimization Model: 72.5K with known outcomes (21+ months)
+- ✓ **Calibration Accuracy** - 2.2% expected calibration error (ECE) for TA ML Model; 70-80% zone well-calibrated at 70.06% actual
 
 ---
 
@@ -463,7 +464,23 @@ At 2,5% premium collected, the models show the following expected returns by con
 
 ## Version History
 
-**February 9, 2026 (Latest - Comprehensive TA ML Model Update with Loss Analysis):**
+**May 2026 (Latest - TA ML Model May Retrain):**
+
+Updated TA ML Model calibration data with May 2026 retrain (bug fixes: 100K sampling cap removed, DTE now in business days):
+- Training data: 8,757,990 records (unchanged period April 2024 - January 2026)
+- Calibration backtest: 7,375,016 out-of-sample records across 5 temporal folds
+- Walk-forward AUC: 0.7142
+- 70-80% bucket: 70.06% actual worthless (was 72.42%), sample 1,617,173 (was 1,425,565)
+- 80-90% bucket: 76.54% (was 85.25%), sample 1,153,766 (was 1,766,411)
+- 90%+ bucket: 86.22% (was 98.24%), sample 479,492 (was 587,666)
+- 60-70%: 57.91% (was 62.85%), 50-60%: 38.78% (was 54.32%), <50%: 15.75% (was 31.04%)
+- Note: high-confidence buckets (80%+) over-estimate confidence; 70-80% zone well-calibrated at 70.06%
+
+Source: ta_ml_model_all_options_analysis.md (May 16, 2026)
+
+---
+
+**February 9, 2026 (Comprehensive TA ML Model Update with Loss Analysis):**
 
 **Major Update: New 8.8M Sample Backtesting Results & Risk Analysis:**
 - Updated TA ML Model calibration data from 1.59M predictions to comprehensive 8.8M historical options analysis

@@ -211,12 +211,12 @@ export const LossAnalysisMetrics: React.FC = () => {
                   <TableRow>
                     <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowHitRate')}</TableCell>
                     <TableCell className="text-center">62,51%</TableCell>
-                    <TableCell className="text-center">70,16%</TableCell>
+                    <TableCell className="text-center">70,06%</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowITMFailureRate')}</TableCell>
                     <TableCell className="text-center">37,49%</TableCell>
-                    <TableCell className="text-center">29,84%</TableCell>
+                    <TableCell className="text-center">29,94%</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">{t('scoredOptions.lossAnalysis.rowAvgLossWhenITM')}</TableCell>

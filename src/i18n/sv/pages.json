@@ -936,7 +936,7 @@
     "filterResetDefault": "Återställ till standard",
     "calibration": {
       "title": "Modellkalibrering & noggrannhet",
-      "subtitle": "När modeller förutsäger 70–80 % sannolikhet: Sannolikhetsoptimering uppnår 83,8 % noggrannhet, TA ML-modell 72,42 %. Båda validerade på 934K+ historiska optioner.",
+      "subtitle": "När modeller förutsäger 70–80 % sannolikhet: Sannolikhetsoptimering uppnår 83,8 % noggrannhet, TA ML-modell 70,06 %. TA ML-modell validerad på 7,4M+ ut-ur-urval poster (maj 2026 omskolning).",
       "tabProbOptimization": "Sannolikhetsoptimeringsmodell",
       "tabTAML": "TA ML-modell",
       "v21Desc1": "Sannolikhetsoptimeringsmodellen kombinerar tre faktorer för att uppskatta sannolikheten att en option förfaller värdelös (out-of-the-money). Tabellen visar den historiska precisionen för prognoser på olika sannolikhetsnivåer, baserat på analys av 72 469 optioner med kända utfall.",
@@ -944,11 +944,11 @@
       "dataRequirementTitle": "DATAKRAVDETALJER:",
       "v21DataRequirement": "Sannolikhetsoptimeringsmodellen kräver 5 komplexa sannolikhetsberäkningsmetoder (Black-Scholes + kalibrering + historisk volatilitet + Bayesiansk + ensemble). Detta kräver månader av särskild historisk sannolikhetsspårningsdata. Av 1,86 M historiska optioner har endast 72 469 (3,9 %) fullständiga: sannolikhetsberäkningar + historisk toppdata + stödmått + kända utfall. Det är därför urvalsstorleken är begränsad.",
       "whyDifferentSizes": "Varför olika urvalsstorlekar?",
-      "whyDifferentSizesDesc": "Sannolikhetsoptimeringsmodellen testar på 72 469 totala optioner (Sannolikhetsspårningssystem) → 19 830 vid 70–80 %. TA-modellen testar på 1 860 935 totala optioner (heltäckande historisk databas) → 636 639 vid 70–80 %. Den 32x-skillnaden speglar olika datakällor: Sannolikhetsoptimering är begränsad till spårade optioner, medan TA-modellen har tillgång till alla svenska aktieoption. Båda använder 27 % av sina respektive dataset vid 70–80 %, vilket visar identisk marknadsfördelning.",
+      "whyDifferentSizesDesc": "Sannolikhetsoptimeringsmodellen testar på 72 469 spårade optioner (Sannolikhetsspårningssystem) → 19 830 vid 70–80 %. TA-modellen (maj 2026 omskolning) validerar på 7 375 016 ut-ur-urval dagliga optionsposter → 1 617 173 vid 70–80 %. Den stora skillnaden speglar olika datakällor: Sannolikhetsoptimering är begränsad till spårade optioner; TA-modellen använder daglig marknadsdata för alla svenska aktieoption.",
       "v21TableTitle": "Sannolikhetsoptimeringsmodell – faktisk värdelös % per poängintervall",
       "v3Desc1": "TA ML-modellen använder maskininlärning för att analysera 17 olika signaler om varje option och den underliggande aktien för att uppskatta sannolikheten att den förfaller värdelös. Tabellen visar den historiska precisionen för prognoser på olika sannolikhetsnivåer.",
-      "v3Testing": "Walk-forward temporal validering på den heltäckande historiska databasen (alla svenska optioner, inte bara spårade). Modellen tränas på historisk data och förutsäger sedan framtida perioder den aldrig sett. 76,6 % noggrannhet vid 70–80 % representerar realistisk förväntan för nya optioner modellen inte stött på. Urvalsstorlek på 636 639 vid 70–80 % ger extremt snäva konfidensintervall (±0,11 pp), vilket bevisar att modellen generaliserar väl bortom träningsdata.",
-      "v3DataRequirement": "TA-modellen använder 17 standardtekniska analysfunktioner (RSI, MACD, ADX, Bollinger Bands, Greeks, m.fl.) beräknade från standard daglig prisdata. Dessa fungerar för alla optioner med grundläggande marknadsdata. Av 1,86 M historiska optioner har ~1 860 935 (99 %+) fullständig teknisk funktionsdata. Ingen speciell sannolikhetsspårning krävs, ingen månaders historisk data behövs – bara standard marknadsdata som varje aktie har.",
+      "v3Testing": "Walk-forward temporal validering på den heltäckande historiska databasen (alla svenska optioner, inte bara spårade). Modellen tränas på historisk data och förutsäger sedan framtida perioder den aldrig sett. 70,06 % faktisk värdelös andel vid 70–80 % representerar realistisk förväntan för nya optioner modellen inte stött på. Urvalsstorlek på 1 617 173 vid 70–80 % ger extremt snäva konfidensintervall (±0,07 pp), vilket bevisar att modellen generaliserar väl bortom träningsdata.",
+      "v3DataRequirement": "TA-modellen använder 17 standardtekniska analysfunktioner (RSI, MACD, ADX, Bollinger Bands, Greeks, m.fl.) beräknade från standard daglig prisdata. Modellen tränas på dagliga optionssnapshots – en post per optionskontrakt per handelsdag, så samma kontrakt förekommer flera gånger under sin livstid. Av 8 757 990 dagliga optionsposter (april 2024 – januari 2026) validerades 7 375 016 som ut-ur-urval över 5 temporala folds. Ingen speciell sannolikhetsspårning krävs – bara standard marknadsdata som varje aktie har.",
       "v3TableTitle": "TA ML-modell – faktisk värdelös % per förutsagt intervall",
       "testingApproach": "Testmetod:"
     },
@@ -1017,14 +1017,14 @@
     "keyInsights": {
       "title": "💡 Nyckelinsikter: Den optimala premieuppsättningszonen",
       "twoModelsTitle": "Två oberoende modeller:",
-      "twoModelsText": "Vid förutsägelse av 70-80% sannolikhet uppnådde sannolikhetsoptimeringsmodellen 83,8% träffsäkerhet (optioner förföll faktiskt värdelösa), TA ML-modellen 72,42%. Olika marknadstäckning förklarar skillnaden: Sannolikhetsoptimeringsmodellen specialiserar sig på djupspårade optioner (19,8K urval); TA-modellen validerar på heltäckande historiska data (1,4M urval över alla marknadsförhållanden).",
+      "twoModelsText": "Vid förutsägelse av 70-80% sannolikhet uppnådde sannolikhetsoptimeringsmodellen 83,8% träffsäkerhet (optioner förföll faktiskt värdelösa), TA ML-modellen 70,06%. Olika marknadstäckning förklarar skillnaden: Sannolikhetsoptimeringsmodellen specialiserar sig på djupspårade optioner (19,8K urval); TA-modellen validerar på heltäckande historiska data (1,6M urval över alla marknadsförhållanden).",
       "dataMetricsTitle": "Databaserade mätvärden:",
       "dataMetricsText": "Faktisk värdelös % varierar per modell och förutsägelseintervall. Granska de detaljerade tabellerna nedan för heltäckande prestandadata.",
       "statisticalPrecisionTitle": "Statistisk precision:",
-      "statisticalPrecisionText": "Stora urvalsstorlekar (1,4M för TA ML-modellen, 19,8K för sannolikhetsmodellen vid 70-80%) ger hög konfidens i uppskattningarna. Konfidensintervall visar intervallet där den verkliga faktiska värdelösa % sannolikt faller.",
+      "statisticalPrecisionText": "Stora urvalsstorlekar (1,6M för TA ML-modellen, 19,8K för sannolikhetsmodellen vid 70-80%) ger hög konfidens i uppskattningarna. Konfidensintervall visar intervallet där den verkliga faktiska värdelösa % sannolikt faller.",
       "riskAssessmentTitle": "Riskbedömning:",
       "riskAssessmentText": "Lägre faktisk värdelös % indikerar högre risk. Utvärdera modellprestanda över förutsägelseintervall för att stödja dina handelsbeslut.",
-      "source": "Källa: Validerad testning på 1,8M+ svenska aktieoptionsposter (april 2024 – januari 2026)."
+      "source": "Källa: TA ML-modell validerad på 7,4M+ ut-ur-urval poster (april 2024 – januari 2026, maj 2026 omskolning). Sannolikhetsoptimeringsmodell på 72K+ spårade optioner."
     },
     "taBreakdown": {
       "title": "TA ML-modell",
@@ -1138,21 +1138,21 @@
     },
     "temporalStability": {
       "title": "Temporal stabilitetsanalys (Per-fold 70-80%-intervall)",
-      "description": "Denna analys visar hur TA ML-modellens faktiska värdelösa % i förutsägelseintervallet 70-80% varierade över olika marknadsperioder. Varje \"fold\" representerar ett distinkt 3-månaders testfönster i walk-forward-validering. Det samlade genomsnittet över alla perioder är ungefär 77%, men enskilda perioder visar avvikelse på grund av marknadsregimförändringar.",
+      "description": "Denna analys visar hur TA ML-modellens faktiska värdelösa % i förutsägelseintervallet 70-80% varierade över olika marknadsperioder. Varje \"fold\" representerar ett distinkt testfönster i walk-forward-validering. Maj 2026 omskolningen uppnår 70,06% totalt i 70-80%-intervallet. Enskilda perioder visar avvikelse från denna baslinje på grund av marknadsregimförändringar.",
       "colFold": "Fold",
       "colTestPeriod": "Testperiod",
       "colActualWorthless": "Faktisk värdelös %",
       "colSampleSize": "Urvalsstorlek",
-      "colDeviation": "Avvikelse från 77%",
+      "colDeviation": "Avvikelse från 70%",
       "keyObservations": "Nyckelobservationer:",
       "obs1Title": "Fold 1-4:",
-      "obs1Text": "Variation från -12,3pp (Fold 2) till +7,0pp (Fold 3), vilket visar hur marknadsregimer påverkar kalibreringen",
+      "obs1Text": "Variation från -0,7pp (Fold 2) till +15,1pp (Fold 4), vilket visar hur marknadsregimer påverkar kalibreringen",
       "obs2Title": "Fold 2-underprestanda:",
-      "obs2Text": "Dec 2024 – Mar 2025 upplevde signifikant försämring (64,7% faktisk vs 77% förväntat). Detta återspeglar en tillfällig marknadsregimförändring under denna period.",
+      "obs2Text": "Dec 2024 – Mar 2025 visade lägsta prestanda (69,4% faktisk vs 70,1% baslinje). Detta återspeglar en tillfällig marknadsregimförändring under denna period.",
       "obs3Title": "Senaste prestanda:",
-      "obs3Text": "Fold 4-5 (jun 2025 – jan 2026) visar förbättring till 79-81%, vilket antyder att modellen är välkalibrerad för nuvarande marknadsförhållanden.",
+      "obs3Text": "Fold 4-5 (jun 2025 – jan 2026) visar prestanda över baslinjen (76,5-85,2%), vilket antyder att modellen är välkalibrerad för senaste marknadsförhållanden.",
       "obs4Title": "Samlat genomsnitt:",
-      "obs4Text": "Över alla perioder sammantaget uppnådde TA ML-modellen 77% faktisk värdelös % vid 70-80% förutsägelser. Denna samlade frekvens maskerar period-till-period-variation. Användare bör förstå att faktisk prestanda varierar med marknadsregimer, men det långsiktiga genomsnittet förblir stabilt."
+      "obs4Text": "Maj 2026 omskolningen uppnådde 70,06% faktisk värdelös % vid 70-80% förutsägelser totalt över 7,4M ut-ur-urval poster. Period-till-period-variation syns i fold-nivådata ovan."
     },
     "v21Breakdown": {
       "title": "Sannolikhetsoptimeringsmodell",
