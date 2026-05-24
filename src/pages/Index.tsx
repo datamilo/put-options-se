@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
 import { OptionData } from "@/types/options";
-import { OptionsTableDS, CheckMark } from "@/components/options/OptionsTableDS";
+import { OptionsTableDS, CheckMark, COLUMN_LABELS } from "@/components/options/OptionsTableDS";
 import { OptionsChart } from "@/components/options/OptionsChart";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useStockData } from "@/hooks/useStockData";
@@ -271,6 +271,9 @@ const Index = () => {
     </span>
   );
 
+  const allExpirySelected = selectedExpiryDates.length > 0 && selectedExpiryDates.length === filteredExpiryDates.length;
+  const allStocksSelected = selectedStocks.length > 0 && selectedStocks.length === filteredStocks.length;
+
   return (
     <div className="page">
       <div className="page-head">
@@ -326,7 +329,7 @@ const Index = () => {
                 data-active={selectedExpiryDates.length > 0 ? "true" : undefined}
                 onClick={() => setOpenChip(openChip === 'expiry' ? null : 'expiry')}
               >
-                Expiry · {expiryChipLabel}
+                <span className="chip-k">Expiry</span><span className="chip-v">{expiryChipLabel}</span>
                 <ChevronDown size={10} strokeWidth={1.5} />
               </button>
               {openChip === 'expiry' && (
@@ -337,6 +340,12 @@ const Index = () => {
                     value={expirySearch}
                     onChange={e => setExpirySearch(e.target.value)}
                   />
+                  <div className="popover-item" onClick={() => setSelectedExpiryDates(allExpirySelected ? [] : filteredExpiryDates)}>
+                    {checkSlot(allExpirySelected)}
+                    <span>{allExpirySelected ? "Clear all" : "Select all"}</span>
+                    <span className="pi-mono">{selectedExpiryDates.length}/{filteredExpiryDates.length}</span>
+                  </div>
+                  <div className="popover-divider" />
                   {filteredExpiryDates.map(date => (
                     <div key={date} className="popover-item" onClick={() => toggleExpiry(date)}>
                       {checkSlot(selectedExpiryDates.includes(date))}
@@ -358,7 +367,7 @@ const Index = () => {
                 data-active={selectedStocks.length > 0 ? "true" : undefined}
                 onClick={() => setOpenChip(openChip === 'stocks' ? null : 'stocks')}
               >
-                Stock · {stockChipLabel}
+                <span className="chip-k">Stock</span><span className="chip-v">{stockChipLabel}</span>
                 <ChevronDown size={10} strokeWidth={1.5} />
               </button>
               {openChip === 'stocks' && (
@@ -369,6 +378,12 @@ const Index = () => {
                     value={stockSearch}
                     onChange={e => setStockSearch(e.target.value)}
                   />
+                  <div className="popover-item" onClick={() => setSelectedStocks(allStocksSelected ? [] : filteredStocks)}>
+                    {checkSlot(allStocksSelected)}
+                    <span>{allStocksSelected ? "Clear all" : "Select all"}</span>
+                    <span className="pi-mono">{selectedStocks.length}/{filteredStocks.length}</span>
+                  </div>
+                  <div className="popover-divider" />
                   {filteredStocks.map(stock => (
                     <div key={stock} className="popover-item" onClick={() => toggleStock(stock)}>
                       {checkSlot(selectedStocks.includes(stock))}
@@ -390,7 +405,7 @@ const Index = () => {
                 data-active={strikeBelowPeriod !== null ? "true" : undefined}
                 onClick={() => setOpenChip(openChip === 'strike' ? null : 'strike')}
               >
-                Strike Below · {strikeChipLabel}
+                <span className="chip-k">Strike Below</span><span className="chip-v">{strikeChipLabel}</span>
                 <ChevronDown size={10} strokeWidth={1.5} />
               </button>
               {openChip === 'strike' && (
@@ -428,9 +443,12 @@ const Index = () => {
             <button type="button" className="btn-ghost" onClick={resetToDefault}>
               Reset
             </button>
+            <button type="button" className="btn-outline" onClick={handleExportCSV}>
+              Export CSV
+            </button>
           </div>
 
-          {/* Tabs + results meta */}
+          {/* Tabs */}
           <div className="tabs">
             <button
               type="button"
@@ -449,15 +467,20 @@ const Index = () => {
             >
               Charts
             </button>
-            <button
-              type="button"
-              className="btn-ghost"
-              style={{ marginLeft: 'auto' }}
-              onClick={handleExportCSV}
-            >
-              Export CSV
-            </button>
           </div>
+
+          {view === 'table' && (
+            <div className="results-meta">
+              <div className="meta-l">
+                Showing <strong>{filteredData.length}</strong> of {data.length} options
+                {selectedExpiryDates.length === 1 && <> · expiry <strong>{selectedExpiryDates[0]}</strong></>}
+                {selectedStocks.length > 0 && <> · <strong>{selectedStocks.length}</strong> stock{selectedStocks.length > 1 ? 's' : ''}</>}
+              </div>
+              <div>
+                Sort: <strong>{sortField ? (COLUMN_LABELS[sortField] ?? sortField) : 'None'}</strong> · {sortDirection === 'asc' ? '↑' : '↓'}
+              </div>
+            </div>
+          )}
 
           {view === 'table' ? (
             <OptionsTableDS
