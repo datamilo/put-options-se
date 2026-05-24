@@ -530,12 +530,12 @@ const PortfolioGenerator = () => {
                   <input
                     className="slider"
                     type="range"
-                    min={50} max={95} step={5}
+                    min={50} max={99} step={1}
                     value={minPowPct}
                     onChange={e => updateSetting('minProbabilityWorthless', Number(e.target.value))}
                   />
                   <div className="slider-ticks">
-                    <span>50%</span><span>75%</span><span>95%</span>
+                    <span>50%</span><span>75%</span><span>99%</span>
                   </div>
                 </div>
               </div>
