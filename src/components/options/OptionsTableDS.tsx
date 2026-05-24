@@ -152,8 +152,12 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
       );
     case "EstTotalMargin":
       return fmtSEK(option.EstTotalMargin ?? null);
-    default:
-      return "—";
+    default: {
+      const val = (option as Record<string, unknown>)[key];
+      if (val == null) return "—";
+      if (typeof val === "number") return isNaN(val) ? "—" : fmtNum(val, 2);
+      return String(val);
+    }
   }
 }
 
@@ -195,13 +199,16 @@ export const OptionsTableDS = ({
 
   useEffect(() => {
     if (prefsLoading) return;
+    if (columnPreferences.length === 0) return;
 
-    const colKeySet = new Set(COLUMN_KEYS);
-    const relevantPrefs = columnPreferences.filter(p => colKeySet.has(p.key));
+    const prefMap = new Map(columnPreferences.map(p => [p.key, p]));
 
-    if (relevantPrefs.length === 0) return;
+    // Start from COLUMNS for known cols; add any extra prefs not in COLUMNS
+    const knownKeys = new Set(COLUMN_KEYS);
+    const extraKeys = columnPreferences
+      .filter(p => !knownKeys.has(p.key) && p.visible)
+      .map(p => p.key);
 
-    const prefMap = new Map(relevantPrefs.map(p => [p.key, p]));
     const ordered = COLUMNS
       .filter(c => {
         const pref = prefMap.get(c.key);
@@ -215,11 +222,23 @@ export const OptionsTableDS = ({
         if (!pb) return -1;
         return pa.order - pb.order;
       });
-    setActiveColumnKeys(ordered.map(c => c.key));
+
+    setActiveColumnKeys([...ordered.map(c => c.key), ...extraKeys]);
   }, [columnPreferences, prefsLoading]);
 
   const activeColumns = useMemo(
-    () => activeColumnKeys.map(k => COLUMNS.find(c => c.key === k)!).filter(Boolean),
+    () => activeColumnKeys.map(k => {
+      const known = COLUMNS.find(c => c.key === k);
+      if (known) return known;
+      return {
+        key: k,
+        tKey: `options.fields.${k}`,
+        label: k.replace(/([A-Z])/g, ' $1').replace(/_/g, ' ').trim(),
+        numeric: true,
+        width: 120,
+        defaultVisible: false,
+      } as Column;
+    }),
     [activeColumnKeys]
   );
 
@@ -247,7 +266,6 @@ export const OptionsTableDS = ({
           visibleColumns={activeColumnKeys as (keyof OptionData)[]}
           onVisibilityChange={() => {}}
           onColumnOrderChange={keys => setActiveColumnKeys(keys as string[])}
-          columnKeys={COLUMN_KEYS}
         />
       </div>
       <div className="tbl-wrap">

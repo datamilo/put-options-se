@@ -11,7 +11,7 @@ import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useStockData } from "@/hooks/useStockData";
 import { useMainPagePreferences } from "@/hooks/useMainPagePreferences";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { exportToCSV } from "@/components/ui/export-button";
+import { exportToExcel } from "@/utils/excelExport";
 import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 
@@ -228,8 +228,8 @@ const Index = () => {
   };
 
   const handleExportCSV = () => {
-    trackExport('export_csv_clicked', { export_type: 'csv', data_source: 'options_table', row_count: filteredData.length });
-    exportToCSV(filteredData, `swedish-put-options-${new Date().toISOString().split('T')[0]}.csv`);
+    trackExport('export_excel_clicked', { export_type: 'xlsx', data_source: 'options_table', row_count: filteredData.length });
+    exportToExcel({ filename: 'swedish-put-options', visibleColumns: COLUMN_KEYS.filter(k => !k.startsWith('_')) as (keyof OptionData)[], data: filteredData });
     toast.success(t('index.toast.dataExported'));
   };
 
@@ -444,7 +444,7 @@ const Index = () => {
               Reset
             </button>
             <button type="button" className="btn-outline" onClick={handleExportCSV}>
-              Export CSV
+              Export
             </button>
           </div>
 

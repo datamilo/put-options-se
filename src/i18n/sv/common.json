@@ -1,5 +1,11 @@
 {
   "nav": {
+    "options": "Optioner",
+    "support": "Stödnivåer",
+    "historyAndVolatility": "Historik & volatilitet",
+    "validation": "Validering",
+    "stocks": "Aktier",
+    "automated": "Automatiserat",
     "portfolioGenerator": "Portföljgenerator",
     "monthlyAnalysis": "Månadsanalys",
     "financialReportingVolatility": "Volatilitet vid finansiell rapportering",

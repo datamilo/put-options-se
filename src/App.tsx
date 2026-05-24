@@ -111,20 +111,12 @@ const AppHeader = () => {
           <button
             type="button"
             className="lang-toggle hidden md:inline-flex"
-            data-on={lang === "en" ? "true" : undefined}
             onClick={toggleLang}
             title={t("language.switchLanguage")}
           >
-            EN
-          </button>
-          <button
-            type="button"
-            className="lang-toggle hidden md:inline-flex"
-            data-on={lang === "sv" ? "true" : undefined}
-            onClick={toggleLang}
-            title={t("language.switchLanguage")}
-          >
-            SV
+            <span style={{ fontWeight: lang === "en" ? 700 : 400, opacity: lang === "en" ? 1 : 0.4 }}>EN</span>
+            <span style={{ opacity: 0.3, margin: "0 2px" }}>|</span>
+            <span style={{ fontWeight: lang === "sv" ? 700 : 400, opacity: lang === "sv" ? 1 : 0.4 }}>SV</span>
           </button>
           <button
             type="button"
@@ -166,17 +158,17 @@ const AppHeader = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64 bg-background border shadow-lg z-50">
                 <DropdownMenuItem asChild className="cursor-pointer">
-                  <RouterLink to="/">Options</RouterLink>
+                  <RouterLink to="/">{t("nav.options")}</RouterLink>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer">
                   <RouterLink to="/consecutive-breaks">
                     <ChartNetwork className="mr-2 h-4 w-4" />
-                    Support
+                    {t("nav.support")}
                   </RouterLink>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
-                  History &amp; Volatility
+                  {t("nav.historyAndVolatility")}
                 </div>
                 <DropdownMenuItem asChild className="cursor-pointer pl-4">
                   <RouterLink to="/monthly-analysis">
@@ -198,7 +190,7 @@ const AppHeader = () => {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
-                  Validation
+                  {t("nav.validation")}
                 </div>
                 <DropdownMenuItem asChild className="cursor-pointer pl-4">
                   <RouterLink to="/probability-analysis">
@@ -216,12 +208,12 @@ const AppHeader = () => {
                 <DropdownMenuItem asChild className="cursor-pointer">
                   <RouterLink to="/stock-analysis">
                     <LineChart className="mr-2 h-4 w-4" />
-                    Stocks
+                    {t("nav.stocks")}
                   </RouterLink>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
-                  Automated
+                  {t("nav.automated")}
                 </div>
                 <DropdownMenuItem asChild className="cursor-pointer pl-4">
                   <RouterLink to="/recommendations">

@@ -28,11 +28,11 @@ export const HorizontalNavigation = () => {
   }, []);
 
   const NAV: NavEntry[] = [
-    { kind: "link", label: "Options", to: "/" },
-    { kind: "link", label: "Support", to: "/consecutive-breaks" },
+    { kind: "link", label: t("nav.options"), to: "/" },
+    { kind: "link", label: t("nav.support"), to: "/consecutive-breaks" },
     {
       kind: "group",
-      label: "History & Volatility",
+      label: t("nav.historyAndVolatility"),
       items: [
         { label: t("nav.monthlyAnalysis"), to: "/monthly-analysis" },
         { label: t("nav.financialReportingVolatility"), to: "/volatility-analysis" },
@@ -41,16 +41,16 @@ export const HorizontalNavigation = () => {
     },
     {
       kind: "group",
-      label: "Validation",
+      label: t("nav.validation"),
       items: [
         { label: t("nav.probabilityAnalysis"), to: "/probability-analysis" },
         { label: t("nav.lowerBoundAnalysis"), to: "/lower-bound-analysis" },
       ],
     },
-    { kind: "link", label: "Stocks", to: "/stock-analysis" },
+    { kind: "link", label: t("nav.stocks"), to: "/stock-analysis" },
     {
       kind: "group",
-      label: "Automated",
+      label: t("nav.automated"),
       items: [
         { label: t("nav.automatedPutOptionRecommendations"), to: "/recommendations", hint: "auto" },
         { label: t("nav.scoredOptions"), to: "/scored-options" },

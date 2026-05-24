@@ -1,5 +1,11 @@
 {
   "nav": {
+    "options": "Options",
+    "support": "Support",
+    "historyAndVolatility": "History & Volatility",
+    "validation": "Validation",
+    "stocks": "Stocks",
+    "automated": "Automated",
     "portfolioGenerator": "Portfolio Generator",
     "monthlyAnalysis": "Monthly Analysis",
     "financialReportingVolatility": "Financial Reporting Volatility",

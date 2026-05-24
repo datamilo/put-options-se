@@ -29,9 +29,11 @@ export function FieldInfoTooltip({ fieldName, className }: FieldInfoTooltipProps
     <TooltipProvider>
       <Tooltip delayDuration={200}>
         <TooltipTrigger asChild>
-          <Info className={`h-4 w-4 text-muted-foreground hover:text-foreground cursor-help transition-colors ${className || ""}`} />
+          <span onClick={e => e.stopPropagation()} style={{ display: "inline-flex" }}>
+            <Info className={`h-4 w-4 text-muted-foreground hover:text-foreground cursor-help transition-colors ${className || ""}`} />
+          </span>
         </TooltipTrigger>
-        <TooltipContent className="max-w-xs sm:max-w-sm max-h-[70vh] overflow-y-auto p-4 space-y-2">
+        <TooltipContent className="w-72 max-h-[50vh] overflow-y-auto overflow-x-hidden p-3 space-y-2">
           <div>
             <div className="font-semibold text-sm mb-1">{t(`${fieldName}.name`)}</div>
             <div className="text-xs text-muted-foreground mb-2">{t(`${fieldName}.category`)}</div>
