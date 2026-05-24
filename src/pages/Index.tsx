@@ -274,7 +274,7 @@ const Index = () => {
   const allStocksSelected = selectedStocks.length > 0 && selectedStocks.length === filteredStocks.length;
 
   return (
-    <div className="page">
+    <div className="page page--fill">
       <div className="page-head">
         <div>
           <p className="eyebrow">01 · Discover</p>
@@ -468,28 +468,27 @@ const Index = () => {
             </button>
           </div>
 
-          {view === 'table' && (
-            <div className="results-meta">
-              <div className="meta-l">
-                Showing <strong>{filteredData.length}</strong> of {data.length} options
-                {selectedExpiryDates.length === 1 && <> · expiry <strong>{selectedExpiryDates[0]}</strong></>}
-                {selectedStocks.length > 0 && <> · <strong>{selectedStocks.length}</strong> stock{selectedStocks.length > 1 ? 's' : ''}</>}
-              </div>
-              <div>
-                Sort: <strong>{sortField ? (COLUMN_LABELS[sortField] ?? sortField) : 'None'}</strong> · {sortDirection === 'asc' ? '↑' : '↓'}
-              </div>
-            </div>
-          )}
-
           {view === 'table' ? (
-            <OptionsTableDS
-              data={filteredData}
-              sortField={sortField}
-              sortDir={sortDirection}
-              onSort={handleSort}
-              onRowClick={handleOptionClick}
-              onStockClick={handleStockClick}
-            />
+            <div className="table-region">
+              <div className="results-meta">
+                <div className="meta-l">
+                  Showing <strong>{filteredData.length}</strong> of {data.length} options
+                  {selectedExpiryDates.length === 1 && <> · expiry <strong>{selectedExpiryDates[0]}</strong></>}
+                  {selectedStocks.length > 0 && <> · <strong>{selectedStocks.length}</strong> stock{selectedStocks.length > 1 ? 's' : ''}</>}
+                </div>
+                <div>
+                  Sort: <strong>{sortField ? (COLUMN_LABELS[sortField] ?? sortField) : 'None'}</strong> · {sortDirection === 'asc' ? '↑' : '↓'}
+                </div>
+              </div>
+              <OptionsTableDS
+                data={filteredData}
+                sortField={sortField}
+                sortDir={sortDirection}
+                onSort={handleSort}
+                onRowClick={handleOptionClick}
+                onStockClick={handleStockClick}
+              />
+            </div>
           ) : (
             <OptionsChart data={filteredData} />
           )}
