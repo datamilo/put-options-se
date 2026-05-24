@@ -31,6 +31,7 @@ interface ColumnManagerProps {
   visibleColumns: (keyof OptionData)[];
   onVisibilityChange: (column: keyof OptionData, visible: boolean) => void;
   onColumnOrderChange: (newOrder: (keyof OptionData)[]) => void;
+  columnKeys?: string[];
 }
 
 const SortableColumnItem: React.FC<{
@@ -97,6 +98,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   visibleColumns,
   onVisibilityChange,
   onColumnOrderChange,
+  columnKeys,
 }) => {
   const { t } = useTranslation(['pages', 'tables']);
   const [isOpen, setIsOpen] = useState(false);
@@ -150,7 +152,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   };
 
   useEffect(() => {
-    const allColumns = getAllColumns();
+    const allColumns = columnKeys ? (columnKeys as (keyof OptionData)[]) : getAllColumns();
     
     // Always ensure ALL columns are included
     const existingPrefsMap = new Map(columnPreferences.map(pref => [pref.key, pref]));
