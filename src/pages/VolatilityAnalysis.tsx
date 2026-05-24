@@ -87,32 +87,15 @@ export const VolatilityAnalysis = () => {
   const highVolatilityStocks = filteredVolatilityStats.filter(stat => stat.mean_abs_change > avgVolatilityDecimal).length;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button onClick={() => navigate('/')} variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('volatilityAnalysis.backToMain')}
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold">{t('volatilityAnalysis.title')}</h1>
-                <p className="text-muted-foreground">{t('volatilityAnalysis.subtitle')}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <BarChart3 className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">
-                {totalEvents.toLocaleString('sv-SE')} {t('volatilityAnalysis.eventsAnalyzed')}
-              </span>
-            </div>
-          </div>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">03 · History · Reporting</p>
+          <h1 className="page-title">{t('volatilityAnalysis.title')}</h1>
+          <p className="page-desc">{t('volatilityAnalysis.subtitle')}</p>
         </div>
       </div>
-
-      <div className="container mx-auto px-4 py-6 space-y-6">
+      <div className="space-y-6">
         {/* Summary Statistics */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>

@@ -224,64 +224,40 @@ const StockDetailsPage = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-4">
-      {/* Breadcrumbs */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to="/">{t('pages:stockAnalysis.optionsDashboard')}</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{t('pages:stockAnalysis.title')}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      {/* Page Header */}
-      <div className="flex items-start justify-between">
+    <div className="page">
+      <div className="page-head">
         <div>
-          <h1 className="text-3xl font-bold mb-1">{t('pages:stockAnalysis.title')}</h1>
-          <p className="text-muted-foreground">{selectedStock}</p>
-        </div>
-        <div className="flex flex-col items-end gap-2">
-          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label={t('dataTimestamp.stockData')} />
-          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label={t('dataTimestamp.analysisUpdated')} />
-          {isFromStock && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleBackClick}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {t('button.back')}
-            </Button>
+          <p className="eyebrow">05 · Stocks</p>
+          <h1 className="page-title">{t('pages:stockAnalysis.title')}</h1>
+          {selectedStock && <p className="page-desc" style={{ fontFamily: 'var(--font-mono)' }}>{selectedStock}</p>}
+          {timestamps && (
+            <div className="timestamps">
+              {timestamps.stockData?.lastUpdated && <span>Stocks · {timestamps.stockData.lastUpdated}</span>}
+              {timestamps.analysisCompleted?.lastUpdated && <span>Analysis · {timestamps.analysisCompleted.lastUpdated}</span>}
+            </div>
           )}
         </div>
+        <div className="w-full max-w-xs">
+          <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
+            <SelectTrigger>
+              <SelectValue placeholder={t('selectPlaceholder.stock')} />
+            </SelectTrigger>
+            <SelectContent>
+              {allStocks.map((stock) => (
+                <SelectItem key={stock} value={stock}>
+                  {stock}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-
-      {/* Stock Selector */}
-      <div className="w-full max-w-xs">
-        <Select value={selectedStock || undefined} onValueChange={handleStockChange}>
-          <SelectTrigger>
-            <SelectValue placeholder={t('selectPlaceholder.stock')} />
-          </SelectTrigger>
-          <SelectContent>
-            {allStocks.map((stock) => (
-              <SelectItem key={stock} value={stock}>
-                {stock}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+      <div className="space-y-4">
 
       {upcomingEvent && <UpcomingEventCard event={upcomingEvent} stockName={selectedStock} />}
 
       <StockDetails stockData={stockData} stockSummary={stockSummary} />
+      </div>
     </div>
   );
 };

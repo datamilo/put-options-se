@@ -242,17 +242,15 @@ export const ScoredOptions = () => {
   };
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <Target className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold">{t('scoredOptions.title')}</h1>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">06 · Automated · Scored</p>
+          <h1 className="page-title">{t('scoredOptions.title')}</h1>
+          <p className="page-desc">{t('scoredOptions.subtitle')}</p>
         </div>
-        <p className="text-muted-foreground">
-          {t('scoredOptions.subtitle')}
-        </p>
       </div>
+      <div className="space-y-6">
 
       {/* Error State */}
       {error && (
@@ -401,6 +399,7 @@ export const ScoredOptions = () => {
           )}
         </>
       )}
+      </div>
     </div>
   );
 };

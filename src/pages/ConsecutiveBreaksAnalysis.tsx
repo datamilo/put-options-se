@@ -205,18 +205,15 @@ export const ConsecutiveBreaksAnalysis = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
-            <ChartNetwork className="h-8 w-8" />
-            {t('consecutiveBreaks.title')}
-          </h1>
-          <p className="text-muted-foreground">
-            {t('consecutiveBreaks.subtitle')}
-          </p>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">02 · Support</p>
+          <h1 className="page-title">{t('consecutiveBreaks.title')}</h1>
+          <p className="page-desc">{t('consecutiveBreaks.subtitle')}</p>
         </div>
+      </div>
+      <div className="space-y-6">
 
         {/* Controls */}
         <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-8">

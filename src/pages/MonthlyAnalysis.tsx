@@ -171,37 +171,16 @@ export const MonthlyAnalysis = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button onClick={() => navigate('/')} variant="ghost" size="sm">
-                <ArrowLeft className="mr-2 h-4 w-4" />
-                {t('monthlyAnalysis.backToOptions')}
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold">{t('monthlyAnalysis.title')}</h1>
-                <p className="text-muted-foreground">{t('monthlyAnalysis.subtitle')}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-5 w-5 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">
-                {selectedMonths.length === 0
-                  ? t('common:filter.allMonths')
-                  : selectedMonths.length === 1
-                    ? t(`common:monthNames.${selectedMonths[0]}`)
-                    : t('monthlyAnalysis.monthsSelected', { count: selectedMonths.length })
-                }
-              </span>
-            </div>
-          </div>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">03 · History · Monthly</p>
+          <h1 className="page-title">{t('monthlyAnalysis.title')}</h1>
+          <p className="page-desc">{t('monthlyAnalysis.subtitle')}</p>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6 space-y-6">
+      <div className="space-y-6">
         {/* Filters */}
         <Card>
           <CardHeader>

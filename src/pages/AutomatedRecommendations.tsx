@@ -130,17 +130,15 @@ export const AutomatedRecommendations = () => {
   }, [filteredRecommendations]);
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <Sparkles className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold">{t('recommendations.title')}</h1>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">06 · Automated · Recs</p>
+          <h1 className="page-title">{t('recommendations.title')}</h1>
+          <p className="page-desc">{t('recommendations.subtitle')}</p>
         </div>
-        <p className="text-muted-foreground">
-          {t('recommendations.subtitle')}
-        </p>
       </div>
+      <div className="space-y-6">
 
       {/* Loading State */}
       {isLoading && (
@@ -372,6 +370,7 @@ export const AutomatedRecommendations = () => {
           </Card>
         </>
       )}
+      </div>
     </div>
   );
 };

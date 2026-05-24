@@ -185,18 +185,15 @@ export const SupportBasedOptionFinder = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2 flex items-center gap-3">
-            <Target className="h-8 w-8" />
-            {t('supportLevelOptions.title')}
-          </h1>
-          <p className="text-muted-foreground">
-            {t('supportLevelOptions.subtitle')}
-          </p>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">02 · Support · Options</p>
+          <h1 className="page-title">{t('supportLevelOptions.title')}</h1>
+          <p className="page-desc">{t('supportLevelOptions.subtitle')}</p>
         </div>
+      </div>
+      <div className="space-y-6">
 
         {/* Configuration Panel */}
         <Card className="mb-8">

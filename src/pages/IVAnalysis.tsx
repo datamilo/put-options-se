@@ -70,15 +70,14 @@ export const IVAnalysis: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Page header */}
-      <div className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">{t('ivAnalysis.title')}</h1>
+    <div className="page">
+      <div className="page-head">
+        <div>
+          <p className="eyebrow">03 · History · IV</p>
+          <h1 className="page-title">{t('ivAnalysis.title')}</h1>
         </div>
       </div>
-
-      <div className="container mx-auto px-4 py-6 space-y-8">
+      <div className="space-y-8">
         {/* Data methodology explanation */}
         <Alert>
           <Info className="h-4 w-4" />

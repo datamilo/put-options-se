@@ -90,73 +90,21 @@ export const ProbabilityAnalysis: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-4 space-y-4">
-      {/* Breadcrumbs */}
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to="/">{t('probabilityAnalysis.breadcrumbHome')}</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{t('probabilityAnalysis.title')}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      {/* Page Header */}
-      <div className="flex items-start justify-between">
+    <div className="page">
+      <div className="page-head">
         <div>
-          <h1 className="text-3xl font-bold mb-1">{t('probabilityAnalysis.title')}</h1>
-          <p className="text-muted-foreground">{t('probabilityAnalysis.subtitle')}</p>
-        </div>
-        <div className="flex flex-col items-end gap-2">
-          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label={t('probabilityAnalysis.optionsDataLabel')} />
-          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label={t('common:dataTimestamp.analysisUpdated')} />
-          <div className="flex items-center gap-2">
-              {/* PoW Legend Info Button */}
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    title={t('probabilityAnalysis.powLearnTitle')}
-                    className="gap-1"
-                  >
-                    <Info className="h-4 w-4" />
-                    <span className="text-xs">PoW ?</span>
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-md">
-                  <DialogHeader>
-                    <DialogTitle>{t('probabilityAnalysis.powLegendTitle')}</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <div>
-                      <p className="font-semibold text-sm mb-2">{t('probabilityAnalysis.powWhatIsTitle')}</p>
-                      <p className="text-sm text-muted-foreground">
-                        <strong>PoW = Probability of Worthless</strong> — {t('probabilityAnalysis.powWhatIsDesc')}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="font-semibold text-sm mb-2">{t('probabilityAnalysis.pow5MethodsTitle')}</p>
-                      <ul className="text-sm text-muted-foreground space-y-2 ml-4 list-disc">
-                        <li><strong>PoW - Weighted Average:</strong> {t('probabilityAnalysis.powMethod1')}</li>
-                        <li><strong>PoW - Bayesian Calibrated:</strong> {t('probabilityAnalysis.powMethod2')}</li>
-                        <li><strong>PoW - Original Black-Scholes:</strong> {t('probabilityAnalysis.powMethod3')}</li>
-                        <li><strong>PoW - Bias Corrected:</strong> {t('probabilityAnalysis.powMethod4')}</li>
-                        <li><strong>PoW - Historical IV:</strong> {t('probabilityAnalysis.powMethod5')}</li>
-                      </ul>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              <TrendingUp className="h-6 w-6 text-muted-foreground" />
-          </div>
+          <p className="eyebrow">04 · Validation · Probability</p>
+          <h1 className="page-title">{t('probabilityAnalysis.title')}</h1>
+          <p className="page-desc">{t('probabilityAnalysis.subtitle')}</p>
+          {timestamps && (
+            <div className="timestamps">
+              {timestamps.optionsData?.lastUpdated && <span>Options · {timestamps.optionsData.lastUpdated}</span>}
+              {timestamps.analysisCompleted?.lastUpdated && <span>Analysis · {timestamps.analysisCompleted.lastUpdated}</span>}
+            </div>
+          )}
         </div>
       </div>
+      <div className="space-y-4">
 
       {/* KPI Cards */}
       {kpiMetrics && (
@@ -384,6 +332,7 @@ export const ProbabilityAnalysis: React.FC = () => {
             </CardContent>
           </Card>
         </div>
+      </div>
       </div>
     </div>
   );
