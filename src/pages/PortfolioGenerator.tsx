@@ -543,16 +543,20 @@ const PortfolioGenerator = () => {
               <div className="input-row">
                 <label>
                   {t('portfolioGenerator.labelMaxProbability')}
-                  {maxPowPct != null && <span className="input-hint">{maxPowPct}%</span>}
+                  <span className="input-hint">{maxPowPct ?? 99}%</span>
                 </label>
-                <input
-                  className="text-input"
-                  type="number"
-                  min={50} max={100}
-                  value={maxPowPct ?? ""}
-                  placeholder={t('portfolioGenerator.placeholderOptionalPct')}
-                  onChange={e => updateSetting('maxProbabilityWorthless', e.target.value ? Number(e.target.value) : null)}
-                />
+                <div className="slider-wrap">
+                  <input
+                    className="slider"
+                    type="range"
+                    min={50} max={99} step={1}
+                    value={maxPowPct ?? 99}
+                    onChange={e => updateSetting('maxProbabilityWorthless', Number(e.target.value))}
+                  />
+                  <div className="slider-ticks">
+                    <span>50%</span><span>75%</span><span>99%</span>
+                  </div>
+                </div>
               </div>
 
               <div className="input-row">
