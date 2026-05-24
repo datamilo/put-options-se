@@ -1,47 +1,31 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
 import { OptionData } from "@/types/options";
-import { OptionsTable } from "@/components/options/OptionsTable";
+import { OptionsTableDS, CheckMark } from "@/components/options/OptionsTableDS";
 import { OptionsChart } from "@/components/options/OptionsChart";
-import { OptionDetails } from "@/components/options/OptionDetails";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useStockData } from "@/hooks/useStockData";
-import { TimestampDisplay } from "@/components/TimestampDisplay";
-import { SettingsModal } from "@/components/SettingsModal";
 import { useMainPagePreferences } from "@/hooks/useMainPagePreferences";
 import { useAnalytics } from "@/hooks/useAnalytics";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { BarChart3, Table, FileSpreadsheet, ChevronDown, RotateCcw } from "lucide-react";
+import { exportToCSV } from "@/components/ui/export-button";
+import { ChevronDown } from "lucide-react";
 import { toast } from "sonner";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { DataTimestamp } from "@/components/ui/data-timestamp";
-import { ExportButton, exportToCSV } from "@/components/ui/export-button";
 
 const Index = () => {
-  console.log('🏠 Index component rendering');
-
   usePageTitle('Options Analysis');
-  const navigate = useNavigate();
   const { t } = useTranslation('pages');
-  const [searchParams, setSearchParams] = useSearchParams();
-  
-  // Use enriched data directly - it already includes recalculated options
+  const [searchParams] = useSearchParams();
+
   const { data, isLoading, error, loadMockData } = useEnrichedOptionsData();
-  const { getStockSummary, getLowPriceForPeriod } = useStockData();
+  const { getLowPriceForPeriod } = useStockData();
   const { settings: savedFilters, isLoading: isLoadingPreferences, saveSettings: saveFilterSettings } = useMainPagePreferences();
   const { timestamps } = useTimestamps();
   const { trackFilterChange, trackExport } = useAnalytics();
-  
-  // Initialize filter state - will be populated from preferences or URL
+
   const [selectedStocks, setSelectedStocks] = useState<string[]>([]);
   const [selectedExpiryDates, setSelectedExpiryDates] = useState<string[]>([]);
   const urlParamsProcessed = useRef(false);
@@ -49,14 +33,30 @@ const Index = () => {
     const period = searchParams.get('strikeBelowPeriod');
     return period ? parseInt(period, 10) : null;
   });
-  const [sortField, setSortField] = useState<keyof OptionData | null>(() => {
-    const field = searchParams.get('sortField');
-    return field as keyof OptionData || null;
-  });
+  const [sortField, setSortField] = useState<string | null>(
+    () => searchParams.get('sortField') || 'Annualized_ROM_Pct'
+  );
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(() => {
-    const direction = searchParams.get('sortDirection');
-    return (direction === 'desc' ? 'desc' : 'asc');
+    const dir = searchParams.get('sortDirection');
+    return dir === 'asc' ? 'asc' : 'desc';
   });
+
+  const [view, setView] = useState<'table' | 'charts'>('table');
+  const [openChip, setOpenChip] = useState<string | null>(null);
+  const [stockSearch, setStockSearch] = useState("");
+  const [expirySearch, setExpirySearch] = useState("");
+
+  const filterRailRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseDown = (e: MouseEvent) => {
+      if (!filterRailRef.current?.contains(e.target as Node)) {
+        setOpenChip(null);
+      }
+    };
+    document.addEventListener("mousedown", handleMouseDown);
+    return () => document.removeEventListener("mousedown", handleMouseDown);
+  }, []);
 
   const timePeriodOptions = [
     { label: t('index.timePeriods.1w'), days: 7 },
@@ -67,16 +67,13 @@ const Index = () => {
     { label: t('index.timePeriods.1y'), days: 365 },
   ];
 
-  // Handle URL parameters for sharing (only on initial load)
+  // URL params for sharing (initial load only)
   useEffect(() => {
     if (urlParamsProcessed.current || !data.length) return;
-    
     const hasUrlParams = searchParams.has('stocks') || searchParams.has('expiryDates');
     if (hasUrlParams) {
-      // Process URL params for sharing
       const stocks = searchParams.get('stocks');
       const dates = searchParams.get('expiryDates');
-
       if (stocks) {
         try {
           const result = JSON.parse(decodeURIComponent(stocks));
@@ -85,7 +82,6 @@ const Index = () => {
           setSelectedStocks(stocks.split(',').filter(Boolean));
         }
       }
-      
       if (dates) {
         try {
           const result = JSON.parse(decodeURIComponent(dates));
@@ -94,206 +90,136 @@ const Index = () => {
           setSelectedExpiryDates(dates.split(',').filter(Boolean));
         }
       }
-      
       urlParamsProcessed.current = true;
     }
   }, [data.length, searchParams]);
 
-  // Update URL parameters when filters and sorting change (removed to prevent interference with preferences)
-  
-  // Load saved preferences when data is available
+  // Load saved preferences
   useEffect(() => {
-    // Skip if URL params were processed (sharing link)
     if (urlParamsProcessed.current) return;
     if (data.length === 0 || isLoadingPreferences) return;
-    
-    console.log('📥 Loading preferences from Supabase:', savedFilters);
-    
-    const availableStocks = [...new Set(data.map(option => option.StockName))];
-    const availableExpiryDates = [...new Set(data.map(option => option.ExpiryDate))];
-    
-    // Filter saved stocks to only include ones that exist in current data
-    const validSavedStocks = savedFilters.selectedStocks.filter(stock => availableStocks.includes(stock));
-    const validSavedExpiryDates = savedFilters.selectedExpiryDates.filter(date => availableExpiryDates.includes(date));
-    
-    console.log('✅ Valid saved stocks:', validSavedStocks);
-    console.log('✅ Valid saved dates:', validSavedExpiryDates);
-    
-    // If no valid saved expiry dates, calculate third Friday of next month as default
+
+    const availableStocks = [...new Set(data.map(o => o.StockName))];
+    const availableExpiryDates = [...new Set(data.map(o => o.ExpiryDate))];
+
+    const validSavedStocks = savedFilters.selectedStocks.filter(s => availableStocks.includes(s));
+    const validSavedExpiryDates = savedFilters.selectedExpiryDates.filter(d => availableExpiryDates.includes(d));
+
     let expiryDatesToUse = validSavedExpiryDates;
     if (expiryDatesToUse.length === 0) {
       const defaultDate = calculateDefaultExpiryDate(availableExpiryDates);
-      if (defaultDate) {
-        expiryDatesToUse = [defaultDate];
-      }
-      console.log('🎯 Using default expiry date:', expiryDatesToUse);
+      if (defaultDate) expiryDatesToUse = [defaultDate];
     }
-    
+
     setSelectedStocks(validSavedStocks);
     setSelectedExpiryDates(expiryDatesToUse);
     setStrikeBelowPeriod(savedFilters.strikeBelowPeriod || null);
-
-    console.log('📝 Applied filters - stocks:', validSavedStocks, 'dates:', expiryDatesToUse, 'risk:', savedFilters.selectedRiskLevels, 'strikeBelowPeriod:', savedFilters.strikeBelowPeriod);
   }, [data, isLoadingPreferences, savedFilters]);
-  
-  // Helper function to calculate default expiry date (third Friday of next month)
+
   const calculateDefaultExpiryDate = (availableExpiryDates: string[]) => {
     const today = new Date();
     const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-    
-    // Find first Friday of next month
     const firstFriday = new Date(nextMonth);
-    const dayOfWeek = firstFriday.getDay();
-    const daysUntilFriday = (5 - dayOfWeek + 7) % 7;
+    const daysUntilFriday = (5 - firstFriday.getDay() + 7) % 7;
     firstFriday.setDate(firstFriday.getDate() + daysUntilFriday);
-    
-    // Third Friday is 14 days after first Friday
     const thirdFriday = new Date(firstFriday);
     thirdFriday.setDate(thirdFriday.getDate() + 14);
-    
-    // Find the expiry date closest to third Friday
+
     let closestDate = availableExpiryDates[0];
     let smallestDiff = Infinity;
-    
     availableExpiryDates.forEach(dateStr => {
-      const expiryDate = new Date(dateStr);
-      const diff = Math.abs(expiryDate.getTime() - thirdFriday.getTime());
-      if (diff < smallestDiff) {
-        smallestDiff = diff;
-        closestDate = dateStr;
-      }
+      const diff = Math.abs(new Date(dateStr).getTime() - thirdFriday.getTime());
+      if (diff < smallestDiff) { smallestDiff = diff; closestDate = dateStr; }
     });
-    
     return closestDate;
   };
-  
-  // Reset filters to default
+
   const resetToDefault = () => {
-    const availableExpiryDates = [...new Set(data.map(option => option.ExpiryDate))];
+    const availableExpiryDates = [...new Set(data.map(o => o.ExpiryDate))];
     const defaultDate = calculateDefaultExpiryDate(availableExpiryDates);
-    
     setSelectedStocks([]);
     setSelectedExpiryDates(defaultDate ? [defaultDate] : []);
     setStrikeBelowPeriod(null);
-    
     toast.success(t('index.toast.filtersReset'));
   };
-  
-  // Save preferences whenever filters change (debounced by only saving when user is done interacting)
+
+  // Save preferences (debounced)
   useEffect(() => {
     if (!isLoadingPreferences && data.length > 0 && !urlParamsProcessed.current) {
-      const timeoutId = setTimeout(() => {
-        console.log('💾 Saving preferences to Supabase:', {
-          selectedStocks,
-          selectedExpiryDates,
-          strikeBelowPeriod
-        });
+      const id = setTimeout(() => {
         saveFilterSettings({
           selectedStocks,
           selectedExpiryDates,
           selectedRiskLevels: [],
           strikePriceFilter: 'all',
-          strikeBelowPeriod
+          strikeBelowPeriod,
         });
-      }, 500); // Debounce to avoid saving too frequently
-
-      return () => clearTimeout(timeoutId);
+      }, 500);
+      return () => clearTimeout(id);
     }
   }, [selectedStocks, selectedExpiryDates, strikeBelowPeriod, isLoadingPreferences, data.length, saveFilterSettings]);
-  
-  const [stockSearch, setStockSearch] = useState("");
-  const [expirySearch, setExpirySearch] = useState("");
-  const [columnFilters, setColumnFilters] = useState<{field: string; type: 'text' | 'number'; textValue?: string; minValue?: number; maxValue?: number;}[]>([]);
-  
-  // Cache low prices for performance
+
   const lowPricesCache = useMemo(() => {
-    if (strikeBelowPeriod === null) return new Map();
-    
+    if (strikeBelowPeriod === null) return new Map<string, number | null>();
     const cache = new Map<string, number | null>();
-    const uniqueStocks = [...new Set(data.map(option => option.StockName))];
-    
-    uniqueStocks.forEach(stockName => {
-      cache.set(stockName, getLowPriceForPeriod(stockName, strikeBelowPeriod));
+    [...new Set(data.map(o => o.StockName))].forEach(name => {
+      cache.set(name, getLowPriceForPeriod(name, strikeBelowPeriod));
     });
-    
     return cache;
   }, [data, strikeBelowPeriod, getLowPriceForPeriod]);
 
-  // Memoized filtered data with optimized filtering
   const filteredData = useMemo(() => {
     return data.filter(option => {
-      const matchesStock = selectedStocks.length === 0 || selectedStocks.includes(option.StockName);
-      const matchesExpiry = selectedExpiryDates.length === 0 || selectedExpiryDates.includes(option.ExpiryDate);
-      
-      // Use cached low price for performance
+      if (selectedStocks.length > 0 && !selectedStocks.includes(option.StockName)) return false;
+      if (selectedExpiryDates.length > 0 && !selectedExpiryDates.includes(option.ExpiryDate)) return false;
       if (strikeBelowPeriod !== null) {
-        const lowPrice = lowPricesCache.get(option.StockName);
-        if (lowPrice === null || lowPrice === undefined || option.StrikePrice > lowPrice) {
-          return false;
-        }
+        const low = lowPricesCache.get(option.StockName);
+        if (low == null || option.StrikePrice > low) return false;
       }
-      
-      return matchesStock && matchesExpiry;
+      return true;
     });
   }, [data, selectedStocks, selectedExpiryDates, strikeBelowPeriod, lowPricesCache]);
 
-  // Memoized filtered stocks
   const filteredStocks = useMemo(() => {
-    let filteredOptions = data;
-    
-    // Apply expiry date filter
-    if (selectedExpiryDates.length > 0) {
-      filteredOptions = filteredOptions.filter(option => selectedExpiryDates.includes(option.ExpiryDate));
-    }
-    
-    // Apply strike below period filter using cache
+    let opts = data;
+    if (selectedExpiryDates.length > 0) opts = opts.filter(o => selectedExpiryDates.includes(o.ExpiryDate));
     if (strikeBelowPeriod !== null) {
-      filteredOptions = filteredOptions.filter(option => {
-        const lowPrice = lowPricesCache.get(option.StockName);
-        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice <= lowPrice;
+      opts = opts.filter(o => {
+        const low = lowPricesCache.get(o.StockName);
+        return low != null && o.StrikePrice <= low;
       });
     }
-    
-    const stocks = [...new Set(filteredOptions.map(option => option.StockName))];
-    
-    return stocks
-      .filter(stock => stock.toLowerCase().includes(stockSearch.toLowerCase()))
+    return [...new Set(opts.map(o => o.StockName))]
+      .filter(s => s.toLowerCase().includes(stockSearch.toLowerCase()))
       .sort();
   }, [data, selectedExpiryDates, strikeBelowPeriod, lowPricesCache, stockSearch]);
 
-  // Memoized filtered expiry dates
   const filteredExpiryDates = useMemo(() => {
-    let filteredOptions = data;
-    
-    // Apply stock filter
-    if (selectedStocks.length > 0) {
-      filteredOptions = filteredOptions.filter(option => selectedStocks.includes(option.StockName));
-    }
-    
-    // Apply strike below period filter using cache
+    let opts = data;
+    if (selectedStocks.length > 0) opts = opts.filter(o => selectedStocks.includes(o.StockName));
     if (strikeBelowPeriod !== null) {
-      filteredOptions = filteredOptions.filter(option => {
-        const lowPrice = lowPricesCache.get(option.StockName);
-        return lowPrice !== null && lowPrice !== undefined && option.StrikePrice <= lowPrice;
+      opts = opts.filter(o => {
+        const low = lowPricesCache.get(o.StockName);
+        return low != null && o.StrikePrice <= low;
       });
     }
-    
-    const dates = [...new Set(filteredOptions.map(option => option.ExpiryDate))];
-    
-    return dates
-      .filter(date => date.toLowerCase().includes(expirySearch.toLowerCase()))
+    return [...new Set(opts.map(o => o.ExpiryDate))]
+      .filter(d => d.toLowerCase().includes(expirySearch.toLowerCase()))
       .sort();
   }, [data, selectedStocks, strikeBelowPeriod, lowPricesCache, expirySearch]);
 
-  const handleLoadMockData = () => {
-    loadMockData();
-    toast.success(t('index.toast.mockDataLoaded'));
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(d => d === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
   };
 
   const handleOptionClick = (option: OptionData) => {
-    const optionId = encodeURIComponent(option.OptionName);
     const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-    window.open(`${base}/option/${optionId}?${searchParams.toString()}`, '_blank');
+    window.open(`${base}/option/${encodeURIComponent(option.OptionName)}?${searchParams.toString()}`, '_blank');
   };
 
   const handleStockClick = (stockName: string) => {
@@ -302,315 +228,258 @@ const Index = () => {
   };
 
   const handleExportCSV = () => {
-    trackExport('export_csv_clicked', {
-      export_type: 'csv',
-      data_source: 'options_table',
-      row_count: filteredData.length,
-    });
+    trackExport('export_csv_clicked', { export_type: 'csv', data_source: 'options_table', row_count: filteredData.length });
     exportToCSV(filteredData, `swedish-put-options-${new Date().toISOString().split('T')[0]}.csv`);
     toast.success(t('index.toast.dataExported'));
   };
 
+  const toggleExpiry = (date: string) => {
+    const newValue = selectedExpiryDates.includes(date)
+      ? selectedExpiryDates.filter(d => d !== date)
+      : [...selectedExpiryDates, date];
+    trackFilterChange('filter_expiry_changed', { filter_type: 'expiry_dates', old_value: selectedExpiryDates, new_value: newValue, page: 'index' });
+    setSelectedExpiryDates(newValue);
+  };
+
+  const toggleStock = (stock: string) => {
+    const newValue = selectedStocks.includes(stock)
+      ? selectedStocks.filter(s => s !== stock)
+      : [...selectedStocks, stock];
+    trackFilterChange('filter_stocks_changed', { filter_type: 'stocks', old_value: selectedStocks, new_value: newValue, page: 'index' });
+    setSelectedStocks(newValue);
+  };
+
+  const expiryChipLabel = selectedExpiryDates.length === 0
+    ? "Any"
+    : selectedExpiryDates.length === 1
+    ? selectedExpiryDates[0]
+    : `${selectedExpiryDates.length} dates`;
+
+  const stockChipLabel = selectedStocks.length === 0
+    ? "All"
+    : selectedStocks.length === 1
+    ? selectedStocks[0]
+    : `${selectedStocks.length} stocks`;
+
+  const strikeChipLabel = strikeBelowPeriod === null
+    ? "None"
+    : timePeriodOptions.find(o => o.days === strikeBelowPeriod)?.label ?? "Active";
+
+  const checkSlot = (selected: boolean) => (
+    <span style={{ width: 14, height: 14, display: 'inline-flex', alignItems: 'center', flexShrink: 0 }}>
+      {selected && <CheckMark />}
+    </span>
+  );
+
   return (
-    <div className="container mx-auto p-4 space-y-4">
-      {/* Page Header */}
-      <div className="flex items-start justify-between">
+    <div className="page">
+      <div className="page-head">
         <div>
-          <h1 className="text-3xl font-bold mb-1">{t('index.title')}</h1>
-          <p className="text-muted-foreground">{t('index.headerDesc')}</p>
-        </div>
-        <div className="flex flex-col items-end gap-2">
-          <DataTimestamp timestamp={timestamps?.optionsData?.lastUpdated} label={t('index.optionsDataLabel')} />
-          <DataTimestamp timestamp={timestamps?.stockData?.lastUpdated} label={t('common:dataTimestamp.stockData')} />
-          <DataTimestamp timestamp={timestamps?.analysisCompleted?.lastUpdated} label={t('common:dataTimestamp.analysisUpdated')} />
+          <p className="eyebrow">01 · Discover</p>
+          <h1 className="page-title">{t('index.title')}</h1>
+          {timestamps && (
+            <div className="timestamps">
+              {timestamps.optionsData?.lastUpdated && (
+                <span>Options · {timestamps.optionsData.lastUpdated}</span>
+              )}
+              {timestamps.stockData?.lastUpdated && (
+                <span>Stocks · {timestamps.stockData.lastUpdated}</span>
+              )}
+              {timestamps.analysisCompleted?.lastUpdated && (
+                <span>Analysis · {timestamps.analysisCompleted.lastUpdated}</span>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
-      {data.length === 0 ? (
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <FileSpreadsheet className="h-5 w-5" />
-              {t('index.empty.title')}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {error && (
-              <div className="text-sm text-destructive bg-destructive/10 p-3 rounded">
-                {error}
-                <div className="mt-2 space-y-2">
-                  <div className="text-center">
-                    <Button onClick={handleLoadMockData} variant="outline" disabled={isLoading}>
-                      {t('common:button.loadSampleData')}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
+      {isLoading && (
+        <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ink-3)', padding: '40px 0' }}>
+          Loading…
+        </p>
+      )}
 
-            {isLoading && (
-              <div className="text-center text-sm text-muted-foreground">
-                {t('common:status.loading')}
-              </div>
-            )}
+      {error && !isLoading && data.length === 0 && (
+        <div style={{ padding: '40px 0' }}>
+          <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--neg)' }}>{error}</p>
+          <button
+            type="button"
+            className="btn-ghost"
+            style={{ marginTop: 12 }}
+            onClick={() => { loadMockData(); toast.success(t('index.toast.mockDataLoaded')); }}
+          >
+            Load sample data
+          </button>
+        </div>
+      )}
 
-            {!isLoading && !error && (
-              <div className="text-center text-sm text-muted-foreground">
-                {t('common:status.loading')}
-              </div>
-            )}
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h2 className="text-lg font-semibold">
-                  {t('index.subtitle')}
-                </h2>
-                <ExportButton onExportCSV={handleExportCSV} size="sm" variant="ghost" />
-              </div>
-              <p className="text-sm text-muted-foreground">
-                {t('index.showingOptions', { filtered: filteredData.length, total: data.length, pct: ((filteredData.length / data.length) * 100).toFixed(1) })}
-              </p>
-            </div>
-            
-            <div className="flex flex-col sm:flex-row sm:items-start gap-4 flex-wrap">
-              <Button 
-                onClick={resetToDefault} 
-                variant="ghost"
-                size="sm"
-                className="self-start text-xs text-muted-foreground hover:text-foreground"
-                title={t('index.resetToDefaultTitle')}
+      {data.length > 0 && (
+        <>
+          {/* Filter rail */}
+          <div className="filter-rail" ref={filterRailRef}>
+
+            {/* Expiry chip */}
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                className="filter-chip"
+                data-active={selectedExpiryDates.length > 0 ? "true" : undefined}
+                onClick={() => setOpenChip(openChip === 'expiry' ? null : 'expiry')}
               >
-                <RotateCcw className="h-3 w-3 mr-1" />
-                {t('index.resetToDefault')}
-              </Button>
-              
-              <div className="space-y-2">
-                <div className="flex items-center gap-1 min-h-5">
-                  <Label>{t('index.filters.strikePriceBelow')}</Label>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="min-w-[200px] justify-between">
-                      {strikeBelowPeriod === null
-                        ? t('index.selectPeriod')
-                        : `✓ ${timePeriodOptions.find(opt => opt.days === strikeBelowPeriod)?.label}`}
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] bg-background z-50">
-                    <DropdownMenuItem onClick={() => {
-                      trackFilterChange('filter_strike_below_period_changed', {
-                        filter_type: 'strike_below_period',
-                        old_value: strikeBelowPeriod,
-                        new_value: null,
-                        page: 'index',
-                      });
-                      setStrikeBelowPeriod(null);
-                    }}>
-                      {t('index.clearFilter')}
-                    </DropdownMenuItem>
-                    {timePeriodOptions.map(option => (
-                      <DropdownMenuItem
-                        key={option.days}
-                        onClick={() => {
-                          trackFilterChange('filter_strike_below_period_changed', {
-                            filter_type: 'strike_below_period',
-                            old_value: strikeBelowPeriod,
-                            new_value: option.days,
-                            page: 'index',
-                          });
-                          setStrikeBelowPeriod(option.days);
-                        }}
-                      >
-                        {option.label}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center gap-1 min-h-5">
-                  <Label>{t('index.filters.filterByStock')}</Label>
-                </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="min-w-[200px] justify-between">
-                      {selectedStocks.length === 0
-                        ? t('index.filters.allStocks')
-                        : selectedStocks.length === 1
-                        ? selectedStocks[0]
-                        : t('index.stocksSelected', { count: selectedStocks.length })}
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto bg-background z-50">
-                    <div className="space-y-2">
-                      <Input
-                        placeholder={t('index.filters.searchStocks')}
-                        value={stockSearch}
-                        onChange={(e) => setStockSearch(e.target.value.slice(0, 50))}
-                        className="h-8"
-                        maxLength={50}
-                      />
-                      <div className="flex items-center space-x-2 border-b pb-2">
-                        <Checkbox
-                          id="select-all-stocks"
-                          checked={selectedStocks.length === filteredStocks.length && filteredStocks.length > 0}
-                          onCheckedChange={(checked) => {
-                            const newValue = checked ? filteredStocks : [];
-                            trackFilterChange('filter_stocks_changed', {
-                              filter_type: 'stocks',
-                              old_value: selectedStocks,
-                              new_value: newValue,
-                              page: 'index',
-                            });
-                            setSelectedStocks(newValue);
-                          }}
-                        />
-                        <label htmlFor="select-all-stocks" className="text-sm cursor-pointer font-medium">
-                          {t('index.selectAll')}
-                        </label>
-                      </div>
-                      {filteredStocks.map(stock => (
-                        <div key={stock} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`stock-${stock}`}
-                            checked={selectedStocks.includes(stock)}
-                            onCheckedChange={(checked) => {
-                              const newValue = checked
-                                ? [...selectedStocks, stock]
-                                : selectedStocks.filter(s => s !== stock);
-                              trackFilterChange('filter_stocks_changed', {
-                                filter_type: 'stocks',
-                                old_value: selectedStocks,
-                                new_value: newValue,
-                                page: 'index',
-                              });
-                              setSelectedStocks(newValue);
-                            }}
-                          />
-                          <label htmlFor={`stock-${stock}`} className="text-sm cursor-pointer">
-                            {stock}
-                          </label>
-                        </div>
-                      ))}
+                Expiry · {expiryChipLabel}
+                <ChevronDown size={10} strokeWidth={1.5} />
+              </button>
+              {openChip === 'expiry' && (
+                <div className="filter-popover">
+                  <input
+                    className="popover-search"
+                    placeholder="Search dates…"
+                    value={expirySearch}
+                    onChange={e => setExpirySearch(e.target.value)}
+                  />
+                  {filteredExpiryDates.map(date => (
+                    <div key={date} className="popover-item" onClick={() => toggleExpiry(date)}>
+                      {checkSlot(selectedExpiryDates.includes(date))}
+                      {date}
                     </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center gap-1 min-h-5">
-                  <Label>{t('index.filters.filterByExpiryDate')}</Label>
+                  ))}
+                  {filteredExpiryDates.length === 0 && (
+                    <p style={{ fontSize: 12, color: 'var(--ink-3)', padding: '8px 4px', fontFamily: 'var(--font-mono)' }}>No dates</p>
+                  )}
                 </div>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="min-w-[200px] justify-between">
-                      {selectedExpiryDates.length === 0
-                        ? t('index.filters.allExpiryDates')
-                        : selectedExpiryDates.length === 1
-                        ? selectedExpiryDates[0]
-                        : t('index.datesSelected', { count: selectedExpiryDates.length })}
-                      <ChevronDown className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-[200px] p-3 max-h-60 overflow-y-auto bg-background z-50">
-                    <div className="space-y-2">
-                      <Input
-                        placeholder={t('index.filters.searchDates')}
-                        value={expirySearch}
-                        onChange={(e) => setExpirySearch(e.target.value.slice(0, 50))}
-                        className="h-8"
-                        maxLength={50}
-                      />
-                      <div className="flex items-center space-x-2 border-b pb-2">
-                        <Checkbox
-                          id="select-all-expiry"
-                          checked={selectedExpiryDates.length === filteredExpiryDates.length && filteredExpiryDates.length > 0}
-                          onCheckedChange={(checked) => {
-                            const newValue = checked ? filteredExpiryDates : [];
-                            trackFilterChange('filter_expiry_changed', {
-                              filter_type: 'expiry_dates',
-                              old_value: selectedExpiryDates,
-                              new_value: newValue,
-                              page: 'index',
-                            });
-                            setSelectedExpiryDates(newValue);
-                          }}
-                        />
-                        <label htmlFor="select-all-expiry" className="text-sm cursor-pointer font-medium">
-                          {t('index.selectAll')}
-                        </label>
-                      </div>
-                      {filteredExpiryDates.map(date => (
-                        <div key={date} className="flex items-center space-x-2">
-                          <Checkbox
-                            id={`expiry-${date}`}
-                            checked={selectedExpiryDates.includes(date)}
-                            onCheckedChange={(checked) => {
-                              const newValue = checked
-                                ? [...selectedExpiryDates, date]
-                                : selectedExpiryDates.filter(d => d !== date);
-                              trackFilterChange('filter_expiry_changed', {
-                                filter_type: 'expiry_dates',
-                                old_value: selectedExpiryDates,
-                                new_value: newValue,
-                                page: 'index',
-                              });
-                              setSelectedExpiryDates(newValue);
-                            }}
-                          />
-                          <label htmlFor={`expiry-${date}`} className="text-sm cursor-pointer">
-                            {date}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+              )}
             </div>
+
+            {/* Stock chip */}
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                className="filter-chip"
+                data-active={selectedStocks.length > 0 ? "true" : undefined}
+                onClick={() => setOpenChip(openChip === 'stocks' ? null : 'stocks')}
+              >
+                Stock · {stockChipLabel}
+                <ChevronDown size={10} strokeWidth={1.5} />
+              </button>
+              {openChip === 'stocks' && (
+                <div className="filter-popover">
+                  <input
+                    className="popover-search"
+                    placeholder="Search stocks…"
+                    value={stockSearch}
+                    onChange={e => setStockSearch(e.target.value)}
+                  />
+                  {filteredStocks.map(stock => (
+                    <div key={stock} className="popover-item" onClick={() => toggleStock(stock)}>
+                      {checkSlot(selectedStocks.includes(stock))}
+                      {stock}
+                    </div>
+                  ))}
+                  {filteredStocks.length === 0 && (
+                    <p style={{ fontSize: 12, color: 'var(--ink-3)', padding: '8px 4px', fontFamily: 'var(--font-mono)' }}>No stocks</p>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Strike Below chip */}
+            <div style={{ position: 'relative' }}>
+              <button
+                type="button"
+                className="filter-chip"
+                data-active={strikeBelowPeriod !== null ? "true" : undefined}
+                onClick={() => setOpenChip(openChip === 'strike' ? null : 'strike')}
+              >
+                Strike Below · {strikeChipLabel}
+                <ChevronDown size={10} strokeWidth={1.5} />
+              </button>
+              {openChip === 'strike' && (
+                <div className="filter-popover">
+                  <div
+                    className="popover-item"
+                    onClick={() => { setStrikeBelowPeriod(null); setOpenChip(null); }}
+                  >
+                    {checkSlot(strikeBelowPeriod === null)}
+                    None
+                  </div>
+                  {timePeriodOptions.map(opt => (
+                    <div
+                      key={opt.days}
+                      className="popover-item"
+                      onClick={() => {
+                        trackFilterChange('filter_strike_below_period_changed', {
+                          filter_type: 'strike_below_period',
+                          old_value: strikeBelowPeriod,
+                          new_value: opt.days,
+                          page: 'index',
+                        });
+                        setStrikeBelowPeriod(opt.days);
+                        setOpenChip(null);
+                      }}
+                    >
+                      {checkSlot(strikeBelowPeriod === opt.days)}
+                      {opt.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <button type="button" className="btn-ghost" onClick={resetToDefault}>
+              Reset
+            </button>
           </div>
 
-          <Tabs defaultValue="table" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="table" className="flex items-center gap-2">
-                <Table className="h-4 w-4" />
-                {t('index.tabs.table')}
-              </TabsTrigger>
-              <TabsTrigger value="charts" className="flex items-center gap-2">
-                <BarChart3 className="h-4 w-4" />
-                {t('index.tabs.charts')}
-              </TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="table">
-              <OptionsTable 
-                data={filteredData} 
-                onRowClick={handleOptionClick}
-                onStockClick={handleStockClick}
-                columnFilters={columnFilters}
-                onColumnFiltersChange={setColumnFilters}
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={(field, direction) => {
-                  setSortField(field);
-                  setSortDirection(direction);
-                }}
-                enableFiltering={true}
-              />
-            </TabsContent>
-            
-            <TabsContent value="charts">
-              <OptionsChart data={filteredData} />
-            </TabsContent>
-          </Tabs>
-        </div>
+          {/* Tabs + results meta */}
+          <div className="tabs">
+            <button
+              type="button"
+              className="tab"
+              data-active={view === 'table' ? 'true' : undefined}
+              onClick={() => setView('table')}
+            >
+              Table
+            </button>
+            <button
+              type="button"
+              className="tab"
+              data-active={view === 'charts' ? 'true' : undefined}
+              onClick={() => setView('charts')}
+            >
+              Charts
+            </button>
+            <span className="results-meta">
+              {filteredData.length} of {data.length} options
+            </span>
+            <button
+              type="button"
+              className="btn-ghost"
+              style={{ marginLeft: 'auto' }}
+              onClick={handleExportCSV}
+            >
+              Export CSV
+            </button>
+          </div>
+
+          {view === 'table' ? (
+            <OptionsTableDS
+              data={filteredData}
+              sortField={sortField}
+              sortDir={sortDirection}
+              onSort={handleSort}
+              onRowClick={handleOptionClick}
+              onStockClick={handleStockClick}
+            />
+          ) : (
+            <OptionsChart data={filteredData} />
+          )}
+
+          <div className="foot">
+            <Link to="/portfolio-generator" className="btn-ghost">
+              Continue to Portfolio Generator →
+            </Link>
+          </div>
+        </>
       )}
     </div>
   );
