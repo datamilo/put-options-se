@@ -435,22 +435,20 @@ const Index = () => {
             <button
               type="button"
               className="tab"
-              data-active={view === 'table' ? 'true' : undefined}
+              data-on={view === 'table' ? 'true' : undefined}
               onClick={() => setView('table')}
             >
               Table
+              <span className="tab-count">{filteredData.length}</span>
             </button>
             <button
               type="button"
               className="tab"
-              data-active={view === 'charts' ? 'true' : undefined}
+              data-on={view === 'charts' ? 'true' : undefined}
               onClick={() => setView('charts')}
             >
               Charts
             </button>
-            <span className="results-meta">
-              {filteredData.length} of {data.length} options
-            </span>
             <button
               type="button"
               className="btn-ghost"
