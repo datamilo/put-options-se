@@ -41,6 +41,7 @@ const Index = () => {
   });
 
   const [view, setView] = useState<'table' | 'charts'>('table');
+  const [isMaximized, setIsMaximized] = useState(false);
   const [openChip, setOpenChip] = useState<string | null>(null);
   const [stockSearch, setStockSearch] = useState("");
   const [expirySearch, setExpirySearch] = useState("");
@@ -318,7 +319,7 @@ const Index = () => {
       {data.length > 0 && (
         <>
           {/* Filter rail */}
-          <div className="filter-rail" ref={filterRailRef}>
+          {!isMaximized && <div className="filter-rail" ref={filterRailRef}>
 
             {/* Expiry chip */}
             <div style={{ position: 'relative' }}>
@@ -445,7 +446,7 @@ const Index = () => {
             <button type="button" className="btn-outline" onClick={handleExportCSV}>
               Export
             </button>
-          </div>
+          </div>}
 
           {/* Tabs */}
           <div className="tabs">
@@ -462,7 +463,7 @@ const Index = () => {
               type="button"
               className="tab"
               data-on={view === 'charts' ? 'true' : undefined}
-              onClick={() => setView('charts')}
+              onClick={() => { setView('charts'); setIsMaximized(false); }}
             >
               Charts
             </button>
@@ -487,6 +488,8 @@ const Index = () => {
                 onSort={handleSort}
                 onRowClick={handleOptionClick}
                 onStockClick={handleStockClick}
+                isMaximized={isMaximized}
+                onToggleMaximize={() => setIsMaximized(m => !m)}
               />
             </div>
           ) : (

@@ -5,6 +5,7 @@ import { formatNordicNumber } from "@/utils/numberFormatting";
 import { FieldInfoTooltip } from "@/components/ui/field-info-tooltip";
 import { ColumnManager } from "./ColumnManager";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
+import { Maximize2, Minimize2 } from "lucide-react";
 
 interface Column {
   key: string;
@@ -186,10 +187,12 @@ interface Props {
   onSort: (field: string) => void;
   onRowClick?: (option: OptionData) => void;
   onStockClick?: (stockName: string) => void;
+  isMaximized?: boolean;
+  onToggleMaximize?: () => void;
 }
 
 export const OptionsTableDS = ({
-  data, sortField, sortDir, onSort, onRowClick, onStockClick,
+  data, sortField, sortDir, onSort, onRowClick, onStockClick, isMaximized, onToggleMaximize,
 }: Props) => {
   const { t } = useTranslation("tables");
   const { columnPreferences, isLoading: prefsLoading } = useUserPreferences();
@@ -261,7 +264,17 @@ export const OptionsTableDS = ({
 
   return (
     <>
-      <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 6 }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 6, marginBottom: 6 }}>
+        {onToggleMaximize && (
+          <button
+            type="button"
+            className="btn-ghost"
+            onClick={onToggleMaximize}
+            title={isMaximized ? "Restore" : "Maximize table"}
+          >
+            {isMaximized ? <Minimize2 size={14} /> : <Maximize2 size={14} />}
+          </button>
+        )}
         <ColumnManager
           visibleColumns={activeColumnKeys as (keyof OptionData)[]}
           onVisibilityChange={() => {}}

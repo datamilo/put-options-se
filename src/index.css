@@ -437,7 +437,7 @@
 }
 .page--fill .tbl-wrap {
   flex: 1;
-  min-height: 0;
+  min-height: calc(15 * var(--row-h) + 40px);
   overflow: auto;
   border-bottom: none;
 }
@@ -691,6 +691,7 @@
 /* ── Data table ── */
 .tbl-wrap {
   overflow-x: auto;
+  min-width: 400px;
   border-bottom: 1px solid var(--rule);
 }
 .tbl {
