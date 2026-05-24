@@ -311,22 +311,6 @@ export const OptionsTableDS = ({
               </tr>
             ))}
 
-            {rows.length === 0 && (
-              <tr>
-                <td
-                  colSpan={activeColumns.length}
-                  style={{
-                    textAlign: "center",
-                    padding: "40px 0",
-                    color: "var(--ink-3)",
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 12,
-                  }}
-                >
-                  No options match the current filters.
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>

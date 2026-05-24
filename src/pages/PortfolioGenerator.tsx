@@ -718,15 +718,7 @@ const PortfolioGenerator = () => {
               </>
             )}
 
-            {/* Empty state when no portfolio generated yet */}
-            {!settings.portfolioGenerated && !isLoading && (
-              <div style={{ textAlign: 'center', padding: '60px 0', fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ink-3)' }}>
-                Configure constraints and generate a portfolio to see suggested positions.
-              </div>
-            )}
-
             <div className="foot">
-              <span>Generated portfolio is illustrative · execute through your broker</span>
               <Link to="/" className="btn-ghost">← Back to Options</Link>
             </div>
           </section>
