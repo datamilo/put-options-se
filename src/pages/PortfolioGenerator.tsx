@@ -374,6 +374,7 @@ const PortfolioGenerator = () => {
   }, [settings.generatedPortfolio]);
 
   const minPowPct = settings.minProbabilityWorthless ?? 65;
+  const maxPowPct = settings.maxProbabilityWorthless ?? null;
 
   return (
     <div className="page">
@@ -541,6 +542,21 @@ const PortfolioGenerator = () => {
 
               <div className="input-row">
                 <label>
+                  {t('portfolioGenerator.labelMaxProbability')}
+                  {maxPowPct != null && <span className="input-hint">{maxPowPct}%</span>}
+                </label>
+                <input
+                  className="text-input"
+                  type="number"
+                  min={50} max={100}
+                  value={maxPowPct ?? ""}
+                  placeholder={t('portfolioGenerator.placeholderOptionalPct')}
+                  onChange={e => updateSetting('maxProbabilityWorthless', e.target.value ? Number(e.target.value) : null)}
+                />
+              </div>
+
+              <div className="input-row">
+                <label>
                   {t('portfolioGenerator.labelExpiryDate')}
                   <span className="input-hint">{data.filter(o => !settings.selectedExpiryDate || o.ExpiryDate === settings.selectedExpiryDate).length} options</span>
                 </label>
@@ -623,14 +639,6 @@ const PortfolioGenerator = () => {
               >
                 {isGeneratingPortfolio ? t('portfolioGenerator.generating') : t('portfolioGenerator.generate')}
               </button>
-              <button
-                type="button"
-                className="btn-ghost"
-                style={{ width: '100%', marginTop: 8, fontSize: 11 }}
-                onClick={resetToDefaults}
-              >
-                {t('portfolioGenerator.resetToDefault')}
-              </button>
             </div>
           </aside>
 
@@ -657,6 +665,16 @@ const PortfolioGenerator = () => {
                 <div className="kpi-k">Avg P(worthless)</div>
                 <div className="kpi-v">{portfolioTotals.avgPoW > 0 ? fmtPct(portfolioTotals.avgPoW * 100) : '—'}</div>
                 <div className="kpi-sub">across positions</div>
+              </div>
+              <div className="kpi">
+                <div className="kpi-k">Total underlying</div>
+                <div className="kpi-v">{settings.totalUnderlyingValue > 0 ? fmtSEK(settings.totalUnderlyingValue) : '—'}</div>
+                <div className="kpi-sub">SEK · capital at work</div>
+              </div>
+              <div className="kpi">
+                <div className="kpi-k">Risk of loss</div>
+                <div className="kpi-v">{settings.totalPotentialLoss < 0 ? fmtSEK(settings.totalPotentialLoss) : '—'}</div>
+                <div className="kpi-sub">SEK · at lower bound</div>
               </div>
             </div>
 

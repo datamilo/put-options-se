@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
@@ -495,11 +494,6 @@ const Index = () => {
             <OptionsChart data={filteredData} />
           )}
 
-          <div className="foot">
-            <Link to="/portfolio-generator" className="btn-ghost">
-              Continue to Portfolio Generator →
-            </Link>
-          </div>
         </>
       )}
     </div>
