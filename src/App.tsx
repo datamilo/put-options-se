@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { SettingsProvider } from "@/contexts/SettingsContext";
 
@@ -31,12 +31,20 @@ import { Button } from "@/components/ui/button";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { HorizontalNavigation } from "@/components/HorizontalNavigation";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { SettingsModal } from "@/components/SettingsModal";
-import { Home, Settings, Sun, Moon, LogOut } from "lucide-react";
+import {
+  Settings, Sun, Moon, LogOut,
+  Menu, Calendar, Activity, TrendingUp, TrendingUpDown, ArrowDown10,
+  LineChart, Sparkles, Target, Bot, ChartNetwork,
+} from "lucide-react";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuTrigger,
+  DropdownMenuItem, DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import { useTheme } from "next-themes";
 import { useTranslation } from "react-i18next";
+import { Link as RouterLink } from "react-router-dom";
 
 const PageLoader = () => {
   const { t } = useTranslation('common');
@@ -52,71 +60,218 @@ const PageLoader = () => {
 
 const queryClient = new QueryClient();
 
+const Brand = () => (
+  <RouterLink to="/" className="brand">
+    <span className="brand-mark" aria-hidden="true" />
+    <div className="brand-text">
+      Put Options
+      <div className="brand-sub">SE · Analytics</div>
+    </div>
+  </RouterLink>
+);
+
 const AppHeader = () => {
   const { session, signOut } = useAuth();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation("common");
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const lang = i18n.language?.startsWith("sv") ? "sv" : "en";
+  const toggleLang = () => i18n.changeLanguage(lang === "en" ? "sv" : "en");
+  const toggleTheme = () => setTheme(theme === "dark" ? "light" : "dark");
+
+  if (!session) {
+    return (
+      <header className="topbar">
+        <div className="topbar-inner">
+          <Brand />
+          <div className="topbar-right">
+            <Button asChild size="sm">
+              <RouterLink to="/auth">{t("appShell.signIn")}</RouterLink>
+            </Button>
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
-    <header className="w-full border-b">
+    <header className="topbar">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:text-sm focus:font-medium"
       >
-        {t('appShell.skipToMain')}
+        {t("appShell.skipToMain")}
       </a>
-      <div className="flex items-center px-4 py-3 gap-2">
-        {session ? (
-          <>
-            <Button
-              asChild
-              variant="ghost"
-              size="icon"
-              title={t('appShell.goToHome')}
-            >
-              <Link to="/">
-                <Home className="h-5 w-5" />
-              </Link>
-            </Button>
-            <div className="h-6 w-px bg-border hidden md:block" />
-            <HorizontalNavigation onOpenSettings={() => setSettingsOpen(true)} />
-            {/* Desktop utilities — far right */}
-            <div className="hidden md:flex items-center gap-1 ml-auto">
-              <LanguageSwitcher />
-              <Button
-                onClick={() => setSettingsOpen(true)}
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                title={t('nav.calculationSettings')}
-              >
-                <Settings className="h-4 w-4" />
-              </Button>
-              <Button
-                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9"
-                title={theme === "light" ? t('nav.switchToDarkMode') : t('nav.switchToLightMode')}
-              >
-                {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-              </Button>
-              <Button
-                onClick={signOut}
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 text-destructive hover:text-destructive"
-                title={t('nav.signOut')}
-              >
-                <LogOut className="h-4 w-4" />
-              </Button>
-            </div>
-          </>
-        ) : (
-          <Button asChild className="ml-auto">
-            <Link to="/auth">{t('appShell.signIn')}</Link>
-          </Button>
-        )}
+      <div className="topbar-inner">
+        <Brand />
+        <HorizontalNavigation />
+
+        {/* Desktop right utilities */}
+        <div className="topbar-right">
+          <button
+            type="button"
+            className="lang-toggle hidden md:inline-flex"
+            data-on={lang === "en" ? "true" : undefined}
+            onClick={toggleLang}
+            title={t("language.switchLanguage")}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            className="lang-toggle hidden md:inline-flex"
+            data-on={lang === "sv" ? "true" : undefined}
+            onClick={toggleLang}
+            title={t("language.switchLanguage")}
+          >
+            SV
+          </button>
+          <button
+            type="button"
+            className="icon-btn hidden md:inline-flex"
+            onClick={() => setSettingsOpen(true)}
+            title={t("nav.calculationSettings")}
+          >
+            <Settings size={14} strokeWidth={1.5} />
+          </button>
+          <button
+            type="button"
+            className="icon-btn hidden md:inline-flex"
+            onClick={toggleTheme}
+            title={theme === "dark" ? t("nav.switchToLightMode") : t("nav.switchToDarkMode")}
+          >
+            {theme === "dark" ? (
+              <Sun size={14} strokeWidth={1.5} />
+            ) : (
+              <Moon size={14} strokeWidth={1.5} />
+            )}
+          </button>
+          <button
+            type="button"
+            className="icon-btn hidden md:inline-flex"
+            onClick={signOut}
+            title={t("nav.signOut")}
+          >
+            <LogOut size={14} strokeWidth={1.5} />
+          </button>
+
+          {/* Mobile hamburger */}
+          <div className="md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button type="button" className="icon-btn" style={{ width: 36, height: 36 }}>
+                  <Menu size={16} strokeWidth={1.5} />
+                  <span className="sr-only">{t("nav.openMenu")}</span>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-64 bg-background border shadow-lg z-50">
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <RouterLink to="/">Options</RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <RouterLink to="/consecutive-breaks">
+                    <ChartNetwork className="mr-2 h-4 w-4" />
+                    Support
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                  History &amp; Volatility
+                </div>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/monthly-analysis">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    {t("nav.monthlyAnalysis")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/volatility-analysis">
+                    <Activity className="mr-2 h-4 w-4" />
+                    {t("nav.financialReportingVolatility")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/iv-analysis">
+                    <TrendingUp className="mr-2 h-4 w-4" />
+                    {t("nav.impliedVolatilityHistory")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                  Validation
+                </div>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/probability-analysis">
+                    <TrendingUpDown className="mr-2 h-4 w-4" />
+                    {t("nav.probabilityAnalysis")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/lower-bound-analysis">
+                    <ArrowDown10 className="mr-2 h-4 w-4" />
+                    {t("nav.lowerBoundAnalysis")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <RouterLink to="/stock-analysis">
+                    <LineChart className="mr-2 h-4 w-4" />
+                    Stocks
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <div className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                  Automated
+                </div>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/recommendations">
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {t("nav.automatedPutOptionRecommendations")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/scored-options">
+                    <Target className="mr-2 h-4 w-4" />
+                    {t("nav.scoredOptions")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/portfolio-generator">
+                    <Bot className="mr-2 h-4 w-4" />
+                    {t("nav.portfolioGenerator")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer pl-4">
+                  <RouterLink to="/support-level-options">
+                    <Target className="mr-2 h-4 w-4" />
+                    {t("nav.supportLevelOptionsList")}
+                  </RouterLink>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => setSettingsOpen(true)} className="cursor-pointer">
+                  <Settings className="mr-2 h-4 w-4" />
+                  {t("nav.settings")}
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={toggleTheme} className="cursor-pointer">
+                  {theme === "dark" ? (
+                    <Sun className="mr-2 h-4 w-4" />
+                  ) : (
+                    <Moon className="mr-2 h-4 w-4" />
+                  )}
+                  {t("nav.toggleTheme")}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={signOut}
+                  className="cursor-pointer text-destructive focus:text-destructive"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  {t("nav.signOut")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
       </div>
       <SettingsModal
         isOpen={settingsOpen}
