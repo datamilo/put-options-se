@@ -660,11 +660,7 @@ const PortfolioGenerator = () => {
                 <div className="kpi-v">{portfolioTotals.premium > 0 ? fmtSEK(portfolioTotals.premium) : '—'}</div>
                 <div className="kpi-sub">SEK · if all expire worthless</div>
               </div>
-              <div className="kpi">
-                <div className="kpi-k">Avg Ann. ROM</div>
-                <div className="kpi-v">{portfolioTotals.annRom > 0 ? fmtPct(portfolioTotals.annRom) : '—'}</div>
-                <div className="kpi-sub">annualized return</div>
-              </div>
+
               <div className="kpi">
                 <div className="kpi-k">Avg P(worthless)</div>
                 <div className="kpi-v">{portfolioTotals.avgPoW > 0 ? fmtPct(portfolioTotals.avgPoW * 100) : '—'}</div>
