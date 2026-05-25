@@ -916,7 +916,7 @@
 
 .pg-kpis {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1px;
   background: var(--rule);
   border: 1px solid var(--rule);
@@ -924,7 +924,7 @@
   overflow: hidden;
   margin-bottom: 24px;
 }
-.kpi { background: var(--bg-card); padding: 16px 18px; }
+.kpi { background: var(--bg-card); padding: 14px 14px; }
 .kpi-k {
   font-size: 11px;
   letter-spacing: 0.08em;
