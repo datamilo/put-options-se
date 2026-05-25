@@ -276,25 +276,27 @@ const Index = () => {
 
   return (
     <div className="page page--fill">
-      <div className="page-head">
-        <div>
-          <p className="eyebrow">01 · Discover</p>
-          <h1 className="page-title">{t('index.title')}</h1>
-          {timestamps && (
-            <div className="timestamps">
-              {timestamps.optionsData?.lastUpdated && (
-                <span>Options · {timestamps.optionsData.lastUpdated}</span>
-              )}
-              {timestamps.stockData?.lastUpdated && (
-                <span>Stocks · {timestamps.stockData.lastUpdated}</span>
-              )}
-              {timestamps.analysisCompleted?.lastUpdated && (
-                <span>Analysis · {timestamps.analysisCompleted.lastUpdated}</span>
-              )}
-            </div>
-          )}
+      {!isMaximized && (
+        <div className="page-head">
+          <div>
+            <p className="eyebrow">01 · Discover</p>
+            <h1 className="page-title">{t('index.title')}</h1>
+            {timestamps && (
+              <div className="timestamps">
+                {timestamps.optionsData?.lastUpdated && (
+                  <span>Options · {timestamps.optionsData.lastUpdated}</span>
+                )}
+                {timestamps.stockData?.lastUpdated && (
+                  <span>Stocks · {timestamps.stockData.lastUpdated}</span>
+                )}
+                {timestamps.analysisCompleted?.lastUpdated && (
+                  <span>Analysis · {timestamps.analysisCompleted.lastUpdated}</span>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {isLoading && (
         <p style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--ink-3)', padding: '40px 0' }}>
