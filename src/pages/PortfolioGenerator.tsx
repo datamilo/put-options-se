@@ -13,7 +13,7 @@ import { ScoredOptionData } from "@/types/scoredOptions";
 import { useTimestamps } from "@/hooks/useTimestamps";
 import { formatNordicNumber } from "@/utils/numberFormatting";
 import { exportToExcel } from "@/utils/excelExport";
-import { Download } from "lucide-react";
+import { Download, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
 
@@ -39,6 +39,7 @@ const PortfolioGenerator = () => {
   }, [scoredOptionsData]);
 
   const [isGeneratingPortfolio, setIsGeneratingPortfolio] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(true);
   const [totalPremiumInput, setTotalPremiumInput] = useState<string>(settings.totalPremiumTarget.toString());
   const [underlyingValueInput, setUnderlyingValueInput] = useState<string>(settings.portfolioUnderlyingValue.toString());
   const [maxTotalCapitalInput, setMaxTotalCapitalInput] = useState<string>(settings.maxTotalCapital?.toString() || "");
@@ -400,9 +401,9 @@ const PortfolioGenerator = () => {
       )}
 
       {!isLoading && (
-        <div className="pg-grid">
+        <div className="pg-grid" style={{ gridTemplateColumns: settingsOpen ? '320px 1fr' : '1fr' }}>
           {/* ── Left: controls ── */}
-          <aside className="pg-controls">
+          {settingsOpen && <aside className="pg-controls">
 
             {/* Capital */}
             <div className="pg-section">
@@ -644,10 +645,24 @@ const PortfolioGenerator = () => {
                 {isGeneratingPortfolio ? t('portfolioGenerator.generating') : t('portfolioGenerator.generate')}
               </button>
             </div>
-          </aside>
+          </aside>}
 
           {/* ── Right: results ── */}
           <section className="pg-results">
+            {/* Settings toggle */}
+            <div style={{ marginBottom: 16 }}>
+              <button
+                type="button"
+                className="btn-ghost"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, height: 28 }}
+                onClick={() => setSettingsOpen(o => !o)}
+              >
+                {settingsOpen
+                  ? <><PanelLeftClose size={14} strokeWidth={1.5} /> Hide settings</>
+                  : <><PanelLeftOpen size={14} strokeWidth={1.5} /> Show settings</>
+                }
+              </button>
+            </div>
             {/* KPI strip */}
             <div className="pg-kpis">
               <div className="kpi">

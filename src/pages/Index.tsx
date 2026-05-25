@@ -275,7 +275,7 @@ const Index = () => {
   const allStocksSelected = selectedStocks.length > 0 && selectedStocks.length === filteredStocks.length;
 
   return (
-    <div className="page page--fill">
+    <div className="page">
       {!isMaximized && (
         <div className="page-head">
           <div>

@@ -1418,32 +1418,6 @@
       "statsWorstLossPct": "Stats Worst Loss Pct"
     }
   },
-  "lowerBoundAnalysis": {
-    "title": "Lower Bound Validation Analysis",
-    "subtitle": "Analyzing IV-based lower bound predictions against historical stock prices",
-    "loading": "Loading lower bound data...",
-    "errorTitle": "Error Loading Data",
-    "errorDesc": "Failed to load lower bound analysis data. Please try refreshing the page.",
-    "analysisControls": "Analysis Controls",
-    "howToUse": "How to Use",
-    "howToUseSteps": {
-      "selectStock": "Select a stock from the dropdown to view its detailed analysis",
-      "trendTab": "The Trend Analysis tab shows monthly hit rate evolution",
-      "distributionTab": "The Distribution tab displays prediction ranges and breaches",
-      "statisticsTab": "The Statistics tab provides sortable per-expiry metrics"
-    },
-    "tabs": {
-      "trends": "Trend Analysis",
-      "distribution": "Distribution",
-      "statistics": "Statistics"
-    },
-    "monthlyHitRateTrends": "Monthly Hit Rate Trends — {{stock}}",
-    "hitRateEvolution": "Hit rate evolution by expiry month with prediction volume",
-    "predictionDistribution": "Prediction Distribution & Breaches — {{stock}}",
-    "predictionDesc": "Prediction ranges, span percentages, breach counts, and stock prices",
-    "expiryStatistics": "Expiry Statistics — {{stock}}",
-    "expiryStatsDesc": "Click column headers to sort. Hit rate color-coded: green (85%+), blue (75–85%), yellow (65–75%), red (<65%)"
-  },
   "probabilityHistoryChart": {
     "cardTitle": "Probability of Worthless History",
     "loadingTitle": "Probability History Chart",
