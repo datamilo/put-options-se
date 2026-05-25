@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { OptionData } from "@/types/options";
-import { formatNordicNumber } from "@/utils/numberFormatting";
+import { formatNumber } from "@/lib/utils";
 import { FieldInfoTooltip } from "@/components/ui/field-info-tooltip";
 import { ColumnManager } from "./ColumnManager";
 import { useUserPreferences } from "@/hooks/useUserPreferences";
@@ -22,15 +22,13 @@ const COLUMNS: Column[] = [
   { key: "ExpiryDate",                     tKey: "options.fields.ExpiryDate",                     label: "Expiry Date",                   numeric: true,  width: 100, defaultVisible: true  },
   { key: "DaysToExpiry",                   tKey: "options.fields.DaysToExpiry",                   label: "Days to Expiry",                numeric: true,  width: 100, defaultVisible: true  },
   { key: "StrikePrice",                    tKey: "options.fields.StrikePrice",                    label: "Strike Price",                  numeric: true,  width: 80,  defaultVisible: true  },
-  { key: "StockPrice",                     tKey: "options.fields.StockPrice",                     label: "Stock Price",                   numeric: true,  width: 80,  defaultVisible: true  },
-  { key: "_otmPct",                        tKey: "options.otm",                                   label: "OTM %",                         numeric: true,  width: 70,  defaultVisible: true  },
-  { key: "Premium",                        tKey: "options.fields.Premium",                        label: "Premium",                       numeric: true,  width: 96,  defaultVisible: true  },
+  { key: "StockPrice",                     tKey: "options.fields.StockPrice",                     label: "Stock Price",                   numeric: true,  width: 80,  defaultVisible: false },
+  { key: "Premium",                        tKey: "options.fields.Premium",                        label: "Premium",                       numeric: true,  width: 80,  defaultVisible: true  },
   { key: "NumberOfContractsBasedOnLimit",  tKey: "options.fields.NumberOfContractsBasedOnLimit",  label: "Contracts (Limit-Based)",       numeric: true,  width: 120, defaultVisible: true  },
   { key: "1_2_3_ProbOfWorthless_Weighted", tKey: "options.fields.1_2_3_ProbOfWorthless_Weighted", label: "PoW - Weighted Average",        numeric: true,  width: 148, defaultVisible: true  },
-  { key: "_risk",                          tKey: "options.riskLevel",                             label: "Risk Level",                    numeric: false, width: 80,  defaultVisible: true  },
-  { key: "ImpliedVolatility",              tKey: "options.fields.ImpliedVolatility",              label: "Implied Volatility",            numeric: true,  width: 130, defaultVisible: true  },
-  { key: "Annualized_ROM_Pct",             tKey: "options.fields.Annualized_ROM_Pct",             label: "Annualized Return on Margin %", numeric: true,  width: 180, defaultVisible: true  },
-  { key: "EstTotalMargin",                 tKey: "options.fields.EstTotalMargin",                 label: "Est. Total Margin",             numeric: true,  width: 120, defaultVisible: true  },
+  { key: "ImpliedVolatility",              tKey: "options.fields.ImpliedVolatility",              label: "Implied Volatility",            numeric: true,  width: 120, defaultVisible: false },
+  { key: "Annualized_ROM_Pct",             tKey: "options.fields.Annualized_ROM_Pct",             label: "Annualized Return on Margin %", numeric: true,  width: 180, defaultVisible: false },
+  { key: "EstTotalMargin",                 tKey: "options.fields.EstTotalMargin",                 label: "Est. Total Margin",             numeric: true,  width: 110, defaultVisible: true  },
 ];
 
 export const COLUMN_KEYS = COLUMNS.map(c => c.key);
@@ -42,36 +40,7 @@ export const COLUMN_LABELS: Record<string, string> = Object.fromEntries(
 const MAX_ROWS = 200;
 
 function getRowValue(option: OptionData, key: string): number | string | null {
-  if (key === "_otmPct") {
-    const s = option.StockPrice;
-    const k = option.StrikePrice;
-    return s > 0 ? ((s - k) / s) * 100 : null;
-  }
-  if (key === "_risk") {
-    const p = option["1_2_3_ProbOfWorthless_Weighted"];
-    return p >= 0.80 ? "low" : p >= 0.65 ? "med" : "high";
-  }
   return (option as Record<string, unknown>)[key] as number | string | null ?? null;
-}
-
-function getRisk(pow: number): "low" | "med" | "high" {
-  return pow >= 0.80 ? "low" : pow >= 0.65 ? "med" : "high";
-}
-
-function fmtSEK(n: number | null | undefined): string {
-  if (n == null || isNaN(n)) return "—";
-  const abs = formatNordicNumber(Math.abs(Math.round(n)));
-  return n < 0 ? `−${abs}` : abs;
-}
-
-function fmtNum(n: number | null | undefined, dp = 0): string {
-  if (n == null || isNaN(n)) return "—";
-  return formatNordicNumber(n, dp);
-}
-
-function fmtPct(n: number | null | undefined, dp = 1): string {
-  if (n == null || isNaN(n)) return "—";
-  return formatNordicNumber(n, dp) + "%";
 }
 
 type Handlers = {
@@ -90,74 +59,28 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
           {option.StockName}
         </span>
       );
-    case "OptionName":
-      return <span className="opt-name">{option.OptionName}</span>;
-    case "ExpiryDate":
-      return option.ExpiryDate;
-    case "DaysToExpiry":
-      return option.DaysToExpiry;
-    case "StrikePrice":
-      return fmtNum(option.StrikePrice, 2);
-    case "StockPrice":
-      return fmtNum(option.StockPrice, 2);
-    case "_otmPct": {
-      const otm = option.StockPrice > 0
-        ? ((option.StockPrice - option.StrikePrice) / option.StockPrice) * 100
-        : null;
-      return (
-        <span className={otm != null && otm >= 0 ? "delta-pos" : "delta-neg"}>
-          {otm != null ? fmtNum(otm, 1) + "%" : "—"}
-        </span>
-      );
+    case "OptionName": {
+      const color = option.FinancialReport === 'Y'
+        ? 'text-orange-600 dark:text-orange-400'
+        : option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y'
+        ? 'text-red-600 dark:text-red-400'
+        : '';
+      return <span className={`opt-name ${color}`}>{option.OptionName}</span>;
     }
-    case "Premium":
-      return fmtSEK(option.Premium);
-    case "NumberOfContractsBasedOnLimit":
-      return option.NumberOfContractsBasedOnLimit ?? "—";
     case "1_2_3_ProbOfWorthless_Weighted": {
       const pow = option["1_2_3_ProbOfWorthless_Weighted"];
       return (
         <div className="bar-cell" data-tone="pos">
-          <span>{pow != null ? fmtNum(pow * 100, 2) + "%" : "—"}</span>
+          <span>{formatNumber(pow, key)}</span>
           <div className="bar-track">
             <div className="bar-fill" style={{ width: `${(pow ?? 0) * 100}%` }} />
           </div>
         </div>
       );
     }
-    case "_risk": {
-      const pow = option["1_2_3_ProbOfWorthless_Weighted"];
-      const risk = getRisk(pow);
-      return (
-        <span style={{ display: "inline-flex", alignItems: "center" }}>
-          <span className="risk-pip" data-r={risk} />
-          <span style={{
-            fontSize: 11,
-            fontFamily: "var(--font-mono)",
-            textTransform: "uppercase",
-            letterSpacing: "0.04em",
-            color: "var(--ink-3)",
-          }}>
-            {risk === "low" ? "Low" : risk === "med" ? "Med" : "High"}
-          </span>
-        </span>
-      );
-    }
-    case "ImpliedVolatility":
-      return fmtPct(option.ImpliedVolatility != null ? option.ImpliedVolatility * 100 : null, 2);
-    case "Annualized_ROM_Pct":
-      return (
-        <span className={option.Annualized_ROM_Pct != null && option.Annualized_ROM_Pct >= 0.12 ? "delta-pos" : undefined}>
-          {fmtPct(option.Annualized_ROM_Pct != null ? option.Annualized_ROM_Pct * 100 : null, 2)}
-        </span>
-      );
-    case "EstTotalMargin":
-      return fmtSEK(option.EstTotalMargin ?? null);
     default: {
       const val = (option as Record<string, unknown>)[key];
-      if (val == null) return "—";
-      if (typeof val === "number") return isNaN(val) ? "—" : fmtNum(val, 2);
-      return String(val);
+      return formatNumber(val, key);
     }
   }
 }
@@ -206,7 +129,7 @@ export const OptionsTableDS = ({
 
     const prefMap = new Map(columnPreferences.map(p => [p.key, p]));
 
-    // Start from COLUMNS for known cols; add any extra prefs not in COLUMNS
+    // Known keys from COLUMNS; visible extra prefs beyond COLUMNS go at the end
     const knownKeys = new Set(COLUMN_KEYS);
     const extraKeys = columnPreferences
       .filter(p => !knownKeys.has(p.key) && p.visible)
@@ -323,7 +246,6 @@ export const OptionsTableDS = ({
                 ))}
               </tr>
             ))}
-
           </tbody>
         </table>
       </div>
