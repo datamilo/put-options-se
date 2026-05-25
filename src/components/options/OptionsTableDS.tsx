@@ -17,20 +17,20 @@ interface Column {
 }
 
 const COLUMNS: Column[] = [
-  { key: "StockName",                      tKey: "options.stock",       label: "Stock",        numeric: false, width: 180, defaultVisible: true  },
-  { key: "OptionName",                     tKey: "options.option",      label: "Option",       numeric: false, width: 160, defaultVisible: true  },
-  { key: "ExpiryDate",                     tKey: "options.expiry",      label: "Expiry",       numeric: true,  width: 100, defaultVisible: true  },
-  { key: "DaysToExpiry",                   tKey: "options.dte",         label: "DTE",          numeric: true,  width: 56,  defaultVisible: true  },
-  { key: "StrikePrice",                    tKey: "options.strikePrice", label: "Strike",       numeric: true,  width: 70,  defaultVisible: true  },
-  { key: "StockPrice",                     tKey: "options.spot",        label: "Spot",         numeric: true,  width: 80,  defaultVisible: true  },
-  { key: "_otmPct",                        tKey: "options.otm",         label: "OTM %",        numeric: true,  width: 70,  defaultVisible: true  },
-  { key: "Premium",                        tKey: "options.premium",     label: "Premium",      numeric: true,  width: 96,  defaultVisible: true  },
-  { key: "NumberOfContractsBasedOnLimit",  tKey: "options.contr",       label: "Contr.",       numeric: true,  width: 64,  defaultVisible: true  },
-  { key: "1_2_3_ProbOfWorthless_Weighted", tKey: "options.pow",         label: "P(worthless)", numeric: true,  width: 148, defaultVisible: true  },
-  { key: "_risk",                          tKey: "options.riskLevel",   label: "Risk",         numeric: false, width: 80,  defaultVisible: true  },
-  { key: "ImpliedVolatility",              tKey: "options.iv",          label: "IV",           numeric: true,  width: 64,  defaultVisible: true  },
-  { key: "Annualized_ROM_Pct",             tKey: "options.annRom",      label: "Ann. ROM",     numeric: true,  width: 84,  defaultVisible: true  },
-  { key: "EstTotalMargin",                 tKey: "options.margin",      label: "Est. Margin",  numeric: true,  width: 110, defaultVisible: true  },
+  { key: "StockName",                      tKey: "options.fields.StockName",                      label: "Stock Name",                    numeric: false, width: 180, defaultVisible: true  },
+  { key: "OptionName",                     tKey: "options.fields.OptionName",                     label: "Option Name",                   numeric: false, width: 160, defaultVisible: true  },
+  { key: "ExpiryDate",                     tKey: "options.fields.ExpiryDate",                     label: "Expiry Date",                   numeric: true,  width: 100, defaultVisible: true  },
+  { key: "DaysToExpiry",                   tKey: "options.fields.DaysToExpiry",                   label: "Days to Expiry",                numeric: true,  width: 100, defaultVisible: true  },
+  { key: "StrikePrice",                    tKey: "options.fields.StrikePrice",                    label: "Strike Price",                  numeric: true,  width: 80,  defaultVisible: true  },
+  { key: "StockPrice",                     tKey: "options.fields.StockPrice",                     label: "Stock Price",                   numeric: true,  width: 80,  defaultVisible: true  },
+  { key: "_otmPct",                        tKey: "options.otm",                                   label: "OTM %",                         numeric: true,  width: 70,  defaultVisible: true  },
+  { key: "Premium",                        tKey: "options.fields.Premium",                        label: "Premium",                       numeric: true,  width: 96,  defaultVisible: true  },
+  { key: "NumberOfContractsBasedOnLimit",  tKey: "options.fields.NumberOfContractsBasedOnLimit",  label: "Contracts (Limit-Based)",       numeric: true,  width: 120, defaultVisible: true  },
+  { key: "1_2_3_ProbOfWorthless_Weighted", tKey: "options.fields.1_2_3_ProbOfWorthless_Weighted", label: "PoW - Weighted Average",        numeric: true,  width: 148, defaultVisible: true  },
+  { key: "_risk",                          tKey: "options.riskLevel",                             label: "Risk Level",                    numeric: false, width: 80,  defaultVisible: true  },
+  { key: "ImpliedVolatility",              tKey: "options.fields.ImpliedVolatility",              label: "Implied Volatility",            numeric: true,  width: 130, defaultVisible: true  },
+  { key: "Annualized_ROM_Pct",             tKey: "options.fields.Annualized_ROM_Pct",             label: "Annualized Return on Margin %", numeric: true,  width: 180, defaultVisible: true  },
+  { key: "EstTotalMargin",                 tKey: "options.fields.EstTotalMargin",                 label: "Est. Total Margin",             numeric: true,  width: 120, defaultVisible: true  },
 ];
 
 export const COLUMN_KEYS = COLUMNS.map(c => c.key);
@@ -97,7 +97,7 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
     case "DaysToExpiry":
       return option.DaysToExpiry;
     case "StrikePrice":
-      return fmtNum(option.StrikePrice);
+      return fmtNum(option.StrikePrice, 2);
     case "StockPrice":
       return fmtNum(option.StockPrice, 2);
     case "_otmPct": {
@@ -118,7 +118,7 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
       const pow = option["1_2_3_ProbOfWorthless_Weighted"];
       return (
         <div className="bar-cell" data-tone="pos">
-          <span>{pow != null ? fmtNum(pow * 100, 1) + "%" : "—"}</span>
+          <span>{pow != null ? fmtNum(pow * 100, 2) + "%" : "—"}</span>
           <div className="bar-track">
             <div className="bar-fill" style={{ width: `${(pow ?? 0) * 100}%` }} />
           </div>
@@ -144,11 +144,11 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
       );
     }
     case "ImpliedVolatility":
-      return fmtPct(option.ImpliedVolatility);
+      return fmtPct(option.ImpliedVolatility != null ? option.ImpliedVolatility * 100 : null, 2);
     case "Annualized_ROM_Pct":
       return (
-        <span className={option.Annualized_ROM_Pct != null && option.Annualized_ROM_Pct >= 12 ? "delta-pos" : undefined}>
-          {fmtPct(option.Annualized_ROM_Pct)}
+        <span className={option.Annualized_ROM_Pct != null && option.Annualized_ROM_Pct >= 0.12 ? "delta-pos" : undefined}>
+          {fmtPct(option.Annualized_ROM_Pct != null ? option.Annualized_ROM_Pct * 100 : null, 2)}
         </span>
       );
     case "EstTotalMargin":
