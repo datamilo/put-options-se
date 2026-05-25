@@ -422,11 +422,11 @@
 /* Fill-viewport variant — index options page only */
 .page--fill {
   padding-bottom: 0;
-  height: calc(100vh - var(--topbar-h));
-  height: calc(100svh - var(--topbar-h));
+  min-height: calc(100vh - var(--topbar-h));
+  min-height: calc(100svh - var(--topbar-h));
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
 }
 .page--fill .table-region {
   flex: 1;
