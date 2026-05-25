@@ -37,6 +37,11 @@ export const COLUMN_LABELS: Record<string, string> = Object.fromEntries(
   COLUMNS.map(c => [c.key, c.label])
 );
 
+const DEFAULT_COLUMN_KEYS = [
+  'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
+  'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted', 'EstTotalMargin',
+];
+
 const MAX_ROWS = 200;
 
 function getRowValue(option: OptionData, key: string): number | string | null {
@@ -67,17 +72,8 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
         : '';
       return <span className={`opt-name ${color}`}>{option.OptionName}</span>;
     }
-    case "1_2_3_ProbOfWorthless_Weighted": {
-      const pow = option["1_2_3_ProbOfWorthless_Weighted"];
-      return (
-        <div className="bar-cell" data-tone="pos">
-          <span>{formatNumber(pow, key)}</span>
-          <div className="bar-track">
-            <div className="bar-fill" style={{ width: `${(pow ?? 0) * 100}%` }} />
-          </div>
-        </div>
-      );
-    }
+    case "1_2_3_ProbOfWorthless_Weighted":
+      return formatNumber(option["1_2_3_ProbOfWorthless_Weighted"], key);
     default: {
       const val = (option as Record<string, unknown>)[key];
       return formatNumber(val, key);
@@ -125,31 +121,15 @@ export const OptionsTableDS = ({
 
   useEffect(() => {
     if (prefsLoading) return;
-    if (columnPreferences.length === 0) return;
-
-    const prefMap = new Map(columnPreferences.map(p => [p.key, p]));
-
-    // Known keys from COLUMNS; visible extra prefs beyond COLUMNS go at the end
-    const knownKeys = new Set(COLUMN_KEYS);
-    const extraKeys = columnPreferences
-      .filter(p => !knownKeys.has(p.key) && p.visible)
-      .map(p => p.key);
-
-    const ordered = COLUMNS
-      .filter(c => {
-        const pref = prefMap.get(c.key);
-        return pref ? pref.visible : c.defaultVisible;
-      })
-      .sort((a, b) => {
-        const pa = prefMap.get(a.key);
-        const pb = prefMap.get(b.key);
-        if (!pa && !pb) return 0;
-        if (!pa) return 1;
-        if (!pb) return -1;
-        return pa.order - pb.order;
-      });
-
-    setActiveColumnKeys([...ordered.map(c => c.key), ...extraKeys]);
+    if (columnPreferences.length > 0) {
+      const visibleCols = columnPreferences
+        .filter(col => col.visible)
+        .sort((a, b) => a.order - b.order)
+        .map(col => col.key);
+      setActiveColumnKeys(visibleCols);
+    } else {
+      setActiveColumnKeys(DEFAULT_COLUMN_KEYS);
+    }
   }, [columnPreferences, prefsLoading]);
 
   const activeColumns = useMemo(

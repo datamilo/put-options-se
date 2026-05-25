@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { useTimestamps } from "@/hooks/useTimestamps";
 import { OptionData } from "@/types/options";
-import { OptionsTableDS, CheckMark, COLUMN_LABELS } from "@/components/options/OptionsTableDS";
+import { OptionsTableDS, CheckMark, COLUMN_KEYS, COLUMN_LABELS } from "@/components/options/OptionsTableDS";
 import { OptionsChart } from "@/components/options/OptionsChart";
 import { useEnrichedOptionsData } from "@/hooks/useEnrichedOptionsData";
 import { useStockData } from "@/hooks/useStockData";
