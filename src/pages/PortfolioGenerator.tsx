@@ -12,8 +12,7 @@ import { useScoredOptionsData } from "@/hooks/useScoredOptionsData";
 import { ScoredOptionData } from "@/types/scoredOptions";
 import { useTimestamps } from "@/hooks/useTimestamps";
 import { formatNordicNumber } from "@/utils/numberFormatting";
-import { exportToExcel } from "@/utils/excelExport";
-import { Download, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useTranslation } from 'react-i18next';
 
@@ -358,11 +357,6 @@ const PortfolioGenerator = () => {
     window.open(`${window.location.origin}${basePath}/stock/${encodeURIComponent(stockName)}`, '_blank');
   };
 
-  const handleExportExcel = () => {
-    if (settings.generatedPortfolio.length === 0) return;
-    exportToExcel(settings.generatedPortfolio, `portfolio-${new Date().toISOString().split('T')[0]}`);
-  };
-
   // KPI computations from generated portfolio
   const portfolioTotals = useMemo(() => {
     const portfolio = settings.generatedPortfolio;
@@ -705,15 +699,6 @@ const PortfolioGenerator = () => {
               <>
                 <div className="pg-section-h">
                   <h2>Suggested positions</h2>
-                  <button
-                    type="button"
-                    className="btn-outline"
-                    style={{ height: 28, fontSize: 11, display: 'inline-flex', alignItems: 'center', gap: 6 }}
-                    onClick={handleExportExcel}
-                  >
-                    <Download size={12} strokeWidth={1.5} />
-                    Export
-                  </button>
                 </div>
                 <PortfolioOptionsTable
                   data={settings.generatedPortfolio}
