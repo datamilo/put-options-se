@@ -372,7 +372,7 @@ const PortfolioGenerator = () => {
   const maxPowPct = settings.maxProbabilityWorthless ?? null;
 
   return (
-    <div className="page">
+    <div className="page page--portfolio">
       <div className="page-head">
         <div>
           <p className="eyebrow">04 · Automated · Portfolio</p>
