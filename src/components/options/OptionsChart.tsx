@@ -8,11 +8,8 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  BarChart,
-  Bar,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -57,21 +54,6 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
     return dataPoint;
   });
 
-  const riskDistribution = data.reduce((acc, option) => {
-    const probValue = option.ProbWorthless_Bayesian_IsoCal ?? option['1_2_3_ProbOfWorthless_Weighted'];
-    const riskKey =
-      probValue <= 0.6 ? 'high' :
-      probValue < 0.8 ? 'medium' : 'low';
-
-    acc[riskKey] = (acc[riskKey] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-
-  const riskData = Object.entries(riskDistribution).map(([riskKey, count]) => ({
-    risk: t(`optionDetails.riskLevel.${riskKey}`),
-    count,
-  }));
-
   const getPowLabel = (fieldValue: string): string => {
     const field = probabilityFields.find(f => f.value === fieldValue);
     return field ? field.label : fieldValue;
@@ -86,114 +68,84 @@ export const OptionsChart = ({ data }: OptionsChartProps) => {
   };
 
   return (
-    <Tabs defaultValue="scatter" className="w-full">
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="scatter">{t('optionsChart.tabRiskVsPremium')}</TabsTrigger>
-        <TabsTrigger value="distribution">{t('optionsChart.tabRiskDistribution')}</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="scatter">
-        <Card>
-          <CardHeader className="space-y-4">
-            <CardTitle>{t('optionsChart.scatterTitle')}</CardTitle>
-            <div className="space-y-2">
-              <Label>{t('optionsChart.selectProbFields')}</Label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {probabilityFields.map((field) => (
-                  <div key={field.value} className="flex items-center space-x-2">
-                    <Checkbox
-                      id={field.value}
-                      checked={selectedProbFields.includes(field.value)}
-                      onCheckedChange={() => toggleProbField(field.value)}
-                    />
-                    <label htmlFor={field.value} className="text-sm cursor-pointer">
-                      {field.label}
-                    </label>
-                  </div>
-                ))}
+    <Card className="w-full">
+      <CardHeader className="space-y-4">
+        <CardTitle>{t('optionsChart.scatterTitle')}</CardTitle>
+        <div className="space-y-2">
+          <Label>{t('optionsChart.selectProbFields')}</Label>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {probabilityFields.map((field) => (
+              <div key={field.value} className="flex items-center space-x-2">
+                <Checkbox
+                  id={field.value}
+                  checked={selectedProbFields.includes(field.value)}
+                  onCheckedChange={() => toggleProbField(field.value)}
+                />
+                <label htmlFor={field.value} className="text-sm cursor-pointer">
+                  {field.label}
+                </label>
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={500}>
-              <ScatterChart
-                margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  type="number"
-                  dataKey="x"
-                  name={t('optionDetails.kpi.premium')}
-                  domain={['dataMin', 'dataMax']}
-                />
-                <YAxis
-                  type="number"
-                  name={t('optionsChart.probAxisName')}
-                  tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
-                />
-                <Tooltip
-                  cursor={{ strokeDasharray: '3 3' }}
-                  content={({ active, payload }) => {
-                    if (active && payload && payload.length > 0) {
-                      const data = payload[0].payload;
-                      return (
-                        <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
-                          <div className="font-semibold text-foreground mb-2">
-                            {data.stockName} - {data.name}
-                          </div>
-                          <div className="space-y-1">
-                            <div className="text-sm">
-                              <span className="font-medium">{t('optionsChart.tooltipPremium')}</span> {Number(data.x).toLocaleString('sv-SE')}
-                            </div>
-                            {selectedProbFields.map((field) => (
-                              <div key={field} className="text-sm">
-                                <span className="font-medium">{getPowLabel(field)}:</span> {(Number(data[field]) * 100).toFixed(2)}%
-                              </div>
-                            ))}
-                            <div className="text-sm">
-                              <span className="font-medium">{t('optionsChart.tooltipDaysToExpiry')}</span> {data.z}
-                            </div>
-                          </div>
+            ))}
+          </div>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <ResponsiveContainer width="100%" height={500}>
+          <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              type="number"
+              dataKey="x"
+              name={t('optionDetails.kpi.premium')}
+              domain={['dataMin', 'dataMax']}
+            />
+            <YAxis
+              type="number"
+              name={t('optionsChart.probAxisName')}
+              tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+            />
+            <Tooltip
+              cursor={{ strokeDasharray: '3 3' }}
+              content={({ active, payload }) => {
+                if (active && payload && payload.length > 0) {
+                  const data = payload[0].payload;
+                  return (
+                    <div className="bg-background border border-border rounded-lg p-3 shadow-lg">
+                      <div className="font-semibold text-foreground mb-2">
+                        {data.stockName} - {data.name}
+                      </div>
+                      <div className="space-y-1">
+                        <div className="text-sm">
+                          <span className="font-medium">{t('optionsChart.tooltipPremium')}</span> {Number(data.x).toLocaleString('sv-SE')}
                         </div>
-                      );
-                    }
-                    return null;
-                  }}
-                />
-                <Legend />
-                {selectedProbFields.map((field, index) => (
-                  <Scatter
-                    key={field}
-                    name={getPowLabel(field)}
-                    data={scatterData}
-                    dataKey={field}
-                    fill={colors[index % colors.length]}
-                  />
-                ))}
-              </ScatterChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="distribution">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t('optionsChart.distributionTitle')}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ResponsiveContainer width="100%" height={500}>
-              <BarChart data={riskData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="risk" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="hsl(var(--primary))" />
-              </BarChart>
-            </ResponsiveContainer>
-          </CardContent>
-        </Card>
-      </TabsContent>
-    </Tabs>
+                        {selectedProbFields.map((field) => (
+                          <div key={field} className="text-sm">
+                            <span className="font-medium">{getPowLabel(field)}:</span> {(Number(data[field]) * 100).toFixed(2)}%
+                          </div>
+                        ))}
+                        <div className="text-sm">
+                          <span className="font-medium">{t('optionsChart.tooltipDaysToExpiry')}</span> {data.z}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              }}
+            />
+            <Legend />
+            {selectedProbFields.map((field, index) => (
+              <Scatter
+                key={field}
+                name={getPowLabel(field)}
+                data={scatterData}
+                dataKey={field}
+                fill={colors[index % colors.length]}
+              />
+            ))}
+          </ScatterChart>
+        </ResponsiveContainer>
+      </CardContent>
+    </Card>
   );
 };
