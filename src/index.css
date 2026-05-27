@@ -430,7 +430,7 @@
 }
 .page--fill .table-region {
   flex: 1;
-  min-height: 450px;
+  min-height: 600px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
