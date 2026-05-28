@@ -12,10 +12,7 @@ const { data, isLoading } = useEnrichedOptionsData();
 
 `useEnrichedOptionsData` automatically performs:
 - Load `data.csv` via `useOptionsData`
-- Load `IV_PotentialDecline.csv` for IV data
-- Load `margin_requirements.csv` via `useMarginRequirementsData`
-- LEFT JOIN margin data by option key
-- Calculate `EstTotalMargin = Est_Margin_SEK × NumberOfContractsBasedOnLimit`
+- Load `IV_PotentialDecline.csv` for IV data and join by option key
 - Apply all recalculations
 
 Do not load options data directly from `useOptionsData` in page components unless there is a specific reason to bypass enrichment.
@@ -38,12 +35,6 @@ Data is parsed via PapaParse. Two caching strategies prevent re-fetches across n
 
 - Use the `low` field for period lows, `high`/`low` for ranges — not `close` prices
 - Period-over-period changes use the **previous period's closing price** as the baseline
-
-### Margin Data
-
-- LEFT JOIN behavior: Missing margin data shows `"-"` in the UI, never throws errors
-- `EstTotalMargin` is a calculated field, not in the CSV — compute as `Est_Margin_SEK × NumberOfContractsBasedOnLimit`
-- All margin figures are estimates (SRI methodology). They are not exact Nasdaq Stockholm requirements
 
 ### Probability Method Names
 

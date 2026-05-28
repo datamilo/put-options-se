@@ -8,7 +8,6 @@ All CSV files live in the `/data` folder and are served at runtime from GitHub r
 |------|------|-------------|---------------|
 | `data.csv` | ~3.6 MB | Main options data (67 fields per contract) | `useOptionsData` |
 | `stock_data.csv` | ~8.2 MB | OHLC stock price history | `useStockData` |
-| `margin_requirements.csv` | ~557 KB | SRI-based margin estimates (13 fields) | `useMarginRequirementsData` |
 | `current_options_scored.csv` | varies | Dual-model Probability Optimization Model + TA ML Model Analysis scores | `useScoredOptionsData` |
 | `recovery_report_data.csv` | ~3.6 MB | Probability recovery scenario analysis | `useProbabilityRecoveryData` |
 | `validation_report_data.csv` | ~3.6 MB | Probability method validation data | `useProbabilityValidationData` |
@@ -52,52 +51,6 @@ Timestamps are stored as `YYYY-MM-DD HH:mm:ss` and displayed as `YYYY-MM-DD HH:m
 | Options Dashboard (`/`) | All three timestamps |
 | Stock Details (`/stock/:stockName`) | Stock data + analysis updated |
 | Probability Analysis (`/probability-analysis`) | Options data + analysis updated |
-
----
-
-## Margin Requirements System
-
-### Purpose
-
-Provides estimated margin requirements based on the Synthetic Risk Interval (SRI) methodology. All fields are **estimates** — they are not exact Nasdaq Stockholm margin requirements.
-
-### Integration
-
-Margin data is joined to options data via a LEFT JOIN in `useEnrichedOptionsData`. If no margin record exists for an option, all 13 margin fields display as `"-"`.
-
-The calculated field `EstTotalMargin` is not in the CSV. It is computed at enrichment time:
-
-```
-EstTotalMargin = Est_Margin_SEK × NumberOfContractsBasedOnLimit
-```
-
-### The 13 Margin Fields
-
-| Field | Description |
-|-------|-------------|
-| `EstTotalMargin` *(calculated)* | Total margin for the full position |
-| `Est_Margin_SEK` | Estimated margin per single contract |
-| `Final_SRI` | Final Safety-Risk Index |
-| `Annualized_ROM_Pct` | Return on margin (annualized %) |
-| `Net_Premium_After_Costs` | Premium minus transaction costs |
-| `SRI_Base` | Base Safety-Risk Index before adjustments |
-| `Event_Buffer` | Additional margin buffer for earnings/dividend events |
-| `OTM_Amount` | Out-of-the-money distance in SEK |
-| `Margin_A_Broker_Proxy` | Broker-style calculation approach |
-| `Margin_B_Historical_Floor` | Historical stress test approach |
-| `Margin_Floor_15pct` | Swedish regulatory 15% minimum |
-| `Prob_Normal_2SD_Decline_Pct` | Statistical 2 SD decline probability |
-| `Hist_Worst_Decline_Pct` | Historical worst observed decline % |
-
-### Number Formatting for Margin Fields
-
-| Field type | Format |
-|------------|--------|
-| SEK amounts | No decimals — `"12 345 SEK"` |
-| Percentages and indices | 2 decimal places — `"25,50%"` |
-| Missing data | `"-"` |
-
-All margin field descriptions in `fieldInfo.ts` include the disclaimer that these are estimates.
 
 ---
 

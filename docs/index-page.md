@@ -10,8 +10,7 @@ Main options analysis dashboard with filterable table displaying put options dat
 - **SettingsModal** - User preference configuration
 
 ## Data Hooks
-- **useEnrichedOptionsData** - Main hook combining options data with user calculations and margin requirements
-- **useMarginRequirementsData** - Loads margin requirements data from CSV (via LEFT JOIN in enrichment)
+- **useEnrichedOptionsData** - Main hook combining options data with IV enrichment and user calculations
 - **useRecalculatedOptions** - Applies user settings to option calculations
 - **useOptionsData** - Fetches and parses options CSV data
 - **useMainPagePreferences** - Main page-specific preferences
@@ -35,10 +34,9 @@ Main options analysis dashboard with filterable table displaying put options dat
 - Basic option info: Symbol, OptionName, StrikePrice, ExpiryDate
 - Market data: LastPrice, Volume, OpenInterest, ImpliedVolatility
 - Calculated metrics: PotentialReturn, BreakEven, ProbabilityITM
-- **Margin & Capital**: Est. Total Margin, Est. Margin per Contract, Annualized ROM%, Risk metrics
-  - **Note**: Margin fields are ESTIMATES using SRI methodology, not exact Nasdaq requirements
+- IV data: IV_ClosestToStrike, LowerBoundClosestToStrike, PotentialLossAtLowerBound, and related fields
 - User-customizable: UnderlyingValue, TransactionCost
-- Total Fields: 85+ (72 base options fields + 13 margin fields)
+- Total Fields: 72+ (base options fields + IV-enriched fields)
 
 ## File References
 - **Page**: `src/pages/Index.tsx`

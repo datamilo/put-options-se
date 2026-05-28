@@ -6,13 +6,12 @@ Route: `/portfolio-generator`
 Portfolio optimization tools with independent settings for generating optimized put options portfolios. Supports four optimization strategies including ML-based scored models ranking.
 
 ## Key Components
-- **PortfolioOptionsTable** - Results table with clickable stock/option names, margin analysis, and expandable scored model detail rows
-- **ColumnManager** - Column visibility management including margin fields
+- **PortfolioOptionsTable** - Results table with clickable stock/option names and expandable scored model detail rows
+- **ColumnManager** - Column visibility management
 - **V21Breakdown** / **TABreakdown** - Reused from Scored Options page for expandable row detail (scored strategy only)
 
 ## Data Hooks
-- **useEnrichedOptionsData** - Main hook combining options data with user calculations and margin requirements
-- **useMarginRequirementsData** - Loads margin requirements data from CSV (via LEFT JOIN in enrichment)
+- **useEnrichedOptionsData** - Main hook combining options data with IV enrichment and user calculations
 - **useScoredOptionsData** - Loads `current_options_scored.csv` with Probability Optimization Model and TA ML model scores (used by Scored Models strategy)
 - **usePortfolioGeneratorPreferences** - Independent settings for portfolio generator page
   - **Critical**: Uses `hasLoadedFromSupabase` flag to prevent continuous reloading and value reversion
@@ -45,7 +44,7 @@ finalScore = (probabilityOptimizationWeight / 100) × probabilityOptimizationSco
 
 ## Algorithm
 1. **Data Loading** - Load options and stock data (+ scored options data for Scored Models)
-2. **Recalculation** - Apply user settings (underlying value, transaction cost). All position-size-dependent SEK fields are recalculated using the portfolio's own underlying value: `LossAtBadDecline`, `LossAtWorstDecline`, `LossAt100DayWorstDecline`, `LossAt_2008_100DayWorstDecline`, `LossAt50DayWorstDecline`, `LossAt_2008_50DayWorstDecline`, `Loss_Least_Bad`, `LossAtIV2sigmaDecline`, `LossAtCVaR10pctDecline`, `PotentialLossAtLowerBound`, `EstTotalMargin`
+2. **Recalculation** - Apply user settings (underlying value, transaction cost). All position-size-dependent SEK fields are recalculated using the portfolio's own underlying value: `LossAtBadDecline`, `LossAtWorstDecline`, `LossAt100DayWorstDecline`, `LossAt_2008_100DayWorstDecline`, `LossAt50DayWorstDecline`, `LossAt_2008_50DayWorstDecline`, `Loss_Least_Bad`, `LossAtIV2sigmaDecline`, `LossAtCVaR10pctDecline`, `PotentialLossAtLowerBound`
 3. **Filtering** - Apply filters: expiry date, min/max probability, strike below period, excluded stocks, and scored data availability (for Scored Models)
 4. **Scoring** - Calculate score per strategy (risk metrics for returns/capital/balanced, weighted model blend for scored)
 5. **Sorting** - Sort by finalScore descending
@@ -71,7 +70,7 @@ finalScore = (probabilityOptimizationWeight / 100) × probabilityOptimizationSco
 ## Default Table Columns
 
 **Returns / Capital / Balanced strategies:**
-StockName, OptionName, ExpiryDate, DaysToExpiry, StrikePrice, Premium, NumberOfContractsBasedOnLimit, 1_2_3_ProbOfWorthless_Weighted, PotentialLossAtLowerBound, EstTotalMargin
+StockName, OptionName, ExpiryDate, DaysToExpiry, StrikePrice, Premium, NumberOfContractsBasedOnLimit, 1_2_3_ProbOfWorthless_Weighted, PotentialLossAtLowerBound
 
 **Scored Models strategy:**
 StockName, OptionName, ExpiryDate, DaysToExpiry, StrikePrice, Premium, NumberOfContractsBasedOnLimit, [selected PoW field], Combined Score, Probability Optimization Model Score, TA ML Model Probability
