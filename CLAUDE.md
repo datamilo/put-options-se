@@ -102,10 +102,10 @@ Put Options SE is a financial analysis web application for put options trading o
 | Development Patterns | [docs/development.md](docs/development.md) | Data fetching, chart patterns, Nordic formatting, settings, accessibility, tone |
 | Design System | [docs/design-system.md](docs/design-system.md) | CSS tokens, typography, component hierarchy, loading states |
 | Navigation | [docs/navigation.md](docs/navigation.md) | Desktop/mobile nav structure, dropdown groups, implementation |
-| Data Reference | [docs/data.md](docs/data.md) | CSV files, timestamps, margin requirements, probability methods, IV data |
+| Data Reference | [docs/data.md](docs/data.md) | CSV files, timestamps, probability methods, IV data |
 | Documentation Standards | [docs/documentation-standards.md](docs/documentation-standards.md) | What to document and how |
 | Analytics | [docs/analytics.md](docs/analytics.md) | Usage tracking system |
-| Field Guide | [docs/FIELD_GUIDE.md](docs/FIELD_GUIDE.md) | All 67 fields in data.csv for investors |
+| Field Guide | [docs/FIELD_GUIDE.md](docs/FIELD_GUIDE.md) | All fields in data.csv for investors |
 | Probability Field Names | [docs/PROBABILITY_FIELD_NAMES.md](docs/PROBABILITY_FIELD_NAMES.md) | Probability field alignment across pages |
 | Portfolio Generator Script | [docs/README_Portfolio_Generator.md](docs/README_Portfolio_Generator.md) | Python script documentation |
 
