@@ -115,7 +115,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
   // Initialize default columns if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
     'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
-    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted', 'EstTotalMargin'
+    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
   ];
 
   // Get all available columns from OptionData type
@@ -141,11 +141,7 @@ export const ColumnManager: React.FC<ColumnManagerProps> = ({
       'IV_UntilExpiryClosestToStrike', 'LowerBoundClosestToStrike', 'LowerBoundDistanceFromCurrentPrice',
       'LowerBoundDistanceFromStrike', 'ImpliedDownPct', 'ToStrikePct', 'SafetyMultiple', 'SigmasToStrike',
       'ProbAssignment', 'SafetyCategory', 'CushionMinusIVPct', 'PotentialLossAtLowerBound',
-      // Margin requirements fields
-      'EstTotalMargin', 'Est_Margin_SEK', 'Prob_Normal_2SD_Decline_Pct', 'Hist_Worst_Decline_Pct',
-      'SRI_Base', 'Event_Buffer', 'Final_SRI', 'OTM_Amount', 'Margin_A_Broker_Proxy',
-      'Margin_B_Historical_Floor', 'Margin_Floor_15pct', 'Net_Premium_After_Costs', 'Annualized_ROM_Pct',
-      // New stress test fields
+      // Stress test fields
       'IV_2sigma_Decline', 'BreakevenDecline', 'CVaR10pct_Decline',
       'LossAtIV2sigmaDecline', 'LossAtCVaR10pctDecline'
     ];

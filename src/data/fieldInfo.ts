@@ -80,19 +80,6 @@ export const fieldInfoMap: Record<string, FieldInfoMeta> = {
   DaysToExpiry: {},
   Mean_Accuracy: {},
   "100k_Invested_Loss_Mean": {},
-  EstTotalMargin: {},
-  Est_Margin_SEK: {},
-  Final_SRI: {},
-  Annualized_ROM_Pct: {},
-  Net_Premium_After_Costs: {},
-  SRI_Base: {},
-  Event_Buffer: {},
-  OTM_Amount: {},
-  Margin_A_Broker_Proxy: {},
-  Margin_B_Historical_Floor: {},
-  Margin_Floor_15pct: {},
-  Prob_Normal_2SD_Decline_Pct: {},
-  Hist_Worst_Decline_Pct: {},
 };
 
 export const getFieldInfo = (fieldName: string): FieldInfoMeta | undefined => {

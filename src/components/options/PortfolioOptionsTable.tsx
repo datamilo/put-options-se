@@ -74,7 +74,7 @@ export const PortfolioOptionsTable = ({
   const defaultColumns: (keyof OptionData)[] = [
     'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
     'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted',
-    'PotentialLossAtLowerBound', 'EstTotalMargin'
+    'PotentialLossAtLowerBound'
   ];
 
   const probField = (selectedProbabilityField || '1_2_3_ProbOfWorthless_Weighted') as keyof OptionData;

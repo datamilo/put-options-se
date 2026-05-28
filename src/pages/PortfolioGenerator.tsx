@@ -89,10 +89,6 @@ const PortfolioGenerator = () => {
         }
       }
 
-      let estTotalMargin: number | null = (option as any).EstTotalMargin ?? null;
-      const estMarginSEK = (option as any).Est_Margin_SEK;
-      if (estMarginSEK) estTotalMargin = Math.round(estMarginSEK * numberOfContractsBasedOnLimit);
-
       return {
         ...option,
         originalPremium: option.Premium,
@@ -113,7 +109,6 @@ const PortfolioGenerator = () => {
         LossAtIV2sigmaDecline: lossAtIV2sigmaDecline,
         LossAtCVaR10pctDecline: lossAtCVaR10pctDecline,
         PotentialLossAtLowerBound: potentialLossAtLowerBound,
-        EstTotalMargin: estTotalMargin,
       };
     });
   };
@@ -357,15 +352,12 @@ const PortfolioGenerator = () => {
     window.open(`${window.location.origin}${basePath}/stock/${encodeURIComponent(stockName)}`, '_blank');
   };
 
-  // KPI computations from generated portfolio
   const portfolioTotals = useMemo(() => {
     const portfolio = settings.generatedPortfolio;
-    if (portfolio.length === 0) return { margin: 0, premium: 0, annRom: 0, avgPoW: 0 };
-    const margin = portfolio.reduce((s, o) => s + ((o as any).EstTotalMargin ?? 0), 0);
+    if (portfolio.length === 0) return { premium: 0, avgPoW: 0 };
     const premium = portfolio.reduce((s, o) => s + o.Premium, 0);
-    const annRom = portfolio.reduce((s, o) => s + ((o as any).Annualized_ROM_Pct ?? 0), 0) / portfolio.length;
     const avgPoW = portfolio.reduce((s, o) => s + (o['1_2_3_ProbOfWorthless_Weighted'] ?? 0), 0) / portfolio.length;
-    return { margin, premium, annRom, avgPoW };
+    return { premium, avgPoW };
   }, [settings.generatedPortfolio]);
 
   const minPowPct = settings.minProbabilityWorthless ?? 65;

@@ -27,8 +27,6 @@ const COLUMNS: Column[] = [
   { key: "NumberOfContractsBasedOnLimit",  tKey: "options.fields.NumberOfContractsBasedOnLimit",  label: "Contracts (Limit-Based)",       numeric: true,  width: 120, defaultVisible: true  },
   { key: "1_2_3_ProbOfWorthless_Weighted", tKey: "options.fields.1_2_3_ProbOfWorthless_Weighted", label: "PoW - Weighted Average",        numeric: true,  width: 148, defaultVisible: true  },
   { key: "ImpliedVolatility",              tKey: "options.fields.ImpliedVolatility",              label: "Implied Volatility",            numeric: true,  width: 120, defaultVisible: false },
-  { key: "Annualized_ROM_Pct",             tKey: "options.fields.Annualized_ROM_Pct",             label: "Annualized Return on Margin %", numeric: true,  width: 180, defaultVisible: false },
-  { key: "EstTotalMargin",                 tKey: "options.fields.EstTotalMargin",                 label: "Est. Total Margin",             numeric: true,  width: 110, defaultVisible: true  },
 ];
 
 export const COLUMN_KEYS = COLUMNS.map(c => c.key);
@@ -39,7 +37,7 @@ export const COLUMN_LABELS: Record<string, string> = Object.fromEntries(
 
 const DEFAULT_COLUMN_KEYS = [
   'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
-  'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted', 'EstTotalMargin',
+  'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted',
 ];
 
 const MAX_ROWS = 200;

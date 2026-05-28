@@ -33,7 +33,7 @@ const Index = () => {
     return period ? parseInt(period, 10) : null;
   });
   const [sortField, setSortField] = useState<string | null>(
-    () => searchParams.get('sortField') || 'Annualized_ROM_Pct'
+    () => searchParams.get('sortField') || null
   );
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(() => {
     const dir = searchParams.get('sortDirection');

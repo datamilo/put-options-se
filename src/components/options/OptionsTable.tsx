@@ -64,8 +64,7 @@ export const OptionsTable = ({
   // Default columns if no preferences exist
   const defaultColumns: (keyof OptionData)[] = [
     'StockName', 'OptionName', 'ExpiryDate', 'DaysToExpiry', 'StrikePrice',
-    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted',
-    'EstTotalMargin'
+    'Premium', 'NumberOfContractsBasedOnLimit', '1_2_3_ProbOfWorthless_Weighted'
   ];
   
   // Initialize visible columns from user preferences or defaults
