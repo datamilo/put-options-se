@@ -1,110 +1,110 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-06-05|Lundin Mining Corporation|Ex-Date|Dividend|1|False|0.03 CAD
-2026-06-17|TRATON|Ex-Date|Dividend|9|False|0.93 EUR
-2026-06-25|H&M B|Earnings Report|Earnings-Q2/HY|15|True|Second quarter earnings results
-2026-07-06|Fabege|Earnings Report|Earnings-Q2/HY|22|True|Second quarter earnings results
-2026-07-07|Kinnevik B|Earnings Report|Earnings-Q2/HY|23|True|Second quarter earnings results
-2026-07-08|Industrivärden C|Earnings Report|Earnings-Q2/HY|24|True|Second quarter earnings results
-2026-07-10|JM|Earnings Report|Earnings-Q2/HY|26|True|Second quarter earnings results
-2026-07-13|Fabege|Ex-Date|Dividend|27|False|0.55 SEK
-2026-07-13|Sagax B|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
-2026-07-14|NCC B|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-14|Dometic Group|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-14|Fastighets AB Balder B|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-14|Avanza Bank Holding|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-14|Ericsson B|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-14|Addtech B|Earnings Report|Earnings-Q1|28|True|First quarter earnings results
-2026-07-14|Lifco B|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-14|Ericsson B|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
-2026-07-15|Axfood|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
-2026-07-15|Castellum|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
-2026-07-15|SEB A|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
-2026-07-15|Handelsbanken A|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
-2026-07-16|Nordea Bank|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Trelleborg B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Nordea Bank|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Investor B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Nordea Bank|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Atlas Copco A|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Tele2 B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Essity B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|BONESUPPORT HOLDING|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|SBB Norden B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Swedish Orphan Biovitrum|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|ABB|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-16|Atlas Copco B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
-2026-07-17|Sandvik|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Volvo B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Volvo Car B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|ASSA ABLOY B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Getinge B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|AAK|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|EQT|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Nordnet|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Husqvarna B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Evolution|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|SAAB B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Billerud|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|SKF B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Telia Company|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Swedbank A|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Epiroc A|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Telia Company|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Skanska B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-17|Betsson B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
-2026-07-20|HEXPOL B|Earnings Report|Earnings-Q2/HY|32|True|Second quarter earnings results
-2026-07-21|Boliden|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
-2026-07-21|Alfa Laval|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
-2026-07-21|Coffee Stain Group B|Earnings Report|Earnings-Q1|33|True|First quarter earnings results
-2026-07-21|Modern Times Group MTG B|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
-2026-07-22|Telia Company|Ex-Date|Dividend|34|False|0.51 SEK
-2026-07-22|SSAB B|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
-2026-07-22|SSAB A|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
-2026-07-22|SSAB B|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
-2026-07-22|Telia Company|Ex-Date|Dividend|34|False|0.51 SEK
-2026-07-22|SSAB A|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
-2026-07-22|Sinch|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
-2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
-2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
-2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
-2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
-2026-07-23|Intrum|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
-2026-07-23|TRATON|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
-2026-07-24|Stillfront Group|Earnings Report|Earnings-Q2/HY|36|True|Second quarter earnings results
-2026-07-24|Securitas B|Earnings Report|Earnings-Q2/HY|36|True|Second quarter earnings results
-2026-07-24|SCA B|Earnings Report|Earnings-Q2/HY|36|True|Second quarter earnings results
-2026-07-27|AstraZeneca|Earnings Report|Earnings-Q2/HY|37|True|Second quarter earnings results
-2026-07-29|Hexagon B|Earnings Report|Earnings-Q2/HY|39|True|Second quarter earnings results
-2026-07-29|Electrolux B|Earnings Report|Earnings-Q2/HY|39|True|Second quarter earnings results
-2026-08-04|Asmodee Group B|Earnings Report|Earnings-Q1|43|True|First quarter earnings results
-2026-08-05|Lundin Mining Corporation|Earnings Report|Earnings-Q2/HY|44|True|Second quarter earnings results
-2026-08-05|Orrön Energy|Earnings Report|Earnings-Q2/HY|44|True|Second quarter earnings results
-2026-08-13|Fingerprint Cards B|Earnings Report|Earnings-Q2/HY|50|True|Second quarter earnings results
-2026-08-13|Embracer Group B|Earnings Report|Earnings-Q1|50|True|First quarter earnings results
-2026-08-18|NOBA Bank Group|Earnings Report|Earnings-Q2/HY|53|True|Second quarter earnings results
-2026-08-19|Latour, Investmentab B|Earnings Report|Earnings-Q2/HY|54|True|Second quarter earnings results
-2026-08-20|New Wave Group B|Earnings Report|Earnings-Q2/HY|55|True|Second quarter earnings results
-2026-08-20|Holmen B|Earnings Report|Earnings-Q2/HY|55|True|Second quarter earnings results
-2026-08-21|NIBE Industrier B|Earnings Report|Earnings-Q2/HY|56|True|Second quarter earnings results
-2026-08-27|Elekta B|Earnings Report|Earnings-Q1|60|True|First quarter earnings results
-2026-08-27|Addtech B|Ex-Date|Dividend|60|False|3.6 SEK
-2026-09-17|Axfood|Ex-Date|Dividend|75|False|4.5 SEK
-2026-09-24|Stora Enso R|Ex-Date|Dividend|80|False|0.12 EUR
-2026-09-24|Stora Enso R|Ex-Date|Dividend|80|False|0.12 EUR
-2026-09-28|Ericsson B|Ex-Date|Dividend|82|False|1.5 SEK
-2026-09-28|Ericsson B|Ex-Date|Dividend|82|False|1.5 SEK
-2026-10-05|SAAB B|Ex-Date|Dividend|87|False|1.2 SEK
-2026-10-12|Tele2 B|Ex-Date|Dividend|92|False|5.25 SEK
-2026-10-14|SKF B|Ex-Date|Dividend|94|False|3.75 SEK
-2026-10-16|Epiroc A|Ex-Date|Dividend|96|False|1.9 SEK
-2026-10-19|Atlas Copco B|Ex-Date|Dividend|97|False|1.0 SEK
-2026-10-19|Husqvarna B|Ex-Date|Dividend|97|False|0.75 SEK
-2026-10-19|Atlas Copco A|Ex-Date|Dividend|97|False|1.5 SEK
-2026-11-04|NCC B|Ex-Date|Dividend|109|False|4.5 SEK
-2026-11-04|H&M B|Ex-Date|Dividend|109|False|3.55 SEK
-2026-11-06|Investor B|Ex-Date|Dividend|111|False|1.6 SEK
-2026-11-10|Betsson B|Ex-Date|Dividend|113|False|3.6 SEK
-2026-11-10|ASSA ABLOY B|Ex-Date|Dividend|113|False|3.2 SEK
-2026-11-18|Securitas B|Ex-Date|Dividend|119|False|2.65 SEK
-2026-11-30|EQT|Ex-Date|Dividend|127|False|2.5 SEK
-2026-12-03|New Wave Group B|Ex-Date|Dividend|130|False|1.5 SEK
+2026-06-05|Lundin Mining Corporation|Ex-Date|Dividend|-1|False|0.03 CAD
+2026-06-17|TRATON|Ex-Date|Dividend|8|False|0.93 EUR
+2026-06-25|H&M B|Earnings Report|Earnings-Q2/HY|14|True|Second quarter earnings results
+2026-07-06|Fabege|Earnings Report|Earnings-Q2/HY|21|True|Second quarter earnings results
+2026-07-07|Kinnevik B|Earnings Report|Earnings-Q2/HY|22|True|Second quarter earnings results
+2026-07-08|Industrivärden C|Earnings Report|Earnings-Q2/HY|23|True|Second quarter earnings results
+2026-07-10|JM|Earnings Report|Earnings-Q2/HY|25|True|Second quarter earnings results
+2026-07-13|Fabege|Ex-Date|Dividend|26|False|0.55 SEK
+2026-07-13|Sagax B|Earnings Report|Earnings-Q2/HY|26|True|Second quarter earnings results
+2026-07-14|NCC B|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-14|Dometic Group|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-14|Fastighets AB Balder B|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-14|Avanza Bank Holding|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-14|Ericsson B|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-14|Addtech B|Earnings Report|Earnings-Q1|27|True|First quarter earnings results
+2026-07-14|Lifco B|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-14|Ericsson B|Earnings Report|Earnings-Q2/HY|27|True|Second quarter earnings results
+2026-07-15|Axfood|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
+2026-07-15|Castellum|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
+2026-07-15|SEB A|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
+2026-07-15|Handelsbanken A|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
+2026-07-16|Nordea Bank|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Trelleborg B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Nordea Bank|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Investor B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Nordea Bank|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Atlas Copco A|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Tele2 B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Essity B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|BONESUPPORT HOLDING|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|SBB Norden B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Swedish Orphan Biovitrum|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|ABB|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-16|Atlas Copco B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
+2026-07-17|Sandvik|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Volvo B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Volvo Car B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|ASSA ABLOY B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Getinge B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|AAK|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|EQT|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Nordnet|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Husqvarna B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Evolution|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|SAAB B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Billerud|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|SKF B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Telia Company|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Swedbank A|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Epiroc A|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Telia Company|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Skanska B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-17|Betsson B|Earnings Report|Earnings-Q2/HY|30|True|Second quarter earnings results
+2026-07-20|HEXPOL B|Earnings Report|Earnings-Q2/HY|31|True|Second quarter earnings results
+2026-07-21|Boliden|Earnings Report|Earnings-Q2/HY|32|True|Second quarter earnings results
+2026-07-21|Alfa Laval|Earnings Report|Earnings-Q2/HY|32|True|Second quarter earnings results
+2026-07-21|Coffee Stain Group B|Earnings Report|Earnings-Q1|32|True|First quarter earnings results
+2026-07-21|Modern Times Group MTG B|Earnings Report|Earnings-Q2/HY|32|True|Second quarter earnings results
+2026-07-22|Telia Company|Ex-Date|Dividend|33|False|0.51 SEK
+2026-07-22|SSAB B|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
+2026-07-22|SSAB A|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
+2026-07-22|SSAB B|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
+2026-07-22|Telia Company|Ex-Date|Dividend|33|False|0.51 SEK
+2026-07-22|SSAB A|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
+2026-07-22|Sinch|Earnings Report|Earnings-Q2/HY|33|True|Second quarter earnings results
+2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
+2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
+2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
+2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
+2026-07-23|Intrum|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
+2026-07-23|TRATON|Earnings Report|Earnings-Q2/HY|34|True|Second quarter earnings results
+2026-07-24|Stillfront Group|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
+2026-07-24|Securitas B|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
+2026-07-24|SCA B|Earnings Report|Earnings-Q2/HY|35|True|Second quarter earnings results
+2026-07-27|AstraZeneca|Earnings Report|Earnings-Q2/HY|36|True|Second quarter earnings results
+2026-07-29|Hexagon B|Earnings Report|Earnings-Q2/HY|38|True|Second quarter earnings results
+2026-07-29|Electrolux B|Earnings Report|Earnings-Q2/HY|38|True|Second quarter earnings results
+2026-08-04|Asmodee Group B|Earnings Report|Earnings-Q1|42|True|First quarter earnings results
+2026-08-05|Lundin Mining Corporation|Earnings Report|Earnings-Q2/HY|43|True|Second quarter earnings results
+2026-08-05|Orrön Energy|Earnings Report|Earnings-Q2/HY|43|True|Second quarter earnings results
+2026-08-13|Fingerprint Cards B|Earnings Report|Earnings-Q2/HY|49|True|Second quarter earnings results
+2026-08-13|Embracer Group B|Earnings Report|Earnings-Q1|49|True|First quarter earnings results
+2026-08-18|NOBA Bank Group|Earnings Report|Earnings-Q2/HY|52|True|Second quarter earnings results
+2026-08-19|Latour, Investmentab B|Earnings Report|Earnings-Q2/HY|53|True|Second quarter earnings results
+2026-08-20|New Wave Group B|Earnings Report|Earnings-Q2/HY|54|True|Second quarter earnings results
+2026-08-20|Holmen B|Earnings Report|Earnings-Q2/HY|54|True|Second quarter earnings results
+2026-08-21|NIBE Industrier B|Earnings Report|Earnings-Q2/HY|55|True|Second quarter earnings results
+2026-08-27|Elekta B|Earnings Report|Earnings-Q1|59|True|First quarter earnings results
+2026-08-27|Addtech B|Ex-Date|Dividend|59|False|3.6 SEK
+2026-09-17|Axfood|Ex-Date|Dividend|74|False|4.5 SEK
+2026-09-24|Stora Enso R|Ex-Date|Dividend|79|False|0.12 EUR
+2026-09-24|Stora Enso R|Ex-Date|Dividend|79|False|0.12 EUR
+2026-09-28|Ericsson B|Ex-Date|Dividend|81|False|1.5 SEK
+2026-09-28|Ericsson B|Ex-Date|Dividend|81|False|1.5 SEK
+2026-10-05|SAAB B|Ex-Date|Dividend|86|False|1.2 SEK
+2026-10-12|Tele2 B|Ex-Date|Dividend|91|False|5.25 SEK
+2026-10-14|SKF B|Ex-Date|Dividend|93|False|3.75 SEK
+2026-10-16|Epiroc A|Ex-Date|Dividend|95|False|1.9 SEK
+2026-10-19|Atlas Copco B|Ex-Date|Dividend|96|False|1.0 SEK
+2026-10-19|Husqvarna B|Ex-Date|Dividend|96|False|0.75 SEK
+2026-10-19|Atlas Copco A|Ex-Date|Dividend|96|False|1.5 SEK
+2026-11-04|NCC B|Ex-Date|Dividend|108|False|4.5 SEK
+2026-11-04|H&M B|Ex-Date|Dividend|108|False|3.55 SEK
+2026-11-06|Investor B|Ex-Date|Dividend|110|False|1.6 SEK
+2026-11-10|Betsson B|Ex-Date|Dividend|112|False|3.6 SEK
+2026-11-10|ASSA ABLOY B|Ex-Date|Dividend|112|False|3.2 SEK
+2026-11-18|Securitas B|Ex-Date|Dividend|118|False|2.65 SEK
+2026-11-30|EQT|Ex-Date|Dividend|126|False|2.5 SEK
+2026-12-03|New Wave Group B|Ex-Date|Dividend|129|False|1.5 SEK
