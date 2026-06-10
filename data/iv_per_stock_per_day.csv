@@ -19568,514 +19568,514 @@ MARKET_IV|2026-06-05||0.3350805688795709|||market_equal_weight|SE|70.0|1.0
 MARKET_IV|2026-06-08||0.3376063699279625|||market_equal_weight|SE|70.0|1.0
 MARKET_IV|2026-06-09||0.3361659604170948|||market_equal_weight|SE|70.0|1.0
 MARKET_IV|2026-06-10||0.3663469593312923|||market_equal_weight|SE|69.0|0.0
-Modern Times Group MTG B|2024-04-18|88.65|0.3702629233890583|19.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-19|88.55|0.3210063135959971|18.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-22|92.85|0.4877611772640458|17.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-23|88.25|0.3014284930901155|16.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-24|93.1|0.2671499299058611|15.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-25|89.25|0.2641000507818989|14.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-26|92.85|0.2624880684768754|13.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-29|93.85|0.2161932996969411|12.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-04-30|94.95|0.2857028522707522|11.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-02|94.0|0.2665130931280697|10.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-03|93.85|0.2527376167291415|9.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-06|95.85|0.3149153563986175|8.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-07|94.85|0.2649285483720187|7.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-10|95.85|0.2575615478602563|5.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-13|97.65|0.3839989489499905|4.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-14|94.95|0.2599256095991961|3.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-15|97.9|0.2719649512226141|2.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-16|96.65|0.2351781270787268||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-05-17|97.65|0.241969071640872||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-05-21|97.5|0.2436536991424495|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-22|97.05|0.233971920215606|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-23|95.25|0.2437416913118241|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-24|96.6|0.2494797375011447|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-27|93.5|0.2344169180786642|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-28|94.15|0.2673210154328141|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-29|94.0|0.2742615916906054|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-30|94.05|0.2710700218422597|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-05-31|93.5|0.301798852287493|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-03|94.75|0.3350549639428919|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-04|92.4|0.3062310581563766|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-05|91.6|0.2982042790698146|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-07|94.75|0.2998122003436885|9.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-10|88.4|0.198978529562189|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-11|91.3|0.3105559897419026|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-12|91.85|0.3010936820325792|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-13|90.1|0.3058502517606603|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-14|88.4|0.3220752425648168|4.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-17|86.3|0.2454241869266522||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-06-18|87.6|0.3271152430842335|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-19|86.85|0.3258194758156313|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-20|86.3|0.3446358568986277|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-24|85.4|0.2996793861658936|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-25|87.0|0.3339054940330038|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-26|85.7|0.3291346316427666|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-27|86.3|0.3265707533289719|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-06-28|85.4|0.3347950259964925|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-01|87.9|0.5360074748441026|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-02|86.1|0.3398595356481422|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-03|87.75|0.3379646282338006|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-04|87.35|0.3248455933431572|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-05|87.9|0.3174202133361986|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-08|87.6|0.3280869034812077|9.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-09|86.8|0.3272037487883418|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-11|87.8|0.3443103191498435|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-15|79.9|0.1330245038073708||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-07-16|86.65|0.3238960906158757|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-18|82.4|0.3306652785945144|21.0|46.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-19|79.9|0.313648421737041|20.0|45.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-22|81.95|0.448419503691167|19.0|44.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-23|80.3|0.3140174161983898|18.0|43.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-24|80.25|0.3075400680905477|17.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-25|81.45|0.3073910245458335|16.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-26|81.95|0.3109450999386541|15.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-29|77.35|0.1743647101551668|14.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-30|81.35|0.3089962672751223|13.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-07-31|82.25|0.3154330114898784|12.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-01|80.5|0.2972769350594657|11.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-05|77.05|0.5404369988482798|9.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-06|76.8|0.3559243486714643|8.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-07|77.45|0.3398105685585756|7.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-08|78.0|0.3663230981860129|6.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-09|77.05|0.3224594078355864|5.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-12|77.2|0.3306135406912716|4.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-13|76.65|0.325097221872818|3.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-15|77.25|0.2941403681287062||26.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-08-16|77.2|0.265801761788386||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-08-19|77.6|0.2661439651340742||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-08-20|76.5|0.2615611369657052||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-08-21|76.5|0.255871223746518||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-08-22|76.65|0.2614663661508192|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-23|77.6|0.2407744004273076|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-26|77.15|0.2426390189781209|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-27|76.8|0.2401826376351166|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-28|75.85|0.2538671096346029|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-29|77.05|0.234815436877849|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-08-30|77.15|0.231353647166485|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-02|76.85|0.2670552813059162|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-03|74.65|0.2487330088185071|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-04|76.3|0.2722402987451975|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-05|77.15|0.2574651143866358|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-06|76.85|0.2572309747611494|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-09|75.0|0.1580400354131667|9.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-10|78.7|0.2608977524666906|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-11|77.15|0.2408883890819499|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-12|76.45|0.2401980864414445|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-13|75.0|0.2501719662930751|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-16|75.4|0.2907514750468805|4.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-17|75.15|0.2478763328508157|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-18|75.35|0.2608919955695203|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-19|77.25|0.2357738491915723|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-20|75.4|0.2501064561599484|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-23|79.65|0.4664597646196427|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-24|74.5|0.2587003498688958|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-25|76.65|0.2536634586283856|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-26|77.9|0.2648271161937525|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-27|79.65|0.2558324735482514|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-09-30|80.8|0.3418530403349986|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-01|77.55|0.2742159088222625|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-02|79.8|0.2763284695009432|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-03|79.4|0.2933557680716689|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-04|80.8|0.2811794925411702|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-07|78.55|0.2087163821357069||29.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-10-08|79.55|0.2857291004146288|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-09|78.25|0.299680037129629|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-10|79.35|0.2970872318351568|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-11|78.55|0.2997116154595522|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-14|76.7|0.2443658689488696||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-10-15|80.25|0.2992938545423311|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-16|76.25|0.2995919899937062||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-10-17|77.25|0.3174591688089005|21.0|46.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-18|76.7|0.3195171039179751|20.0|45.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-21|77.6|0.3764279116564454|19.0|44.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-22|77.35|0.3200850843300231|18.0|43.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-23|77.25|0.3191764443172257|17.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-24|72.7|0.2855512418790097|16.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-25|77.6|0.2489203052344217|15.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-28|76.75|0.2150633337310743|14.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-29|77.0|0.2418200229124281|13.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-30|76.0|0.2577235310310366|12.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-10-31|76.0|0.274470561151996|11.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-01|76.75|0.2532616827049061|10.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-04|77.6|0.3292918111587852|9.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-05|76.65|0.2637020326335864|8.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-06|77.2|0.2435401446449774|7.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-07|80.15|0.238915099569737|6.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-08|77.6|0.2390366981213961|5.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-11|90.05|1.156390136275327|4.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-12|83.95|0.2670056229062266|3.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-13|88.55|0.2657185099832136|2.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-14|90.0|0.2487172780327171|1.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-15|90.05|0.2347033674245185||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-11-18|90.5|0.2178412646836054||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-11-19|89.15|0.264037603944412||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-11-20|91.85|0.2400611977456777||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2024-11-21|90.8|0.2429095353905826|21.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-22|90.5|0.2433465826543202|20.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-25|92.0|0.2687693432784911|19.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-26|91.0|0.235137259743763|18.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-27|93.1|0.2276349738448884|17.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-28|92.1|0.2267266868618545|16.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2024-11-29|92.0|0.2073325351819145|15.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-02|93.8|0.2994959017518729|14.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-03|93.55|0.2310509165083501|13.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-04|93.3|0.2209464802731187|12.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-05|92.9|0.2175974064825019|11.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-06|93.8|0.2144126278663164|10.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-09|93.6|0.221659007998449|9.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-10|93.05|0.2158119153773166|8.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-11|92.75|0.2129637818010982|21.0|46.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-12|92.1|0.2129067221405611|20.0|45.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-13|93.6|0.216422726025389|19.0|44.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-16|95.6|0.2648842757317309|18.0|43.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-17|94.05|0.2154161991819093|17.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-19|95.95|0.2268362656930763|15.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-20|95.6|0.2229240735078854|14.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-23|95.25|0.2534077259248795|13.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-27|95.25|0.2336905571883431|12.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2024-12-30|97.7|0.3331504102149207|11.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-02|97.15|0.2429114996810664|10.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-03|97.7|0.2456870884361346|9.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-07|94.8|0.2515995803580013|8.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-08|94.45|0.2598015160507864|7.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-09|94.6|0.2526519369453558|6.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-10|99.0|0.2381235734942598|5.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-13|97.65|0.251297434603666|4.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-14|96.9|0.2704961008898209|3.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-15|98.75|0.2750089432711394|2.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-16|100.0|0.2656307551280116|1.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-17|104.4|0.2604685140449501||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-01-20|102.9|0.2545821721853415||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-01-21|103.9|0.2600686151795525||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-01-22|103.0|0.2619359762538473||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-01-23|101.1|0.2583902105837115|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-24|101.5|0.2751180535244444|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-27|100.0|0.2670318381366916|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-28|100.8|0.2743500625536504|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-29|102.4|0.2605257556276595|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-30|101.5|0.2595596635325259|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-01-31|103.0|0.253392211261043|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-03|102.7|0.2652551289360271|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-04|102.9|0.268474772921884|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-05|103.1|0.2594067176924512|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-06|115.1|0.2552138691378344|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-07|117.6|0.2246554032113962|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-11|120.6|0.2301664446561619|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-12|120.9|0.236013999332317|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-13|124.2|0.2244515136657147|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-14|123.3|0.2240625280529027|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-17|123.2|0.2391672118335421|4.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-18|123.7|0.2315577706219476|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-19|124.0|0.2288373479435022|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-20|125.3|0.2169711041675325|21.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-21|124.5|0.2228975298768174|20.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-24|124.3|0.2291939843722648|19.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-25|123.8|0.2389044110841774|18.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-26|125.5|0.2324238436279295|17.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-27|125.6|0.2197291166968719|16.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-02-28|121.5|0.2277056113219281|15.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-03|121.1|0.2234771690107046|14.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-04|118.5|0.238507249130045|13.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-05|117.3|0.2731811361074819|12.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-06|116.0|0.2680047372647482|11.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-07|116.7|0.2662365009308895|10.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-10|112.5|0.2792767396685017|9.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-11|111.0|0.2682108278225547|8.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-12|113.8|0.2616197076740539|7.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-13|115.2|0.3345902910499784|6.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-14|117.5|0.2691791809975529|5.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-17|119.3|0.266660837302957|4.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-18|117.8|0.2704155108019692|21.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-19|121.6|0.256123936269445|20.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-20|122.0|0.2566161808263641|19.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-21|120.8|0.2413182385435518|18.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-24|117.9|0.2678021842639922|17.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-25|119.0|0.2628683249890547|16.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-26|117.6|0.2690036105815222|15.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-27|117.2|0.2656061565771226|14.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-28|113.8|0.2600435649340686|13.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-03-31|113.4|0.2683473058988813|12.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-01|113.5|0.2738258023109335|11.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-02|112.9|0.2818588475781399|10.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-03|113.2|0.2953257972075776|9.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-04|109.7|0.3070329066411966|8.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-07|106.4|0.3155590412019706|7.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-08|107.0|0.3009495176641055|6.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-09|106.4|0.4194734284219066|5.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-10|108.7|0.3470930395876184|4.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-11|109.1|0.3356617390221068|3.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-14|111.6|0.3084874111185704|21.0|43.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-15|109.8|0.3089872375966558|20.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-16|109.7|0.308531730387264|19.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-17|108.0|0.2971828004620048|18.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-22|108.4|0.3167679137603953|17.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-23|109.6|0.3202762816809483|16.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-24|109.8|0.3087749860581459|15.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-25|111.7|0.3067651748765406|14.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-28|112.9|0.3242682655261674|13.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-29|106.1|0.25572370521234|12.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-04-30|116.2|0.3527326977413724|11.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-02|112.7|0.2599528407010639|10.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-05|112.0|0.2336834340427939|9.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-06|112.0|0.2568606020958751|8.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-07|111.2|0.2441738904621277|7.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-08|108.9|0.2483703159741679|6.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-09|108.6|0.2467452573363582|5.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-13|111.1|0.2343650398760166|3.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-14|110.7|0.2326731747790454|2.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-15|112.0|0.2287750368896899|1.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-16|111.2|0.2314195228345056||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-05-19|111.7|0.2175041350036217|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-21|111.6|0.2216665589705483|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-22|109.5|0.22163014374124|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-23|108.3|0.2490878038094791|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-26|109.6|0.2393444387606039|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-27|108.6|0.2446639026717234|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-28|107.8|0.2327154661571654|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-05-30|108.1|0.2303221239019255|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-02|108.7|0.249787395628325|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-03|108.2|0.2514204410369637|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-04|110.4|0.2504554622063515|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-05|110.1|0.2471520485014564|9.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-09|110.2|0.2534018069725566|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-10|111.3|0.2463434069284312|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-11|113.4|0.2529562834291676|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-12|110.1|0.2668700840027917|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-13|110.0|0.2877478578336126|4.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-16|107.5|0.2711019688030933|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-17|109.1|0.2695342492202294|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-18|112.0|0.2777703773077437|21.0||nearest_expiry|SE||
-Modern Times Group MTG B|2025-06-19|113.0|0.2803158871273797|20.0||nearest_expiry|SE||
-Modern Times Group MTG B|2025-06-23|110.9|0.2893389247596467|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-06-24|114.7|0.280239564390224|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-16|117.2|0.2833479840867767|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-17|118.5|0.2860392367036204|21.0||nearest_expiry|SE||
-Modern Times Group MTG B|2025-07-18|105.0|0.2232641455004789|20.0||nearest_expiry|SE||
-Modern Times Group MTG B|2025-07-21|102.0|0.1932561837637283|19.0|44.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-22|100.5|0.2207402252088641|18.0|43.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-23|99.8|0.2241052274672713|17.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-24|100.1|0.2231861276923539|16.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-25|100.2|0.2167442085874084|15.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-28|101.0|0.226214047503639|14.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-29|102.7|0.2070828942823807|13.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-30|100.6|0.2200451519792476|12.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-07-31|100.8|0.2188743339800709|11.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-01|99.8|0.2313478581672767|10.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-04|99.55|0.2313226124988196|9.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-05|101.1|0.2194974246287859|8.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-06|102.0|0.2201752574629362|7.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-07|100.5|0.2233410080469141|6.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-08|100.7|0.2297858979743046|5.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-11|101.9|0.2427946116170938|4.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-12|100.1|0.2386516718171584|3.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-13|99.1|0.2179705834628696|2.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-14|97.35|0.2185981933308581||26.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-08-15|98.65|0.2165738627781969||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-08-18|99.95|0.2255823112360968||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-08-19|100.0|0.2161008767961784||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-08-20|99.3|0.2168277825600277||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-08-21|99.2|0.2132119030866635|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-22|101.0|0.2026142520949719|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-25|99.75|0.2146083278612757|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-26|99.0|0.2107474817299624|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-27|99.3|0.2177291664431183|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-28|98.9|0.2225857876082087|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-08-29|97.95|0.2127814380482597|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-01|96.15|0.2233522701990708|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-02|94.45|0.2381543870514373|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-03|95.25|0.2271072327217032|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-04|99.2|0.2086029158410814|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-05|102.4|0.209307128388047|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-08|102.0|0.2019056757474801|9.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-09|105.0|0.2180244531835616|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-10|105.4|0.2177450282571859|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-11|105.0|0.2013407625022178|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-12|105.8|0.2100775706208691|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-15|105.8|0.1924331611817355|4.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-16|105.2|0.2060643109583012|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-17|105.3|0.2088299590837715|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-18|106.8|0.1943196890834345|21.0|46.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-19|105.4|0.1883236652172391|20.0|45.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-22|106.6|0.2057294088073762|19.0|44.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-23|105.2|0.2165297579826167|18.0|43.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-24|105.4|0.2183078366212376|17.0|42.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-25|106.0|0.2147343833823634|16.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-26|108.7|0.2241091997668622|15.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-29|110.7|0.2259464513917881|14.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-09-30|110.2|0.2371486838042275|13.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-01|112.3|0.216121820279885|12.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-02|111.5|0.2337601989847454|11.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-03|112.5|0.2364610702575377|10.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-06|114.5|0.2554737228394014|9.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-07|113.1|0.2264072721007889|8.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-08|114.1|0.2517144567487854|7.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-09|123.8|0.2893454990996814|6.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-10|120.3|0.243889591775643|5.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-13|118.5|0.3015493501315762|4.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-14|120.3|0.2982040648302748|3.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-15|121.4|0.3041622232378424|2.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-16|120.0|0.3069067327820355|1.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-17|121.9|0.2919344180682538||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-10-20|125.9|0.3229889692539979||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-10-21|126.6|0.3112785075085112||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-10-22|126.2|0.3411012789075271||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-10-23|126.0|0.314518035663618|21.0|41.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-24|126.0|0.3138800173279747|20.0|40.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-27|125.5|0.3186185910686167|19.0|39.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-28|125.5|0.3281483927902907|18.0|38.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-29|123.8|0.3109205847557309|17.0|37.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-30|128.1|0.328374975320044|16.0|36.0|interpolated|SE||
-Modern Times Group MTG B|2025-10-31|128.0|0.3178479350275062|15.0|35.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-03|128.1|0.3476107672850401|14.0|34.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-04|126.6|0.3280951258887617|13.0|33.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-05|125.0|0.3165439880197596|12.0|32.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-06|122.4|0.3132882541564919|11.0|31.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-07|122.8|0.3361009045346787|10.0|30.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-10|124.4|0.3346910971333762|9.0|29.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-11|123.7|0.3130077620620294|8.0|28.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-12|123.8|0.3282022491636198|7.0|27.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-13|117.1|0.3036650645057365|6.0|26.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-14|116.5|0.2893624595103925|5.0|25.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-17|115.5|0.2893333347776938|4.0|24.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-18|113.9|0.3006947584769485|3.0|23.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-19|113.7|0.2982335554188086|2.0|22.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-20|114.0|0.3052204757601585|21.0|80.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-21|114.5|0.3054610121930137|20.0|79.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-24|116.7|0.2957535716684|19.0|78.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-25|116.9|0.2940560555226724|18.0|77.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-26|117.5|0.2899494194732006|17.0|76.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-27|120.7|0.2900957007919064|16.0|75.0|interpolated|SE||
-Modern Times Group MTG B|2025-11-28|120.8|0.2737198673868218|15.0|74.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-01|118.5|0.2862233114864462|14.0|73.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-02|115.9|0.2887828758324173|13.0|72.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-03|113.0|0.277531222120524|12.0|71.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-04|113.4|0.2902166967909651|11.0|70.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-05|112.8|0.2938647947495509|10.0|69.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-08|110.7|0.2767465538456461|9.0|68.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-09|111.4|0.300032906151262|8.0|67.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-10|111.8|0.3059722052279469|7.0|66.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-11|109.8|0.2812909742312135|6.0|65.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-12|110.1|0.2968045538499745|5.0|64.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-15|110.7|0.2942056473555193|4.0|63.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-16|113.1|0.2986317185680571|3.0|62.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-17|112.6|0.3009837083173986|2.0|61.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-18|113.1|0.2992572524337232|1.0|60.0|interpolated|SE||
-Modern Times Group MTG B|2025-12-19|112.6|0.2792178124893142||59.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-12-22|112.1|0.2893589429695644||58.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-12-23|111.7|0.2841683376578265||57.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-12-29|114.0|0.2909790207079961||56.0|nearest_expiry|SE||
-Modern Times Group MTG B|2025-12-30|114.7|0.296699337101896||55.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-02|110.5|0.2707876527260198||54.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-05|110.9|0.3142220375630659||53.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-07|110.0|0.3241015645696284||52.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-08|109.8|0.3183309106360301||51.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-09|108.5|0.345895807068197||50.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-12|108.2|0.3266355313299015||49.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-13|108.8|0.341039303142862||48.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-14|109.2|0.3508599716010346||47.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-15|109.8|0.3695029535763925||46.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-16|108.0|0.3246055715470263||45.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-19|105.3|0.3537518322613853||44.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-20|106.1|0.3402818665381257||43.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-21|105.2|0.3684370934862402||42.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-22|106.2|0.3099551512847833||41.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-23|107.2|0.3361445814115885||40.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-26|106.9|0.3337500469034603||39.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-27|104.4|0.3346613468956395||38.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-28|106.8|0.3294401311183438||37.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-29|105.3|0.327484648217124||36.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-01-30|104.1|0.3304500307334929||35.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-02|101.4|0.3571579894718757||34.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-03|97.35|0.3471849144668666||33.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-04|95.55|0.3447672628987337||32.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-05|95.3|0.330323934267863||31.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-06|93.6|0.3827106025662782||30.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-09|93.65|0.3292611141647167||29.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-10|94.6|0.3304057716145128||28.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-11|88.05|0.306824171316263||27.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-12|87.9|0.3845150413364989||26.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-13|88.65|0.3567123802437951||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-16|87.65|0.339577912314068||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-17|87.9|0.3722430410476153||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-18|87.15|0.3450808523168301||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-02-19|88.1|0.3254771701295679|21.0|81.0|interpolated|SE||
-Modern Times Group MTG B|2026-02-20|89.0|0.3934615377807514|20.0|80.0|interpolated|SE||
-Modern Times Group MTG B|2026-02-23|86.7|0.3869871316569565|19.0|79.0|interpolated|SE||
-Modern Times Group MTG B|2026-02-24|86.2|0.3690213320240288|18.0|78.0|interpolated|SE||
-Modern Times Group MTG B|2026-02-25|88.55|0.3727557287799122|17.0|77.0|interpolated|SE||
-Modern Times Group MTG B|2026-02-26|88.55|0.3869920637458446|16.0|76.0|interpolated|SE||
-Modern Times Group MTG B|2026-02-27|88.65|0.3883165269207275|15.0|75.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-02|87.4|0.3746891857360251|14.0|74.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-03|85.45|0.4028591377861706|13.0|73.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-04|87.6|0.4037907677736704|12.0|72.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-05|88.4|0.3851360365176614|11.0|71.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-06|88.45|0.3935334113998273|10.0|70.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-09|87.75|0.3935647314795766|9.0|69.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-10|87.85|0.3969076062766318|8.0|68.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-11|86.55|0.3905555780782159|7.0|67.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-12|85.55|0.4019009368494778|6.0|66.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-13|87.1|0.3927681188612613|5.0|65.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-16|87.05|0.3932901581900179|4.0|64.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-17|88.0|0.3836495863028447|3.0|63.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-18|87.0|0.3914695634622505|2.0|62.0|interpolated|SE||
-Modern Times Group MTG B|2026-03-19|87.45|0.4057035324882265||61.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-20|85.4|0.4110413284357129||60.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-23|85.05|0.4012664451581341||59.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-24|85.1|0.4118623380706611||58.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-25|88.3|0.4063762930862664||57.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-26|88.1|0.4047291942756527||56.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-27|91.3|0.4036761880790581||55.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-30|91.35|0.3840999971276309||54.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-03-31|91.9|0.3857219666696534||53.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-01|93.3|0.383619912989016||52.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-02|92.05|0.3950043460084448||51.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-07|91.5|0.395752867219352||50.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-08|94.5|0.3848457077040925||49.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-09|93.0|0.3872253721050894||48.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-10|92.2|0.3783995804349638||47.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-13|94.15|0.3942531896643361||46.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-14|94.25|0.3853301064468926||45.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-15|99.5|0.394549642268957||44.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-16|101.9|0.3889749976517641||43.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-17|100.6|0.3881454976866406||42.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-20|100.9|0.3896137239645078||41.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-21|102.9|0.3865426648357284||40.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-22|104.0|0.3759500944354811||39.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-23|102.1|0.3904192064565639||38.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-24|114.3|0.3836292062769839||37.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-27|115.0|0.4931135640108616||36.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-28|114.9|0.5011354196997411||35.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-29|126.2|0.4439205662866112||34.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-04-30|125.9|0.3649435640752332||33.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-04|125.5|0.3207112932131379||32.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-05|124.4|0.3310733897221948||31.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-06|125.4|0.3301083820353079||30.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-07|129.3|0.3303743781054111||29.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-08|129.5|0.326302788894853||28.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-11|132.6|0.3480167260083085||27.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-12|133.3|0.2937319706227745||26.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-13|138.8|0.310867926749411||25.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-15|136.7|0.3039485264680355||24.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-18|135.2|0.285759761688056||23.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-19|133.3|0.2849207950456886||22.0|nearest_expiry|SE||
-Modern Times Group MTG B|2026-05-20|135.0|0.301830377509323|21.0|151.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-21|135.8|0.299841244393138|20.0|150.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-22|137.2|0.3425929487568627|19.0|149.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-25|139.5|0.3249504952790378|18.0|148.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-26|138.8|0.3060154042520765|17.0|147.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-27|134.5|0.3228434605440355|16.0|146.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-28|132.3|0.3298897165648249|15.0|145.0|interpolated|SE||
-Modern Times Group MTG B|2026-05-29|133.2|0.3514160096908719|14.0|144.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-01|134.8|0.3515194786115581|13.0|143.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-02|134.9|0.3451743071087177|12.0|142.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-03|132.4|0.3476834798671083|11.0|141.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-04|130.9|0.3623777564506911|10.0|140.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-05|130.2|0.3614236976975837|9.0|139.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-08|126.4|0.3645637600908171|8.0|138.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-09|123.5|0.3885379383179687|7.0|137.0|interpolated|SE||
-Modern Times Group MTG B|2026-06-10|123.5|0.3911366796025811|6.0|136.0|interpolated|SE||
+MTG B|2024-04-18|88.65|0.3702629233890583|19.0|42.0|interpolated|SE||
+MTG B|2024-04-19|88.55|0.3210063135959971|18.0|41.0|interpolated|SE||
+MTG B|2024-04-22|92.85|0.4877611772640458|17.0|40.0|interpolated|SE||
+MTG B|2024-04-23|88.25|0.3014284930901155|16.0|39.0|interpolated|SE||
+MTG B|2024-04-24|93.1|0.2671499299058611|15.0|38.0|interpolated|SE||
+MTG B|2024-04-25|89.25|0.2641000507818989|14.0|37.0|interpolated|SE||
+MTG B|2024-04-26|92.85|0.2624880684768754|13.0|36.0|interpolated|SE||
+MTG B|2024-04-29|93.85|0.2161932996969411|12.0|35.0|interpolated|SE||
+MTG B|2024-04-30|94.95|0.2857028522707522|11.0|34.0|interpolated|SE||
+MTG B|2024-05-02|94.0|0.2665130931280697|10.0|33.0|interpolated|SE||
+MTG B|2024-05-03|93.85|0.2527376167291415|9.0|32.0|interpolated|SE||
+MTG B|2024-05-06|95.85|0.3149153563986175|8.0|31.0|interpolated|SE||
+MTG B|2024-05-07|94.85|0.2649285483720187|7.0|30.0|interpolated|SE||
+MTG B|2024-05-10|95.85|0.2575615478602563|5.0|28.0|interpolated|SE||
+MTG B|2024-05-13|97.65|0.3839989489499905|4.0|27.0|interpolated|SE||
+MTG B|2024-05-14|94.95|0.2599256095991961|3.0|26.0|interpolated|SE||
+MTG B|2024-05-15|97.9|0.2719649512226141|2.0|25.0|interpolated|SE||
+MTG B|2024-05-16|96.65|0.2351781270787268||24.0|nearest_expiry|SE||
+MTG B|2024-05-17|97.65|0.241969071640872||23.0|nearest_expiry|SE||
+MTG B|2024-05-21|97.5|0.2436536991424495|21.0|41.0|interpolated|SE||
+MTG B|2024-05-22|97.05|0.233971920215606|20.0|40.0|interpolated|SE||
+MTG B|2024-05-23|95.25|0.2437416913118241|19.0|39.0|interpolated|SE||
+MTG B|2024-05-24|96.6|0.2494797375011447|18.0|38.0|interpolated|SE||
+MTG B|2024-05-27|93.5|0.2344169180786642|17.0|37.0|interpolated|SE||
+MTG B|2024-05-28|94.15|0.2673210154328141|16.0|36.0|interpolated|SE||
+MTG B|2024-05-29|94.0|0.2742615916906054|15.0|35.0|interpolated|SE||
+MTG B|2024-05-30|94.05|0.2710700218422597|14.0|34.0|interpolated|SE||
+MTG B|2024-05-31|93.5|0.301798852287493|13.0|33.0|interpolated|SE||
+MTG B|2024-06-03|94.75|0.3350549639428919|12.0|32.0|interpolated|SE||
+MTG B|2024-06-04|92.4|0.3062310581563766|11.0|31.0|interpolated|SE||
+MTG B|2024-06-05|91.6|0.2982042790698146|10.0|30.0|interpolated|SE||
+MTG B|2024-06-07|94.75|0.2998122003436885|9.0|29.0|interpolated|SE||
+MTG B|2024-06-10|88.4|0.198978529562189|8.0|28.0|interpolated|SE||
+MTG B|2024-06-11|91.3|0.3105559897419026|7.0|27.0|interpolated|SE||
+MTG B|2024-06-12|91.85|0.3010936820325792|6.0|26.0|interpolated|SE||
+MTG B|2024-06-13|90.1|0.3058502517606603|5.0|25.0|interpolated|SE||
+MTG B|2024-06-14|88.4|0.3220752425648168|4.0|24.0|interpolated|SE||
+MTG B|2024-06-17|86.3|0.2454241869266522||23.0|nearest_expiry|SE||
+MTG B|2024-06-18|87.6|0.3271152430842335|2.0|22.0|interpolated|SE||
+MTG B|2024-06-19|86.85|0.3258194758156313|21.0|41.0|interpolated|SE||
+MTG B|2024-06-20|86.3|0.3446358568986277|20.0|40.0|interpolated|SE||
+MTG B|2024-06-24|85.4|0.2996793861658936|19.0|39.0|interpolated|SE||
+MTG B|2024-06-25|87.0|0.3339054940330038|18.0|38.0|interpolated|SE||
+MTG B|2024-06-26|85.7|0.3291346316427666|17.0|37.0|interpolated|SE||
+MTG B|2024-06-27|86.3|0.3265707533289719|16.0|36.0|interpolated|SE||
+MTG B|2024-06-28|85.4|0.3347950259964925|15.0|35.0|interpolated|SE||
+MTG B|2024-07-01|87.9|0.5360074748441026|14.0|34.0|interpolated|SE||
+MTG B|2024-07-02|86.1|0.3398595356481422|13.0|33.0|interpolated|SE||
+MTG B|2024-07-03|87.75|0.3379646282338006|12.0|32.0|interpolated|SE||
+MTG B|2024-07-04|87.35|0.3248455933431572|11.0|31.0|interpolated|SE||
+MTG B|2024-07-05|87.9|0.3174202133361986|10.0|30.0|interpolated|SE||
+MTG B|2024-07-08|87.6|0.3280869034812077|9.0|29.0|interpolated|SE||
+MTG B|2024-07-09|86.8|0.3272037487883418|8.0|28.0|interpolated|SE||
+MTG B|2024-07-11|87.8|0.3443103191498435|6.0|26.0|interpolated|SE||
+MTG B|2024-07-15|79.9|0.1330245038073708||24.0|nearest_expiry|SE||
+MTG B|2024-07-16|86.65|0.3238960906158757|3.0|23.0|interpolated|SE||
+MTG B|2024-07-18|82.4|0.3306652785945144|21.0|46.0|interpolated|SE||
+MTG B|2024-07-19|79.9|0.313648421737041|20.0|45.0|interpolated|SE||
+MTG B|2024-07-22|81.95|0.448419503691167|19.0|44.0|interpolated|SE||
+MTG B|2024-07-23|80.3|0.3140174161983898|18.0|43.0|interpolated|SE||
+MTG B|2024-07-24|80.25|0.3075400680905477|17.0|42.0|interpolated|SE||
+MTG B|2024-07-25|81.45|0.3073910245458335|16.0|41.0|interpolated|SE||
+MTG B|2024-07-26|81.95|0.3109450999386541|15.0|40.0|interpolated|SE||
+MTG B|2024-07-29|77.35|0.1743647101551668|14.0|39.0|interpolated|SE||
+MTG B|2024-07-30|81.35|0.3089962672751223|13.0|38.0|interpolated|SE||
+MTG B|2024-07-31|82.25|0.3154330114898784|12.0|37.0|interpolated|SE||
+MTG B|2024-08-01|80.5|0.2972769350594657|11.0|36.0|interpolated|SE||
+MTG B|2024-08-05|77.05|0.5404369988482798|9.0|34.0|interpolated|SE||
+MTG B|2024-08-06|76.8|0.3559243486714643|8.0|33.0|interpolated|SE||
+MTG B|2024-08-07|77.45|0.3398105685585756|7.0|32.0|interpolated|SE||
+MTG B|2024-08-08|78.0|0.3663230981860129|6.0|31.0|interpolated|SE||
+MTG B|2024-08-09|77.05|0.3224594078355864|5.0|30.0|interpolated|SE||
+MTG B|2024-08-12|77.2|0.3306135406912716|4.0|29.0|interpolated|SE||
+MTG B|2024-08-13|76.65|0.325097221872818|3.0|28.0|interpolated|SE||
+MTG B|2024-08-15|77.25|0.2941403681287062||26.0|nearest_expiry|SE||
+MTG B|2024-08-16|77.2|0.265801761788386||25.0|nearest_expiry|SE||
+MTG B|2024-08-19|77.6|0.2661439651340742||24.0|nearest_expiry|SE||
+MTG B|2024-08-20|76.5|0.2615611369657052||23.0|nearest_expiry|SE||
+MTG B|2024-08-21|76.5|0.255871223746518||22.0|nearest_expiry|SE||
+MTG B|2024-08-22|76.65|0.2614663661508192|21.0|41.0|interpolated|SE||
+MTG B|2024-08-23|77.6|0.2407744004273076|20.0|40.0|interpolated|SE||
+MTG B|2024-08-26|77.15|0.2426390189781209|19.0|39.0|interpolated|SE||
+MTG B|2024-08-27|76.8|0.2401826376351166|18.0|38.0|interpolated|SE||
+MTG B|2024-08-28|75.85|0.2538671096346029|17.0|37.0|interpolated|SE||
+MTG B|2024-08-29|77.05|0.234815436877849|16.0|36.0|interpolated|SE||
+MTG B|2024-08-30|77.15|0.231353647166485|15.0|35.0|interpolated|SE||
+MTG B|2024-09-02|76.85|0.2670552813059162|14.0|34.0|interpolated|SE||
+MTG B|2024-09-03|74.65|0.2487330088185071|13.0|33.0|interpolated|SE||
+MTG B|2024-09-04|76.3|0.2722402987451975|12.0|32.0|interpolated|SE||
+MTG B|2024-09-05|77.15|0.2574651143866358|11.0|31.0|interpolated|SE||
+MTG B|2024-09-06|76.85|0.2572309747611494|10.0|30.0|interpolated|SE||
+MTG B|2024-09-09|75.0|0.1580400354131667|9.0|29.0|interpolated|SE||
+MTG B|2024-09-10|78.7|0.2608977524666906|8.0|28.0|interpolated|SE||
+MTG B|2024-09-11|77.15|0.2408883890819499|7.0|27.0|interpolated|SE||
+MTG B|2024-09-12|76.45|0.2401980864414445|6.0|26.0|interpolated|SE||
+MTG B|2024-09-13|75.0|0.2501719662930751|5.0|25.0|interpolated|SE||
+MTG B|2024-09-16|75.4|0.2907514750468805|4.0|24.0|interpolated|SE||
+MTG B|2024-09-17|75.15|0.2478763328508157|3.0|23.0|interpolated|SE||
+MTG B|2024-09-18|75.35|0.2608919955695203|2.0|22.0|interpolated|SE||
+MTG B|2024-09-19|77.25|0.2357738491915723|21.0|41.0|interpolated|SE||
+MTG B|2024-09-20|75.4|0.2501064561599484|20.0|40.0|interpolated|SE||
+MTG B|2024-09-23|79.65|0.4664597646196427|19.0|39.0|interpolated|SE||
+MTG B|2024-09-24|74.5|0.2587003498688958|18.0|38.0|interpolated|SE||
+MTG B|2024-09-25|76.65|0.2536634586283856|17.0|37.0|interpolated|SE||
+MTG B|2024-09-26|77.9|0.2648271161937525|16.0|36.0|interpolated|SE||
+MTG B|2024-09-27|79.65|0.2558324735482514|15.0|35.0|interpolated|SE||
+MTG B|2024-09-30|80.8|0.3418530403349986|14.0|34.0|interpolated|SE||
+MTG B|2024-10-01|77.55|0.2742159088222625|13.0|33.0|interpolated|SE||
+MTG B|2024-10-02|79.8|0.2763284695009432|12.0|32.0|interpolated|SE||
+MTG B|2024-10-03|79.4|0.2933557680716689|11.0|31.0|interpolated|SE||
+MTG B|2024-10-04|80.8|0.2811794925411702|10.0|30.0|interpolated|SE||
+MTG B|2024-10-07|78.55|0.2087163821357069||29.0|nearest_expiry|SE||
+MTG B|2024-10-08|79.55|0.2857291004146288|8.0|28.0|interpolated|SE||
+MTG B|2024-10-09|78.25|0.299680037129629|7.0|27.0|interpolated|SE||
+MTG B|2024-10-10|79.35|0.2970872318351568|6.0|26.0|interpolated|SE||
+MTG B|2024-10-11|78.55|0.2997116154595522|5.0|25.0|interpolated|SE||
+MTG B|2024-10-14|76.7|0.2443658689488696||24.0|nearest_expiry|SE||
+MTG B|2024-10-15|80.25|0.2992938545423311|3.0|23.0|interpolated|SE||
+MTG B|2024-10-16|76.25|0.2995919899937062||22.0|nearest_expiry|SE||
+MTG B|2024-10-17|77.25|0.3174591688089005|21.0|46.0|interpolated|SE||
+MTG B|2024-10-18|76.7|0.3195171039179751|20.0|45.0|interpolated|SE||
+MTG B|2024-10-21|77.6|0.3764279116564454|19.0|44.0|interpolated|SE||
+MTG B|2024-10-22|77.35|0.3200850843300231|18.0|43.0|interpolated|SE||
+MTG B|2024-10-23|77.25|0.3191764443172257|17.0|42.0|interpolated|SE||
+MTG B|2024-10-24|72.7|0.2855512418790097|16.0|41.0|interpolated|SE||
+MTG B|2024-10-25|77.6|0.2489203052344217|15.0|40.0|interpolated|SE||
+MTG B|2024-10-28|76.75|0.2150633337310743|14.0|39.0|interpolated|SE||
+MTG B|2024-10-29|77.0|0.2418200229124281|13.0|38.0|interpolated|SE||
+MTG B|2024-10-30|76.0|0.2577235310310366|12.0|37.0|interpolated|SE||
+MTG B|2024-10-31|76.0|0.274470561151996|11.0|36.0|interpolated|SE||
+MTG B|2024-11-01|76.75|0.2532616827049061|10.0|35.0|interpolated|SE||
+MTG B|2024-11-04|77.6|0.3292918111587852|9.0|34.0|interpolated|SE||
+MTG B|2024-11-05|76.65|0.2637020326335864|8.0|33.0|interpolated|SE||
+MTG B|2024-11-06|77.2|0.2435401446449774|7.0|32.0|interpolated|SE||
+MTG B|2024-11-07|80.15|0.238915099569737|6.0|31.0|interpolated|SE||
+MTG B|2024-11-08|77.6|0.2390366981213961|5.0|30.0|interpolated|SE||
+MTG B|2024-11-11|90.05|1.156390136275327|4.0|29.0|interpolated|SE||
+MTG B|2024-11-12|83.95|0.2670056229062266|3.0|28.0|interpolated|SE||
+MTG B|2024-11-13|88.55|0.2657185099832136|2.0|27.0|interpolated|SE||
+MTG B|2024-11-14|90.0|0.2487172780327171|1.0|26.0|interpolated|SE||
+MTG B|2024-11-15|90.05|0.2347033674245185||25.0|nearest_expiry|SE||
+MTG B|2024-11-18|90.5|0.2178412646836054||24.0|nearest_expiry|SE||
+MTG B|2024-11-19|89.15|0.264037603944412||23.0|nearest_expiry|SE||
+MTG B|2024-11-20|91.85|0.2400611977456777||22.0|nearest_expiry|SE||
+MTG B|2024-11-21|90.8|0.2429095353905826|21.0|35.0|interpolated|SE||
+MTG B|2024-11-22|90.5|0.2433465826543202|20.0|34.0|interpolated|SE||
+MTG B|2024-11-25|92.0|0.2687693432784911|19.0|33.0|interpolated|SE||
+MTG B|2024-11-26|91.0|0.235137259743763|18.0|32.0|interpolated|SE||
+MTG B|2024-11-27|93.1|0.2276349738448884|17.0|31.0|interpolated|SE||
+MTG B|2024-11-28|92.1|0.2267266868618545|16.0|30.0|interpolated|SE||
+MTG B|2024-11-29|92.0|0.2073325351819145|15.0|29.0|interpolated|SE||
+MTG B|2024-12-02|93.8|0.2994959017518729|14.0|28.0|interpolated|SE||
+MTG B|2024-12-03|93.55|0.2310509165083501|13.0|27.0|interpolated|SE||
+MTG B|2024-12-04|93.3|0.2209464802731187|12.0|26.0|interpolated|SE||
+MTG B|2024-12-05|92.9|0.2175974064825019|11.0|25.0|interpolated|SE||
+MTG B|2024-12-06|93.8|0.2144126278663164|10.0|24.0|interpolated|SE||
+MTG B|2024-12-09|93.6|0.221659007998449|9.0|23.0|interpolated|SE||
+MTG B|2024-12-10|93.05|0.2158119153773166|8.0|22.0|interpolated|SE||
+MTG B|2024-12-11|92.75|0.2129637818010982|21.0|46.0|interpolated|SE||
+MTG B|2024-12-12|92.1|0.2129067221405611|20.0|45.0|interpolated|SE||
+MTG B|2024-12-13|93.6|0.216422726025389|19.0|44.0|interpolated|SE||
+MTG B|2024-12-16|95.6|0.2648842757317309|18.0|43.0|interpolated|SE||
+MTG B|2024-12-17|94.05|0.2154161991819093|17.0|42.0|interpolated|SE||
+MTG B|2024-12-19|95.95|0.2268362656930763|15.0|40.0|interpolated|SE||
+MTG B|2024-12-20|95.6|0.2229240735078854|14.0|39.0|interpolated|SE||
+MTG B|2024-12-23|95.25|0.2534077259248795|13.0|38.0|interpolated|SE||
+MTG B|2024-12-27|95.25|0.2336905571883431|12.0|37.0|interpolated|SE||
+MTG B|2024-12-30|97.7|0.3331504102149207|11.0|36.0|interpolated|SE||
+MTG B|2025-01-02|97.15|0.2429114996810664|10.0|35.0|interpolated|SE||
+MTG B|2025-01-03|97.7|0.2456870884361346|9.0|34.0|interpolated|SE||
+MTG B|2025-01-07|94.8|0.2515995803580013|8.0|33.0|interpolated|SE||
+MTG B|2025-01-08|94.45|0.2598015160507864|7.0|32.0|interpolated|SE||
+MTG B|2025-01-09|94.6|0.2526519369453558|6.0|31.0|interpolated|SE||
+MTG B|2025-01-10|99.0|0.2381235734942598|5.0|30.0|interpolated|SE||
+MTG B|2025-01-13|97.65|0.251297434603666|4.0|29.0|interpolated|SE||
+MTG B|2025-01-14|96.9|0.2704961008898209|3.0|28.0|interpolated|SE||
+MTG B|2025-01-15|98.75|0.2750089432711394|2.0|27.0|interpolated|SE||
+MTG B|2025-01-16|100.0|0.2656307551280116|1.0|26.0|interpolated|SE||
+MTG B|2025-01-17|104.4|0.2604685140449501||25.0|nearest_expiry|SE||
+MTG B|2025-01-20|102.9|0.2545821721853415||24.0|nearest_expiry|SE||
+MTG B|2025-01-21|103.9|0.2600686151795525||23.0|nearest_expiry|SE||
+MTG B|2025-01-22|103.0|0.2619359762538473||22.0|nearest_expiry|SE||
+MTG B|2025-01-23|101.1|0.2583902105837115|21.0|41.0|interpolated|SE||
+MTG B|2025-01-24|101.5|0.2751180535244444|20.0|40.0|interpolated|SE||
+MTG B|2025-01-27|100.0|0.2670318381366916|19.0|39.0|interpolated|SE||
+MTG B|2025-01-28|100.8|0.2743500625536504|18.0|38.0|interpolated|SE||
+MTG B|2025-01-29|102.4|0.2605257556276595|17.0|37.0|interpolated|SE||
+MTG B|2025-01-30|101.5|0.2595596635325259|16.0|36.0|interpolated|SE||
+MTG B|2025-01-31|103.0|0.253392211261043|15.0|35.0|interpolated|SE||
+MTG B|2025-02-03|102.7|0.2652551289360271|14.0|34.0|interpolated|SE||
+MTG B|2025-02-04|102.9|0.268474772921884|13.0|33.0|interpolated|SE||
+MTG B|2025-02-05|103.1|0.2594067176924512|12.0|32.0|interpolated|SE||
+MTG B|2025-02-06|115.1|0.2552138691378344|11.0|31.0|interpolated|SE||
+MTG B|2025-02-07|117.6|0.2246554032113962|10.0|30.0|interpolated|SE||
+MTG B|2025-02-11|120.6|0.2301664446561619|8.0|28.0|interpolated|SE||
+MTG B|2025-02-12|120.9|0.236013999332317|7.0|27.0|interpolated|SE||
+MTG B|2025-02-13|124.2|0.2244515136657147|6.0|26.0|interpolated|SE||
+MTG B|2025-02-14|123.3|0.2240625280529027|5.0|25.0|interpolated|SE||
+MTG B|2025-02-17|123.2|0.2391672118335421|4.0|24.0|interpolated|SE||
+MTG B|2025-02-18|123.7|0.2315577706219476|3.0|23.0|interpolated|SE||
+MTG B|2025-02-19|124.0|0.2288373479435022|2.0|22.0|interpolated|SE||
+MTG B|2025-02-20|125.3|0.2169711041675325|21.0|39.0|interpolated|SE||
+MTG B|2025-02-21|124.5|0.2228975298768174|20.0|38.0|interpolated|SE||
+MTG B|2025-02-24|124.3|0.2291939843722648|19.0|37.0|interpolated|SE||
+MTG B|2025-02-25|123.8|0.2389044110841774|18.0|36.0|interpolated|SE||
+MTG B|2025-02-26|125.5|0.2324238436279295|17.0|35.0|interpolated|SE||
+MTG B|2025-02-27|125.6|0.2197291166968719|16.0|34.0|interpolated|SE||
+MTG B|2025-02-28|121.5|0.2277056113219281|15.0|33.0|interpolated|SE||
+MTG B|2025-03-03|121.1|0.2234771690107046|14.0|32.0|interpolated|SE||
+MTG B|2025-03-04|118.5|0.238507249130045|13.0|31.0|interpolated|SE||
+MTG B|2025-03-05|117.3|0.2731811361074819|12.0|30.0|interpolated|SE||
+MTG B|2025-03-06|116.0|0.2680047372647482|11.0|29.0|interpolated|SE||
+MTG B|2025-03-07|116.7|0.2662365009308895|10.0|28.0|interpolated|SE||
+MTG B|2025-03-10|112.5|0.2792767396685017|9.0|27.0|interpolated|SE||
+MTG B|2025-03-11|111.0|0.2682108278225547|8.0|26.0|interpolated|SE||
+MTG B|2025-03-12|113.8|0.2616197076740539|7.0|25.0|interpolated|SE||
+MTG B|2025-03-13|115.2|0.3345902910499784|6.0|24.0|interpolated|SE||
+MTG B|2025-03-14|117.5|0.2691791809975529|5.0|23.0|interpolated|SE||
+MTG B|2025-03-17|119.3|0.266660837302957|4.0|22.0|interpolated|SE||
+MTG B|2025-03-18|117.8|0.2704155108019692|21.0|40.0|interpolated|SE||
+MTG B|2025-03-19|121.6|0.256123936269445|20.0|39.0|interpolated|SE||
+MTG B|2025-03-20|122.0|0.2566161808263641|19.0|38.0|interpolated|SE||
+MTG B|2025-03-21|120.8|0.2413182385435518|18.0|37.0|interpolated|SE||
+MTG B|2025-03-24|117.9|0.2678021842639922|17.0|36.0|interpolated|SE||
+MTG B|2025-03-25|119.0|0.2628683249890547|16.0|35.0|interpolated|SE||
+MTG B|2025-03-26|117.6|0.2690036105815222|15.0|34.0|interpolated|SE||
+MTG B|2025-03-27|117.2|0.2656061565771226|14.0|33.0|interpolated|SE||
+MTG B|2025-03-28|113.8|0.2600435649340686|13.0|32.0|interpolated|SE||
+MTG B|2025-03-31|113.4|0.2683473058988813|12.0|31.0|interpolated|SE||
+MTG B|2025-04-01|113.5|0.2738258023109335|11.0|30.0|interpolated|SE||
+MTG B|2025-04-02|112.9|0.2818588475781399|10.0|29.0|interpolated|SE||
+MTG B|2025-04-03|113.2|0.2953257972075776|9.0|28.0|interpolated|SE||
+MTG B|2025-04-04|109.7|0.3070329066411966|8.0|27.0|interpolated|SE||
+MTG B|2025-04-07|106.4|0.3155590412019706|7.0|26.0|interpolated|SE||
+MTG B|2025-04-08|107.0|0.3009495176641055|6.0|25.0|interpolated|SE||
+MTG B|2025-04-09|106.4|0.4194734284219066|5.0|24.0|interpolated|SE||
+MTG B|2025-04-10|108.7|0.3470930395876184|4.0|23.0|interpolated|SE||
+MTG B|2025-04-11|109.1|0.3356617390221068|3.0|22.0|interpolated|SE||
+MTG B|2025-04-14|111.6|0.3084874111185704|21.0|43.0|interpolated|SE||
+MTG B|2025-04-15|109.8|0.3089872375966558|20.0|42.0|interpolated|SE||
+MTG B|2025-04-16|109.7|0.308531730387264|19.0|41.0|interpolated|SE||
+MTG B|2025-04-17|108.0|0.2971828004620048|18.0|40.0|interpolated|SE||
+MTG B|2025-04-22|108.4|0.3167679137603953|17.0|39.0|interpolated|SE||
+MTG B|2025-04-23|109.6|0.3202762816809483|16.0|38.0|interpolated|SE||
+MTG B|2025-04-24|109.8|0.3087749860581459|15.0|37.0|interpolated|SE||
+MTG B|2025-04-25|111.7|0.3067651748765406|14.0|36.0|interpolated|SE||
+MTG B|2025-04-28|112.9|0.3242682655261674|13.0|35.0|interpolated|SE||
+MTG B|2025-04-29|106.1|0.25572370521234|12.0|34.0|interpolated|SE||
+MTG B|2025-04-30|116.2|0.3527326977413724|11.0|33.0|interpolated|SE||
+MTG B|2025-05-02|112.7|0.2599528407010639|10.0|32.0|interpolated|SE||
+MTG B|2025-05-05|112.0|0.2336834340427939|9.0|31.0|interpolated|SE||
+MTG B|2025-05-06|112.0|0.2568606020958751|8.0|30.0|interpolated|SE||
+MTG B|2025-05-07|111.2|0.2441738904621277|7.0|29.0|interpolated|SE||
+MTG B|2025-05-08|108.9|0.2483703159741679|6.0|28.0|interpolated|SE||
+MTG B|2025-05-09|108.6|0.2467452573363582|5.0|27.0|interpolated|SE||
+MTG B|2025-05-13|111.1|0.2343650398760166|3.0|25.0|interpolated|SE||
+MTG B|2025-05-14|110.7|0.2326731747790454|2.0|24.0|interpolated|SE||
+MTG B|2025-05-15|112.0|0.2287750368896899|1.0|23.0|interpolated|SE||
+MTG B|2025-05-16|111.2|0.2314195228345056||22.0|nearest_expiry|SE||
+MTG B|2025-05-19|111.7|0.2175041350036217|21.0|41.0|interpolated|SE||
+MTG B|2025-05-21|111.6|0.2216665589705483|19.0|39.0|interpolated|SE||
+MTG B|2025-05-22|109.5|0.22163014374124|18.0|38.0|interpolated|SE||
+MTG B|2025-05-23|108.3|0.2490878038094791|17.0|37.0|interpolated|SE||
+MTG B|2025-05-26|109.6|0.2393444387606039|16.0|36.0|interpolated|SE||
+MTG B|2025-05-27|108.6|0.2446639026717234|15.0|35.0|interpolated|SE||
+MTG B|2025-05-28|107.8|0.2327154661571654|14.0|34.0|interpolated|SE||
+MTG B|2025-05-30|108.1|0.2303221239019255|13.0|33.0|interpolated|SE||
+MTG B|2025-06-02|108.7|0.249787395628325|12.0|32.0|interpolated|SE||
+MTG B|2025-06-03|108.2|0.2514204410369637|11.0|31.0|interpolated|SE||
+MTG B|2025-06-04|110.4|0.2504554622063515|10.0|30.0|interpolated|SE||
+MTG B|2025-06-05|110.1|0.2471520485014564|9.0|29.0|interpolated|SE||
+MTG B|2025-06-09|110.2|0.2534018069725566|8.0|28.0|interpolated|SE||
+MTG B|2025-06-10|111.3|0.2463434069284312|7.0|27.0|interpolated|SE||
+MTG B|2025-06-11|113.4|0.2529562834291676|6.0|26.0|interpolated|SE||
+MTG B|2025-06-12|110.1|0.2668700840027917|5.0|25.0|interpolated|SE||
+MTG B|2025-06-13|110.0|0.2877478578336126|4.0|24.0|interpolated|SE||
+MTG B|2025-06-16|107.5|0.2711019688030933|3.0|23.0|interpolated|SE||
+MTG B|2025-06-17|109.1|0.2695342492202294|2.0|22.0|interpolated|SE||
+MTG B|2025-06-18|112.0|0.2777703773077437|21.0||nearest_expiry|SE||
+MTG B|2025-06-19|113.0|0.2803158871273797|20.0||nearest_expiry|SE||
+MTG B|2025-06-23|110.9|0.2893389247596467|19.0|39.0|interpolated|SE||
+MTG B|2025-06-24|114.7|0.280239564390224|18.0|38.0|interpolated|SE||
+MTG B|2025-07-16|117.2|0.2833479840867767|2.0|22.0|interpolated|SE||
+MTG B|2025-07-17|118.5|0.2860392367036204|21.0||nearest_expiry|SE||
+MTG B|2025-07-18|105.0|0.2232641455004789|20.0||nearest_expiry|SE||
+MTG B|2025-07-21|102.0|0.1932561837637283|19.0|44.0|interpolated|SE||
+MTG B|2025-07-22|100.5|0.2207402252088641|18.0|43.0|interpolated|SE||
+MTG B|2025-07-23|99.8|0.2241052274672713|17.0|42.0|interpolated|SE||
+MTG B|2025-07-24|100.1|0.2231861276923539|16.0|41.0|interpolated|SE||
+MTG B|2025-07-25|100.2|0.2167442085874084|15.0|40.0|interpolated|SE||
+MTG B|2025-07-28|101.0|0.226214047503639|14.0|39.0|interpolated|SE||
+MTG B|2025-07-29|102.7|0.2070828942823807|13.0|38.0|interpolated|SE||
+MTG B|2025-07-30|100.6|0.2200451519792476|12.0|37.0|interpolated|SE||
+MTG B|2025-07-31|100.8|0.2188743339800709|11.0|36.0|interpolated|SE||
+MTG B|2025-08-01|99.8|0.2313478581672767|10.0|35.0|interpolated|SE||
+MTG B|2025-08-04|99.55|0.2313226124988196|9.0|34.0|interpolated|SE||
+MTG B|2025-08-05|101.1|0.2194974246287859|8.0|33.0|interpolated|SE||
+MTG B|2025-08-06|102.0|0.2201752574629362|7.0|32.0|interpolated|SE||
+MTG B|2025-08-07|100.5|0.2233410080469141|6.0|31.0|interpolated|SE||
+MTG B|2025-08-08|100.7|0.2297858979743046|5.0|30.0|interpolated|SE||
+MTG B|2025-08-11|101.9|0.2427946116170938|4.0|29.0|interpolated|SE||
+MTG B|2025-08-12|100.1|0.2386516718171584|3.0|28.0|interpolated|SE||
+MTG B|2025-08-13|99.1|0.2179705834628696|2.0|27.0|interpolated|SE||
+MTG B|2025-08-14|97.35|0.2185981933308581||26.0|nearest_expiry|SE||
+MTG B|2025-08-15|98.65|0.2165738627781969||25.0|nearest_expiry|SE||
+MTG B|2025-08-18|99.95|0.2255823112360968||24.0|nearest_expiry|SE||
+MTG B|2025-08-19|100.0|0.2161008767961784||23.0|nearest_expiry|SE||
+MTG B|2025-08-20|99.3|0.2168277825600277||22.0|nearest_expiry|SE||
+MTG B|2025-08-21|99.2|0.2132119030866635|21.0|41.0|interpolated|SE||
+MTG B|2025-08-22|101.0|0.2026142520949719|20.0|40.0|interpolated|SE||
+MTG B|2025-08-25|99.75|0.2146083278612757|19.0|39.0|interpolated|SE||
+MTG B|2025-08-26|99.0|0.2107474817299624|18.0|38.0|interpolated|SE||
+MTG B|2025-08-27|99.3|0.2177291664431183|17.0|37.0|interpolated|SE||
+MTG B|2025-08-28|98.9|0.2225857876082087|16.0|36.0|interpolated|SE||
+MTG B|2025-08-29|97.95|0.2127814380482597|15.0|35.0|interpolated|SE||
+MTG B|2025-09-01|96.15|0.2233522701990708|14.0|34.0|interpolated|SE||
+MTG B|2025-09-02|94.45|0.2381543870514373|13.0|33.0|interpolated|SE||
+MTG B|2025-09-03|95.25|0.2271072327217032|12.0|32.0|interpolated|SE||
+MTG B|2025-09-04|99.2|0.2086029158410814|11.0|31.0|interpolated|SE||
+MTG B|2025-09-05|102.4|0.209307128388047|10.0|30.0|interpolated|SE||
+MTG B|2025-09-08|102.0|0.2019056757474801|9.0|29.0|interpolated|SE||
+MTG B|2025-09-09|105.0|0.2180244531835616|8.0|28.0|interpolated|SE||
+MTG B|2025-09-10|105.4|0.2177450282571859|7.0|27.0|interpolated|SE||
+MTG B|2025-09-11|105.0|0.2013407625022178|6.0|26.0|interpolated|SE||
+MTG B|2025-09-12|105.8|0.2100775706208691|5.0|25.0|interpolated|SE||
+MTG B|2025-09-15|105.8|0.1924331611817355|4.0|24.0|interpolated|SE||
+MTG B|2025-09-16|105.2|0.2060643109583012|3.0|23.0|interpolated|SE||
+MTG B|2025-09-17|105.3|0.2088299590837715|2.0|22.0|interpolated|SE||
+MTG B|2025-09-18|106.8|0.1943196890834345|21.0|46.0|interpolated|SE||
+MTG B|2025-09-19|105.4|0.1883236652172391|20.0|45.0|interpolated|SE||
+MTG B|2025-09-22|106.6|0.2057294088073762|19.0|44.0|interpolated|SE||
+MTG B|2025-09-23|105.2|0.2165297579826167|18.0|43.0|interpolated|SE||
+MTG B|2025-09-24|105.4|0.2183078366212376|17.0|42.0|interpolated|SE||
+MTG B|2025-09-25|106.0|0.2147343833823634|16.0|41.0|interpolated|SE||
+MTG B|2025-09-26|108.7|0.2241091997668622|15.0|40.0|interpolated|SE||
+MTG B|2025-09-29|110.7|0.2259464513917881|14.0|39.0|interpolated|SE||
+MTG B|2025-09-30|110.2|0.2371486838042275|13.0|38.0|interpolated|SE||
+MTG B|2025-10-01|112.3|0.216121820279885|12.0|37.0|interpolated|SE||
+MTG B|2025-10-02|111.5|0.2337601989847454|11.0|36.0|interpolated|SE||
+MTG B|2025-10-03|112.5|0.2364610702575377|10.0|35.0|interpolated|SE||
+MTG B|2025-10-06|114.5|0.2554737228394014|9.0|34.0|interpolated|SE||
+MTG B|2025-10-07|113.1|0.2264072721007889|8.0|33.0|interpolated|SE||
+MTG B|2025-10-08|114.1|0.2517144567487854|7.0|32.0|interpolated|SE||
+MTG B|2025-10-09|123.8|0.2893454990996814|6.0|31.0|interpolated|SE||
+MTG B|2025-10-10|120.3|0.243889591775643|5.0|30.0|interpolated|SE||
+MTG B|2025-10-13|118.5|0.3015493501315762|4.0|29.0|interpolated|SE||
+MTG B|2025-10-14|120.3|0.2982040648302748|3.0|28.0|interpolated|SE||
+MTG B|2025-10-15|121.4|0.3041622232378424|2.0|27.0|interpolated|SE||
+MTG B|2025-10-16|120.0|0.3069067327820355|1.0|26.0|interpolated|SE||
+MTG B|2025-10-17|121.9|0.2919344180682538||25.0|nearest_expiry|SE||
+MTG B|2025-10-20|125.9|0.3229889692539979||24.0|nearest_expiry|SE||
+MTG B|2025-10-21|126.6|0.3112785075085112||23.0|nearest_expiry|SE||
+MTG B|2025-10-22|126.2|0.3411012789075271||22.0|nearest_expiry|SE||
+MTG B|2025-10-23|126.0|0.314518035663618|21.0|41.0|interpolated|SE||
+MTG B|2025-10-24|126.0|0.3138800173279747|20.0|40.0|interpolated|SE||
+MTG B|2025-10-27|125.5|0.3186185910686167|19.0|39.0|interpolated|SE||
+MTG B|2025-10-28|125.5|0.3281483927902907|18.0|38.0|interpolated|SE||
+MTG B|2025-10-29|123.8|0.3109205847557309|17.0|37.0|interpolated|SE||
+MTG B|2025-10-30|128.1|0.328374975320044|16.0|36.0|interpolated|SE||
+MTG B|2025-10-31|128.0|0.3178479350275062|15.0|35.0|interpolated|SE||
+MTG B|2025-11-03|128.1|0.3476107672850401|14.0|34.0|interpolated|SE||
+MTG B|2025-11-04|126.6|0.3280951258887617|13.0|33.0|interpolated|SE||
+MTG B|2025-11-05|125.0|0.3165439880197596|12.0|32.0|interpolated|SE||
+MTG B|2025-11-06|122.4|0.3132882541564919|11.0|31.0|interpolated|SE||
+MTG B|2025-11-07|122.8|0.3361009045346787|10.0|30.0|interpolated|SE||
+MTG B|2025-11-10|124.4|0.3346910971333762|9.0|29.0|interpolated|SE||
+MTG B|2025-11-11|123.7|0.3130077620620294|8.0|28.0|interpolated|SE||
+MTG B|2025-11-12|123.8|0.3282022491636198|7.0|27.0|interpolated|SE||
+MTG B|2025-11-13|117.1|0.3036650645057365|6.0|26.0|interpolated|SE||
+MTG B|2025-11-14|116.5|0.2893624595103925|5.0|25.0|interpolated|SE||
+MTG B|2025-11-17|115.5|0.2893333347776938|4.0|24.0|interpolated|SE||
+MTG B|2025-11-18|113.9|0.3006947584769485|3.0|23.0|interpolated|SE||
+MTG B|2025-11-19|113.7|0.2982335554188086|2.0|22.0|interpolated|SE||
+MTG B|2025-11-20|114.0|0.3052204757601585|21.0|80.0|interpolated|SE||
+MTG B|2025-11-21|114.5|0.3054610121930137|20.0|79.0|interpolated|SE||
+MTG B|2025-11-24|116.7|0.2957535716684|19.0|78.0|interpolated|SE||
+MTG B|2025-11-25|116.9|0.2940560555226724|18.0|77.0|interpolated|SE||
+MTG B|2025-11-26|117.5|0.2899494194732006|17.0|76.0|interpolated|SE||
+MTG B|2025-11-27|120.7|0.2900957007919064|16.0|75.0|interpolated|SE||
+MTG B|2025-11-28|120.8|0.2737198673868218|15.0|74.0|interpolated|SE||
+MTG B|2025-12-01|118.5|0.2862233114864462|14.0|73.0|interpolated|SE||
+MTG B|2025-12-02|115.9|0.2887828758324173|13.0|72.0|interpolated|SE||
+MTG B|2025-12-03|113.0|0.277531222120524|12.0|71.0|interpolated|SE||
+MTG B|2025-12-04|113.4|0.2902166967909651|11.0|70.0|interpolated|SE||
+MTG B|2025-12-05|112.8|0.2938647947495509|10.0|69.0|interpolated|SE||
+MTG B|2025-12-08|110.7|0.2767465538456461|9.0|68.0|interpolated|SE||
+MTG B|2025-12-09|111.4|0.300032906151262|8.0|67.0|interpolated|SE||
+MTG B|2025-12-10|111.8|0.3059722052279469|7.0|66.0|interpolated|SE||
+MTG B|2025-12-11|109.8|0.2812909742312135|6.0|65.0|interpolated|SE||
+MTG B|2025-12-12|110.1|0.2968045538499745|5.0|64.0|interpolated|SE||
+MTG B|2025-12-15|110.7|0.2942056473555193|4.0|63.0|interpolated|SE||
+MTG B|2025-12-16|113.1|0.2986317185680571|3.0|62.0|interpolated|SE||
+MTG B|2025-12-17|112.6|0.3009837083173986|2.0|61.0|interpolated|SE||
+MTG B|2025-12-18|113.1|0.2992572524337232|1.0|60.0|interpolated|SE||
+MTG B|2025-12-19|112.6|0.2792178124893142||59.0|nearest_expiry|SE||
+MTG B|2025-12-22|112.1|0.2893589429695644||58.0|nearest_expiry|SE||
+MTG B|2025-12-23|111.7|0.2841683376578265||57.0|nearest_expiry|SE||
+MTG B|2025-12-29|114.0|0.2909790207079961||56.0|nearest_expiry|SE||
+MTG B|2025-12-30|114.7|0.296699337101896||55.0|nearest_expiry|SE||
+MTG B|2026-01-02|110.5|0.2707876527260198||54.0|nearest_expiry|SE||
+MTG B|2026-01-05|110.9|0.3142220375630659||53.0|nearest_expiry|SE||
+MTG B|2026-01-07|110.0|0.3241015645696284||52.0|nearest_expiry|SE||
+MTG B|2026-01-08|109.8|0.3183309106360301||51.0|nearest_expiry|SE||
+MTG B|2026-01-09|108.5|0.345895807068197||50.0|nearest_expiry|SE||
+MTG B|2026-01-12|108.2|0.3266355313299015||49.0|nearest_expiry|SE||
+MTG B|2026-01-13|108.8|0.341039303142862||48.0|nearest_expiry|SE||
+MTG B|2026-01-14|109.2|0.3508599716010346||47.0|nearest_expiry|SE||
+MTG B|2026-01-15|109.8|0.3695029535763925||46.0|nearest_expiry|SE||
+MTG B|2026-01-16|108.0|0.3246055715470263||45.0|nearest_expiry|SE||
+MTG B|2026-01-19|105.3|0.3537518322613853||44.0|nearest_expiry|SE||
+MTG B|2026-01-20|106.1|0.3402818665381257||43.0|nearest_expiry|SE||
+MTG B|2026-01-21|105.2|0.3684370934862402||42.0|nearest_expiry|SE||
+MTG B|2026-01-22|106.2|0.3099551512847833||41.0|nearest_expiry|SE||
+MTG B|2026-01-23|107.2|0.3361445814115885||40.0|nearest_expiry|SE||
+MTG B|2026-01-26|106.9|0.3337500469034603||39.0|nearest_expiry|SE||
+MTG B|2026-01-27|104.4|0.3346613468956395||38.0|nearest_expiry|SE||
+MTG B|2026-01-28|106.8|0.3294401311183438||37.0|nearest_expiry|SE||
+MTG B|2026-01-29|105.3|0.327484648217124||36.0|nearest_expiry|SE||
+MTG B|2026-01-30|104.1|0.3304500307334929||35.0|nearest_expiry|SE||
+MTG B|2026-02-02|101.4|0.3571579894718757||34.0|nearest_expiry|SE||
+MTG B|2026-02-03|97.35|0.3471849144668666||33.0|nearest_expiry|SE||
+MTG B|2026-02-04|95.55|0.3447672628987337||32.0|nearest_expiry|SE||
+MTG B|2026-02-05|95.3|0.330323934267863||31.0|nearest_expiry|SE||
+MTG B|2026-02-06|93.6|0.3827106025662782||30.0|nearest_expiry|SE||
+MTG B|2026-02-09|93.65|0.3292611141647167||29.0|nearest_expiry|SE||
+MTG B|2026-02-10|94.6|0.3304057716145128||28.0|nearest_expiry|SE||
+MTG B|2026-02-11|88.05|0.306824171316263||27.0|nearest_expiry|SE||
+MTG B|2026-02-12|87.9|0.3845150413364989||26.0|nearest_expiry|SE||
+MTG B|2026-02-13|88.65|0.3567123802437951||25.0|nearest_expiry|SE||
+MTG B|2026-02-16|87.65|0.339577912314068||24.0|nearest_expiry|SE||
+MTG B|2026-02-17|87.9|0.3722430410476153||23.0|nearest_expiry|SE||
+MTG B|2026-02-18|87.15|0.3450808523168301||22.0|nearest_expiry|SE||
+MTG B|2026-02-19|88.1|0.3254771701295679|21.0|81.0|interpolated|SE||
+MTG B|2026-02-20|89.0|0.3934615377807514|20.0|80.0|interpolated|SE||
+MTG B|2026-02-23|86.7|0.3869871316569565|19.0|79.0|interpolated|SE||
+MTG B|2026-02-24|86.2|0.3690213320240288|18.0|78.0|interpolated|SE||
+MTG B|2026-02-25|88.55|0.3727557287799122|17.0|77.0|interpolated|SE||
+MTG B|2026-02-26|88.55|0.3869920637458446|16.0|76.0|interpolated|SE||
+MTG B|2026-02-27|88.65|0.3883165269207275|15.0|75.0|interpolated|SE||
+MTG B|2026-03-02|87.4|0.3746891857360251|14.0|74.0|interpolated|SE||
+MTG B|2026-03-03|85.45|0.4028591377861706|13.0|73.0|interpolated|SE||
+MTG B|2026-03-04|87.6|0.4037907677736704|12.0|72.0|interpolated|SE||
+MTG B|2026-03-05|88.4|0.3851360365176614|11.0|71.0|interpolated|SE||
+MTG B|2026-03-06|88.45|0.3935334113998273|10.0|70.0|interpolated|SE||
+MTG B|2026-03-09|87.75|0.3935647314795766|9.0|69.0|interpolated|SE||
+MTG B|2026-03-10|87.85|0.3969076062766318|8.0|68.0|interpolated|SE||
+MTG B|2026-03-11|86.55|0.3905555780782159|7.0|67.0|interpolated|SE||
+MTG B|2026-03-12|85.55|0.4019009368494778|6.0|66.0|interpolated|SE||
+MTG B|2026-03-13|87.1|0.3927681188612613|5.0|65.0|interpolated|SE||
+MTG B|2026-03-16|87.05|0.3932901581900179|4.0|64.0|interpolated|SE||
+MTG B|2026-03-17|88.0|0.3836495863028447|3.0|63.0|interpolated|SE||
+MTG B|2026-03-18|87.0|0.3914695634622505|2.0|62.0|interpolated|SE||
+MTG B|2026-03-19|87.45|0.4057035324882265||61.0|nearest_expiry|SE||
+MTG B|2026-03-20|85.4|0.4110413284357129||60.0|nearest_expiry|SE||
+MTG B|2026-03-23|85.05|0.4012664451581341||59.0|nearest_expiry|SE||
+MTG B|2026-03-24|85.1|0.4118623380706611||58.0|nearest_expiry|SE||
+MTG B|2026-03-25|88.3|0.4063762930862664||57.0|nearest_expiry|SE||
+MTG B|2026-03-26|88.1|0.4047291942756527||56.0|nearest_expiry|SE||
+MTG B|2026-03-27|91.3|0.4036761880790581||55.0|nearest_expiry|SE||
+MTG B|2026-03-30|91.35|0.3840999971276309||54.0|nearest_expiry|SE||
+MTG B|2026-03-31|91.9|0.3857219666696534||53.0|nearest_expiry|SE||
+MTG B|2026-04-01|93.3|0.383619912989016||52.0|nearest_expiry|SE||
+MTG B|2026-04-02|92.05|0.3950043460084448||51.0|nearest_expiry|SE||
+MTG B|2026-04-07|91.5|0.395752867219352||50.0|nearest_expiry|SE||
+MTG B|2026-04-08|94.5|0.3848457077040925||49.0|nearest_expiry|SE||
+MTG B|2026-04-09|93.0|0.3872253721050894||48.0|nearest_expiry|SE||
+MTG B|2026-04-10|92.2|0.3783995804349638||47.0|nearest_expiry|SE||
+MTG B|2026-04-13|94.15|0.3942531896643361||46.0|nearest_expiry|SE||
+MTG B|2026-04-14|94.25|0.3853301064468926||45.0|nearest_expiry|SE||
+MTG B|2026-04-15|99.5|0.394549642268957||44.0|nearest_expiry|SE||
+MTG B|2026-04-16|101.9|0.3889749976517641||43.0|nearest_expiry|SE||
+MTG B|2026-04-17|100.6|0.3881454976866406||42.0|nearest_expiry|SE||
+MTG B|2026-04-20|100.9|0.3896137239645078||41.0|nearest_expiry|SE||
+MTG B|2026-04-21|102.9|0.3865426648357284||40.0|nearest_expiry|SE||
+MTG B|2026-04-22|104.0|0.3759500944354811||39.0|nearest_expiry|SE||
+MTG B|2026-04-23|102.1|0.3904192064565639||38.0|nearest_expiry|SE||
+MTG B|2026-04-24|114.3|0.3836292062769839||37.0|nearest_expiry|SE||
+MTG B|2026-04-27|115.0|0.4931135640108616||36.0|nearest_expiry|SE||
+MTG B|2026-04-28|114.9|0.5011354196997411||35.0|nearest_expiry|SE||
+MTG B|2026-04-29|126.2|0.4439205662866112||34.0|nearest_expiry|SE||
+MTG B|2026-04-30|125.9|0.3649435640752332||33.0|nearest_expiry|SE||
+MTG B|2026-05-04|125.5|0.3207112932131379||32.0|nearest_expiry|SE||
+MTG B|2026-05-05|124.4|0.3310733897221948||31.0|nearest_expiry|SE||
+MTG B|2026-05-06|125.4|0.3301083820353079||30.0|nearest_expiry|SE||
+MTG B|2026-05-07|129.3|0.3303743781054111||29.0|nearest_expiry|SE||
+MTG B|2026-05-08|129.5|0.326302788894853||28.0|nearest_expiry|SE||
+MTG B|2026-05-11|132.6|0.3480167260083085||27.0|nearest_expiry|SE||
+MTG B|2026-05-12|133.3|0.2937319706227745||26.0|nearest_expiry|SE||
+MTG B|2026-05-13|138.8|0.310867926749411||25.0|nearest_expiry|SE||
+MTG B|2026-05-15|136.7|0.3039485264680355||24.0|nearest_expiry|SE||
+MTG B|2026-05-18|135.2|0.285759761688056||23.0|nearest_expiry|SE||
+MTG B|2026-05-19|133.3|0.2849207950456886||22.0|nearest_expiry|SE||
+MTG B|2026-05-20|135.0|0.301830377509323|21.0|151.0|interpolated|SE||
+MTG B|2026-05-21|135.8|0.299841244393138|20.0|150.0|interpolated|SE||
+MTG B|2026-05-22|137.2|0.3425929487568627|19.0|149.0|interpolated|SE||
+MTG B|2026-05-25|139.5|0.3249504952790378|18.0|148.0|interpolated|SE||
+MTG B|2026-05-26|138.8|0.3060154042520765|17.0|147.0|interpolated|SE||
+MTG B|2026-05-27|134.5|0.3228434605440355|16.0|146.0|interpolated|SE||
+MTG B|2026-05-28|132.3|0.3298897165648249|15.0|145.0|interpolated|SE||
+MTG B|2026-05-29|133.2|0.3514160096908719|14.0|144.0|interpolated|SE||
+MTG B|2026-06-01|134.8|0.3515194786115581|13.0|143.0|interpolated|SE||
+MTG B|2026-06-02|134.9|0.3451743071087177|12.0|142.0|interpolated|SE||
+MTG B|2026-06-03|132.4|0.3476834798671083|11.0|141.0|interpolated|SE||
+MTG B|2026-06-04|130.9|0.3623777564506911|10.0|140.0|interpolated|SE||
+MTG B|2026-06-05|130.2|0.3614236976975837|9.0|139.0|interpolated|SE||
+MTG B|2026-06-08|126.4|0.3645637600908171|8.0|138.0|interpolated|SE||
+MTG B|2026-06-09|123.5|0.3885379383179687|7.0|137.0|interpolated|SE||
+MTG B|2026-06-10|123.5|0.3911366796025811|6.0|136.0|interpolated|SE||
 NCC B|2024-04-18|127.4|0.2393277582650933|19.0|42.0|interpolated|SE||
 NCC B|2024-04-19|130.2|0.2251176827946671|18.0|41.0|interpolated|SE||
 NCC B|2024-04-22|131.0|0.2309852546822226|17.0|40.0|interpolated|SE||
