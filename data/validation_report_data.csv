@@ -1542,38 +1542,38 @@ calibration_by_stock|Millicom International Cellular S.A. SDB||Historical IV|60-
 calibration_by_stock|Millicom International Cellular S.A. SDB||Historical IV|70-80%|0.7426384462151394|0.8904382470119522|1004|0.1477998007968127||||
 calibration_by_stock|Millicom International Cellular S.A. SDB||Historical IV|80-90%|0.8285378151260504|0.9243697478991596|238|0.0958319327731093||||
 calibration_by_stock|Millicom International Cellular S.A. SDB||Historical IV|90-100%|0.9314166666666668|1.0|12|0.0685833333333331||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|30-40%|0.39381956113477|1.0|1|0.60618043886523||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|40-50%|0.4763723394406977|0.4568138195777351|521|-0.0195585198629625||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|50-60%|0.5530013839949283|0.5589150733659404|2249|0.0059136893710121||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|60-70%|0.6526974035261278|0.7010383100608665|2793|0.0483409065347386||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|70-80%|0.7564076788601758|0.8243169893251312|5527|0.0679093104649554||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|80-90%|0.8347808995440643|0.8686594202898551|2208|0.0338785207457907||||
-calibration_by_stock|Modern Times Group MTG B||Weighted Average|90-100%|0.910653345337456|0.981132075471698|159|0.070478730134242||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|30-40%|0.3479260269260269|0.4954954954954955|333|0.1475694685694685||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|40-50%|0.4650707459833731|0.5185909980430529|511|0.0535202520596796||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|50-60%|0.563801529399715|0.5880597014925373|2010|0.0242581720928223||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|60-70%|0.654212355724899|0.7106025492468134|3452|0.0563901935219144||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|70-80%|0.7679539616920182|0.8184523809523809|3696|0.0504984192603626||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|80-90%|0.8367991336424134|0.8493852459016393|2928|0.0125861122592259||||
-calibration_by_stock|Modern Times Group MTG B||Bayesian Calibrated|90-100%|0.9351794879012147|0.9602272727272728|528|0.0250477848260579||||
-calibration_by_stock|Modern Times Group MTG B||Original Black-Scholes|50-60%|0.5509567019784796|0.5674908796108634|2467|0.0165341776323838||||
-calibration_by_stock|Modern Times Group MTG B||Original Black-Scholes|60-70%|0.6531518194825512|0.7108555968887386|2957|0.0577037774061873||||
-calibration_by_stock|Modern Times Group MTG B||Original Black-Scholes|70-80%|0.7513685905595731|0.8059159314997405|3854|0.0545473409401674||||
-calibration_by_stock|Modern Times Group MTG B||Original Black-Scholes|80-90%|0.84406235998892|0.8614130434782609|3680|0.0173506834893408||||
-calibration_by_stock|Modern Times Group MTG B||Original Black-Scholes|90-100%|0.906740160010048|0.8231292517006803|147|-0.0836109083093677||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|30-40%|0.3928181818181819|0.3181818181818182|22|-0.0746363636363637||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|40-50%|0.4627584745762712|0.4788135593220339|708|0.0160550847457627||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|50-60%|0.5609820839226779|0.594059405940594|2121|0.0330773220179161||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|60-70%|0.648338225909381|0.706126356094448|3134|0.057788130185067||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|70-80%|0.7566823893292094|0.8211869321476899|5173|0.0645045428184805||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|80-90%|0.8346005774783445|0.8681424446583254|2078|0.0335418671799808||||
-calibration_by_stock|Modern Times Group MTG B||Bias Corrected|90-100%|0.9160945945945944|0.9594594594594594|222|0.0433648648648649||||
-calibration_by_stock|Modern Times Group MTG B||Historical IV|40-50%|0.4859999999999997|0.4855072463768116|276|-0.0004927536231881||||
-calibration_by_stock|Modern Times Group MTG B||Historical IV|50-60%|0.5422331109257715|0.5350291909924938|2398|-0.0072039199332777||||
-calibration_by_stock|Modern Times Group MTG B||Historical IV|60-70%|0.6535022665457842|0.6636446056210336|2206|0.0101423390752493||||
-calibration_by_stock|Modern Times Group MTG B||Historical IV|70-80%|0.7567107583774251|0.8205868205868206|6237|0.0638760622093955||||
-calibration_by_stock|Modern Times Group MTG B||Historical IV|80-90%|0.8381911111111111|0.8994444444444445|1800|0.0612533333333333||||
-calibration_by_stock|Modern Times Group MTG B||Historical IV|90-100%|0.9378835164835164|0.9076923076923076|455|-0.0301912087912087||||
+calibration_by_stock|MTG B||Weighted Average|30-40%|0.39381956113477|1.0|1|0.60618043886523||||
+calibration_by_stock|MTG B||Weighted Average|40-50%|0.4763723394406977|0.4568138195777351|521|-0.0195585198629625||||
+calibration_by_stock|MTG B||Weighted Average|50-60%|0.5530013839949283|0.5589150733659404|2249|0.0059136893710121||||
+calibration_by_stock|MTG B||Weighted Average|60-70%|0.6526974035261278|0.7010383100608665|2793|0.0483409065347386||||
+calibration_by_stock|MTG B||Weighted Average|70-80%|0.7564076788601758|0.8243169893251312|5527|0.0679093104649554||||
+calibration_by_stock|MTG B||Weighted Average|80-90%|0.8347808995440643|0.8686594202898551|2208|0.0338785207457907||||
+calibration_by_stock|MTG B||Weighted Average|90-100%|0.910653345337456|0.981132075471698|159|0.070478730134242||||
+calibration_by_stock|MTG B||Bayesian Calibrated|30-40%|0.3479260269260269|0.4954954954954955|333|0.1475694685694685||||
+calibration_by_stock|MTG B||Bayesian Calibrated|40-50%|0.4650707459833731|0.5185909980430529|511|0.0535202520596796||||
+calibration_by_stock|MTG B||Bayesian Calibrated|50-60%|0.563801529399715|0.5880597014925373|2010|0.0242581720928223||||
+calibration_by_stock|MTG B||Bayesian Calibrated|60-70%|0.654212355724899|0.7106025492468134|3452|0.0563901935219144||||
+calibration_by_stock|MTG B||Bayesian Calibrated|70-80%|0.7679539616920182|0.8184523809523809|3696|0.0504984192603626||||
+calibration_by_stock|MTG B||Bayesian Calibrated|80-90%|0.8367991336424134|0.8493852459016393|2928|0.0125861122592259||||
+calibration_by_stock|MTG B||Bayesian Calibrated|90-100%|0.9351794879012147|0.9602272727272728|528|0.0250477848260579||||
+calibration_by_stock|MTG B||Original Black-Scholes|50-60%|0.5509567019784796|0.5674908796108634|2467|0.0165341776323838||||
+calibration_by_stock|MTG B||Original Black-Scholes|60-70%|0.6531518194825512|0.7108555968887386|2957|0.0577037774061873||||
+calibration_by_stock|MTG B||Original Black-Scholes|70-80%|0.7513685905595731|0.8059159314997405|3854|0.0545473409401674||||
+calibration_by_stock|MTG B||Original Black-Scholes|80-90%|0.84406235998892|0.8614130434782609|3680|0.0173506834893408||||
+calibration_by_stock|MTG B||Original Black-Scholes|90-100%|0.906740160010048|0.8231292517006803|147|-0.0836109083093677||||
+calibration_by_stock|MTG B||Bias Corrected|30-40%|0.3928181818181819|0.3181818181818182|22|-0.0746363636363637||||
+calibration_by_stock|MTG B||Bias Corrected|40-50%|0.4627584745762712|0.4788135593220339|708|0.0160550847457627||||
+calibration_by_stock|MTG B||Bias Corrected|50-60%|0.5609820839226779|0.594059405940594|2121|0.0330773220179161||||
+calibration_by_stock|MTG B||Bias Corrected|60-70%|0.648338225909381|0.706126356094448|3134|0.057788130185067||||
+calibration_by_stock|MTG B||Bias Corrected|70-80%|0.7566823893292094|0.8211869321476899|5173|0.0645045428184805||||
+calibration_by_stock|MTG B||Bias Corrected|80-90%|0.8346005774783445|0.8681424446583254|2078|0.0335418671799808||||
+calibration_by_stock|MTG B||Bias Corrected|90-100%|0.9160945945945944|0.9594594594594594|222|0.0433648648648649||||
+calibration_by_stock|MTG B||Historical IV|40-50%|0.4859999999999997|0.4855072463768116|276|-0.0004927536231881||||
+calibration_by_stock|MTG B||Historical IV|50-60%|0.5422331109257715|0.5350291909924938|2398|-0.0072039199332777||||
+calibration_by_stock|MTG B||Historical IV|60-70%|0.6535022665457842|0.6636446056210336|2206|0.0101423390752493||||
+calibration_by_stock|MTG B||Historical IV|70-80%|0.7567107583774251|0.8205868205868206|6237|0.0638760622093955||||
+calibration_by_stock|MTG B||Historical IV|80-90%|0.8381911111111111|0.8994444444444445|1800|0.0612533333333333||||
+calibration_by_stock|MTG B||Historical IV|90-100%|0.9378835164835164|0.9076923076923076|455|-0.0301912087912087||||
 calibration_by_stock|NCC B||Weighted Average|40-50%|0.4616549250857972|0.4|35|-0.0616549250857971||||
 calibration_by_stock|NCC B||Weighted Average|50-60%|0.5603164850376037|0.5511669658886894|1114|-0.0091495191489142||||
 calibration_by_stock|NCC B||Weighted Average|60-70%|0.6516827835473032|0.6540679051889814|1561|0.0023851216416781||||
@@ -10769,189 +10769,189 @@ calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|35+ days|B
 calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|35+ days|Historical IV|50-60%|0.5591679687500002|0.7734375|256|0.2142695312499998||||
 calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|35+ days|Historical IV|60-70%|0.6756736559139784|0.9682795698924732|1860|0.2926059139784946||||
 calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|35+ days|Historical IV|70-80%|0.7411249999999999|0.9456521739130436|368|0.2045271739130435||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Weighted Average|40-50%|0.4977166421931605|0.6|10|0.1022833578068395||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Weighted Average|50-60%|0.5462926291876762|0.5675675675675675|37|0.0212749383798913||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Weighted Average|60-70%|0.6476647792975433|0.7307692307692307|26|0.0831044514716874||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Weighted Average|70-80%|0.7446435493445432|0.5|12|-0.2446435493445432||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Weighted Average|80-90%|0.8050230013534669|1.0|1|0.194976998646533||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bayesian Calibrated|60-70%|0.6590909090909091|0.5892857142857143|56|-0.0698051948051947||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bayesian Calibrated|70-80%|0.7412415253989166|0.68|25|-0.0612415253989165||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bayesian Calibrated|80-90%|0.814018035426731|0.6|5|-0.214018035426731||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Original Black-Scholes|50-60%|0.5462692886395704|0.5675675675675675|37|0.0212982789279971||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Original Black-Scholes|60-70%|0.6477194450160292|0.7307692307692307|26|0.0830497857532015||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Original Black-Scholes|70-80%|0.7445279627339266|0.5|12|-0.2445279627339266||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Original Black-Scholes|80-90%|0.805138008120801|1.0|1|0.1948619918791989||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bias Corrected|40-50%|0.4979090909090909|0.5454545454545454|11|0.0475454545454545||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bias Corrected|50-60%|0.5475833333333333|0.5833333333333334|36|0.03575||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bias Corrected|60-70%|0.6476538461538461|0.7307692307692307|26|0.0831153846153845||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bias Corrected|70-80%|0.7446666666666668|0.5|12|-0.2446666666666668||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|0-3 days|Bias Corrected|80-90%|0.805|1.0|1|0.1949999999999999||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Weighted Average|50-60%|0.5624954454716714|0.6|15|0.0375045545283285||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Weighted Average|60-70%|0.6865153791746995|0.7619047619047619|42|0.0753893827300623||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Weighted Average|70-80%|0.7491045039089591|0.7747747747747747|111|0.0256702708658156||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Weighted Average|80-90%|0.8442695488041999|0.875|96|0.0307304511958||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Weighted Average|90-100%|0.9129438755069832|0.8888888888888888|18|-0.0240549866180944||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bayesian Calibrated|30-40%|0.3723333333333333|0.6153846153846154|26|0.243051282051282||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bayesian Calibrated|60-70%|0.6457895736339131|0.7452830188679245|106|0.0994934452340113||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bayesian Calibrated|70-80%|0.743913646153124|0.883495145631068|103|0.1395814994779439||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bayesian Calibrated|80-90%|0.8174899724511043|0.8723404255319149|47|0.0548504530808106||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Original Black-Scholes|50-60%|0.5514824203286506|0.6853932584269663|89|0.1339108380983157||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Original Black-Scholes|60-70%|0.651100136267204|0.8723404255319149|94|0.2212402892647109||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Original Black-Scholes|70-80%|0.7431802577681554|0.8823529411764706|68|0.1391726834083151||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Original Black-Scholes|80-90%|0.8293258748877703|0.9375|16|0.1081741251122296||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bias Corrected|40-50%|0.4902666666666666|0.6|15|0.1097333333333333||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bias Corrected|60-70%|0.6864399999999999|0.76|25|0.07356||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bias Corrected|70-80%|0.7537857142857144|0.7410714285714286|112|-0.0127142857142857||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bias Corrected|80-90%|0.8441188118811881|0.900990099009901|101|0.0568712871287129||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Bias Corrected|90-100%|0.9162758620689656|0.8620689655172413|29|-0.0542068965517241||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Historical IV|70-80%|0.7435723684210526|0.756578947368421|152|0.0130065789473684||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Historical IV|80-90%|0.836375|0.875|88|0.038625||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|4-7 days|Historical IV|90-100%|0.9498333333333332|0.8333333333333334|42|-0.1164999999999998||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Weighted Average|50-60%|0.573296190889487|0.5909090909090909|110|0.0176129000196039||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Weighted Average|60-70%|0.6507641724493042|0.6548223350253807|197|0.0040581625760764||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Weighted Average|70-80%|0.7525469276387028|0.7936507936507936|189|0.0411038660120908||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Weighted Average|80-90%|0.8373831530643175|0.8662790697674418|172|0.0288959167031243||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Weighted Average|90-100%|0.9083999648827285|1.0|3|0.0916000351172715||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bayesian Calibrated|30-40%|0.3644152823920265|0.5813953488372093|86|0.2169800664451828||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bayesian Calibrated|50-60%|0.5730318095238092|0.592|125|0.0189681904761908||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bayesian Calibrated|60-70%|0.6668371697268249|0.7310344827586207|145|0.0641973130317957||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bayesian Calibrated|70-80%|0.7621460753383478|0.8148148148148148|189|0.052668739476467||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bayesian Calibrated|80-90%|0.8363430940427081|0.8852459016393442|122|0.0489028075966361||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bayesian Calibrated|90-100%|0.916|1.0|4|0.0839999999999999||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Original Black-Scholes|50-60%|0.5497449105676615|0.5919540229885057|174|0.0422091124208442||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Original Black-Scholes|60-70%|0.6523590201535727|0.7202072538860104|193|0.0678482337324376||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Original Black-Scholes|70-80%|0.7490080201536696|0.8282828282828283|198|0.0792748081291586||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Original Black-Scholes|80-90%|0.8277980852200593|0.9032258064516128|93|0.0754277212315536||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bias Corrected|40-50%|0.4946923076923077|0.4615384615384615|13|-0.0331538461538461||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bias Corrected|50-60%|0.5789565217391304|0.6086956521739131|69|0.0297391304347827||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bias Corrected|60-70%|0.652678391959799|0.6231155778894473|199|-0.0295628140703517||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bias Corrected|70-80%|0.7512292490118576|0.8063241106719368|253|0.0550948616600791||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Bias Corrected|80-90%|0.8201970802919707|0.8759124087591241|137|0.0557153284671534||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Historical IV|50-60%|0.587|0.6158536585365854|164|0.0288536585365853||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Historical IV|60-70%|0.6316101694915253|0.6694915254237288|118|0.0378813559322035||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Historical IV|70-80%|0.749435582822086|0.7668711656441718|163|0.0174355828220857||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Historical IV|80-90%|0.8476592592592592|0.8148148148148148|135|-0.0328444444444444||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|8-14 days|Historical IV|90-100%|0.9492307692307692|0.8901098901098901|91|-0.0591208791208791||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Weighted Average|40-50%|0.4741676468426575|0.404040404040404|99|-0.0701272428022534||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Weighted Average|50-60%|0.5289153561942695|0.5227272727272727|88|-0.0061880834669968||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Weighted Average|60-70%|0.6631624676757768|0.7083333333333334|144|0.0451708656575565||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Weighted Average|70-80%|0.748182401529401|0.7686274509803922|255|0.0204450494509912||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Weighted Average|80-90%|0.850869895397914|0.8995215311004785|209|0.0486516357025644||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Weighted Average|90-100%|0.9110106685139138|0.9787234042553192|47|0.0677127357414053||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|30-40%|0.3091314508276534|0.4177215189873418|79|0.1085900681596883||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|40-50%|0.487|0.6|20|0.1129999999999999||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|50-60%|0.562681689000986|0.5483870967741935|155|-0.0142945922267925||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|60-70%|0.6762442489623269|0.7652173913043478|115|0.0889731423420209||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|70-80%|0.7419653824102741|0.7777777777777778|225|0.0358123953675036||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|80-90%|0.8544321035951413|0.8934010152284264|197|0.038968911633285||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bayesian Calibrated|90-100%|0.9312045718045032|0.9607843137254902|51|0.029579741920987||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Original Black-Scholes|50-60%|0.550714380010787|0.4739884393063583|173|-0.0767259407044286||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Original Black-Scholes|60-70%|0.6504228645321546|0.7178217821782178|202|0.0673989176460632||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Original Black-Scholes|70-80%|0.7507767370020556|0.808|250|0.0572232629979444||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Original Black-Scholes|80-90%|0.8381293577871654|0.9113300492610836|203|0.0732006914739183||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|30-40%|0.3969|0.3|10|-0.0968999999999999||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|40-50%|0.4700576923076923|0.4423076923076923|104|-0.02775||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|50-60%|0.5214931506849315|0.5068493150684932|73|-0.0146438356164383||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|60-70%|0.6735882352941178|0.6764705882352942|102|0.0028823529411763||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|70-80%|0.7486390728476822|0.7715231788079471|302|0.0228841059602649||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|80-90%|0.8556479591836734|0.9081632653061223|196|0.052515306122449||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Bias Corrected|90-100%|0.9130545454545452|0.9454545454545454|55|0.0324||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Historical IV|40-50%|0.4859999999999998|0.4485294117647059|136|-0.0374705882352939||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Historical IV|50-60%|0.5629764705882353|0.5411764705882353|85|-0.0218||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Historical IV|60-70%|0.6585759493670885|0.7215189873417721|158|0.0629430379746835||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Historical IV|70-80%|0.7512878048780488|0.7853658536585366|205|0.0340780487804878||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Historical IV|80-90%|0.8408562500000001|0.90625|160|0.0653937499999999||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|15-21 days|Historical IV|90-100%|0.929755102040816|0.9285714285714286|98|-0.0011836734693875||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Weighted Average|40-50%|0.4724777313386815|0.5242718446601942|103|0.0517941133215126||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Weighted Average|50-60%|0.5368606060990575|0.5340909090909091|88|-0.0027696970081484||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Weighted Average|60-70%|0.6667275480717466|0.7288135593220338|118|0.0620860112502872||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Weighted Average|70-80%|0.7518350821648596|0.8136882129277566|263|0.061853130762897||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Weighted Average|80-90%|0.8581848362212144|0.9348534201954396|307|0.0766685839742252||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Weighted Average|90-100%|0.9104775052852878|1.0|72|0.0895224947147121||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|30-40%|0.3469409905163328|0.5342465753424658|73|0.1873055848261329||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|40-50%|0.4836700336700337|0.5151515151515151|66|0.0314814814814814||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|50-60%|0.5389978942671074|0.5283018867924528|53|-0.0106960074746546||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|60-70%|0.631757921783422|0.7115384615384616|104|0.0797805397550395||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|70-80%|0.7555660465142994|0.8133971291866029|209|0.0578310826723035||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|80-90%|0.8609053224105128|0.869281045751634|153|0.0083757233411212||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bayesian Calibrated|90-100%|0.9351690735433036|0.962457337883959|293|0.0272882643406554||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Original Black-Scholes|50-60%|0.5500916690129614|0.5497076023391813|171|-0.0003840666737801||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Original Black-Scholes|60-70%|0.6505744991039073|0.755|200|0.1044255008960927||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Original Black-Scholes|70-80%|0.7528618732150916|0.8494623655913979|279|0.0966004923763063||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Original Black-Scholes|80-90%|0.8425478724693674|0.9638989169675092|277|0.1213510444981417||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Original Black-Scholes|90-100%|0.912192644218421|1.0|3|0.087807355781579||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|30-40%|0.39825|0.125|8|-0.27325||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|40-50%|0.4660782608695651|0.5217391304347826|115|0.0556608695652174||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|50-60%|0.5205507246376812|0.5942028985507246|69|0.0736521739130434||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|60-70%|0.6745140186915888|0.7102803738317757|107|0.0357663551401868||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|70-80%|0.7503114754098361|0.8229508196721311|305|0.072639344262295||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|80-90%|0.8546064257028112|0.9397590361445785|249|0.0851526104417671||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Bias Corrected|90-100%|0.9166938775510204|0.9897959183673468|98|0.0731020408163265||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Historical IV|40-50%|0.4859999999999996|0.5225225225225225|111|0.0365225225225228||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Historical IV|50-60%|0.561935064935065|0.5584415584415584|77|-0.0034935064935065||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Historical IV|60-70%|0.6617380952380953|0.7301587301587301|126|0.0684206349206347||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Historical IV|70-80%|0.7544218749999999|0.8072916666666666|192|0.0528697916666667||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Historical IV|80-90%|0.8522555555555555|0.925925925925926|270|0.0736703703703703||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|22-28 days|Historical IV|90-100%|0.9341542857142856|0.9257142857142856|175|-0.0084399999999998||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|30-40%|0.39381956113477|1.0|1|0.60618043886523||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|40-50%|0.4748786061649734|0.4601769911504424|113|-0.0147016150145309||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|50-60%|0.5495451779054499|0.5595238095238095|168|0.0099786316183596||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|60-70%|0.6518832879782613|0.6519337016574586|181|5.041367919722539e-05||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|70-80%|0.7418608771314592|0.7890295358649789|237|0.0471686587335197||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|80-90%|0.8485137937185739|0.9190751445086706|346|0.0705613507900966||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Weighted Average|90-100%|0.9086216028519444|1.0|19|0.0913783971480555||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bayesian Calibrated|40-50%|0.4510212418300653|0.5220588235294118|136|0.0710375816993464||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bayesian Calibrated|50-60%|0.5435927216415022|0.54|150|-0.0035927216415021||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bayesian Calibrated|60-70%|0.650994227800098|0.710801393728223|287|0.059807165928125||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bayesian Calibrated|70-80%|0.7384769250663112|0.7721518987341772|158|0.0336749736678659||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bayesian Calibrated|80-90%|0.8479817557951318|0.9032258064516128|155|0.055244050656481||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bayesian Calibrated|90-100%|0.9368145134168924|0.9553072625698324|179|0.0184927491529401||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Original Black-Scholes|50-60%|0.5533875565531725|0.545|200|-0.0083875565531724||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Original Black-Scholes|60-70%|0.654837087144025|0.6415094339622641|212|-0.0133276531817608||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Original Black-Scholes|70-80%|0.7548737776681939|0.7687074829931972|294|0.0138337053250033||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Original Black-Scholes|80-90%|0.8476753253243131|0.923780487804878|328|0.0761051624805649||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Original Black-Scholes|90-100%|0.903061650757857|1.0|4|0.0969383492421429||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|30-40%|0.3716666666666666|0.6666666666666666|3|0.295||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|40-50%|0.4606645161290323|0.4903225806451612|155|0.0296580645161289||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|50-60%|0.5463459119496855|0.5911949685534591|159|0.0448490566037735||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|60-70%|0.6546785714285716|0.6919642857142857|224|0.0372857142857141||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|70-80%|0.7390797872340428|0.8031914893617021|188|0.0641117021276593||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|80-90%|0.8475234899328858|0.9194630872483222|298|0.0719395973154363||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Bias Corrected|90-100%|0.919473684210526|0.9736842105263158|38|0.0542105263157897||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Historical IV|40-50%|0.4860000000000001|0.5172413793103449|29|0.0312413793103447||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Historical IV|50-60%|0.5461030927835051|0.5309278350515464|194|-0.0151752577319587||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Historical IV|60-70%|0.6468786407766991|0.5825242718446602|206|-0.0643543689320389||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Historical IV|70-80%|0.7620816326530613|0.7074829931972789|147|-0.0545986394557823||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Historical IV|80-90%|0.8408772727272728|0.9159090909090908|440|0.0750318181818181||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|29-35 days|Historical IV|90-100%|0.936142857142857|0.8979591836734694|49|-0.0381836734693876||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Weighted Average|40-50%|0.479304778391442|0.4387755102040816|196|-0.0405292681873603||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Weighted Average|50-60%|0.5541453804215736|0.5593803786574871|1743|0.0052349982359135||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Weighted Average|60-70%|0.6508154699026596|0.7059952038369305|2085|0.0551797339342708||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Weighted Average|70-80%|0.7582976193567124|0.8334080717488789|4460|0.0751104523921665||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Weighted Average|80-90%|0.8193417815180792|0.8272980501392758|1077|0.0079562686211965||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|30-40%|0.3636363636363636|0.391304347826087|69|0.0276679841897233||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|40-50%|0.4659170937245419|0.5121107266435986|289|0.0461936329190567||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|50-60%|0.5660056578031539|0.5985592665356909|1527|0.0325536087325369||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|60-70%|0.6540282761511574|0.7082228116710876|2639|0.0541945355199301||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|70-80%|0.774174101744431|0.8238249013275923|2787|0.0496507995831613||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|80-90%|0.8333228439591569|0.8385949310804802|2249|0.0052720871213233||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bayesian Calibrated|90-100%|0.925|1.0|1|0.0749999999999999||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Original Black-Scholes|50-60%|0.5509820676521904|0.5730129390018485|1623|0.022030871349658||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Original Black-Scholes|60-70%|0.6537412512364139|0.7044334975369458|2030|0.0506922463005319||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Original Black-Scholes|70-80%|0.7512985214068842|0.8031238648746821|2753|0.0518253434677978||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Original Black-Scholes|80-90%|0.8448683504041459|0.8381607530774801|2762|-0.0067075973266658||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Original Black-Scholes|90-100%|0.9067284213270744|0.8142857142857143|140|-0.09244270704136||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|30-40%|0.372|1.0|1|0.628||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|40-50%|0.4558745762711864|0.4610169491525424|295|0.0051423728813559||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|50-60%|0.5652046647230321|0.597667638483965|1715|0.0324629737609328||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|60-70%|0.6448314973480213|0.7144022847817217|2451|0.0695707874337004||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|70-80%|0.7590642339415147|0.8297925518620345|4001|0.0707283179205198||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|80-90%|0.8237281021897811|0.8266423357664233|1096|0.0029142335766422||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Bias Corrected|90-100%|0.9035|1.0|2|0.0965||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Historical IV|50-60%|0.5361773162939297|0.5271565495207667|1878|-0.0090207667731629||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Historical IV|60-70%|0.6548216520650814|0.66270337922403|1598|0.0078817271589486||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Historical IV|70-80%|0.7574442171811082|0.8289326887318705|5378|0.0714884715507623||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|35+ days|Historical IV|80-90%|0.8289632248939179|0.8967468175388967|707|0.0677835926449788||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Weighted Average|40-50%|0.4977166421931605|0.6|10|0.1022833578068395||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Weighted Average|50-60%|0.5462926291876762|0.5675675675675675|37|0.0212749383798913||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Weighted Average|60-70%|0.6476647792975433|0.7307692307692307|26|0.0831044514716874||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Weighted Average|70-80%|0.7446435493445432|0.5|12|-0.2446435493445432||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Weighted Average|80-90%|0.8050230013534669|1.0|1|0.194976998646533||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bayesian Calibrated|60-70%|0.6590909090909091|0.5892857142857143|56|-0.0698051948051947||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bayesian Calibrated|70-80%|0.7412415253989166|0.68|25|-0.0612415253989165||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bayesian Calibrated|80-90%|0.814018035426731|0.6|5|-0.214018035426731||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Original Black-Scholes|50-60%|0.5462692886395704|0.5675675675675675|37|0.0212982789279971||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Original Black-Scholes|60-70%|0.6477194450160292|0.7307692307692307|26|0.0830497857532015||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Original Black-Scholes|70-80%|0.7445279627339266|0.5|12|-0.2445279627339266||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Original Black-Scholes|80-90%|0.805138008120801|1.0|1|0.1948619918791989||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bias Corrected|40-50%|0.4979090909090909|0.5454545454545454|11|0.0475454545454545||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bias Corrected|50-60%|0.5475833333333333|0.5833333333333334|36|0.03575||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bias Corrected|60-70%|0.6476538461538461|0.7307692307692307|26|0.0831153846153845||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bias Corrected|70-80%|0.7446666666666668|0.5|12|-0.2446666666666668||||
+calibration_by_stock_and_dte|MTG B|0-3 days|Bias Corrected|80-90%|0.805|1.0|1|0.1949999999999999||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Weighted Average|50-60%|0.5624954454716714|0.6|15|0.0375045545283285||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Weighted Average|60-70%|0.6865153791746995|0.7619047619047619|42|0.0753893827300623||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Weighted Average|70-80%|0.7491045039089591|0.7747747747747747|111|0.0256702708658156||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Weighted Average|80-90%|0.8442695488041999|0.875|96|0.0307304511958||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Weighted Average|90-100%|0.9129438755069832|0.8888888888888888|18|-0.0240549866180944||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bayesian Calibrated|30-40%|0.3723333333333333|0.6153846153846154|26|0.243051282051282||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bayesian Calibrated|60-70%|0.6457895736339131|0.7452830188679245|106|0.0994934452340113||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bayesian Calibrated|70-80%|0.743913646153124|0.883495145631068|103|0.1395814994779439||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bayesian Calibrated|80-90%|0.8174899724511043|0.8723404255319149|47|0.0548504530808106||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Original Black-Scholes|50-60%|0.5514824203286506|0.6853932584269663|89|0.1339108380983157||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Original Black-Scholes|60-70%|0.651100136267204|0.8723404255319149|94|0.2212402892647109||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Original Black-Scholes|70-80%|0.7431802577681554|0.8823529411764706|68|0.1391726834083151||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Original Black-Scholes|80-90%|0.8293258748877703|0.9375|16|0.1081741251122296||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bias Corrected|40-50%|0.4902666666666666|0.6|15|0.1097333333333333||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bias Corrected|60-70%|0.6864399999999999|0.76|25|0.07356||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bias Corrected|70-80%|0.7537857142857144|0.7410714285714286|112|-0.0127142857142857||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bias Corrected|80-90%|0.8441188118811881|0.900990099009901|101|0.0568712871287129||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Bias Corrected|90-100%|0.9162758620689656|0.8620689655172413|29|-0.0542068965517241||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Historical IV|70-80%|0.7435723684210526|0.756578947368421|152|0.0130065789473684||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Historical IV|80-90%|0.836375|0.875|88|0.038625||||
+calibration_by_stock_and_dte|MTG B|4-7 days|Historical IV|90-100%|0.9498333333333332|0.8333333333333334|42|-0.1164999999999998||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Weighted Average|50-60%|0.573296190889487|0.5909090909090909|110|0.0176129000196039||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Weighted Average|60-70%|0.6507641724493042|0.6548223350253807|197|0.0040581625760764||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Weighted Average|70-80%|0.7525469276387028|0.7936507936507936|189|0.0411038660120908||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Weighted Average|80-90%|0.8373831530643175|0.8662790697674418|172|0.0288959167031243||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Weighted Average|90-100%|0.9083999648827285|1.0|3|0.0916000351172715||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bayesian Calibrated|30-40%|0.3644152823920265|0.5813953488372093|86|0.2169800664451828||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bayesian Calibrated|50-60%|0.5730318095238092|0.592|125|0.0189681904761908||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bayesian Calibrated|60-70%|0.6668371697268249|0.7310344827586207|145|0.0641973130317957||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bayesian Calibrated|70-80%|0.7621460753383478|0.8148148148148148|189|0.052668739476467||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bayesian Calibrated|80-90%|0.8363430940427081|0.8852459016393442|122|0.0489028075966361||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bayesian Calibrated|90-100%|0.916|1.0|4|0.0839999999999999||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Original Black-Scholes|50-60%|0.5497449105676615|0.5919540229885057|174|0.0422091124208442||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Original Black-Scholes|60-70%|0.6523590201535727|0.7202072538860104|193|0.0678482337324376||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Original Black-Scholes|70-80%|0.7490080201536696|0.8282828282828283|198|0.0792748081291586||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Original Black-Scholes|80-90%|0.8277980852200593|0.9032258064516128|93|0.0754277212315536||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bias Corrected|40-50%|0.4946923076923077|0.4615384615384615|13|-0.0331538461538461||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bias Corrected|50-60%|0.5789565217391304|0.6086956521739131|69|0.0297391304347827||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bias Corrected|60-70%|0.652678391959799|0.6231155778894473|199|-0.0295628140703517||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bias Corrected|70-80%|0.7512292490118576|0.8063241106719368|253|0.0550948616600791||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Bias Corrected|80-90%|0.8201970802919707|0.8759124087591241|137|0.0557153284671534||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Historical IV|50-60%|0.587|0.6158536585365854|164|0.0288536585365853||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Historical IV|60-70%|0.6316101694915253|0.6694915254237288|118|0.0378813559322035||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Historical IV|70-80%|0.749435582822086|0.7668711656441718|163|0.0174355828220857||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Historical IV|80-90%|0.8476592592592592|0.8148148148148148|135|-0.0328444444444444||||
+calibration_by_stock_and_dte|MTG B|8-14 days|Historical IV|90-100%|0.9492307692307692|0.8901098901098901|91|-0.0591208791208791||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Weighted Average|40-50%|0.4741676468426575|0.404040404040404|99|-0.0701272428022534||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Weighted Average|50-60%|0.5289153561942695|0.5227272727272727|88|-0.0061880834669968||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Weighted Average|60-70%|0.6631624676757768|0.7083333333333334|144|0.0451708656575565||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Weighted Average|70-80%|0.748182401529401|0.7686274509803922|255|0.0204450494509912||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Weighted Average|80-90%|0.850869895397914|0.8995215311004785|209|0.0486516357025644||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Weighted Average|90-100%|0.9110106685139138|0.9787234042553192|47|0.0677127357414053||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|30-40%|0.3091314508276534|0.4177215189873418|79|0.1085900681596883||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|40-50%|0.487|0.6|20|0.1129999999999999||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|50-60%|0.562681689000986|0.5483870967741935|155|-0.0142945922267925||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|60-70%|0.6762442489623269|0.7652173913043478|115|0.0889731423420209||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|70-80%|0.7419653824102741|0.7777777777777778|225|0.0358123953675036||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|80-90%|0.8544321035951413|0.8934010152284264|197|0.038968911633285||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bayesian Calibrated|90-100%|0.9312045718045032|0.9607843137254902|51|0.029579741920987||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Original Black-Scholes|50-60%|0.550714380010787|0.4739884393063583|173|-0.0767259407044286||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Original Black-Scholes|60-70%|0.6504228645321546|0.7178217821782178|202|0.0673989176460632||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Original Black-Scholes|70-80%|0.7507767370020556|0.808|250|0.0572232629979444||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Original Black-Scholes|80-90%|0.8381293577871654|0.9113300492610836|203|0.0732006914739183||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|30-40%|0.3969|0.3|10|-0.0968999999999999||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|40-50%|0.4700576923076923|0.4423076923076923|104|-0.02775||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|50-60%|0.5214931506849315|0.5068493150684932|73|-0.0146438356164383||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|60-70%|0.6735882352941178|0.6764705882352942|102|0.0028823529411763||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|70-80%|0.7486390728476822|0.7715231788079471|302|0.0228841059602649||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|80-90%|0.8556479591836734|0.9081632653061223|196|0.052515306122449||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Bias Corrected|90-100%|0.9130545454545452|0.9454545454545454|55|0.0324||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Historical IV|40-50%|0.4859999999999998|0.4485294117647059|136|-0.0374705882352939||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Historical IV|50-60%|0.5629764705882353|0.5411764705882353|85|-0.0218||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Historical IV|60-70%|0.6585759493670885|0.7215189873417721|158|0.0629430379746835||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Historical IV|70-80%|0.7512878048780488|0.7853658536585366|205|0.0340780487804878||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Historical IV|80-90%|0.8408562500000001|0.90625|160|0.0653937499999999||||
+calibration_by_stock_and_dte|MTG B|15-21 days|Historical IV|90-100%|0.929755102040816|0.9285714285714286|98|-0.0011836734693875||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Weighted Average|40-50%|0.4724777313386815|0.5242718446601942|103|0.0517941133215126||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Weighted Average|50-60%|0.5368606060990575|0.5340909090909091|88|-0.0027696970081484||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Weighted Average|60-70%|0.6667275480717466|0.7288135593220338|118|0.0620860112502872||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Weighted Average|70-80%|0.7518350821648596|0.8136882129277566|263|0.061853130762897||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Weighted Average|80-90%|0.8581848362212144|0.9348534201954396|307|0.0766685839742252||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Weighted Average|90-100%|0.9104775052852878|1.0|72|0.0895224947147121||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|30-40%|0.3469409905163328|0.5342465753424658|73|0.1873055848261329||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|40-50%|0.4836700336700337|0.5151515151515151|66|0.0314814814814814||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|50-60%|0.5389978942671074|0.5283018867924528|53|-0.0106960074746546||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|60-70%|0.631757921783422|0.7115384615384616|104|0.0797805397550395||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|70-80%|0.7555660465142994|0.8133971291866029|209|0.0578310826723035||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|80-90%|0.8609053224105128|0.869281045751634|153|0.0083757233411212||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bayesian Calibrated|90-100%|0.9351690735433036|0.962457337883959|293|0.0272882643406554||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Original Black-Scholes|50-60%|0.5500916690129614|0.5497076023391813|171|-0.0003840666737801||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Original Black-Scholes|60-70%|0.6505744991039073|0.755|200|0.1044255008960927||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Original Black-Scholes|70-80%|0.7528618732150916|0.8494623655913979|279|0.0966004923763063||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Original Black-Scholes|80-90%|0.8425478724693674|0.9638989169675092|277|0.1213510444981417||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Original Black-Scholes|90-100%|0.912192644218421|1.0|3|0.087807355781579||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|30-40%|0.39825|0.125|8|-0.27325||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|40-50%|0.4660782608695651|0.5217391304347826|115|0.0556608695652174||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|50-60%|0.5205507246376812|0.5942028985507246|69|0.0736521739130434||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|60-70%|0.6745140186915888|0.7102803738317757|107|0.0357663551401868||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|70-80%|0.7503114754098361|0.8229508196721311|305|0.072639344262295||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|80-90%|0.8546064257028112|0.9397590361445785|249|0.0851526104417671||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Bias Corrected|90-100%|0.9166938775510204|0.9897959183673468|98|0.0731020408163265||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Historical IV|40-50%|0.4859999999999996|0.5225225225225225|111|0.0365225225225228||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Historical IV|50-60%|0.561935064935065|0.5584415584415584|77|-0.0034935064935065||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Historical IV|60-70%|0.6617380952380953|0.7301587301587301|126|0.0684206349206347||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Historical IV|70-80%|0.7544218749999999|0.8072916666666666|192|0.0528697916666667||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Historical IV|80-90%|0.8522555555555555|0.925925925925926|270|0.0736703703703703||||
+calibration_by_stock_and_dte|MTG B|22-28 days|Historical IV|90-100%|0.9341542857142856|0.9257142857142856|175|-0.0084399999999998||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|30-40%|0.39381956113477|1.0|1|0.60618043886523||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|40-50%|0.4748786061649734|0.4601769911504424|113|-0.0147016150145309||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|50-60%|0.5495451779054499|0.5595238095238095|168|0.0099786316183596||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|60-70%|0.6518832879782613|0.6519337016574586|181|5.041367919722539e-05||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|70-80%|0.7418608771314592|0.7890295358649789|237|0.0471686587335197||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|80-90%|0.8485137937185739|0.9190751445086706|346|0.0705613507900966||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Weighted Average|90-100%|0.9086216028519444|1.0|19|0.0913783971480555||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bayesian Calibrated|40-50%|0.4510212418300653|0.5220588235294118|136|0.0710375816993464||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bayesian Calibrated|50-60%|0.5435927216415022|0.54|150|-0.0035927216415021||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bayesian Calibrated|60-70%|0.650994227800098|0.710801393728223|287|0.059807165928125||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bayesian Calibrated|70-80%|0.7384769250663112|0.7721518987341772|158|0.0336749736678659||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bayesian Calibrated|80-90%|0.8479817557951318|0.9032258064516128|155|0.055244050656481||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bayesian Calibrated|90-100%|0.9368145134168924|0.9553072625698324|179|0.0184927491529401||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Original Black-Scholes|50-60%|0.5533875565531725|0.545|200|-0.0083875565531724||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Original Black-Scholes|60-70%|0.654837087144025|0.6415094339622641|212|-0.0133276531817608||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Original Black-Scholes|70-80%|0.7548737776681939|0.7687074829931972|294|0.0138337053250033||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Original Black-Scholes|80-90%|0.8476753253243131|0.923780487804878|328|0.0761051624805649||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Original Black-Scholes|90-100%|0.903061650757857|1.0|4|0.0969383492421429||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|30-40%|0.3716666666666666|0.6666666666666666|3|0.295||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|40-50%|0.4606645161290323|0.4903225806451612|155|0.0296580645161289||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|50-60%|0.5463459119496855|0.5911949685534591|159|0.0448490566037735||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|60-70%|0.6546785714285716|0.6919642857142857|224|0.0372857142857141||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|70-80%|0.7390797872340428|0.8031914893617021|188|0.0641117021276593||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|80-90%|0.8475234899328858|0.9194630872483222|298|0.0719395973154363||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Bias Corrected|90-100%|0.919473684210526|0.9736842105263158|38|0.0542105263157897||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Historical IV|40-50%|0.4860000000000001|0.5172413793103449|29|0.0312413793103447||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Historical IV|50-60%|0.5461030927835051|0.5309278350515464|194|-0.0151752577319587||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Historical IV|60-70%|0.6468786407766991|0.5825242718446602|206|-0.0643543689320389||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Historical IV|70-80%|0.7620816326530613|0.7074829931972789|147|-0.0545986394557823||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Historical IV|80-90%|0.8408772727272728|0.9159090909090908|440|0.0750318181818181||||
+calibration_by_stock_and_dte|MTG B|29-35 days|Historical IV|90-100%|0.936142857142857|0.8979591836734694|49|-0.0381836734693876||||
+calibration_by_stock_and_dte|MTG B|35+ days|Weighted Average|40-50%|0.479304778391442|0.4387755102040816|196|-0.0405292681873603||||
+calibration_by_stock_and_dte|MTG B|35+ days|Weighted Average|50-60%|0.5541453804215736|0.5593803786574871|1743|0.0052349982359135||||
+calibration_by_stock_and_dte|MTG B|35+ days|Weighted Average|60-70%|0.6508154699026596|0.7059952038369305|2085|0.0551797339342708||||
+calibration_by_stock_and_dte|MTG B|35+ days|Weighted Average|70-80%|0.7582976193567124|0.8334080717488789|4460|0.0751104523921665||||
+calibration_by_stock_and_dte|MTG B|35+ days|Weighted Average|80-90%|0.8193417815180792|0.8272980501392758|1077|0.0079562686211965||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|30-40%|0.3636363636363636|0.391304347826087|69|0.0276679841897233||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|40-50%|0.4659170937245419|0.5121107266435986|289|0.0461936329190567||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|50-60%|0.5660056578031539|0.5985592665356909|1527|0.0325536087325369||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|60-70%|0.6540282761511574|0.7082228116710876|2639|0.0541945355199301||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|70-80%|0.774174101744431|0.8238249013275923|2787|0.0496507995831613||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|80-90%|0.8333228439591569|0.8385949310804802|2249|0.0052720871213233||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bayesian Calibrated|90-100%|0.925|1.0|1|0.0749999999999999||||
+calibration_by_stock_and_dte|MTG B|35+ days|Original Black-Scholes|50-60%|0.5509820676521904|0.5730129390018485|1623|0.022030871349658||||
+calibration_by_stock_and_dte|MTG B|35+ days|Original Black-Scholes|60-70%|0.6537412512364139|0.7044334975369458|2030|0.0506922463005319||||
+calibration_by_stock_and_dte|MTG B|35+ days|Original Black-Scholes|70-80%|0.7512985214068842|0.8031238648746821|2753|0.0518253434677978||||
+calibration_by_stock_and_dte|MTG B|35+ days|Original Black-Scholes|80-90%|0.8448683504041459|0.8381607530774801|2762|-0.0067075973266658||||
+calibration_by_stock_and_dte|MTG B|35+ days|Original Black-Scholes|90-100%|0.9067284213270744|0.8142857142857143|140|-0.09244270704136||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|30-40%|0.372|1.0|1|0.628||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|40-50%|0.4558745762711864|0.4610169491525424|295|0.0051423728813559||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|50-60%|0.5652046647230321|0.597667638483965|1715|0.0324629737609328||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|60-70%|0.6448314973480213|0.7144022847817217|2451|0.0695707874337004||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|70-80%|0.7590642339415147|0.8297925518620345|4001|0.0707283179205198||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|80-90%|0.8237281021897811|0.8266423357664233|1096|0.0029142335766422||||
+calibration_by_stock_and_dte|MTG B|35+ days|Bias Corrected|90-100%|0.9035|1.0|2|0.0965||||
+calibration_by_stock_and_dte|MTG B|35+ days|Historical IV|50-60%|0.5361773162939297|0.5271565495207667|1878|-0.0090207667731629||||
+calibration_by_stock_and_dte|MTG B|35+ days|Historical IV|60-70%|0.6548216520650814|0.66270337922403|1598|0.0078817271589486||||
+calibration_by_stock_and_dte|MTG B|35+ days|Historical IV|70-80%|0.7574442171811082|0.8289326887318705|5378|0.0714884715507623||||
+calibration_by_stock_and_dte|MTG B|35+ days|Historical IV|80-90%|0.8289632248939179|0.8967468175388967|707|0.0677835926449788||||
 calibration_by_stock_and_dte|NCC B|0-3 days|Weighted Average|40-50%|0.4944688230562818|0.5|2|0.0055311769437181||||
 calibration_by_stock_and_dte|NCC B|0-3 days|Weighted Average|50-60%|0.5489746565074947|0.5967741935483871|62|0.0477995370408924||||
 calibration_by_stock_and_dte|NCC B|0-3 days|Weighted Average|60-70%|0.6512939157792421|0.7169811320754716|53|0.0656872162962295||||
@@ -17958,38 +17958,38 @@ calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|All DTE|Hi
 calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|All DTE|Historical IV|70-80%|0.7426384462151394|0.8904382470119522|1004|0.1477998007968127||||
 calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|All DTE|Historical IV|80-90%|0.8285378151260504|0.9243697478991596|238|0.0958319327731093||||
 calibration_by_stock_and_dte|Millicom International Cellular S.A. SDB|All DTE|Historical IV|90-100%|0.9314166666666668|1.0|12|0.0685833333333331||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|30-40%|0.39381956113477|1.0|1|0.60618043886523||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|40-50%|0.4763723394406977|0.4568138195777351|521|-0.0195585198629625||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|50-60%|0.5530013839949283|0.5589150733659404|2249|0.0059136893710121||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|60-70%|0.6526974035261278|0.7010383100608665|2793|0.0483409065347386||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|70-80%|0.7564076788601758|0.8243169893251312|5527|0.0679093104649554||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|80-90%|0.8347808995440643|0.8686594202898551|2208|0.0338785207457907||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Weighted Average|90-100%|0.910653345337456|0.981132075471698|159|0.070478730134242||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|30-40%|0.3479260269260269|0.4954954954954955|333|0.1475694685694685||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|40-50%|0.4650707459833731|0.5185909980430529|511|0.0535202520596796||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|50-60%|0.563801529399715|0.5880597014925373|2010|0.0242581720928223||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|60-70%|0.654212355724899|0.7106025492468134|3452|0.0563901935219144||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|70-80%|0.7679539616920182|0.8184523809523809|3696|0.0504984192603626||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|80-90%|0.8367991336424134|0.8493852459016393|2928|0.0125861122592259||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bayesian Calibrated|90-100%|0.9351794879012147|0.9602272727272728|528|0.0250477848260579||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Original Black-Scholes|50-60%|0.5509567019784796|0.5674908796108634|2467|0.0165341776323838||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Original Black-Scholes|60-70%|0.6531518194825512|0.7108555968887386|2957|0.0577037774061873||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Original Black-Scholes|70-80%|0.7513685905595731|0.8059159314997405|3854|0.0545473409401674||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Original Black-Scholes|80-90%|0.84406235998892|0.8614130434782609|3680|0.0173506834893408||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Original Black-Scholes|90-100%|0.906740160010048|0.8231292517006803|147|-0.0836109083093677||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|30-40%|0.3928181818181819|0.3181818181818182|22|-0.0746363636363637||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|40-50%|0.4627584745762712|0.4788135593220339|708|0.0160550847457627||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|50-60%|0.5609820839226779|0.594059405940594|2121|0.0330773220179161||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|60-70%|0.648338225909381|0.706126356094448|3134|0.057788130185067||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|70-80%|0.7566823893292094|0.8211869321476899|5173|0.0645045428184805||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|80-90%|0.8346005774783445|0.8681424446583254|2078|0.0335418671799808||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Bias Corrected|90-100%|0.9160945945945944|0.9594594594594594|222|0.0433648648648649||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Historical IV|40-50%|0.4859999999999997|0.4855072463768116|276|-0.0004927536231881||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Historical IV|50-60%|0.5422331109257715|0.5350291909924938|2398|-0.0072039199332777||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Historical IV|60-70%|0.6535022665457842|0.6636446056210336|2206|0.0101423390752493||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Historical IV|70-80%|0.7567107583774251|0.8205868205868206|6237|0.0638760622093955||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Historical IV|80-90%|0.8381911111111111|0.8994444444444445|1800|0.0612533333333333||||
-calibration_by_stock_and_dte|Modern Times Group MTG B|All DTE|Historical IV|90-100%|0.9378835164835164|0.9076923076923076|455|-0.0301912087912087||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|30-40%|0.39381956113477|1.0|1|0.60618043886523||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|40-50%|0.4763723394406977|0.4568138195777351|521|-0.0195585198629625||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|50-60%|0.5530013839949283|0.5589150733659404|2249|0.0059136893710121||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|60-70%|0.6526974035261278|0.7010383100608665|2793|0.0483409065347386||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|70-80%|0.7564076788601758|0.8243169893251312|5527|0.0679093104649554||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|80-90%|0.8347808995440643|0.8686594202898551|2208|0.0338785207457907||||
+calibration_by_stock_and_dte|MTG B|All DTE|Weighted Average|90-100%|0.910653345337456|0.981132075471698|159|0.070478730134242||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|30-40%|0.3479260269260269|0.4954954954954955|333|0.1475694685694685||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|40-50%|0.4650707459833731|0.5185909980430529|511|0.0535202520596796||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|50-60%|0.563801529399715|0.5880597014925373|2010|0.0242581720928223||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|60-70%|0.654212355724899|0.7106025492468134|3452|0.0563901935219144||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|70-80%|0.7679539616920182|0.8184523809523809|3696|0.0504984192603626||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|80-90%|0.8367991336424134|0.8493852459016393|2928|0.0125861122592259||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bayesian Calibrated|90-100%|0.9351794879012147|0.9602272727272728|528|0.0250477848260579||||
+calibration_by_stock_and_dte|MTG B|All DTE|Original Black-Scholes|50-60%|0.5509567019784796|0.5674908796108634|2467|0.0165341776323838||||
+calibration_by_stock_and_dte|MTG B|All DTE|Original Black-Scholes|60-70%|0.6531518194825512|0.7108555968887386|2957|0.0577037774061873||||
+calibration_by_stock_and_dte|MTG B|All DTE|Original Black-Scholes|70-80%|0.7513685905595731|0.8059159314997405|3854|0.0545473409401674||||
+calibration_by_stock_and_dte|MTG B|All DTE|Original Black-Scholes|80-90%|0.84406235998892|0.8614130434782609|3680|0.0173506834893408||||
+calibration_by_stock_and_dte|MTG B|All DTE|Original Black-Scholes|90-100%|0.906740160010048|0.8231292517006803|147|-0.0836109083093677||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|30-40%|0.3928181818181819|0.3181818181818182|22|-0.0746363636363637||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|40-50%|0.4627584745762712|0.4788135593220339|708|0.0160550847457627||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|50-60%|0.5609820839226779|0.594059405940594|2121|0.0330773220179161||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|60-70%|0.648338225909381|0.706126356094448|3134|0.057788130185067||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|70-80%|0.7566823893292094|0.8211869321476899|5173|0.0645045428184805||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|80-90%|0.8346005774783445|0.8681424446583254|2078|0.0335418671799808||||
+calibration_by_stock_and_dte|MTG B|All DTE|Bias Corrected|90-100%|0.9160945945945944|0.9594594594594594|222|0.0433648648648649||||
+calibration_by_stock_and_dte|MTG B|All DTE|Historical IV|40-50%|0.4859999999999997|0.4855072463768116|276|-0.0004927536231881||||
+calibration_by_stock_and_dte|MTG B|All DTE|Historical IV|50-60%|0.5422331109257715|0.5350291909924938|2398|-0.0072039199332777||||
+calibration_by_stock_and_dte|MTG B|All DTE|Historical IV|60-70%|0.6535022665457842|0.6636446056210336|2206|0.0101423390752493||||
+calibration_by_stock_and_dte|MTG B|All DTE|Historical IV|70-80%|0.7567107583774251|0.8205868205868206|6237|0.0638760622093955||||
+calibration_by_stock_and_dte|MTG B|All DTE|Historical IV|80-90%|0.8381911111111111|0.8994444444444445|1800|0.0612533333333333||||
+calibration_by_stock_and_dte|MTG B|All DTE|Historical IV|90-100%|0.9378835164835164|0.9076923076923076|455|-0.0301912087912087||||
 calibration_by_stock_and_dte|NCC B|All DTE|Weighted Average|40-50%|0.4616549250857972|0.4|35|-0.0616549250857971||||
 calibration_by_stock_and_dte|NCC B|All DTE|Weighted Average|50-60%|0.5603164850376037|0.5511669658886894|1114|-0.0091495191489142||||
 calibration_by_stock_and_dte|NCC B|All DTE|Weighted Average|60-70%|0.6516827835473032|0.6540679051889814|1561|0.0023851216416781||||
