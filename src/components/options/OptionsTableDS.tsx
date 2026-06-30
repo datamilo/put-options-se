@@ -67,7 +67,7 @@ function renderCellContent(key: string, option: OptionData, handlers: Handlers):
         ? 'text-orange-600 dark:text-orange-400'
         : option['X-Day'] && String(option['X-Day']).toUpperCase() === 'Y'
         ? 'text-red-600 dark:text-red-400'
-        : '';
+        : 'text-primary';
       return <span className={`opt-name ${color}`}>{option.OptionName}</span>;
     }
     case "1_2_3_ProbOfWorthless_Weighted":
