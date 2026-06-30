@@ -754,7 +754,7 @@
   margin-left: 6px;
   text-transform: uppercase;
 }
-.tbl tbody td .opt-name { font-family: var(--font-mono); font-size: 11px; color: var(--ink-3); }
+.tbl tbody td .opt-name { font-family: var(--font-mono); font-size: 11px; }
 
 .risk-pip {
   display: inline-block;
