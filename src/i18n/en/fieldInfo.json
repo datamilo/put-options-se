@@ -508,5 +508,5 @@
     "whatItIs": "Average loss for 100k SEK positions with similar probability/expiry, based on historical outcomes",
     "whyItMatters": "Real-world results from similar past trades. Reality check on your estimates",
     "unit": "SEK"
-  },
+  }
 }
