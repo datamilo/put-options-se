@@ -1,5 +1,5 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-07-06|Fabege|Earnings Report|Earnings-Q2/HY|0|True|Second quarter earnings results
+2026-07-06|Fabege|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
 2026-07-07|Kinnevik B|Earnings Report|Earnings-Q2/HY|1|True|Second quarter earnings results
 2026-07-08|Industrivärden C|Earnings Report|Earnings-Q2/HY|2|True|Second quarter earnings results
 2026-07-10|JM|Earnings Report|Earnings-Q2/HY|4|True|Second quarter earnings results
