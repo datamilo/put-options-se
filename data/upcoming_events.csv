@@ -1,6 +1,6 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-07-13|Sagax B|Earnings Report|Earnings-Q2/HY|0|True|Second quarter earnings results
-2026-07-13|Fabege|Ex-Date|Dividend|0|False|0.55 SEK
+2026-07-13|Sagax B|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
+2026-07-13|Fabege|Ex-Date|Dividend|-1|False|0.55 SEK
 2026-07-14|Fastighets AB Balder B|Earnings Report|Earnings-Q2/HY|1|True|Second quarter earnings results
 2026-07-14|Ericsson B|Earnings Report|Earnings-Q2/HY|1|True|Second quarter earnings results
 2026-07-14|Ericsson B|Earnings Report|Earnings-Q2/HY|1|True|Second quarter earnings results
