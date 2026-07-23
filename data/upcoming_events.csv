@@ -1,19 +1,19 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
-2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
-2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
 2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
 2026-07-23|TRATON|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
+2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
+2026-07-23|Stora Enso R|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
+2026-07-23|Nokia Corporation|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
 2026-07-24|Stillfront Group|Earnings Report|Earnings-Q2/HY|1|True|Second quarter earnings results
 2026-07-24|Securitas B|Earnings Report|Earnings-Q2/HY|1|True|Second quarter earnings results
 2026-07-27|AstraZeneca|Earnings Report|Earnings-Q2/HY|2|True|Second quarter earnings results
 2026-07-29|Hexagon B|Earnings Report|Earnings-Q2/HY|4|True|Second quarter earnings results
 2026-07-29|Electrolux B|Earnings Report|Earnings-Q2/HY|4|True|Second quarter earnings results
 2026-08-04|Asmodee Group B|Earnings Report|Earnings-Q1|8|True|First quarter earnings results
-2026-08-05|Nordea Bank|Ex-Date|Dividend|9|False|0.34 EUR
-2026-08-05|Nordea Bank|Ex-Date|Dividend|9|False|0.34 EUR
-2026-08-05|Coffee Stain Group B|Earnings Report|Earnings-Q1|9|True|First quarter earnings results
 2026-08-05|Orrön Energy|Earnings Report|Earnings-Q2/HY|9|True|Second quarter earnings results
+2026-08-05|Coffee Stain Group B|Earnings Report|Earnings-Q1|9|True|First quarter earnings results
+2026-08-05|Nordea Bank|Ex-Date|Dividend|9|False|0.34 EUR
+2026-08-05|Nordea Bank|Ex-Date|Dividend|9|False|0.34 EUR
 2026-08-05|Nordea Bank|Ex-Date|Dividend|9|False|0.34 EUR
 2026-08-06|Lundin Mining Corporation|Earnings Report|Earnings-Q2/HY|10|True|Second quarter earnings results
 2026-08-13|Embracer Group B|Earnings Report|Earnings-Q1|15|True|First quarter earnings results
@@ -22,8 +22,8 @@ date|stock_name|event_type|event_category|days_until_event|is_earnings|details
 2026-08-20|New Wave Group B|Earnings Report|Earnings-Q2/HY|20|True|Second quarter earnings results
 2026-08-20|Holmen B|Earnings Report|Earnings-Q2/HY|20|True|Second quarter earnings results
 2026-08-21|NIBE Industrier B|Earnings Report|Earnings-Q2/HY|21|True|Second quarter earnings results
-2026-08-27|Addtech B|Ex-Date|Dividend|25|False|3.6 SEK
 2026-08-27|Elekta B|Earnings Report|Earnings-Q1|25|True|First quarter earnings results
+2026-08-27|Addtech B|Ex-Date|Dividend|25|False|3.6 SEK
 2026-08-28|Intrum|Earnings Report|Earnings-Q2/HY|26|True|Second quarter earnings results
 2026-09-17|Axfood|Ex-Date|Dividend|40|False|4.5 SEK
 2026-09-24|H&M B|Earnings Report|Earnings-Q3|45|True|Third quarter earnings results
@@ -38,64 +38,70 @@ date|stock_name|event_type|event_category|days_until_event|is_earnings|details
 2026-10-14|SKF B|Ex-Date|Dividend|59|False|3.75 SEK
 2026-10-15|Ericsson B|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
 2026-10-15|Nordea Bank|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
-2026-10-15|Nordea Bank|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
 2026-10-15|EQT|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
 2026-10-15|Kinnevik B|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
 2026-10-15|Nordea Bank|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
 2026-10-15|Ericsson B|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
+2026-10-15|Nordea Bank|Earnings Report|Earnings-Q3|60|True|Third quarter earnings results
+2026-10-16|Investor B|Earnings Report|Earnings-Q3|61|True|Third quarter earnings results
 2026-10-16|Avanza Bank Holding|Earnings Report|Earnings-Q3|61|True|Third quarter earnings results
 2026-10-16|Epiroc A|Ex-Date|Dividend|61|False|1.9 SEK
-2026-10-16|Investor B|Earnings Report|Earnings-Q3|61|True|Third quarter earnings results
 2026-10-16|ABB|Earnings Report|Earnings-Q3|61|True|Third quarter earnings results
 2026-10-19|Husqvarna B|Ex-Date|Dividend|62|False|0.75 SEK
-2026-10-19|Atlas Copco B|Ex-Date|Dividend|62|False|1.0 SEK
 2026-10-19|Atlas Copco A|Ex-Date|Dividend|62|False|1.5 SEK
+2026-10-19|Atlas Copco B|Ex-Date|Dividend|62|False|1.0 SEK
 2026-10-20|Tele2 B|Earnings Report|Earnings-Q3|63|True|Third quarter earnings results
 2026-10-20|Getinge B|Earnings Report|Earnings-Q3|63|True|Third quarter earnings results
-2026-10-21|Fabege|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
-2026-10-21|SKF B|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
-2026-10-21|JM|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
 2026-10-21|Husqvarna B|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
+2026-10-21|SKF B|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
 2026-10-21|Handelsbanken A|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
-2026-10-22|Essity B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|SEB A|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-21|JM|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
+2026-10-21|Fabege|Earnings Report|Earnings-Q3|64|True|Third quarter earnings results
 2026-10-22|Billerud|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|BONESUPPORT HOLDING|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Dometic Group|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Atlas Copco B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Swedbank A|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Castellum|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Sagax B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
 2026-10-22|Betsson B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Swedbank A|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Telia Company|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|BONESUPPORT HOLDING|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Sagax B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Dometic Group|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Atlas Copco A|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
 2026-10-22|Nordnet|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Castellum|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Sandvik|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Atlas Copco B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
 2026-10-22|Axfood|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
 2026-10-22|Addtech B|Earnings Report|Earnings-Q2/HY|65|True|Second quarter earnings results
-2026-10-22|Atlas Copco A|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|SEB A|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
+2026-10-22|Essity B|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
 2026-10-22|Telia Company|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Telia Company|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-22|Sandvik|Earnings Report|Earnings-Q3|65|True|Third quarter earnings results
-2026-10-23|Fastighets AB Balder B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
-2026-10-23|Volvo B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
 2026-10-23|SAAB B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
-2026-10-23|Evolution|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
-2026-10-23|Volvo Car B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
-2026-10-23|HEXPOL B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
+2026-10-23|SCA B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
 2026-10-23|Lifco B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
 2026-10-23|AAK|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
+2026-10-23|Volvo Car B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
+2026-10-23|Fastighets AB Balder B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
+2026-10-23|HEXPOL B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
 2026-10-23|Trelleborg B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
-2026-10-27|Swedish Orphan Biovitrum|Earnings Report|Earnings-Q3|68|True|Third quarter earnings results
-2026-10-27|Alfa Laval|Earnings Report|Earnings-Q3|68|True|Third quarter earnings results
+2026-10-23|Volvo B|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
+2026-10-23|Evolution|Earnings Report|Earnings-Q3|66|True|Third quarter earnings results
 2026-10-27|ASSA ABLOY B|Earnings Report|Earnings-Q3|68|True|Third quarter earnings results
+2026-10-27|Alfa Laval|Earnings Report|Earnings-Q3|68|True|Third quarter earnings results
+2026-10-27|Swedish Orphan Biovitrum|Earnings Report|Earnings-Q3|68|True|Third quarter earnings results
+2026-10-28|SSAB A|Earnings Report|Earnings-Q3|69|True|Third quarter earnings results
+2026-10-28|SSAB A|Earnings Report|Earnings-Q3|69|True|Third quarter earnings results
 2026-10-28|Epiroc A|Earnings Report|Earnings-Q3|69|True|Third quarter earnings results
+2026-10-28|SSAB B|Earnings Report|Earnings-Q3|69|True|Third quarter earnings results
+2026-10-28|SSAB B|Earnings Report|Earnings-Q3|69|True|Third quarter earnings results
 2026-10-30|Boliden|Earnings Report|Earnings-Q3|71|True|Third quarter earnings results
 2026-11-03|NCC B|Earnings Report|Earnings-Q3|73|True|Third quarter earnings results
+2026-11-04|H&M B|Ex-Date|Dividend|74|False|3.55 SEK
 2026-11-04|NCC B|Ex-Date|Dividend|74|False|4.5 SEK
 2026-11-04|SBB Norden B|Earnings Report|Earnings-Q3|74|True|Third quarter earnings results
-2026-11-04|H&M B|Ex-Date|Dividend|74|False|3.55 SEK
+2026-11-05|Sinch|Earnings Report|Earnings-Q3|75|True|Third quarter earnings results
 2026-11-05|Skanska B|Earnings Report|Earnings-Q3|75|True|Third quarter earnings results
 2026-11-06|Investor B|Ex-Date|Dividend|76|False|1.6 SEK
-2026-11-10|ASSA ABLOY B|Ex-Date|Dividend|78|False|3.2 SEK
 2026-11-10|Betsson B|Ex-Date|Dividend|78|False|3.6 SEK
+2026-11-10|ASSA ABLOY B|Ex-Date|Dividend|78|False|3.2 SEK
 2026-11-11|Modern Times Group MTG B|Earnings Report|Earnings-Q3|79|True|Third quarter earnings results
 2026-11-18|Securitas B|Ex-Date|Dividend|84|False|2.65 SEK
 2026-11-30|EQT|Ex-Date|Dividend|92|False|2.5 SEK
