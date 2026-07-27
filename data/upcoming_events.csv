@@ -1,7 +1,7 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-07-27|AstraZeneca|Earnings Report|Earnings-Q2/HY|0|True|Second quarter earnings results
-2026-07-27|Nokia Corporation|Ex-Date|Dividend|0|False|0.04 EUR
-2026-07-27|Nokia Corporation|Ex-Date|Dividend|0|False|0.04 EUR
+2026-07-27|AstraZeneca|Earnings Report|Earnings-Q2/HY|-1|True|Second quarter earnings results
+2026-07-27|Nokia Corporation|Ex-Date|Dividend|-1|False|0.04 EUR
+2026-07-27|Nokia Corporation|Ex-Date|Dividend|-1|False|0.04 EUR
 2026-07-29|Electrolux B|Earnings Report|Earnings-Q2/HY|2|True|Second quarter earnings results
 2026-07-29|Hexagon B|Earnings Report|Earnings-Q2/HY|2|True|Second quarter earnings results
 2026-08-04|Asmodee Group B|Earnings Report|Earnings-Q1|6|True|First quarter earnings results
