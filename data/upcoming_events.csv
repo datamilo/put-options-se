@@ -1,5 +1,5 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-10-05|SAAB B|Ex-Date|Dividend|0|False|1.2 SEK
+2026-10-05|SAAB B|Ex-Date|Dividend|-1|False|1.2 SEK
 2026-10-07|Industrivärden C|Earnings Report|Earnings-Q3|2|True|Third quarter earnings results
 2026-10-12|Fabege|Ex-Date|Dividend|5|False|0.55 SEK
 2026-10-12|Tele2 B|Ex-Date|Dividend|5|False|5.25 SEK
