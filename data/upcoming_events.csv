@@ -88,7 +88,7 @@ date|stock_name|event_type|event_category|days_until_event|is_earnings|details
 2026-11-06|Investor B|Ex-Date|Dividend|24|False|1.6 SEK
 2026-11-10|Betsson B|Ex-Date|Dividend|26|False|3.6 SEK
 2026-11-10|ASSA ABLOY B|Ex-Date|Dividend|26|False|3.2 SEK
-2026-11-11|Modern Times Group MTG B|Earnings Report|Earnings-Q3|27|True|Third quarter earnings results
+2026-11-11|MTG B|Earnings Report|Earnings-Q3|27|True|Third quarter earnings results
 2026-11-11|New Wave Group B|Earnings Report|Earnings-Q3|27|True|Third quarter earnings results
 2026-11-12|Embracer Group B|Earnings Report|Earnings-Q2/HY|28|True|Second quarter earnings results
 2026-11-13|Asmodee Group B|Earnings Report|Earnings-Q2/HY|29|True|Second quarter earnings results
