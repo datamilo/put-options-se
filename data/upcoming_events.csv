@@ -1,6 +1,6 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-10-12|Fabege|Ex-Date|Dividend|0|False|0.55 SEK
-2026-10-12|Tele2 B|Ex-Date|Dividend|0|False|5.25 SEK
+2026-10-12|Fabege|Ex-Date|Dividend|-1|False|0.55 SEK
+2026-10-12|Tele2 B|Ex-Date|Dividend|-1|False|5.25 SEK
 2026-10-14|SKF B|Ex-Date|Dividend|2|False|3.75 SEK
 2026-10-15|Ericsson B|Earnings Report|Earnings-Q3|3|True|Third quarter earnings results
 2026-10-15|Nordea Bank|Earnings Report|Earnings-Q3|3|True|Third quarter earnings results
