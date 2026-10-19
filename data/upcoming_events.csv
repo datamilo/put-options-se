@@ -1,7 +1,7 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-10-19|Atlas Copco A|Ex-Date|Dividend|0|False|1.0 SEK
-2026-10-19|Husqvarna B|Ex-Date|Dividend|0|False|0.75 SEK
-2026-10-19|Atlas Copco B|Ex-Date|Dividend|0|False|1.0 SEK
+2026-10-19|Atlas Copco A|Ex-Date|Dividend|-1|False|1.0 SEK
+2026-10-19|Husqvarna B|Ex-Date|Dividend|-1|False|0.75 SEK
+2026-10-19|Atlas Copco B|Ex-Date|Dividend|-1|False|1.0 SEK
 2026-10-20|ABB|Earnings Report|Earnings-Q3|1|True|Third quarter earnings results
 2026-10-20|Tele2 B|Earnings Report|Earnings-Q3|1|True|Third quarter earnings results
 2026-10-21|Fabege|Earnings Report|Earnings-Q3|2|True|Third quarter earnings results
