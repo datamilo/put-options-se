@@ -1,6 +1,6 @@
 date|stock_name|event_type|event_category|days_until_event|is_earnings|details
-2026-10-26|Nokia Corporation|Ex-Date|Dividend|0|False|0.33 SEK
-2026-10-26|Nokia Corporation|Ex-Date|Dividend|0|False|0.03 EUR
+2026-10-26|Nokia Corporation|Ex-Date|Dividend|-1|False|0.33 SEK
+2026-10-26|Nokia Corporation|Ex-Date|Dividend|-1|False|0.03 EUR
 2026-10-27|Swedish Orphan Biovitrum|Earnings Report|Earnings-Q3|1|True|Third quarter earnings results
 2026-10-27|Alfa Laval|Earnings Report|Earnings-Q3|1|True|Third quarter earnings results
 2026-10-27|ASSA ABLOY B|Earnings Report|Earnings-Q3|1|True|Third quarter earnings results
